@@ -1,10 +1,10 @@
 import React from 'react'
+import Image from 'next/image'
 
 import ussfLogo from 'public/img/ussf-logo.svg'
 
 const Logo = () => {
-  // eslint-disable-next-line @next/next/no-img-element
-  return <img src={ussfLogo} alt="USSF Logo" />
+  return <Image src={ussfLogo} alt="USSF Logo" />
 }
 
 export default Logo
