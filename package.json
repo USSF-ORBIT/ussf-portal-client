@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:static": "next build && next export",
     "start": "next start",
     "storybook": "start-storybook -p 6006 -s ./public",
     "storybook:build": "build-storybook",

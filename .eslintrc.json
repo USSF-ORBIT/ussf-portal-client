@@ -43,11 +43,14 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {} // this loads <rootdir>/tsconfig.json to eslint
     }
   },
   "overrides": [
     {
-      "files": ["pages/*"],
+      "files": ["pages/**/*", "__tests__/pages/**/*"],
       "rules": {
         "react/react-in-jsx-scope": "off"
       }
