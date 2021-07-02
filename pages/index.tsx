@@ -2,6 +2,10 @@ import Head from 'next/head'
 
 import Logo from 'components/Logo/Logo'
 
+export const config = {
+  unstable_runtimeJS: false,
+}
+
 export default function Home() {
   return (
     <>
