@@ -47,16 +47,16 @@ When your branch is ready, open a PR against `main`, fill out the description an
 
 ### PR Linting
 
-In order to easily maintain a clear changelog, we require all PRs into the `main` branch to pass the [conventional commits spec](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional).
+In order to easily maintain a clear changelog, we require all PRs into the `main` branch to pass the [conventional commits spec](https://www.conventionalcommits.org/en/v1.0.0/#specification).
 
 The format for PR commits is:
 
 ```
-<type>(scope): <subject>
-<BLANK LINE>
-<body>
-<BLANK LINE>
-<footer>
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
 ```
 
 #### Allowed `type`s are:
@@ -73,7 +73,7 @@ The format for PR commits is:
 - `style`: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
 - `test`: Adding missing tests or correcting existing tests
 
-#### `scope` is optional, and can be one of the following (this list is not exhaustive):
+#### `scope` is optional, can be used to provide additional context, and may be one of the following (this list is not exhaustive):
 
 - `deps`: Updating a package listed in dependencies
 - `deps-dev`: Updating a package listed in devDependencies
@@ -82,7 +82,7 @@ The format for PR commits is:
 
 #### `body`:
 
-Will default to a list of included commits since PRs are all squashed when merging. You can also add additional context to the body if needed.
+Will default to a list of included commits since PRs are all squashed when merging. You can choose to keep or remove this list, and also add additional context to the body if needed.
 
 #### `footer`:
 
@@ -94,4 +94,4 @@ Example:
 Closes #123
 ```
 
-Should also include `BREAKING CHANGE:` if the commit includes any breaking changes. This will make sure the major version is automatically bumped when this commit is released.
+The footer should also include `BREAKING CHANGE:` if the commit includes any breaking changes. This will make sure the major version is automatically bumped when this commit is released.
