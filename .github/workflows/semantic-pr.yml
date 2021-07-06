@@ -18,14 +18,14 @@ jobs:
             build
             chore
             ci
+            docs
             feat
             fix
-            docs
-            style
-            refactor
             perf
+            refactor
+            revert
+            style
             test
-            component
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
