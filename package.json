@@ -8,6 +8,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:static": "next build && next export",
+    "build:analyze": "ANALYZE=true yarn build",
     "start": "next start",
     "storybook": "start-storybook -p 6006 -s ./public",
     "storybook:build": "build-storybook",
@@ -19,6 +21,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@next/bundle-analyzer": "^11.0.1",
     "@trussworks/react-uswds": "^2.0.0",
     "classnames": "^2.3.1",
     "next": "11.0.1",
