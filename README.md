@@ -28,6 +28,8 @@ Other (you won't use these often):
 - `yarn storybook:build`: Build Storybook to a static site that can be deployed
 - `yarn build`: Builds the NextJS production asset bundle
 - `yarn start`: Starts the NextJS server in production mode
+- `yarn build:static`: Build the static site asset bundle for deploy
+- `yarn build:analyze`: Builds the asset bundle and generates webpack stats files
 
 ### Working on an issue
 
