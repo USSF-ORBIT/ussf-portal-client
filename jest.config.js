@@ -1,5 +1,5 @@
 module.exports = {
-  testPathIgnorePatterns: ['/node_modules/', '.next/'],
+  testPathIgnorePatterns: ['/node_modules/', '.next/', 'cypress/'],
   moduleDirectories: ['node_modules/', '.'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   transform: {
