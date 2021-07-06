@@ -1,5 +1,11 @@
 import Head from 'next/head'
 
+import Logo from 'components/Logo/Logo'
+
+export const config = {
+  unstable_runtimeJS: false,
+}
+
 export default function Home() {
   return (
     <>
@@ -9,7 +15,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>USSF Portal</main>
+      <main>
+        <Logo />
+        USSF Portal
+      </main>
     </>
   )
 }
