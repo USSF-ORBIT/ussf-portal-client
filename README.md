@@ -73,11 +73,12 @@ The format for PR commits is:
 - `style`: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
 - `test`: Adding missing tests or correcting existing tests
 
-#### `scope` is optional, can be used to provide additional context, and may be one of the following (this list is not exhaustive):
+#### `scope` is optional, can be used to provide additional context. Some examples include:
 
 - `deps`: Updating a package listed in dependencies
 - `deps-dev`: Updating a package listed in devDependencies
-- `ci`: Changes to Github Actions, CI config and/or scripts
+- `jest`: Changes to Jest tests
+- `cypress`: Changes to Cypress tests
 - `storybook`: Changes to Storybook or stories files only
 
 #### `body`:
