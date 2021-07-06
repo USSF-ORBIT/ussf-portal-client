@@ -1,0 +1,17 @@
+// your-project/settings.scss
+$theme-show-notifications: 'false';
+/* GENERAL */
+$theme-image-path: '/img';
+
+/* TYPOGRAPHY */
+$theme-respect-user-font-size: false;
+$theme-root-font-size: 14px;
+$theme-font-path: '/fonts';
+$theme-font-type-sans: 'public-sans';
+$theme-style-body-element: true;
+
+/* SPACING */
+$theme-grid-container-max-width: 'desktop-lg';
+
+/* COMPONENTS */
+$theme-hero-image: '/img/hero.png';
