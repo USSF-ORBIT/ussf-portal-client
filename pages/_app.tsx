@@ -1,7 +1,9 @@
 import type { AppProps } from 'next/app'
 
-function MyApp({ Component, pageProps }: AppProps) {
+const USSFPortalApp = ({ Component, pageProps }: AppProps) => {
+  pageProps.canonicalDomain = process.env.NEXT_PUBLIC_SITE_URL || ''
+
   return <Component {...pageProps} />
 }
 
-export default MyApp
+export default USSFPortalApp

@@ -1,13 +1,19 @@
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 
 // TODO - description
 // TODO - title prop
-// TODO - canonical URL
 // TODO icons
 // TODO manifest?
 // TODO theming
 
-const USSFPortalHead = () => {
+type USSFPortalHeadProps = {
+  canonicalUrl: string
+}
+
+const USSFPortalHead = ({ canonicalUrl }: USSFPortalHeadProps) => {
+  const { asPath } = useRouter()
+
   return (
     <Head>
       <meta charSet="utf-8" key="charset" />
@@ -19,6 +25,7 @@ const USSFPortalHead = () => {
       />
 
       <title>Space Force Portal</title>
+      <link rel="canonical" href={canonicalUrl + asPath} />
     </Head>
   )
 }
