@@ -13,7 +13,11 @@ const Test = (props: TestProps) => {
 
   return (
     <>
-      <Head canonicalUrl={canonicalDomain} />
+      <Head
+        title="Space Force Portal | Test Page"
+        description="Test page description"
+        canonicalUrl={canonicalDomain}
+      />
 
       <main>USSF Portal test page!</main>
     </>

@@ -1,14 +1,17 @@
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 
-// TODO - description
-// TODO - title prop
-
 type USSFPortalHeadProps = {
   canonicalUrl: string
+  title?: string
+  description?: string
 }
 
-const USSFPortalHead = ({ canonicalUrl }: USSFPortalHeadProps) => {
+const USSFPortalHead = ({
+  canonicalUrl,
+  title = 'Space Force Portal',
+  description = '',
+}: USSFPortalHeadProps) => {
   const { asPath } = useRouter()
 
   return (
@@ -21,7 +24,8 @@ const USSFPortalHead = ({ canonicalUrl }: USSFPortalHeadProps) => {
         key="viewport"
       />
 
-      <title>Space Force Portal</title>
+      <meta name="description" content={description} key="description" />
+      <title>{title}</title>
       <link rel="canonical" href={canonicalUrl + asPath} />
 
       <link

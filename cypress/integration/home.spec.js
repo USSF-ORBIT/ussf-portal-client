@@ -10,6 +10,7 @@ describe('The Home Page', () => {
   it('contains the expected meta data', () => {
     cy.document()
     cy.get('head title').should('contain', 'Space Force Portal')
+    cy.get('head meta[name="description"]').should('have.attr', 'content', '')
     cy.get('head link[rel="canonical"]').should(
       'have.attr',
       'href',
@@ -20,6 +21,12 @@ describe('The Home Page', () => {
   it('can navigate to a test page', () => {
     cy.contains('A test page').click()
     cy.document()
+    cy.get('head title').should('contain', 'Space Force Portal | Test Page')
+    cy.get('head meta[name="description"]').should(
+      'have.attr',
+      'content',
+      'Test page description'
+    )
     cy.get('head link[rel="canonical"]').should(
       'have.attr',
       'href',
