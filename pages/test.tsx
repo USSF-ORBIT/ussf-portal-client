@@ -1,23 +1,16 @@
-import Head from 'layout/head'
+import Head from 'next/head'
 
 export const config = {
   unstable_runtimeJS: false,
 }
 
-type TestProps = {
-  canonicalDomain: string
-}
-
-const Test = (props: TestProps) => {
-  const { canonicalDomain } = props
-
+const Test = () => {
   return (
     <>
-      <Head
-        title="Space Force Portal | Test Page"
-        description="Test page description"
-        canonicalUrl={canonicalDomain}
-      />
+      <Head>
+        <title>Space Force Portal | Test Page</title>
+        <meta name="description" content="Test page description" />
+      </Head>
 
       <main>USSF Portal test page!</main>
     </>

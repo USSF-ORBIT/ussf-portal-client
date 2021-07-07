@@ -2,24 +2,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Link from 'next/link'
 
-import Head from 'layout/head'
 import Logo from 'components/Logo/Logo'
 
 export const config = {
   unstable_runtimeJS: false,
 }
 
-type HomeProps = {
-  canonicalDomain: string
-}
-
-const Home = (props: HomeProps) => {
-  const { canonicalDomain } = props
-
+const Home = () => {
   return (
     <>
-      <Head canonicalUrl={canonicalDomain} />
-
       <main>
         <Logo />
         USSF Portal

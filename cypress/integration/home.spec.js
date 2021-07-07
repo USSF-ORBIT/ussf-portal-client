@@ -10,7 +10,6 @@ describe('The Home Page', () => {
   it('contains the expected meta data', () => {
     cy.document()
     cy.get('head title').should('contain', 'Space Force Portal')
-    cy.get('head meta[name="description"]').should('have.attr', 'content', '')
     cy.get('head link[rel="canonical"]').should(
       'have.attr',
       'href',
