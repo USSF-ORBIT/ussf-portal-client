@@ -1,7 +1,5 @@
-import '@trussworks/react-uswds/lib/uswds.css'
-import '@trussworks/react-uswds/lib/index.css'
 import * as NextImage from 'next/image'
-
+import '../styles/storybook.scss'
 // Storybook and next/image component do not play nice together
 // This enables us to use the <Image/> component and still view in Storybook
 const OriginalNextImage = NextImage.default

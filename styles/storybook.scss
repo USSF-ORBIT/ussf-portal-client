@@ -1,0 +1,21 @@
+/* Storybook requires different paths for variables,
+which requires a custom import order to replace those settings */
+@import '@trussworks/react-uswds/lib/index.css';
+@import '~uswds/dist/scss/theme/uswds-theme-general';
+@import '~uswds/dist/scss/theme/uswds-theme-typography';
+@import '~uswds/dist/scss/theme/uswds-theme-spacing';
+@import '~uswds/dist/scss/theme/uswds-theme-color';
+@import '~uswds/dist/scss/theme/uswds-theme-utilities';
+
+$theme-show-notifications: false;
+/* GENERAL */
+$theme-image-path: '~uswds/dist/img';
+
+/* TYPOGRAPHY */
+$theme-font-path: '~uswds/dist/fonts';
+
+/* COMPONENTS */
+$theme-hero-image: '~uswds/dist/img/hero.png';
+
+@import '~uswds/src/stylesheets/packages/_required.scss';
+@import '~uswds/dist/scss/uswds.scss';
