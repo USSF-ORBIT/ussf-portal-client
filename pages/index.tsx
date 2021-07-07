@@ -14,7 +14,7 @@ const Home = () => {
       <main>
         <Logo />
         USSF Portal
-        <Link href="/test">
+        <Link href="/test-page">
           <a>A test page</a>
         </Link>
       </main>

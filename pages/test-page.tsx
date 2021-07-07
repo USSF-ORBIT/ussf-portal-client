@@ -4,7 +4,7 @@ export const config = {
   unstable_runtimeJS: false,
 }
 
-const Test = () => {
+const TestPage = () => {
   return (
     <>
       <Head>
@@ -17,4 +17,4 @@ const Test = () => {
   )
 }
 
-export default Test
+export default TestPage
