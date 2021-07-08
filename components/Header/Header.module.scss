@@ -51,6 +51,10 @@
         color: color('ink');
       }
     }
+
+    .text-heading {
+      font-weight: bold;
+    }
   }
 
   // DESKTOP
@@ -135,18 +139,18 @@
         }
       }
 
-      .nav-item--news .usa-nav__link:hover::after,
-      .usa-nav__primary-item.nav-item--news > .usa-current::after {
+      .usa-nav__link:local(.newsLink):hover::after,
+      .usa-nav__primary-item > :local(.newsLink).usa-current::after {
         background-color: #e17141;
       }
 
-      .nav-item--training .usa-nav__link:hover::after,
-      .usa-nav__primary-item.nav-item--training > .usa-current::after {
+      .usa-nav__link:local(.trainingLink):hover::after,
+      .usa-nav__primary-item > :local(.trainingLink).usa-current::after {
         background-color: color('primary-vivid');
       }
 
-      .nav-item--about .usa-nav__link:hover::after,
-      .usa-nav__primary-item.nav-item--about > .usa-current::after {
+      .usa-nav__link:local(.aboutLink):hover::after,
+      .usa-nav__primary-item > :local(.aboutLink).usa-current::after {
         background-color: color('violet-60v');
       }
     }

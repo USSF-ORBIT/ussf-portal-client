@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import classnames from 'classnames'
 import {
   Header as USWDSHeader,
   Title,
@@ -7,16 +9,17 @@ import {
   PrimaryNav,
   Menu,
   NavDropDownButton,
+  NavList,
 } from '@trussworks/react-uswds'
 
 import styles from './Header.module.scss'
 
-// TODO - display current page title in sr-only
-// TODO - current page class
-
 const Header = () => {
+  const router = useRouter()
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [servicePortalNavOpen, setServicePortalNavOpen] = useState(false)
+
+  const isHomePage = router.pathname === '/'
 
   const handleToggleMobileNav = () => {
     setMobileNavOpen(!mobileNavOpen)
@@ -28,13 +31,20 @@ const Header = () => {
 
   const navItems = [
     { path: '/', label: 'Home' },
-    { path: '/news', label: 'News' },
-    { path: '/training-and-education', label: 'Training and education' },
-    { path: '/about-us', label: 'About us' },
+    { path: '/news', label: 'News', className: styles.newsLink },
+    {
+      path: '/training-and-education',
+      label: 'Training and education',
+      className: styles.trainingLink,
+    },
+    { path: '/about-us', label: 'About us', className: styles.aboutLink },
   ].map((i) => (
     <Link href={i.path} key={i.path}>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a className="usa-nav__link">
+      <a
+        className={classnames('usa-nav__link', i.className, {
+          'usa-current': i.path === router.pathname,
+        })}>
         <span>{i.label}</span>
       </a>
     </Link>
@@ -50,6 +60,16 @@ const Header = () => {
     <Link href={i.path} key={i.path}>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a>{i.label}</a>
+    </Link>
+  ))
+
+  const homeNavItems = [
+    { path: '/#manage-your-life', label: 'Manage your life' },
+    { path: '/#work-tools', label: 'Work tools' },
+  ].map((i) => (
+    <Link href={i.path} key={i.path}>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+      <a className="usa-nav__link">{i.label}</a>
     </Link>
   ))
 
@@ -79,14 +99,22 @@ const Header = () => {
         <div className="usa-nav-container">
           <div className="usa-navbar">
             <Title>
-              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-              <a href="/" title="Home" aria-label="Home">
-                <img
-                  className="logo-img"
-                  src="/img/ussf-logo.svg"
-                  alt="Space Force"
-                />
-              </a>
+              <Link href="/">
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <a title="Home" aria-label="Home">
+                  <img
+                    className="logo-img"
+                    src="/img/ussf-logo.svg"
+                    alt="Space Force"
+                  />
+
+                  {isHomePage ? (
+                    <h1 className="usa-sr-only">Space Force Portal home</h1>
+                  ) : (
+                    <span className="usa-sr-only">Space Force Portal</span>
+                  )}
+                </a>
+              </Link>
             </Title>
             <NavMenuButton label="Menu" onClick={handleToggleMobileNav} />
           </div>
@@ -95,8 +123,17 @@ const Header = () => {
             aria-label="Primary navigation"
             items={navItems}
             mobileExpanded={mobileNavOpen}
-            onToggleMobileNav={handleToggleMobileNav}
-          />
+            onToggleMobileNav={handleToggleMobileNav}>
+            {isHomePage && (
+              <div>
+                <div className="margin-x-neg-2 desktop:margin-right-0 margin-top-3 border-top border-base-light padding-y-105"></div>
+                <h2 className="text-heading font-mono-3xs text-bold text-ls-1 margin-y-0">
+                  On this page
+                </h2>
+                <NavList items={homeNavItems} type="primary" />
+              </div>
+            )}
+          </PrimaryNav>
         </div>
       </USWDSHeader>
     </>
