@@ -19,3 +19,5 @@ $theme-hero-image: '~uswds/dist/img/hero.png';
 
 @import '~uswds/src/stylesheets/packages/_required.scss';
 @import '~uswds/dist/scss/uswds.scss';
+
+@import './mvp/index.scss';

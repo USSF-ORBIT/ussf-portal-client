@@ -9,12 +9,22 @@ import {
   NavDropDownButton,
 } from '@trussworks/react-uswds'
 
+import styles from './Header.module.scss'
+
 // TODO - display current page title in sr-only
-// TODO - mobile menu expand/collapse
 // TODO - current page class
 
 const Header = () => {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [servicePortalNavOpen, setServicePortalNavOpen] = useState(false)
+
+  const handleToggleMobileNav = () => {
+    setMobileNavOpen(!mobileNavOpen)
+  }
+
+  const handleToggleServicePortalMenu = () => {
+    setServicePortalNavOpen(!servicePortalNavOpen)
+  }
 
   const navItems = [
     { path: '/', label: 'Home' },
@@ -43,10 +53,6 @@ const Header = () => {
     </Link>
   ))
 
-  const handleToggleServicePortalMenu = () => {
-    setServicePortalNavOpen(!servicePortalNavOpen)
-  }
-
   const servicePortalMenu = (
     <>
       <NavDropDownButton
@@ -66,25 +72,34 @@ const Header = () => {
   navItems.push(servicePortalMenu)
 
   return (
-    <USWDSHeader basic>
-      <div className="usa-nav-container">
-        <div className="usa-navbar">
-          <Title>
-            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-            <a href="/" title="Home" aria-label="Home">
-              <img
-                className="logo-img"
-                src="/img/ussf-logo.svg"
-                alt="Space Force"
-              />
-            </a>
-          </Title>
-          <NavMenuButton label="Menu" />
-        </div>
+    <>
+      <div className={`usa-overlay ${mobileNavOpen ? 'is-visible' : ''}`} />
 
-        <PrimaryNav items={navItems} />
-      </div>
-    </USWDSHeader>
+      <USWDSHeader basic className={styles.Header}>
+        <div className="usa-nav-container">
+          <div className="usa-navbar">
+            <Title>
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+              <a href="/" title="Home" aria-label="Home">
+                <img
+                  className="logo-img"
+                  src="/img/ussf-logo.svg"
+                  alt="Space Force"
+                />
+              </a>
+            </Title>
+            <NavMenuButton label="Menu" onClick={handleToggleMobileNav} />
+          </div>
+
+          <PrimaryNav
+            aria-label="Primary navigation"
+            items={navItems}
+            mobileExpanded={mobileNavOpen}
+            onToggleMobileNav={handleToggleMobileNav}
+          />
+        </div>
+      </USWDSHeader>
+    </>
   )
 }
 

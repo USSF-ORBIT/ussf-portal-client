@@ -1,0 +1,53 @@
+.heading--small {
+  @include heading-small;
+}
+
+.usa-intro {
+  font-weight: 300;
+}
+
+main {
+  p,
+  .usa-prose ul {
+    color: color('base');
+  }
+}
+
+main,
+.usa-prose {
+  h1 {
+    font-weight: $theme-font-weight-light;
+  }
+
+  h2 {
+    font-weight: $theme-font-weight-light;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+
+  h3 {
+    font-weight: $theme-font-weight-normal;
+  }
+}
+
+.page-default {
+  main {
+    h2 {
+      border-top: 1px solid color('ink');
+      margin-top: units(10);
+      padding-top: units(3);
+
+      + * {
+        margin-top: units(4);
+      }
+    }
+  }
+}
+
+.font-md2 {
+  font-size: 1.25rem !important;
+}
+
+.launch-schedule-link {
+  font-size: 12px;
+}
