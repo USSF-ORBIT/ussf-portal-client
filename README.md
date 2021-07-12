@@ -11,6 +11,7 @@ This is the client application for the new USSF portal website. It is a static s
 - Use [yarn v1](https://yarnpkg.com) to manage JS packages.
   - [Install yarn](https://yarnpkg.com/en/docs/install) if you do not already have it.
   - Type `yarn` or `yarn install` inside the project directory to install dependencies. You will need to do this once after cloning the project, and continuously if the dependencies in `package.json` change.
+- Right now we’re using environment variables to store some non-sensitive environment data (like the site URLs). Copy `.env.local.template` into `.env.local` - this file is git ignored and you can use it to set local env vars.
 
 ### yarn scripts
 
