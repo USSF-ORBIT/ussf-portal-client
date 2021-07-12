@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/router'
 
@@ -129,6 +129,24 @@ describe('Header component', () => {
     it('adds the current link class to navigation', () => {
       const newsLink = screen.getByRole('link', { name: 'News' })
       expect(newsLink).toHaveClass('usa-current')
+    })
+  })
+
+  describe('mobile nav', () => {
+    beforeEach(() => {
+      render(<Header />)
+    })
+
+    it('hides the mobile nav by default', () => {
+      expect(screen.getByTestId('overlay')).not.toHaveClass('is-visible')
+    })
+
+    it('can toggle the mobile nav', () => {
+      const overlay = screen.getByTestId('overlay')
+      userEvent.click(screen.getByRole('button', { name: 'Menu' }))
+      expect(overlay).toHaveClass('is-visible')
+      userEvent.click(screen.getByRole('button', { name: 'close' }))
+      expect(overlay).not.toHaveClass('is-visible')
     })
   })
 })

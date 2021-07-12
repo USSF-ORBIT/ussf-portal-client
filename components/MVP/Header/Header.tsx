@@ -93,7 +93,10 @@ const Header = () => {
 
   return (
     <>
-      <div className={`usa-overlay ${mobileNavOpen ? 'is-visible' : ''}`} />
+      <div
+        className={`usa-overlay ${mobileNavOpen ? 'is-visible' : ''}`}
+        data-testid="overlay"
+      />
 
       <USWDSHeader basic className={styles.Header}>
         <div className="usa-nav-container">
