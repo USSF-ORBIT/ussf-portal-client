@@ -65,6 +65,7 @@ The format for PR commits is:
 - `build`: Changes that affect the build system or external dependencies (example scopes: webpack, npm)
 - `chore`: Completing a task that has no effective code changes, such as updating the version and changelog for a release
 - `ci`: Changes to our CI configuration files and scripts (example scopes: Circle, Github actions/workflows)
+- `dev`: A code change that does not result in a user-facing feature (for example, a new component that is only visible in Storybook, or work that builds towards but does not complete a feature)
 - `docs`: Documentation only changes
 - `feat`: A new feature
 - `fix`: A bug fix

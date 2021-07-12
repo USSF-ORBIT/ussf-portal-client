@@ -18,6 +18,7 @@ jobs:
             build
             chore
             ci
+            dev
             docs
             feat
             fix
