@@ -1,6 +1,6 @@
 @import 'styles/uswdsDependencies';
-@import 'styles/mvp/_mixins';
-@import 'styles/mvp/_settings';
+@import 'styles/mvp/mixins';
+@import 'styles/mvp/settings';
 
 .navContainer {
   @include at-media('desktop') {
