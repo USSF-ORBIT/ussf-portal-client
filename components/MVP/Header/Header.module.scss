@@ -1,4 +1,4 @@
-@import 'styles/uswds-dependencies.scss';
+@import 'styles/uswdsDependencies';
 @import 'styles/mvp/_mixins';
 @import 'styles/mvp/_settings';
 
@@ -54,7 +54,8 @@
 
     .text-heading {
       font-weight: bold;
-      margin-bottom: 1rem;
+      letter-spacing: normal;
+      @include u-margin-bottom(1);
     }
   }
 
