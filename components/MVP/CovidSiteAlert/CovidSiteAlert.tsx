@@ -9,9 +9,10 @@ const CovidSiteAlert = () => {
     <SiteAlert
       variant="info"
       showIcon={false}
-      className={`${styles['usa-site-alert--info']}`}>
+      className={`${styles.covidSiteAlert}`}>
       <FontAwesomeIcon
-        // This needs the fal prefix to render light, which requires a Pro license
+        // This needs the fal prefix to render the light arrow,
+        // which requires a Pro license. #TODO
         icon={faArrowRight}
         className="margin-right-1"
       />
