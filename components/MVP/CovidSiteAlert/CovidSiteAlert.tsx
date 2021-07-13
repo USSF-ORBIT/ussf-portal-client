@@ -11,8 +11,8 @@ const CovidSiteAlert = () => {
       showIcon={false}
       className={`${styles.covidSiteAlert}`}>
       <FontAwesomeIcon
-        // This needs the fal prefix to render the light arrow,
-        // which requires a Pro license. #TODO
+        // The icon in the MVP uses the fal prefix/light variation.
+        // It requires a Pro license -- do we have this/need this?
         icon={faArrowRight}
         className="margin-right-1"
       />
