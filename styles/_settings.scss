@@ -1,0 +1,24 @@
+$asset-path: '' !default;
+
+$theme-show-notifications: false;
+
+/* GENERAL */
+$theme-image-path: '#{$asset-path}/img';
+
+/* TYPOGRAPHY */
+$theme-font-path: '#{$asset-path}/fonts';
+
+// USWDS CHANGES (for MVP)
+$theme-alert-icon-size: 4;
+$theme-font-type-sans: 'public-sans';
+$theme-font-role-heading: 'sans';
+$theme-font-role-alt: 'sans';
+$theme-font-weight-thin: 200;
+$theme-font-weight-heavy: 900;
+$theme-h2-font-size: 'lg';
+$theme-h3-font-size: 'md';
+
+/* SPACING */
+
+/* COMPONENTS */
+$theme-hero-image: '#{$asset-path}/img/hero.png';

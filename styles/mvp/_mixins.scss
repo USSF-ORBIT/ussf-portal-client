@@ -1,0 +1,30 @@
+@mixin heading-small {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: normal;
+  letter-spacing: 0.15em;
+}
+
+@mixin external-link-icon($text, $hover) {
+  &::after {
+    content: '';
+    margin-left: 2px;
+    background-color: color($text);
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-external-link'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3'/%3E%3C/svg%3E");
+    mask-size: 0.75em;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    padding-left: 0.75em;
+  }
+
+  &::after {
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-external-link'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3'/%3E%3C/svg%3E"),
+      linear-gradient(transparent, transparent);
+    mask-position: center;
+    mask-repeat: no-repeat;
+  }
+
+  &:hover::after {
+    background-color: color($hover);
+  }
+}

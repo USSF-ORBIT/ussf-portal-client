@@ -1,3 +1,11 @@
+// ReactUSWDS CSS modules
 @import '@trussworks/react-uswds/lib/index.css';
-@import 'styles/uswds-dependencies.scss';
+
+// USWDS settings & overrides
+@import 'styles/uswdsDependencies';
+
+// USWDS SCSS
 @import 'node_modules/uswds/dist/scss/uswds.scss';
+
+// MVP SCSS
+@import './mvp/index.scss';

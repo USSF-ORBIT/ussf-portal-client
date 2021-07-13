@@ -1,0 +1,18 @@
+// External link icons
+.usa-prose {
+  [href^='http']:not([href*='.mil']):not([href*='.gov']) {
+    @include external-link-icon('primary', 'primary-dark');
+
+    &:visited::after {
+      background-color: color('violet-70v');
+    }
+  }
+
+  .external-link--alt[href^='http']:not([href*='.mil']):not([href*='.gov']) {
+    @include external-link-icon('white', 'white');
+
+    &:visited::after {
+      background-color: color('white');
+    }
+  }
+}
