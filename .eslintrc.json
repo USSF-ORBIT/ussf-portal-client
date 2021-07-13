@@ -51,7 +51,7 @@
   },
   "overrides": [
     {
-      "files": ["pages/**/*", "__tests__/pages/**/*"],
+      "files": ["pages/**/*", "__tests__/pages/**/*", "layout/**/*"],
       "rules": {
         "react/react-in-jsx-scope": "off"
       }

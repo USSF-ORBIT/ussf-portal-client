@@ -1,0 +1,20 @@
+import Head from 'next/head'
+
+export const config = {
+  unstable_runtimeJS: false,
+}
+
+const TestPage = () => {
+  return (
+    <>
+      <Head>
+        <title>Space Force Portal | Test Page</title>
+        <meta name="description" content="Test page description" />
+      </Head>
+
+      <main>USSF Portal test page!</main>
+    </>
+  )
+}
+
+export default TestPage
