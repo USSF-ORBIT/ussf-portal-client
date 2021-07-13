@@ -7,4 +7,4 @@ export default {
   component: CovidSiteAlert,
 } as Meta
 
-export const Alert = () => <CovidSiteAlert />
+export const CovidAlert = () => <CovidSiteAlert />
