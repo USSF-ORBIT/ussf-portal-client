@@ -5,11 +5,19 @@ import {
   FooterNav,
   Logo,
   Grid,
-  SocialLinks,
 } from '@trussworks/react-uswds'
 import classNames from 'classnames'
 
+import styles from './Footer.module.scss'
+
 const Footer = () => {
+  const returnToTopLink = (
+    <div className="grid-container usa-footer__return-to-top">
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+      <a href="#">Return to top</a>
+    </div>
+  )
+
   const primaryLinks = [
     { path: 'https://www.vandenberg.spaceforce.mil/', label: 'Vandenberg' },
     {
@@ -39,7 +47,13 @@ const Footer = () => {
     </Link>
   ))
 
-  const primaryContent = <FooterNav links={primaryLinks} />
+  const primaryContent = (
+    <FooterNav
+      links={primaryLinks}
+      aria-label="Footer navigation"
+      size="medium"
+    />
+  )
 
   const secondaryLinks = [
     { path: 'https://www.spoc.spaceforce.mil/', label: 'SpOC' },
@@ -92,6 +106,8 @@ const Footer = () => {
   const secondaryContent = (
     <Grid row gap>
       <Logo
+        size="medium"
+        className="tablet:grid-col-6 flex-align-end"
         image={
           <img
             src="/img/ussf-logo.svg"
@@ -110,12 +126,28 @@ const Footer = () => {
             </li>
           ))}
         </ul>
-        <SocialLinks links={socialLinks} />
+        <div className="usa-footer__social-links grid-row grid-gap-1 display-flex flex-align-end flex-justify-end margin-top-2">
+          <a href="#identifier" className="usa-sr-only">
+            Skip social media
+          </a>
+          {socialLinks.map((l, i) => (
+            <div className="grid-col-auto" key={`socialLink_${i}`}>
+              {l}
+            </div>
+          ))}
+        </div>
       </div>
     </Grid>
   )
 
-  return <USWDSFooter primary={primaryContent} secondary={secondaryContent} />
+  return (
+    <USWDSFooter
+      className={styles.Footer}
+      returnToTop={returnToTopLink}
+      primary={primaryContent}
+      secondary={secondaryContent}
+    />
+  )
 }
 
 export default Footer

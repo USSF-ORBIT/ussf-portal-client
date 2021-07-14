@@ -12,6 +12,7 @@ describe('Footer component', () => {
   })
 
   it.each([
+    ['Return to top', '#'],
     ['Vandenberg', 'https://www.vandenberg.spaceforce.mil/'],
     ['Los Angeles', 'https://www.losangeles.spaceforce.mil/'],
     ['Peterson', 'https://www.peterson.spaceforce.mil/'],
@@ -28,6 +29,7 @@ describe('Footer component', () => {
       'https://www.kirtland.af.mil/Units/Space-Rapid-Capabilities-Office/',
     ],
     ['AFRL', 'https://afresearchlab.com/technology/space-vehicles/'],
+    ['Skip social media', '#identifier'],
     ['Facebook', 'https://www.facebook.com/USSpaceForceDoD/'],
     ['Twitter', 'https://twitter.com/SpaceForceDoD'],
     ['LinkedIn', 'https://www.linkedin.com/company/united-states-space-force'],
