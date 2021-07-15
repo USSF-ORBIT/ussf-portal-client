@@ -11,17 +11,40 @@ import {
 } from '@trussworks/react-uswds'
 import styles from './AnnouncementCard.module.scss'
 
-const AnnouncementCard = () => {
+// To Implement
+// - Custom text and color
+// - Custom background image or color
+// - Custom tag text, background color, text color
+// - Custom heading
+
+interface AnnouncementCardProps {
+  heading: string
+  body?: string
+  tag: string
+  bgColor: string
+}
+
+const AnnouncementCard = ({
+  heading,
+  body,
+  tag,
+  bgColor,
+}: AnnouncementCardProps) => {
   return (
-    <Card className={`tablet:grid-col-3 ${styles.card}`}>
+    //#TODO check if col number needs to be dynamic
+    <Card
+      className={`tablet:grid-col-3 ${styles.card}`}
+      containerProps={{ className: bgColor }}>
       <CardHeader>
-        <h3 className="usa-card__heading">Happy Birthday!</h3>
+        <h3 className="usa-card__heading">{heading}</h3>
       </CardHeader>
-      <CardBody>
-        <p>It&apos;s been a ONE-derful year!</p>
-      </CardBody>
+      {body && (
+        <CardBody>
+          <p>{body}</p>
+        </CardBody>
+      )}
       <CardFooter>
-        <Tag>News</Tag>
+        <Tag>{tag}</Tag>
       </CardFooter>
     </Card>
   )
