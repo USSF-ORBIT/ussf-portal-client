@@ -11,13 +11,11 @@ export const config = {
 const Home = () => {
   return (
     <>
-      <main>
-        <Logo />
-        USSF Portal
-        <Link href="/test-page">
-          <a>A test page</a>
-        </Link>
-      </main>
+      <Logo />
+      USSF Portal
+      <Link href="/test-page">
+        <a>A test page</a>
+      </Link>
     </>
   )
 }
