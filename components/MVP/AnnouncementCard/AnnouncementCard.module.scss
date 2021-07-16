@@ -14,5 +14,18 @@
       padding: 3px 6px;
       vertical-align: bottom;
     }
+    .birthdayCard {
+      background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.8) 66%,
+        rgba(117, 19, 93, 0) 96%
+      ); // #TODO add back image after merge
+      // url(/img/bday.webp);
+      background-size: cover;
+    }
   }
+}
+
+.cardLink {
+  text-decoration: none;
 }

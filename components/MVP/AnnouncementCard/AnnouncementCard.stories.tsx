@@ -1,52 +1,46 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
-import { ColumnSizes } from '@trussworks/react-uswds/lib/components/grid/types'
 import AnnouncementCard from './AnnouncementCard'
+import type { AnnouncementCardProps } from './AnnouncementCard'
 
 export default {
   title: 'Components/Cards',
   component: AnnouncementCard,
 } as Meta
 
-interface AnnouncementCardProps {
-  heading: string
-  body?: string
-  bgImage?: string
-  tag: string
-  bgColor: string
-  cols: ColumnSizes
-}
-
 const birthday: AnnouncementCardProps = {
   heading: 'Happy Birthday! 🎉',
   body: `It's been a ONE-derful year!`,
-  tag: 'About',
-  bgColor: 'bg-black',
-  bgImage:
-    'linear-gradient(to right,rgba(0,0,0,.8) 66%,rgba(117,19,93,0) 96%), url(/img/bday.webp)',
+  tag: 'about',
+  bgColor: 'birthdayCard',
   cols: 3,
+  path: '/about-us/accomplishments/',
 }
 
+// Use a decorator to always render the card in a <CardGroup>
 export const BirthdayAnnouncementCard = () => <AnnouncementCard {...birthday} />
 
 const forceMultiplier: AnnouncementCardProps = {
   heading:
     'Start your journey in digital fluency with our Force Multiplier program.',
-  tag: 'Training',
+  tag: 'training',
   bgColor: 'gradient--blue bg-primary',
   cols: 6,
+  path: '/training-and-education/force-multiplier-program/',
 }
+// Use a decorator to always render the card in a <CardGroup>
 export const forceMultiplierCard = () => (
   <AnnouncementCard {...forceMultiplier} />
 )
 
 const physicalAssessment: AnnouncementCardProps = {
   heading: 'Physical fitness assessments will resume July 1st 2021',
-  tag: 'News',
+  tag: 'news',
   bgColor: 'gradient--orange bg-accent-warm-dark',
   cols: 3,
+  path: 'https://www.spaceforce.mil/News/Article/2525699/pt-test-pushed-to-july-updates-to-scoring-physical-components-ahead/',
 }
-
+// Use a decorator to always render the card in a <CardGroup>
 export const physicalAssessmentCard = () => (
   <AnnouncementCard {...physicalAssessment} />
 )
