@@ -19,7 +19,8 @@
     "pre-commit": "lint-staged",
     "test": "jest",
     "test:watch": "jest --watch",
-    "cypress:dev": "cypress open"
+    "cypress:dev": "cypress open",
+    "postinstall": "sh ./scripts/copy_uswds_assets.sh"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^11.0.1",

@@ -4,10 +4,6 @@ import Link from 'next/link'
 
 import Logo from 'components/Logo/Logo'
 
-export const config = {
-  unstable_runtimeJS: false,
-}
-
 const Home = () => {
   return (
     <>

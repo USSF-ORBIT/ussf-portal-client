@@ -1,12 +1,12 @@
 $asset-path: '' !default;
-
-$theme-show-notifications: false;
+$uswds-asset-path: '#{$asset-path}/vendor' !default;
 
 /* GENERAL */
-$theme-image-path: '#{$asset-path}/img';
+$theme-show-notifications: false;
+$theme-image-path: '#{$uswds-asset-path}/img';
 
 /* TYPOGRAPHY */
-$theme-font-path: '#{$asset-path}/fonts';
+$theme-font-path: '#{$uswds-asset-path}/fonts';
 
 // USWDS CHANGES (for MVP)
 $theme-alert-icon-size: 4;
@@ -21,4 +21,4 @@ $theme-h3-font-size: 'md';
 /* SPACING */
 
 /* COMPONENTS */
-$theme-hero-image: '#{$asset-path}/img/hero.png';
+$theme-hero-image: '#{$theme-image-path}/hero.png';
