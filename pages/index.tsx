@@ -4,20 +4,14 @@ import Link from 'next/link'
 
 import Logo from 'components/Logo/Logo'
 
-export const config = {
-  unstable_runtimeJS: false,
-}
-
 const Home = () => {
   return (
     <>
-      <main>
-        <Logo />
-        USSF Portal
-        <Link href="/test-page">
-          <a>A test page</a>
-        </Link>
-      </main>
+      <Logo />
+      USSF Portal
+      <Link href="/test-page">
+        <a>A test page</a>
+      </Link>
     </>
   )
 }
