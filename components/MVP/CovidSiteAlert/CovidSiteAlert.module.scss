@@ -1,0 +1,19 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/mvp/mixins';
+
+.covidSiteAlert {
+  // USWDS OVERRIDES
+  background-color: color('blue-cool-10v');
+  :global {
+    .usa-alert {
+      background-color: color('blue-cool-10v');
+      font-size: font-size('body', '2xs');
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+    .usa-alert__body {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

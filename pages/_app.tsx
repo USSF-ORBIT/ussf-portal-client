@@ -3,6 +3,8 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
+import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
+
 const USSFPortalApp = ({ Component, pageProps }: AppProps) => {
   const canonicalUrl = process.env.NEXT_PUBLIC_SITE_URL || ''
   const { asPath } = useRouter()
@@ -48,7 +50,9 @@ const USSFPortalApp = ({ Component, pageProps }: AppProps) => {
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <Component {...pageProps} />
+      <DefaultLayout>
+        <Component {...pageProps} />
+      </DefaultLayout>
     </>
   )
 }
