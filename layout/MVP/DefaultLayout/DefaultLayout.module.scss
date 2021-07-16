@@ -24,5 +24,7 @@
 }
 
 .layoutDefault {
-  @include gov-banner;
+  :global {
+    @include gov-banner;
+  }
 }

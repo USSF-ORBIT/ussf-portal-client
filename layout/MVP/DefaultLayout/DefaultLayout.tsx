@@ -1,5 +1,6 @@
 import React from 'react'
 import { GovBanner } from '@trussworks/react-uswds'
+import classnames from 'classnames'
 
 import styles from './DefaultLayout.module.scss'
 
@@ -17,7 +18,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
         <div className={styles.navContainer}>
           <Header />
         </div>
-        <div className={styles.mainContainer}>
+        <div className={classnames(styles.mainContainer, styles.layoutDefault)}>
           <GovBanner />
           <main id="main-content">{children}</main>
           <Footer />
