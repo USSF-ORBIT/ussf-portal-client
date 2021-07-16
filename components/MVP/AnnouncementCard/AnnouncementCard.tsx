@@ -16,12 +16,15 @@ import styles from './AnnouncementCard.module.scss'
 // - Custom background image or color
 // - Custom tag text, background color, text color
 // - Custom heading
+// External link and internal link support
 
 interface AnnouncementCardProps {
   heading: string
   body?: string
   tag: string
   bgColor: string
+  bgTag: string
+  textColor: string
 }
 
 const AnnouncementCard = ({
@@ -29,22 +32,26 @@ const AnnouncementCard = ({
   body,
   tag,
   bgColor,
+  bgTag,
+  textColor,
 }: AnnouncementCardProps) => {
   return (
     //#TODO check if col number needs to be dynamic
+
     <Card
-      className={`tablet:grid-col-3 ${styles.card}`}
-      containerProps={{ className: bgColor }}>
+      className={`${styles.card}`}
+      containerProps={{ className: bgColor }}
+      gridLayout={{ tablet: { col: 3 } }}>
       <CardHeader>
-        <h3 className="usa-card__heading">{heading}</h3>
+        <h3 className={`usa-card__heading ${textColor}`}>{heading}</h3>
       </CardHeader>
       {body && (
         <CardBody>
-          <p>{body}</p>
+          <p className={textColor}>{body}</p>
         </CardBody>
       )}
       <CardFooter>
-        <Tag>{tag}</Tag>
+        <Tag className={textColor + ' ' + bgTag}>{tag}</Tag>
       </CardFooter>
     </Card>
   )
