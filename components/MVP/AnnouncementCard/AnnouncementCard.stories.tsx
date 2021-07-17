@@ -18,6 +18,7 @@ export default {
   ],
 } as Meta
 
+// About Card example
 const birthday: AnnouncementCardProps = {
   heading: 'Happy Birthday! 🎉',
   body: `It's been a ONE-derful year!`,
@@ -27,9 +28,9 @@ const birthday: AnnouncementCardProps = {
   path: '/about-us/accomplishments/',
 }
 
-// Use a decorator to always render the card in a <CardGroup>
 export const BirthdayAnnouncementCard = () => <AnnouncementCard {...birthday} />
 
+// Training Card example
 const forceMultiplier: AnnouncementCardProps = {
   heading:
     'Start your journey in digital fluency with our Force Multiplier program.',
@@ -38,11 +39,12 @@ const forceMultiplier: AnnouncementCardProps = {
   cols: 6,
   path: '/training-and-education/force-multiplier-program/',
 }
-// Use a decorator to always render the card in a <CardGroup>
+
 export const forceMultiplierCard = () => (
   <AnnouncementCard {...forceMultiplier} />
 )
 
+// News Card example
 const physicalAssessment: AnnouncementCardProps = {
   heading: 'Physical fitness assessments will resume July 1st 2021',
   tag: 'news',
@@ -50,13 +52,12 @@ const physicalAssessment: AnnouncementCardProps = {
   cols: 6,
   path: 'https://www.spaceforce.mil/News/Article/2525699/pt-test-pushed-to-july-updates-to-scoring-physical-components-ahead/',
 }
-// Use a decorator to always render the card in a <CardGroup>
+
 export const physicalAssessmentCard = () => (
   <AnnouncementCard {...physicalAssessment} />
 )
 
 // Example of News page grid
-
 const rankNews: AnnouncementCardProps = {
   heading: 'Space Force rank names',
   tag: 'news',
