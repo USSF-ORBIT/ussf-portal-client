@@ -28,7 +28,7 @@ const birthday: AnnouncementCardProps = {
   path: '/about-us/accomplishments/',
 }
 
-export const BirthdayAnnouncementCard = () => <AnnouncementCard {...birthday} />
+export const AboutCard = () => <AnnouncementCard {...birthday} />
 
 // Training Card example
 const forceMultiplier: AnnouncementCardProps = {
@@ -40,9 +40,7 @@ const forceMultiplier: AnnouncementCardProps = {
   path: '/training-and-education/force-multiplier-program/',
 }
 
-export const forceMultiplierCard = () => (
-  <AnnouncementCard {...forceMultiplier} />
-)
+export const TrainingCard = () => <AnnouncementCard {...forceMultiplier} />
 
 // News Card example
 const physicalAssessment: AnnouncementCardProps = {
@@ -53,11 +51,9 @@ const physicalAssessment: AnnouncementCardProps = {
   path: 'https://www.spaceforce.mil/News/Article/2525699/pt-test-pushed-to-july-updates-to-scoring-physical-components-ahead/',
 }
 
-export const physicalAssessmentCard = () => (
-  <AnnouncementCard {...physicalAssessment} />
-)
+export const NewsCard = () => <AnnouncementCard {...physicalAssessment} />
 
-// Example of News page grid
+// News three-up grid example
 const rankNews: AnnouncementCardProps = {
   heading: 'Space Force rank names',
   tag: 'news',
@@ -81,7 +77,7 @@ const csoNews: AnnouncementCardProps = {
   path: 'https://media.defense.gov/2020/Nov/09/2002531998/-1/-1/0/CSO%20PLANNING%20GUIDANCE.PDF',
 }
 
-export const newsGrid = () => (
+export const ThreeUpGrid = () => (
   <>
     <AnnouncementCard {...rankNews} />
     <AnnouncementCard {...officerNews} />
