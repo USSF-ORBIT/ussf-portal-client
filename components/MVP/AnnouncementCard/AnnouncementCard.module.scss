@@ -1,5 +1,7 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/mvp/mixins';
+
 .card {
-  list-style-type: none;
   :global {
     .usa-card__heading {
       font-size: 1.25rem;
@@ -16,16 +18,34 @@
     }
     .birthdayCard {
       background: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 0.8) 66%,
-        rgba(117, 19, 93, 0) 96%
-      ); // #TODO add back image after merge
-      // url(/img/bday.webp);
+          to right,
+          rgba(0, 0, 0, 0.8) 66%,
+          rgba(117, 19, 93, 0) 96%
+        ),
+        url(/img/bday.webp);
       background-size: cover;
+    }
+    .usa-card-group + h2 {
+      margin-top: units(6) !important;
+    }
+    .usa-card__container {
+      &:hover {
+        background-blend-mode: soft-light;
+        border-color: color('primary-light');
+      }
+    }
+    .usa-tag {
+      line-height: lh('body', 3);
+      padding: 3px 6px;
+      vertical-align: bottom;
     }
   }
 }
 
 .cardLink {
   text-decoration: none;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
