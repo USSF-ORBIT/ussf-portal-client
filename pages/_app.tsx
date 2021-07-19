@@ -2,13 +2,13 @@ import 'styles/index.scss'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-
+import { config, dom } from '@fortawesome/fontawesome-svg-core'
 import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
 
 const USSFPortalApp = ({ Component, pageProps }: AppProps) => {
   const canonicalUrl = process.env.NEXT_PUBLIC_SITE_URL || ''
   const { asPath } = useRouter()
-
+  config.autoAddCss = false
   return (
     <>
       <Head>
@@ -49,6 +49,8 @@ const USSFPortalApp = ({ Component, pageProps }: AppProps) => {
 
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
+        {/* Fix Next.js's rendering of font awesome css*/}
+        <style>{dom.css()}</style>
       </Head>
       <DefaultLayout>
         <Component {...pageProps} />
