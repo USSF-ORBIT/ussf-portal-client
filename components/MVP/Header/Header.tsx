@@ -13,6 +13,7 @@ import {
 } from '@trussworks/react-uswds'
 
 import styles from './Header.module.scss'
+import LinkTo from 'components/LinkTo/LinkTo'
 
 const Header = () => {
   const router = useRouter()
@@ -57,10 +58,9 @@ const Header = () => {
     { path: 'https://mol.tfs.usmc.mil/', label: 'Marines' },
     { path: 'https://cgportal2.uscg.mil/', label: 'Coast Guard' },
   ].map((i) => (
-    <Link href={i.path} key={i.path}>
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a>{i.label}</a>
-    </Link>
+    <LinkTo href={i.path} key={i.path}>
+      {i.label}
+    </LinkTo>
   ))
 
   const homeNavItems = [
