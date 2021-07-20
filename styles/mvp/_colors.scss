@@ -1,0 +1,75 @@
+.gradient--blue {
+  background-image: linear-gradient(
+    0,
+    color('blue-warm-60v'),
+    color('blue-warm-50v')
+  );
+}
+
+.gradient--pink {
+  background-image: linear-gradient(
+    0,
+    color('violet-warm-60v'),
+    color('violet-warm-50v')
+  );
+}
+
+.gradient--orange {
+  background-image: linear-gradient(
+    0,
+    color('orange-warm-60v'),
+    color('orange-warm-50v')
+  );
+}
+
+.text-orange-warm-30v {
+  color: color('orange-warm-30v');
+}
+
+.text-accent-about {
+  color: color('violet-30v');
+}
+
+.bg-news {
+  background-color: color('orange-warm-90');
+}
+
+.bg-training {
+  background-color: color('blue-warm-90');
+}
+
+.bg-about {
+  background-color: color('violet-90');
+}
+
+.tag--training {
+  background-color: color('blue-warm-30v');
+}
+
+.tag--news {
+  background-color: color('orange-warm-30v');
+}
+
+.tag--about {
+  background-color: color('violet-30v');
+}
+
+.bg-gray-cool-1 {
+  background-color: color('gray-cool-1');
+}
+
+.bg-gray-cool-2 {
+  background-color: color('gray-cool-2');
+}
+
+.bg-gray-cool-3 {
+  background-color: color('gray-cool-3');
+}
+
+.text-blue-20 {
+  color: color('blue-20');
+}
+
+.bg-indigo-v {
+  background: color('indigo-warm-50v');
+}
