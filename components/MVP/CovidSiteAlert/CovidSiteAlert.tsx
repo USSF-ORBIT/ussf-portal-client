@@ -7,6 +7,9 @@ import styles from './CovidSiteAlert.module.scss'
 const CovidSiteAlert = () => {
   return (
     <SiteAlert
+      //#TODO: Best way to check that a component rendered
+      // on a page re: testing? This seems easiest.
+      data-testid="covid-alert"
       variant="info"
       showIcon={false}
       className={`${styles.covidSiteAlert}`}>

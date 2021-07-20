@@ -6,8 +6,11 @@ import { render, screen } from '@testing-library/react'
 import Home from 'pages/index'
 
 describe('Home page', () => {
-  it('renders the title', () => {
+  beforeEach(() => {
     render(<Home />)
-    expect(screen.getByText('USSF Portal')).toBeInTheDocument()
+  })
+
+  it('renders the Covid Alert', () => {
+    expect(screen.getByTestId('covid-alert')).toBeInTheDocument()
   })
 })
