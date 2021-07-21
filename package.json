@@ -67,6 +67,7 @@
     "prettier": "2.3.2",
     "sass": "^1.35.1",
     "sass-loader": "^10.0.0",
+    "serve": "^12.0.0",
     "storybook-addon-next-router": "^2.0.4",
     "storybook-css-modules-preset": "^1.1.1",
     "style-loader": "2.0.0",
