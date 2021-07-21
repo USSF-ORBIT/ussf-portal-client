@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'next/link'
+
 import {
   Footer as USWDSFooter,
   FooterNav,
@@ -9,6 +9,7 @@ import {
 import classNames from 'classnames'
 
 import styles from './Footer.module.scss'
+import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const Footer = () => {
   const returnToTopLink = (
@@ -41,10 +42,9 @@ const Footer = () => {
       label: 'Patrick',
     },
   ].map((i) => (
-    <Link href={i.path} key={i.path}>
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a className="usa-footer__primary-link">{i.label}</a>
-    </Link>
+    <LinkTo href={i.path} key={i.path} className="usa-footer__primary-link">
+      {i.label}
+    </LinkTo>
   ))
 
   const primaryContent = (
@@ -70,12 +70,12 @@ const Footer = () => {
       label: 'AFRL',
     },
   ].map((i) => (
-    <Link href={i.path} key={i.path}>
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a className="usa-footer__primary-link padding-y-05 display-inline-block">
-        {i.label}
-      </a>
-    </Link>
+    <LinkTo
+      href={i.path}
+      key={i.path}
+      className="usa-footer__primary-link padding-y-05 display-inline-block">
+      {i.label}
+    </LinkTo>
   ))
 
   const socialLinks = [
@@ -95,12 +95,12 @@ const Footer = () => {
       className: 'social-link--linkedin',
     },
   ].map((i) => (
-    <Link href={i.path} key={i.path}>
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a className={classNames('usa-social-link', i.className)}>
-        <span>{i.label}</span>
-      </a>
-    </Link>
+    <LinkTo
+      href={i.path}
+      key={i.path}
+      className={classNames('usa-social-link', i.className)}>
+      <span>{i.label}</span>
+    </LinkTo>
   ))
 
   const secondaryContent = (
