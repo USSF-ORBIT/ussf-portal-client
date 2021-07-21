@@ -1,6 +1,6 @@
 describe('The Home Page', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000')
+    cy.visit('/')
   })
 
   it('successfully loads', () => {
@@ -13,7 +13,7 @@ describe('The Home Page', () => {
     cy.get('head link[rel="canonical"]').should(
       'have.attr',
       'href',
-      'http://localhost:3000/'
+      Cypress.config().baseUrl + '/'
     )
   })
 
@@ -29,7 +29,7 @@ describe('The Home Page', () => {
     cy.get('head link[rel="canonical"]').should(
       'have.attr',
       'href',
-      'http://localhost:3000/test-page'
+      Cypress.config().baseUrl + '/test-page'
     )
   })
 })

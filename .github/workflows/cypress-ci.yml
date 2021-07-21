@@ -28,13 +28,14 @@ jobs:
         uses: cypress-io/github-action@v2.9.7
         env:
           NEXT_PUBLIC_SITE_URL: http://localhost:5000
+          CYPRESS_BASE_URL: http://localhost:5000
         with:
           # Commands for NextJS server:
           # build: yarn build
           # start: yarn start
           # Commands for static site:
           build: yarn build:static
-          start: serve out
+          start: yarn start:static
 
       - name: Upload screenshots
         uses: actions/upload-artifact@v1

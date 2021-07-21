@@ -11,6 +11,7 @@
     "build:static": "next build && next export",
     "build:analyze": "ANALYZE=true yarn build",
     "start": "next start",
+    "start:static": "serve out",
     "storybook": "start-storybook -p 6006 -s ./public",
     "storybook:build": "build-storybook",
     "format": "prettier --write .",
