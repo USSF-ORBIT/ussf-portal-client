@@ -2,7 +2,7 @@ name: Cypress E2E tests
 
 on:
   push:
-    branches: [main, 22-cypress-ci]
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -17,12 +17,6 @@ jobs:
 
       - name: Check out repository
         uses: actions/checkout@v2
-
-      - name: Cache NextJS
-        uses: actions/cache@v2
-        with:
-          path: ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}
 
       - name: Cypress run
         uses: cypress-io/github-action@v2.9.7
