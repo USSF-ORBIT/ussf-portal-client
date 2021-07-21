@@ -1,3 +1,4 @@
+const path = require('path')
 module.exports = {
   stories: ['../**/*.stories.mdx', '../**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
@@ -20,7 +21,11 @@ module.exports = {
 
         'sass-loader',
       ],
-    })
+    }),
+      (config.resolve.modules = [
+        path.resolve(__dirname, '../src'),
+        'node_modules',
+      ])
     // Return the altered config
     return config
   },
