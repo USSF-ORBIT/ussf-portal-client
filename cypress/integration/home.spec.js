@@ -29,7 +29,7 @@ describe('The Home Page', () => {
     cy.get('head link[rel="canonical"]').should(
       'have.attr',
       'href',
-      'http://localhost:3000/test'
+      'http://localhost:3000/test-page'
     )
   })
 })
