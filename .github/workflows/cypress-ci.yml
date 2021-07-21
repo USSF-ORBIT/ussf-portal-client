@@ -1,0 +1,20 @@
+name: Cypress E2E tests
+
+on:
+  push:
+    branches: [main, 22-cypress-ci]
+  pull_request:
+    branches: [main]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-16.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Cypress run
+        uses: cypress-io/github-action@2.9.7
+        with:
+          build: yarn build
+          start: yarn start

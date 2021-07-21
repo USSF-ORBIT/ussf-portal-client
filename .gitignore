@@ -21,6 +21,10 @@ yarn-error.log*
 # Coverage directory used by tools like istanbul
 coverage
 
+# Cypress artifacts
+cypress/screenshots
+cypress/videos
+
 # Optional eslint cache
 .eslintcache
 
