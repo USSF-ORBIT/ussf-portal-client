@@ -21,8 +21,9 @@ const NavLink = ({
   const { href, as } = otherProps
   const { asPath } = useRouter()
 
-  // TODO - handle other types? UrlObject { pathname: string }
-  const linkPath = (as || href) as string
+  const pathProp = as || href
+  const linkPath =
+    typeof pathProp === 'string' ? pathProp : pathProp?.pathname || ''
 
   const isActive = pathToRegexp(linkPath, [], {
     sensitive: true,

@@ -153,4 +153,41 @@ describe('NavLink component', () => {
     expect(link).not.toHaveClass('usa-current')
     expect(link).toHaveClass('activeLinkClass')
   })
+
+  describe('if the URL is a URL Object', () => {
+    // https://nextjs.org/docs/api-reference/next/link#with-url-object
+    it('does not render the active class if the path is not active', () => {
+      mockedUseRouter.mockReturnValueOnce({
+        route: '',
+        pathname: '/about',
+        query: '',
+        asPath: '/about',
+      })
+
+      render(<NavLink href={{ pathname: '/home' }}>Home</NavLink>)
+
+      const link = screen.getByRole('link', {
+        name: 'Home',
+      })
+
+      expect(link).not.toHaveClass('usa-current')
+    })
+
+    it('renders the active class if the path is active', () => {
+      mockedUseRouter.mockReturnValueOnce({
+        route: '',
+        pathname: '/about',
+        query: '',
+        asPath: '/about',
+      })
+
+      render(<NavLink href={{ pathname: '/about' }}>About</NavLink>)
+
+      const link = screen.getByRole('link', {
+        name: 'About',
+      })
+
+      expect(link).toHaveClass('usa-current')
+    })
+  })
 })
