@@ -13,7 +13,7 @@ import {
 } from '@trussworks/react-uswds'
 
 import styles from './Header.module.scss'
-import LinkTo from 'components/LinkTo/LinkTo'
+import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const Header = () => {
   const router = useRouter()

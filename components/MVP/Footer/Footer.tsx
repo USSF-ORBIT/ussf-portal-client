@@ -9,7 +9,7 @@ import {
 import classNames from 'classnames'
 
 import styles from './Footer.module.scss'
-import LinkTo from 'components/LinkTo/LinkTo'
+import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const Footer = () => {
   const returnToTopLink = (
