@@ -88,6 +88,23 @@ describe('NavLink component', () => {
     expect(link).toHaveClass('usa-current')
   })
 
+  it('does not render the active class if a subpage of the parent path', () => {
+    mockedUseRouter.mockReturnValueOnce({
+      route: '',
+      pathname: '/about',
+      query: '',
+      asPath: '/about',
+    })
+
+    render(<NavLink href="/about/subpage">About</NavLink>)
+
+    const link = screen.getByRole('link', {
+      name: 'About',
+    })
+
+    expect(link).not.toHaveClass('usa-current')
+  })
+
   describe('if the exact prop is set', () => {
     it('does not render the active class if the parent path matches', () => {
       mockedUseRouter.mockReturnValueOnce({
