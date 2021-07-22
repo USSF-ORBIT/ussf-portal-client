@@ -10,7 +10,7 @@ const AboutUs = () => {
           <span className="text-uppercase text-ls-3 text-accent-about text-bold">
             About us
           </span>
-          <h1 className="margin-top-1">About the Space Force</h1>
+          <h1 className="page-header">About the Space Force</h1>
         </div>
       </section>
 
@@ -30,12 +30,14 @@ const AboutUs = () => {
                   />
                 </ul>
 
-                <h2 id="essential-reading">Essential Reading</h2>
+                <h2 id="essential-reading" className="section-header">
+                  Essential Reading
+                </h2>
 
                 <div className="border-top border-base-lighter padding-y-2">
                   <LinkTo
                     href="https://www.spaceforce.mil/Portals/1/Space%20Capstone%20Publication_10%20Aug%202020.pdf"
-                    className="font-body-md">
+                    className="usa-link font-body-md">
                     Space Capstone Publication: Spacepower. Doctrine for Space
                     Forces
                   </LinkTo>
@@ -44,7 +46,7 @@ const AboutUs = () => {
                 <div className="border-top border-base-lighter padding-y-2">
                   <LinkTo
                     href="https://media.defense.gov/2020/Nov/09/2002531998/-1/-1/0/CSO%20PLANNING%20GUIDANCE.PDF"
-                    className="font-body-md">
+                    className="usa-link font-body-md">
                     CSO’s Planning Guidance
                   </LinkTo>
                   <p className="margin-y-0">November 2020</p>
@@ -52,12 +54,14 @@ const AboutUs = () => {
                 <div className="border-y border-base-lighter padding-y-2">
                   <LinkTo
                     href="/about-us/accomplishments/"
-                    className="font-body-md">
+                    className="usa-link font-body-md">
                     Our accomplishments
                   </LinkTo>
                 </div>
 
-                <h2 id="mission">Mission</h2>
+                <h2 id="mission" className="section-header">
+                  Mission
+                </h2>
                 <p>
                   The USSF is a military service that organizes, trains, and
                   equips space forces in order to protect U.S. and allied
@@ -68,33 +72,47 @@ const AboutUs = () => {
                   space forces to present to our Combatant Commands.
                 </p>
 
-                <h2 id="activities">Activities</h2>
+                <h2 id="activities" className="section-header">
+                  Activities
+                </h2>
                 <p>
                   Read{' '}
-                  <LinkTo href="https://www.spaceforce.mil/About-Us/Fact-Sheets/">
+                  <LinkTo
+                    href="https://www.spaceforce.mil/About-Us/Fact-Sheets/"
+                    className="usa-link">
                     fact sheets
                   </LinkTo>{' '}
                   on what the Space Force does.
                 </p>
 
-                <h2 id="leadership">Leadership</h2>
+                <h2 id="leadership" className="section-header">
+                  Leadership
+                </h2>
                 <p>
-                  <LinkTo href="https://www.spaceforce.mil/About-Us/Leadership/">
+                  <LinkTo
+                    href="https://www.spaceforce.mil/About-Us/Leadership/"
+                    className="usa-link">
                     Space Force Leadership
                   </LinkTo>
                 </p>
                 <p>
-                  <LinkTo href="https://www.spoc.spaceforce.mil/About-Us/Leadership">
+                  <LinkTo
+                    href="https://www.spoc.spaceforce.mil/About-Us/Leadership"
+                    className="usa-link">
                     SpOC Leadership
                   </LinkTo>
                 </p>
                 <p>
-                  <LinkTo href="https://www.losangeles.spaceforce.mil/About-Us/Biographies/">
+                  <LinkTo
+                    href="https://www.losangeles.spaceforce.mil/About-Us/Biographies/"
+                    className="usa-link">
                     SMC Center Leadership
                   </LinkTo>
                 </p>
                 <p>
-                  <LinkTo href="https://www.peterson.spaceforce.mil/About/Biographies/">
+                  <LinkTo
+                    href="https://www.peterson.spaceforce.mil/About/Biographies/"
+                    className="usa-link">
                     Space Training and Readiness (STAR) Delta Leadership
                   </LinkTo>
                 </p>
@@ -115,7 +133,7 @@ const AboutUs = () => {
                   <strong>Gen. Raymond,</strong> Chief of Space Operations
                 </p>
 
-                <h2 className="display-inline-block font-heading-md text-normal margin-top-4 border-0">
+                <h2 className="sidebar-header display-inline-block font-heading-md text-normal margin-top-4 border-0">
                   Rocket launches
                 </h2>
                 <div className="position-relative">
@@ -135,6 +153,7 @@ const AboutUs = () => {
                   <span className="padding-y-2px padding-x-1 radius-pill border border-primary-vivid text-primary-vivid">
                     March 2021
                   </span>
+                  &nbsp;
                   <span className="padding-y-2px padding-x-1 radius-pill border border-base text-base">
                     USSF 8
                   </span>
@@ -145,7 +164,7 @@ const AboutUs = () => {
                   </span>{' '}
                   United Launch Alliance Atlas 5
                 </p>
-                <p className="font-body-3xs margin-top-05">
+                <p className="launch-payload font-body-3xs margin-top-05">
                   <span className="font-mono-3xs text-bold text-uppercase">
                     Payload:
                   </span>{' '}
@@ -153,12 +172,13 @@ const AboutUs = () => {
                   Situational Awareness Program.
                 </p>
 
-                <div className="display-block border-top border-base-light margin-top-1 margin-bottom-2" />
+                <div className="launch-border display-block border-top border-base-light margin-top-1 margin-bottom-2" />
 
                 <p className="font-mono-3xs text-uppercase">
                   <span className="padding-y-2px padding-x-1 radius-pill border border-primary-vivid text-primary-vivid">
                     2nd Quarter 2021
                   </span>
+                  &nbsp;
                   <span className="padding-y-2px padding-x-1 radius-pill border border-base text-base">
                     USSF 44
                   </span>
@@ -169,14 +189,14 @@ const AboutUs = () => {
                   </span>{' '}
                   Space X Falcon Heavy
                 </p>
-                <p className="font-body-3xs margin-top-05">
+                <p className="launch-payload font-body-3xs margin-top-05">
                   <span className="font-mono-3xs text-bold text-uppercase">
                     Payload:
                   </span>{' '}
                   Undisclosed
                 </p>
 
-                <h2 className="font-heading-md text-normal margin-top-4 border-0">
+                <h2 className="sidebar-header font-heading-md text-normal margin-top-4 border-0">
                   Social media
                 </h2>
                 <LinkTo
