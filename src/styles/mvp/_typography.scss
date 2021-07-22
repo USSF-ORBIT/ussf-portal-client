@@ -42,6 +42,10 @@ h2.section-header {
   + * {
     margin-top: units(4);
   }
+
+  &:first-child {
+    margin-top: units(0);
+  }
 }
 
 .usa-card-group + h2.section-header {

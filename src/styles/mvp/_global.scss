@@ -4,3 +4,15 @@
   object-position: top;
   width: 100%;
 }
+
+.accomplishments-list {
+  counter-reset: usa-numbered-list 6;
+
+  > .usa-process-list__item {
+    max-width: none;
+  }
+
+  > .usa-process-list__item:before {
+    counter-increment: usa-numbered-list -1;
+  }
+}
