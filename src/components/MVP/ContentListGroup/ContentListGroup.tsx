@@ -4,16 +4,14 @@ import styles from './ContentListGroup.module.scss'
 interface ContentListGroupProps {
   children: React.ReactNode
   heading?: string
-  className?: string
 }
 
 const ContentListGroup = ({
   children,
   heading,
-  className,
 }: ContentListGroupProps): React.ReactElement => {
   return (
-    <div className={`grid-container usa-prose contentLinks ${className}`}>
+    <div data-testid="contentListGroup" className="grid-container usa-prose">
       <div className={`grid-row grid-gap contentLinks ${styles.contentLinks}`}>
         <div className="tablet:grid-col-8">
           <h2 className="font-heading-md text-normal border-top padding-top-2">
