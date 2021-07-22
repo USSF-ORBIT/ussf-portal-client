@@ -1,0 +1,46 @@
+name: Cypress E2E tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-16.04
+    steps:
+      - name: Set up node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.15.0'
+
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2.9.7
+        env:
+          NEXT_PUBLIC_SITE_URL: http://localhost:5000
+          CYPRESS_BASE_URL: http://localhost:5000
+        with:
+          # Commands for NextJS server:
+          # build: yarn build
+          # start: yarn start
+          # Commands for static site:
+          build: yarn build:static
+          start: yarn start:static
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      - name: Upload videos
+        uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
