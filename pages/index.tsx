@@ -6,7 +6,7 @@ import type { AnnouncementCardProps } from 'components/MVP/AnnouncementCard/Anno
 import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import ContentListGroup from 'components/MVP/ContentList/ContentListGroup'
 import ContentListItem from 'components/MVP/ContentList/ContentListItem'
-
+import styles from 'styles/mvp/index.module.scss'
 const Home = () => {
   const manageYourLife = [
     {
@@ -88,7 +88,8 @@ const Home = () => {
   return (
     <>
       <CovidSiteAlert />
-      <section className="usa-section padding-top-4 padding-bottom-0">
+      <section
+        className={`usa-section padding-top-4 padding-bottom-0 ${styles.home}`}>
         <div className="grid-container">
           <div className="grid-row grid-gap">
             <div className="tablet:grid-col-8 usa-prose">
@@ -99,7 +100,7 @@ const Home = () => {
             </div>
             <div className="tablet:grid-col-4">
               <div className="quick-links usa-prose border-top padding-top-2">
-                <h2 className="display-inline-block text-normal">
+                <h2 className="display-inline-block text-normal font-heading-md">
                   Quick Links
                 </h2>
                 <ul className="usa-list usa-list--unstyled margin-top-2 font-body-xs">
@@ -119,54 +120,59 @@ const Home = () => {
       </section>
 
       <section className="usa-section padding-top-6 padding-bottom-0 bg-base-lightestx">
-        <ContentListGroup heading="Manage Your Life">
-          {manageYourLife.map((i) => (
-            <ContentListItem heading={i.heading} path={i.path} key={i.path}>
-              {i.text}
-            </ContentListItem>
-          ))}
-        </ContentListGroup>
+        <div className="grid-container usa-prose">
+          <div className="grid-row grid-gap">
+            <ContentListGroup heading="Manage Your Life">
+              {manageYourLife.map((i) => (
+                <ContentListItem heading={i.heading} path={i.path} key={i.path}>
+                  {i.text}
+                </ContentListItem>
+              ))}
+            </ContentListGroup>
 
-        <ContentListGroup heading="Work Tools" className="margin-top-10">
-          {workTools.map((i) => (
-            <ContentListItem heading={i.heading} path={i.path} key={i.path}>
-              {i.text}
-            </ContentListItem>
-          ))}
-        </ContentListGroup>
+            <ContentListGroup heading="Work Tools" className="margin-top-10">
+              {workTools.map((i) => (
+                <ContentListItem heading={i.heading} path={i.path} key={i.path}>
+                  {i.text}
+                </ContentListItem>
+              ))}
+            </ContentListGroup>
 
-        {/* Training and Education */}
-        <h2 className="font-heading-md text-normal margin-top-10 border-top padding-top-2">
-          Learn and Grow
-        </h2>
-        <div className="grid-row grid-gap margin-top-3">
-          <div className="grid-col-4">
-            <div className="education-media bg-base-lightest height-full display-flex flex-align-center flex-justify-center padding-y-4 radius-lg">
-              <FontAwesomeIcon
-                icon={faLaptopCode}
-                className="education-icon education-icon--gradient fas"
-              />
-              <svg width="0" height="0">
-                <linearGradient id="lg" gradientTransform="rotate(-10)">
-                  <stop stopColor="#0050d8" offset="0" />
-                  <stop stopColor="#00bde3" offset="1" />
-                </linearGradient>
-              </svg>
+            {/* Training and Education */}
+
+            <h2 className="font-heading-md text-normal margin-top-10 border-top padding-top-2">
+              Learn and Grow
+            </h2>
+            <div className="grid-row grid-gap margin-top-3">
+              <div className="grid-col-4">
+                <div className="education-media bg-base-lightest height-full display-flex flex-align-center flex-justify-center padding-y-4 radius-lg">
+                  <FontAwesomeIcon
+                    icon={faLaptopCode}
+                    className="education-icon education-icon--gradient fas"
+                  />
+                  <svg width="0" height="0">
+                    <linearGradient id="lg" gradientTransform="rotate(-10)">
+                      <stop stopColor="#0050d8" offset="0" />
+                      <stop stopColor="#00bde3" offset="1" />
+                    </linearGradient>
+                  </svg>
+                </div>
+              </div>
+              <div className="grid-col-8">
+                <p className="font-body-md margin-top-0">
+                  Start your journey in digital fluency with our{' '}
+                  <a href="/training-and-education/force-multiplier-program/">
+                    Force Multiplier program
+                  </a>
+                  .
+                </p>
+                <a
+                  className="usa-button text-white text-no-underline"
+                  href="/training-and-education/">
+                  More in Training + Education
+                </a>
+              </div>
             </div>
-          </div>
-          <div className="grid-col-8 usa-prose">
-            <p className="font-body-md">
-              Start your journey in digital fluency with our{' '}
-              <a href="/training-and-education/force-multiplier-program/">
-                Force Multiplier program
-              </a>
-              .
-            </p>
-            <a
-              className="usa-button text-white text-no-underline"
-              href="/training-and-education/">
-              More in Training + Education
-            </a>
           </div>
         </div>
       </section>

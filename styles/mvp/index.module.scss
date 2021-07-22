@@ -1,0 +1,16 @@
+// Home Page Overrides
+@import 'styles/uswdsDependencies';
+@import 'styles/mvp/mixins';
+.home {
+  :global {
+    .font-heading-md {
+      font-size: 1.06rem;
+    }
+    .text-normal {
+      font-weight: 400;
+    }
+    .margin-top-2 {
+      margin-top: 1rem;
+    }
+  }
+}
