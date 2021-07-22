@@ -13,15 +13,11 @@ const ContentListGroup = ({
   className,
 }: ContentListGroupProps): React.ReactElement => {
   return (
-    <div className={`grid-container usa-prose ${className}`}>
-      <div className={`grid-row grid-gap ${styles.contentLinks}`}>
-        <div className="tablet:grid-col-8">
-          <h2 className="font-heading-md text-normal border-top padding-top-2">
-            {heading}
-          </h2>
-          <div className="section__links margin-top-3">{children}</div>
-        </div>
-      </div>
+    <div className={`${styles.contentLinks} ${className}`}>
+      <h2 className="font-heading-md text-normal border-top padding-top-2">
+        {heading}
+      </h2>
+      <div className="section__links margin-top-3">{children}</div>
     </div>
   )
 }

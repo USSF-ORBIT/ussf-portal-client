@@ -119,60 +119,112 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="usa-section padding-top-6 padding-bottom-0 bg-base-lightestx">
+      <section
+        className={`usa-section padding-top-6 padding-bottom-0 bg-base-lightestx ${styles.home}`}>
         <div className="grid-container usa-prose">
           <div className="grid-row grid-gap">
-            <ContentListGroup heading="Manage Your Life">
-              {manageYourLife.map((i) => (
-                <ContentListItem heading={i.heading} path={i.path} key={i.path}>
-                  {i.text}
-                </ContentListItem>
-              ))}
-            </ContentListGroup>
+            <div className="tablet:grid-col-8">
+              <ContentListGroup heading="Manage Your Life">
+                {manageYourLife.map((i) => (
+                  <ContentListItem
+                    heading={i.heading}
+                    path={i.path}
+                    key={i.path}>
+                    {i.text}
+                  </ContentListItem>
+                ))}
+              </ContentListGroup>
 
-            <ContentListGroup heading="Work Tools" className="margin-top-10">
-              {workTools.map((i) => (
-                <ContentListItem heading={i.heading} path={i.path} key={i.path}>
-                  {i.text}
-                </ContentListItem>
-              ))}
-            </ContentListGroup>
-
-            {/* Training and Education */}
-
-            <h2 className="font-heading-md text-normal margin-top-10 border-top padding-top-2">
-              Learn and Grow
-            </h2>
-            <div className="grid-row grid-gap margin-top-3">
-              <div className="grid-col-4">
-                <div className="education-media bg-base-lightest height-full display-flex flex-align-center flex-justify-center padding-y-4 radius-lg">
-                  <FontAwesomeIcon
-                    icon={faLaptopCode}
-                    className="education-icon education-icon--gradient fas"
-                  />
-                  <svg width="0" height="0">
-                    <linearGradient id="lg" gradientTransform="rotate(-10)">
-                      <stop stopColor="#0050d8" offset="0" />
-                      <stop stopColor="#00bde3" offset="1" />
-                    </linearGradient>
-                  </svg>
+              <ContentListGroup heading="Work Tools" className="margin-top-10">
+                {workTools.map((i) => (
+                  <ContentListItem
+                    heading={i.heading}
+                    path={i.path}
+                    key={i.path}>
+                    {i.text}
+                  </ContentListItem>
+                ))}
+              </ContentListGroup>
+              <h2 className="font-heading-md text-normal margin-top-10 border-top padding-top-2">
+                Learn and Grow
+              </h2>
+              <div className="grid-row grid-gap margin-top-3">
+                <div className="grid-col-4">
+                  <div className="education-media bg-base-lightest height-full display-flex flex-align-center flex-justify-center padding-y-4 radius-lg">
+                    <FontAwesomeIcon
+                      icon={faLaptopCode}
+                      className="education-icon education-icon--gradient fas"
+                    />
+                    <svg width="0" height="0">
+                      <linearGradient id="lg" gradientTransform="rotate(-10)">
+                        <stop stopColor="#0050d8" offset="0" />
+                        <stop stopColor="#00bde3" offset="1" />
+                      </linearGradient>
+                    </svg>
+                  </div>
+                </div>
+                <div className="grid-col-8 usa-prose">
+                  <p className="font-body-md">
+                    Start your journey in digital fluency with our{' '}
+                    <a href="/training-and-education/force-multiplier-program/">
+                      Force Multiplier program
+                    </a>
+                    .
+                  </p>
+                  <a
+                    className="usa-button text-white text-no-underline"
+                    href="/training-and-education/">
+                    More in Training + Education
+                  </a>
                 </div>
               </div>
-              <div className="grid-col-8">
-                <p className="font-body-md margin-top-0">
-                  Start your journey in digital fluency with our{' '}
-                  <a href="/training-and-education/force-multiplier-program/">
-                    Force Multiplier program
-                  </a>
-                  .
-                </p>
-                <a
-                  className="usa-button text-white text-no-underline"
-                  href="/training-and-education/">
-                  More in Training + Education
-                </a>
+              <h2 className="font-heading-md text-normal margin-top-10 border-top padding-top-2">
+                Service portals
+              </h2>
+              <div className="portal-links usa-prose margin-top-3 margin-bottom-8">
+                <ul className="usa-list usa-list--unstyled display-flex flex-row flex-justify service-logos maxw-mobile">
+                  <li className="">
+                    <a
+                      className="usa-link usa-media-link display-flex flex-column flex-align-center"
+                      href="https://www.hrcapps.army.mil/portal/">
+                      <img src="img/army-logo-png.png" alt="Army" />
+                    </a>
+                  </li>
+                  <li className="">
+                    <a
+                      className="usa-link usa-media-link display-flex flex-column flex-align-center"
+                      href="https://my.navy.mil/">
+                      <img src="img/navy-logo-102.png" alt="Navy" />
+                    </a>
+                  </li>
+                  <li className="">
+                    <a
+                      className="usa-link usa-media-link display-flex flex-column flex-align-center"
+                      href="https://www.my.af.mil/">
+                      <img src="img/air-force-vector-101.png" alt="Air Force" />
+                    </a>
+                  </li>
+                  <li className="">
+                    <a
+                      className="usa-link usa-media-link display-flex flex-column flex-align-center"
+                      href="https://mol.tfs.usmc.mil/">
+                      <img src="img/marines-png-logo.png" alt="Marines" />
+                    </a>
+                  </li>
+                  <li className="">
+                    <a
+                      className="usa-link usa-media-link display-flex flex-column flex-align-center"
+                      href="https://cgportal2.uscg.mil/">
+                      <img
+                        src="img/Coast-Guard-Emblem-logo.png"
+                        alt="Coast Guard"
+                      />
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
+            <div className="tablet:grid-col-4 usa-prose"></div>
           </div>
         </div>
       </section>
