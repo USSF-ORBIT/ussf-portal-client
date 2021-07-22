@@ -206,5 +206,22 @@ describe('NavLink component', () => {
 
       expect(link).toHaveClass('usa-current')
     })
+
+    it('does not break if there is no path', () => {
+      render(
+        <NavLink href={{}} className="text-ink">
+          Home
+        </NavLink>
+      )
+
+      const link = screen.getByRole('link', {
+        name: 'Home',
+      })
+
+      expect(link).toHaveAttribute('href', '/')
+      expect(link).toHaveTextContent('Home')
+      expect(link).toHaveClass('text-ink')
+      expect(link).toBeInstanceOf(HTMLAnchorElement)
+    })
   })
 })
