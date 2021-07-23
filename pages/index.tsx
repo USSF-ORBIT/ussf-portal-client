@@ -6,6 +6,7 @@ import type { AnnouncementCardProps } from 'components/MVP/AnnouncementCard/Anno
 import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import ContentListGroup from 'components/MVP/ContentList/ContentListGroup'
 import ContentListItem from 'components/MVP/ContentList/ContentListItem'
+
 import styles from 'styles/mvp/index.module.scss'
 const Home = () => {
   const manageYourLife = [
@@ -124,27 +125,48 @@ const Home = () => {
         <div className="grid-container usa-prose">
           <div className="grid-row grid-gap">
             <div className="tablet:grid-col-8">
-              <ContentListGroup heading="Manage Your Life">
-                {manageYourLife.map((i) => (
-                  <ContentListItem
-                    heading={i.heading}
-                    path={i.path}
-                    key={i.path}>
-                    {i.text}
-                  </ContentListItem>
-                ))}
-              </ContentListGroup>
+              <div className={`${styles.contentLinks}`}>
+                <h2 className="font-heading-md text-normal border-top padding-top-2">
+                  Manage Your Life
+                </h2>
+                <div className="section__links margin-top-3">
+                  {manageYourLife.map((i) => (
+                    <a
+                      href={i.path}
+                      key={i.path}
+                      className="section-links__item grid-row">
+                      <div className="tablet:grid-col-4">
+                        <h3>{i.heading}</h3>
+                      </div>
+                      <div className="tablet:grid-col-8">
+                        <p>{i.text}</p>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
 
-              <ContentListGroup heading="Work Tools" className="margin-top-10">
-                {workTools.map((i) => (
-                  <ContentListItem
-                    heading={i.heading}
-                    path={i.path}
-                    key={i.path}>
-                    {i.text}
-                  </ContentListItem>
-                ))}
-              </ContentListGroup>
+              <div className={`${styles.contentLinks}`}>
+                <h2 className="font-heading-md text-normal border-top padding-top-2 margin-top-10">
+                  Work Tools
+                </h2>
+                <div className="section__links margin-top-3">
+                  {workTools.map((i) => (
+                    <a
+                      href={i.path}
+                      key={i.path}
+                      className="section-links__item grid-row">
+                      <div className="tablet:grid-col-4">
+                        <h3>{i.heading}</h3>
+                      </div>
+                      <div className="tablet:grid-col-8">
+                        <p>{i.text}</p>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+
               <h2 className="font-heading-md text-normal margin-top-10 border-top padding-top-2">
                 Learn and Grow
               </h2>
