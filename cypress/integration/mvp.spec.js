@@ -13,4 +13,12 @@ describe('The MVP site', () => {
     cy.url().should('contain', '/about-us')
     cy.contains('About the Space Force')
   })
+
+  it('can navigate to the Accomplishments page', () => {
+    cy.contains('About us').click()
+    cy.url().should('contain', '/about-us')
+    cy.contains('Our accomplishments').click()
+    cy.url().should('contain', '/about-us/accomplishments')
+    cy.contains('Things we’re proud of')
+  })
 })
