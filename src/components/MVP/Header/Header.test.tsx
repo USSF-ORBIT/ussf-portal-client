@@ -112,7 +112,7 @@ describe('Header component', () => {
 
   describe('on the news page', () => {
     beforeEach(() => {
-      mockedUseRouter.mockReturnValueOnce({
+      mockedUseRouter.mockReturnValue({
         route: '',
         pathname: '/news',
         query: '',

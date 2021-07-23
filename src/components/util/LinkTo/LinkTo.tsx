@@ -4,7 +4,7 @@
 import React, { AnchorHTMLAttributes, PropsWithChildren } from 'react'
 import Link, { LinkProps } from 'next/link'
 
-type PropTypes = LinkProps &
+export type PropTypes = LinkProps &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>
 
 /// A unified component for the next/link <Link> and a standard <a> anchor.

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import classnames from 'classnames'
 import {
@@ -14,6 +13,7 @@ import {
 
 import styles from './Header.module.scss'
 import LinkTo from 'components/util/LinkTo/LinkTo'
+import NavLink from 'components/util/NavLink/NavLink'
 
 const Header = () => {
   const router = useRouter()
@@ -40,15 +40,13 @@ const Header = () => {
     },
     { path: '/about-us', label: 'About us', className: styles.aboutLink },
   ].map((i) => (
-    <Link href={i.path} key={i.path}>
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a
-        className={classnames('usa-nav__link', i.className, {
-          'usa-current': i.path === router.pathname,
-        })}>
-        <span>{i.label}</span>
-      </a>
-    </Link>
+    <NavLink
+      href={i.path}
+      key={i.path}
+      className={classnames('usa-nav__link', i.className)}
+      exact={i.path === '/'}>
+      <span>{i.label}</span>
+    </NavLink>
   ))
 
   const servicePortalItems = [
@@ -67,10 +65,9 @@ const Header = () => {
     { path: '/#manage-your-life', label: 'Manage your life' },
     { path: '/#work-tools', label: 'Work tools' },
   ].map((i) => (
-    <Link href={i.path} key={i.path}>
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a className="usa-nav__link">{i.label}</a>
-    </Link>
+    <LinkTo href={i.path} key={i.path} className="usa-nav__link">
+      {i.label}
+    </LinkTo>
   ))
 
   const servicePortalMenu = (
@@ -102,22 +99,19 @@ const Header = () => {
         <div className="usa-nav-container">
           <div className="usa-navbar">
             <Title>
-              <Link href="/">
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a title="Home" aria-label="Home">
-                  <img
-                    className="logo-img"
-                    src="/img/ussf-logo.svg"
-                    alt="Space Force"
-                  />
+              <LinkTo href="/" title="Home" aria-label="Home">
+                <img
+                  className="logo-img"
+                  src="/img/ussf-logo.svg"
+                  alt="Space Force"
+                />
 
-                  {isHomePage ? (
-                    <h1 className="usa-sr-only">Space Force Portal home</h1>
-                  ) : (
-                    <span className="usa-sr-only">Space Force Portal</span>
-                  )}
-                </a>
-              </Link>
+                {isHomePage ? (
+                  <h1 className="usa-sr-only">Space Force Portal home</h1>
+                ) : (
+                  <span className="usa-sr-only">Space Force Portal</span>
+                )}
+              </LinkTo>
             </Title>
             <NavMenuButton label="Menu" onClick={handleToggleMobileNav} />
           </div>
