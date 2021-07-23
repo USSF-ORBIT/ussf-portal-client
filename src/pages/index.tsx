@@ -125,12 +125,12 @@ const Home = () => {
           <div className="grid-row grid-gap">
             <div className="tablet:grid-col-8">
               <div className={`${styles.contentLinks}`}>
-                <h2 className="font-heading-md text-normal border-top padding-top-2">
+                <h2 className="font-heading-md text-normal border-top padding-top-2 margin-top-0">
                   Manage Your Life
                 </h2>
                 <div className="section__links margin-top-3">
                   {manageYourLife.map((i) => (
-                    <a
+                    <LinkTo
                       href={i.path}
                       key={i.path}
                       className="section-links__item grid-row">
@@ -140,7 +140,7 @@ const Home = () => {
                       <div className="tablet:grid-col-8">
                         <p>{i.text}</p>
                       </div>
-                    </a>
+                    </LinkTo>
                   ))}
                 </div>
               </div>
@@ -151,7 +151,7 @@ const Home = () => {
                 </h2>
                 <div className="section__links margin-top-3">
                   {workTools.map((i) => (
-                    <a
+                    <LinkTo
                       href={i.path}
                       key={i.path}
                       className="section-links__item grid-row">
@@ -161,7 +161,7 @@ const Home = () => {
                       <div className="tablet:grid-col-8">
                         <p>{i.text}</p>
                       </div>
-                    </a>
+                    </LinkTo>
                   ))}
                 </div>
               </div>
@@ -187,16 +187,18 @@ const Home = () => {
                 <div className="grid-col-8 usa-prose">
                   <p className="font-body-md">
                     Start your journey in digital fluency with our{' '}
-                    <a href="/training-and-education/force-multiplier-program/">
+                    <LinkTo
+                      className="usa-link"
+                      href="/training-and-education/force-multiplier-program/">
                       Force Multiplier program
-                    </a>
+                    </LinkTo>
                     .
                   </p>
-                  <a
+                  <LinkTo
                     className="usa-button text-white text-no-underline"
                     href="/training-and-education/">
                     More in Training + Education
-                  </a>
+                  </LinkTo>
                 </div>
               </div>
               <h2 className="font-heading-md text-normal margin-top-10 border-top padding-top-2">
@@ -204,43 +206,43 @@ const Home = () => {
               </h2>
               <div className="portal-links usa-prose margin-top-3 margin-bottom-8">
                 <ul className="usa-list usa-list--unstyled display-flex flex-row flex-justify service-logos maxw-mobile">
-                  <li className="">
-                    <a
+                  <li>
+                    <LinkTo
                       className="usa-link usa-media-link display-flex flex-column flex-align-center"
                       href="https://www.hrcapps.army.mil/portal/">
                       <img src="img/army-logo-png.png" alt="Army" />
-                    </a>
+                    </LinkTo>
                   </li>
-                  <li className="">
-                    <a
+                  <li>
+                    <LinkTo
                       className="usa-link usa-media-link display-flex flex-column flex-align-center"
                       href="https://my.navy.mil/">
                       <img src="img/navy-logo-102.png" alt="Navy" />
-                    </a>
+                    </LinkTo>
                   </li>
-                  <li className="">
-                    <a
+                  <li>
+                    <LinkTo
                       className="usa-link usa-media-link display-flex flex-column flex-align-center"
                       href="https://www.my.af.mil/">
                       <img src="img/air-force-vector-101.png" alt="Air Force" />
-                    </a>
+                    </LinkTo>
                   </li>
-                  <li className="">
-                    <a
+                  <li>
+                    <LinkTo
                       className="usa-link usa-media-link display-flex flex-column flex-align-center"
                       href="https://mol.tfs.usmc.mil/">
                       <img src="img/marines-png-logo.png" alt="Marines" />
-                    </a>
+                    </LinkTo>
                   </li>
-                  <li className="">
-                    <a
+                  <li>
+                    <LinkTo
                       className="usa-link usa-media-link display-flex flex-column flex-align-center"
                       href="https://cgportal2.uscg.mil/">
                       <img
                         src="img/Coast-Guard-Emblem-logo.png"
                         alt="Coast Guard"
                       />
-                    </a>
+                    </LinkTo>
                   </li>
                 </ul>
               </div>
