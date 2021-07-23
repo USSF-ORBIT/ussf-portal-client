@@ -4,6 +4,27 @@ This is the client application for the new USSF portal website. It is a static s
 
 ## Development
 
+### Static site vs. NextJS server
+
+As development of the USSF portal progresses, we will be transitioning from a static site to one served by NextJS. During this period, we will need to be developing and supporting both the static site and the server-rendered site. Since NextJS supports both types, we can share code across them, but server-side features cannot be included in the static site build. Here are some key differences in how to develop & interact with either version:
+
+#### Local Development (`localhost:3000`)
+
+The `yarn dev` command starts the NextJS dev server at `localhost:3000`, but this assumes the site will be hosted on a webserver. It's easiest to use this while actively developing, but be cautious of including server features on static pages.
+
+- The [NextJS docs](https://nextjs.org/docs/basic-features/pages#two-forms-of-pre-rendering) detail the difference between **static generation** and **server-side rendering**. The key thing to keep in mind is that only **static generation** can be used on the static site.
+- In order to develop server features, we'll likely need to implement some kind of flag in the application code that is turned off when building the static site. The details of this will be determined & fleshed out in the docs as part of the work on https://github.com/USSF-ORBIT/ussf-portal-prototype/issues/30
+
+#### Testing & Deploying the Static Site (`localhost:5000`)
+
+- `yarn build:static` uses the [NextJS static export feature](https://nextjs.org/docs/advanced-features/static-html-export) to generate a static site into the `out/` directory. If the build includes any server features, it will throw an error. This build command must be used before `yarn serve:static`.
+- `yarn serve:static` uses [serve](https://github.com/vercel/serve) to serve the static site from the `out/` directory (defaulting to `localhost:5000`). You can use this locally to test the static site and it's also used to run Cypress tests against the static site.
+
+#### Testing & Deploying the NextJS Server (`localhost:3000`)
+
+- `yarn build` builds static assets that will be served by NextJS - these are _not_ the same as assets as the static site. This command must be used before `yarn serve`.
+- `yarn serve` starts the NextJS server running at `localhost:3000` (the same port used by the dev server). This is run in production mode, and will _not_ watch for code changes (you will have to rebuild and restart the server).
+
 ### Environment Setup
 
 - Make sure you are using the version of node specified in `.node-version`.
@@ -20,6 +41,7 @@ Most commonly used during development:
 - `yarn dev`: Starts NextJS server in development mode and watches for changed files
 - `yarn storybook`: Starts the Storybook component library on port 6006
 - `yarn test:watch`: Run Jest tests in watch mode
+- `yarn cypress:dev`: Start the Cypress test runner UI
 
 Other (you won't use these often):
 
@@ -30,6 +52,7 @@ Other (you won't use these often):
 - `yarn build`: Builds the NextJS production asset bundle
 - `yarn start`: Starts the NextJS server in production mode
 - `yarn build:static`: Build the static site asset bundle for deploy
+- `yarn start:static`: Serves the static site using the [`serve`](https://github.com/vercel/serve) module
 - `yarn build:analyze`: Builds the asset bundle and generates webpack stats files
 
 ### Working on an issue
@@ -98,3 +121,11 @@ Closes #123
 ```
 
 The footer should also include `BREAKING CHANGE:` if the commit includes any breaking changes. This will make sure the major version is automatically bumped when this commit is released.
+
+## Testing
+
+- Use [Jest](https://jestjs.io/) to write unit tests for JavaScript code & React components that will be run in [jsdom](https://github.com/jsdom/jsdom).
+  - We are currently enforcing a minimum Jest test coverage of 95% across the codebase.
+  - All Jest tests are run in Github CI and must pass before merging.
+- Use [Cypress](https://www.cypress.io/) to write integration & end-to-end tests that can be run in a real browser. This allows testing certain browser behaviors that are not reproducible in jsdom.
+  - All Cypress tests are run in Github CI and must pass before merging. Currently, they are only run against the static site (since that is what is currently in production) at `localhost:5000`.

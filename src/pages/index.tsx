@@ -4,8 +4,7 @@ import { CardGroup } from '@trussworks/react-uswds'
 import CovidSiteAlert from 'components/MVP/CovidSiteAlert/CovidSiteAlert'
 import type { AnnouncementCardProps } from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
-import ContentListGroup from 'components/MVP/ContentList/ContentListGroup'
-import ContentListItem from 'components/MVP/ContentList/ContentListItem'
+import LinkTo from 'components/util/LinkTo/LinkTo'
 
 import styles from 'styles/mvp/index.module.scss'
 const Home = () => {
