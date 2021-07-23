@@ -1,8 +1,58 @@
+import { useEffect, useState } from 'react'
 import { GridContainer, Grid, CardGroup } from '@trussworks/react-uswds'
 import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
+const RSS_URL = `https://www.spaceforce.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=1060&max=10`
+
+type NewsItem = {
+  desc?: string
+  date?: string
+  link?: string
+  title?: string
+}
+
 const News = () => {
+  const [newsItems, setNewsItems] = useState<NewsItem[]>([])
+
+  // Fetch RSS items on load
+  useEffect(() => {
+    fetch(RSS_URL)
+      .then((resp) => resp.text())
+      .then((str) => new window.DOMParser().parseFromString(str, 'text/xml'))
+      .then((data) => {
+        const items = data.querySelectorAll('item')
+        const newsObjects: NewsItem[] = []
+        items.forEach((el) => {
+          const desc = el
+            .querySelector('description')
+            ?.innerHTML.split('&lt;br')[0]
+
+          const date = el.querySelector('pubDate')?.innerHTML
+          const formattedDate =
+            date &&
+            new Date(date)
+              .toLocaleString('en-US', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+              })
+              .toUpperCase()
+          const link = el.querySelector('link')?.innerHTML
+          const title = el.querySelector('title')?.innerHTML
+
+          newsObjects.push({
+            desc,
+            date: formattedDate,
+            link,
+            title,
+          })
+        })
+
+        setNewsItems(newsObjects)
+      })
+  }, [RSS_URL])
+
   return (
     <>
       <section className="usa-section bg-news text-white">
@@ -46,7 +96,21 @@ const News = () => {
 
                 <h2 className="section-header">News</h2>
                 <Grid tablet={{ col: 9 }} className="margin-top-4">
-                  news
+                  {newsItems.map((newsItem, i) => (
+                    <article key={`newsItem_${i}`}>
+                      <p className="heading--small margin-top-3">
+                        {newsItem.date}
+                      </p>
+                      <LinkTo
+                        className="usa-link usa-prose display-inline-block margin-top-1 text-no-underline hover:text-underline"
+                        href={newsItem.link || ''}>
+                        <h3 className="font-heading-lg text-bold">
+                          {newsItem.title}
+                        </h3>
+                      </LinkTo>
+                      <p>{newsItem.desc}</p>
+                    </article>
+                  ))}
                 </Grid>
               </div>
             </Grid>
