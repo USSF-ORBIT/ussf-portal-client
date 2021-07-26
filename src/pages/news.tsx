@@ -12,6 +12,18 @@ type NewsItem = {
   title?: string
 }
 
+export const NewsArticle = ({ date, link, title, desc }: NewsItem) => (
+  <article>
+    <p className="heading--small margin-top-3">{date}</p>
+    <LinkTo
+      className="usa-link usa-prose display-inline-block margin-top-1 text-no-underline hover:text-underline"
+      href={link || ''}>
+      <h3 className="font-heading-lg text-bold">{title}</h3>
+    </LinkTo>
+    <p>{desc}</p>
+  </article>
+)
+
 const News = () => {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([])
 
@@ -50,6 +62,10 @@ const News = () => {
         })
 
         setNewsItems(newsObjects)
+      })
+      .catch(() => {
+        // Error displaying RSS articles
+        console.error('Error displaying RSS feed')
       })
   }, [RSS_URL])
 
@@ -97,19 +113,7 @@ const News = () => {
                 <h2 className="section-header">News</h2>
                 <Grid tablet={{ col: 9 }} className="margin-top-4">
                   {newsItems.map((newsItem, i) => (
-                    <article key={`newsItem_${i}`}>
-                      <p className="heading--small margin-top-3">
-                        {newsItem.date}
-                      </p>
-                      <LinkTo
-                        className="usa-link usa-prose display-inline-block margin-top-1 text-no-underline hover:text-underline"
-                        href={newsItem.link || ''}>
-                        <h3 className="font-heading-lg text-bold">
-                          {newsItem.title}
-                        </h3>
-                      </LinkTo>
-                      <p>{newsItem.desc}</p>
-                    </article>
+                    <NewsArticle key={`newsItem_${i}`} {...newsItem} />
                   ))}
                 </Grid>
               </div>
