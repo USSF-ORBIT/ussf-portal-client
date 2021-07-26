@@ -14,7 +14,7 @@
       font-weight: 400;
       letter-spacing: 0.15em;
       border-radius: 2px;
-      line-height: 1.4;
+      line-height: lh('body', 3);
       padding: 3px 6px;
       vertical-align: bottom;
     }
@@ -27,19 +27,11 @@
         url(/img/bday.webp);
       background-size: cover;
     }
-    .usa-card-group + h2 {
-      margin-top: units(6) !important;
-    }
     .usa-card__container {
       &:hover {
         background-blend-mode: soft-light;
         border-color: color('primary-light');
       }
-    }
-    .usa-tag {
-      line-height: lh('body', 3);
-      padding: 3px 6px;
-      vertical-align: bottom;
     }
   }
 }

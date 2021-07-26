@@ -19,10 +19,8 @@ const USSFPortalApp = ({ Component, pageProps }: AppProps) => {
           content="width=device-width, initial-scale=1"
           key="viewport"
         />
-
         <link rel="canonical" href={canonicalUrl + asPath} />
         <title>Space Force Portal</title>
-
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -46,11 +44,11 @@ const USSFPortalApp = ({ Component, pageProps }: AppProps) => {
           crossOrigin="use-credentials"
         />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
-        {/* Fix Next.js's rendering of font awesome css*/}
-        <style>{dom.css()}</style>
+        {/* https://github.com/FortAwesome/react-fontawesome/issues/284 */}
+        {/* Fix Next.js's rendering of font awesome css */}
+        <style>${dom.css()}</style>
       </Head>
       <DefaultLayout>
         <Component {...pageProps} />
