@@ -28,7 +28,7 @@ const News = () => {
             .querySelector('description')
             ?.innerHTML.split('&lt;br')[0]
 
-          const date = el.querySelector('pubDate')?.innerHTML
+          const date = el.querySelector('pubDate')?.textContent || ''
           const formattedDate =
             date &&
             new Date(date)
@@ -38,8 +38,8 @@ const News = () => {
                 year: 'numeric',
               })
               .toUpperCase()
-          const link = el.querySelector('link')?.innerHTML
-          const title = el.querySelector('title')?.innerHTML
+          const link = el.querySelector('link')?.textContent || ''
+          const title = el.querySelector('title')?.textContent || ''
 
           newsObjects.push({
             desc,
