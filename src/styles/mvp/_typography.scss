@@ -30,17 +30,35 @@ main,
   }
 }
 
-.page-default {
-  main {
-    h2 {
-      border-top: 1px solid color('ink');
-      margin-top: units(10);
-      padding-top: units(3);
+h1.page-header {
+  margin-top: units(1);
+}
 
-      + * {
-        margin-top: units(4);
-      }
-    }
+h2.section-header {
+  border-top: 1px solid color('ink');
+  margin-top: units(10);
+  padding-top: units(3);
+
+  + * {
+    margin-top: units(4);
+  }
+
+  &:first-child {
+    margin-top: units(0);
+  }
+}
+
+.usa-card-group + h2.section-header {
+  margin-top: units(6);
+}
+
+h2.sidebar-header {
+  @include u-font-size('body', 'md');
+  margin-top: units(4);
+  padding-top: units(3);
+
+  + * {
+    margin-top: units(4);
   }
 }
 
@@ -50,4 +68,13 @@ main,
 
 .launch-schedule-link {
   font-size: 12px;
+}
+
+.usa-prose > p + .launch-payload {
+  margin-top: units(0.5);
+}
+
+.usa-prose > .launch-border {
+  margin-top: units(1);
+  margin-bottom: units(2);
 }

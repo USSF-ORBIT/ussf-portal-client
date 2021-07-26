@@ -1,0 +1,47 @@
+.launch-img {
+  height: 6rem;
+  object-fit: cover;
+  object-position: top;
+  width: 100%;
+}
+
+.accomplishments-list {
+  margin-top: units(4);
+  margin-bottom: units(2);
+  margin-left: units(-2);
+  @include u-padding-y(2);
+  counter-reset: usa-numbered-list 6;
+
+  .fa-rocket {
+    width: 22px;
+    height: 22px;
+    color: color('primary-vivid');
+  }
+
+  .usa-process-list__heading {
+    text-transform: uppercase;
+    letter-spacing: letter-spacing(2);
+  }
+
+  > .usa-process-list__item {
+    @include u-margin-x(0);
+    border-left-color: color('blue-warm-20v');
+    max-width: none;
+
+    &:last-child {
+      border-left-color: transparent;
+    }
+  }
+
+  > .usa-process-list__item:before {
+    counter-increment: usa-numbered-list -1;
+    color: color('white');
+    font-size: 1.3em;
+    border-width: 0;
+    background: color('primary-vivid');
+    width: units(4);
+    height: units(4);
+    margin-left: units(0.5);
+    margin-top: 0;
+  }
+}
