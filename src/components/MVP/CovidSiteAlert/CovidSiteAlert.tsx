@@ -11,7 +11,6 @@ const CovidSiteAlert = () => {
       showIcon={false}
       className={`${styles.covidSiteAlert}`}>
       <FontAwesomeIcon icon={faArrowRight} className="margin-right-1" />
-
       <p className="line-height-sans-3 margin-y-0 text-ink">
         Our response to COVID-19 is rapidly evolving. Always check your
         installation for local guidance. Read{' '}
