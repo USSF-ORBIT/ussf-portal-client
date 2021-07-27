@@ -22,17 +22,20 @@ const TrainingAndEducation = () => {
       </section>
 
       <section className="usa-section">
-        <div className="grid-container">
-          <div className="grid-row grid-gap">
-            <div className="tablet:grid-col-8">
+        <GridContainer>
+          <Grid row gap>
+            <Grid tablet={{ col: 8 }}>
               <div className="usa-prose">
                 <p className="usa-intro">
                   To be successful in space operations, we must all acquire and
                   use cutting-edge digital skills. This service-wide program
                   introduces and builds digital fluency in four key areas.
                 </p>
-                <div className="grid-row margin-top-8 training">
-                  <div className="tablet:grid-col-8 usa-prose bg-gray-cool-3 padding-3">
+                <Grid row className="margin-top-8 training">
+                  <Grid
+                    tablet={{ col: 8 }}
+                    className="usa-prose bg-gray-cool-3 padding-3">
+                    {/* <div className="tablet:grid-col-8 usa-prose bg-gray-cool-3 padding-3"> */}
                     <div className="squares position-relative padding-top-5">
                       {/* We can only access this FA Pro icon using the compiled css, not the FontAwesome component */}
                       <i className="fas fa-triangle position-absolute top-0 z-500 text-blue-20 left-1"></i>
@@ -45,8 +48,10 @@ const TrainingAndEducation = () => {
                       Learn about the capabilities of modern infrastructure.
                       Understand the benefits they can bring our service.
                     </p>
-                  </div>
-                  <div className="tablet:grid-col-4 usa-prose bg-primary-vivid text-white padding-3">
+                  </Grid>
+                  <Grid
+                    tablet={{ col: 4 }}
+                    className="usa-prose bg-primary-vivid text-white padding-3">
                     <h3 className="training-heading text-uppercase font-heading-3xs text-ls-3">
                       Topics
                     </h3>
@@ -60,10 +65,13 @@ const TrainingAndEducation = () => {
                     <p className="margin-top-05 text-white font-body-3xs">
                       56 minutes
                     </p>
-                  </div>
-                </div>
-                <div className="grid-row margin-top-4">
-                  <div className="tablet:grid-col-8 usa-prose bg-gray-cool-3 padding-3">
+                  </Grid>
+                </Grid>
+
+                <Grid row className="margin-top-4">
+                  <Grid
+                    tablet={{ col: 8 }}
+                    className="usa-prose bg-gray-cool-3 padding-3">
                     <div className="squares position-relative padding-top-5">
                       <i className="fas fa-circle position-absolute top-0 z-500 text-blue-20 left-1"></i>
                       <i className="fas fa-circle position-absolute z-top top-1 text-primary-vivid"></i>
@@ -75,8 +83,10 @@ const TrainingAndEducation = () => {
                       Learn how digital products that serve the needs of the
                       user and the mission are built.
                     </p>
-                  </div>
-                  <div className="tablet:grid-col-4 usa-prose bg-primary-vivid text-white padding-3">
+                  </Grid>
+                  <Grid
+                    tablet={{ col: 4 }}
+                    className="usa-prose bg-primary-vivid text-white padding-3">
                     <h3 className="training-heading text-uppercase font-heading-3xs text-ls-3">
                       Topics
                     </h3>
@@ -90,10 +100,12 @@ const TrainingAndEducation = () => {
                     <p className="margin-top-05 text-white font-body-3xs">
                       2 hours, 20 minutes
                     </p>
-                  </div>
-                </div>
-                <div className="grid-row margin-top-4">
-                  <div className="tablet:grid-col-8 usa-prose bg-gray-cool-3 padding-3">
+                  </Grid>
+                </Grid>
+                <Grid row className="margin-top-4">
+                  <Grid
+                    tablet={{ col: 8 }}
+                    className="usa-prose bg-gray-cool-3 padding-3">
                     <div className="squares position-relative padding-top-5">
                       <i className="fas fa-square position-absolute top-0 z-500 text-blue-20 left-1"></i>
                       <i className="fas fa-square position-absolute z-top top-1 text-primary-vivid"></i>
@@ -105,7 +117,7 @@ const TrainingAndEducation = () => {
                       Learn how we can analyze raw data using data science and
                       artificial intelligence to create a warfighting advantage.
                     </p>
-                  </div>
+                  </Grid>
                   <div className="tablet:grid-col-4 usa-prose bg-primary-vivid text-white padding-3">
                     <h3 className="training-heading text-uppercase font-heading-3xs text-ls-3">
                       Topics
@@ -121,9 +133,11 @@ const TrainingAndEducation = () => {
                       1 hour, 43 minutes
                     </p>
                   </div>
-                </div>
-                <div className="grid-row margin-top-4">
-                  <div className="tablet:grid-col-8 usa-prose bg-gray-cool-3 padding-3">
+                </Grid>
+                <Grid row className="margin-top-4">
+                  <Grid
+                    tablet={{ col: 8 }}
+                    className="usa-prose bg-gray-cool-3 padding-3">
                     <div className="squares position-relative padding-top-5">
                       {/* We can only access this FA Pro icon using the compiled css, not the FontAwesome component */}
                       <i className="fas fa-hexagon position-absolute top-0 z-500 text-blue-20 left-1"></i>
@@ -136,7 +150,7 @@ const TrainingAndEducation = () => {
                       Get tactical knowledge of how cybersecurity is protecting
                       our space enterprise networks from threats.
                     </p>
-                  </div>
+                  </Grid>
                   <div className="tablet:grid-col-4 usa-prose bg-primary-vivid text-white padding-3">
                     <h3 className="training-heading training-heading text-uppercase font-heading-3xs text-ls-3">
                       Topics
@@ -153,10 +167,12 @@ const TrainingAndEducation = () => {
                       2 hours, 32 minutes
                     </p>
                   </div>
-                </div>
+                </Grid>
               </div>
-            </div>
-            <div className="tablet:grid-col-4 margin-top-4 tablet:margin-top-0">
+            </Grid>
+            <Grid
+              tablet={{ col: 4 }}
+              className="margin-top-4 tablet:margin-top-0">
               <div className="training__sidebar bg-base-lightest usa-prose padding-3 font-body-2xs">
                 <h3 className="font-heading-sm">HOW TO REGISTER</h3>
                 <p>
@@ -207,10 +223,9 @@ const TrainingAndEducation = () => {
                   .
                 </p>
               </div>
-            </div>
-          </div>
-        </div>
-        `
+            </Grid>
+          </Grid>
+        </GridContainer>
       </section>
     </>
   )
