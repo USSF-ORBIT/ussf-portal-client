@@ -78,3 +78,36 @@ h2.sidebar-header {
   margin-top: units(1);
   margin-bottom: units(2);
 }
+
+.banner .usa-intro {
+  color: color('base-light');
+  margin-top: units(1);
+}
+
+.page-training__fmp {
+  .training__sidebar {
+    h3 {
+      color: color('violet-warm-60v');
+      font-weight: bold;
+      font-size: 15px !important;
+      letter-spacing: 0.025em;
+    }
+  }
+}
+
+.squares {
+  i {
+    font-size: units(6);
+    padding-top: 4px;
+
+    &:last-child {
+      background: -webkit-linear-gradient(45deg, #0050d8, #00bde3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  div {
+    transform: rotate(45deg); //TODO move this
+  }
+}
