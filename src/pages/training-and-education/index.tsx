@@ -25,7 +25,7 @@ const TrainingAndEducation = () => {
                     tag="training"
                     bgColor="gradient--blue bg-primary"
                     cols={6}
-                    path="/training-and-education/force-multiplier/"
+                    path="/training-and-education/force-multiplier-program"
                   />
                 </ul>
 
