@@ -45,3 +45,12 @@
     margin-top: 0;
   }
 }
+
+.usa-button,
+.usa-prose > a.usa-button {
+  background-color: color('blue-warm-60v');
+  color: color('white');
+  text-decoration: none;
+  @include heading-small;
+  @extend .radius-pill;
+}

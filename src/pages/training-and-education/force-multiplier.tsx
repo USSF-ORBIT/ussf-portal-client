@@ -1,5 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircle, faSquare } from '@fortawesome/free-solid-svg-icons'
 import { GridContainer, Grid } from '@trussworks/react-uswds'
-import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const TrainingAndEducation = () => {
@@ -14,6 +15,11 @@ const TrainingAndEducation = () => {
           <p className="usa-intro text-light font-heading-lg">
             The Digital University Force Multiplier Program
           </p>
+          <a
+            className="usa-button usa-button--big external-link--alt text-white text-no-underline"
+            href="http://digitalu.udemy.com">
+            Register
+          </a>
         </div>
       </section>
 
@@ -30,10 +36,16 @@ const TrainingAndEducation = () => {
                 <div className="grid-row margin-top-8">
                   <div className="tablet:grid-col-8 usa-prose bg-gray-cool-3 padding-3">
                     <div className="squares position-relative padding-top-5">
-                      <i className="fas fa-triangle position-absolute top-0 z-500 text-blue-20 left-1"></i>
-                      <i className="fas fa-triangle position-absolute z-top top-1 text-primary-vivid"></i>
+                      <FontAwesomeIcon
+                        icon={faCircle}
+                        className="fas fa-triangle position-absolute top-0 z-500 text-blue-20 left-1"
+                      />
+                      <FontAwesomeIcon
+                        icon={faCircle}
+                        className="fas fa-triangle position-absolute z-top top-1 text-primary-vivid"
+                      />
                     </div>
-                    <h2 className="text-no-uppercase text-ls-auto text-bold">
+                    <h2 className="training-heading">
                       Introduction to Modern Infrastructure
                     </h2>
                     <p className="text-base-darker">
@@ -63,7 +75,7 @@ const TrainingAndEducation = () => {
                       <i className="fas fa-circle position-absolute top-0 z-500 text-blue-20 left-1"></i>
                       <i className="fas fa-circle position-absolute z-top top-1 text-primary-vivid"></i>
                     </div>
-                    <h2 className="text-no-uppercase text-ls-auto text-bold">
+                    <h2 className="training-heading">
                       Digital Product Development
                     </h2>
                     <p className="text-base-darker">
@@ -90,10 +102,16 @@ const TrainingAndEducation = () => {
                 <div className="grid-row margin-top-4">
                   <div className="tablet:grid-col-8 usa-prose bg-gray-cool-3 padding-3">
                     <div className="squares position-relative padding-top-5">
-                      <i className="fas fa-square position-absolute top-0 z-500 text-blue-20 left-1"></i>
-                      <i className="fas fa-square position-absolute z-top top-1 text-primary-vivid"></i>
+                      <FontAwesomeIcon
+                        icon={faSquare}
+                        className="fas fa-triangle position-absolute top-0 z-500 text-blue-20 left-1"
+                      />
+                      <FontAwesomeIcon
+                        icon={faSquare}
+                        className="fas fa-triangle position-absolute z-top top-1 text-primary-vivid"
+                      />
                     </div>
-                    <h2 className="text-no-uppercase text-ls-auto text-bold">
+                    <h2 className="training-heading">
                       Data Science and Artificial Intelligence
                     </h2>
                     <p className="text-base-darker">
@@ -123,7 +141,7 @@ const TrainingAndEducation = () => {
                       <i className="fas fa-hexagon position-absolute top-0 z-500 text-blue-20 left-1"></i>
                       <i className="fas fa-hexagon position-absolute z-top top-1 text-primary-vivid"></i>
                     </div>
-                    <h2 className="text-no-uppercase text-ls-auto text-bold">
+                    <h2 className="training-heading">
                       Cybersecurity in the DOD
                     </h2>
                     <p className="text-base-darker">
@@ -155,8 +173,10 @@ const TrainingAndEducation = () => {
                 <h3 className="font-heading-sm">HOW TO REGISTER</h3>
                 <p>
                   Go to{' '}
-                  <a href="http://digitalu.udemy.com">digitalu.udemy.com</a> and
-                  create an account using your .mil email address.
+                  <a className="usa-link" href="http://digitalu.udemy.com">
+                    digitalu.udemy.com
+                  </a>{' '}
+                  and create an account using your .mil email address.
                 </p>
                 <h3 className="font-heading-sm">
                   LEARN AT YOUR PACE, FROM ANYWHERE
@@ -184,11 +204,16 @@ const TrainingAndEducation = () => {
                 <p>
                   For questions about the Force Multiplier program, or issues
                   getting registered, email{' '}
-                  <a href="mailto:digitalu@us.af.mil">digitalu@us.af.mil</a>.
+                  <a className="usa-link" href="mailto:digitalu@us.af.mil">
+                    digitalu@us.af.mil
+                  </a>
+                  .
                 </p>
                 <p>
                   For technical support issues with the Udemy website, email{' '}
-                  <a href="mailto:ufbsupport@udemy.com">ufbsupport@udemy.com</a>
+                  <a className="usa-link" href="mailto:ufbsupport@udemy.com">
+                    ufbsupport@udemy.com
+                  </a>
                   .
                 </p>
               </div>
