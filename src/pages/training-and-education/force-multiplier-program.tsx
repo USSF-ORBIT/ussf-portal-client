@@ -1,7 +1,7 @@
 import { GridContainer, Grid } from '@trussworks/react-uswds'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
-const TrainingAndEducation = () => {
+const ForceMultiplierProgram = () => {
   return (
     <>
       <section className="banner usa-section bg-training text-white">
@@ -231,4 +231,4 @@ const TrainingAndEducation = () => {
   )
 }
 
-export default TrainingAndEducation
+export default ForceMultiplierProgram
