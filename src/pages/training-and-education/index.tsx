@@ -35,7 +35,7 @@ const TrainingAndEducation = () => {
 
                 <div className="border-top border-base-lighter padding-y-2">
                   <LinkTo
-                    href="/training-and-education/force-multiplier-program/"
+                    href="/training-and-education/force-multiplier-program"
                     className="usa-link font-body-md">
                     Digital University Force Multiplier Program
                   </LinkTo>
