@@ -11,6 +11,16 @@ describe('The MVP site', () => {
     cy.url().should('contain', '/#work-tools')
   })
 
+  it('contains the expected meta data', () => {
+    cy.document()
+    cy.get('head title').should('contain', 'Space Force Portal')
+    cy.get('head link[rel="canonical"]').should(
+      'have.attr',
+      'href',
+      Cypress.config().baseUrl + '/'
+    )
+  })
+
   it('can navigate to the Training and Education page', () => {
     cy.contains('More in Training + Education').click()
     cy.url().should('contain', '/training-and-education')
