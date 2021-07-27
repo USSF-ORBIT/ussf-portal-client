@@ -3,7 +3,7 @@
  */
 import { render, screen } from '@testing-library/react'
 
-import AboutUs from 'pages/about-us'
+import AboutUs from 'pages/about-us/index'
 
 describe('About Us page', () => {
   beforeEach(() => {
