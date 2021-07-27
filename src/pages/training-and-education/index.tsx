@@ -5,7 +5,7 @@ import LinkTo from 'components/util/LinkTo/LinkTo'
 const TrainingAndEducation = () => {
   return (
     <>
-      <section className="usa-section bg-about text-white">
+      <section className="usa-section bg-training text-white">
         <div className="usa-prose grid-container">
           <span className="text-uppercase text-ls-3 text-primary-light text-bold">
             Training and Education
