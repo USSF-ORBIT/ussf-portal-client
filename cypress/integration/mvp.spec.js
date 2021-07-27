@@ -4,8 +4,27 @@ describe('The MVP site', () => {
   })
 
   it('lands on the home page', () => {
-    // TODO - home page tests here
-    cy.contains('USSF Portal')
+    cy.contains('Manage your life').click()
+    cy.url().should('contain', '/#manage-your-life')
+
+    cy.contains('Work tools').click()
+    cy.url().should('contain', '/#work-tools')
+  })
+
+  it('contains the expected meta data', () => {
+    cy.document()
+    cy.get('head title').should('contain', 'Space Force Portal')
+    cy.get('head link[rel="canonical"]').should(
+      'have.attr',
+      'href',
+      Cypress.config().baseUrl + '/'
+    )
+  })
+
+  it('can navigate to the Training and Education page', () => {
+    cy.contains('More in Training + Education').click()
+    cy.url().should('contain', '/training-and-education')
+    // #TODO Confirm Training and Education page
   })
 
   it('can navigate to the News page', () => {
