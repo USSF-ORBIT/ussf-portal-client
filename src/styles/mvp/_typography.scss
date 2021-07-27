@@ -74,9 +74,17 @@ h2.sidebar-header {
   margin-top: units(0.5);
 }
 
+.usa-prose > p + .training {
+  margin-top: 4rem;
+}
+
 .usa-prose > .launch-border {
   margin-top: units(1);
   margin-bottom: units(2);
+}
+
+.usa-prose > h3.training-heading + * {
+  margin-top: 0.25rem;
 }
 
 .banner .usa-intro {
@@ -113,6 +121,7 @@ h2.sidebar-header {
 h2.training-heading {
   font-weight: bold;
   text-transform: none;
+  letter-spacing: initial;
 }
 
 h3.training-heading {

@@ -1,6 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircle, faSquare } from '@fortawesome/free-solid-svg-icons'
-
 import { GridContainer, Grid } from '@trussworks/react-uswds'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
@@ -16,11 +13,11 @@ const TrainingAndEducation = () => {
           <p className="usa-intro text-light font-heading-lg">
             The Digital University Force Multiplier Program
           </p>
-          <a
+          <LinkTo
             className="usa-button usa-button--big external-link--alt text-white text-no-underline"
             href="http://digitalu.udemy.com">
             Register
-          </a>
+          </LinkTo>
         </div>
       </section>
 
@@ -34,7 +31,7 @@ const TrainingAndEducation = () => {
                   use cutting-edge digital skills. This service-wide program
                   introduces and builds digital fluency in four key areas.
                 </p>
-                <div className="grid-row margin-top-8">
+                <div className="grid-row margin-top-8 training">
                   <div className="tablet:grid-col-8 usa-prose bg-gray-cool-3 padding-3">
                     <div className="squares position-relative padding-top-5">
                       {/* We can only access this FA Pro icon using the compiled css, not the FontAwesome component */}
@@ -164,9 +161,9 @@ const TrainingAndEducation = () => {
                 <h3 className="font-heading-sm">HOW TO REGISTER</h3>
                 <p>
                   Go to{' '}
-                  <a className="usa-link" href="http://digitalu.udemy.com">
+                  <LinkTo className="usa-link" href="http://digitalu.udemy.com">
                     digitalu.udemy.com
-                  </a>{' '}
+                  </LinkTo>{' '}
                   and create an account using your .mil email address.
                 </p>
                 <h3 className="font-heading-sm">
@@ -195,16 +192,18 @@ const TrainingAndEducation = () => {
                 <p>
                   For questions about the Force Multiplier program, or issues
                   getting registered, email{' '}
-                  <a className="usa-link" href="mailto:digitalu@us.af.mil">
+                  <LinkTo className="usa-link" href="mailto:digitalu@us.af.mil">
                     digitalu@us.af.mil
-                  </a>
+                  </LinkTo>
                   .
                 </p>
                 <p>
                   For technical support issues with the Udemy website, email{' '}
-                  <a className="usa-link" href="mailto:ufbsupport@udemy.com">
+                  <LinkTo
+                    className="usa-link"
+                    href="mailto:ufbsupport@udemy.com">
                     ufbsupport@udemy.com
-                  </a>
+                  </LinkTo>
                   .
                 </p>
               </div>
