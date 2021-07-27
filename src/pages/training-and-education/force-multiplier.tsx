@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle, faSquare } from '@fortawesome/free-solid-svg-icons'
+
 import { GridContainer, Grid } from '@trussworks/react-uswds'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
@@ -36,14 +37,9 @@ const TrainingAndEducation = () => {
                 <div className="grid-row margin-top-8">
                   <div className="tablet:grid-col-8 usa-prose bg-gray-cool-3 padding-3">
                     <div className="squares position-relative padding-top-5">
-                      <FontAwesomeIcon
-                        icon={faCircle}
-                        className="fas fa-triangle position-absolute top-0 z-500 text-blue-20 left-1"
-                      />
-                      <FontAwesomeIcon
-                        icon={faCircle}
-                        className="fas fa-triangle position-absolute z-top top-1 text-primary-vivid"
-                      />
+                      {/* We can only access this FA Pro icon using the compiled css, not the FontAwesome component */}
+                      <i className="fas fa-triangle position-absolute top-0 z-500 text-blue-20 left-1"></i>
+                      <i className="fas fa-triangle position-absolute z-top top-1 text-primary-vivid"></i>
                     </div>
                     <h2 className="training-heading">
                       Introduction to Modern Infrastructure
@@ -54,14 +50,14 @@ const TrainingAndEducation = () => {
                     </p>
                   </div>
                   <div className="tablet:grid-col-4 usa-prose bg-primary-vivid text-white padding-3">
-                    <h3 className="text-uppercase font-heading-3xs text-ls-3">
+                    <h3 className="training-heading text-uppercase font-heading-3xs text-ls-3">
                       Topics
                     </h3>
                     <p className="margin-top-05 text-white font-body-3xs">
                       cloud, microservices
                     </p>
                     <hr className="opacity-30" />
-                    <h3 className="text-uppercase font-heading-3xs text-ls-3">
+                    <h3 className="training-heading text-uppercase font-heading-3xs text-ls-3">
                       Duration
                     </h3>
                     <p className="margin-top-05 text-white font-body-3xs">
@@ -84,14 +80,14 @@ const TrainingAndEducation = () => {
                     </p>
                   </div>
                   <div className="tablet:grid-col-4 usa-prose bg-primary-vivid text-white padding-3">
-                    <h3 className="text-uppercase font-heading-3xs text-ls-3">
+                    <h3 className="training-heading text-uppercase font-heading-3xs text-ls-3">
                       Topics
                     </h3>
                     <p className="margin-top-05 text-white font-body-3xs">
                       user-centered design, DevOps
                     </p>
                     <hr className="opacity-30" />
-                    <h3 className="text-uppercase font-heading-3xs text-ls-3">
+                    <h3 className="training-heading text-uppercase font-heading-3xs text-ls-3">
                       Duration
                     </h3>
                     <p className="margin-top-05 text-white font-body-3xs">
@@ -102,14 +98,8 @@ const TrainingAndEducation = () => {
                 <div className="grid-row margin-top-4">
                   <div className="tablet:grid-col-8 usa-prose bg-gray-cool-3 padding-3">
                     <div className="squares position-relative padding-top-5">
-                      <FontAwesomeIcon
-                        icon={faSquare}
-                        className="fas fa-triangle position-absolute top-0 z-500 text-blue-20 left-1"
-                      />
-                      <FontAwesomeIcon
-                        icon={faSquare}
-                        className="fas fa-triangle position-absolute z-top top-1 text-primary-vivid"
-                      />
+                      <i className="fas fa-square position-absolute top-0 z-500 text-blue-20 left-1"></i>
+                      <i className="fas fa-square position-absolute z-top top-1 text-primary-vivid"></i>
                     </div>
                     <h2 className="training-heading">
                       Data Science and Artificial Intelligence
@@ -120,14 +110,14 @@ const TrainingAndEducation = () => {
                     </p>
                   </div>
                   <div className="tablet:grid-col-4 usa-prose bg-primary-vivid text-white padding-3">
-                    <h3 className="text-uppercase font-heading-3xs text-ls-3">
+                    <h3 className="training-heading text-uppercase font-heading-3xs text-ls-3">
                       Topics
                     </h3>
                     <p className="margin-top-05 text-white font-body-3xs">
                       artificial intelligence
                     </p>
                     <hr className="opacity-30" />
-                    <h3 className="text-uppercase font-heading-3xs text-ls-3">
+                    <h3 className="training-heading training-heading text-uppercase font-heading-3xs text-ls-3">
                       Duration
                     </h3>
                     <p className="margin-top-05 text-white font-body-3xs">
@@ -138,6 +128,7 @@ const TrainingAndEducation = () => {
                 <div className="grid-row margin-top-4">
                   <div className="tablet:grid-col-8 usa-prose bg-gray-cool-3 padding-3">
                     <div className="squares position-relative padding-top-5">
+                      {/* We can only access this FA Pro icon using the compiled css, not the FontAwesome component */}
                       <i className="fas fa-hexagon position-absolute top-0 z-500 text-blue-20 left-1"></i>
                       <i className="fas fa-hexagon position-absolute z-top top-1 text-primary-vivid"></i>
                     </div>
@@ -150,7 +141,7 @@ const TrainingAndEducation = () => {
                     </p>
                   </div>
                   <div className="tablet:grid-col-4 usa-prose bg-primary-vivid text-white padding-3">
-                    <h3 className="text-uppercase font-heading-3xs text-ls-3">
+                    <h3 className="training-heading training-heading text-uppercase font-heading-3xs text-ls-3">
                       Topics
                     </h3>
                     <p className="margin-top-05 text-white font-body-3xs">
@@ -158,7 +149,7 @@ const TrainingAndEducation = () => {
                       security
                     </p>
                     <hr className="opacity-30" />
-                    <h3 className="text-uppercase font-heading-3xs text-ls-3">
+                    <h3 className="training-heading training-heading text-uppercase font-heading-3xs text-ls-3">
                       Duration
                     </h3>
                     <p className="margin-top-05 text-white font-body-3xs">
