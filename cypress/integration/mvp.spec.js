@@ -47,6 +47,11 @@ describe('The MVP site', () => {
     cy.contains('Things we’re proud of')
   })
 
+  it('can navigate to the Training and Education page', () => {
+    cy.contains('Training and education').click()
+    cy.url().should('contain', '/training-and-education')
+    cy.contains('Learn and Grow')
+  })
   describe('the News page', () => {
     beforeEach(() => {
       cy.intercept(
