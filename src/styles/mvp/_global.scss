@@ -57,6 +57,11 @@
   text-decoration: none;
   @include heading-small;
   @extend .radius-pill;
+  &:hover {
+    background-color: color('primary-dark');
+    // background-color: #1a4480;
+    border-bottom: 0;
+  }
 }
 
 .page-news-feed {
