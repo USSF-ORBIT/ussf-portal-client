@@ -2,6 +2,7 @@
 @import 'styles/mvp/mixins';
 
 .card {
+  list-style-type: none;
   :global {
     .usa-card__heading {
       font-size: 1.25rem;
