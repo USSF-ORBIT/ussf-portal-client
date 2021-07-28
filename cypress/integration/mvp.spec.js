@@ -52,6 +52,20 @@ describe('The MVP site', () => {
     cy.url().should('contain', '/training-and-education')
     cy.contains('Learn and Grow')
   })
+
+  it('can navigate to the Force Multiplier Program page', () => {
+    cy.contains('Training and education').click()
+    cy.url().should('contain', '/training-and-education')
+    cy.contains(
+      'Start your journey in digital fluency with our Force Multiplier program.'
+    ).click()
+    cy.url().should(
+      'contain',
+      '/training-and-education/force-multiplier-program'
+    )
+    cy.contains('Become Digitally Fluent')
+  })
+
   describe('the News page', () => {
     beforeEach(() => {
       cy.intercept(

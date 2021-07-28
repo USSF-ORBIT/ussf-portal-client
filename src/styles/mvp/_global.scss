@@ -50,6 +50,19 @@
   }
 }
 
+.usa-button,
+.usa-prose > a.usa-button {
+  background-color: color('blue-warm-60v');
+  color: color('white');
+  text-decoration: none;
+  @include heading-small;
+  @extend .radius-pill;
+  &:hover {
+    background-color: color('primary-dark');
+    border-bottom: 0;
+  }
+}
+
 .page-news-feed {
   article {
     @include typeset($theme-prose-font-family);
