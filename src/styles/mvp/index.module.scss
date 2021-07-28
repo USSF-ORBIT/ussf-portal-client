@@ -1,0 +1,98 @@
+// Home Page Overrides
+@import 'styles/uswdsDependencies';
+@import 'styles/mvp/mixins';
+.home {
+  :global {
+    .quick-links {
+      width: fit-content;
+    }
+    .margin-top-10 {
+      margin-top: 5rem;
+    }
+    .font-heading-md {
+      font-size: 1.06rem;
+    }
+    .text-normal {
+      font-weight: 400;
+    }
+    .margin-top-2 {
+      margin-top: 1rem;
+    }
+    .service-logos {
+      img {
+        filter: grayscale(100%);
+        max-height: units(5);
+      }
+
+      p {
+        font-size: size('body', '2xs');
+      }
+    }
+    svg.education-icon--gradient * {
+      fill: url(#lg);
+    }
+
+    .education-icon {
+      font-size: units(8);
+    }
+
+    .education-icon--sm {
+      font-size: 40px;
+    }
+    .usa-prose > a.text-white {
+      color: color('white');
+      text-decoration: none;
+    }
+  }
+}
+
+.contentLinks {
+  :global {
+    .section__links {
+      h3 {
+        font-size: size('heading', 'sm');
+        margin-bottom: 0.5em;
+      }
+    }
+    .section-links__item {
+      border-top: 1px solid color('base-lighter');
+      color: color('primary') !important;
+      text-decoration: none !important;
+
+      &:hover {
+        background: color('gray-cool-2');
+        color: color('primary-dark') !important;
+      }
+
+      &:last-child {
+        border-bottom: 1px solid color('base-lighter');
+      }
+
+      p {
+        font-size: size('body', '2xs');
+        line-height: lh('body', 3);
+        margin-bottom: units(2);
+        color: #71767a;
+      }
+
+      h3,
+      p {
+        margin-top: units(2);
+      }
+
+      h3 {
+        font-weight: font-weight('bold');
+        line-height: lh('heading', 2);
+        margin-bottom: 0;
+
+        @include at-media('tablet') {
+          margin-bottom: units(2);
+          padding-right: units(2);
+        }
+      }
+    }
+    .text-normal {
+      font-weight: 400 !important;
+    }
+  }
+}
