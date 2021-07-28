@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "14.15.0"
+    "node": "14"
   },
   "scripts": {
     "dev": "next dev",
@@ -62,7 +62,7 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-security": "^1.4.0",
-    "husky": "^7.0.0",
+    "husky": "^7.0.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.0.6",
     "lint-staged": "^11.0.0",
