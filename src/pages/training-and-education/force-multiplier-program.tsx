@@ -35,7 +35,6 @@ const ForceMultiplierProgram = () => {
                   <Grid
                     tablet={{ col: 8 }}
                     className="usa-prose bg-gray-cool-3 padding-3">
-                    {/* <div className="tablet:grid-col-8 usa-prose bg-gray-cool-3 padding-3"> */}
                     <div className="squares position-relative padding-top-5">
                       {/* We can only access this FA Pro icon using the compiled css, not the FontAwesome component */}
                       <i className="fas fa-triangle position-absolute top-0 z-500 text-blue-20 left-1"></i>
