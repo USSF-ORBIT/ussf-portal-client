@@ -6,7 +6,7 @@ ARG NODE_ENV=production
 ENV PATH=/app/node_modules/.bin:$PATH \
   NODE_ENV="$NODE_ENV" \
   NEXT_TELEMETRY_DISABLED=1
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock /app/
 COPY scripts/copy_uswds_assets.sh scripts/copy_uswds_assets.sh
 EXPOSE 3000
 
@@ -23,21 +23,21 @@ RUN yarn install --production --frozen-lockfile && \
 # Build target development #
 ############################
 FROM dependencies AS development
-COPY . .
+COPY . /app
 CMD ["yarn", "dev"]
 
 # Build target builder #
 ########################
 FROM base AS builder
-COPY --from=dependencies /app/node_modules ./node_modules
-COPY . .
+COPY --from=dependencies /app/node_modules /app/node_modules
+COPY . /app
 RUN yarn build && \
   rm -rf node_modules
 
 # Build target production #
 ###########################
 FROM base AS production
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./next
-COPY --from=dependencies /prod_node_modules ./node_modules
+COPY --from=builder /app/public /app/public
+COPY --from=builder /app/.next /app/.next
+COPY --from=dependencies /prod_node_modules /app/node_modules
 CMD ["yarn", "start"]
