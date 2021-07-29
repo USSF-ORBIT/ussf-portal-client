@@ -23,7 +23,6 @@ RUN yarn install --production --frozen-lockfile && \
 # Build target development #
 ############################
 FROM dependencies AS development
-ENV NODE_ENV=development
 COPY . /app
 CMD ["yarn", "dev"]
 
