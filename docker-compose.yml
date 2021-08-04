@@ -1,21 +1,8 @@
 version: '3.8'
 services:
   app:
-    env_file:
-      - ./.envrc
-    build:
-      context: ./
-      dockerfile: ./Dockerfile
-      target: ${TARGET_ENV?}
-      args:
-        NODE_ENV: ${NODE_ENV?}
-
-    ports:
-      - '${APP_PORT?}:3000'
-
-    volumes:
-      - ./:/app
-      - /app/node_modules
-      - /app/.next
+    environment:
+      APP_ENV: ${APP_ENV}
+      APP_URL: ${APP_URL}
 
     restart: always
