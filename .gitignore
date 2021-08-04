@@ -8,6 +8,9 @@ node_modules/
 .next
 out/
 
+# Keystone output
+.keystone
+
 # Copied by yarn postinstall
 public/vendor/fonts
 public/vendor/img

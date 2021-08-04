@@ -21,9 +21,11 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "cypress:dev": "cypress open",
-    "postinstall": "sh ./scripts/copy_uswds_assets.sh"
+    "postinstall": "sh ./scripts/copy_uswds_assets.sh && keystone-next postinstall"
   },
   "dependencies": {
+    "@keystone-next/fields": "^13.0.0",
+    "@keystone-next/keystone": "^23.0.3",
     "@next/bundle-analyzer": "^11.0.1",
     "@trussworks/react-uswds": "^2.0.0",
     "classnames": "^2.3.1",
