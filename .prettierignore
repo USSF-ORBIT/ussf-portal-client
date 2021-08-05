@@ -25,3 +25,6 @@ coverage
 
 # dotenv environment variables file
 .env
+
+# Public assets
+public/

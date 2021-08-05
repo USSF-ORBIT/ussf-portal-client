@@ -4,8 +4,33 @@ describe('The MVP site', () => {
   })
 
   it('lands on the home page', () => {
-    // TODO - home page tests here
-    cy.contains('USSF Portal')
+    cy.contains('Manage your life').click()
+    cy.url().should('contain', '/#manage-your-life')
+
+    cy.contains('Work tools').click()
+    cy.url().should('contain', '/#work-tools')
+  })
+
+  it('contains the expected meta data', () => {
+    cy.document()
+    cy.get('head title').should('contain', 'Space Force Portal')
+    cy.get('head link[rel="canonical"]').should(
+      'have.attr',
+      'href',
+      Cypress.config().baseUrl + '/'
+    )
+  })
+
+  it('can navigate to the Training and Education page', () => {
+    cy.contains('More in Training + Education').click()
+    cy.url().should('contain', '/training-and-education')
+    // #TODO Confirm Training and Education page
+  })
+
+  it('can navigate to the News page', () => {
+    cy.contains('News').click()
+    cy.url().should('contain', '/news')
+    cy.contains('What’s New')
   })
 
   it('can navigate to the About Us page', () => {
@@ -20,5 +45,38 @@ describe('The MVP site', () => {
     cy.contains('Our accomplishments').click()
     cy.url().should('contain', '/about-us/accomplishments')
     cy.contains('Things we’re proud of')
+  })
+
+  it('can navigate to the Training and Education page', () => {
+    cy.contains('Training and education').click()
+    cy.url().should('contain', '/training-and-education')
+    cy.contains('Learn and Grow')
+  })
+
+  it('can navigate to the Force Multiplier Program page', () => {
+    cy.contains('Training and education').click()
+    cy.url().should('contain', '/training-and-education')
+    cy.contains(
+      'Start your journey in digital fluency with our Force Multiplier program.'
+    ).click()
+    cy.url().should(
+      'contain',
+      '/training-and-education/force-multiplier-program'
+    )
+    cy.contains('Become Digitally Fluent')
+  })
+
+  describe('the News page', () => {
+    beforeEach(() => {
+      cy.intercept(
+        'https://www.spaceforce.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=1060&max=10'
+      ).as('getNewsRSS')
+
+      cy.visit('/news')
+    })
+
+    it('loads news articles from an RSS feed', () => {
+      cy.wait(['@getNewsRSS'])
+    })
   })
 })

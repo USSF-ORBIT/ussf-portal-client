@@ -1,3 +1,7 @@
+.usa-prose h2 + .card-group--feature {
+  margin-top: units(4);
+}
+
 .launch-img {
   height: 6rem;
   object-fit: cover;
@@ -43,5 +47,55 @@
     height: units(4);
     margin-left: units(0.5);
     margin-top: 0;
+  }
+}
+
+.usa-button,
+.usa-prose > a.usa-button {
+  background-color: color('blue-warm-60v');
+  color: color('white');
+  text-decoration: none;
+  @include heading-small;
+  @extend .radius-pill;
+  &:hover {
+    background-color: color('primary-dark');
+    border-bottom: 0;
+  }
+}
+
+.page-news-feed {
+  article {
+    @include typeset($theme-prose-font-family);
+    border-top: 1px solid color('base-lighter');
+    padding-bottom: units(3);
+
+    &:last-child {
+      border-bottom: 1px solid color('base-lighter');
+    }
+
+    & > {
+      @include usa-content-styles;
+    }
+
+    p {
+      margin-top: units(1);
+    }
+
+    > p:first-child {
+      margin-top: units(3);
+    }
+
+    > a {
+      margin-top: units(1);
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    a h3 {
+      font-weight: bold;
+      font-size: font-size('heading', 'lg');
+    }
   }
 }
