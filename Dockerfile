@@ -8,8 +8,13 @@ WORKDIR /app
 
 # Default NODE_ENV to production
 ARG NODE_ENV=production
+ARG NEXT_PUBLIC_SITE_URL
+
 ENV PATH=/app/node_modules/.bin:$PATH \
-  NODE_ENV="$NODE_ENV"
+  NODE_ENV="$NODE_ENV" \
+  NEXT_PUBLIC_SITE_URL="$NEXT_PUBLIC_SITE_URL"
+ENV NEXT_TELEMETRY_DISABLED=1
+
 COPY package.json yarn.lock /app/
 COPY scripts/copy_uswds_assets.sh scripts/copy_uswds_assets.sh
 EXPOSE 3000

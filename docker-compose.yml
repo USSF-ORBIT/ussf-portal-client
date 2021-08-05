@@ -1,22 +1,13 @@
 version: '3.8'
 services:
   app:
-    environment:
-      - NODE_ENV
-      - TARGET_ENV
-      - APP_ENV
-      - APP_PORT
-      - APP_URL
-      - NEXT_PUBLIC_SITE_URL
-      - NEXT_TELEMETRY_DISABLED
-      - CYPRESS_BASE_URL
-
     build:
       context: ./
       dockerfile: ./Dockerfile
       target: ${TARGET_ENV?}
       args:
         NODE_ENV: ${NODE_ENV?}
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
 
     ports:
       - '${APP_PORT?}:3000'

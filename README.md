@@ -26,20 +26,6 @@ This is the client application for the new USSF portal website. It is a static s
    - [Install yarn](https://classic.yarnpkg.com/en/docs/install) if you do not already have it.
    - Type `yarn` or `yarn install` inside the project directory to install dependencies. You will need to do this once after cloning the project, and continuously if the dependencies in `package.json` change.
 
-### Running in Docker
-
-You can start the app and supporting services in the background with (defaults to development):
-
-```
-docker-compose up -d
-```
-
-To build the app & run the server like it does in production:
-
-```
-NODE_ENV=production TARGET_ENV=production docker-compose up -d
-```
-
 ### yarn scripts
 
 Most commonly used during development:
@@ -81,6 +67,37 @@ The `yarn dev` command starts the NextJS dev server at `localhost:3000`, but thi
 
 - `yarn build` builds static assets that will be served by NextJS - these are _not_ the same as assets as the static site. This command must be used before `yarn serve`.
 - `yarn serve` starts the NextJS server running at `localhost:3000` (the same port used by the dev server). This is run in production mode, and will _not_ watch for code changes (you will have to rebuild and restart the server).
+
+### Running in Docker
+
+To run the app in development mode (with hot reloading):
+
+```
+// Relies on the following env vars (which are the defaults in .envrc)
+// NODE_ENV=development
+// TARGET_ENV=development
+
+docker-compose up -d
+```
+
+To build the app & run the server in production mode:
+
+```
+// Relies on the following env vars (override in .envrc.local)
+// NODE_ENV=production
+// TARGET_ENV=production
+docker-compose up -d
+```
+
+You will need to rebuild when changing the env vars:
+
+```
+docker-compose down // if it was running
+direnv allow
+docker-compose up -d --build
+```
+
+Currently Docker is not set up to run the static site.
 
 ### Working on an issue
 
