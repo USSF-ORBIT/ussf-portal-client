@@ -34,4 +34,4 @@ cypress/videos
 
 # dotenv environment variables file
 .env
-.env.local
+.envrc.local

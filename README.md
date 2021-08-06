@@ -4,35 +4,27 @@ This is the client application for the new USSF portal website. It is a static s
 
 ## Development
 
-### Static site vs. NextJS server
-
-As development of the USSF portal progresses, we will be transitioning from a static site to one served by NextJS. During this period, we will need to be developing and supporting both the static site and the server-rendered site. Since NextJS supports both types, we can share code across them, but server-side features cannot be included in the static site build. Here are some key differences in how to develop & interact with either version:
-
-#### Local Development (`localhost:3000`)
-
-The `yarn dev` command starts the NextJS dev server at `localhost:3000`, but this assumes the site will be hosted on a webserver. It's easiest to use this while actively developing, but be cautious of including server features on static pages.
-
-- The [NextJS docs](https://nextjs.org/docs/basic-features/pages#two-forms-of-pre-rendering) detail the difference between **static generation** and **server-side rendering**. The key thing to keep in mind is that only **static generation** can be used on the static site.
-- In order to develop server features, we'll likely need to implement some kind of flag in the application code that is turned off when building the static site. The details of this will be determined & fleshed out in the docs as part of the work on https://github.com/USSF-ORBIT/ussf-portal-prototype/issues/30
-
-#### Testing & Deploying the Static Site (`localhost:5000`)
-
-- `yarn build:static` uses the [NextJS static export feature](https://nextjs.org/docs/advanced-features/static-html-export) to generate a static site into the `out/` directory. If the build includes any server features, it will throw an error. This build command must be used before `yarn serve:static`.
-- `yarn serve:static` uses [serve](https://github.com/vercel/serve) to serve the static site from the `out/` directory (defaulting to `localhost:5000`). You can use this locally to test the static site and it's also used to run Cypress tests against the static site.
-
-#### Testing & Deploying the NextJS Server (`localhost:3000`)
-
-- `yarn build` builds static assets that will be served by NextJS - these are _not_ the same as assets as the static site. This command must be used before `yarn serve`.
-- `yarn serve` starts the NextJS server running at `localhost:3000` (the same port used by the dev server). This is run in production mode, and will _not_ watch for code changes (you will have to rebuild and restart the server).
-
 ### Environment Setup
 
-- Make sure you are using the version of node specified in `.node-version`.
-  - We recommend using [nodenv](https://github.com/nodenv/nodenv) to install and manage node versions.
-- Use [yarn v1](https://yarnpkg.com) to manage JS packages.
-  - [Install yarn](https://yarnpkg.com/en/docs/install) if you do not already have it.
-  - Type `yarn` or `yarn install` inside the project directory to install dependencies. You will need to do this once after cloning the project, and continuously if the dependencies in `package.json` change.
-- Right now we’re using environment variables to store some non-sensitive environment data (like the site URLs). Copy `.env.local.template` into `.env.local` - this file is git ignored and you can use it to set local env vars.
+1. **Set up [direnv](https://direnv.net/docs/hook.html)**
+
+   - We're using direnv to manage environment variables.
+   - You'll have to type `direnv allow` in your shell to load environment variables when they change, and when navigating into a project directory.
+
+1. **Install [Docker](https://www.docker.com/products/docker-desktop)**
+
+   - We're using Docker to build & run the application.
+   - Since we are _not_ using Docker as a full development environment, you will still need to check your node version and install packages (in order to do things like run tests, linting, Storybook, etc. on your local machine).
+
+1. **Check your node version: `node -v`**
+
+   - Make sure you are using the version of node specified in `.node-version`.
+   - We recommend using [nodenv](https://github.com/nodenv/nodenv) to install and manage node versions.
+
+1. **Use [yarn v1](https://classic.yarnpkg.com/lang/en/) to manage JS packages**
+
+   - [Install yarn](https://classic.yarnpkg.com/en/docs/install) if you do not already have it.
+   - Type `yarn` or `yarn install` inside the project directory to install dependencies. You will need to do this once after cloning the project, and continuously if the dependencies in `package.json` change.
 
 ### yarn scripts
 
@@ -54,6 +46,58 @@ Other (you won't use these often):
 - `yarn build:static`: Build the static site asset bundle for deploy
 - `yarn start:static`: Serves the static site using the [`serve`](https://github.com/vercel/serve) module
 - `yarn build:analyze`: Builds the asset bundle and generates webpack stats files
+
+### Static site vs. NextJS server
+
+As development of the USSF portal progresses, we will be transitioning from a static site to one served by NextJS. During this period, we will need to be developing and supporting both the static site and the server-rendered site. Since NextJS supports both types, we can share code across them, but server-side features cannot be included in the static site build. Here are some key differences in how to develop & interact with either version:
+
+#### Local Development (`localhost:3000`)
+
+The `yarn dev` command starts the NextJS dev server at `localhost:3000`, but this assumes the site will be hosted on a webserver. It's easiest to use this while actively developing, but be cautious of including server features on static pages.
+
+- The [NextJS docs](https://nextjs.org/docs/basic-features/pages#two-forms-of-pre-rendering) detail the difference between **static generation** and **server-side rendering**. The key thing to keep in mind is that only **static generation** can be used on the static site.
+- In order to develop server features, we'll likely need to implement some kind of flag in the application code that is turned off when building the static site. The details of this will be determined & fleshed out in the docs as part of the work on https://github.com/USSF-ORBIT/ussf-portal-prototype/issues/30
+
+#### Testing & Deploying the Static Site (`localhost:5000`)
+
+- `yarn build:static` uses the [NextJS static export feature](https://nextjs.org/docs/advanced-features/static-html-export) to generate a static site into the `out/` directory. If the build includes any server features, it will throw an error. This build command must be used before `yarn serve:static`.
+- `yarn serve:static` uses [serve](https://github.com/vercel/serve) to serve the static site from the `out/` directory (defaulting to `localhost:5000`). You can use this locally to test the static site and it's also used to run Cypress tests against the static site.
+
+#### Testing & Deploying the NextJS Server (`localhost:3000`)
+
+- `yarn build` builds static assets that will be served by NextJS - these are _not_ the same as assets as the static site. This command must be used before `yarn serve`.
+- `yarn serve` starts the NextJS server running at `localhost:3000` (the same port used by the dev server). This is run in production mode, and will _not_ watch for code changes (you will have to rebuild and restart the server).
+
+### Running in Docker
+
+To run the app in development mode (with hot reloading):
+
+```
+// Relies on the following env vars (which are the defaults in .envrc)
+// NODE_ENV=development
+// TARGET_ENV=development
+
+docker-compose up -d
+```
+
+To build the app & run the server in production mode:
+
+```
+// Relies on the following env vars (override in .envrc.local)
+// NODE_ENV=production
+// TARGET_ENV=production
+docker-compose up -d
+```
+
+You will need to rebuild when changing the env vars:
+
+```
+docker-compose down // if it was running
+direnv allow
+docker-compose up -d --build
+```
+
+Currently Docker is not set up to run the static site.
 
 ### Working on an issue
 
