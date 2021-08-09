@@ -1,9 +1,13 @@
 {
   "name": "ussf-portal",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "engines": {
     "node": "14.17.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github:USSF-ORBIT/ussf-portal-client"
   },
   "scripts": {
     "dev": "next dev",
@@ -21,7 +25,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "cypress:dev": "cypress open",
-    "postinstall": "sh ./scripts/copy_uswds_assets.sh"
+    "postinstall": "sh ./scripts/copy_uswds_assets.sh",
+    "release": "standard-version -t ''"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^11.0.1",
@@ -65,11 +70,12 @@
     "husky": "^7.0.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.0.6",
-    "lint-staged": "^11.0.0",
+    "lint-staged": "^11.1.2",
     "prettier": "2.3.2",
     "sass": "^1.35.1",
     "sass-loader": "^10.0.0",
     "serve": "^12.0.0",
+    "standard-version": "^9.3.1",
     "storybook-addon-next-router": "^2.0.4",
     "storybook-css-modules-preset": "^1.1.1",
     "style-loader": "2.0.0",
@@ -79,6 +85,61 @@
     "*.{js,jsx,ts,tsx,json,md}": [
       "prettier --write",
       "eslint"
+    ]
+  },
+  "standard-version": {
+    "skip": {
+      "tag": true
+    },
+    "types": [
+      {
+        "type": "build",
+        "hidden": true
+      },
+      {
+        "type": "chore",
+        "hidden": true
+      },
+      {
+        "type": "ci",
+        "hidden": true
+      },
+      {
+        "type": "dev",
+        "hidden": true
+      },
+      {
+        "type": "docs",
+        "hidden": true
+      },
+      {
+        "type": "feat",
+        "section": "Features"
+      },
+      {
+        "type": "fix",
+        "section": "Bug Fixes"
+      },
+      {
+        "type": "perf",
+        "hidden": true
+      },
+      {
+        "type": "refactor",
+        "hidden": true
+      },
+      {
+        "type": "revert",
+        "hidden": true
+      },
+      {
+        "type": "style",
+        "hidden": true
+      },
+      {
+        "type": "test",
+        "hidden": true
+      }
     ]
   }
 }
