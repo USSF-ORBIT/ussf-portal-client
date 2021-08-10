@@ -7,7 +7,7 @@ updates:
     time: "11:00"
   open-pull-requests-limit: 10
   labels:
-  - dependencies
+  - 'type: dependencies'
 - package-ecosystem: npm
   directory: "/cypress"
   schedule:
@@ -15,12 +15,14 @@ updates:
     time: "11:00"
   open-pull-requests-limit: 10
   labels:
-  - dependencies
+  - 'type: dependencies'
 - package-ecosystem: npm
   directory: "/"
   schedule:
     interval: daily
     time: "11:00"
+  ignore:
+    - dependency-name: "uswds"
   open-pull-requests-limit: 10
   labels:
-  - dependencies
+  - 'type: dependencies'
