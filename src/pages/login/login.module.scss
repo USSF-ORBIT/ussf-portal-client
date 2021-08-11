@@ -1,0 +1,41 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/mvp/mixins';
+@import 'styles/mvp/settings';
+
+.loginPage {
+  :global {
+    .usa-section {
+      background: color('gray-cool-3');
+    }
+
+    .usa-accordion__content {
+      max-width: fit-content;
+    }
+
+    .page-site-notice {
+      main {
+        .usa-prose {
+          p,
+          ul {
+            color: color('ink');
+          }
+        }
+      }
+    }
+
+    .page-login--notice {
+      max-width: 568px;
+
+      p,
+      ul li {
+        color: color('base-darker');
+      }
+      .font-heading-xl {
+        font-size: 2rem;
+      }
+      .text-bold {
+        font-weight: 700;
+      }
+    }
+  }
+}
