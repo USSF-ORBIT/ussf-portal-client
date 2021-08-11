@@ -6,7 +6,8 @@ updates:
     interval: daily
     time: "11:00"
   ignore:
-    - dependency-name: "14-alpine"
+    - dependency-name: "15-alpine"
+    - dependency-name: "16-alpine"
   open-pull-requests-limit: 10
   labels:
   - 'type: dependencies'
