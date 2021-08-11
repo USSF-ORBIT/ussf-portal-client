@@ -88,4 +88,11 @@ describe('The MVP site', () => {
       cy.contains('Space Force Portal Login')
     })
   })
+
+  it('can navigate to the Login Notice page', () => {
+    cy.visit('/login-notice')
+    cy.contains('Notice')
+    cy.contains('I agree').click()
+    cy.contains('Space Force Portal Login')
+  })
 })
