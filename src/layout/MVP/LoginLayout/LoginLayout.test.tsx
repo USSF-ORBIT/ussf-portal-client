@@ -5,16 +5,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import LoginLayout from './LoginLayout'
-
-jest.mock('next/router', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    route: '',
-    pathname: '',
-    query: '',
-    asPath: '',
-  }),
-}))
-
 describe('LoginLayout component', () => {
   beforeEach(() => {
     render(

@@ -3,7 +3,10 @@
  */
 
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Login from 'pages/login/index'
+import Layout from 'layout/MVP/LoginLayout/LoginLayout'
+import LoginLayout from 'layout/MVP/LoginLayout/LoginLayout'
 
 describe('Login page', () => {
   beforeEach(() => {
@@ -22,6 +25,16 @@ describe('Login page', () => {
     )
   })
 
+  it('renders the accordion item as hidden on page load', () => {
+    expect(screen.getByTestId('accordionItem_a1')).not.toBeVisible()
+  })
+
+  it('renders the open accordion on click', () => {
+    const button = screen.getByRole('button')
+    userEvent.click(button)
+    expect(screen.getByTestId('accordionItem_a1')).toBeVisible()
+  })
+
   it('renders the notice', () => {
     expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
       'Notice'
@@ -30,5 +43,10 @@ describe('Login page', () => {
 
   it('renders the login button', () => {
     expect(screen.getByRole('link')).toHaveTextContent('Login')
+  })
+
+  it('returns the LoginLayout in getLayout', () => {
+    const page = 'page'
+    expect(Login.getLayout(page)).toEqual(<LoginLayout>page</LoginLayout>)
   })
 })
