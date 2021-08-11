@@ -5,14 +5,8 @@ updates:
   schedule:
     interval: daily
     time: "11:00"
-  open-pull-requests-limit: 10
-  labels:
-  - 'type: dependencies'
-- package-ecosystem: npm
-  directory: "/cypress"
-  schedule:
-    interval: daily
-    time: "11:00"
+  ignore:
+    - dependency-name: "14-alpine"
   open-pull-requests-limit: 10
   labels:
   - 'type: dependencies'
