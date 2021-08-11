@@ -1,12 +1,34 @@
 import { ReactNode } from 'react'
+import { GridContainer, Accordion } from '@trussworks/react-uswds'
 import styles from './login.module.scss'
-import { GridContainer, Grid } from '@trussworks/react-uswds'
-import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import LinkTo from 'components/util/LinkTo/LinkTo'
-
 import Layout from 'layout/MVP/LoginLayout/LoginLayout'
 
 const Login = () => {
+  const contactAccordion = [
+    {
+      title: 'Contact the Help Desk',
+      content: (
+        <>
+          <p>
+            For 24/7 support with a live agent, please contact the Field
+            Assistance Service:
+          </p>
+          <p>
+            <b>DNS:</b> 596-5771 opt 7 (Country Code 312)
+          </p>
+          <p>
+            <b>Commercial:</b> (334) 416-5771 opt 7
+          </p>
+          <p>
+            <b>Toll free:</b> 1-877-596-5771 opt 7
+          </p>
+        </>
+      ),
+      expanded: false,
+      id: 'a1',
+    },
+  ]
   return (
     <div className={styles.loginPage}>
       <section className="usa-section padding-top-3">
@@ -38,32 +60,8 @@ const Login = () => {
                   through this system must be protected in accordance with the
                   Privacy Act of 1974, as amended, and AFI 33-332.
                 </p>
-                <div className="usa-accordion usa-accordion--bordered margin-top-4">
-                  <h2 className="usa-accordion__heading">
-                    <button
-                      className="usa-accordion__button"
-                      aria-expanded="false"
-                      aria-controls="a1"
-                      type="button">
-                      Contact the Help Desk
-                    </button>
-                  </h2>
-                  <div id="a1" className="usa-accordion__content usa-prose">
-                    <p>
-                      For 24/7 support with a live agent, please contact the
-                      Field Assistance Service:
-                    </p>
-                    <p>
-                      <b>DNS:</b> 596-5771 opt 7 (Country Code 312)
-                    </p>
-                    <p>
-                      <b>Commercial:</b> (334) 416-5771 opt 7
-                    </p>
-                    <p>
-                      <b>Toll free:</b> 1-877-596-5771 opt 7
-                    </p>
-                  </div>
-                </div>
+
+                <Accordion items={contactAccordion} bordered={true} />
               </div>
             </div>
             <section className="page-login--notice usa-prose text-ink margin-top-10 maxw-tabletx">
