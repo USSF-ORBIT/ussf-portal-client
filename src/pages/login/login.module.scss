@@ -26,5 +26,17 @@
         font-weight: 700;
       }
     }
+
+    .usa-alert {
+      .usa-alert__heading {
+        font-size: font-size('heading', 'xl');
+        font-weight: bold;
+      }
+
+      p,
+      ul {
+        color: color('ink');
+      }
+    }
   }
 }
