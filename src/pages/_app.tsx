@@ -1,15 +1,30 @@
 import 'styles/index.scss'
 import '../../public/vendor/fontawesome-pro-5.15.1-web/css/all.min.css'
-import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
+import type { ReactNode } from 'react'
 import { config, dom } from '@fortawesome/fontawesome-svg-core'
+import type { NextPage } from 'next'
 import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
 
-const USSFPortalApp = ({ Component, pageProps }: AppProps) => {
+type Page<P = Record<string, never>> = NextPage<P> & {
+  getLayout?: (page: ReactNode) => ReactNode
+}
+
+type Props = AppProps & {
+  Component: Page
+}
+
+const USSFPortalApp = ({ Component, pageProps }: Props) => {
   const canonicalUrl = process.env.NEXT_PUBLIC_SITE_URL || ''
   const { asPath } = useRouter()
   config.autoAddCss = false
+
+  const getLayout =
+    Component.getLayout ||
+    ((page: ReactNode) => <DefaultLayout>{page}</DefaultLayout>)
+
   return (
     <>
       <Head>
@@ -51,9 +66,7 @@ const USSFPortalApp = ({ Component, pageProps }: AppProps) => {
         {/* Fix Next.js's rendering of font awesome css */}
         <style>${dom.css()}</style>
       </Head>
-      <DefaultLayout>
-        <Component {...pageProps} />
-      </DefaultLayout>
+      {getLayout(<Component {...pageProps} />)}
     </>
   )
 }
