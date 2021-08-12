@@ -3,9 +3,9 @@ import '../../public/vendor/fontawesome-pro-5.15.1-web/css/all.min.css'
 import Head from 'next/head'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { config, dom } from '@fortawesome/fontawesome-svg-core'
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
 
 type Page<P = Record<string, never>> = NextPage<P> & {
