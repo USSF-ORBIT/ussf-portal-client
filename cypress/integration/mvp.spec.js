@@ -24,7 +24,6 @@ describe('The MVP site', () => {
   it('can navigate to the Training and Education page', () => {
     cy.contains('More in Training + Education').click()
     cy.url().should('contain', '/training-and-education')
-    // #TODO Confirm Training and Education page
   })
 
   it('can navigate to the News page', () => {
@@ -77,6 +76,16 @@ describe('The MVP site', () => {
 
     it('loads news articles from an RSS feed', () => {
       cy.wait(['@getNewsRSS'])
+    })
+  })
+
+  describe('the Login page', () => {
+    beforeEach(() => {
+      cy.visit('/login')
+    })
+
+    it('loads the login page', () => {
+      cy.contains('Space Force Portal Login')
     })
   })
 })
