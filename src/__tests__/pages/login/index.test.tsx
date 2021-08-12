@@ -5,7 +5,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Login from 'pages/login/index'
-import Layout from 'layout/MVP/LoginLayout/LoginLayout'
 import LoginLayout from 'layout/MVP/LoginLayout/LoginLayout'
 
 describe('Login page', () => {
