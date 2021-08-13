@@ -19,7 +19,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
           <Header />
         </div>
         <div className={classnames(styles.mainContainer, styles.layoutDefault)}>
-          <GovBanner />
+          <GovBanner tld=".mil" />
           <main id="main-content">{children}</main>
           <Footer />
           <Identifier />
