@@ -6,7 +6,11 @@ updates:
     interval: daily
     time: "11:00"
   ignore:
+      # We don't want to update uswds. This update will be handled manually as needed.
     - dependency-name: "uswds"
+      # We don't want packages to update between major versions. Patch and minor only. Hopefully ensuring no breaking changes.
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major"]
   open-pull-requests-limit: 10
   labels:
   - 'type: dependencies'
