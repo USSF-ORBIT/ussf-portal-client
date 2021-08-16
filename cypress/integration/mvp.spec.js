@@ -3,6 +3,10 @@ describe('The MVP site', () => {
     cy.visit('/')
   })
 
+  it('audits the home page', () => {
+    cy.pa11y()
+  })
+
   it('lands on the home page', () => {
     cy.contains('Manage your life').click()
     cy.url().should('contain', '/#manage-your-life')
