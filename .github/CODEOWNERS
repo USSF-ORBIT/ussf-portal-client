@@ -3,3 +3,7 @@
 
 # Github settings
 .github/settings.yml @suzubara @abbyoung @esacteksab @noahfirth
+
+# Dependabot Updates
+package.json @dependabot
+yarn.lock @dependabot
