@@ -5,5 +5,5 @@
 .github/settings.yml @suzubara @abbyoung @esacteksab @noahfirth
 
 # Dependabot Updates
-package.json @dependabot
-yarn.lock @dependabot
+package.json @dependabot @github-actions
+yarn.lock @dependabot @github-actions
