@@ -51,4 +51,4 @@ jobs:
         if: always()
         with:
           name: reports
-          path: cypress/reports
+          path: cypress
