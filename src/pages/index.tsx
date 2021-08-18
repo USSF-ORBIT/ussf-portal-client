@@ -1,13 +1,20 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLaptopCode } from '@fortawesome/free-solid-svg-icons'
 import { CardGroup } from '@trussworks/react-uswds'
+import { parseCookies, setCookie } from 'nookies'
+import { useRouter } from 'next/router'
+
 import CovidSiteAlert from 'components/MVP/CovidSiteAlert/CovidSiteAlert'
 import type { AnnouncementCardProps } from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
 import styles from 'styles/mvp/index.module.scss'
+
 const Home = () => {
+  const cookies = parseCookies()
+  const router = useRouter()
+
   const manageYourLife = [
     {
       path: 'https://www.defensetravel.dod.mil/site/bahCalc.cfm',
@@ -85,9 +92,20 @@ const Home = () => {
     path: 'https://www.milsuite.mil/video/watch/video/40363',
   }
 
+  const enterBeta = () => {
+    setCookie(null, 'betaOptIn', 'true')
+    router.push('/')
+  }
+
   return (
     <>
       <CovidSiteAlert />
+
+      <button type="button" onClick={enterBeta}>
+        Preview Beta!
+      </button>
+      <p>Cookie value? {cookies.betaOptIn}</p>
+
       <section
         className={`usa-section padding-top-4 padding-bottom-0 ${styles.home}`}>
         <div className="grid-container">
