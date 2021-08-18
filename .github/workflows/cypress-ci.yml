@@ -51,4 +51,4 @@ jobs:
         if: always()
         with:
           name: pa11y
-          path: cypress/pa11y-report.json
+          path: cypress/reports
