@@ -1,8 +1,10 @@
-@import './settings';
-@import './mixins';
+.mvp {
+  @import './settings';
+  @import './mixins';
 
-@import './global';
-@import './colors';
-@import './buttons';
-@import './external-link';
-@import './typography';
+  @import './global';
+  @import './colors';
+  @import './buttons';
+  @import './external-link';
+  @import './typography';
+}

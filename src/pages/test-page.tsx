@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import Head from 'next/head'
 
 const TestPage = () => {
@@ -14,3 +15,12 @@ const TestPage = () => {
 }
 
 export default TestPage
+
+const BetaLayout = (page: ReactNode) => (
+  <main>
+    <h1>Not an MVP page</h1>
+    {page}
+  </main>
+)
+
+TestPage.getLayout = BetaLayout
