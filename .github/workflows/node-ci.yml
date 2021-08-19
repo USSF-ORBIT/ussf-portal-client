@@ -39,3 +39,6 @@ jobs:
 
       - name: Run Jest tests
         run: yarn test --coverage
+
+      - name: Build Storybook
+        run: yarn storybook --ci
