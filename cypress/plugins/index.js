@@ -15,23 +15,25 @@
 /**
  * @type {Cypress.PluginConfig}
  */
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+/* eslint @typescript-eslint/no-var-requires: "off" */
 const fs = require('fs')
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path')
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const mkdirp = require('mkdirp')
 
 const storeData = async (data, filepath) => {
   try {
     await mkdirp(path.dirname(filepath))
+    // We need to be able to accept a filepath from the reports task
+    // so the report can be saved correctly. No user input can
+    // reach this function.
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     fs.writeFile(filepath, JSON.stringify(data))
   } catch (err) {
     cy.task('log', `Error writing file: ${err}`)
   }
 }
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config

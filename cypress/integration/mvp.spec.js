@@ -1,4 +1,4 @@
-import terminalLog from '../plugins/logging'
+import logging from '../plugins/logging'
 describe('The MVP site', () => {
   beforeEach(() => {
     cy.visit('/')
@@ -6,7 +6,7 @@ describe('The MVP site', () => {
   })
 
   it('logs any a11y violations', () => {
-    cy.checkA11y(null, null, terminalLog, { skipFailures: true })
+    cy.checkA11y(null, null, logging, { skipFailures: true })
   })
 
   it('lands on the home page', () => {
