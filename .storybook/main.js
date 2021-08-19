@@ -6,6 +6,7 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
     'storybook-css-modules-preset',
+    'storybook-addon-next-router',
   ],
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
