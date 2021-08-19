@@ -8,6 +8,9 @@ node_modules/
 .next
 out/
 
+# Storybook build output
+storybook-static
+
 # Copied by yarn postinstall
 public/vendor/fonts
 public/vendor/img

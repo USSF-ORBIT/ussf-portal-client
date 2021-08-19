@@ -1,6 +1,5 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
-import { withNextRouter } from 'storybook-addon-next-router'
 
 import Header from './Header'
 import styles from './Header.module.scss'
@@ -9,7 +8,6 @@ export default {
   title: 'Components/Header',
   component: Header,
   decorators: [
-    withNextRouter,
     (Story) => (
       <div className={styles.navContainer}>
         <Story />

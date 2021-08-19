@@ -1,3 +1,4 @@
+import { RouterContext } from 'next/dist/shared/lib/router-context'
 import * as NextImage from 'next/image'
 import '../src/styles/index.scss'
 // Storybook and next/image component do not play nice together
@@ -15,5 +16,8 @@ export const parameters = {
       color: /(background|color)$/i,
       date: /Date$/,
     },
+  },
+  nextRouter: {
+    Provider: RouterContext.Provider,
   },
 }
