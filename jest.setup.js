@@ -4,6 +4,7 @@
 
 import '@testing-library/jest-dom'
 import * as NextImage from 'next/image'
+import { toHaveNoViolations } from 'jest-axe'
 
 // There are some open issues with NextImage in Jest:
 // https://github.com/vercel/next.js/issues/26749
@@ -14,3 +15,5 @@ Object.defineProperty(NextImage, 'default', {
   configurable: true,
   value: (props) => <OriginalNextImage layout="fill" {...props} unoptimized />,
 })
+/* eslint-disable-next-line no-undef */
+expect.extend(toHaveNoViolations)

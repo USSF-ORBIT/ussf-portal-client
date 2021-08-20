@@ -3,10 +3,9 @@
  */
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { axe, toHaveNoViolations } from 'jest-axe'
+import { axe } from 'jest-axe'
 import CovidSiteAlert from './CovidSiteAlert'
 
-expect.extend(toHaveNoViolations)
 describe('Covid Site Alert component', () => {
   const html = render(<CovidSiteAlert />)
   it('renders the covid guidelines link', () => {
