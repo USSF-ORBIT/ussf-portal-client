@@ -1,6 +1,12 @@
+import logging from '../plugins/logging'
 describe('The MVP site', () => {
   beforeEach(() => {
     cy.visit('/')
+    cy.injectAxe()
+  })
+
+  it('logs any a11y violations', () => {
+    cy.checkA11y(null, null, logging, { skipFailures: true })
   })
 
   it('lands on the home page', () => {
