@@ -3,4 +3,42 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
-module.exports = withBundleAnalyzer({})
+module.exports = withBundleAnalyzer({
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/:path',
+          has: [
+            {
+              type: 'cookie',
+              key: 'betaOptIn',
+              value: 'true',
+            },
+          ],
+          destination: '/beta/:path',
+        },
+        {
+          source: '/',
+          has: [
+            {
+              type: 'cookie',
+              key: 'betaOptIn',
+              value: 'true',
+            },
+          ],
+          destination: '/beta',
+        },
+      ],
+    }
+  },
+  async redirects() {
+    return [
+      {
+        source: '/beta',
+        destination: '/',
+        permanent: true,
+      },
+    ]
+  },
+})
