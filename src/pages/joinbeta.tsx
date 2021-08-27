@@ -1,20 +1,22 @@
 import router from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, ReactNode, useContext } from 'react'
+import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
+import BetaContext from 'stores/betaContext'
 
 const BetaEntrypoint = () => {
-  const setCookie = async () => {
-    await fetch('http://localhost:3000/api/beta/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  }
+  const { joinBeta } = useContext(BetaContext)
+
   useEffect(() => {
-    setCookie()
-    router.push('/beta')
+    joinBeta()
+
+    router.push('/')
   })
   return <></>
 }
 
 export default BetaEntrypoint
+
+const BetaLayout = (page: ReactNode) => <Layout>{page}</Layout>
+
+BetaLayout.displayName = 'BetaLayout'
+BetaEntrypoint.getLayout = BetaLayout

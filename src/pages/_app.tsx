@@ -7,7 +7,7 @@ import type { ReactNode } from 'react'
 import { config, dom } from '@fortawesome/fontawesome-svg-core'
 import type { NextPage } from 'next'
 import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
-
+import { BetaContextProvider } from 'stores/betaContext'
 type Page<P = Record<string, never>> = NextPage<P> & {
   getLayout?: (page: ReactNode) => ReactNode
 }
@@ -26,7 +26,7 @@ const USSFPortalApp = ({ Component, pageProps }: Props) => {
     ((page: ReactNode) => <DefaultLayout>{page}</DefaultLayout>)
 
   return (
-    <>
+    <BetaContextProvider>
       <Head>
         <meta charSet="utf-8" key="charset" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" key="edge" />
@@ -67,7 +67,7 @@ const USSFPortalApp = ({ Component, pageProps }: Props) => {
         <style>${dom.css()}</style>
       </Head>
       {getLayout(<Component {...pageProps} />)}
-    </>
+    </BetaContextProvider>
   )
 }
 
