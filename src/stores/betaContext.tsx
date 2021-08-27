@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react'
 import { useCookies } from 'react-cookie'
+import router from 'next/router'
 
 const BetaContext = createContext({
   /* eslint-disable @typescript-eslint/no-empty-function */
@@ -20,11 +21,13 @@ export const BetaContextProvider = ({
   const joinBeta = () => {
     setCookie('betaOptIn', 'true')
     setBetaOptIn(true)
+    router.push('/')
   }
 
   const leaveBeta = () => {
     removeCookie('betaOptIn')
     setBetaOptIn(false)
+    router.push('/')
   }
 
   const context = {

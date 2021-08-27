@@ -1,19 +1,11 @@
-import { ReactNode } from 'react'
-import router from 'next/router'
+import { ReactNode, useContext } from 'react'
 import { Alert, Button } from '@trussworks/react-uswds'
 import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
+import BetaContext from 'stores/betaContext'
 
 const Home = () => {
-  const deleteCookie = async () => {
-    console.log('deleting cookie')
-    await fetch('http://localhost:3000/api/beta/', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    router.push('/')
-  }
+  const { leaveBeta } = useContext(BetaContext)
+
   return (
     <>
       <section className={`usa-section padding-top-4 padding-bottom-0`}>
@@ -29,7 +21,7 @@ const Home = () => {
                   type="button"
                   accentStyle="warm"
                   className="usa-button"
-                  onClick={deleteCookie}>
+                  onClick={leaveBeta}>
                   Leave Beta
                 </Button>
               </div>

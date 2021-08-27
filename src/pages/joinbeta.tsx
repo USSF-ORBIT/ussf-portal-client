@@ -1,4 +1,3 @@
-import router from 'next/router'
 import { useEffect, ReactNode, useContext } from 'react'
 import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
 import BetaContext from 'stores/betaContext'
@@ -8,8 +7,6 @@ const BetaEntrypoint = () => {
 
   useEffect(() => {
     joinBeta()
-
-    router.push('/')
   })
   return <></>
 }
