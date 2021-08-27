@@ -32,13 +32,4 @@ module.exports = withBundleAnalyzer({
       ],
     }
   },
-  async redirects() {
-    return [
-      {
-        source: '/beta',
-        destination: '/',
-        permanent: true,
-      },
-    ]
-  },
 })
