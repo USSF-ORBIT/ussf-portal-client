@@ -7,7 +7,6 @@ import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
 import styles from 'styles/mvp/index.module.scss'
-
 const Home = () => {
   const manageYourLife = [
     {

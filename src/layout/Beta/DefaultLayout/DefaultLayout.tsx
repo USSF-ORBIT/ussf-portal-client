@@ -4,10 +4,6 @@ import classnames from 'classnames'
 
 import styles from './DefaultLayout.module.scss'
 
-import Header from 'components/MVP/Header/Header'
-import Footer from 'components/MVP/Footer/Footer'
-import Identifier from 'components/MVP/Identifier/Identifier'
-
 const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
@@ -18,7 +14,6 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
         <div className={classnames(styles.mainContainer, styles.layoutDefault)}>
           <GovBanner tld=".mil" />
           <main id="main-content">{children}</main>
-          {/* <Identifier /> */}
         </div>
       </div>
     </>
