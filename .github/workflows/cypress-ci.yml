@@ -13,7 +13,7 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v1
         with:
-          node-version: '14.17.4'
+          node-version: '14.17.5'
 
       - name: Check out repository
         uses: actions/checkout@v2
