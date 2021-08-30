@@ -3,9 +3,12 @@ import { useCookies } from 'react-cookie'
 import router from 'next/router'
 
 const BetaContext = createContext({
-  /* eslint-disable @typescript-eslint/no-empty-function */
-  joinBeta: () => {},
-  leaveBeta: () => {},
+  joinBeta: () => {
+    return
+  },
+  leaveBeta: () => {
+    return
+  },
   betaOptIn: false,
 })
 

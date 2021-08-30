@@ -19,6 +19,28 @@ module.exports = withBundleAnalyzer({
           destination: '/beta/:path',
         },
         {
+          source: '/training-and-education/:path*',
+          has: [
+            {
+              type: 'cookie',
+              key: 'betaOptIn',
+              value: 'true',
+            },
+          ],
+          destination: '/beta/training-and-education/:path*',
+        },
+        {
+          source: '/about-us/:path*',
+          has: [
+            {
+              type: 'cookie',
+              key: 'betaOptIn',
+              value: 'true',
+            },
+          ],
+          destination: '/beta/about-us/:path*',
+        },
+        {
           source: '/',
           has: [
             {
