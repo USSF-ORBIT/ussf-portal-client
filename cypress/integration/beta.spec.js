@@ -1,11 +1,8 @@
-/// <reference types="cypress" />
+import logging from '../plugins/logging'
 describe('the Beta site', () => {
   beforeEach(() => {
     cy.injectAxe()
   })
-  //   it('logs any a11y violations', () => {
-  //     cy.checkA11y(null, null, logging, { skipFailures: true })
-  //   })
 
   it('joins the beta', () => {
     cy.visit('/joinbeta')
@@ -14,16 +11,22 @@ describe('the Beta site', () => {
     Cypress.Cookies.preserveOnce('betaOptIn')
   })
 
+  it('logs any a11y violations', () => {
+    cy.checkA11y(null, null, logging, { skipFailures: true })
+    Cypress.Cookies.preserveOnce('betaOptIn')
+  })
+
   it('cannot access mvp pages', () => {
+    cy.visit('/about-us', { failOnStatusCode: false })
     cy.request({ url: '/about-us', failOnStatusCode: false })
       .its('status')
       .should('equal', 404)
-    cy.visit('/about-us', { failOnStatusCode: false })
 
+    cy.visit('/about-us/accomplishments', { failOnStatusCode: false })
     cy.request({ url: '/about-us/accomplishments', failOnStatusCode: false })
       .its('status')
       .should('equal', 404)
-    cy.visit('/about-us/accomplishments', { failOnStatusCode: false })
+
     Cypress.Cookies.preserveOnce('betaOptIn')
   })
 
