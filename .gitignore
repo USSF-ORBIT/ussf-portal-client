@@ -28,7 +28,7 @@ coverage
 # Cypress artifacts
 cypress/screenshots
 cypress/videos
-
+cypress/reports
 # Optional eslint cache
 .eslintcache
 
