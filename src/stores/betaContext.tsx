@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import router from 'next/router'
 
@@ -12,11 +12,7 @@ const BetaContext = createContext({
   betaOptIn: false,
 })
 
-export const BetaContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
+const BetaContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [betaOptIn, setBetaOptIn] = useState(false)
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   const [cookies, setCookie, removeCookie] = useCookies(['betaOptIn'])
@@ -41,4 +37,12 @@ export const BetaContextProvider = ({
   return <BetaContext.Provider value={context}>{children}</BetaContext.Provider>
 }
 
-export default BetaContext
+function useBetaContext() {
+  const context = useContext(BetaContext)
+  if (context === undefined) {
+    throw new Error('useBetaContext must be used within a BetaContextProvider')
+  }
+  return context
+}
+
+export { BetaContextProvider, useBetaContext }

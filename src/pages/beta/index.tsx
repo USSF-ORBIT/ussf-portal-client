@@ -1,11 +1,10 @@
-import { ReactNode, useContext } from 'react'
+import { ReactNode } from 'react'
 import { Alert, Button } from '@trussworks/react-uswds'
 import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
-import BetaContext from 'stores/betaContext'
+import { useBetaContext } from 'stores/betaContext'
 
 const Home = () => {
-  const { leaveBeta } = useContext(BetaContext)
-
+  const { leaveBeta } = useBetaContext()
   return (
     <>
       <section className={`usa-section padding-top-4 padding-bottom-0`}>

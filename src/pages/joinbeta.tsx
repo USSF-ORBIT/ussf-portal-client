@@ -1,9 +1,9 @@
-import { useEffect, ReactNode, useContext } from 'react'
+import { useEffect, ReactNode } from 'react'
 import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
-import BetaContext from 'stores/betaContext'
+import { useBetaContext } from 'stores/betaContext'
 
 const BetaEntrypoint = () => {
-  const { joinBeta } = useContext(BetaContext)
+  const { joinBeta } = useBetaContext()
 
   useEffect(() => {
     joinBeta()
