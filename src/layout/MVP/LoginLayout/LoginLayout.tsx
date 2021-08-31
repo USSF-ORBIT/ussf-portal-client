@@ -9,7 +9,7 @@ const LoginLayout = ({ children }: { children: React.ReactNode }) => {
         Skip to main content
       </a>
 
-      <div className={`mvp ${styles.layoutLogin}`}>
+      <div className={styles.layoutLogin}>
         <GovBanner tld=".mil" />
         <main id="main-content">{children}</main>
       </div>
