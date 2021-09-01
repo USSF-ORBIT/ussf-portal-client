@@ -22,6 +22,24 @@ jest.mock('next/dist/client/router', () => ({
   }),
 }))
 describe('beta context', () => {
+  it('expects betaOptIn to be false by default', () => {
+    const TestComponent = () => {
+      const { betaOptIn } = useBetaContext()
+
+      const status = betaOptIn.toString()
+      return <h1>Default beta status is {status}</h1>
+    }
+
+    const { getByRole } = render(
+      <BetaContextProvider>
+        <TestComponent />
+      </BetaContextProvider>
+    )
+
+    expect(getByRole('heading')).toHaveTextContent(
+      'Default beta status is false'
+    )
+  })
   it('expects join beta to work', () => {
     const TestComponent = () => {
       const { betaOptIn, joinBeta } = useBetaContext()
