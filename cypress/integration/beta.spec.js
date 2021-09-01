@@ -11,8 +11,6 @@ describe('the static Beta site', () => {
     // Leave the beta
     cy.get('.usa-button').click()
 
-    // cy.reload()
-
     // Return to MVP
     cy.visit('/')
     cy.contains('Manage your life')
