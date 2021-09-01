@@ -3,7 +3,7 @@ describe('the static Beta site', () => {
   beforeEach(() => {
     cy.injectAxe()
   })
-  it('joins the beta', () => {
+  it('joins and leaves the beta', () => {
     cy.visit('/joinbeta')
     cy.contains('Welcome to the Beta USSF Portal')
     cy.url().should('contain', '/')
@@ -11,7 +11,7 @@ describe('the static Beta site', () => {
     // Leave the beta
     cy.get('.usa-button').click()
 
-    cy.reload()
+    // cy.reload()
 
     // Return to MVP
     cy.visit('/')
