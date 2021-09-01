@@ -9,7 +9,7 @@ export default {
   component: AnnouncementCard,
   decorators: [
     (Story) => (
-      <div className="mvp desktop:grid-col-10">
+      <div className="desktop:grid-col-10">
         <CardGroup>
           <Story />
         </CardGroup>

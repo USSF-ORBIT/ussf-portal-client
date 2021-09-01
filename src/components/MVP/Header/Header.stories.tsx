@@ -9,7 +9,7 @@ export default {
   component: Header,
   decorators: [
     (Story) => (
-      <div className={`mvp ${styles.navContainer}`}>
+      <div className={styles.navContainer}>
         <Story />
       </div>
     ),
