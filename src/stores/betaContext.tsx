@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react'
 import { useCookies } from 'react-cookie'
-import router from 'next/router'
+import { useRouter } from 'next/router'
 
 const BetaContext = createContext({
   joinBeta: () => {
@@ -13,12 +13,14 @@ const BetaContext = createContext({
 })
 
 const BetaContextProvider = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter()
   const [betaOptIn, setBetaOptIn] = useState(false)
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   const [cookies, setCookie, removeCookie] = useCookies(['betaOptIn'])
 
   const joinBeta = () => {
     setCookie('betaOptIn', 'true')
+
     setBetaOptIn(true)
     router.push('/')
   }
