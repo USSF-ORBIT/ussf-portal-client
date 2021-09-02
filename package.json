@@ -25,14 +25,16 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "cypress:dev": "cypress open",
-    "postinstall": "sh ./scripts/copy_uswds_assets.sh",
+    "postinstall": "sh ./scripts/copy_uswds_assets.sh && keystone-next postinstall",
     "release": "standard-version -t ''"
   },
   "dependencies": {
+    "@keystone-next/fields": "13.0.0",
+    "@keystone-next/keystone": "23.0.3",
     "@next/bundle-analyzer": "11.1.2",
     "@trussworks/react-uswds": "2.0.0",
     "classnames": "2.3.1",
-    "next": "11.1.2",
+    "next": "11.0.1",
     "path-to-regexp": "6.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",

@@ -1,0 +1,327 @@
+type Bookmark {
+  id: ID!
+  url: String
+  label: String
+}
+
+input BookmarkWhereInput {
+  AND: [BookmarkWhereInput!]
+  OR: [BookmarkWhereInput!]
+  id: ID
+  id_not: ID
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  url: String
+  url_not: String
+  url_contains: String
+  url_not_contains: String
+  url_in: [String]
+  url_not_in: [String]
+  label: String
+  label_not: String
+  label_contains: String
+  label_not_contains: String
+  label_in: [String]
+  label_not_in: [String]
+}
+
+input BookmarkWhereUniqueInput {
+  id: ID
+}
+
+enum SortBookmarksBy {
+  id_ASC
+  id_DESC
+  url_ASC
+  url_DESC
+  label_ASC
+  label_DESC
+}
+
+input BookmarkOrderByInput {
+  id: OrderDirection
+  url: OrderDirection
+  label: OrderDirection
+}
+
+enum OrderDirection {
+  asc
+  desc
+}
+
+input BookmarkUpdateInput {
+  url: String
+  label: String
+}
+
+input BookmarksUpdateInput {
+  id: ID!
+  data: BookmarkUpdateInput
+}
+
+input BookmarkCreateInput {
+  url: String
+  label: String
+}
+
+input BookmarksCreateInput {
+  data: BookmarkCreateInput
+}
+
+type Collection {
+  id: ID!
+  title: String
+  bookmarks(
+    where: BookmarkWhereInput! = {}
+    search: String
+    sortBy: [SortBookmarksBy!]
+      @deprecated(reason: "sortBy has been deprecated in favour of orderBy")
+    orderBy: [BookmarkOrderByInput!]! = []
+    first: Int
+    skip: Int! = 0
+  ): [Bookmark!]
+  _bookmarksMeta(
+    where: BookmarkWhereInput! = {}
+    search: String
+    sortBy: [SortBookmarksBy!]
+      @deprecated(reason: "sortBy has been deprecated in favour of orderBy")
+    orderBy: [BookmarkOrderByInput!]! = []
+    first: Int
+    skip: Int! = 0
+  ): _QueryMeta
+    @deprecated(
+      reason: "This query will be removed in a future version. Please use bookmarksCount instead."
+    )
+  bookmarksCount(where: BookmarkWhereInput! = {}): Int
+}
+
+type _QueryMeta {
+  count: Int
+}
+
+input CollectionWhereInput {
+  AND: [CollectionWhereInput!]
+  OR: [CollectionWhereInput!]
+  id: ID
+  id_not: ID
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  title: String
+  title_not: String
+  title_contains: String
+  title_not_contains: String
+  title_in: [String]
+  title_not_in: [String]
+  bookmarks_every: BookmarkWhereInput
+  bookmarks_some: BookmarkWhereInput
+  bookmarks_none: BookmarkWhereInput
+}
+
+input CollectionWhereUniqueInput {
+  id: ID
+}
+
+enum SortCollectionsBy {
+  id_ASC
+  id_DESC
+  title_ASC
+  title_DESC
+}
+
+input CollectionOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+}
+
+input CollectionUpdateInput {
+  title: String
+  bookmarks: BookmarkRelateToManyInput
+}
+
+input BookmarkRelateToManyInput {
+  create: [BookmarkCreateInput]
+  connect: [BookmarkWhereUniqueInput]
+  disconnect: [BookmarkWhereUniqueInput]
+  disconnectAll: Boolean
+}
+
+input CollectionsUpdateInput {
+  id: ID!
+  data: CollectionUpdateInput
+}
+
+input CollectionCreateInput {
+  title: String
+  bookmarks: BookmarkRelateToManyInput
+}
+
+input CollectionsCreateInput {
+  data: CollectionCreateInput
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+  @specifiedBy(
+    url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf"
+  )
+
+type Mutation {
+  createBookmark(data: BookmarkCreateInput): Bookmark
+  createBookmarks(data: [BookmarksCreateInput]): [Bookmark]
+  updateBookmark(id: ID!, data: BookmarkUpdateInput): Bookmark
+  updateBookmarks(data: [BookmarksUpdateInput]): [Bookmark]
+  deleteBookmark(id: ID!): Bookmark
+  deleteBookmarks(ids: [ID!]): [Bookmark]
+  createCollection(data: CollectionCreateInput): Collection
+  createCollections(data: [CollectionsCreateInput]): [Collection]
+  updateCollection(id: ID!, data: CollectionUpdateInput): Collection
+  updateCollections(data: [CollectionsUpdateInput]): [Collection]
+  deleteCollection(id: ID!): Collection
+  deleteCollections(ids: [ID!]): [Collection]
+}
+
+type Query {
+  allBookmarks(
+    where: BookmarkWhereInput! = {}
+    search: String
+    sortBy: [SortBookmarksBy!]
+      @deprecated(reason: "sortBy has been deprecated in favour of orderBy")
+    orderBy: [BookmarkOrderByInput!]! = []
+    first: Int
+    skip: Int! = 0
+  ): [Bookmark!]
+  Bookmark(where: BookmarkWhereUniqueInput!): Bookmark
+  _allBookmarksMeta(
+    where: BookmarkWhereInput! = {}
+    search: String
+    sortBy: [SortBookmarksBy!]
+      @deprecated(reason: "sortBy has been deprecated in favour of orderBy")
+    orderBy: [BookmarkOrderByInput!]! = []
+    first: Int
+    skip: Int! = 0
+  ): _QueryMeta
+    @deprecated(
+      reason: "This query will be removed in a future version. Please use bookmarksCount instead."
+    )
+  bookmarksCount(where: BookmarkWhereInput! = {}): Int
+  allCollections(
+    where: CollectionWhereInput! = {}
+    search: String
+    sortBy: [SortCollectionsBy!]
+      @deprecated(reason: "sortBy has been deprecated in favour of orderBy")
+    orderBy: [CollectionOrderByInput!]! = []
+    first: Int
+    skip: Int! = 0
+  ): [Collection!]
+  Collection(where: CollectionWhereUniqueInput!): Collection
+  _allCollectionsMeta(
+    where: CollectionWhereInput! = {}
+    search: String
+    sortBy: [SortCollectionsBy!]
+      @deprecated(reason: "sortBy has been deprecated in favour of orderBy")
+    orderBy: [CollectionOrderByInput!]! = []
+    first: Int
+    skip: Int! = 0
+  ): _QueryMeta
+    @deprecated(
+      reason: "This query will be removed in a future version. Please use collectionsCount instead."
+    )
+  collectionsCount(where: CollectionWhereInput! = {}): Int
+  keystone: KeystoneMeta!
+}
+
+type KeystoneMeta {
+  adminMeta: KeystoneAdminMeta!
+}
+
+type KeystoneAdminMeta {
+  enableSignout: Boolean!
+  enableSessionItem: Boolean!
+  lists: [KeystoneAdminUIListMeta!]!
+  list(key: String!): KeystoneAdminUIListMeta
+}
+
+type KeystoneAdminUIListMeta {
+  key: String!
+  itemQueryName: String!
+  listQueryName: String!
+  hideCreate: Boolean!
+  hideDelete: Boolean!
+  path: String!
+  label: String!
+  singular: String!
+  plural: String!
+  description: String
+  initialColumns: [String!]!
+  pageSize: Int!
+  labelField: String!
+  fields: [KeystoneAdminUIFieldMeta!]!
+  initialSort: KeystoneAdminUISort
+  isHidden: Boolean!
+}
+
+type KeystoneAdminUIFieldMeta {
+  path: String!
+  label: String!
+  isOrderable: Boolean!
+  fieldMeta: JSON
+  viewsIndex: Int!
+  customViewsIndex: Int
+  createView: KeystoneAdminUIFieldMetaCreateView!
+  listView: KeystoneAdminUIFieldMetaListView!
+  itemView(id: ID!): KeystoneAdminUIFieldMetaItemView
+  search: QueryMode
+}
+
+type KeystoneAdminUIFieldMetaCreateView {
+  fieldMode: KeystoneAdminUIFieldMetaCreateViewFieldMode!
+}
+
+enum KeystoneAdminUIFieldMetaCreateViewFieldMode {
+  edit
+  hidden
+}
+
+type KeystoneAdminUIFieldMetaListView {
+  fieldMode: KeystoneAdminUIFieldMetaListViewFieldMode!
+}
+
+enum KeystoneAdminUIFieldMetaListViewFieldMode {
+  read
+  hidden
+}
+
+type KeystoneAdminUIFieldMetaItemView {
+  fieldMode: KeystoneAdminUIFieldMetaItemViewFieldMode!
+}
+
+enum KeystoneAdminUIFieldMetaItemViewFieldMode {
+  edit
+  read
+  hidden
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+type KeystoneAdminUISort {
+  field: String!
+  direction: KeystoneAdminUISortDirection!
+}
+
+enum KeystoneAdminUISortDirection {
+  ASC
+  DESC
+}

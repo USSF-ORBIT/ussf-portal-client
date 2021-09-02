@@ -1,0 +1,22 @@
+datasource sqlite {
+  url      = env("DATABASE_URL")
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "node_modules/.prisma/client"
+}
+
+model Bookmark {
+  id                        String       @id @default(cuid())
+  url                       String?
+  label                     String?
+  from_Collection_bookmarks Collection[] @relation("Collection_bookmarks_many")
+}
+
+model Collection {
+  id        String     @id @default(cuid())
+  title     String?
+  bookmarks Bookmark[] @relation("Collection_bookmarks_many")
+}
