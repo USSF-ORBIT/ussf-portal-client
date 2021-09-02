@@ -26,8 +26,7 @@ describe('beta context', () => {
     const TestComponent = () => {
       const { betaOptIn } = useBetaContext()
 
-      const status = betaOptIn.toString()
-      return <h1>Default beta status is {status}</h1>
+      return <h1>Default beta status is {`${betaOptIn}`}</h1>
     }
 
     const { getByRole } = render(
@@ -46,8 +45,8 @@ describe('beta context', () => {
       useEffect(() => {
         joinBeta()
       })
-      const status = betaOptIn.toString()
-      return <h1>Default beta status is {status}</h1>
+
+      return <h1>Join beta status is {`${betaOptIn}`}</h1>
     }
 
     const { getByRole } = render(
@@ -56,19 +55,18 @@ describe('beta context', () => {
       </BetaContextProvider>
     )
 
-    expect(getByRole('heading')).toHaveTextContent(
-      'Default beta status is true'
-    )
+    expect(getByRole('heading')).toHaveTextContent('Join beta status is true')
   })
 
   it('expects leave beta to work', () => {
     const TestComponent = () => {
-      const { betaOptIn, leaveBeta } = useBetaContext()
+      const { betaOptIn, joinBeta, leaveBeta } = useBetaContext()
       useEffect(() => {
+        joinBeta()
         leaveBeta()
       })
-      const status = betaOptIn.toString()
-      return <h1>Default beta status is {status}</h1>
+
+      return <h1>Leave beta status is {`${betaOptIn}`}</h1>
     }
 
     const { getByRole } = render(
@@ -77,8 +75,6 @@ describe('beta context', () => {
       </BetaContextProvider>
     )
 
-    expect(getByRole('heading')).toHaveTextContent(
-      'Default beta status is false'
-    )
+    expect(getByRole('heading')).toHaveTextContent('Leave beta status is false')
   })
 })

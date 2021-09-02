@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react'
 import Custom404 from 'pages/404'
 import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
 
-describe('Beta Home page', () => {
+describe('404 page', () => {
   beforeEach(() => {
     render(<Custom404 />)
   })
