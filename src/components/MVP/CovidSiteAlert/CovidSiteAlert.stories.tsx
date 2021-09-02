@@ -3,7 +3,7 @@ import { Meta } from '@storybook/react'
 import CovidSiteAlert from './CovidSiteAlert'
 
 export default {
-  title: 'Components/Alert',
+  title: 'MVP/Components/Alert',
   component: CovidSiteAlert,
 } as Meta
 

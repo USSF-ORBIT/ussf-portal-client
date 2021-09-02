@@ -5,7 +5,7 @@ import Header from './Header'
 import styles from './Header.module.scss'
 
 export default {
-  title: 'Components/Header',
+  title: 'MVP/Components/Header',
   component: Header,
   decorators: [
     (Story) => (
