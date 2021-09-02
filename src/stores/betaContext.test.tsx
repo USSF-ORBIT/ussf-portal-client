@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { render } from '@testing-library/react'
 import { BetaContextProvider, useBetaContext } from './betaContext'
 
@@ -61,12 +61,19 @@ describe('beta context', () => {
   it('expects leave beta to work', () => {
     const TestComponent = () => {
       const { betaOptIn, joinBeta, leaveBeta } = useBetaContext()
+
       useEffect(() => {
         joinBeta()
-        leaveBeta()
       })
 
-      return <h1>Leave beta status is {`${betaOptIn}`}</h1>
+      return (
+        <>
+          <h1>Leave beta status is {`${betaOptIn}`}</h1>
+          <button type="button" onClick={leaveBeta}>
+            Leave Beta
+          </button>
+        </>
+      )
     }
 
     const { getByRole } = render(
@@ -74,7 +81,7 @@ describe('beta context', () => {
         <TestComponent />
       </BetaContextProvider>
     )
-
+    getByRole('button').click()
     expect(getByRole('heading')).toHaveTextContent('Leave beta status is false')
   })
 })
