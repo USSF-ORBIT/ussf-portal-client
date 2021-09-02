@@ -4,7 +4,7 @@ import { Meta } from '@storybook/react'
 import Identifier from './Identifier'
 
 export default {
-  title: 'Components/Identifier',
+  title: 'MVP/Components/Identifier',
   component: Identifier,
 } as Meta
 

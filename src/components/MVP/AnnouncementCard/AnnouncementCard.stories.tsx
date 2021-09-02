@@ -5,7 +5,7 @@ import AnnouncementCard from './AnnouncementCard'
 import type { AnnouncementCardProps } from './AnnouncementCard'
 
 export default {
-  title: 'Components/Cards',
+  title: 'MVP/Components/Cards',
   component: AnnouncementCard,
   decorators: [
     (Story) => (
