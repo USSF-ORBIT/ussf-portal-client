@@ -1,5 +1,5 @@
 {
-  "extends": ["config:base"],
+  "extends": ["config:base", "helpers:pinGitHubActionDigests"],
   "packageRules": [
     {
       "rebaseWhen": "behind-base-branch",
@@ -18,8 +18,12 @@
       "groupName": "dependencies",
       "managers": ["npm"],
       "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "managers": ["dockerfile"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     }
   ],
-  "ignorePresets": [":prHourlyLimit2"],
-  "ignorePaths": [".github/workflows/*"]
+  "ignorePresets": [":prHourlyLimit2"]
 }
