@@ -8,18 +8,22 @@ export default {
   component: Collection,
 } as Meta
 
-const testBookmarks = [
-  <Bookmark key="link1" href="#">
-    Link 1
-  </Bookmark>,
-  <Bookmark key="link2" href="#">
-    Link 2
-  </Bookmark>,
-  <Bookmark key="link3" href="#">
-    Link 3
-  </Bookmark>,
-]
-
 export const ExampleCollection = () => (
-  <Collection title="Example collection">{testBookmarks}</Collection>
+  <Collection title="Example collection">
+    <Bookmark key="link1" href="#">
+      Webmail
+    </Bookmark>
+    <Bookmark key="link2" href="#">
+      MyPay
+    </Bookmark>
+    <Bookmark key="link3" href="#">
+      vMPF
+    </Bookmark>
+    <Bookmark key="link3" href="#">
+      LeaveWeb
+    </Bookmark>
+    <Bookmark key="link3" href="#">
+      e-Publications
+    </Bookmark>
+  </Collection>
 )

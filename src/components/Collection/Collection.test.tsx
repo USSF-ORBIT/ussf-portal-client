@@ -12,21 +12,19 @@ import Bookmark from 'components/Bookmark/Bookmark'
 describe('Collection component', () => {
   let html: RenderResult
 
-  const testBookmarks = [
-    <Bookmark key="link1" href="#">
-      Link 1
-    </Bookmark>,
-    <Bookmark key="link2" href="#">
-      Link 2
-    </Bookmark>,
-    <Bookmark key="link3" href="#">
-      Link 3
-    </Bookmark>,
-  ]
-
   beforeEach(() => {
     html = render(
-      <Collection title="Example collection">{testBookmarks}</Collection>
+      <Collection title="Example collection">
+        <Bookmark key="link1" href="#">
+          Link 1
+        </Bookmark>
+        <Bookmark key="link2" href="#">
+          Link 2
+        </Bookmark>
+        <Bookmark key="link3" href="#">
+          Link 3
+        </Bookmark>
+      </Collection>
     )
   })
 
@@ -37,8 +35,8 @@ describe('Collection component', () => {
 
   it('renders its children in a list', () => {
     expect(screen.getByRole('list')).toBeInTheDocument()
-    expect(screen.getAllByRole('listitem')).toHaveLength(testBookmarks.length)
-    expect(screen.getAllByRole('link')).toHaveLength(testBookmarks.length)
+    expect(screen.getAllByRole('listitem')).toHaveLength(3)
+    expect(screen.getAllByRole('link')).toHaveLength(3)
   })
 
   it('has no a11y violations', async () => {
