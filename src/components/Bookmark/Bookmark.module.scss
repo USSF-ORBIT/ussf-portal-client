@@ -9,6 +9,13 @@
   > a {
     flex-grow: 1;
     padding: units('105') units(2);
+
+    /*
+    // if we want truncated text
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    */
   }
 }
 
