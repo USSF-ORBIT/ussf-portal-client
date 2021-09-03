@@ -1,0 +1,12 @@
+@import 'styles/uswdsDependencies';
+
+.bookmark {
+  border: 1px solid color('base-light');
+  border-radius: 5px;
+  display: flex;
+
+  > a {
+    flex-grow: 1;
+    padding: units('105') units(2);
+  }
+}
