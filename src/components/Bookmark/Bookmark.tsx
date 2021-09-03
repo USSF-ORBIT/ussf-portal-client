@@ -1,16 +1,26 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classnames from 'classnames'
 import styles from './Bookmark.module.scss'
 import LinkTo, { PropTypes as LinkToProps } from 'components/util/LinkTo/LinkTo'
 
 type PropTypes = LinkToProps & {
-  onDelete?: () => void
+  onDelete?: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const Bookmark = ({ children, onDelete, ...linkProps }: PropTypes) => {
+const Bookmark = ({
+  children,
+  className,
+  onDelete,
+  ...linkProps
+}: PropTypes) => {
+  const linkClasses = classnames('usa-link', className)
+
   return (
     <div className={styles.bookmark}>
-      <LinkTo {...linkProps}>{children}</LinkTo>
+      <LinkTo {...linkProps} className={linkClasses}>
+        {children}
+      </LinkTo>
 
       {onDelete && (
         <button
