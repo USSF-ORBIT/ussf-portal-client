@@ -3,6 +3,7 @@ on:
   pull_request:
     branches:
       - storybook-*
+      - ci-storybook-netlify-branch-deploy
 jobs:
   build:
     name: Call Netlify build hook
