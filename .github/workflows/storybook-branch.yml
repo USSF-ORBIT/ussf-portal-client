@@ -1,4 +1,7 @@
 name: Storybook Branch Deploy
+env:
+  NETLIFY_BRANCH_DEPLOY: ${{ secrets.NETLIFY_BRANCH_DEPLOY }}
+  GITHUB_HEAD_REF: ${{ github.head_ref}}
 on:
   push:
     branches:
