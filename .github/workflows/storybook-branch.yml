@@ -1,0 +1,12 @@
+name: Storybook Branch Deploy
+on:
+  pull_request:
+    branches:
+      - storybook-*
+jobs:
+  build:
+    name: Call Netlify build hook
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl request
+        run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/$NETLIFY_BRANCH_DEPLOY\?trigger_branch\=$GITHUB_HEAD_REF\&trigger_title\=triggered+by+github+workflow
