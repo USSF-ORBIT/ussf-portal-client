@@ -1,0 +1,15 @@
+@import 'styles/uswdsDependencies';
+
+.globalSearch {
+  :global {
+    .usa-button {
+      @include u-font-size('sans', 8);
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+      background-color: color($theme-color-primary);
+      text-transform: unset;
+      font-weight: 700;
+      letter-spacing: normal;
+    }
+  }
+}
