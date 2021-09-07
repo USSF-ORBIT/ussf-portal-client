@@ -13,6 +13,7 @@ module.exports = {
     'hooks/(.*)': '<rootDir>/src/hooks/$1',
     'layout/(.*)': '<rootDir>/src/layout/$1',
     'pages/(.*)': '<rootDir>/src/pages/$1',
+    'stores/(.*)': '<rootDir>/src/stores/$1',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   coverageThreshold: {
