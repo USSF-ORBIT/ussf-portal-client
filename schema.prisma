@@ -15,6 +15,7 @@ model Bookmark {
   id                        String       @id @default(cuid())
   url                       String?
   label                     String?
+  description               String?
   from_Collection_bookmarks Collection[] @relation("Collection_bookmarks_many")
 }
 

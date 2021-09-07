@@ -5,6 +5,7 @@ type Bookmark {
   id: ID!
   url: String
   label: String
+  description: String
 }
 
 input BookmarkWhereUniqueInput {
@@ -41,6 +42,7 @@ enum OrderDirection {
 input BookmarkUpdateInput {
   url: String
   label: String
+  description: String
 }
 
 input BookmarkUpdateArgs {
@@ -51,6 +53,7 @@ input BookmarkUpdateArgs {
 input BookmarkCreateInput {
   url: String
   label: String
+  description: String
 }
 
 type Collection {
