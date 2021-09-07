@@ -16,3 +16,6 @@ jobs:
 
       - name: Branch name
         run: echo running on ${GITHUB_REF##*/}
+
+      - name: Call Netlify build
+        run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/$NETLIFY_BRANCH_DEPLOY\?trigger_branch\=${GITHUB_REF##*/}\&trigger_title\=triggered+by+github+workflow
