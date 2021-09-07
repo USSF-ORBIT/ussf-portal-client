@@ -1,6 +1,6 @@
 name: Storybook Branch Deploy
 on:
-  pull_request:
+  push:
     branches:
       - storybook-*
       - ci-storybook-netlify-branch-deploy
