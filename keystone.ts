@@ -1,5 +1,5 @@
-import { config, list } from '@keystone-next/keystone/schema'
-import { text, relationship } from '@keystone-next/fields'
+import { createSchema, config, list } from '@keystone-next/keystone'
+import { text, relationship } from '@keystone-next/keystone/fields'
 
 const Bookmark = list({
   fields: {
@@ -25,5 +25,5 @@ export default config({
     generateNextGraphqlAPI: true,
     generateNodeAPI: true,
   },
-  lists: { Bookmark, Collection },
+  lists: createSchema({ Bookmark, Collection }),
 })
