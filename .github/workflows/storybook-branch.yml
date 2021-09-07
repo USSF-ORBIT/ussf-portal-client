@@ -1,7 +1,7 @@
 name: Storybook Branch Deploy
 env:
   NETLIFY_BRANCH_DEPLOY: ${{ secrets.NETLIFY_BRANCH_DEPLOY }}
-  BRANCH_NAME: ${{GITHUB_REF##*/}}
+  BRANCH_NAME: ${{github.head_ref}}
 on:
   push:
     branches:
@@ -9,8 +9,12 @@ on:
       - ci-storybook-netlify-branch-deploy
 jobs:
   build:
-    name: Call Netlify build hook
-    runs-on: ubuntu-latest
-    steps:
-      - name: Curl request
-        run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/$NETLIFY_BRANCH_DEPLOY\?trigger_branch\=$BRANCH_NAME\&trigger_title\=triggered+by+github+workflow
+    name: Git checkout
+    uses: actions/checkout@v1
+    name: Branch name
+    run: echo running on ${GITHUB_REF##*/}
+    # name: Call Netlify build hook
+    # runs-on: ubuntu-latest
+    # steps:
+    #   - name: Curl request
+    #     run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/$NETLIFY_BRANCH_DEPLOY\?trigger_branch\=$BRANCH_NAME\&trigger_title\=triggered+by+github+workflow
