@@ -10,5 +10,5 @@ comment:
   snippets:
     - id: storybook-branch
       files:
-        any: '**/*.yml'
+        - '**/*.yml'
       body: Check out your component in Storybook - {{ branchUrl }}
