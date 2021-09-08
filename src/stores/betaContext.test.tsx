@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { render } from '@testing-library/react'
 import { BetaContextProvider, useBetaContext } from './betaContext'
 

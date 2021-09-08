@@ -1,0 +1,17 @@
+@import 'styles/uswdsDependencies';
+
+.personalData {
+  h2 {
+    @include u-font-size('heading', 14);
+    margin-bottom: units(2.5);
+  }
+  dt {
+    @include u-line-height('heading', 3);
+    font-weight: 700;
+  }
+  dd {
+    @include u-line-height('body', 4);
+    margin-inline-start: 0;
+    margin-bottom: units(2);
+  }
+}
