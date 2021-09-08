@@ -21,9 +21,7 @@ jobs:
       #   continue-on-error: false
 
       - name: Post deployed URL
-        uses: exercism/pr-commenter-action@v1.2.0
+        uses: thollander/actions-comment-pull-request@1.0.3
         with:
-          github-token: '${{github.token}}'
-          config-file: '.github/pr-commenter.yml'
-          template-variables: |
-            { "branchUrl": "$BRANCH_URL" }
+          GITHUB_TOKEN: '${{github.token}}'
+          message: 'View your component in Storybook - $BRANCH_URL'
