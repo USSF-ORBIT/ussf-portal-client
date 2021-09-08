@@ -4,12 +4,17 @@ env:
   BRANCH_NAME: ${{github.head_ref}}
   BRANCH_URL: $BRANCH_NAME +'--ussf-storybook.netlify.app'
 on:
-  pull_request:
-    types: [labeled]
+  push:
+    branches:
+      - storybook-*
+      - ci-*
+  # pull_request:
+  #   types: 
+  #     - labeled
 
 jobs:
   storybook-branch-deploy:
-    if: ${{ github.event.label.name == 'type: storybook component'}}
+    if: github.event.label.name == 'type: storybook component'
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
