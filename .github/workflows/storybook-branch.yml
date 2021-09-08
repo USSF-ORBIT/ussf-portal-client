@@ -14,7 +14,6 @@ on:
 
 jobs:
   storybook-branch-deploy:
-    # if: github.event.label.name == 'type: storybook component'
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
