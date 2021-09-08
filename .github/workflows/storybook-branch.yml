@@ -5,11 +5,11 @@ env:
   BRANCH_URL: $BRANCH_NAME +'--ussf-storybook.netlify.app'
 on:
   pull_request:
-    types: [ labeled ]
-    
+    types: [labeled]
+
 jobs:
   storybook-branch-deploy:
-    if: github.event.label.name == "type: storybook component"
+    if: ${{ github.event.label.name == 'type: storybook component'}}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -22,10 +22,6 @@ jobs:
       - name: Post deployed URL
         uses: exercism/pr-commenter-action@v1.2.0
         with:
-          github-token: "${{github.token}}"
-          config-file: ".github/pr-commenter.yml"
-          template-variables: |
-          {
-            "branchUrl": "$BRANCH_URL"
-          }
-      
+          github-token: '${{github.token}}'
+          config-file: '.github/pr-commenter.yml'
+          template-variables: { 'branchUrl': '$BRANCH_URL' }
