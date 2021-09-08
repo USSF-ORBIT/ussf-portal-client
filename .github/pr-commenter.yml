@@ -9,5 +9,6 @@ comment:
 
   snippets:
     - id: storybook-branch
-      files: '*.tsx'
+      files:
+        - '*'
       body: Check out your component in Storybook - {{ branchUrl }}
