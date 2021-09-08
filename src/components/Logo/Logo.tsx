@@ -1,10 +1,11 @@
 import React from 'react'
-import styles from './Logo.module.scss'
 
-const Logo = () => {
-  return (
-    <img src="/img/ussf-logo.svg" alt="USSF Logo" className={styles.default} />
-  )
+const Logo = ({ abbreviated = false }: { abbreviated?: boolean }) => {
+  if (abbreviated) {
+    return <img src="/img/ussf-logo-short.svg" alt="USSF Logo" />
+  }
+
+  return <img src="/img/ussf-logo.svg" alt="USSF Logo" />
 }
 
 export default Logo
