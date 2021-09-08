@@ -1,8 +1,12 @@
 comment:
   on-update: recreate
   header: |
-    View Storybook deploy: {{ branchUrl }}
+    📖 Storybook Branch Deploy
 
   footer: |
     ---
     Automated comment created by [PR Commenter](https://github.com/exercism/pr-commenter-action) :robot:.
+
+  snippets:
+    - id: storybook-branch
+      body: Check out your component in Storybook - {{ branchUrl }}
