@@ -16,9 +16,9 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
 
-      - name: Netlify build hook
-        run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/$NETLIFY_BRANCH_DEPLOY\?trigger_branch\=$BRANCH_NAME\&trigger_title\=triggered+by+github+workflow
-        continue-on-error: false
+      # - name: Netlify build hook
+      #   run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/$NETLIFY_BRANCH_DEPLOY\?trigger_branch\=$BRANCH_NAME\&trigger_title\=triggered+by+github+workflow
+      #   continue-on-error: false
 
       - name: Post deployed URL
         uses: exercism/pr-commenter-action@v1.2.0
