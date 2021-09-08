@@ -44,6 +44,3 @@ cypress/reports
 
 # Public assets
 public/
-
-# Generated files
-CHANGELOG.md

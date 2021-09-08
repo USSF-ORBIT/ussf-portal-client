@@ -13,10 +13,6 @@ describe('CMS schema', () => {
           query: 'id url label',
         })
 
-        console.log(
-          `Bookmark ${bookmark.id} created with URL ${bookmark.url}, label ${bookmark.label}`
-        )
-
         expect(bookmark.id).toBeTruthy()
         expect(bookmark.url).toEqual('www.example.com')
         expect(bookmark.label).toEqual('Test Bookmark')
