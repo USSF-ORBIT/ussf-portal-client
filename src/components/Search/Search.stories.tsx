@@ -1,10 +1,10 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
-import GlobalSearch from './GlobalSearch'
+import Search from './Search'
 
 export default {
   title: 'Components/Search',
-  component: GlobalSearch,
+  component: Search,
 } as Meta
 
-export const DefaultSearch = () => <GlobalSearch />
+export const DefaultSearch = () => <Search />
