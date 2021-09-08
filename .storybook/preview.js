@@ -1,6 +1,9 @@
 import { RouterContext } from 'next/dist/shared/lib/router-context'
 import * as NextImage from 'next/image'
+
+import '../src/initIcons'
 import '../src/styles/index.scss'
+
 // Storybook and next/image component do not play nice together
 // This enables us to use the <Image/> component and still view in Storybook
 const OriginalNextImage = NextImage.default
