@@ -20,3 +20,12 @@ jobs:
         continue-on-error: false
 
       - name: Post deployed URL
+        uses: exercism/pr-commenter-action@v1.2.0
+        with:
+          github-token: "${{github.token}}"
+          config-file: ".github/pr-commenter.yml"
+          template-variables: |
+          {
+            "branchUrl": "$BRANCH_URL"
+          }
+      
