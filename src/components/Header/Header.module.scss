@@ -1,0 +1,39 @@
+@import 'styles/uswdsDependencies';
+
+.header {
+  background: #333;
+
+  @include at-media('desktop') {
+    padding: units('105') 0;
+  }
+
+  :global {
+    .usa-logo {
+      img {
+        width: 65px;
+      }
+
+      @include at-media('desktop') {
+        margin: 0;
+
+        img {
+          width: 114px;
+        }
+      }
+    }
+
+    .usa-nav {
+      background: #333;
+
+      @include at-media('desktop') {
+        align-self: center;
+        padding: 0;
+      }
+    }
+
+    .usa-nav__primary > .usa-nav__primary-item > a {
+      color: #fff;
+      font-weight: normal;
+    }
+  }
+}

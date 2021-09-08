@@ -8,3 +8,5 @@ export default {
 } as Meta
 
 export const DefaultLogo = () => <Logo />
+
+export const AbbreviatedLogo = () => <Logo abbreviated />
