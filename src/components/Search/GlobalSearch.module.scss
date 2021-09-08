@@ -4,12 +4,28 @@
   :global {
     .usa-button {
       @include u-font-size('sans', 8);
-      border-top-right-radius: 6px;
-      border-bottom-right-radius: 6px;
+      border-radius: 0px 6px 6px 0px;
       background-color: color($theme-color-primary);
       text-transform: unset;
       font-weight: 700;
       letter-spacing: normal;
+      border: 1px solid #565c65;
+      &.usa-select {
+        @media (min-width: 30em) {
+          @include u-font-size('sans', 3);
+          height: 3rem;
+          width: auto;
+          padding-right: units(4);
+        }
+
+        border-radius: 6px 0 0 6px;
+        @include u-font-size('sans', 1);
+        margin: 0;
+        height: 2rem;
+        width: 8rem;
+        padding-left: units('105');
+        padding-right: units('205');
+      }
     }
   }
 }
