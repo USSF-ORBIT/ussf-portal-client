@@ -6,6 +6,8 @@ import {
   NavMenuButton,
 } from '@trussworks/react-uswds'
 
+import styles from './Header.module.scss'
+
 import Logo from 'components/Logo/Logo'
 import NavLink from 'components/util/NavLink/NavLink'
 import LinkTo from 'components/util/LinkTo/LinkTo'
@@ -30,7 +32,7 @@ const Header = () => {
   return (
     <>
       <div className={`usa-overlay ${expanded ? 'is-visible' : ''}`} />
-      <USWDSHeader basic>
+      <USWDSHeader basic className={styles.header}>
         <div className="usa-nav-container">
           <div className="usa-navbar">
             <Title>
