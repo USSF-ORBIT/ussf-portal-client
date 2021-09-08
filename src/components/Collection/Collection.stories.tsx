@@ -1,0 +1,29 @@
+import React from 'react'
+import { Meta } from '@storybook/react'
+import Collection from './Collection'
+import Bookmark from 'components/Bookmark/Bookmark'
+
+export default {
+  title: 'Components/Collection',
+  component: Collection,
+} as Meta
+
+export const ExampleCollection = () => (
+  <Collection title="Example collection">
+    <Bookmark key="link1" href="#">
+      Webmail
+    </Bookmark>
+    <Bookmark key="link2" href="#">
+      MyPay
+    </Bookmark>
+    <Bookmark key="link3" href="#">
+      vMPF
+    </Bookmark>
+    <Bookmark key="link3" href="#">
+      LeaveWeb
+    </Bookmark>
+    <Bookmark key="link3" href="#">
+      e-Publications
+    </Bookmark>
+  </Collection>
+)

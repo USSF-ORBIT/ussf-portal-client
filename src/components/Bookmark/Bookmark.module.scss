@@ -1,0 +1,27 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/deps';
+
+.bookmark {
+  border: 1px solid color('base-light');
+  border-radius: 5px;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+
+  > a {
+    flex-grow: 1;
+    padding: units('105') units(2);
+
+    /*
+    // if we want truncated text
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    */
+  }
+}
+
+.delete {
+  @extend %button-reset;
+  padding: 0 units('105');
+}
