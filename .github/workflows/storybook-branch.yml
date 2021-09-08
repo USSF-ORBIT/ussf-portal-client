@@ -24,4 +24,4 @@ jobs:
         uses: thollander/actions-comment-pull-request@1.0.3
         with:
           GITHUB_TOKEN: '${{github.token}}'
-          message: 'View your component in Storybook - $BRANCH_URL'
+          message: 'View your component in Storybook - ${{BRANCH_URL}}'
