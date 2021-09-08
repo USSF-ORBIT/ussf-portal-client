@@ -23,4 +23,4 @@ jobs:
         uses: thollander/actions-comment-pull-request@1.0.3
         with:
           GITHUB_TOKEN: '${{github.token}}'
-          message: '🎉 View your component in Storybook -[https://${{github.head_ref}}--ussf-storybook.netlify.app]( https://${{github.head_ref}}--ussf-storybook.netlify.app)'
+          message: '🎉 View your component in Storybook - [https://${{github.head_ref}}--ussf-storybook.netlify.app]( https://${{github.head_ref}}--ussf-storybook.netlify.app)'
