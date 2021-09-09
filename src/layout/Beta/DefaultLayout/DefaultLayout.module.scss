@@ -3,27 +3,16 @@
 @import 'styles/mvp/settings';
 
 .siteContainer {
-  @include at-media('desktop') {
-    display: flex;
-  }
-}
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 
-.mainContainer {
-  @include at-media('desktop') {
-    flex: 1 1 0 !important;
-  }
-}
-
-.navContainer {
-  @include at-media('desktop') {
-    display: flex;
-    height: 100%;
-    position: fixed;
-  }
-}
-
-.layoutDefault {
   :global {
+    // Dark theme gov banner
     @include gov-banner;
+  }
+
+  main {
+    flex: 1;
   }
 }

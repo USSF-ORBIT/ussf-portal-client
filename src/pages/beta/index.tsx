@@ -7,7 +7,7 @@ const Home = () => {
   const { leaveBeta } = useBetaContext()
   return (
     <>
-      <section className={`usa-section padding-top-4 padding-bottom-0`}>
+      <section className={`usa-section padding-top-0`}>
         <div className="grid-container">
           <Alert type="success" heading="Success">
             Welcome to the Beta USSF Portal. This site is under development and

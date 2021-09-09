@@ -8,6 +8,10 @@
   }
 
   :global {
+    .usa-nav-container {
+      @include grid-container('widescreen');
+    }
+
     .usa-logo {
       img {
         width: 65px;
