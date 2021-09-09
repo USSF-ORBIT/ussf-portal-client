@@ -6,6 +6,17 @@ node_modules/
 
 # Build output
 .next
+out/
+
+# Keystone output
+.keystone
+
+# Storybook build output
+storybook-static
+
+# Copied by yarn postinstall
+public/vendor/fonts
+public/vendor/img
 
 # Logs
 logs
@@ -17,6 +28,10 @@ yarn-error.log*
 # Coverage directory used by tools like istanbul
 coverage
 
+# Cypress artifacts
+cypress/screenshots
+cypress/videos
+cypress/reports
 # Optional eslint cache
 .eslintcache
 
@@ -25,6 +40,10 @@ coverage
 
 # dotenv environment variables file
 .env
+.envrc.local
 
 # Public assets
 public/
+
+# Generated files
+CHANGELOG.md
