@@ -6,6 +6,9 @@ const Search = () => {
   return (
     <div className={styles.search}>
       <form className="usa-search usa-search--big" role="search">
+        <label className="usa-sr-only" htmlFor="options">
+          Search Options
+        </label>
         <select className="usa-select usa-button" name="options" id="options">
           <option value="all">All</option>
           <option value="value1">Option 1</option>
@@ -13,6 +16,9 @@ const Search = () => {
           <option value="value3">Option 3</option>
         </select>
 
+        <label className="usa-sr-only" htmlFor="search-field-en-big">
+          Search
+        </label>
         <input
           className="usa-input"
           id="search-field-en-big"
@@ -20,6 +26,7 @@ const Search = () => {
           name="search"
           placeholder="What are you looking for today?"
         />
+
         <button className="usa-button" type="submit">
           <span className="usa-search__submit-text">Search</span>
         </button>
