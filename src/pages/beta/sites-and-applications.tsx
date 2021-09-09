@@ -6,6 +6,7 @@ import { lists } from '.keystone/api'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
+import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 type Bookmark = {
   id: string
@@ -19,21 +20,26 @@ const SitesAndApplications = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
-      <h2>Sites and Applications</h2>
+      <h2 className={styles.pageHeader}>Sites and Applications</h2>
 
-      <Grid row>
-        {collections.map((collection) => (
-          <Grid key={`collection_${collection.id}`} tablet={{ col: 3 }}>
-            <Collection title={collection.title}>
-              {collection.bookmarks.map((bookmark: Bookmark) => (
-                <Bookmark key={`bookmark_${bookmark.id}`} href={bookmark.url}>
-                  {bookmark.label}
-                </Bookmark>
-              ))}
-            </Collection>
-          </Grid>
-        ))}
-      </Grid>
+      <div className={styles.widgetContainer}>
+        <Grid row gap>
+          {collections.map((collection) => (
+            <Grid
+              key={`collection_${collection.id}`}
+              tablet={{ col: 6 }}
+              desktop={{ col: 3 }}>
+              <Collection title={collection.title}>
+                {collection.bookmarks.map((bookmark: Bookmark) => (
+                  <Bookmark key={`bookmark_${bookmark.id}`} href={bookmark.url}>
+                    {bookmark.label}
+                  </Bookmark>
+                ))}
+              </Collection>
+            </Grid>
+          ))}
+        </Grid>
+      </div>
     </>
   )
 }
