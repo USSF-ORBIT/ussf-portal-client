@@ -37,11 +37,11 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
               {/* SEARCH GOES HERE */}
             </Grid>
 
-            <Grid row>
-              <Grid col="auto">
+            <Grid row gap>
+              <Grid tablet={{ col: 'auto' }}>
                 <PageNav navItems={navItems} />
               </Grid>
-              <Grid col>
+              <Grid tablet={{ col: true }}>
                 {/* PAGE CONTENT */}
                 {children}
               </Grid>
