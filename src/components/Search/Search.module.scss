@@ -1,0 +1,56 @@
+@import 'styles/uswdsDependencies';
+
+.search {
+  :global {
+    .usa-button {
+      @include u-font-size('sans', 8);
+      border-radius: 0px 6px 6px 0px;
+      background-color: color($theme-color-primary);
+      text-transform: unset;
+      font-weight: 700;
+      letter-spacing: normal;
+      border: 1px solid #565c65;
+      &.usa-select {
+        @include u-font-size('sans', 1);
+        border-radius: 6px 0 0 6px;
+        margin: 0;
+        height: 2rem;
+        width: 8rem;
+        padding-left: units('105');
+        padding-right: units('205');
+
+        @include at-media('mobile-lg') {
+          @include u-font-size('sans', 3);
+          height: 3rem;
+          width: auto;
+          padding-right: units(4);
+        }
+      }
+    }
+    ul {
+      list-style: none;
+      display: inline-flex;
+      padding-left: 0;
+
+      li {
+        padding-right: units('05');
+      }
+
+      @include at-media('mobile-lg') {
+        padding-left: units(1);
+      }
+    }
+  }
+  .suggestedTerms {
+    margin-left: 0;
+    padding-top: units(1);
+    h3 {
+      @include u-font-size('heading', 6);
+      font-weight: 400;
+      display: inline-flex;
+    }
+    @include at-media('tablet') {
+      margin-left: 7rem;
+    }
+  }
+}
