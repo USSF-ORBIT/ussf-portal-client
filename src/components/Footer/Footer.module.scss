@@ -1,0 +1,25 @@
+@import 'styles/uswdsDependencies';
+
+.footer {
+  background: #333;
+  color: #fff;
+  @include u-font-size('body', '2xs');
+
+  :global {
+    .grid-col-auto {
+      align-self: center;
+    }
+
+    .usa-footer__secondary-section {
+      background-color: transparent;
+
+      a {
+        color: #fff;
+      }
+    }
+
+    .usa-footer__nav {
+      @include u-padding-y(2);
+    }
+  }
+}
