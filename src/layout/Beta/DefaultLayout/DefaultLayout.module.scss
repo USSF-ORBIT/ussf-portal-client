@@ -14,5 +14,11 @@
 
   main {
     flex: 1;
+
+    // Reset MVP styles
+    h2 {
+      text-transform: none;
+      letter-spacing: normal;
+    }
   }
 }

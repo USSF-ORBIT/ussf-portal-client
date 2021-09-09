@@ -4,8 +4,6 @@
   h2 {
     @include u-font-size('heading', 14);
     margin-bottom: units(2.5);
-    text-transform: none;
-    font-weight: bold;
   }
   dt {
     @include u-line-height('heading', 3);
