@@ -20,7 +20,7 @@ const SitesAndApplications = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
-      <h2 className={styles.pageHeader}>Sites and Applications</h2>
+      <h2 className={styles.pageTitle}>Sites &amp; Applications</h2>
 
       <div className={styles.widgetContainer}>
         <Grid row gap>
