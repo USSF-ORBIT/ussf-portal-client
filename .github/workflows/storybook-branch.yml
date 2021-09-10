@@ -40,4 +40,4 @@ jobs:
         uses: thollander/actions-comment-pull-request@1.0.3
         with:
           GITHUB_TOKEN: '${{github.token}}'
-          message: '🎉 View the deployed prototype - [https://${{github.head_ref}}--ussf-storybook.netlify.app]( https://${{github.head_ref}}--ussf-storybook.netlify.app)'
+          message: '🎉 View the deployed prototype - [https://${{github.head_ref}}--ussf-portal-client.netlify.app]( https://${{github.head_ref}}--ussf-portal-client.netlify.app)'
