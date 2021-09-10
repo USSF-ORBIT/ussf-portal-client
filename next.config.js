@@ -8,6 +8,7 @@ const { withKeystone } = require('@keystone-next/keystone/next')
 module.exports = withKeystone(
   withBundleAnalyzer({
     target: 'serverless',
+    generateBuildId: () => 'build',
     async rewrites() {
       return {
         beforeFiles: [
