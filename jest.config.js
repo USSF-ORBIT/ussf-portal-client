@@ -14,6 +14,7 @@ module.exports = {
     'layout/(.*)': '<rootDir>/src/layout/$1',
     'pages/(.*)': '<rootDir>/src/pages/$1',
     'stores/(.*)': '<rootDir>/src/stores/$1',
+    'types/(.*)': '<rootDir>/src/types/$1',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   coverageThreshold: {
