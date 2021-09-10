@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/1.0.0...1.0.1) (2021-09-10)
+
+
+### Bug Fixes
+
+* Fix link color on home page ([#225](https://github.com/USSF-ORBIT/ussf-portal-client/issues/225)) ([699c9d9](https://github.com/USSF-ORBIT/ussf-portal-client/commit/699c9d90747ffc5e473a96a81f1a478343537790))
+
 ## 1.0.0 (2021-08-19)
 
 
