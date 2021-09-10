@@ -39,4 +39,8 @@
   & + .sortButton {
     margin-left: units(4);
   }
+
+  &[disabled] {
+    color: color('disabled');
+  }
 }

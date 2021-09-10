@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { InferGetStaticPropsType } from 'next'
 import { Grid } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,18 +17,32 @@ type Bookmark = {
   description?: string
 }
 
+type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
+
 const SitesAndApplications = ({
   collections,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
+
+  const handleSortClick = (sortType: SortBy) => setSort(sortType)
+
   return (
     <>
       <h2 className={styles.pageTitle}>Sites &amp; Applications</h2>
 
       <div className={styles.toolbar}>
-        <button type="button" className={styles.sortButton}>
+        <button
+          type="button"
+          className={styles.sortButton}
+          disabled={sortBy === 'SORT_ALPHA'}
+          onClick={() => handleSortClick('SORT_ALPHA')}>
           <FontAwesomeIcon icon="list" /> Sort alphabetically
         </button>
-        <button type="button" className={styles.sortButton}>
+        <button
+          type="button"
+          className={styles.sortButton}
+          disabled={sortBy === 'SORT_TYPE'}
+          onClick={() => handleSortClick('SORT_TYPE')}>
           <FontAwesomeIcon icon="th-large" />
           Sort by type
         </button>
