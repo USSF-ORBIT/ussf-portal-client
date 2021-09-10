@@ -1,5 +1,6 @@
 import { InferGetStaticPropsType } from 'next'
 import { Grid } from '@trussworks/react-uswds'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { lists } from '.keystone/api'
 
@@ -21,6 +22,16 @@ const SitesAndApplications = ({
   return (
     <>
       <h2 className={styles.pageTitle}>Sites &amp; Applications</h2>
+
+      <div className={styles.toolbar}>
+        <button type="button" className={styles.sortButton}>
+          <FontAwesomeIcon icon="list" /> Sort alphabetically
+        </button>
+        <button type="button" className={styles.sortButton}>
+          <FontAwesomeIcon icon="th-large" />
+          Sort by type
+        </button>
+      </div>
 
       <div className={styles.widgetContainer}>
         <Grid row gap>
