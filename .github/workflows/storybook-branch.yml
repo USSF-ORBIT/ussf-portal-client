@@ -1,6 +1,7 @@
-name: Storybook Branch Deploy
+name: Netlify Branch Deploy
 env:
   NETLIFY_BRANCH_DEPLOY: ${{ secrets.NETLIFY_BRANCH_DEPLOY }}
+  PROTOTYPE_DEPLOY: ${{ secrets.PROTOTYPE_DEPLOY }}
   BRANCH_NAME: ${{github.head_ref}}
 on:
   pull_request:
@@ -24,3 +25,19 @@ jobs:
         with:
           GITHUB_TOKEN: '${{github.token}}'
           message: '🎉 View your component in Storybook - [https://${{github.head_ref}}--ussf-storybook.netlify.app]( https://${{github.head_ref}}--ussf-storybook.netlify.app)'
+  nextjs-branch-deploy:
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'prototype'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+
+      - name: Trigger Netlify build
+        run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/$PROTOTYPE_DEPLOY\?trigger_branch\=$BRANCH_NAME\&trigger_title\=triggered+by+github+workflow
+        continue-on-error: false
+
+      - name: Post Prototype URL
+        uses: thollander/actions-comment-pull-request@1.0.3
+        with:
+          GITHUB_TOKEN: '${{github.token}}'
+          message: '🎉 View the deployed prototype - [https://${{github.head_ref}}--ussf-portal-client.netlify.app]( https://${{github.head_ref}}--ussf-portal-client.netlify.app)'
