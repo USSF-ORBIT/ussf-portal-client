@@ -21,7 +21,11 @@ const PageNav = ({ navItems }: PropTypes) => {
     </NavLink>
   ))
 
-  return <SideNav items={items} />
+  return (
+    <nav aria-label="Page navigation">
+      <SideNav items={items} />
+    </nav>
+  )
 }
 
 export default PageNav

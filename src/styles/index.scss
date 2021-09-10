@@ -9,3 +9,8 @@
 
 // MVP SCSS
 @import './mvp/index.scss';
+
+body,
+#__next {
+  min-height: 100vh;
+}
