@@ -172,7 +172,11 @@ The footer should also include `BREAKING CHANGE:` if the commit includes any bre
   - We are currently enforcing a minimum Jest test coverage of 95% across the codebase.
   - All Jest tests are run in Github CI and must pass before merging.
 - Use [Cypress](https://www.cypress.io/) to write integration & end-to-end tests that can be run in a real browser. This allows testing certain browser behaviors that are not reproducible in jsdom.
-  - All Cypress tests are run in Github CI and must pass before merging. Currently, they are only run against the static site (since that is what is currently in production) at `localhost:5000`.
+  - All Cypress tests are run in Github CI and must pass before merging. Currently, they are only run against the static site (since that is what is currently in production) at `localhost:5000`. You can test Cypress against the static site on your local machine by running the following commands in order:
+    - `yarn build:static` (export the static site)
+    - `yarn start:static` (serve the static site)
+    - `yarn cypress:static` (start the Cypress runner against the static site)
+  - You can also run Cypress against the dev server with `yarn cypress:dev`. Just note that the dev server does _not_ match the same behavior as the static site, or even when it is running in production, so Cypress tests should always also be verified against what is going to be deployed to production.
 
 ## Releasing
 
