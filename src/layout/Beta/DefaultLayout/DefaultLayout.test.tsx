@@ -32,5 +32,12 @@ describe('DefaultLayout component', () => {
     expect(
       screen.getByRole('link', { name: 'Skip to main content' })
     ).toHaveAttribute('href', '#main-content')
+
+    expect(screen.getByRole('main')).toHaveAttribute('id', 'main-content')
+  })
+
+  it('renders common layout elements', () => {
+    expect(screen.getAllByRole('banner')).toHaveLength(2) // Gov banner & site header
+    expect(screen.getAllByRole('navigation')).toHaveLength(3) // header, page nav, footer
   })
 })

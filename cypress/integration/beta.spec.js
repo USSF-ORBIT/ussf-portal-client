@@ -9,7 +9,7 @@ describe('the static Beta site', () => {
     cy.url().should('contain', '/')
 
     // Leave the beta
-    cy.get('.usa-button').click()
+    cy.contains('Leave Beta').click()
 
     // Return to MVP
     cy.visit('/')
