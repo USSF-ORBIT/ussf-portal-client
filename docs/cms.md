@@ -35,7 +35,11 @@ Currently, the Portal content is managed by [Keystone CMS in embedded mode](http
    git commit -m "Your commit message (be descriptive)!"
    git push
    ```
-1. Open a pull request on Github. This will be subject to all of the same checks and tests as code changes, including [PR linting](./development#pr-linting), so make sure your PR title is formatted correctly. When you open the PR, the engineering team will automatically be requested as reviewers. Once it's passed all required checks and been approved, it can be merged and your content change is complete!
+1. Open a pull request on Github. This will be subject to all of the same checks and tests as code changes, including [PR linting](./development#pr-linting), so make sure your PR title is formatted correctly. Content changes should use the `chore(content)` prefix:
+   ```
+   chore(content): <description of changes>
+   ```
+   When you open the PR, the engineering team will automatically be requested as reviewers. Once it's passed all required checks and been approved, it can be merged and your content change is complete!
    > Note: even after being merged, changes won't show up in environments until they've been deployed.
 
 If you have any issues with the above steps, remember you can always ask for help in Slack!
