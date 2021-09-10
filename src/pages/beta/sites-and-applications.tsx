@@ -8,6 +8,7 @@ import { lists } from '.keystone/api'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
+import BookmarkList from 'components/BookmarkList/BookmarkList'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 type Bookmark = {
@@ -21,10 +22,14 @@ type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
 const SitesAndApplications = ({
   collections,
+  bookmarks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
 
   const handleSortClick = (sortType: SortBy) => setSort(sortType)
+
+  // TODO - is there a better way for this
+  const bookmarkRecords = bookmarks as Bookmark[]
 
   return (
     <>
@@ -48,24 +53,30 @@ const SitesAndApplications = ({
         </button>
       </div>
 
-      <div className={styles.widgetContainer}>
-        <Grid row gap>
-          {collections.map((collection) => (
-            <Grid
-              key={`collection_${collection.id}`}
-              tablet={{ col: 6 }}
-              desktop={{ col: 3 }}>
-              <Collection title={collection.title}>
-                {collection.bookmarks.map((bookmark: Bookmark) => (
-                  <Bookmark key={`bookmark_${bookmark.id}`} href={bookmark.url}>
-                    {bookmark.label}
-                  </Bookmark>
-                ))}
-              </Collection>
-            </Grid>
-          ))}
-        </Grid>
-      </div>
+      {sortBy === 'SORT_ALPHA' && <BookmarkList bookmarks={bookmarkRecords} />}
+
+      {sortBy === 'SORT_TYPE' && (
+        <div className={styles.widgetContainer}>
+          <Grid row gap>
+            {collections.map((collection) => (
+              <Grid
+                key={`collection_${collection.id}`}
+                tablet={{ col: 6 }}
+                desktop={{ col: 3 }}>
+                <Collection title={collection.title}>
+                  {collection.bookmarks.map((bookmark: Bookmark) => (
+                    <Bookmark
+                      key={`bookmark_${bookmark.id}`}
+                      href={bookmark.url}>
+                      {bookmark.label}
+                    </Bookmark>
+                  ))}
+                </Collection>
+              </Grid>
+            ))}
+          </Grid>
+        </div>
+      )}
     </>
   )
 }
@@ -79,5 +90,10 @@ export async function getStaticProps() {
     query: 'id title bookmarks { id url label }',
   })
 
-  return { props: { collections } }
+  const bookmarks = await lists.Bookmark.findMany({
+    query: 'id url label description',
+    orderBy: [{ label: 'asc' }],
+  })
+
+  return { props: { collections, bookmarks } }
 }
