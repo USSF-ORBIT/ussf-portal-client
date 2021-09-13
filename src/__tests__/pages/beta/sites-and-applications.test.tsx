@@ -45,6 +45,7 @@ describe('Sites and Applications page', () => {
     const collections = screen.getAllByRole('heading', { level: 3 })
     expect(collections).toHaveLength(mockCollections.length)
     collections.forEach((c, i) => {
+      // eslint-disable-next-line security/detect-object-injection
       expect(collections[i]).toHaveTextContent(mockCollections[i].title)
     })
   })
