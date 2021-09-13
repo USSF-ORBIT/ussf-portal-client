@@ -10,6 +10,9 @@ import Logo from 'components/Logo/Logo'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const Footer = () => {
+  // PROTOTYPE: Disabling this rule while this component is used for prototyping only!
+  /* eslint-disable jsx-a11y/anchor-is-valid */
+
   return (
     <USWDSFooter
       className={styles.footer}

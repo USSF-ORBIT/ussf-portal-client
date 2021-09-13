@@ -13,7 +13,7 @@ describe('Bookmark component', () => {
     render(<Bookmark href="/home">Home</Bookmark>)
 
     const link = screen.getByRole('link', {
-      name: 'Home',
+      name: 'Home (opens in a new window)',
     })
 
     expect(link).toHaveAttribute('href', '/home')

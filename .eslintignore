@@ -9,7 +9,7 @@ node_modules/
 out/
 
 # Keystone output
-.keystone
+/.keystone
 
 # Storybook build output
 storybook-static

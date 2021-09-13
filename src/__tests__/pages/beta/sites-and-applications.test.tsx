@@ -2,7 +2,9 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react'
-import SitesAndApplications from 'pages/beta/sites-and-applications'
+import SitesAndApplications, {
+  getStaticProps,
+} from 'pages/beta/sites-and-applications'
 
 const mockCollections = [
   {
@@ -41,5 +43,19 @@ describe('Sites and Applications page', () => {
     expect(
       screen.getByRole('heading', { name: 'Sites & Applications' })
     ).toBeInTheDocument()
+
+    const collections = screen.getAllByRole('heading', { level: 3 })
+    expect(collections).toHaveLength(mockCollections.length)
+    collections.forEach((c, i) => {
+      // eslint-disable-next-line security/detect-object-injection
+      expect(collections[i]).toHaveTextContent(mockCollections[i].title)
+    })
+  })
+})
+
+describe('getStaticProps', () => {
+  it('returns expected props', async () => {
+    const results = await getStaticProps()
+    expect(results).toEqual({ props: { collections: [] } })
   })
 })
