@@ -12,14 +12,21 @@ const Bookmark = ({
   children,
   className,
   onDelete,
+  href,
   ...linkProps
 }: PropTypes) => {
   const linkClasses = classnames('usa-link', className)
 
   return (
     <div className={styles.bookmark}>
-      <LinkTo {...linkProps} className={linkClasses}>
+      <LinkTo
+        {...linkProps}
+        href={href}
+        className={linkClasses}
+        rel="noreferrer noopener"
+        target="_blank">
         {children}
+        <span className="usa-sr-only">(opens in a new window)</span>
       </LinkTo>
 
       {onDelete && (
