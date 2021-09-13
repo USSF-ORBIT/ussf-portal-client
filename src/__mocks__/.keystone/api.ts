@@ -1,9 +1,5 @@
-export default {
-  lists: {
-    Collection: {
-      findMany: () => {
-        return Promise.resolve([])
-      },
-    },
+export const lists = {
+  Collection: {
+    findMany: () => Promise.resolve([]),
   },
 }
