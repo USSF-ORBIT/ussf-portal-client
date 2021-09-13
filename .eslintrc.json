@@ -39,7 +39,15 @@
     "import/order": "warn",
     "react/button-has-type": "error",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@next/next/no-img-element": "off"
+    "@next/next/no-img-element": "off",
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["LinkTo"],
+        "aspects": ["noHref", "invalidHref", "preferButton"]
+      }
+    ],
+    "react/jsx-no-target-blank": ["error"]
   },
   "settings": {
     "react": {
@@ -47,7 +55,11 @@
     },
     "import/resolver": {
       "typescript": {} // this loads <rootdir>/tsconfig.json to eslint
-    }
+    },
+    "linkComponents": [
+      // Components used as alternatives to <a> for linking, eg. <Link to={ url } />
+      { "name": "LinkTo", "attribute": "href" }
+    ]
   },
   "overrides": [
     {

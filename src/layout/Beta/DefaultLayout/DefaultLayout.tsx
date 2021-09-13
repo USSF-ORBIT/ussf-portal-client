@@ -58,3 +58,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
 }
 
 export default DefaultLayout
+
+export const withBetaLayout = (page: React.ReactNode) => (
+  <DefaultLayout>{page}</DefaultLayout>
+)
