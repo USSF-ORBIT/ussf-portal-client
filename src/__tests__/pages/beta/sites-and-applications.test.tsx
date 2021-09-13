@@ -41,5 +41,11 @@ describe('Sites and Applications page', () => {
     expect(
       screen.getByRole('heading', { name: 'Sites & Applications' })
     ).toBeInTheDocument()
+
+    const collections = screen.getAllByRole('heading', { level: 3 })
+    expect(collections).toHaveLength(mockCollections.length)
+    collections.forEach((c, i) => {
+      expect(collections[i]).toHaveTextContent(mockCollections[i].title)
+    })
   })
 })
