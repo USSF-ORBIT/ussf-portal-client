@@ -105,10 +105,14 @@ const Home = () => {
                 </h2>
                 <ul className="usa-list usa-list--unstyled margin-top-2 font-body-xs">
                   <li>
-                    <a href="https://mypay.dfas.mil/">myPay</a>
+                    <a className="usa-link" href="https://mypay.dfas.mil/">
+                      myPay
+                    </a>
                   </li>
                   <li className="margin-top-05">
-                    <a href="https://dtsproweb.defensetravel.osd.mil/dts-app/pubsite/all/view/">
+                    <a
+                      className="usa-link"
+                      href="https://dtsproweb.defensetravel.osd.mil/dts-app/pubsite/all/view/">
                       DTS
                     </a>
                   </li>
