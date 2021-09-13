@@ -15,7 +15,7 @@ const Bookmark = ({
   href,
   ...linkProps
 }: PropTypes) => {
-  const linkClasses = classnames('usa-link', 'usa-link--external', className)
+  const linkClasses = classnames('usa-link', className)
 
   return (
     <div className={styles.bookmark}>
