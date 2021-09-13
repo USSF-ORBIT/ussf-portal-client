@@ -9,7 +9,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import 'styles/index.scss'
 import '../../public/vendor/fontawesome-pro-5.15.1-web/css/all.min.css'
 
-import 'initIcons'
+import '../initIcons'
 import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
 import { BetaContextProvider } from 'stores/betaContext'
 
