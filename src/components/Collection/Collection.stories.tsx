@@ -27,3 +27,11 @@ export const ExampleCollection = () => (
     </Bookmark>
   </Collection>
 )
+
+export const ExampleCollectionSingleBookmark = () => (
+  <Collection title="Example collection">
+    <Bookmark key="link1" href="#">
+      Webmail
+    </Bookmark>
+  </Collection>
+)

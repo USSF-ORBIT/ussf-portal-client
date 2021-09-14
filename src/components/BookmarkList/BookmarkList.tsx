@@ -1,10 +1,10 @@
 import React from 'react'
 import { Table } from '@trussworks/react-uswds'
 
-import type { Bookmark } from 'types'
+import type { BookmarkRecords } from 'types'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
-const BookmarkList = ({ bookmarks }: { bookmarks: Bookmark[] }) => {
+const BookmarkList = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   return (
     <Table striped fullWidth>
       <thead>
@@ -15,7 +15,13 @@ const BookmarkList = ({ bookmarks }: { bookmarks: Bookmark[] }) => {
       </thead>
       <tbody>
         {bookmarks.map((b) => {
+          if (b.id === undefined || b.url === undefined) {
+            // TODO - error, invalid bookmark since these fields are required
+            return <></>
+          }
+
           const { id, url, label, description } = b
+
           return (
             <tr key={`bookmark_${id}`}>
               <th scope="row">
