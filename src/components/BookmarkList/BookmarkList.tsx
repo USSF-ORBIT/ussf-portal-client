@@ -23,8 +23,13 @@ const BookmarkList = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
           return (
             <tr key={`bookmark_${id}`}>
               <th scope="row">
-                <LinkTo href={url} className="usa-link">
+                <LinkTo
+                  href={url}
+                  className="usa-link"
+                  target="_blank"
+                  rel="noreferrer noopener">
                   {label}
+                  <span className="usa-sr-only">(opens in a new window)</span>
                 </LinkTo>
               </th>
               <td>{description}</td>
