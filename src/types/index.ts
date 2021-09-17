@@ -4,3 +4,9 @@ export type Bookmark = {
   label?: string
   description?: string
 }
+
+export type Collection = {
+  id: string
+  title: string
+  bookmarks: Bookmark[]
+}

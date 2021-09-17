@@ -30,11 +30,15 @@
     "release": "standard-version -t ''"
   },
   "dependencies": {
+    "@apollo/client": "^3.4.11",
     "@keystone-next/fields": "15.0.0",
     "@keystone-next/keystone": "25.0.1",
     "@next/bundle-analyzer": "11.1.2",
     "@trussworks/react-uswds": "2.0.0",
+    "@types/uuid": "^8.3.1",
+    "apollo3-cache-persist": "^0.12.1",
     "classnames": "2.3.1",
+    "graphql": "^15.5.3",
     "next": "11.1.2",
     "path-to-regexp": "6.2.0",
     "react": "17.0.2",
