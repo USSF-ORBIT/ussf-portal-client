@@ -69,12 +69,20 @@ const Home = () => {
     },
   ]
 
-  const physicalAssessment: AnnouncementCardProps = {
-    heading: 'Physical fitness assessments will resume July 1st 2021',
+  const guardianIdealAnnouncement: AnnouncementCardProps = {
+    heading: (
+      <>
+        Read it here – The Guardian Ideal
+        <br />
+        EMBARGOED until 1600ET 21Sept.
+        <br />
+        DO NOT share.
+      </>
+    ),
     tag: 'news',
     bgColor: 'gradient--orange bg-accent-warm-dark',
     cols: true,
-    path: 'https://www.spaceforce.mil/News/Article/2525699/pt-test-pushed-to-july-updates-to-scoring-physical-components-ahead/',
+    path: '/uploads/Guardian Ideal - FINAL - 1600 17Sept21.pdf',
   }
 
   const videoCSO: AnnouncementCardProps = {
@@ -94,7 +102,7 @@ const Home = () => {
           <div className="grid-row grid-gap">
             <div className="tablet:grid-col-8 usa-prose">
               <CardGroup>
-                <AnnouncementCard {...physicalAssessment} />
+                <AnnouncementCard {...guardianIdealAnnouncement} />
                 <AnnouncementCard {...videoCSO} />
               </CardGroup>
             </div>

@@ -31,7 +31,7 @@ describe('Home page', () => {
     expect(
       screen.getByRole('heading', {
         level: 3,
-        name: 'Physical fitness assessments will resume July 1st 2021',
+        name: 'Read it here – The Guardian Ideal EMBARGOED until 1600ET 21Sept. DO NOT share.',
       })
     ).toBeInTheDocument()
 

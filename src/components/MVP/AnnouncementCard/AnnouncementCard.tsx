@@ -10,7 +10,7 @@ export interface AnnouncementCardProps {
   body?: string
   bgColor: string
   cols: ColumnSizes
-  heading: string
+  heading: React.ReactNode
   path: string
   tag: string
 }
