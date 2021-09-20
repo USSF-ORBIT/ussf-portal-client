@@ -70,15 +70,7 @@ const Home = () => {
   ]
 
   const guardianIdealAnnouncement: AnnouncementCardProps = {
-    heading: (
-      <>
-        Read it here – The Guardian Ideal
-        <br />
-        EMBARGOED until 1600ET 21Sept.
-        <br />
-        DO NOT share.
-      </>
-    ),
+    heading: <>Read it here – The Guardian Ideal</>,
     tag: 'news',
     bgColor: 'gradient--orange bg-accent-warm-dark',
     cols: true,
@@ -86,15 +78,7 @@ const Home = () => {
   }
 
   const insigniasAnnouncement: AnnouncementCardProps = {
-    heading: (
-      <>
-        Sneak peek Guardian Enlisted Rank
-        <br />
-        EMBARGOED until 1600ET 21Sept.
-        <br />
-        DO NOT share.
-      </>
-    ),
+    heading: <>Sneak peek Guardian Enlisted Rank</>,
     tag: 'news',
     bgColor: 'gradient--orange bg-accent-warm-dark',
     cols: true,
