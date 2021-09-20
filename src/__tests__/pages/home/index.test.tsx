@@ -38,7 +38,7 @@ describe('Home page', () => {
     expect(
       screen.getByRole('heading', {
         level: 3,
-        name: "Video from the Chief of Space Operations's latest townhall",
+        name: 'Sneak peek Guardian Enlisted Rank EMBARGOED until 1600ET 21Sept. DO NOT share.',
       })
     ).toBeInTheDocument()
   })

@@ -85,12 +85,20 @@ const Home = () => {
     path: '/uploads/Guardian Ideal - FINAL - 1600 17Sept21.pdf',
   }
 
-  const videoCSO: AnnouncementCardProps = {
-    heading: "Video from the Chief of Space Operations's latest townhall",
+  const insigniasAnnouncement: AnnouncementCardProps = {
+    heading: (
+      <>
+        Sneak peek Guardian Enlisted Rank
+        <br />
+        EMBARGOED until 1600ET 21Sept.
+        <br />
+        DO NOT share.
+      </>
+    ),
     tag: 'news',
     bgColor: 'gradient--orange bg-accent-warm-dark',
     cols: true,
-    path: 'https://www.milsuite.mil/video/watch/video/40363',
+    path: '/uploads/US Space Force Enlisted Rank Insig Info Sheet (1).pdf',
   }
 
   return (
@@ -102,8 +110,8 @@ const Home = () => {
           <div className="grid-row grid-gap">
             <div className="tablet:grid-col-8 usa-prose">
               <CardGroup>
+                <AnnouncementCard {...insigniasAnnouncement} />
                 <AnnouncementCard {...guardianIdealAnnouncement} />
-                <AnnouncementCard {...videoCSO} />
               </CardGroup>
             </div>
             <div className="tablet:grid-col-4">
