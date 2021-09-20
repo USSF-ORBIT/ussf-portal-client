@@ -1,5 +1,9 @@
-import { gql } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
+import type { Collection } from 'types'
 
+interface CollectionsQueryReponse {
+  collections: Collection[]
+}
 export const GET_COLLECTIONS = gql`
   query getCollections($id: ID) {
     collections(id: $id) @client {
@@ -9,3 +13,9 @@ export const GET_COLLECTIONS = gql`
     }
   }
 `
+
+export function useCollectionsQuery(id?: string) {
+  return useQuery<CollectionsQueryReponse>(GET_COLLECTIONS, {
+    variables: { id: id },
+  })
+}

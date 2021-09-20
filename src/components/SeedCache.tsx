@@ -1,19 +1,22 @@
 import React, { useEffect } from 'react'
-import { useMutation } from '@apollo/client'
 import { v4 } from 'uuid'
 import { Collection } from 'types/index'
-import { ADD_COLLECTION } from 'operations/mutations/addCollection'
-import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
-
-import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
+import { useAddCollectionMutation } from 'operations/mutations/addCollection'
+import { useRemoveBookmarkMutation } from 'operations/mutations/removeBookmark'
+import { useCollectionsQuery } from 'operations/queries/getCollections'
+import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
+import { useRemoveCollectionMutation } from 'operations/mutations/removeCollection'
 const SeedCache = () => {
-  const [addCollection] = useMutation(ADD_COLLECTION)
-  const [addBookmark] = useMutation(ADD_BOOKMARK)
-  // const { data } = useQuery(GET_COLLECTIONS, {
-  //   variables: { id: '5d316554-7713-45a0-9e64-005808dc5f69' },
-  // })
+  // const [addCollection] = useAddCollectionMutation()
+  // const [addBookmark] = useAddBookmarkMutation()
+  const testCollectionId = '32cb181e-c118-4046-a1f5-344e898ac1a5'
+  const [removeCollection] = useRemoveCollectionMutation()
+  // const { data } = useCollectionsQuery(testCollectionId)
 
-  const [removeBookmark] = useMutation(REMOVE_BOOKMARK)
+  // console.log('Use Query to get one collections')
+  // console.log(data)
+
+  // const [removeBookmark] = useRemoveBookmarkMutation()
 
   // Create a default collection to add to the cache for testing
   const searchCollection: Collection = {
@@ -42,27 +45,30 @@ const SeedCache = () => {
   }
 
   useEffect(() => {
-    addCollection({
-      variables: {
-        id: searchCollection.id,
-        title: searchCollection.title,
-        bookmarks: searchCollection.bookmarks,
-      },
-    })
-
-    // addBookmark({
+    // addCollection({
     //   variables: {
-    //     url: 'amazon.com',
-    //     label: 'Amazon',
-    //     description: 'Shopping',
-    //     collection_id: '5d316554-7713-45a0-9e64-005808dc5f69',
+    //     id: searchCollection.id,
+    //     title: searchCollection.title,
+    //     bookmarks: searchCollection.bookmarks,
     //   },
     // })
-
+    // addBookmark({
+    //   variables: {
+    //     url: 'tennis.com',
+    //     label: 'Table Tennis',
+    //     description: 'A website for Tennis enthusiasts',
+    //     collectionId: testCollectionId,
+    //   },
+    // })
     // removeBookmark({
     //   variables: {
-    //     id: 'e2bd1d18-3d18-4ea1-8937-ffd40019a84e',
-    //     collection_id: '5d316554-7713-45a0-9e64-005808dc5f69',
+    //     id: '6b7a73f3-781d-4d64-b06e-72fbe6955b36',
+    //     collectionId: testCollectionId,
+    //   },
+    // })
+    // removeCollection({
+    //   variables: {
+    //     id: '8be444d6-38cd-4745-bdfe-fdb103c16003',
     //   },
     // })
   }, [])
