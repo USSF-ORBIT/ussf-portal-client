@@ -5,7 +5,6 @@ import { useBetaContext } from 'stores/betaContext'
 
 const Home = () => {
   const { leaveBeta } = useBetaContext()
-
   return (
     <>
       <section className={`usa-section padding-top-0`}>
@@ -27,7 +26,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div></div>
         </div>
       </section>
     </>
