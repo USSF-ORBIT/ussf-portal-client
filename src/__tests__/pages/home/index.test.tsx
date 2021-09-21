@@ -38,7 +38,7 @@ describe('Home page', () => {
     expect(
       screen.getByRole('heading', {
         level: 3,
-        name: 'Sneak peek Guardian Enlisted Rank',
+        name: 'View the new Guardian Enlisted Rank insignia',
       })
     ).toBeInTheDocument()
   })

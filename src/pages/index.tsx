@@ -78,7 +78,7 @@ const Home = () => {
   }
 
   const insigniasAnnouncement: AnnouncementCardProps = {
-    heading: <>Sneak peek Guardian Enlisted Rank</>,
+    heading: <>View the new Guardian Enlisted Rank insignia</>,
     tag: 'news',
     bgColor: 'gradient--orange bg-accent-warm-dark',
     cols: true,
