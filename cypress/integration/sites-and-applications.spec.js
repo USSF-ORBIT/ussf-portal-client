@@ -10,5 +10,14 @@ describe('Sites and Applications', () => {
 
     cy.url().should('eq', Cypress.config().baseUrl + '/sites-and-applications')
     cy.contains('Sites & Applications')
+
+    // Toggle sorting
+    cy.contains('Career')
+    cy.contains('Sort alphabetically').click()
+    cy.should('not.contain', 'Career')
+    cy.contains('Application name')
+    cy.contains('Sort by type').click()
+    cy.contains('Career')
+    cy.should('not.contain', 'Application name')
   })
 })
