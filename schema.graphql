@@ -32,6 +32,7 @@ input IDFilter {
 
 input BookmarkOrderByInput {
   id: OrderDirection
+  label: OrderDirection
 }
 
 enum OrderDirection {

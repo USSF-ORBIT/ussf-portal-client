@@ -4,7 +4,7 @@ import styles from './Collection.module.scss'
 
 type PropTypes = {
   title: React.ReactNode
-  children: React.ReactNode[]
+  children: React.ReactNode | React.ReactNode[]
 }
 
 const Collection = ({ title, children }: PropTypes) => {
@@ -12,9 +12,11 @@ const Collection = ({ title, children }: PropTypes) => {
     <div className={styles.collection}>
       <h3>{title}</h3>
       <ol>
-        {children.map((child, i) => (
-          <li key={`bookmark_${i}`}>{child}</li>
-        ))}
+        {Array.isArray(children) ? (
+          children.map((child, i) => <li key={`bookmark_${i}`}>{child}</li>)
+        ) : (
+          <li key={`bookmark_0`}>{children}</li>
+        )}
       </ol>
     </div>
   )
