@@ -7,13 +7,13 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import 'styles/index.scss'
 import '../../public/vendor/fontawesome-pro-5.15.1-web/css/all.min.css'
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import '../initIcons'
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist'
-import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
-import { BetaContextProvider } from 'stores/betaContext'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 import { localResolvers } from 'operations/resolvers'
+import { BetaContextProvider } from 'stores/betaContext'
+import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
 
 /* Begin ApolloClient Setup */
 
