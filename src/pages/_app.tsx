@@ -8,42 +8,11 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import 'styles/index.scss'
 import '../../public/vendor/fontawesome-pro-5.15.1-web/css/all.min.css'
 import '../initIcons'
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
-import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist'
-import { GET_COLLECTIONS } from 'operations/queries/getCollections'
-import { localResolvers } from 'operations/resolvers'
+import { ApolloProvider } from '@apollo/client'
+import { client } from 'apolloClient'
 import { BetaContextProvider } from 'stores/betaContext'
 import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
-
-/* Begin ApolloClient Setup */
-
-// Initialize cache
-const initCache = () => {
-  const cache = new InMemoryCache()
-  cache.writeQuery({
-    query: GET_COLLECTIONS,
-    data: {
-      collections: [],
-    },
-  })
-
-  // If we have access to the browser, persist the cache in local storage
-  if (typeof window !== 'undefined') {
-    persistCache({
-      cache,
-      storage: new LocalStorageWrapper(window.localStorage),
-    })
-  }
-  return cache
-}
-
-// Set up client with persisted cache and local resolvers
-const client = new ApolloClient({
-  cache: initCache(),
-  resolvers: localResolvers,
-})
-
-/* End ApolloClient setup */
+import SeedCache from 'components/SeedCache'
 
 config.autoAddCss = false
 
@@ -66,6 +35,7 @@ const USSFPortalApp = ({ Component, pageProps }: Props) => {
   return (
     <ApolloProvider client={client}>
       <BetaContextProvider>
+        <SeedCache />
         <Head>
           <meta charSet="utf-8" key="charset" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" key="edge" />
