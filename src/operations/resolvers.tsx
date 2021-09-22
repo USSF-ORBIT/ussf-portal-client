@@ -10,6 +10,7 @@ export const localResolvers: Resolvers | Resolvers[] = {
       // Returns either all collections if no id provided,
       // found collection if one matches id,
       // or an empty array
+
       if (cache === undefined) {
         const err = new Error('Cache is undefined')
         return err
@@ -62,20 +63,16 @@ export const localResolvers: Resolvers | Resolvers[] = {
       return newCollection
     },
     removeCollection: (_root, { id }, { cache }) => {
-      const allCollections = cache.readQuery({
-        query: GET_COLLECTIONS,
+      cache.modify({
+        fields: {
+          collections(collections: Collection[], { readField }: any) {
+            return collections.filter(
+              (collection) => id !== readField('id', collection)
+            )
+          },
+        },
       })
-
-      const filtered = allCollections.collections.filter((c: Collection) => {
-        return c.id !== id
-      })
-
-      const data = {
-        collections: filtered,
-      }
-
-      cache.writeQuery({ query: GET_COLLECTIONS, data })
-      return filtered
+      return null
     },
     addBookmark: (
       _root,
@@ -124,41 +121,25 @@ export const localResolvers: Resolvers | Resolvers[] = {
         ...newBookmark,
       }
     },
-    removeBookmark: (_, { id, collectionId }, { cache }) => {
+    removeBookmark: (_, { id, collectionId }, { cache, getCacheKey }) => {
       // Find collection with the bookmark
-
-      const collection = cache.readQuery({
-        query: GET_COLLECTIONS,
-        variables: {
-          id: collectionId,
-        },
-      })
-
-      if (collection === null) {
-        const err = new Error('Collection not found')
-
-        return err
-      }
-      const bookmarks = collection.collections[0].bookmarks
-      const updatedBookmarks = bookmarks.filter((b: Bookmark) => {
-        return b.id !== id
+      const cacheId = getCacheKey({
+        __typename: 'Collection',
+        id: collectionId,
       })
 
       cache.modify({
-        id: cache.identify({
-          __typename: 'Collection',
-          id: collectionId,
-        }),
+        id: cacheId,
         fields: {
-          bookmarks() {
-            return updatedBookmarks
+          bookmarks(bookmarks: Bookmark[], { readField }: any) {
+            return bookmarks.filter(
+              (bookmark) => id !== readField('id', bookmark)
+            )
           },
         },
       })
-      return {
-        collectionId,
-        ...updatedBookmarks,
-      }
+
+      return null
     },
   },
 }
