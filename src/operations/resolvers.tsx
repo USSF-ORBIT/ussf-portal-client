@@ -6,14 +6,11 @@ import type { Bookmark, Collection } from 'types'
 
 export const localResolvers: Resolvers | Resolvers[] = {
   Query: {
-    getCollections: (_root, { id }, { cache }) => {
-      console.log('Get Collections resolver')
-    },
     collections: (_root, { id }, { cache }) => {
       // Returns either all collections if no id provided,
       // found collection if one matches id,
       // or an empty array
-      console.log('i am inside the collections resolver------+++++++')
+
       if (cache === undefined) {
         const err = new Error('Cache is undefined')
         return err
