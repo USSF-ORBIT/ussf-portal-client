@@ -40,13 +40,13 @@ export const localResolvers: Resolvers | Resolvers[] = {
     },
   },
   Mutation: {
-    addCollection: (_root, { id, title, bookmarks }, { cache }) => {
+    addCollection: (_root, { title, bookmarks }, { cache }) => {
       const previous = cache.readQuery({
         query: GET_COLLECTIONS,
       })
 
       const newCollection = {
-        id: id,
+        id: v4(),
         title,
         bookmarks,
         __typename: 'Collection',
@@ -63,35 +63,22 @@ export const localResolvers: Resolvers | Resolvers[] = {
       return newCollection
     },
     removeCollection: (_root, { id }, { cache }) => {
-      const allCollections = cache.readQuery({
-        query: GET_COLLECTIONS,
+      cache.modify({
+        fields: {
+          collections(collections: Collection[], { readField }: any) {
+            return collections.filter(
+              (collection) => id !== readField('id', collection)
+            )
+          },
+        },
       })
-
-      const filtered = allCollections.collections.filter((c: Collection) => {
-        return c.id !== id
-      })
-
-      const data = {
-        collections: filtered,
-      }
-
-      cache.writeQuery({ query: GET_COLLECTIONS, data })
-      return filtered
+      return null
     },
     addBookmark: (
       _root,
       { url, label, description, collectionId },
-      { cache }
+      { cache, getCacheKey }
     ) => {
-      // Find collection to add it to
-      const allCollections = cache.readQuery({
-        query: GET_COLLECTIONS,
-      })
-
-      const previous = allCollections.collections.filter((c: Collection) => {
-        return c.id === collectionId
-      })
-
       // Create new bookmark and structure data
       const newBookmark = {
         id: v4(),
@@ -101,21 +88,20 @@ export const localResolvers: Resolvers | Resolvers[] = {
         __typename: 'Bookmark',
       }
 
-      const updatedBookmarks =
-        previous[0].bookmarks.length !== 0
-          ? [...previous[0].bookmarks, newBookmark]
-          : [newBookmark]
-
-      const cacheId = cache.identify({
+      // Get the cache id for the collection we're adding to
+      const cacheId = getCacheKey({
         __typename: 'Collection',
         id: collectionId,
       })
 
+      // Store the new bookmark in the cached collection
       cache.modify({
         id: cacheId,
         fields: {
-          bookmarks() {
-            return updatedBookmarks
+          bookmarks(bookmarks: Bookmark[]) {
+            return bookmarks.length !== 0
+              ? [...bookmarks, newBookmark]
+              : [newBookmark]
           },
         },
       })
@@ -135,6 +121,7 @@ export const localResolvers: Resolvers | Resolvers[] = {
       cache.modify({
         id: cacheId,
         fields: {
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
           bookmarks(bookmarks: Bookmark[], { readField }: any) {
             return bookmarks.filter(
               (bookmark) => id !== readField('id', bookmark)

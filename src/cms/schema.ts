@@ -6,7 +6,9 @@ const Bookmark = list({
     url: text({
       isRequired: true,
     }),
-    label: text(),
+    label: text({
+      isOrderable: true,
+    }),
     description: text({ ui: { displayMode: 'textarea' } }),
   },
 })

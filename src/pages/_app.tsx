@@ -4,60 +4,14 @@ import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import type { ReactNode } from 'react'
 import { config } from '@fortawesome/fontawesome-svg-core'
-
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import 'styles/index.scss'
 import '../../public/vendor/fontawesome-pro-5.15.1-web/css/all.min.css'
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  gql,
-} from '@apollo/client'
 import '../initIcons'
-import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist'
-import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
+import { ApolloProvider } from '@apollo/client'
+import { client } from 'apolloClient'
 import { BetaContextProvider } from 'stores/betaContext'
-import SeedCache from 'components/SeedCache'
-import { GET_COLLECTIONS } from 'operations/queries/getCollections'
-import { localResolvers } from 'operations/resolvers'
-
-/* Begin ApolloClient Setup */
-
-// Initialize cache
-const initCache = () => {
-  const cache = new InMemoryCache()
-  cache.writeQuery({
-    query: GET_COLLECTIONS,
-    data: {
-      collections: [],
-    },
-  })
-
-  // If we have access to the browser, persist the cache in local storage
-  if (typeof window !== 'undefined') {
-    persistCache({
-      cache,
-      storage: new LocalStorageWrapper(window.localStorage),
-    })
-  }
-  return cache
-}
-
-const typeDefs = gql`
-  extend type Query {
-    collections: Collection
-  }
-`
-
-// Set up client with persisted cache and local resolvers
-const client = new ApolloClient({
-  cache: initCache(),
-  resolvers: localResolvers,
-  typeDefs,
-})
-
-/* End ApolloClient setup */
+import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
 
 config.autoAddCss = false
 
@@ -79,7 +33,6 @@ const USSFPortalApp = ({ Component, pageProps }: Props) => {
 
   return (
     <ApolloProvider client={client}>
-      <SeedCache />
       <BetaContextProvider>
         <Head>
           <meta charSet="utf-8" key="charset" />

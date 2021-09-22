@@ -1,7 +1,20 @@
 @import 'styles/uswdsDependencies';
+@import 'styles/deps';
 
 .pageTitle {
   margin-top: 0;
+}
+
+.pageTitle + .toolbar {
+  margin-top: units(3);
+}
+
+.toolbar {
+  display: flex;
+}
+
+.toolbar + .widgetContainer {
+  margin-top: units(4);
 }
 
 .widgetContainer {
@@ -9,4 +22,25 @@
   border-radius: 4px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
   padding: units(4) units(4) units(6);
+}
+
+.sortButton {
+  @extend %button-reset;
+  @include typeset-link;
+  @include u-border-y(1px, solid, 'base-light');
+  @include u-padding-y(1);
+  text-align: left;
+  text-decoration: none;
+
+  svg {
+    margin-right: units(1);
+  }
+
+  & + .sortButton {
+    margin-left: units(4);
+  }
+
+  &[disabled] {
+    color: color('disabled');
+  }
 }

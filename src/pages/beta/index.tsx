@@ -6,7 +6,6 @@ import MySpace from 'components/MySpace/MySpace'
 
 const Home = () => {
   const { leaveBeta } = useBetaContext()
-
   return (
     <>
       <MySpace />
