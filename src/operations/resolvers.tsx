@@ -77,17 +77,8 @@ export const localResolvers: Resolvers | Resolvers[] = {
     addBookmark: (
       _root,
       { url, label, description, collectionId },
-      { cache }
+      { cache, getCacheKey }
     ) => {
-      // Find collection to add it to
-      const allCollections = cache.readQuery({
-        query: GET_COLLECTIONS,
-      })
-
-      const previous = allCollections.collections.filter((c: Collection) => {
-        return c.id === collectionId
-      })
-
       // Create new bookmark and structure data
       const newBookmark = {
         id: v4(),
@@ -97,21 +88,20 @@ export const localResolvers: Resolvers | Resolvers[] = {
         __typename: 'Bookmark',
       }
 
-      const updatedBookmarks =
-        previous[0].bookmarks.length !== 0
-          ? [...previous[0].bookmarks, newBookmark]
-          : [newBookmark]
-
-      const cacheId = cache.identify({
+      // Get the cache id for the collection we're adding to
+      const cacheId = getCacheKey({
         __typename: 'Collection',
         id: collectionId,
       })
 
+      // Store the new bookmark in the cached collection
       cache.modify({
         id: cacheId,
         fields: {
-          bookmarks() {
-            return updatedBookmarks
+          bookmarks(bookmarks: Bookmark[]) {
+            return bookmarks.length !== 0
+              ? [...bookmarks, newBookmark]
+              : [newBookmark]
           },
         },
       })
