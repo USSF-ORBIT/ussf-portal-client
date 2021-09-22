@@ -6,10 +6,14 @@ import type { Bookmark, Collection } from 'types'
 
 export const localResolvers: Resolvers | Resolvers[] = {
   Query: {
+    getCollections: (_root, { id }, { cache }) => {
+      console.log('Get Collections resolver')
+    },
     collections: (_root, { id }, { cache }) => {
       // Returns either all collections if no id provided,
       // found collection if one matches id,
       // or an empty array
+      console.log('i am inside the collections resolver------+++++++')
       if (cache === undefined) {
         const err = new Error('Cache is undefined')
         return err
@@ -124,41 +128,25 @@ export const localResolvers: Resolvers | Resolvers[] = {
         ...newBookmark,
       }
     },
-    removeBookmark: (_, { id, collectionId }, { cache }) => {
+    removeBookmark: (_, { id, collectionId }, { cache, getCacheKey }) => {
       // Find collection with the bookmark
-
-      const collection = cache.readQuery({
-        query: GET_COLLECTIONS,
-        variables: {
-          id: collectionId,
-        },
-      })
-
-      if (collection === null) {
-        const err = new Error('Collection not found')
-
-        return err
-      }
-      const bookmarks = collection.collections[0].bookmarks
-      const updatedBookmarks = bookmarks.filter((b: Bookmark) => {
-        return b.id !== id
+      const cacheId = getCacheKey({
+        __typename: 'Collection',
+        id: collectionId,
       })
 
       cache.modify({
-        id: cache.identify({
-          __typename: 'Collection',
-          id: collectionId,
-        }),
+        id: cacheId,
         fields: {
-          bookmarks() {
-            return updatedBookmarks
+          bookmarks(bookmarks: Bookmark[], { readField }: any) {
+            return bookmarks.filter(
+              (bookmark) => id !== readField('id', bookmark)
+            )
           },
         },
       })
-      return {
-        collectionId,
-        ...updatedBookmarks,
-      }
+
+      return null
     },
   },
 }

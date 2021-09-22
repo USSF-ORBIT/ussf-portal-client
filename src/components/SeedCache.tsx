@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { v4 } from 'uuid'
 import { Collection } from 'types/index'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
@@ -6,10 +6,9 @@ import { useCollectionsQuery } from 'operations/queries/getCollections'
 
 const SeedCache = () => {
   const { data } = useCollectionsQuery()
+  const [addCollection] = useAddCollectionMutation()
 
   if (data !== undefined && data.collections.length > 0) return null
-
-  const [addCollection] = useAddCollectionMutation()
 
   // Create a default collection to add to the cache for testing
   const exampleCollection: Collection = {
@@ -20,26 +19,31 @@ const SeedCache = () => {
         id: v4(),
         url: 'https://google.com',
         label: 'Webmail',
+        description: 'Lorem ipsum',
       },
       {
         id: v4(),
         url: 'https://mypay.dfas.mil/#/',
         label: 'MyPay',
+        description: 'Lorem ipsum',
       },
       {
         id: v4(),
         url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
         label: 'vMPF',
+        description: 'Lorem ipsum',
       },
       {
         id: v4(),
         url: 'https://leave.af.mil/profile',
         label: 'LeaveWeb',
+        description: 'Lorem ipsum',
       },
       {
         id: v4(),
         url: 'https://www.e-publishing.af.mil/',
         label: 'e-Publications',
+        description: 'Lorem ipsum',
       },
     ],
   }

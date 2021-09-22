@@ -8,7 +8,12 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import 'styles/index.scss'
 import '../../public/vendor/fontawesome-pro-5.15.1-web/css/all.min.css'
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  gql,
+} from '@apollo/client'
 import '../initIcons'
 import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist'
 import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
@@ -39,10 +44,17 @@ const initCache = () => {
   return cache
 }
 
+const typeDefs = gql`
+  extend type Query {
+    collections: Collection
+  }
+`
+
 // Set up client with persisted cache and local resolvers
 const client = new ApolloClient({
   cache: initCache(),
   resolvers: localResolvers,
+  typeDefs,
 })
 
 /* End ApolloClient setup */
