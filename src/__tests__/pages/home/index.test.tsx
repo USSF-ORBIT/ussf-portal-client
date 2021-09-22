@@ -31,14 +31,14 @@ describe('Home page', () => {
     expect(
       screen.getByRole('heading', {
         level: 3,
-        name: 'Physical fitness assessments will resume July 1st 2021',
+        name: 'Read it here – The Guardian Ideal',
       })
     ).toBeInTheDocument()
 
     expect(
       screen.getByRole('heading', {
         level: 3,
-        name: "Video from the Chief of Space Operations's latest townhall",
+        name: 'View the new Guardian Enlisted Rank insignia',
       })
     ).toBeInTheDocument()
   })
