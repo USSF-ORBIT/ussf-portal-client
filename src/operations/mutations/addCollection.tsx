@@ -8,14 +8,13 @@ interface AddCollectionResponse {
 }
 
 interface AddCollectionInput {
-  id: string
   title: string
   bookmarks: Bookmark[]
 }
 
 export const ADD_COLLECTION = gql`
-  mutation addCollection($id: ID, $title: String, $bookmarks: [Bookmark]) {
-    addCollection(id: $id, title: $title, bookmarks: $bookmarks) @client
+  mutation addCollection($title: String, $bookmarks: [Bookmark]) {
+    addCollection(title: $title, bookmarks: $bookmarks) @client
   }
 `
 

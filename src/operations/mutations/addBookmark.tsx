@@ -16,8 +16,8 @@ interface AddBookmarkInput {
 export const ADD_BOOKMARK = gql`
   mutation addBookmark(
     $url: String!
-    $label: string
-    $description: string
+    $label: String
+    $description: String
     $collectionId: ID!
   ) {
     addBookmark(

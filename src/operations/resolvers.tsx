@@ -10,7 +10,6 @@ export const localResolvers: Resolvers | Resolvers[] = {
       // Returns either all collections if no id provided,
       // found collection if one matches id,
       // or an empty array
-
       if (cache === undefined) {
         const err = new Error('Cache is undefined')
         return err
@@ -40,13 +39,13 @@ export const localResolvers: Resolvers | Resolvers[] = {
     },
   },
   Mutation: {
-    addCollection: (_root, { id, title, bookmarks }, { cache }) => {
+    addCollection: (_root, { title, bookmarks }, { cache }) => {
       const previous = cache.readQuery({
         query: GET_COLLECTIONS,
       })
 
       const newCollection = {
-        id: id,
+        id: v4(),
         title,
         bookmarks,
         __typename: 'Collection',
