@@ -12,7 +12,6 @@ import { ApolloProvider } from '@apollo/client'
 import { client } from 'apolloClient'
 import { BetaContextProvider } from 'stores/betaContext'
 import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
-import SeedCache from 'components/SeedCache'
 
 config.autoAddCss = false
 
@@ -35,7 +34,6 @@ const USSFPortalApp = ({ Component, pageProps }: Props) => {
   return (
     <ApolloProvider client={client}>
       <BetaContextProvider>
-        <SeedCache />
         <Head>
           <meta charSet="utf-8" key="charset" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" key="edge" />
