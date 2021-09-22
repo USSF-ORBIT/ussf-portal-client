@@ -2,8 +2,8 @@ import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 import { localResolvers } from 'operations/resolvers'
-/* Begin ApolloClient Setup */
 import { typeDefs } from 'schema'
+
 // Initialize cache
 const initCache = () => {
   const cache = new InMemoryCache()
@@ -30,5 +30,3 @@ export const client = new ApolloClient({
   resolvers: localResolvers,
   typeDefs,
 })
-
-/* End ApolloClient setup */
