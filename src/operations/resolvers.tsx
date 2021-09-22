@@ -120,6 +120,7 @@ export const localResolvers: Resolvers | Resolvers[] = {
       cache.modify({
         id: cacheId,
         fields: {
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
           bookmarks(bookmarks: Bookmark[], { readField }: any) {
             return bookmarks.filter(
               (bookmark) => id !== readField('id', bookmark)
