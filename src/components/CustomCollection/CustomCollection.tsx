@@ -6,15 +6,26 @@ import styles from './CustomCollection.module.scss'
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 import type { Bookmark as BookmarkType } from 'types/index'
+import { useRemoveBookmarkMutation } from 'operations/mutations/removeBookmark'
 
 type PropTypes = {
   title: string
+  id: string
   bookmarks: BookmarkType[]
 }
 
 const UNDO_TIMEOUT = 3000 // 3 seconds
 
-const RemovableBookmark = ({ bookmark }: { bookmark: BookmarkType }) => {
+const RemovableBookmark = ({
+  bookmark,
+  collectionId,
+}: {
+  bookmark: BookmarkType
+  collectionId: string
+}) => {
+  const [handleRemoveBookmark, { data, loading, error }] =
+    useRemoveBookmarkMutation()
+
   const { id, url, label } = bookmark
   let timer: NodeJS.Timeout
 
@@ -34,6 +45,7 @@ const RemovableBookmark = ({ bookmark }: { bookmark: BookmarkType }) => {
       timer = setTimeout(() => {
         // TODO - api
         // console.log('FINISH REMOVE')
+        handleRemoveBookmark({ variables: { id, collectionId } })
       }, UNDO_TIMEOUT)
 
       return () => clearTimeout(timer)
@@ -51,13 +63,14 @@ const RemovableBookmark = ({ bookmark }: { bookmark: BookmarkType }) => {
   )
 }
 
-const CustomCollection = ({ title, bookmarks }: PropTypes) => {
+const CustomCollection = ({ title, id, bookmarks }: PropTypes) => {
   return (
     <Collection title={title}>
       {bookmarks.map((bookmark: BookmarkType) => (
         <RemovableBookmark
           key={`bookmark_${bookmark.id}`}
           bookmark={bookmark}
+          collectionId={id}
         />
       ))}
     </Collection>

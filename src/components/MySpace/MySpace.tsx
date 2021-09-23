@@ -3,7 +3,7 @@ import { Grid } from '@trussworks/react-uswds'
 import { useCollectionsQuery } from '../../operations/queries/getCollections'
 import styles from './MySpace.module.scss'
 import Bookmark from 'components/Bookmark/Bookmark'
-import Collection from 'components/Collection/Collection'
+import CustomCollection from 'components/CustomCollection/CustomCollection'
 import type { Bookmark as BookmarkType } from 'types'
 
 const MySpace = () => {
@@ -23,15 +23,11 @@ const MySpace = () => {
                 key={`collection_${collection.id}`}
                 tablet={{ col: 6 }}
                 desktop={{ col: 3 }}>
-                <Collection title={collection.title}>
-                  {collection.bookmarks.map((bookmark: BookmarkType) => (
-                    <Bookmark
-                      key={`bookmark_${bookmark.id}`}
-                      href={bookmark.url}>
-                      {bookmark.label}
-                    </Bookmark>
-                  ))}
-                </Collection>
+                <CustomCollection
+                  id={collection.id}
+                  title={collection.title}
+                  bookmarks={collection.bookmarks}
+                />
               </Grid>
             ))}
         </Grid>
