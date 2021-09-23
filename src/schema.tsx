@@ -14,7 +14,7 @@ export const typeDefs = gql`
     bookmarks: [Bookmark]
   }
 
-  extend type Query {
+  type Query {
     collections: [Collection!]
   }
 `
