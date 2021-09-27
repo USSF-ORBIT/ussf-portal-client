@@ -22,7 +22,7 @@ export const RemovableBookmark = ({
   bookmark: BookmarkType
   handleRemove: () => void
 }) => {
-  const { id, url, label } = bookmark
+  const { url, label } = bookmark
   let timer: NodeJS.Timeout
 
   const [isHidden, setHidden] = useState<boolean>(false)
@@ -51,7 +51,7 @@ export const RemovableBookmark = ({
       Undo remove <FontAwesomeIcon icon="undo-alt" />
     </button>
   ) : (
-    <Bookmark href={url} onDelete={() => handleDeleteBookmark(id)}>
+    <Bookmark href={url} onDelete={handleDeleteBookmark}>
       {label}
     </Bookmark>
   )

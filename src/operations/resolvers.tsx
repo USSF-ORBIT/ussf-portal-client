@@ -1,4 +1,4 @@
-import { Resolvers } from '@apollo/client'
+import { Resolvers, gql } from '@apollo/client'
 import { v4 } from 'uuid'
 
 import { GET_COLLECTIONS } from './queries/getCollections'
@@ -105,7 +105,24 @@ export const localResolvers: Resolvers | Resolvers[] = {
         },
       })
 
-      return null
+      // Return the modified collection
+      const collection = cache.readFragment({
+        id: cacheId,
+        fragment: gql`
+          fragment UpdatedCollection on Collection {
+            id
+            title
+            bookmarks {
+              id
+              url
+              label
+              description
+            }
+          }
+        `,
+      })
+
+      return collection
     },
   },
 }

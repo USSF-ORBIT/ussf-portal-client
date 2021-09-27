@@ -5,8 +5,8 @@ export interface CollectionsQueryResponse {
   collections: Collection[]
 }
 export const GET_COLLECTIONS = gql`
-  query getCollections {
-    collections @client {
+  query getCollections @client {
+    collections {
       id
       title
       bookmarks {
