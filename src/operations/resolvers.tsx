@@ -4,7 +4,7 @@ import { v4 } from 'uuid'
 import { GET_COLLECTIONS } from './queries/getCollections'
 import type { Bookmark, Collection } from 'types'
 
-export const localResolvers: Resolvers | Resolvers[] = {
+export const localResolvers: Resolvers = {
   Query: {
     collections: (_root, args, { cache }) => {
       const allCollections = cache.readQuery({
