@@ -43,8 +43,6 @@ const RemovableBookmark = ({
   useEffect(() => {
     if (isHidden) {
       timer = setTimeout(() => {
-        // TODO - api
-        // console.log('FINISH REMOVE')
         handleRemoveBookmark({ variables: { id, collectionId } })
       }, UNDO_TIMEOUT)
 

@@ -11,7 +11,7 @@ export const localResolvers: Resolvers | Resolvers[] = {
         query: GET_COLLECTIONS,
       })
 
-      return allCollections
+      return allCollections.collections
     },
   },
   Mutation: {

@@ -1,5 +1,6 @@
 import { gql, useMutation } from '@apollo/client'
 import { Bookmark } from 'types'
+import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
 interface RemoveBookmarkResponse {
   collectionId: string
@@ -19,6 +20,9 @@ export const REMOVE_BOOKMARK = gql`
 `
 export function useRemoveBookmarkMutation() {
   return useMutation<RemoveBookmarkResponse, RemoveBookmarkInput>(
-    REMOVE_BOOKMARK
+    REMOVE_BOOKMARK,
+    {
+      refetchQueries: [GET_COLLECTIONS],
+    }
   )
 }
