@@ -1,13 +1,13 @@
 import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
-import { useCollectionsQuery } from '../../operations/queries/getCollections'
 import styles from './MySpace.module.scss'
-import Bookmark from 'components/Bookmark/Bookmark'
 import CustomCollection from 'components/CustomCollection/CustomCollection'
-import type { Bookmark as BookmarkType } from 'types'
+import { useCollectionsQuery } from 'operations/queries/getCollections'
+import { useRemoveBookmarkMutation } from 'operations/mutations/removeBookmark'
 
 const MySpace = () => {
   const { loading, error, data } = useCollectionsQuery()
+  const [handleRemoveBookmark] = useRemoveBookmarkMutation()
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
@@ -24,9 +24,13 @@ const MySpace = () => {
                 tablet={{ col: 6 }}
                 desktop={{ col: 3 }}>
                 <CustomCollection
-                  id={collection.id}
                   title={collection.title}
                   bookmarks={collection.bookmarks}
+                  handleRemoveBookmark={(id) =>
+                    handleRemoveBookmark({
+                      variables: { id, collectionId: collection.id },
+                    })
+                  }
                 />
               </Grid>
             ))}

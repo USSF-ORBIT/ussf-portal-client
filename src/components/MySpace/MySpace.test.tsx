@@ -8,8 +8,9 @@ import React from 'react'
 import { v4 } from 'uuid'
 import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
-import { GET_COLLECTIONS } from '../../operations/queries/getCollections'
 import MySpace from './MySpace'
+import { GET_COLLECTIONS } from 'operations/queries/getCollections'
+import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
 
 const mocks = [
   {
@@ -94,6 +95,36 @@ describe('My Space Component', () => {
     )
 
     expect(await screen.findByText('Error')).toBeInTheDocument()
+  })
+
+  it.skip('handles the remove bookmark operation', async () => {
+    /*
+    const mocks = [
+      {
+        request: {
+          query: REMOVE_BOOKMARK,
+          variables: {
+            id: exampleCollection.bookmarks[0].id,
+            collectionId: exampleCollection.id,
+          },
+        },
+        result: {},
+      },
+    ]
+
+    render(
+      <MockedProvider mocks={mocks}>
+        <CustomCollection {...exampleCollection} />
+      </MockedProvider>
+    )
+
+    const buttons = await screen.findAllByRole('button', {
+      name: 'Remove this bookmark',
+    })
+    userEvent.click(buttons[0])
+
+    expect(screen.findAllByDisplayValue('Loading...')).toBeInTheDocument()
+    */
   })
 
   it('has no a11y violations', async () => {

@@ -6,32 +6,28 @@ import styles from './CustomCollection.module.scss'
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 import type { Bookmark as BookmarkType } from 'types/index'
-import { useRemoveBookmarkMutation } from 'operations/mutations/removeBookmark'
 
 type PropTypes = {
   title: string
-  id: string
   bookmarks: BookmarkType[]
+  handleRemoveBookmark: (id: string) => void
 }
 
 const UNDO_TIMEOUT = 3000 // 3 seconds
 
-const RemovableBookmark = ({
+export const RemovableBookmark = ({
   bookmark,
-  collectionId,
+  handleRemove,
 }: {
   bookmark: BookmarkType
-  collectionId: string
+  handleRemove: () => void
 }) => {
-  const [handleRemoveBookmark, { data, loading, error }] =
-    useRemoveBookmarkMutation()
-
   const { id, url, label } = bookmark
   let timer: NodeJS.Timeout
 
   const [isHidden, setHidden] = useState<boolean>(false)
 
-  const handleDeleteBookmark = (id: string) => {
+  const handleDeleteBookmark = () => {
     if (!isHidden) setHidden(true)
   }
 
@@ -43,7 +39,7 @@ const RemovableBookmark = ({
   useEffect(() => {
     if (isHidden) {
       timer = setTimeout(() => {
-        handleRemoveBookmark({ variables: { id, collectionId } })
+        handleRemove()
       }, UNDO_TIMEOUT)
 
       return () => clearTimeout(timer)
@@ -61,14 +57,18 @@ const RemovableBookmark = ({
   )
 }
 
-const CustomCollection = ({ title, id, bookmarks }: PropTypes) => {
+const CustomCollection = ({
+  title,
+  bookmarks,
+  handleRemoveBookmark,
+}: PropTypes) => {
   return (
     <Collection title={title}>
       {bookmarks.map((bookmark: BookmarkType) => (
         <RemovableBookmark
           key={`bookmark_${bookmark.id}`}
           bookmark={bookmark}
-          collectionId={id}
+          handleRemove={() => handleRemoveBookmark(bookmark.id)}
         />
       ))}
     </Collection>

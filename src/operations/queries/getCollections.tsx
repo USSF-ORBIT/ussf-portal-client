@@ -5,7 +5,7 @@ export interface CollectionsQueryResponse {
   collections: Collection[]
 }
 export const GET_COLLECTIONS = gql`
-  query GetCollections {
+  query getCollections {
     collections @client {
       id
       title
