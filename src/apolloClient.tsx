@@ -1,9 +1,9 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { v4 } from 'uuid'
 import type { Collection } from 'types'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 import { localResolvers } from 'operations/resolvers'
 import { typeDefs } from 'schema'
-import { v4 } from 'uuid'
 
 // Initialize cache
 export const initCache = () => {

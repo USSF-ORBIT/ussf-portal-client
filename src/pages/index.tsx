@@ -69,20 +69,20 @@ const Home = () => {
     },
   ]
 
-  const physicalAssessment: AnnouncementCardProps = {
-    heading: 'Physical fitness assessments will resume July 1st 2021',
+  const guardianIdealAnnouncement: AnnouncementCardProps = {
+    heading: <>Read it here – The Guardian Ideal</>,
     tag: 'news',
     bgColor: 'gradient--orange bg-accent-warm-dark',
     cols: true,
-    path: 'https://www.spaceforce.mil/News/Article/2525699/pt-test-pushed-to-july-updates-to-scoring-physical-components-ahead/',
+    path: '/uploads/Guardian Ideal - FINAL - 1600 17Sept21.pdf',
   }
 
-  const videoCSO: AnnouncementCardProps = {
-    heading: "Video from the Chief of Space Operations's latest townhall",
+  const insigniasAnnouncement: AnnouncementCardProps = {
+    heading: <>View the new Guardian Enlisted Rank insignia</>,
     tag: 'news',
     bgColor: 'gradient--orange bg-accent-warm-dark',
     cols: true,
-    path: 'https://www.milsuite.mil/video/watch/video/40363',
+    path: '/uploads/US Space Force Enlisted Rank Insig Info Sheet (1).pdf',
   }
 
   return (
@@ -94,8 +94,8 @@ const Home = () => {
           <div className="grid-row grid-gap">
             <div className="tablet:grid-col-8 usa-prose">
               <CardGroup>
-                <AnnouncementCard {...physicalAssessment} />
-                <AnnouncementCard {...videoCSO} />
+                <AnnouncementCard {...insigniasAnnouncement} />
+                <AnnouncementCard {...guardianIdealAnnouncement} />
               </CardGroup>
             </div>
             <div className="tablet:grid-col-4">
