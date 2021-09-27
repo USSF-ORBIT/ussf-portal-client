@@ -6,13 +6,10 @@ import { act, screen, render } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import React from 'react'
 import { v4 } from 'uuid'
+import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
-import {
-  CollectionsQueryResponse,
-  GET_COLLECTIONS,
-} from '../../operations/queries/getCollections'
+import { GET_COLLECTIONS } from '../../operations/queries/getCollections'
 import MySpace from './MySpace'
-import type { Collection } from 'types'
 
 const mocks = [
   {
@@ -24,12 +21,25 @@ const mocks = [
         collections: [
           {
             id: v4(),
-            title: 'Cat Collection',
+            title: 'Example Collection',
             bookmarks: [
               {
                 id: v4(),
-                url: 'cat.com',
-                label: 'A Good Cat',
+                url: 'https://google.com',
+                label: 'Webmail',
+                description: 'Lorem ipsum',
+              },
+              {
+                id: v4(),
+                url: 'https://mypay.dfas.mil/#/',
+                label: 'MyPay',
+                description: 'Lorem ipsum',
+              },
+              {
+                id: v4(),
+                url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+                label: 'vMPF',
+                description: 'Lorem ipsum',
               },
             ],
           },
@@ -38,44 +48,59 @@ const mocks = [
     },
   },
 ]
-const getStaticData = () => {
-  const exampleCollection: Collection[] = [
-    {
-      id: v4(),
-      title: 'Storybook Collection',
-      bookmarks: [
-        {
-          id: v4(),
-          url: 'https://google.com',
-          label: 'Webmail',
-          description: 'Lorem ipsum',
-        },
-      ],
-    },
-  ]
 
-  const staticData: CollectionsQueryResponse = {
-    collections: exampleCollection,
-  }
-
-  return staticData
-}
-describe('My Space component', () => {
+describe('My Space Component', () => {
   let html: RenderResult
-  describe('with static data', () => {
-    beforeEach(() => {
-      // Create a small static collection
 
-      html = render(
-        <MockedProvider mocks={mocks}>
-          <MySpace />
-        </MockedProvider>
-      )
-    })
+  beforeEach(() => {
+    html = render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MySpace />
+      </MockedProvider>
+    )
+  })
 
-    it('renders a Collection', () => {
-      const title = screen.getByRole('heading', { level: 3 })
-      expect(title).toHaveTextContent('Storybook Collection')
+  it('renders without error ', () => {
+    // Because MockedProvider is async/promise-based,
+    // the test always completes when in the loading state
+    expect(screen.findAllByDisplayValue('Loading...'))
+  })
+
+  it('should render the collection', async () => {
+    const collection = await screen.findByRole('heading', { level: 3 })
+    expect(collection).toHaveTextContent(
+      mocks[0].result.data.collections[0].title
+    )
+
+    expect(await screen.findByRole('list')).toBeInTheDocument()
+    expect(await screen.findAllByRole('listitem')).toHaveLength(3)
+    expect(await screen.findAllByRole('link')).toHaveLength(3)
+  })
+
+  it('shows an error state', async () => {
+    const errorMock = [
+      {
+        request: {
+          query: GET_COLLECTIONS,
+        },
+        error: new Error(),
+      },
+    ]
+
+    render(
+      <MockedProvider mocks={errorMock} addTypename={false}>
+        <MySpace />
+      </MockedProvider>
+    )
+
+    expect(screen.findAllByText('Error'))
+  })
+
+  it('has no a11y violations', async () => {
+    // Bug with NextJS Link + axe :(
+    // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
+    await act(async () => {
+      expect(await axe(html.container)).toHaveNoViolations()
     })
   })
 })

@@ -5,17 +5,20 @@ export interface CollectionsQueryResponse {
   collections: Collection[]
 }
 export const GET_COLLECTIONS = gql`
-  query getCollections($id: ID) @client {
-    collections(id: $id) @client {
+  query Collections @client {
+    collections {
       id
       title
-      bookmarks
+      bookmarks @client {
+        id
+        url
+        label
+        description
+      }
     }
   }
 `
 
-export function useCollectionsQuery(id?: string) {
-  return useQuery<CollectionsQueryResponse>(GET_COLLECTIONS, {
-    variables: { id: id },
-  })
+export function useCollectionsQuery() {
+  return useQuery<CollectionsQueryResponse>(GET_COLLECTIONS)
 }

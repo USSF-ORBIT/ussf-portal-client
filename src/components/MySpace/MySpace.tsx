@@ -1,18 +1,17 @@
 import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
+import { useCollectionsQuery } from '../../operations/queries/getCollections'
 import styles from './MySpace.module.scss'
 import Bookmark from 'components/Bookmark/Bookmark'
 import Collection from 'components/Collection/Collection'
 import type { Bookmark as BookmarkType } from 'types'
-import { useCollectionsQuery } from '../../operations/queries/getCollections'
 
 const MySpace = () => {
   const { loading, error, data } = useCollectionsQuery()
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
-  console.log('MySpace component, collections query?')
-  console.log(data)
+
   return (
     <div className={styles.mySpace}>
       <h2>My Space</h2>
