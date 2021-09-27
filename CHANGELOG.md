@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/1.0.1...1.3.0) (2021-09-22)
+
+
+### Features
+
+* Update announcements on home page ([#239](https://github.com/USSF-ORBIT/ussf-portal-client/issues/239)) ([bdbc492](https://github.com/USSF-ORBIT/ussf-portal-client/commit/bdbc492391080831e57c28ecaf5b5c258836b9a7))
+
 ### [1.0.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/1.0.0...1.0.1) (2021-09-10)
 
 
