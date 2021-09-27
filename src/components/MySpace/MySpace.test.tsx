@@ -60,10 +60,10 @@ describe('My Space Component', () => {
     )
   })
 
-  it('renders without error ', () => {
+  it('renders without error ', async () => {
     // Because MockedProvider is async/promise-based,
     // the test always completes when in the loading state
-    expect(screen.findAllByDisplayValue('Loading...'))
+    expect(screen.getByText('Loading...')).toBeInTheDocument()
   })
 
   it('should render the collection', async () => {
@@ -93,7 +93,7 @@ describe('My Space Component', () => {
       </MockedProvider>
     )
 
-    expect(screen.findAllByText('Error'))
+    expect(await screen.findByText('Error')).toBeInTheDocument()
   })
 
   it('has no a11y violations', async () => {
