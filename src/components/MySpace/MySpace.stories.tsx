@@ -1,18 +1,12 @@
 import React from 'react'
-
 import { Meta } from '@storybook/react'
 import { v4 } from 'uuid'
 import MySpace from './MySpace'
-
 import type { Collection } from 'types'
-
-import {
-  CollectionsQueryResponse,
-  GET_COLLECTIONS,
-} from 'operations/queries/getCollections'
+import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
 export default {
-  title: 'Components/My Space',
+  title: 'Beta/Components/My Space',
   component: MySpace,
 } as Meta
 
@@ -54,10 +48,6 @@ const exampleCollection: Collection[] = [
     ],
   },
 ]
-
-const staticData: CollectionsQueryResponse = {
-  collections: exampleCollection,
-}
 
 export const ExampleMySpace = () => <MySpace />
 

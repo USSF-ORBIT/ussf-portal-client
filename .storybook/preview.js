@@ -3,7 +3,7 @@ import * as NextImage from 'next/image'
 import { MockedProvider } from '@apollo/client/testing'
 import '../src/initIcons'
 import '../src/styles/index.scss'
-import { initCache } from '../src/apolloClient'
+
 // Storybook and next/image component do not play nice together
 // This enables us to use the <Image/> component and still view in Storybook
 const OriginalNextImage = NextImage.default
@@ -25,6 +25,5 @@ export const parameters = {
   },
   apolloClient: {
     MockedProvider,
-    // cache: initCache(),
   },
 }
