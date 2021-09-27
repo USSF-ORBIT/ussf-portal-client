@@ -14,10 +14,37 @@ describe('Sites and Applications', () => {
     // Toggle sorting
     cy.contains('Career')
     cy.contains('Sort alphabetically').click()
-    cy.should('not.contain', 'Career')
+    cy.contains('Career').should('not.exist')
     cy.contains('Application name')
     cy.contains('Sort by type').click()
     cy.contains('Career')
-    cy.should('not.contain', 'Application name')
+    cy.contains('Application name').should('not.exist')
+  })
+
+  it('can edit links on the My Space page', () => {
+    cy.contains('My Space')
+
+    cy.contains('Example Collection')
+      .next()
+      .within(() => {
+        // Inside of <ol>
+        cy.findAllByRole('listitem').should('have.length', 5)
+        cy.contains('Webmail')
+
+        // First undo
+        cy.findAllByRole('button', { name: 'Remove this bookmark' })
+          .first()
+          .click()
+        cy.contains('Webmail').should('not.exist')
+        cy.contains('Undo remove').click()
+        cy.contains('Webmail')
+
+        // Don't undo
+        cy.findAllByRole('button', { name: 'Remove this bookmark' })
+          .first()
+          .click()
+        cy.contains('Webmail').should('not.exist')
+        cy.findAllByRole('listitem').should('have.length', 4)
+      })
   })
 })
