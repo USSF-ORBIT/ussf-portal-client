@@ -56,7 +56,7 @@ describe('Beta Home page', () => {
   })
 
   it('renders the loading page,', () => {
-    expect(screen.findByDisplayValue('Loading...'))
+    expect(screen.getByText('Loading...')).toBeInTheDocument()
   })
 
   it('renders the home page', async () => {
