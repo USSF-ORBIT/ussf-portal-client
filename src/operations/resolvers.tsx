@@ -6,36 +6,12 @@ import type { Bookmark, Collection } from 'types'
 
 export const localResolvers: Resolvers | Resolvers[] = {
   Query: {
-    collections: (_root, { id }, { cache }) => {
-      // Returns either all collections if no id provided,
-      // found collection if one matches id,
-      // or an empty array
-      if (cache === undefined) {
-        const err = new Error('Cache is undefined')
-        return err
-      }
-
-      let collections: Collection[] = []
-
+    collections: (_root, args, { cache }) => {
       const allCollections = cache.readQuery({
         query: GET_COLLECTIONS,
       })
 
-      // We don't have support for graphql errors on
-      // the client side, so return an empty array if null
-      if (allCollections === null) {
-        return collections
-      }
-
-      if (id !== undefined) {
-        collections = allCollections.collections.filter((c: Collection) => {
-          return c.id === id
-        })
-      } else {
-        collections = allCollections.collections
-      }
-
-      return collections
+      return allCollections
     },
   },
   Mutation: {

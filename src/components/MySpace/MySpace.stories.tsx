@@ -1,24 +1,19 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client'
+import React from 'react'
+import { Meta } from '@storybook/react'
 import { v4 } from 'uuid'
+import MySpace from './MySpace'
 import type { Collection } from 'types'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
-import { localResolvers } from 'operations/resolvers'
-import { typeDefs } from 'schema'
 
-// Initialize cache
-export const initCache = () => {
-  const cache = new InMemoryCache()
-  cache.writeQuery({
-    query: GET_COLLECTIONS,
-    data: {
-      collections: [],
-    },
-  })
+export default {
+  title: 'Beta/Components/My Space',
+  component: MySpace,
+} as Meta
 
-  // Seed cache with initial collection
-  const exampleCollection: Collection = {
+const exampleCollection: Collection[] = [
+  {
     id: v4(),
-    title: 'Example Collection',
+    title: 'Storybook Collection',
     bookmarks: [
       {
         id: v4(),
@@ -51,20 +46,24 @@ export const initCache = () => {
         description: 'Lorem ipsum',
       },
     ],
-  }
+  },
+]
 
-  cache.writeQuery({
-    query: GET_COLLECTIONS,
-    data: {
-      collections: [exampleCollection],
-    },
-  })
-  return cache
+export const ExampleMySpace = () => <MySpace />
+
+ExampleMySpace.parameters = {
+  apolloClient: {
+    mocks: [
+      {
+        request: {
+          query: GET_COLLECTIONS,
+        },
+        result: {
+          data: {
+            collections: exampleCollection,
+          },
+        },
+      },
+    ],
+  },
 }
-
-// Set up client with persisted cache and local resolvers
-export const client = new ApolloClient({
-  cache: initCache(),
-  resolvers: localResolvers,
-  typeDefs,
-})

@@ -1,21 +1,19 @@
-import { ReactNode } from 'react'
-import { Alert, Button } from '@trussworks/react-uswds'
+import { useEffect, ReactNode } from 'react'
 import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
 import { useBetaContext } from 'stores/betaContext'
-import MySpace from 'components/MySpace/MySpace'
 
-const Home = () => {
+const BetaExit = () => {
   const { leaveBeta } = useBetaContext()
-  return (
-    <>
-      <MySpace />
-    </>
-  )
+
+  useEffect(() => {
+    leaveBeta()
+  })
+  return <></>
 }
 
-export default Home
+export default BetaExit
 
 const BetaLayout = (page: ReactNode) => <Layout>{page}</Layout>
 
 BetaLayout.displayName = 'BetaLayout'
-Home.getLayout = BetaLayout
+BetaExit.getLayout = BetaLayout

@@ -1,6 +1,6 @@
 import { RouterContext } from 'next/dist/shared/lib/router-context'
 import * as NextImage from 'next/image'
-
+import { MockedProvider } from '@apollo/client/testing'
 import '../src/initIcons'
 import '../src/styles/index.scss'
 
@@ -22,5 +22,8 @@ export const parameters = {
   },
   nextRouter: {
     Provider: RouterContext.Provider,
+  },
+  apolloClient: {
+    MockedProvider,
   },
 }
