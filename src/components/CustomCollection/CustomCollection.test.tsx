@@ -102,6 +102,22 @@ describe('RemovableBookmark component', () => {
     ).toBeInTheDocument()
   })
 
+  it('renders the bookmark URL if there is no label', () => {
+    const testBookmarkNoLabel = {
+      id: v4(),
+      url: 'https://example.com',
+    }
+
+    render(
+      <RemovableBookmark
+        bookmark={testBookmarkNoLabel}
+        handleRemove={jest.fn()}
+      />
+    )
+
+    expect(screen.getByRole('link')).toHaveTextContent(testBookmarkNoLabel.url)
+  })
+
   it('allows the delete handler to be undone', async () => {
     jest.useFakeTimers()
 

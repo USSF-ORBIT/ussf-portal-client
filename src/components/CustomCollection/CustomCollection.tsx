@@ -12,7 +12,7 @@ type PropTypes = {
   title: string
   bookmarks: BookmarkType[]
   handleRemoveBookmark: (id: string) => void
-  handleAddBookmark: (url: string) => void
+  handleAddBookmark: (url: string, label?: string) => void
 }
 
 const UNDO_TIMEOUT = 3000 // 3 seconds
@@ -54,7 +54,7 @@ export const RemovableBookmark = ({
     </button>
   ) : (
     <Bookmark href={url} onDelete={handleDeleteBookmark}>
-      {label}
+      {label || url}
     </Bookmark>
   )
 }
@@ -71,8 +71,9 @@ const CustomCollection = ({
 
   const handleSubmitAdd = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    // console.log('submit', event.target)
-    handleAddBookmark('test')
+    const data = new FormData(event.currentTarget)
+    const url = `${data.get('bookmarkUrl')}`
+    handleAddBookmark(url)
   }
 
   const addLinkForm = (

@@ -51,9 +51,33 @@ export const localResolvers: Resolvers = {
     },
     addBookmark: (
       _root,
-      { url, label, description, collectionId },
+      { url, label = '', description = '', collectionId },
       { cache, getCacheKey }
     ) => {
+      const queryFragment = gql`
+        fragment UpdatedCollection on Collection {
+          id
+          title
+          bookmarks {
+            id
+            url
+            label
+            description
+          }
+        }
+      `
+
+      // Get the cache id for the collection we're adding to
+      const cacheId = getCacheKey({
+        __typename: 'Collection',
+        id: collectionId,
+      })
+
+      const collection = cache.readFragment({
+        id: cacheId,
+        fragment: queryFragment,
+      })
+
       // Create new bookmark and structure data
       const newBookmark = {
         id: v4(),
@@ -63,28 +87,16 @@ export const localResolvers: Resolvers = {
         __typename: 'Bookmark',
       }
 
-      // Get the cache id for the collection we're adding to
-      const cacheId = getCacheKey({
-        __typename: 'Collection',
-        id: collectionId,
-      })
-
-      // Store the new bookmark in the cached collection
-      cache.modify({
+      cache.writeFragment({
         id: cacheId,
-        fields: {
-          bookmarks(bookmarks: Bookmark[]) {
-            return bookmarks.length !== 0
-              ? [...bookmarks, newBookmark]
-              : [newBookmark]
-          },
+        fragment: queryFragment,
+        data: {
+          ...collection,
+          bookmarks: [...collection.bookmarks, newBookmark],
         },
       })
 
-      return {
-        collectionId,
-        ...newBookmark,
-      }
+      return collection
     },
     removeBookmark: (_, { id, collectionId }, { cache, getCacheKey }) => {
       // Find collection with the bookmark
