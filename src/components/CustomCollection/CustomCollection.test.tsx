@@ -6,7 +6,6 @@ import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { v4 } from 'uuid'
-import { MockedProvider } from '@apollo/client/testing'
 
 import CustomCollection, { RemovableBookmark } from './CustomCollection'
 
@@ -38,12 +37,11 @@ const exampleCollection = {
 describe('CustomCollection component', () => {
   it('renders the collection with delete buttons', () => {
     render(
-      <MockedProvider>
-        <CustomCollection
-          {...exampleCollection}
-          handleRemoveBookmark={jest.fn()}
-        />
-      </MockedProvider>
+      <CustomCollection
+        {...exampleCollection}
+        handleRemoveBookmark={jest.fn()}
+        handleAddBookmark={jest.fn()}
+      />
     )
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
@@ -59,6 +57,31 @@ describe('CustomCollection component', () => {
       screen.getAllByRole('button', { name: 'Remove this bookmark' })
     ).toHaveLength(exampleCollection.bookmarks.length)
   })
+
+  it('renders an Add Link toggleable form', () => {
+    const mockAddLink = jest.fn()
+    render(
+      <CustomCollection
+        {...exampleCollection}
+        handleRemoveBookmark={jest.fn()}
+        handleAddBookmark={mockAddLink}
+      />
+    )
+
+    const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
+    expect(toggleFormButton).toBeInTheDocument()
+
+    userEvent.click(toggleFormButton)
+    const urlInput = screen.getByLabelText('URL')
+    expect(urlInput).toBeInTheDocument()
+    userEvent.type(urlInput, 'example')
+    expect(urlInput).toBeInvalid()
+    userEvent.type(urlInput, 'http://www.example.com')
+    expect(urlInput).toBeValid()
+
+    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+    expect(mockAddLink).toHaveBeenCalled()
+  })
 })
 
 describe('RemovableBookmark component', () => {
@@ -70,9 +93,7 @@ describe('RemovableBookmark component', () => {
 
   it('renders a bookmark with a delete handler', () => {
     render(
-      <MockedProvider>
-        <RemovableBookmark bookmark={testBookmark} handleRemove={jest.fn()} />
-      </MockedProvider>
+      <RemovableBookmark bookmark={testBookmark} handleRemove={jest.fn()} />
     )
 
     expect(screen.getByRole('link')).toHaveTextContent(testBookmark.label)
@@ -87,12 +108,10 @@ describe('RemovableBookmark component', () => {
     const mockHandleRemove = jest.fn()
 
     render(
-      <MockedProvider>
-        <RemovableBookmark
-          bookmark={testBookmark}
-          handleRemove={mockHandleRemove}
-        />
-      </MockedProvider>
+      <RemovableBookmark
+        bookmark={testBookmark}
+        handleRemove={mockHandleRemove}
+      />
     )
 
     const deleteButton = screen.getByRole('button', {
@@ -126,12 +145,10 @@ describe('RemovableBookmark component', () => {
     const mockHandleRemove = jest.fn()
 
     render(
-      <MockedProvider>
-        <RemovableBookmark
-          bookmark={testBookmark}
-          handleRemove={mockHandleRemove}
-        />
-      </MockedProvider>
+      <RemovableBookmark
+        bookmark={testBookmark}
+        handleRemove={mockHandleRemove}
+      />
     )
 
     const deleteButton = screen.getByRole('button', {
