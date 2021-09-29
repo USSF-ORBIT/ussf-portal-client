@@ -14,7 +14,7 @@ const ForceMultiplierProgram = () => {
             The Digital University Force Multiplier Program
           </p>
           <LinkTo
-            className="usa-button usa-button--big external-link--alt text-white text-no-underline"
+            className="usa-button button-pill usa-button--big external-link--alt text-white text-no-underline"
             href="http://digitalu.udemy.com">
             Register
           </LinkTo>
