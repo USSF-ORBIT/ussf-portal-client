@@ -1,17 +1,17 @@
-import { Resolvers } from '@apollo/client'
+import { Resolvers, gql } from '@apollo/client'
 import { v4 } from 'uuid'
 
 import { GET_COLLECTIONS } from './queries/getCollections'
 import type { Bookmark, Collection } from 'types'
 
-export const localResolvers: Resolvers | Resolvers[] = {
+export const localResolvers: Resolvers = {
   Query: {
     collections: (_root, args, { cache }) => {
       const allCollections = cache.readQuery({
         query: GET_COLLECTIONS,
       })
 
-      return allCollections
+      return allCollections.collections
     },
   },
   Mutation: {
@@ -105,7 +105,24 @@ export const localResolvers: Resolvers | Resolvers[] = {
         },
       })
 
-      return null
+      // Return the modified collection
+      const collection = cache.readFragment({
+        id: cacheId,
+        fragment: gql`
+          fragment UpdatedCollection on Collection {
+            id
+            title
+            bookmarks {
+              id
+              url
+              label
+              description
+            }
+          }
+        `,
+      })
+
+      return collection
     },
   },
 }

@@ -1,4 +1,5 @@
 export type Bookmark = {
+  __typename?: string
   id: string
   url: string
   label?: string
@@ -8,6 +9,7 @@ export type Bookmark = {
 export type BookmarkRecords = readonly Partial<Bookmark>[]
 
 export type Collection = {
+  __typename?: string
   id: string
   title: string
   bookmarks: Bookmark[]

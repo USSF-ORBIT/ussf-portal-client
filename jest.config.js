@@ -13,6 +13,7 @@ module.exports = {
     '^components/(.*)': '<rootDir>/src/components/$1',
     '^hooks/(.*)': '<rootDir>/src/hooks/$1',
     '^layout/(.*)': '<rootDir>/src/layout/$1',
+    '^operations/(.*)': '<rootDir>/src/operations/$1',
     '^pages/(.*)': '<rootDir>/src/pages/$1',
     '^stores/(.*)': '<rootDir>/src/stores/$1',
     '^types/(.*)': '<rootDir>/src/types/$1',

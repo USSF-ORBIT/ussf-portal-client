@@ -14,7 +14,11 @@ export const typeDefs = gql`
     bookmarks: [Bookmark]
   }
 
-  extend type Query {
-    collections: [Collection!]
+  type Query {
+    getCollections: [Collection!]
+  }
+
+  type Mutation {
+    removeBookmark(id: ID!, collectionId: ID!): Collection
   }
 `

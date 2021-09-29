@@ -4,12 +4,14 @@
 
 import { act, screen, render } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { v4 } from 'uuid'
 import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
-import { GET_COLLECTIONS } from '../../operations/queries/getCollections'
 import MySpace from './MySpace'
+import { GET_COLLECTIONS } from 'operations/queries/getCollections'
+import * as removeBookmark from 'operations/mutations/removeBookmark'
 
 const mocks = [
   {
@@ -50,31 +52,40 @@ const mocks = [
 ]
 
 describe('My Space Component', () => {
-  let html: RenderResult
+  describe('default state', () => {
+    let html: RenderResult
+    beforeEach(() => {
+      html = render(
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <MySpace />
+        </MockedProvider>
+      )
+    })
 
-  beforeEach(() => {
-    html = render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace />
-      </MockedProvider>
-    )
-  })
+    it('renders without error ', async () => {
+      // Because MockedProvider is async/promise-based,
+      // the test always completes when in the loading state
+      expect(screen.getByText('Loading...')).toBeInTheDocument()
+    })
 
-  it('renders without error ', async () => {
-    // Because MockedProvider is async/promise-based,
-    // the test always completes when in the loading state
-    expect(screen.getByText('Loading...')).toBeInTheDocument()
-  })
+    it('should render the collection', async () => {
+      const collection = await screen.findByRole('heading', { level: 3 })
+      expect(collection).toHaveTextContent(
+        mocks[0].result.data.collections[0].title
+      )
 
-  it('should render the collection', async () => {
-    const collection = await screen.findByRole('heading', { level: 3 })
-    expect(collection).toHaveTextContent(
-      mocks[0].result.data.collections[0].title
-    )
+      expect(await screen.findByRole('list')).toBeInTheDocument()
+      expect(await screen.findAllByRole('listitem')).toHaveLength(3)
+      expect(await screen.findAllByRole('link')).toHaveLength(3)
+    })
 
-    expect(await screen.findByRole('list')).toBeInTheDocument()
-    expect(await screen.findAllByRole('listitem')).toHaveLength(3)
-    expect(await screen.findAllByRole('link')).toHaveLength(3)
+    it('has no a11y violations', async () => {
+      // Bug with NextJS Link + axe :(
+      // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
+      await act(async () => {
+        expect(await axe(html.container)).toHaveNoViolations()
+      })
+    })
   })
 
   it('shows an error state', async () => {
@@ -96,11 +107,53 @@ describe('My Space Component', () => {
     expect(await screen.findByText('Error')).toBeInTheDocument()
   })
 
-  it('has no a11y violations', async () => {
-    // Bug with NextJS Link + axe :(
-    // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
-    await act(async () => {
-      expect(await axe(html.container)).toHaveNoViolations()
+  it('handles the remove bookmark operation', async () => {
+    const removeSpy = jest.spyOn(removeBookmark, 'useRemoveBookmarkMutation')
+
+    jest.useFakeTimers()
+
+    /*
+    // TODO - this is not working as expected, I believe because we're using
+    // @client with a mutation. Try again once the operation doesn't use @client
+    let bookmarkRemoved = false
+    const mocksWithRemove = [
+      ...mocks,
+      {
+        request: {
+          query: REMOVE_BOOKMARK,
+          variables: {
+            id: mocks[0].result.data.collections[0].bookmarks[0].id,
+            collectionId: mocks[0].result.data.collections[0].id,
+          },
+        },
+        result: () => {
+          console.log('RESULT')
+          bookmarkRemoved = true
+          return { data: { removeBookmark: {} } }
+        },
+      },
+    ]
+    */
+
+    render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MySpace />
+      </MockedProvider>
+    )
+
+    const buttons = await screen.findAllByRole('button', {
+      name: 'Remove this bookmark',
     })
+
+    userEvent.click(buttons[0])
+
+    // Wrapping this in act due to https://github.com/apollographql/apollo-client/issues/5920
+    await act(async () => {
+      jest.runAllTimers()
+    })
+
+    jest.useRealTimers()
+
+    expect(removeSpy).toHaveBeenCalled()
   })
 })

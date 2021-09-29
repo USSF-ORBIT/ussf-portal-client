@@ -3,7 +3,7 @@ import { v4 } from 'uuid'
 import type { Collection } from 'types'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 import { localResolvers } from 'operations/resolvers'
-import { typeDefs } from 'schema'
+import { typeDefs } from './schema'
 
 // Initialize cache
 export const initCache = () => {
@@ -17,34 +17,40 @@ export const initCache = () => {
 
   // Seed cache with initial collection
   const exampleCollection: Collection = {
+    __typename: 'Collection',
     id: v4(),
     title: 'Example Collection',
     bookmarks: [
       {
+        __typename: 'Bookmark',
         id: v4(),
         url: 'https://google.com',
         label: 'Webmail',
         description: 'Lorem ipsum',
       },
       {
+        __typename: 'Bookmark',
         id: v4(),
         url: 'https://mypay.dfas.mil/#/',
         label: 'MyPay',
         description: 'Lorem ipsum',
       },
       {
+        __typename: 'Bookmark',
         id: v4(),
         url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
         label: 'vMPF',
         description: 'Lorem ipsum',
       },
       {
+        __typename: 'Bookmark',
         id: v4(),
         url: 'https://leave.af.mil/profile',
         label: 'LeaveWeb',
         description: 'Lorem ipsum',
       },
       {
+        __typename: 'Bookmark',
         id: v4(),
         url: 'https://www.e-publishing.af.mil/',
         label: 'e-Publications',
