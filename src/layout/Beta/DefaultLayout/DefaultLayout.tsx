@@ -19,6 +19,10 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
       path: '/sites-and-applications',
       label: <>All sites &amp; applications</>,
     },
+    {
+      path: '/leavebeta',
+      label: 'Leave Beta',
+    },
   ]
 
   return (

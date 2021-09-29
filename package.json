@@ -1,6 +1,6 @@
 {
   "name": "ussf-portal",
-  "version": "1.0.1",
+  "version": "1.3.0",
   "private": true,
   "engines": {
     "node": "14.17.6"
@@ -30,11 +30,13 @@
     "release": "standard-version -t ''"
   },
   "dependencies": {
+    "@apollo/client": "^3.4.11",
     "@keystone-next/fields": "15.0.0",
     "@keystone-next/keystone": "25.0.1",
     "@next/bundle-analyzer": "11.1.2",
     "@trussworks/react-uswds": "2.0.0",
     "classnames": "2.3.1",
+    "graphql": "^15.5.3",
     "next": "11.1.2",
     "path-to-regexp": "6.2.0",
     "react": "17.0.2",
@@ -52,12 +54,14 @@
     "@storybook/addon-essentials": "6.3.8",
     "@storybook/addon-links": "6.3.8",
     "@storybook/react": "6.3.8",
+    "@testing-library/cypress": "^8.0.1",
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "12.0.0",
     "@testing-library/user-event": "13.2.1",
     "@types/jest-axe": "3.5.2",
     "@types/react": "17.0.20",
     "@types/react-fontawesome": "1.6.5",
+    "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "4.31.0",
     "@typescript-eslint/parser": "4.31.0",
     "axe-core": "4.3.3",
@@ -85,6 +89,7 @@
     "sass-loader": "10.2.0",
     "serve": "12.0.0",
     "standard-version": "9.3.1",
+    "storybook-addon-apollo-client": "^4.0.9",
     "storybook-addon-next-router": "3.0.8",
     "storybook-css-modules-preset": "1.1.1",
     "style-loader": "2.0.0",

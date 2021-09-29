@@ -1,0 +1,12 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/deps';
+
+.undo {
+  @extend %button-reset;
+  background: #f2784b;
+  color: white;
+  flex: auto;
+  text-align: left;
+  @include u-padding('205' 4);
+  @include u-margin-x(-2);
+}

@@ -7,6 +7,7 @@ module.exports = {
     '@storybook/addon-a11y',
     'storybook-css-modules-preset',
     'storybook-addon-next-router',
+    'storybook-addon-apollo-client',
   ],
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
