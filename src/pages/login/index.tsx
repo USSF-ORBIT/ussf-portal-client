@@ -48,7 +48,7 @@ const Login = () => {
                   Insert your CAC / ECA to begin your login
                 </p>
                 <LinkTo
-                  className="usa-button usa-button--big text-white text-no-underline"
+                  className="usa-button button-pill usa-button--big text-white text-no-underline"
                   href="/">
                   Login
                 </LinkTo>

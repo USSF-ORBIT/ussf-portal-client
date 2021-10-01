@@ -199,7 +199,7 @@ const Home = () => {
                     .
                   </p>
                   <LinkTo
-                    className="usa-button text-white text-no-underline"
+                    className="usa-button button-pill text-white text-no-underline"
                     href="/training-and-education/">
                     More in Training + Education
                   </LinkTo>

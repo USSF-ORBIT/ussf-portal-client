@@ -5,9 +5,10 @@ import styles from './Collection.module.scss'
 type PropTypes = {
   title: React.ReactNode
   children: React.ReactNode | React.ReactNode[]
+  footer?: React.ReactNode
 }
 
-const Collection = ({ title, children }: PropTypes) => {
+const Collection = ({ title, children, footer }: PropTypes) => {
   return (
     <div className={styles.collection}>
       <h3>{title}</h3>
@@ -18,6 +19,8 @@ const Collection = ({ title, children }: PropTypes) => {
           <li key={`bookmark_0`}>{children}</li>
         )}
       </ol>
+
+      {footer}
     </div>
   )
 }
