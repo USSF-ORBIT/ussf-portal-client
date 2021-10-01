@@ -121,6 +121,7 @@ const CustomCollection = ({
             isOpen={isOpen}
             onCancel={handleCancel}
             onSave={handleSaveBookmark}
+            closeModal={closeModal}
           />
           <Button type="submit">Add site</Button>
         </Form>

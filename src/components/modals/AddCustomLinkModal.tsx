@@ -15,7 +15,7 @@ import ModalPortal from 'components/util/ModalPortal'
 type AddCustomLinkModalProps = {
   onSave: (label: string) => void
   onCancel: () => void
-} & ModalProps
+} & Omit<ModalProps, 'children' | 'id'>
 
 const AddCustomLinkModal = ({
   onSave,
@@ -34,11 +34,12 @@ const AddCustomLinkModal = ({
   return (
     <ModalPortal>
       <Modal
+        {...props}
         id={modalId}
         aria-labelledby={`${modalId}-heading`}
         aria-describedby={`${modalId}-description`}
         forceAction
-        {...props}>
+        modalRoot="#modal-root">
         <ModalHeading id={`${modalId}-heading`}>
           We don’t recognize that link
         </ModalHeading>
