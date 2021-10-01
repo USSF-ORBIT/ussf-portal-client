@@ -17,8 +17,11 @@ type AddCustomLinkModalProps = {
   onCancel: () => void
 } & ModalProps
 
-const AddCustomLinkModal = (props: AddCustomLinkModalProps) => {
-  const { onSave, onCancel } = props
+const AddCustomLinkModal = ({
+  onSave,
+  onCancel,
+  ...props
+}: AddCustomLinkModalProps) => {
   const modalId = 'addCustomLinkModal'
 
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
