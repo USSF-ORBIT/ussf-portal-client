@@ -1,0 +1,11 @@
+@import 'styles/uswdsDependencies';
+.unstyled {
+  background: transparent;
+  border: none;
+}
+
+.dropdownMenu {
+  position: absolute;
+  background: #ffffff;
+  border: 1px solid color('base-dark');
+}

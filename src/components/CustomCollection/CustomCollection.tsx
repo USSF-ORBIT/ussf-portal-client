@@ -14,12 +14,16 @@ import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 import type { Bookmark as BookmarkType } from 'types/index'
 import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
+import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
+import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
+import { useDetectOutsideClick } from 'useDetectOutsideClick'
 
 type PropTypes = {
   title: string
   bookmarks: BookmarkType[]
   handleRemoveBookmark: (id: string) => void
   handleAddBookmark: (url: string, label?: string) => void
+  handleRemoveCollection: () => void
 }
 
 const UNDO_TIMEOUT = 3000 // 3 seconds
@@ -35,7 +39,6 @@ export const RemovableBookmark = ({
   let timer: NodeJS.Timeout
 
   const [isHidden, setHidden] = useState<boolean>(false)
-
   const handleDeleteBookmark = () => {
     if (!isHidden) setHidden(true)
   }
@@ -71,11 +74,12 @@ const CustomCollection = ({
   bookmarks,
   handleRemoveBookmark,
   handleAddBookmark,
+  handleRemoveCollection,
 }: PropTypes) => {
   const [isAdding, setIsAdding] = useState<boolean>(false)
+
   const urlInputValue = useRef<string>()
   const { isOpen, openModal, closeModal } = useModal()
-
   const handleShowAdding = () => setIsAdding(true)
 
   const handleCancel = () => {
@@ -133,8 +137,60 @@ const CustomCollection = ({
     </div>
   )
 
+  // Dropdown Menu for Collection Settings //
+  // Track whether the settings dropdown should be open or closed
+  // #TODO: Fix this; currently breaks opening/closing modal
+  const node = useRef<HTMLDivElement>(null)
+  const [isActive, setIsActive] = useDetectOutsideClick(node, false)
+  const deleteCollectionModal = useModal()
+
+  const menuOnClick = () => {
+    setIsActive(!isActive)
+  }
+
+  const handleShowRemove = () => {
+    deleteCollectionModal.openModal()
+    setIsActive(false)
+  }
+  const editCustomCollectionItem = (
+    <>
+      <Button
+        type="button"
+        className={styles.unstyled}
+        onClick={handleShowRemove}>
+        Delete Collection
+      </Button>
+    </>
+  )
+
+  const menuIcon = <FontAwesomeIcon icon="cog" />
+
+  const editCustomCollection = (
+    <div>
+      <DropdownMenu
+        menuIcon={menuIcon}
+        ariaLabel="Edit this collection"
+        onMenuClick={menuOnClick}
+        isActive={isActive}
+        ref={node}>
+        {editCustomCollectionItem}
+      </DropdownMenu>
+      <RemoveCustomCollectionModal
+        isOpen={deleteCollectionModal.isOpen}
+        onCancel={deleteCollectionModal.closeModal}
+        onDelete={handleRemoveCollection}
+        closeModal={deleteCollectionModal.closeModal}
+      />
+    </div>
+  )
+
+  // End Dropdown Menu for Collection Settings //
+
   return (
-    <Collection title={title} footer={addLinkForm}>
+    <Collection
+      title={title}
+      header={editCustomCollection}
+      footer={addLinkForm}>
       {bookmarks.map((bookmark: BookmarkType) => (
         <RemovableBookmark
           key={`bookmark_${bookmark.id}`}

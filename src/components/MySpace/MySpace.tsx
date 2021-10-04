@@ -5,11 +5,13 @@ import CustomCollection from 'components/CustomCollection/CustomCollection'
 import { useCollectionsQuery } from 'operations/queries/getCollections'
 import { useRemoveBookmarkMutation } from 'operations/mutations/removeBookmark'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
+import { useRemoveCollectionMutation } from 'operations/mutations/removeCollection'
 
 const MySpace = () => {
   const { loading, error, data } = useCollectionsQuery()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
+  const [handleRemoveCollection] = useRemoveCollectionMutation()
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
@@ -28,6 +30,13 @@ const MySpace = () => {
                 <CustomCollection
                   title={collection.title}
                   bookmarks={collection.bookmarks}
+                  handleRemoveCollection={() => {
+                    handleRemoveCollection({
+                      variables: {
+                        id: collection.id,
+                      },
+                    })
+                  }}
                   handleRemoveBookmark={(id) =>
                     handleRemoveBookmark({
                       variables: { id, collectionId: collection.id },
