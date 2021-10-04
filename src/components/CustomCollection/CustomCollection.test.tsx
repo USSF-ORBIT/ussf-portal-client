@@ -74,6 +74,8 @@ describe('CustomCollection component', () => {
     userEvent.click(toggleFormButton)
     const urlInput = screen.getByLabelText('URL')
     expect(urlInput).toBeInTheDocument()
+    expect(urlInput).toBeInvalid()
+
     userEvent.type(urlInput, 'example')
     expect(urlInput).toBeInvalid()
     userEvent.type(urlInput, 'http://www.example.com')

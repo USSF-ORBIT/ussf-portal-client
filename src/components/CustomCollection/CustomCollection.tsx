@@ -74,6 +74,7 @@ const CustomCollection = ({
     const data = new FormData(event.currentTarget)
     const url = `${data.get('bookmarkUrl')}`
     handleAddBookmark(url)
+    setIsAdding(false)
   }
 
   const addLinkForm = (
@@ -88,6 +89,7 @@ const CustomCollection = ({
             id="bookmarkUrl"
             name="bookmarkUrl"
             placeholder="Type or paste link..."
+            required
           />
           <Button type="submit">Add site</Button>
         </Form>
