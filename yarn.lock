@@ -3673,7 +3673,7 @@
 
 "@trussworks/react-uswds@https://github.com/trussworks/react-uswds#sr-1233-modal-component":
   version "2.1.0"
-  resolved "https://github.com/trussworks/react-uswds#9c7cf347f311fe8839fbaa6687565a9d283746e0"
+  resolved "https://github.com/trussworks/react-uswds#777e4d0e85ebfbbef9eb0d4a83c9c08a674e77c8"
 
 "@types/accepts@*", "@types/accepts@^1.3.5":
   version "1.3.5"
