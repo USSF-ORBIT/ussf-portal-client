@@ -3,3 +3,12 @@
   @include heading-small;
   @extend .radius-pill;
 }
+
+button.unstyled,
+.usa-prose > button.unstyled {
+  background-color: #ffffff;
+  color: #005ea2;
+  border: 0;
+  border-radius: 0;
+  font-weight: normal;
+}

@@ -18,7 +18,9 @@ const DropdownMenu = ({
   dropdownRef,
 }: PropTypes) => {
   return (
-    <div className="dropdown">
+    // Ref needs to encompass the menu trigger in order
+    // to properly track inside/outside click for open/close
+    <div ref={dropdownRef} className="dropdown">
       <button
         type="button"
         className={styles.unstyled}
@@ -28,7 +30,7 @@ const DropdownMenu = ({
       </button>
 
       {isActive && (
-        <div className={styles.dropdownMenu} ref={dropdownRef}>
+        <div className={styles.dropdownMenu}>
           <ol>
             {Array.isArray(children) ? (
               children.map((child, i) => <li key={`dropdown${i}`}>{child}</li>)
