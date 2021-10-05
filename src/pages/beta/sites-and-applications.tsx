@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { InferGetStaticPropsType } from 'next'
-import { Grid } from '@trussworks/react-uswds'
+import { Button, Grid } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classnames from 'classnames'
 
 import { lists } from '.keystone/api'
 
@@ -19,8 +20,16 @@ const SitesAndApplications = ({
   bookmarks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
+  const [selectMode, setSelectMode] = useState<boolean>(false)
 
   const handleSortClick = (sortType: SortBy) => setSort(sortType)
+
+  const handleToggleSelectMode = () =>
+    setSelectMode((currentMode) => !currentMode)
+
+  const widgetClasses = classnames(styles.widgetContainer, {
+    [styles.selectMode]: selectMode,
+  })
 
   return (
     <>
@@ -30,7 +39,7 @@ const SitesAndApplications = ({
         <button
           type="button"
           className={styles.sortButton}
-          disabled={sortBy === 'SORT_ALPHA'}
+          disabled={sortBy === 'SORT_ALPHA' || selectMode}
           onClick={() => handleSortClick('SORT_ALPHA')}>
           <FontAwesomeIcon icon="list" /> Sort alphabetically
         </button>
@@ -47,8 +56,22 @@ const SitesAndApplications = ({
       {sortBy === 'SORT_ALPHA' && <BookmarkList bookmarks={bookmarks} />}
 
       {sortBy === 'SORT_TYPE' && (
-        <div className={styles.widgetContainer}>
-          <Grid row gap>
+        <div className={widgetClasses}>
+          <div className={styles.widgetToolbar}>
+            {selectMode ? (
+              <>
+                <Button type="button" outline onClick={handleToggleSelectMode}>
+                  Cancel
+                </Button>
+              </>
+            ) : (
+              <Button type="button" onClick={handleToggleSelectMode}>
+                Select multiple collections
+              </Button>
+            )}
+          </div>
+
+          <Grid row gap className={styles.widgets}>
             {collections.map((collection) => (
               <Grid
                 key={`collection_${collection.id}`}
