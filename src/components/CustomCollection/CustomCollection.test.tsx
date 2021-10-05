@@ -83,6 +83,10 @@ describe('CustomCollection component', () => {
 
   it('entering a new link opens the modal', () => {
     const mockAddLink = jest.fn()
+
+    const modalContainer = document.createElement('div')
+    modalContainer.setAttribute('id', 'modal-root')
+
     render(
       <>
         <CustomCollection
@@ -92,7 +96,7 @@ describe('CustomCollection component', () => {
         />
         <div id="modal-root" />
       </>,
-      { container: document.body }
+      { container: document.body.appendChild(modalContainer) }
     )
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
