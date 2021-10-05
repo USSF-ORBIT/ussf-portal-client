@@ -4,7 +4,7 @@ import {
   Form,
   Label,
   TextInput,
-  useModal,
+  ModalRef,
 } from '@trussworks/react-uswds'
 
 import { RemovableBookmark } from './RemovableBookmark'
@@ -29,13 +29,13 @@ const CustomCollection = ({
 }: PropTypes) => {
   const [isAdding, setIsAdding] = useState<boolean>(false)
   const urlInputValue = useRef<string>()
-  const { isOpen, openModal, closeModal } = useModal()
+  const addCustomLinkModal = useRef<ModalRef>(null)
 
   const handleShowAdding = () => setIsAdding(true)
 
   const handleCancel = () => {
     setIsAdding(false)
-    closeModal()
+    addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
   const handleSubmitAdd = (event: React.FormEvent<HTMLFormElement>) => {
@@ -45,7 +45,7 @@ const CustomCollection = ({
     const url = `${data.get('bookmarkUrl')}`
     urlInputValue.current = url
 
-    openModal()
+    addCustomLinkModal.current?.toggleModal(undefined, true)
   }
 
   const handleSaveBookmark = (label: string) => {
@@ -57,7 +57,7 @@ const CustomCollection = ({
     }
 
     setIsAdding(false)
-    closeModal()
+    addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
   const addLinkForm = (
@@ -97,10 +97,9 @@ const CustomCollection = ({
       </Collection>
 
       <AddCustomLinkModal
-        isOpen={isOpen}
+        modalRef={addCustomLinkModal}
         onCancel={handleCancel}
         onSave={handleSaveBookmark}
-        closeModal={closeModal}
       />
     </>
   )

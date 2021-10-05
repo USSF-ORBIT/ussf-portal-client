@@ -4,7 +4,7 @@
 
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
+import React, { createRef } from 'react'
 
 import { renderWithModalRoot } from '../../testHelpers'
 
@@ -15,10 +15,10 @@ describe('AddCustomLinkModal', () => {
   const mockOnCancel = jest.fn()
 
   beforeEach(() => {
+    const modalRef = createRef()
     renderWithModalRoot(
       <AddCustomLinkModal
-        isOpen={true}
-        closeModal={mockOnCancel}
+        modalRef={modalRef}
         onSave={mockOnSave}
         onCancel={mockOnCancel}
       />
