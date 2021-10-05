@@ -20,6 +20,7 @@ type AddCustomLinkModalProps = {
 const AddCustomLinkModal = ({
   onSave,
   onCancel,
+  isOpen,
   ...props
 }: AddCustomLinkModalProps) => {
   const modalId = 'addCustomLinkModal'
@@ -35,6 +36,7 @@ const AddCustomLinkModal = ({
     <ModalPortal>
       <Modal
         {...props}
+        isOpen={isOpen}
         id={modalId}
         aria-labelledby={`${modalId}-heading`}
         aria-describedby={`${modalId}-description`}
@@ -49,30 +51,32 @@ const AddCustomLinkModal = ({
           </p>
         </div>
 
-        <Form onSubmit={handleSave}>
-          <Label htmlFor="bookmarkLabel" className="usa-sr-only">
-            Label
-          </Label>
-          <TextInput
-            type="text"
-            id="bookmarkLabel"
-            name="bookmarkLabel"
-            required
-          />
-          <ButtonGroup>
-            <Button type="submit" data-close-modal>
-              Save link name
-            </Button>
-            <Button
-              type="button"
-              data-close-modal
-              unstyled
-              className="padding-105 text-center"
-              onClick={onCancel}>
-              Cancel
-            </Button>
-          </ButtonGroup>
-        </Form>
+        {isOpen && (
+          <Form onSubmit={handleSave}>
+            <Label htmlFor="bookmarkLabel" className="usa-sr-only">
+              Label
+            </Label>
+            <TextInput
+              type="text"
+              id="bookmarkLabel"
+              name="bookmarkLabel"
+              required
+            />
+            <ButtonGroup>
+              <Button type="submit" data-close-modal>
+                Save link name
+              </Button>
+              <Button
+                type="button"
+                data-close-modal
+                unstyled
+                className="padding-105 text-center"
+                onClick={onCancel}>
+                Cancel
+              </Button>
+            </ButtonGroup>
+          </Form>
+        )}
       </Modal>
     </ModalPortal>
   )

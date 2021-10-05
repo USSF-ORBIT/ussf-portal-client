@@ -161,6 +161,8 @@ describe('CustomCollection component', () => {
     userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
     userEvent.click(screen.getByRole('button', { name: 'Add site' }))
     expect(screen.getByRole('dialog')).toHaveClass('is-visible')
+
+    expect(screen.getByLabelText('Label')).toBeInvalid()
     userEvent.type(screen.getByLabelText('Label'), 'Another Custom Link')
     userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
     expect(mockAddLink).toHaveBeenCalledTimes(2)
