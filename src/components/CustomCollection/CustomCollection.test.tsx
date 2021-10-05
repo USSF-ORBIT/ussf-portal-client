@@ -118,7 +118,7 @@ describe('CustomCollection component', () => {
     expect(mockAddLink).toHaveBeenCalled()
   })
 
-  it.only('adding a link closes the modal and resets the form', () => {
+  it('adding a link closes the modal and resets the form', () => {
     const mockAddLink = jest.fn()
 
     const modalContainer = document.createElement('div')
