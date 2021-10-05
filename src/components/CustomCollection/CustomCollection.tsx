@@ -16,7 +16,7 @@ import type { Bookmark as BookmarkType } from 'types/index'
 import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
-import { useDetectOutsideClick } from 'useDetectOutsideClick'
+import { useDetectOutsideClick } from 'hooks/useDetectOutsideClick'
 
 type PropTypes = {
   title: string

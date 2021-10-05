@@ -41,6 +41,7 @@ describe('CustomCollection component', () => {
         {...exampleCollection}
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={jest.fn()}
+        handleRemoveCollection={jest.fn()}
       />
     )
     expect(screen.getByRole('list')).toBeInTheDocument()
@@ -65,6 +66,7 @@ describe('CustomCollection component', () => {
         {...exampleCollection}
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={mockAddLink}
+        handleRemoveCollection={jest.fn()}
       />
     )
 
