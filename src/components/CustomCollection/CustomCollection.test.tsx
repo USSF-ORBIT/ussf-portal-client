@@ -7,6 +7,8 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { v4 } from 'uuid'
 
+import { renderWithModalRoot } from '../../testHelpers'
+
 import CustomCollection from './CustomCollection'
 
 const exampleCollection = {
@@ -84,19 +86,12 @@ describe('CustomCollection component', () => {
   it('entering a new link opens the modal', () => {
     const mockAddLink = jest.fn()
 
-    const modalContainer = document.createElement('div')
-    modalContainer.setAttribute('id', 'modal-root')
-
-    render(
-      <>
-        <CustomCollection
-          {...exampleCollection}
-          handleRemoveBookmark={jest.fn()}
-          handleAddBookmark={mockAddLink}
-        />
-        <div id="modal-root" />
-      </>,
-      { container: document.body.appendChild(modalContainer) }
+    renderWithModalRoot(
+      <CustomCollection
+        {...exampleCollection}
+        handleRemoveBookmark={jest.fn()}
+        handleAddBookmark={mockAddLink}
+      />
     )
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
@@ -121,19 +116,12 @@ describe('CustomCollection component', () => {
   it('adding a link closes the modal and resets the form', () => {
     const mockAddLink = jest.fn()
 
-    const modalContainer = document.createElement('div')
-    modalContainer.setAttribute('id', 'modal-root')
-
-    render(
-      <>
-        <CustomCollection
-          {...exampleCollection}
-          handleRemoveBookmark={jest.fn()}
-          handleAddBookmark={mockAddLink}
-        />
-        <div id="modal-root" />
-      </>,
-      { container: document.body.appendChild(modalContainer) }
+    renderWithModalRoot(
+      <CustomCollection
+        {...exampleCollection}
+        handleRemoveBookmark={jest.fn()}
+        handleAddBookmark={mockAddLink}
+      />
     )
 
     userEvent.click(screen.getByRole('button', { name: '+ Add link' }))

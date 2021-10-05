@@ -2,9 +2,11 @@
  * @jest-environment jsdom
  */
 
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
+
+import { renderWithModalRoot } from '../../testHelpers'
 
 import AddCustomLinkModal from './AddCustomLinkModal'
 
@@ -13,17 +15,13 @@ describe('AddCustomLinkModal', () => {
   const mockOnCancel = jest.fn()
 
   beforeEach(() => {
-    const modalContainer = document.createElement('div')
-    modalContainer.setAttribute('id', 'modal-root')
-
-    render(
+    renderWithModalRoot(
       <AddCustomLinkModal
         isOpen={true}
         closeModal={mockOnCancel}
         onSave={mockOnSave}
         onCancel={mockOnCancel}
-      />,
-      { container: document.body.appendChild(modalContainer) }
+      />
     )
   })
 
