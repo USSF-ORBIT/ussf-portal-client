@@ -7,7 +7,7 @@ type PropTypes = {
   ariaLabel: string
   onMenuClick: () => void
   isActive: boolean
-  ref: React.RefObject<HTMLDivElement>
+  dropdownRef: React.RefObject<HTMLDivElement>
 }
 const DropdownMenu = ({
   children,
@@ -15,7 +15,7 @@ const DropdownMenu = ({
   ariaLabel,
   onMenuClick,
   isActive,
-  ref,
+  dropdownRef,
 }: PropTypes) => {
   return (
     <div className="dropdown">
@@ -28,7 +28,7 @@ const DropdownMenu = ({
       </button>
 
       {isActive && (
-        <div className={styles.dropdownMenu} ref={ref}>
+        <div className={styles.dropdownMenu} ref={dropdownRef}>
           <ol>
             {Array.isArray(children) ? (
               children.map((child, i) => <li key={`dropdown${i}`}>{child}</li>)

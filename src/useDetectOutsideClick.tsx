@@ -5,26 +5,25 @@ export const useDetectOutsideClick = (
 ) => {
   const [isActive, setIsActive] = useState(initialState)
 
-  // useEffect(() => {
-  //   const onClick = (e: MouseEvent) => {
-  //     if (el.current !== null && el.current.contains(e.target as Node)) {
-  //       console.log('inside the thing')
-  //       return
-  //     }
-  //     console.log('outside the thing')
-  //     setIsActive(!isActive)
-  //   }
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (el.current !== null && el.current.contains(e.target as Node)) {
+        return
+      }
 
-  //   if (isActive) {
-  //     document.addEventListener('mousedown', onClick)
-  //   } else {
-  //     document.removeEventListener('mousedown', onClick)
-  //   }
+      setIsActive(!isActive)
+    }
 
-  //   return () => {
-  //     document.removeEventListener('mousedown', onClick)
-  //   }
-  // }, [isActive, el])
+    if (isActive) {
+      document.addEventListener('mousedown', onClick)
+    } else {
+      document.removeEventListener('mousedown', onClick)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', onClick)
+    }
+  }, [isActive])
 
   return [isActive, setIsActive] as const
 }

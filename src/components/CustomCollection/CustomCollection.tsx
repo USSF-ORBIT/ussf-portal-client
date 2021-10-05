@@ -137,21 +137,25 @@ const CustomCollection = ({
     </div>
   )
 
-  // Dropdown Menu for Collection Settings //
+  /* Custom Collection Settings Menu */
+
   // Track whether the settings dropdown should be open or closed
-  // #TODO: Fix this; currently breaks opening/closing modal
   const node = useRef<HTMLDivElement>(null)
   const [isActive, setIsActive] = useDetectOutsideClick(node, false)
+  // Initialize hook for delete confirmation modal
   const deleteCollectionModal = useModal()
-
+  // Menu button and its togglefunction
+  const menuIcon = <FontAwesomeIcon icon="cog" />
   const menuOnClick = () => {
     setIsActive(!isActive)
   }
-
+  // Before deleting the collection, show confirmation modal
+  // and close the dropdown menu
   const handleShowRemove = () => {
     deleteCollectionModal.openModal()
     setIsActive(false)
   }
+  // Items to populate dropdown menu
   const editCustomCollectionItem = (
     <>
       <Button
@@ -163,16 +167,16 @@ const CustomCollection = ({
     </>
   )
 
-  const menuIcon = <FontAwesomeIcon icon="cog" />
-
-  const editCustomCollection = (
-    <div>
+  // Component and modal for Settings to pass as
+  // Custom Collection header
+  const customCollectionSettings = (
+    <>
       <DropdownMenu
+        dropdownRef={node}
         menuIcon={menuIcon}
         ariaLabel="Edit this collection"
         onMenuClick={menuOnClick}
-        isActive={isActive}
-        ref={node}>
+        isActive={isActive}>
         {editCustomCollectionItem}
       </DropdownMenu>
       <RemoveCustomCollectionModal
@@ -181,15 +185,13 @@ const CustomCollection = ({
         onDelete={handleRemoveCollection}
         closeModal={deleteCollectionModal.closeModal}
       />
-    </div>
+    </>
   )
-
-  // End Dropdown Menu for Collection Settings //
 
   return (
     <Collection
       title={title}
-      header={editCustomCollection}
+      header={customCollectionSettings}
       footer={addLinkForm}>
       {bookmarks.map((bookmark: BookmarkType) => (
         <RemovableBookmark
