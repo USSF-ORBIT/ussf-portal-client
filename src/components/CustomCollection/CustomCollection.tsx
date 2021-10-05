@@ -51,11 +51,13 @@ const CustomCollection = ({
   const handleSaveBookmark = (label: string) => {
     if (urlInputValue.current) {
       handleAddBookmark(urlInputValue.current, label)
-      setIsAdding(false)
-      closeModal()
+      urlInputValue.current = ''
     } else {
       // need a URL value
     }
+
+    setIsAdding(false)
+    closeModal()
   }
 
   const addLinkForm = (
@@ -72,12 +74,6 @@ const CustomCollection = ({
             placeholder="Type or paste link..."
             required
           />
-          <AddCustomLinkModal
-            isOpen={isOpen}
-            onCancel={handleCancel}
-            onSave={handleSaveBookmark}
-            closeModal={closeModal}
-          />
           <Button type="submit">Add site</Button>
         </Form>
       ) : (
@@ -89,15 +85,24 @@ const CustomCollection = ({
   )
 
   return (
-    <Collection title={title} footer={addLinkForm}>
-      {bookmarks.map((bookmark: BookmarkType) => (
-        <RemovableBookmark
-          key={`bookmark_${bookmark.id}`}
-          bookmark={bookmark}
-          handleRemove={() => handleRemoveBookmark(bookmark.id)}
-        />
-      ))}
-    </Collection>
+    <>
+      <Collection title={title} footer={addLinkForm}>
+        {bookmarks.map((bookmark: BookmarkType) => (
+          <RemovableBookmark
+            key={`bookmark_${bookmark.id}`}
+            bookmark={bookmark}
+            handleRemove={() => handleRemoveBookmark(bookmark.id)}
+          />
+        ))}
+      </Collection>
+
+      <AddCustomLinkModal
+        isOpen={isOpen}
+        onCancel={handleCancel}
+        onSave={handleSaveBookmark}
+        closeModal={closeModal}
+      />
+    </>
   )
 }
 

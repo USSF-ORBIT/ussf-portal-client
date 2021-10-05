@@ -100,22 +100,13 @@ describe('CustomCollection component', () => {
     )
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
-    expect(toggleFormButton).toBeInTheDocument()
-
     userEvent.click(toggleFormButton)
     const urlInput = screen.getByLabelText('URL')
-    expect(urlInput).toBeInTheDocument()
-    expect(urlInput).toBeInvalid()
-
-    userEvent.type(urlInput, 'example')
-    expect(urlInput).toBeInvalid()
     userEvent.type(urlInput, 'http://www.example.com')
-    expect(urlInput).toBeValid()
-
     userEvent.click(screen.getByRole('button', { name: 'Add site' }))
 
     // Open modal
-    expect(screen.getByRole('dialog')).toBeVisible()
+    expect(screen.getByRole('dialog')).toHaveClass('is-visible')
 
     const labelInput = screen.getByLabelText('Label')
     expect(labelInput).toBeInvalid()
@@ -125,5 +116,53 @@ describe('CustomCollection component', () => {
     userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
 
     expect(mockAddLink).toHaveBeenCalled()
+  })
+
+  it.only('adding a link closes the modal and resets the form', () => {
+    const mockAddLink = jest.fn()
+
+    const modalContainer = document.createElement('div')
+    modalContainer.setAttribute('id', 'modal-root')
+
+    render(
+      <>
+        <CustomCollection
+          {...exampleCollection}
+          handleRemoveBookmark={jest.fn()}
+          handleAddBookmark={mockAddLink}
+        />
+        <div id="modal-root" />
+      </>,
+      { container: document.body.appendChild(modalContainer) }
+    )
+
+    userEvent.click(screen.getByRole('button', { name: '+ Add link' }))
+    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
+    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+
+    // Open modal
+    expect(screen.getByRole('dialog')).toHaveClass('is-visible')
+
+    const labelInput = screen.getByLabelText('Label')
+    expect(labelInput).toBeInvalid()
+    userEvent.type(labelInput, 'My Custom Link')
+    expect(labelInput).toBeValid()
+
+    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    expect(mockAddLink).toHaveBeenCalledTimes(1)
+
+    // Modal closed
+    expect(screen.queryByRole('dialog')).toHaveClass('is-hidden')
+    userEvent.click(screen.getByRole('button', { name: '+ Add link' }))
+
+    // Modal is still closed, form is reset
+    expect(screen.queryByRole('dialog')).toHaveClass('is-hidden')
+    expect(screen.getByLabelText('URL')).toBeInvalid()
+    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
+    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+    expect(screen.getByRole('dialog')).toHaveClass('is-visible')
+    userEvent.type(screen.getByLabelText('Label'), 'Another Custom Link')
+    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    expect(mockAddLink).toHaveBeenCalledTimes(2)
   })
 })
