@@ -3,6 +3,7 @@ import {
   Modal,
   ModalProps,
   ModalHeading,
+  ModalRef,
   ButtonGroup,
   Button,
 } from '@trussworks/react-uswds'
@@ -12,11 +13,13 @@ import ModalPortal from 'components/util/ModalPortal'
 type RemoveCustomCollectionModalProps = {
   onDelete: () => void
   onCancel: () => void
+  modalRef: React.RefObject<ModalRef>
 } & Omit<ModalProps, 'children' | 'id'>
 
 const RemoveCustomCollectionModal = ({
   onDelete,
   onCancel,
+  modalRef,
   ...props
 }: RemoveCustomCollectionModalProps) => {
   const modalId = 'removeCustomCollectionModal'
@@ -26,6 +29,7 @@ const RemoveCustomCollectionModal = ({
       <Modal
         {...props}
         id={modalId}
+        ref={modalRef}
         aria-labelledby={`${modalId}-heading`}
         aria-describedby={`${modalId}-description`}
         forceAction

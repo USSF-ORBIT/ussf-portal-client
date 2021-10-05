@@ -21,7 +21,7 @@ describe('Sites and Applications', () => {
     cy.contains('Application name').should('not.exist')
   })
 
-  it('can edit links on the My Space page', () => {
+  it('can hide links from an existing collection', () => {
     cy.contains('My Space')
 
     cy.contains('Example Collection')
@@ -46,5 +46,63 @@ describe('Sites and Applications', () => {
         cy.contains('Webmail').should('not.exist')
         cy.findAllByRole('listitem').should('have.length', 4)
       })
+  })
+
+  it('can add custom links to an existing collection', () => {
+    cy.contains('Example Collection')
+      .parent()
+      .within(() => {
+        // Add a link
+        cy.findByRole('button', { name: '+ Add link' }).click()
+
+        cy.findByLabelText('URL')
+          .then(($el) => $el[0].checkValidity())
+          .should('be.false')
+
+        cy.findByLabelText('URL')
+          .type('not a URL')
+          .then(($el) => $el[0].checkValidity())
+          .should('be.false')
+
+        cy.findByLabelText('URL')
+          .clear()
+          .type('http://www.example.com')
+          .then(($el) => $el[0].checkValidity())
+          .should('be.true')
+
+        cy.findByRole('button', { name: 'Add site' }).click()
+      })
+
+    cy.findByRole('dialog').within(() => {
+      cy.findByRole('button', { name: 'Cancel' }).click()
+    })
+
+    cy.contains('Example Collection')
+      .parent()
+      .within(() => {
+        // Add a link
+        cy.findByRole('button', { name: '+ Add link' }).click()
+
+        cy.findByLabelText('URL').clear().type('http://www.example.com')
+
+        cy.findByRole('button', { name: 'Add site' }).click()
+      })
+
+    cy.findByRole('dialog').within(() => {
+      cy.findByLabelText('Label')
+        .then(($el) => $el[0].checkValidity())
+        .should('be.false')
+
+      cy.findByLabelText('Label')
+        .type('My Custom Link')
+        .then(($el) => $el[0].checkValidity())
+        .should('be.true')
+
+      cy.findByRole('button', { name: 'Save link name' }).click()
+    })
+
+    cy.findByRole('link', {
+      name: 'My Custom Link (opens in a new window)',
+    }).should('exist')
   })
 })
