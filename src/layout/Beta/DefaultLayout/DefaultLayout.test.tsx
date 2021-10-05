@@ -4,7 +4,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 
-import DefaultLayout from './DefaultLayout'
+import DefaultLayout, { withBetaLayout } from './DefaultLayout'
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -39,5 +39,13 @@ describe('DefaultLayout component', () => {
   it('renders common layout elements', () => {
     expect(screen.getAllByRole('banner')).toHaveLength(2) // Gov banner & site header
     expect(screen.getAllByRole('navigation')).toHaveLength(3) // header, page nav, footer
+  })
+})
+
+describe('withBetaLayout HOC', () => {
+  it('renders children inside of the beta layout', () => {
+    const TestPage = () => <div>My page</div>
+    render(withBetaLayout(<TestPage />))
+    expect(screen.getByText('My page')).toBeInTheDocument()
   })
 })

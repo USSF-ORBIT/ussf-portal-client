@@ -43,4 +43,28 @@ describe('AddCustomLinkModal', () => {
     userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
     expect(mockOnCancel).toHaveBeenCalled()
   })
+
+  it('saving resets the value of the text input', () => {
+    expect(screen.getByRole('heading')).toHaveTextContent(
+      'We don’t recognize that link'
+    )
+
+    const labelInput = screen.getByLabelText('Label')
+    userEvent.type(labelInput, 'My Custom Link')
+    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    expect(mockOnSave).toHaveBeenCalled()
+    expect(screen.getByLabelText('Label')).toHaveValue('')
+  })
+
+  it('cancelling resets the value of the text input', () => {
+    expect(screen.getByRole('heading')).toHaveTextContent(
+      'We don’t recognize that link'
+    )
+
+    const labelInput = screen.getByLabelText('Label')
+    userEvent.type(labelInput, 'My Custom Link')
+    userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    expect(mockOnCancel).toHaveBeenCalled()
+    expect(screen.getByLabelText('Label')).toHaveValue('')
+  })
 })
