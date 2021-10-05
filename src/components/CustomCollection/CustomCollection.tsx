@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { useState, useRef } from 'react'
 import {
   Button,
   Form,
   Label,
   TextInput,
-  useModal,
+  ModalRef,
 } from '@trussworks/react-uswds'
 
+import { RemovableBookmark } from './RemovableBookmark'
 import styles from './CustomCollection.module.scss'
 
 import Collection from 'components/Collection/Collection'
-import Bookmark from 'components/Bookmark/Bookmark'
 import type { Bookmark as BookmarkType } from 'types/index'
 import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
 
@@ -22,50 +21,6 @@ type PropTypes = {
   handleAddBookmark: (url: string, label?: string) => void
 }
 
-const UNDO_TIMEOUT = 3000 // 3 seconds
-
-export const RemovableBookmark = ({
-  bookmark,
-  handleRemove,
-}: {
-  bookmark: BookmarkType
-  handleRemove: () => void
-}) => {
-  const { url, label } = bookmark
-  let timer: NodeJS.Timeout
-
-  const [isHidden, setHidden] = useState<boolean>(false)
-
-  const handleDeleteBookmark = () => {
-    if (!isHidden) setHidden(true)
-  }
-
-  const handleUndoDelete = () => {
-    setHidden(false)
-    clearTimeout(timer)
-  }
-
-  useEffect(() => {
-    if (isHidden) {
-      timer = setTimeout(() => {
-        handleRemove()
-      }, UNDO_TIMEOUT)
-
-      return () => clearTimeout(timer)
-    }
-  }, [isHidden])
-
-  return isHidden ? (
-    <button type="button" onClick={handleUndoDelete} className={styles.undo}>
-      Undo remove <FontAwesomeIcon icon="undo-alt" />
-    </button>
-  ) : (
-    <Bookmark href={url} onDelete={handleDeleteBookmark}>
-      {label || url}
-    </Bookmark>
-  )
-}
-
 const CustomCollection = ({
   title,
   bookmarks,
@@ -74,13 +29,13 @@ const CustomCollection = ({
 }: PropTypes) => {
   const [isAdding, setIsAdding] = useState<boolean>(false)
   const urlInputValue = useRef<string>()
-  const { isOpen, openModal, closeModal } = useModal()
+  const addCustomLinkModal = useRef<ModalRef>(null)
 
   const handleShowAdding = () => setIsAdding(true)
 
   const handleCancel = () => {
     setIsAdding(false)
-    closeModal()
+    addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
   const handleSubmitAdd = (event: React.FormEvent<HTMLFormElement>) => {
@@ -90,17 +45,19 @@ const CustomCollection = ({
     const url = `${data.get('bookmarkUrl')}`
     urlInputValue.current = url
 
-    openModal()
+    addCustomLinkModal.current?.toggleModal(undefined, true)
   }
 
   const handleSaveBookmark = (label: string) => {
     if (urlInputValue.current) {
       handleAddBookmark(urlInputValue.current, label)
-      setIsAdding(false)
-      closeModal()
+      urlInputValue.current = ''
     } else {
       // need a URL value
     }
+
+    setIsAdding(false)
+    addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
   const addLinkForm = (
@@ -117,12 +74,6 @@ const CustomCollection = ({
             placeholder="Type or paste link..."
             required
           />
-          <AddCustomLinkModal
-            isOpen={isOpen}
-            onCancel={handleCancel}
-            onSave={handleSaveBookmark}
-            closeModal={closeModal}
-          />
           <Button type="submit">Add site</Button>
         </Form>
       ) : (
@@ -134,15 +85,23 @@ const CustomCollection = ({
   )
 
   return (
-    <Collection title={title} footer={addLinkForm}>
-      {bookmarks.map((bookmark: BookmarkType) => (
-        <RemovableBookmark
-          key={`bookmark_${bookmark.id}`}
-          bookmark={bookmark}
-          handleRemove={() => handleRemoveBookmark(bookmark.id)}
-        />
-      ))}
-    </Collection>
+    <>
+      <Collection title={title} footer={addLinkForm}>
+        {bookmarks.map((bookmark: BookmarkType) => (
+          <RemovableBookmark
+            key={`bookmark_${bookmark.id}`}
+            bookmark={bookmark}
+            handleRemove={() => handleRemoveBookmark(bookmark.id)}
+          />
+        ))}
+      </Collection>
+
+      <AddCustomLinkModal
+        modalRef={addCustomLinkModal}
+        onCancel={handleCancel}
+        onSave={handleSaveBookmark}
+      />
+    </>
   )
 }
 
