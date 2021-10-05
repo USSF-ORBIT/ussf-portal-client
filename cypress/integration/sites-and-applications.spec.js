@@ -21,7 +21,7 @@ describe('Sites and Applications', () => {
     cy.contains('Application name').should('not.exist')
   })
 
-  it('can edit links on the My Space page', () => {
+  it('can hide links from an existing collection', () => {
     cy.contains('My Space')
 
     cy.contains('Example Collection')
@@ -45,6 +45,36 @@ describe('Sites and Applications', () => {
           .click()
         cy.contains('Webmail').should('not.exist')
         cy.findAllByRole('listitem').should('have.length', 4)
+      })
+  })
+
+  it('can add custom links to an existing collection', () => {
+    cy.contains('Example Collection')
+      .parent()
+      .within(() => {
+        // Add a link
+        cy.findByRole('button', { name: '+ Add link' }).click()
+
+        cy.findByLabelText('URL')
+          .then(($el) => $el[0].checkValidity())
+          .should('be.false')
+
+        cy.findByLabelText('URL')
+          .type('not a URL')
+          .then(($el) => $el[0].checkValidity())
+          .should('be.false')
+
+        cy.findByLabelText('URL')
+          .clear()
+          .type('http://www.example.com')
+          .then(($el) => $el[0].checkValidity())
+          .should('be.true')
+
+        cy.findByRole('button', { name: 'Add site' }).click()
+
+        cy.findByRole('link', {
+          name: 'http://www.example.com (opens in a new window)',
+        }).should('exist')
       })
   })
 })
