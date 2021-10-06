@@ -72,7 +72,10 @@ const AddCustomLinkModal = ({
             inputRef={inputRef}
           />
           <ButtonGroup>
-            <Button type="submit" data-close-modal>
+            <Button
+              data-testid="cancel-addLinkModal"
+              type="submit"
+              data-close-modal>
               Save link name
             </Button>
             <Button

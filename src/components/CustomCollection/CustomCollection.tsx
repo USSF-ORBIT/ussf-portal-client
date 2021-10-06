@@ -107,8 +107,13 @@ const CustomCollection = ({
     deleteCollectionModal.current?.toggleModal(undefined, true)
     setIsActive(false)
   }
+  // After confirming delete, trigger the mutation and close the modal
+  const handleDeleteCollection = () => {
+    handleRemoveCollection()
+    deleteCollectionModal.current?.toggleModal(undefined, false)
+  }
+
   const handleCancelCollection = () => {
-    setIsAdding(false)
     deleteCollectionModal.current?.toggleModal(undefined, false)
   }
   // Items to populate dropdown menu
@@ -130,7 +135,7 @@ const CustomCollection = ({
       <DropdownMenu
         dropdownRef={node}
         menuIcon={menuIcon}
-        ariaLabel="Edit this collection"
+        ariaLabel="Collection Settings"
         onMenuClick={menuOnClick}
         isActive={isActive}>
         {editCustomCollectionItem}
@@ -138,7 +143,7 @@ const CustomCollection = ({
       <RemoveCustomCollectionModal
         modalRef={deleteCollectionModal}
         onCancel={handleCancelCollection}
-        onDelete={handleRemoveCollection}
+        onDelete={handleDeleteCollection}
       />
     </>
   )

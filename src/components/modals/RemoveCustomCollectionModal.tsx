@@ -35,17 +35,18 @@ const RemoveCustomCollectionModal = ({
         forceAction
         modalRoot="#modal-root">
         <ModalHeading id={`${modalId}-heading`}>
-          Are you sure you&apos;d like to delete this collection from My Space?
+          Are you sure you’d like to delete this collection from My Space?
         </ModalHeading>
         <div className="usa-prose">
           <p id={`${modalId}-description`}>This action cannot be undone.</p>
         </div>
 
         <ButtonGroup>
-          <Button type="submit" data-close-modal onClick={() => onDelete()}>
+          <Button type="submit" data-close-modal onClick={onDelete}>
             Delete
           </Button>
           <Button
+            data-testid="cancel-removeCollectionModal"
             type="button"
             data-close-modal
             unstyled
