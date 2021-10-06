@@ -1,6 +1,5 @@
 import React from 'react'
 import classnames from 'classnames'
-import { Button } from '@trussworks/react-uswds'
 
 import styles from './SelectableCollection.module.scss'
 
@@ -23,15 +22,24 @@ const SelectableCollection = ({
     [styles.selected]: isSelected,
   })
 
+  // TODO - try label?
+  // Explicitly render collection & bookmarks in here
+
+  const ariaLabel = isSelected ? 'Unselect collection' : 'Select collection'
+
   return (
-    <div className={classes}>
+    <button
+      type="button"
+      className={classes}
+      onClick={handleSelect}
+      aria-label={ariaLabel}>
       <div className={styles.disabled}>{children}</div>
       <div className={styles.overlay}>
-        <Button type="button" outline onClick={handleSelect}>
+        <div className="usa-button usa-button--outline">
           {isSelected ? 'Unselect' : 'Select'}
-        </Button>
+        </div>
       </div>
-    </div>
+    </button>
   )
 }
 

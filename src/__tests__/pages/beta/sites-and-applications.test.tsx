@@ -109,9 +109,9 @@ describe('Sites and Applications page', () => {
       ).toBeDisabled()
       expect(screen.getByText('0 collections selected')).toBeInTheDocument()
 
-      expect(screen.getAllByRole('button', { name: 'Select' })).toHaveLength(
-        mockCollections.length
-      )
+      expect(
+        screen.getAllByRole('button', { name: 'Select collection' })
+      ).toHaveLength(mockCollections.length)
     })
 
     it('can cancel out of select mode', () => {
@@ -145,7 +145,9 @@ describe('Sites and Applications page', () => {
         screen.getByRole('button', { name: 'Add selected' })
       ).toBeDisabled()
       expect(screen.getByText('0 collections selected')).toBeInTheDocument()
-      const selectBtns = screen.getAllByRole('button', { name: 'Select' })
+      const selectBtns = screen.getAllByRole('button', {
+        name: 'Select collection',
+      })
       userEvent.click(selectBtns[0])
       expect(screen.getByText('1 collection selected')).toBeInTheDocument()
       userEvent.click(selectBtns[1])
@@ -164,7 +166,9 @@ describe('Sites and Applications page', () => {
         screen.getByRole('button', { name: 'Add selected' })
       ).toBeDisabled()
       expect(screen.getByText('0 collections selected')).toBeInTheDocument()
-      const selectBtns = screen.getAllByRole('button', { name: 'Select' })
+      const selectBtns = screen.getAllByRole('button', {
+        name: 'Select collection',
+      })
       userEvent.click(selectBtns[0])
       expect(screen.getByText('1 collection selected')).toBeInTheDocument()
       userEvent.click(selectBtns[1])

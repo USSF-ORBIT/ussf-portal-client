@@ -28,3 +28,9 @@ export const WithDeleteHandler = (argTypes: StorybookArgTypes) => (
     Delete Me
   </Bookmark>
 )
+
+export const DisabledLink = () => (
+  <Bookmark href="#" disabled>
+    Example
+  </Bookmark>
+)

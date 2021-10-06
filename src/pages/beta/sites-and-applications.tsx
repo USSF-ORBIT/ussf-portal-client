@@ -128,7 +128,8 @@ const SitesAndApplications = ({
                   {collection.bookmarks?.map((bookmark) => (
                     <Bookmark
                       key={`bookmark_${bookmark.id}`}
-                      href={bookmark.url}>
+                      href={bookmark.url}
+                      disabled={selectMode}>
                       {bookmark.label}
                     </Bookmark>
                   ))}
