@@ -91,6 +91,92 @@ describe('Sites and Applications page', () => {
     )
     expect(screen.queryByRole('table')).not.toBeInTheDocument()
   })
+
+  describe('selecting collections', () => {
+    it('can enter select mode', () => {
+      const selectBtn = screen.getByRole('button', {
+        name: 'Select multiple collections',
+      })
+      expect(selectBtn).toBeInTheDocument()
+      userEvent.click(selectBtn)
+
+      expect(
+        screen.queryByRole('button', { name: 'Select multiple collections' })
+      ).not.toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: 'Add selected' })
+      ).toBeDisabled()
+      expect(screen.getByText('0 collections selected')).toBeInTheDocument()
+
+      expect(screen.getAllByRole('button', { name: 'Select' })).toHaveLength(
+        mockCollections.length
+      )
+    })
+
+    it('can cancel out of select mode', () => {
+      expect(
+        screen.queryByText('0 collections selected')
+      ).not.toBeInTheDocument()
+
+      userEvent.click(
+        screen.getByRole('button', {
+          name: 'Select multiple collections',
+        })
+      )
+
+      expect(screen.queryByText('0 collections selected')).toBeInTheDocument()
+
+      userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+
+      expect(
+        screen.queryByText('0 collections selected')
+      ).not.toBeInTheDocument()
+    })
+
+    it('can select multiple collections', () => {
+      userEvent.click(
+        screen.getByRole('button', {
+          name: 'Select multiple collections',
+        })
+      )
+
+      expect(
+        screen.getByRole('button', { name: 'Add selected' })
+      ).toBeDisabled()
+      expect(screen.getByText('0 collections selected')).toBeInTheDocument()
+      const selectBtns = screen.getAllByRole('button', { name: 'Select' })
+      userEvent.click(selectBtns[0])
+      expect(screen.getByText('1 collection selected')).toBeInTheDocument()
+      userEvent.click(selectBtns[1])
+      expect(screen.getByText('2 collections selected')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Add selected' })).toBeEnabled()
+    })
+
+    it('selecting the same collection twice removes it from the selection', () => {
+      userEvent.click(
+        screen.getByRole('button', {
+          name: 'Select multiple collections',
+        })
+      )
+
+      expect(
+        screen.getByRole('button', { name: 'Add selected' })
+      ).toBeDisabled()
+      expect(screen.getByText('0 collections selected')).toBeInTheDocument()
+      const selectBtns = screen.getAllByRole('button', { name: 'Select' })
+      userEvent.click(selectBtns[0])
+      expect(screen.getByText('1 collection selected')).toBeInTheDocument()
+      userEvent.click(selectBtns[1])
+      expect(screen.getByText('2 collections selected')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Add selected' })).toBeEnabled()
+
+      userEvent.click(selectBtns[0])
+      expect(screen.getByText('1 collection selected')).toBeInTheDocument()
+      userEvent.click(selectBtns[1])
+      expect(screen.getByText('0 collections selected')).toBeInTheDocument()
+    })
+  })
 })
 
 describe('getStaticProps', () => {

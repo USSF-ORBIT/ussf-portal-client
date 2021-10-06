@@ -28,7 +28,7 @@ const SelectableCollection = ({
       <div className={styles.disabled}>{children}</div>
       <div className={styles.overlay}>
         <Button type="button" outline onClick={handleSelect}>
-          Select
+          {isSelected ? 'Unselect' : 'Select'}
         </Button>
       </div>
     </div>

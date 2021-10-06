@@ -40,6 +40,22 @@
 .widgetToolbar {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  color: #fff;
+  padding: units(1) units(4) units('105');
+
+  > * + * {
+    margin-left: units('105');
+    margin-right: (0);
+  }
+
+  :global(.usa-button--inverse) {
+    color: #fff;
+  }
+
+  :global(.usa-button--outline) {
+    background-color: #fff;
+  }
 }
 
 .sortButton {

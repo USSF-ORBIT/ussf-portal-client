@@ -16,24 +16,57 @@ import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
+type SelectedCollections = string[]
+
 const SitesAndApplications = ({
   collections,
   bookmarks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
   const [selectMode, setSelectMode] = useState<boolean>(false)
+  const [selectedCollections, setSelectedCollections] =
+    useState<SelectedCollections>([])
 
   const handleSortClick = (sortType: SortBy) => setSort(sortType)
 
-  const handleToggleSelectMode = () =>
+  const handleToggleSelectMode = () => {
     setSelectMode((currentMode) => !currentMode)
+    setSelectedCollections([])
+  }
 
   const widgetClasses = classnames(styles.widgetContainer, {
     [styles.selectMode]: selectMode,
   })
 
-  const handleSelectCollection = () => {
-    /* TODO */
+  const handleSelectCollection = (id?: string): void => {
+    if (!id) {
+      // error
+      return
+    }
+
+    if (isSelected(id)) {
+      setSelectedCollections((state) => {
+        const itemIndex = state.indexOf(id)
+        const newState = [...state]
+        newState.splice(itemIndex, 1)
+        return newState
+      })
+    } else {
+      setSelectedCollections((state) => [...state, id])
+    }
+  }
+
+  const isSelected = (id?: string): boolean => {
+    if (!id) {
+      // error
+      return false
+    }
+
+    return selectedCollections.indexOf(id) > -1
+  }
+
+  const handleAddSelected = () => {
+    // TODO
   }
 
   return (
@@ -65,6 +98,18 @@ const SitesAndApplications = ({
           <div className={styles.widgetToolbar}>
             {selectMode ? (
               <>
+                <span>
+                  {selectedCollections.length} collection
+                  {selectedCollections.length !== 1 && 's'} selected
+                </span>
+                <Button
+                  type="button"
+                  accentStyle="warm"
+                  inverse
+                  disabled={selectedCollections.length < 1}
+                  onClick={handleAddSelected}>
+                  Add selected
+                </Button>
                 <Button type="button" outline onClick={handleToggleSelectMode}>
                   Cancel
                 </Button>
@@ -97,8 +142,8 @@ const SitesAndApplications = ({
                   desktop={{ col: 3 }}>
                   {selectMode ? (
                     <SelectableCollection
-                      isSelected={false}
-                      onSelect={handleSelectCollection}>
+                      isSelected={isSelected(collection.id)}
+                      onSelect={() => handleSelectCollection(collection.id)}>
                       {collectionComponent}
                     </SelectableCollection>
                   ) : (
