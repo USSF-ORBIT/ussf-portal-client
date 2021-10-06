@@ -32,7 +32,7 @@ jobs:
 
       # The yarn cache is not node_modules
       - name: Install dependencies
-        run: yarn --frozen-lockfile --prefer-offline
+        run: yarn --frozen-lockfile --prefer-offline --network-concurrency 1 # Remove when ReactUSWDS branch is released
 
       - name: Lint code
         run: yarn lint
