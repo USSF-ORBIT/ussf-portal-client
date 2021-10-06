@@ -5,7 +5,7 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { createRef } from 'react'
-
+import { ModalRef } from '@trussworks/react-uswds'
 import { renderWithModalRoot } from '../../testHelpers'
 
 import AddCustomLinkModal from './AddCustomLinkModal'
@@ -15,7 +15,7 @@ describe('AddCustomLinkModal', () => {
   const mockOnCancel = jest.fn()
 
   beforeEach(() => {
-    const modalRef = createRef()
+    const modalRef = createRef<ModalRef>()
     renderWithModalRoot(
       <AddCustomLinkModal
         modalRef={modalRef}
