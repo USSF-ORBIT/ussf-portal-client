@@ -32,7 +32,6 @@ const CustomCollection = ({
   handleRemoveCollection,
 }: PropTypes) => {
   const [isAdding, setIsAdding] = useState<boolean>(false)
-
   const urlInputValue = useRef<string>()
   const addCustomLinkModal = useRef<ModalRef>(null)
 
