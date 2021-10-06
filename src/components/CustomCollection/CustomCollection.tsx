@@ -104,8 +104,12 @@ const CustomCollection = ({
   // Before deleting the collection, show confirmation modal
   // and close the dropdown menu
   const handleShowRemove = () => {
-    addCustomLinkModal.current?.toggleModal(undefined, true)
+    deleteCollectionModal.current?.toggleModal(undefined, true)
     setIsActive(false)
+  }
+  const handleCancelCollection = () => {
+    setIsAdding(false)
+    deleteCollectionModal.current?.toggleModal(undefined, false)
   }
   // Items to populate dropdown menu
   const editCustomCollectionItem = (
@@ -133,7 +137,7 @@ const CustomCollection = ({
       </DropdownMenu>
       <RemoveCustomCollectionModal
         modalRef={deleteCollectionModal}
-        onCancel={handleCancel}
+        onCancel={handleCancelCollection}
         onDelete={handleRemoveCollection}
       />
     </>
