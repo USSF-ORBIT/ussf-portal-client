@@ -11,6 +11,7 @@ import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 import BookmarkList from 'components/BookmarkList/BookmarkList'
+import SelectableCollection from 'components/SelectableCollection/SelectableCollection'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
@@ -30,6 +31,10 @@ const SitesAndApplications = ({
   const widgetClasses = classnames(styles.widgetContainer, {
     [styles.selectMode]: selectMode,
   })
+
+  const handleSelectCollection = () => {
+    /* TODO */
+  }
 
   return (
     <>
@@ -72,11 +77,8 @@ const SitesAndApplications = ({
           </div>
 
           <Grid row gap className={styles.widgets}>
-            {collections.map((collection) => (
-              <Grid
-                key={`collection_${collection.id}`}
-                tablet={{ col: 6 }}
-                desktop={{ col: 3 }}>
+            {collections.map((collection) => {
+              const collectionComponent = (
                 <Collection title={collection.title}>
                   {collection.bookmarks?.map((bookmark) => (
                     <Bookmark
@@ -86,8 +88,25 @@ const SitesAndApplications = ({
                     </Bookmark>
                   ))}
                 </Collection>
-              </Grid>
-            ))}
+              )
+
+              return (
+                <Grid
+                  key={`collection_${collection.id}`}
+                  tablet={{ col: 6 }}
+                  desktop={{ col: 3 }}>
+                  {selectMode ? (
+                    <SelectableCollection
+                      isSelected={false}
+                      onSelect={handleSelectCollection}>
+                      {collectionComponent}
+                    </SelectableCollection>
+                  ) : (
+                    collectionComponent
+                  )}
+                </Grid>
+              )
+            })}
           </Grid>
         </div>
       )}
