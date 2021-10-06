@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { useRouter } from 'next/router'
 
-const BetaContext = createContext({
+export const BetaContext = createContext({
   joinBeta: () => {
     return
   },
@@ -41,6 +41,7 @@ const BetaContextProvider = ({ children }: { children: React.ReactNode }) => {
 
 function useBetaContext() {
   const context = useContext(BetaContext)
+
   if (context === undefined) {
     throw new Error('useBetaContext must be used within a BetaContextProvider')
   }
