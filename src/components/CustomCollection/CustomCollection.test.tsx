@@ -168,33 +168,6 @@ describe('CustomCollection component', () => {
     expect(mockAddLink).toHaveBeenCalledTimes(2)
   })
 
-  it('clicking cancel on add link modal closes and resets the form', () => {
-    const mockAddLink = jest.fn()
-
-    renderWithModalRoot(
-      <CustomCollection
-        {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={mockAddLink}
-        handleRemoveCollection={jest.fn()}
-      />
-    )
-
-    userEvent.click(screen.getByRole('button', { name: '+ Add link' }))
-    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
-
-    // Open modal
-    expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
-
-    userEvent.click(screen.getByTestId('cancel-addLinkModal'))
-
-    // Modal is closed, form is reset
-    expect(screen.queryByRole('dialog', addLinkDialog)).toHaveClass('is-hidden')
-    userEvent.click(screen.getByRole('button', { name: '+ Add link' }))
-    expect(screen.getByLabelText('URL')).toBeInvalid()
-  })
-
   it('renders the settings dropdown menu', () => {
     render(
       <CustomCollection
