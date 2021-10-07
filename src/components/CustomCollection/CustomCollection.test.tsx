@@ -144,7 +144,7 @@ describe('CustomCollection component', () => {
 
     // Open modal
     expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
-    userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    userEvent.click(screen.getByTestId('cancel-addLinkModal'))
 
     expect(screen.getByRole('dialog', addLinkDialog)).not.toHaveClass(
       'is-visible'
