@@ -25,6 +25,7 @@ describe('Sites and Applications', () => {
     cy.contains('My Space')
 
     cy.contains('Example Collection')
+      .parent()
       .next()
       .within(() => {
         // Inside of <ol>
@@ -50,6 +51,7 @@ describe('Sites and Applications', () => {
 
   it('can add custom links to an existing collection', () => {
     cy.contains('Example Collection')
+      .parent()
       .parent()
       .within(() => {
         // Add a link
@@ -80,6 +82,7 @@ describe('Sites and Applications', () => {
     )
 
     cy.contains('Example Collection')
+      .parent()
       .parent()
       .within(() => {
         // Add a link
