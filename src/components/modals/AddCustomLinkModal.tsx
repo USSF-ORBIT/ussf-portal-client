@@ -76,7 +76,6 @@ const AddCustomLinkModal = ({
               Save link name
             </Button>
             <Button
-              data-testid="cancel-addLinkModal"
               type="button"
               data-close-modal
               unstyled

@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { v4 } from 'uuid'
@@ -143,12 +143,14 @@ describe('CustomCollection component', () => {
     userEvent.click(screen.getByRole('button', { name: 'Add site' }))
 
     // Open modal
-    expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
-    userEvent.click(screen.getByTestId('cancel-addLinkModal'))
+    const addLinkModal = screen.getByRole('dialog', addLinkDialog)
+    expect(addLinkModal).toHaveClass('is-visible')
+    const cancelButton = within(addLinkModal).getByRole('button', {
+      name: 'Cancel',
+    })
+    userEvent.click(cancelButton)
 
-    expect(screen.getByRole('dialog', addLinkDialog)).not.toHaveClass(
-      'is-visible'
-    )
+    expect(addLinkModal).not.toHaveClass('is-visible')
 
     expect(mockAddLink).not.toHaveBeenCalled()
 
@@ -280,8 +282,16 @@ describe('CustomCollection component', () => {
     expect(screen.getByRole('dialog', removeCollectionDialog)).toHaveClass(
       'is-visible'
     )
+    const removeCollectionModal = screen.getByRole(
+      'dialog',
+      removeCollectionDialog
+    )
+    expect(removeCollectionModal).toHaveClass('is-visible')
+    const cancelButton = within(removeCollectionModal).getByRole('button', {
+      name: 'Cancel',
+    })
+    userEvent.click(cancelButton)
 
-    userEvent.click(screen.getByTestId('cancel-removeCollectionModal'))
     expect(mockRemoveCollection).toHaveBeenCalledTimes(0)
 
     expect(screen.queryByRole('dialog', removeCollectionDialog)).toHaveClass(

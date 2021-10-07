@@ -3,6 +3,7 @@ import {
   Modal,
   ModalProps,
   ModalHeading,
+  ModalFooter,
   ModalRef,
   ButtonGroup,
   Button,
@@ -40,21 +41,21 @@ const RemoveCustomCollectionModal = ({
         <div className="usa-prose">
           <p id={`${modalId}-description`}>This action cannot be undone.</p>
         </div>
-
-        <ButtonGroup>
-          <Button type="submit" data-close-modal onClick={onDelete}>
-            Delete
-          </Button>
-          <Button
-            data-testid="cancel-removeCollectionModal"
-            type="button"
-            data-close-modal
-            unstyled
-            className="padding-105 text-center"
-            onClick={onCancel}>
-            Cancel
-          </Button>
-        </ButtonGroup>
+        <ModalFooter>
+          <ButtonGroup>
+            <Button type="submit" data-close-modal onClick={onDelete}>
+              Delete
+            </Button>
+            <Button
+              type="button"
+              data-close-modal
+              unstyled
+              className="padding-105 text-center"
+              onClick={onCancel}>
+              Cancel
+            </Button>
+          </ButtonGroup>
+        </ModalFooter>
       </Modal>
     </ModalPortal>
   )

@@ -14,7 +14,7 @@ import type { Bookmark as BookmarkType } from 'types/index'
 import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
-import { useDetectOutsideClick } from 'hooks/useDetectOutsideClick'
+import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
 type PropTypes = {
   title: string
@@ -91,20 +91,23 @@ const CustomCollection = ({
   /* Custom Collection Settings Menu */
 
   // Track whether the settings dropdown should be open or closed
-  const node = useRef<HTMLDivElement>(null)
-  const [isActive, setIsActive] = useDetectOutsideClick(node, false)
+  const dropdownEl = useRef<HTMLDivElement>(null)
+  const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
+    dropdownEl,
+    false
+  )
   // Initialize hook for delete confirmation modal
   const deleteCollectionModal = useRef<ModalRef>(null)
   // Menu button and its togglefunction
   const menuIcon = <FontAwesomeIcon icon="cog" />
   const menuOnClick = () => {
-    setIsActive(!isActive)
+    setIsDropdownOpen(!isDropdownOpen)
   }
   // Before deleting the collection, show confirmation modal
   // and close the dropdown menu
   const handleShowRemove = () => {
     deleteCollectionModal.current?.toggleModal(undefined, true)
-    setIsActive(false)
+    setIsDropdownOpen(false)
   }
   // After confirming delete, trigger the mutation and close the modal
   const handleDeleteCollection = () => {
@@ -120,7 +123,7 @@ const CustomCollection = ({
     <>
       <Button
         type="button"
-        className={styles.unstyled}
+        className={styles.collectionSettingsDropdown}
         onClick={handleShowRemove}>
         Delete Collection
       </Button>
@@ -132,11 +135,11 @@ const CustomCollection = ({
   const customCollectionSettings = (
     <>
       <DropdownMenu
-        dropdownRef={node}
+        dropdownRef={dropdownEl}
         menuIcon={menuIcon}
         ariaLabel="Collection Settings"
         onMenuClick={menuOnClick}
-        isActive={isActive}>
+        isActive={isDropdownOpen}>
         {editCustomCollectionItem}
       </DropdownMenu>
       <RemoveCustomCollectionModal

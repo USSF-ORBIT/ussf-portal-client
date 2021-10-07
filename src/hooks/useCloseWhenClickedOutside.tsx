@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-export const useDetectOutsideClick = (
+export const useCloseWhenClickedOutside = (
   el: React.RefObject<HTMLDivElement>,
   initialState: boolean
 ) => {

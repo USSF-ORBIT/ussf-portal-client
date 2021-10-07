@@ -20,10 +20,10 @@ const DropdownMenu = ({
   return (
     // Ref needs to encompass the menu trigger in order
     // to properly track inside/outside click for open/close
-    <div ref={dropdownRef} className="dropdown">
+    <div ref={dropdownRef} className={styles.dropdown}>
       <button
         type="button"
-        className={styles.unstyled}
+        className={styles.dropdownMenuToggle}
         onClick={onMenuClick}
         aria-label={ariaLabel}>
         {menuIcon}
