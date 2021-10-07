@@ -6,22 +6,61 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import React from 'react'
+import { v4 } from 'uuid'
 
 import SelectableCollection from './SelectableCollection'
 
+const exampleCollection = {
+  id: v4(),
+  title: 'Example Collection',
+  bookmarks: [
+    {
+      id: v4(),
+      url: 'https://google.com',
+      label: 'Webmail',
+      description: 'Lorem ipsum',
+    },
+    {
+      id: v4(),
+      url: 'https://mypay.dfas.mil/#/',
+      label: 'MyPay',
+      description: 'Lorem ipsum',
+    },
+    {
+      id: v4(),
+      url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+      label: 'vMPF',
+      description: 'Lorem ipsum',
+    },
+  ],
+}
+
 describe('SelectableCollection component', () => {
-  it('renders its children in a button', () => {
+  it('renders the collection with disabled links and a select button', () => {
     const mockOnSelect = jest.fn()
 
     render(
-      <SelectableCollection isSelected={false} onSelect={mockOnSelect}>
-        Example Collection
-      </SelectableCollection>
+      <SelectableCollection
+        {...exampleCollection}
+        isSelected={false}
+        onSelect={mockOnSelect}
+      />
     )
 
-    expect(screen.getByText('Example Collection')).toBeInTheDocument()
+    expect(screen.getByRole('list')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
+      exampleCollection.title
+    )
+    expect(screen.getAllByRole('listitem')).toHaveLength(
+      exampleCollection.bookmarks.length
+    )
+
+    expect(screen.queryByRole('link')).not.toBeInTheDocument()
+
     expect(
-      screen.getByRole('button', { name: 'Select collection' })
+      screen.getByRole('button', {
+        name: 'Select collection Example Collection',
+      })
     ).toBeInTheDocument()
   })
 
@@ -29,12 +68,18 @@ describe('SelectableCollection component', () => {
     const mockOnSelect = jest.fn()
 
     render(
-      <SelectableCollection isSelected={false} onSelect={mockOnSelect}>
-        Example Collection
-      </SelectableCollection>
+      <SelectableCollection
+        {...exampleCollection}
+        isSelected={false}
+        onSelect={mockOnSelect}
+      />
     )
 
-    userEvent.click(screen.getByRole('button', { name: 'Select collection' }))
+    userEvent.click(
+      screen.getByRole('button', {
+        name: 'Select collection Example Collection',
+      })
+    )
     expect(mockOnSelect).toBeCalled()
   })
 
@@ -42,14 +87,18 @@ describe('SelectableCollection component', () => {
     const mockOnSelect = jest.fn()
 
     render(
-      <SelectableCollection isSelected={false} onSelect={mockOnSelect}>
-        Example Collection
-      </SelectableCollection>
+      <SelectableCollection
+        {...exampleCollection}
+        isSelected={false}
+        onSelect={mockOnSelect}
+      />
     )
 
     userEvent.tab()
     expect(
-      screen.getByRole('button', { name: 'Select collection' })
+      screen.getByRole('button', {
+        name: 'Select collection Example Collection',
+      })
     ).toHaveFocus()
     userEvent.keyboard('{enter}')
     expect(mockOnSelect).toBeCalled()
@@ -57,9 +106,11 @@ describe('SelectableCollection component', () => {
 
   it('has no a11y violations', async () => {
     const { container } = render(
-      <SelectableCollection isSelected={false} onSelect={jest.fn()}>
-        Example Collection
-      </SelectableCollection>
+      <SelectableCollection
+        {...exampleCollection}
+        isSelected={false}
+        onSelect={jest.fn()}
+      />
     )
 
     expect(await axe(container)).toHaveNoViolations()
@@ -70,26 +121,34 @@ describe('SelectableCollection component', () => {
       const mockOnSelect = jest.fn()
 
       render(
-        <SelectableCollection isSelected={true} onSelect={mockOnSelect}>
-          Example Collection
-        </SelectableCollection>
+        <SelectableCollection
+          {...exampleCollection}
+          isSelected={true}
+          onSelect={mockOnSelect}
+        />
       )
 
       userEvent.tab()
       expect(
-        screen.getByRole('button', { name: 'Unselect collection' })
+        screen.getByRole('button', {
+          name: 'Unselect collection Example Collection',
+        })
       ).toHaveFocus()
       userEvent.click(
-        screen.getByRole('button', { name: 'Unselect collection' })
+        screen.getByRole('button', {
+          name: 'Unselect collection Example Collection',
+        })
       )
       expect(mockOnSelect).toBeCalled()
     })
 
     it('has no a11y violations', async () => {
       const { container } = render(
-        <SelectableCollection isSelected={true} onSelect={jest.fn()}>
-          Example Collection
-        </SelectableCollection>
+        <SelectableCollection
+          {...exampleCollection}
+          isSelected={true}
+          onSelect={jest.fn()}
+        />
       )
 
       expect(await axe(container)).toHaveNoViolations()

@@ -110,8 +110,15 @@ describe('Sites and Applications page', () => {
       expect(screen.getByText('0 collections selected')).toBeInTheDocument()
 
       expect(
-        screen.getAllByRole('button', { name: 'Select collection' })
-      ).toHaveLength(mockCollections.length)
+        screen.getByRole('button', {
+          name: 'Select collection Example Collection 1',
+        })
+      ).toBeInTheDocument()
+      expect(
+        screen.getByRole('button', {
+          name: 'Select collection Example Collection 2',
+        })
+      ).toBeInTheDocument()
     })
 
     it('can cancel out of select mode', () => {
@@ -145,12 +152,18 @@ describe('Sites and Applications page', () => {
         screen.getByRole('button', { name: 'Add selected' })
       ).toBeDisabled()
       expect(screen.getByText('0 collections selected')).toBeInTheDocument()
-      const selectBtns = screen.getAllByRole('button', {
-        name: 'Select collection',
-      })
-      userEvent.click(selectBtns[0])
+
+      userEvent.click(
+        screen.getByRole('button', {
+          name: 'Select collection Example Collection 1',
+        })
+      )
       expect(screen.getByText('1 collection selected')).toBeInTheDocument()
-      userEvent.click(selectBtns[1])
+      userEvent.click(
+        screen.getByRole('button', {
+          name: 'Select collection Example Collection 2',
+        })
+      )
       expect(screen.getByText('2 collections selected')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Add selected' })).toBeEnabled()
     })
@@ -166,18 +179,32 @@ describe('Sites and Applications page', () => {
         screen.getByRole('button', { name: 'Add selected' })
       ).toBeDisabled()
       expect(screen.getByText('0 collections selected')).toBeInTheDocument()
-      const selectBtns = screen.getAllByRole('button', {
-        name: 'Select collection',
-      })
-      userEvent.click(selectBtns[0])
+
+      userEvent.click(
+        screen.getByRole('button', {
+          name: 'Select collection Example Collection 1',
+        })
+      )
       expect(screen.getByText('1 collection selected')).toBeInTheDocument()
-      userEvent.click(selectBtns[1])
+      userEvent.click(
+        screen.getByRole('button', {
+          name: 'Select collection Example Collection 2',
+        })
+      )
       expect(screen.getByText('2 collections selected')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Add selected' })).toBeEnabled()
 
-      userEvent.click(selectBtns[0])
+      userEvent.click(
+        screen.getByRole('button', {
+          name: 'Unselect collection Example Collection 1',
+        })
+      )
       expect(screen.getByText('1 collection selected')).toBeInTheDocument()
-      userEvent.click(selectBtns[1])
+      userEvent.click(
+        screen.getByRole('button', {
+          name: 'Unselect collection Example Collection 2',
+        })
+      )
       expect(screen.getByText('0 collections selected')).toBeInTheDocument()
     })
   })

@@ -1,18 +1,27 @@
 import React from 'react'
 import classnames from 'classnames'
+import { Button } from '@trussworks/react-uswds'
 
 import styles from './SelectableCollection.module.scss'
 
+import Collection from 'components/Collection/Collection'
+import Bookmark from 'components/Bookmark/Bookmark'
+import type { Bookmark as BookmarkType } from 'types/index'
+
 type SelectableCollectionProps = {
+  id: string
+  title: string
+  bookmarks: BookmarkType[]
   onSelect: () => void
   isSelected: boolean
-  children: React.ReactNode | React.ReactNode[]
 }
 
 const SelectableCollection = ({
+  id,
+  title,
+  bookmarks,
   onSelect,
   isSelected,
-  children,
 }: SelectableCollectionProps) => {
   const handleSelect = () => {
     onSelect()
@@ -22,24 +31,35 @@ const SelectableCollection = ({
     [styles.selected]: isSelected,
   })
 
-  // TODO - try label?
-  // Explicitly render collection & bookmarks in here
-
-  const ariaLabel = isSelected ? 'Unselect collection' : 'Select collection'
+  const ariaLabel = isSelected
+    ? `Unselect collection ${title}`
+    : `Select collection ${title}`
 
   return (
-    <button
-      type="button"
-      className={classes}
-      onClick={handleSelect}
-      aria-label={ariaLabel}>
-      <div className={styles.disabled}>{children}</div>
-      <div className={styles.overlay}>
-        <div className="usa-button usa-button--outline">
-          {isSelected ? 'Unselect' : 'Select'}
-        </div>
+    <label htmlFor={`selectCollection_${id}`} className={classes}>
+      <div className={styles.disabled}>
+        <Collection title={title}>
+          {bookmarks.map((bookmark) => (
+            <Bookmark
+              key={`bookmark_${bookmark.id}`}
+              href={bookmark.url}
+              disabled>
+              {bookmark.label}
+            </Bookmark>
+          ))}
+        </Collection>
       </div>
-    </button>
+      <div className={styles.overlay}>
+        <Button
+          id={`selectCollection_${id}`}
+          type="button"
+          onClick={handleSelect}
+          aria-label={ariaLabel}
+          className="usa-button usa-button--outline">
+          {isSelected ? 'Unselect' : 'Select'}
+        </Button>
+      </div>
+    </label>
   )
 }
 

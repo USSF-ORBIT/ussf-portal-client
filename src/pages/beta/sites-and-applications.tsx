@@ -123,19 +123,6 @@ const SitesAndApplications = ({
 
           <Grid row gap className={styles.widgets}>
             {collections.map((collection) => {
-              const collectionComponent = (
-                <Collection title={collection.title}>
-                  {collection.bookmarks?.map((bookmark) => (
-                    <Bookmark
-                      key={`bookmark_${bookmark.id}`}
-                      href={bookmark.url}
-                      disabled={selectMode}>
-                      {bookmark.label}
-                    </Bookmark>
-                  ))}
-                </Collection>
-              )
-
               return (
                 <Grid
                   key={`collection_${collection.id}`}
@@ -143,12 +130,22 @@ const SitesAndApplications = ({
                   desktop={{ col: 3 }}>
                   {selectMode ? (
                     <SelectableCollection
+                      id={collection.id || ''}
+                      title={collection.title || ''}
+                      bookmarks={collection.bookmarks || []}
                       isSelected={isSelected(collection.id)}
-                      onSelect={() => handleSelectCollection(collection.id)}>
-                      {collectionComponent}
-                    </SelectableCollection>
+                      onSelect={() => handleSelectCollection(collection.id)}
+                    />
                   ) : (
-                    collectionComponent
+                    <Collection title={collection.title}>
+                      {collection.bookmarks?.map((bookmark) => (
+                        <Bookmark
+                          key={`bookmark_${bookmark.id}`}
+                          href={bookmark.url}>
+                          {bookmark.label}
+                        </Bookmark>
+                      ))}
+                    </Collection>
                   )}
                 </Grid>
               )

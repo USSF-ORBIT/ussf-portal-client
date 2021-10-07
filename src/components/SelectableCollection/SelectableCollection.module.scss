@@ -10,7 +10,7 @@
 }
 
 .selectable {
-  @extend %button-reset;
+  display: block;
   position: relative;
   margin-bottom: units(3);
   text-align: left;
