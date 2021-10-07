@@ -37,6 +37,32 @@ export const localResolvers: Resolvers = {
       cache.writeQuery({ query: GET_COLLECTIONS, data })
       return newCollection
     },
+    addCollections: (_root, { collections }, { cache }) => {
+      const previous = cache.readQuery({
+        query: GET_COLLECTIONS,
+      })
+
+      const newCollections = collections.map((collection: Collection) => ({
+        id: v4(),
+        title: collection.title,
+        bookmarks: collection.bookmarks.map((bookmark) => ({
+          __typename: 'Bookmark',
+          description: '',
+          ...bookmark,
+        })),
+        __typename: 'Collection',
+      }))
+
+      const data = {
+        collections:
+          previous.collections.length !== 0
+            ? [...previous.collections, ...newCollections]
+            : [...newCollections],
+      }
+
+      cache.writeQuery({ query: GET_COLLECTIONS, data })
+      return newCollections
+    },
     removeCollection: (_root, { id }, { cache }) => {
       cache.modify({
         fields: {

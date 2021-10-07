@@ -6,13 +6,18 @@ import classnames from 'classnames'
 
 import { lists } from '.keystone/api'
 
-import type { BookmarkRecords, CollectionRecords } from 'types/index'
+import type {
+  BookmarkRecords,
+  CollectionRecords,
+  Collection as CollectionType,
+} from 'types/index'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 import BookmarkList from 'components/BookmarkList/BookmarkList'
 import SelectableCollection from 'components/SelectableCollection/SelectableCollection'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
+import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
@@ -26,6 +31,7 @@ const SitesAndApplications = ({
   const [selectMode, setSelectMode] = useState<boolean>(false)
   const [selectedCollections, setSelectedCollections] =
     useState<SelectedCollections>([])
+  const [handleAddCollections] = useAddCollectionsMutation()
 
   const handleSortClick = (sortType: SortBy) => setSort(sortType)
 
@@ -66,7 +72,17 @@ const SitesAndApplications = ({
   }
 
   const handleAddSelected = () => {
-    // TODO
+    const collectionObjs = selectedCollections.map((id) =>
+      collections.find((i) => i.id === id)
+    ) as CollectionType[]
+
+    handleAddCollections({
+      variables: {
+        collections: collectionObjs,
+      },
+    })
+    setSelectMode(false)
+    setSelectedCollections([])
   }
 
   return (

@@ -3,9 +3,12 @@
  */
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { MockedProvider } from '@apollo/client/testing'
+
 import SitesAndApplications, {
   getStaticProps,
 } from 'pages/beta/sites-and-applications'
+import * as addCollections from 'operations/mutations/addCollections'
 
 const mockBookmarks = [
   {
@@ -53,10 +56,12 @@ const mockCollections = [
 describe('Sites and Applications page', () => {
   beforeEach(() => {
     render(
-      <SitesAndApplications
-        collections={mockCollections}
-        bookmarks={mockBookmarks}
-      />
+      <MockedProvider>
+        <SitesAndApplications
+          collections={mockCollections}
+          bookmarks={mockBookmarks}
+        />
+      </MockedProvider>
     )
   })
 
@@ -141,7 +146,12 @@ describe('Sites and Applications page', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('can select multiple collections', () => {
+    it('can select multiple collections and add them', () => {
+      const addCollectionsSpy = jest.spyOn(
+        addCollections,
+        'useAddCollectionsMutation'
+      )
+
       userEvent.click(
         screen.getByRole('button', {
           name: 'Select multiple collections',
@@ -166,6 +176,7 @@ describe('Sites and Applications page', () => {
       )
       expect(screen.getByText('2 collections selected')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Add selected' })).toBeEnabled()
+      expect(addCollectionsSpy).toHaveBeenCalled()
     })
 
     it('selecting the same collection twice removes it from the selection', () => {
