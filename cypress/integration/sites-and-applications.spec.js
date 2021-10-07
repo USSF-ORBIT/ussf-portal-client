@@ -21,6 +21,40 @@ describe('Sites and Applications', () => {
     cy.contains('Application name').should('not.exist')
   })
 
+  it('can add collections from the Sites & Applications page to My Space', () => {
+    cy.contains('My Space')
+    cy.contains('Career').should('not.exist')
+    cy.contains('Medical & Dental').should('not.exist')
+    cy.contains('Life & Fitness').should('not.exist')
+
+    // Go to Sites & Applications
+    cy.contains('All sites & applications').click()
+
+    // Enter select mode
+    cy.findByRole('button', { name: 'Select multiple collections' }).click()
+    cy.findByRole('button', { name: 'Select collection Career' }).click()
+    cy.findByRole('button', {
+      name: 'Select collection Medical & Dental',
+    }).click()
+    cy.findByRole('button', {
+      name: 'Select collection Life & Fitness',
+    }).click()
+    cy.contains('3 collections selected')
+
+    cy.findByRole('button', {
+      name: 'Unselect collection Medical & Dental',
+    }).click()
+    cy.contains('2 collections selected')
+
+    cy.findByRole('button', { name: 'Add selected' }).click()
+
+    // Go back to My Space
+    cy.contains('My Space').click()
+    cy.contains('Career')
+    cy.contains('Life & Fitness')
+    cy.contains('Medical & Dental').should('not.exist')
+  })
+
   it('can hide links from an existing collection', () => {
     cy.contains('My Space')
 
