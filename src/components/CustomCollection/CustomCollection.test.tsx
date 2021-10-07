@@ -143,10 +143,12 @@ describe('CustomCollection component', () => {
     userEvent.click(screen.getByRole('button', { name: 'Add site' }))
 
     // Open modal
-    expect(screen.getByRole('dialog')).toHaveClass('is-visible')
+    expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
     userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
 
-    expect(screen.getByRole('dialog')).not.toHaveClass('is-visible')
+    expect(screen.getByRole('dialog', addLinkDialog)).not.toHaveClass(
+      'is-visible'
+    )
 
     expect(mockAddLink).not.toHaveBeenCalled()
 
