@@ -2,12 +2,14 @@
  * @jest-environment jsdom
  */
 
-import { act, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { v4 } from 'uuid'
 
-import CustomCollection, { RemovableBookmark } from './CustomCollection'
+import { renderWithModalRoot } from '../../testHelpers'
+
+import CustomCollection from './CustomCollection'
 
 const exampleCollection = {
   id: v4(),
@@ -59,12 +61,11 @@ describe('CustomCollection component', () => {
   })
 
   it('renders an Add Link toggleable form', () => {
-    const mockAddLink = jest.fn()
     render(
       <CustomCollection
         {...exampleCollection}
         handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={mockAddLink}
+        handleAddBookmark={jest.fn()}
       />
     )
 
@@ -80,106 +81,112 @@ describe('CustomCollection component', () => {
     expect(urlInput).toBeInvalid()
     userEvent.type(urlInput, 'http://www.example.com')
     expect(urlInput).toBeValid()
+  })
 
+  it('entering a new link opens the modal', () => {
+    const mockAddLink = jest.fn()
+
+    renderWithModalRoot(
+      <CustomCollection
+        {...exampleCollection}
+        handleRemoveBookmark={jest.fn()}
+        handleAddBookmark={mockAddLink}
+      />
+    )
+
+    const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
+    userEvent.click(toggleFormButton)
+    const urlInput = screen.getByLabelText('URL')
+    userEvent.type(urlInput, 'http://www.example.com')
     userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+
+    // Open modal
+    expect(screen.getByRole('dialog')).toHaveClass('is-visible')
+
+    const labelInput = screen.getByLabelText('Label')
+    expect(labelInput).toBeInvalid()
+    userEvent.type(labelInput, 'My Custom Link')
+    expect(labelInput).toBeValid()
+
+    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+
     expect(mockAddLink).toHaveBeenCalled()
   })
-})
 
-describe('RemovableBookmark component', () => {
-  afterEach(() => {
-    jest.useRealTimers()
-  })
+  it('canceling from the modal resets the form', () => {
+    const mockAddLink = jest.fn()
 
-  const testBookmark = exampleCollection.bookmarks[0]
-
-  it('renders a bookmark with a delete handler', () => {
-    render(
-      <RemovableBookmark bookmark={testBookmark} handleRemove={jest.fn()} />
-    )
-
-    expect(screen.getByRole('link')).toHaveTextContent(testBookmark.label)
-    expect(
-      screen.getByRole('button', { name: 'Remove this bookmark' })
-    ).toBeInTheDocument()
-  })
-
-  it('renders the bookmark URL if there is no label', () => {
-    const testBookmarkNoLabel = {
-      id: v4(),
-      url: 'https://example.com',
-    }
-
-    render(
-      <RemovableBookmark
-        bookmark={testBookmarkNoLabel}
-        handleRemove={jest.fn()}
+    renderWithModalRoot(
+      <CustomCollection
+        {...exampleCollection}
+        handleRemoveBookmark={jest.fn()}
+        handleAddBookmark={mockAddLink}
       />
     )
 
-    expect(screen.getByRole('link')).toHaveTextContent(testBookmarkNoLabel.url)
-  })
+    const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
+    userEvent.click(toggleFormButton)
+    const urlInput = screen.getByLabelText('URL')
+    userEvent.type(urlInput, 'http://www.example.com')
+    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
 
-  it('allows the delete handler to be undone', async () => {
-    jest.useFakeTimers()
+    // Open modal
+    expect(screen.getByRole('dialog')).toHaveClass('is-visible')
+    userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
 
-    const mockHandleRemove = jest.fn()
+    expect(screen.getByRole('dialog')).not.toHaveClass('is-visible')
 
-    render(
-      <RemovableBookmark
-        bookmark={testBookmark}
-        handleRemove={mockHandleRemove}
-      />
-    )
+    expect(mockAddLink).not.toHaveBeenCalled()
 
-    const deleteButton = screen.getByRole('button', {
-      name: 'Remove this bookmark',
-    })
-    userEvent.click(deleteButton)
-
-    const undoButton = screen.getByRole('button', { name: 'Undo remove' })
-    expect(undoButton).toBeInTheDocument()
-    expect(deleteButton).not.toBeInTheDocument()
-    userEvent.click(undoButton)
-
-    expect(screen.getByRole('link')).toHaveTextContent(testBookmark.label)
-    expect(undoButton).not.toBeInTheDocument()
     expect(
       screen.getByRole('button', {
-        name: 'Remove this bookmark',
+        name: '+ Add link',
       })
     ).toBeInTheDocument()
 
-    act(() => {
-      jest.runAllTimers()
-    })
-
-    expect(mockHandleRemove).not.toHaveBeenCalled()
+    expect(screen.queryByLabelText('URL')).not.toBeInTheDocument()
   })
 
-  it('handles the delete button if not undone', () => {
-    jest.useFakeTimers()
+  it('adding a link closes the modal and resets the form', () => {
+    const mockAddLink = jest.fn()
 
-    const mockHandleRemove = jest.fn()
-
-    render(
-      <RemovableBookmark
-        bookmark={testBookmark}
-        handleRemove={mockHandleRemove}
+    renderWithModalRoot(
+      <CustomCollection
+        {...exampleCollection}
+        handleRemoveBookmark={jest.fn()}
+        handleAddBookmark={mockAddLink}
       />
     )
 
-    const deleteButton = screen.getByRole('button', {
-      name: 'Remove this bookmark',
-    })
-    userEvent.click(deleteButton)
+    userEvent.click(screen.getByRole('button', { name: '+ Add link' }))
+    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
+    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
 
-    const undoButton = screen.getByRole('button', { name: 'Undo remove' })
-    expect(undoButton).toBeInTheDocument()
-    expect(deleteButton).not.toBeInTheDocument()
+    // Open modal
+    expect(screen.getByRole('dialog')).toHaveClass('is-visible')
 
-    jest.runAllTimers()
+    const labelInput = screen.getByLabelText('Label')
+    expect(labelInput).toBeInvalid()
+    userEvent.type(labelInput, 'My Custom Link')
+    expect(labelInput).toBeValid()
 
-    expect(mockHandleRemove).toHaveBeenCalled()
+    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    expect(mockAddLink).toHaveBeenCalledTimes(1)
+
+    // Modal closed
+    expect(screen.queryByRole('dialog')).toHaveClass('is-hidden')
+    userEvent.click(screen.getByRole('button', { name: '+ Add link' }))
+
+    // Modal is still closed, form is reset
+    expect(screen.queryByRole('dialog')).toHaveClass('is-hidden')
+    expect(screen.getByLabelText('URL')).toBeInvalid()
+    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
+    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+    expect(screen.getByRole('dialog')).toHaveClass('is-visible')
+
+    expect(screen.getByLabelText('Label')).toBeInvalid()
+    userEvent.type(screen.getByLabelText('Label'), 'Another Custom Link')
+    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    expect(mockAddLink).toHaveBeenCalledTimes(2)
   })
 })
