@@ -21,7 +21,7 @@ describe('Sites and Applications', () => {
     cy.contains('Application name').should('not.exist')
   })
 
-  it.only('can add collections from the Sites & Applications page to My Space', () => {
+  it('can add collections from the Sites & Applications page to My Space', () => {
     cy.contains('My Space')
     cy.contains('Career').should('not.exist')
     cy.contains('Medical & Dental').should('not.exist')
