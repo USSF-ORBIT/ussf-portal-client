@@ -25,7 +25,7 @@ jobs:
           CYPRESS_BASE_URL: http://localhost:5000
           NEXT_TELEMETRY_DISABLED: 1
         with:
-          install-command: yarn --frozen-lockfile --network-concurrency 1 # Remove when ReactUSWDS branch is released
+          install-command: yarn --frozen-lockfile
           # Commands for NextJS server:
           # build: yarn build
           # start: yarn start
