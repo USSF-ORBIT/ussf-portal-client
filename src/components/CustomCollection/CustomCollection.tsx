@@ -6,19 +6,22 @@ import {
   TextInput,
   ModalRef,
 } from '@trussworks/react-uswds'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { RemovableBookmark } from './RemovableBookmark'
 import styles from './CustomCollection.module.scss'
-
 import Collection from 'components/Collection/Collection'
 import type { Bookmark as BookmarkType } from 'types/index'
 import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
+import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
+import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
+import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
 type PropTypes = {
   title: string
   bookmarks: BookmarkType[]
   handleRemoveBookmark: (id: string) => void
   handleAddBookmark: (url: string, label?: string) => void
+  handleRemoveCollection: () => void
 }
 
 const CustomCollection = ({
@@ -26,6 +29,7 @@ const CustomCollection = ({
   bookmarks,
   handleRemoveBookmark,
   handleAddBookmark,
+  handleRemoveCollection,
 }: PropTypes) => {
   const [isAdding, setIsAdding] = useState<boolean>(false)
   const urlInputValue = useRef<string>()
@@ -84,9 +88,74 @@ const CustomCollection = ({
     </div>
   )
 
+  /* Custom Collection Settings Menu */
+
+  // Track whether the settings dropdown should be open or closed
+  const dropdownEl = useRef<HTMLDivElement>(null)
+  const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
+    dropdownEl,
+    false
+  )
+  // Initialize hook for delete confirmation modal
+  const deleteCollectionModal = useRef<ModalRef>(null)
+  // Menu button and its togglefunction
+  const menuIcon = <FontAwesomeIcon icon="cog" />
+  const menuOnClick = () => {
+    setIsDropdownOpen(!isDropdownOpen)
+  }
+  // Before deleting the collection, show confirmation modal
+  // and close the dropdown menu
+  const handleShowRemove = () => {
+    deleteCollectionModal.current?.toggleModal(undefined, true)
+    setIsDropdownOpen(false)
+  }
+  // After confirming delete, trigger the mutation and close the modal
+  const handleDeleteCollection = () => {
+    handleRemoveCollection()
+    deleteCollectionModal.current?.toggleModal(undefined, false)
+  }
+
+  const handleCancelCollection = () => {
+    deleteCollectionModal.current?.toggleModal(undefined, false)
+  }
+  // Items to populate dropdown menu
+  const editCustomCollectionItem = (
+    <>
+      <Button
+        type="button"
+        className={styles.collectionSettingsDropdown}
+        onClick={handleShowRemove}>
+        Delete Collection
+      </Button>
+    </>
+  )
+
+  // Component and modal for Settings to pass as
+  // Custom Collection header
+  const customCollectionSettings = (
+    <>
+      <DropdownMenu
+        dropdownRef={dropdownEl}
+        menuIcon={menuIcon}
+        ariaLabel="Collection Settings"
+        onMenuClick={menuOnClick}
+        isActive={isDropdownOpen}>
+        {editCustomCollectionItem}
+      </DropdownMenu>
+      <RemoveCustomCollectionModal
+        modalRef={deleteCollectionModal}
+        onCancel={handleCancelCollection}
+        onDelete={handleDeleteCollection}
+      />
+    </>
+  )
+
   return (
     <>
-      <Collection title={title} footer={addLinkForm}>
+      <Collection
+        title={title}
+        header={customCollectionSettings}
+        footer={addLinkForm}>
         {bookmarks.map((bookmark: BookmarkType) => (
           <RemovableBookmark
             key={`bookmark_${bookmark.id}`}

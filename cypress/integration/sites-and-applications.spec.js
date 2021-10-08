@@ -25,6 +25,7 @@ describe('Sites and Applications', () => {
     cy.contains('My Space')
 
     cy.contains('Example Collection')
+      .parent()
       .next()
       .within(() => {
         // Inside of <ol>
@@ -51,6 +52,7 @@ describe('Sites and Applications', () => {
   it('can add custom links to an existing collection', () => {
     cy.contains('Example Collection')
       .parent()
+      .parent()
       .within(() => {
         // Add a link
         cy.findByRole('button', { name: '+ Add link' }).click()
@@ -73,11 +75,14 @@ describe('Sites and Applications', () => {
         cy.findByRole('button', { name: 'Add site' }).click()
       })
 
-    cy.findByRole('dialog').within(() => {
-      cy.findByRole('button', { name: 'Cancel' }).click()
-    })
+    cy.findByRole('dialog', { name: 'We don’t recognize that link' }).within(
+      () => {
+        cy.findByRole('button', { name: 'Cancel' }).click()
+      }
+    )
 
     cy.contains('Example Collection')
+      .parent()
       .parent()
       .within(() => {
         // Add a link
@@ -88,21 +93,59 @@ describe('Sites and Applications', () => {
         cy.findByRole('button', { name: 'Add site' }).click()
       })
 
-    cy.findByRole('dialog').within(() => {
-      cy.findByLabelText('Label')
-        .then(($el) => $el[0].checkValidity())
-        .should('be.false')
+    cy.findByRole('dialog', { name: 'We don’t recognize that link' }).within(
+      () => {
+        cy.findByLabelText('Label')
+          .then(($el) => $el[0].checkValidity())
+          .should('be.false')
 
-      cy.findByLabelText('Label')
-        .type('My Custom Link')
-        .then(($el) => $el[0].checkValidity())
-        .should('be.true')
+        cy.findByLabelText('Label')
+          .type('My Custom Link')
+          .then(($el) => $el[0].checkValidity())
+          .should('be.true')
 
-      cy.findByRole('button', { name: 'Save link name' }).click()
-    })
+        cy.findByRole('button', { name: 'Save link name' }).click()
+      }
+    )
 
     cy.findByRole('link', {
       name: 'My Custom Link (opens in a new window)',
     }).should('exist')
+  })
+
+  it('can delete an existing collection', () => {
+    cy.contains('Example Collection')
+      .parent()
+      .within(() => {
+        cy.findByRole('button', { name: 'Collection Settings' }).click()
+
+        cy.findByRole('button', { name: 'Delete Collection' }).click()
+      })
+
+    // Cancel first to make sure it's possible
+    cy.findByRole('dialog', {
+      name: 'Are you sure you’d like to delete this collection from My Space?',
+    }).within(() => {
+      cy.findByRole('button', { name: 'Cancel' }).click()
+    })
+
+    // Reopen the modal
+    cy.contains('Example Collection')
+      .parent()
+      .within(() => {
+        cy.findByRole('button', { name: 'Collection Settings' }).click()
+
+        cy.findByRole('button', { name: 'Delete Collection' }).click()
+      })
+
+    // Delete the collection
+    cy.findByRole('dialog', {
+      name: 'Are you sure you’d like to delete this collection from My Space?',
+    }).within(() => {
+      cy.findByRole('button', { name: 'Delete' }).click()
+    })
+
+    // Make sure no collection exists
+    cy.contains('Example Collection').should('not.exist')
   })
 })
