@@ -50,4 +50,27 @@ describe('Bookmark component', () => {
       expect(await axe(container)).toHaveNoViolations()
     })
   })
+
+  describe('when disabled', () => {
+    it('renders static text instead of a link', () => {
+      render(
+        <Bookmark href="/home" disabled>
+          Home
+        </Bookmark>
+      )
+
+      expect(screen.queryByRole('link')).not.toBeInTheDocument()
+      expect(screen.getByText('Home')).toBeInstanceOf(HTMLSpanElement)
+    })
+
+    it('has no a11y violations', async () => {
+      const { container } = render(
+        <Bookmark href="/home" disabled>
+          Home
+        </Bookmark>
+      )
+
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })

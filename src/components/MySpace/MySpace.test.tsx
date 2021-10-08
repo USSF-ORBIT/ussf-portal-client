@@ -9,9 +9,22 @@ import React from 'react'
 import { v4 } from 'uuid'
 import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
+
+import { renderWithModalRoot } from '../../testHelpers'
 import MySpace from './MySpace'
+
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
-import * as removeBookmark from 'operations/mutations/removeBookmark'
+
+const mockAddBookmark = jest.fn()
+const mockRemoveBookmark = jest.fn()
+
+jest.mock('operations/mutations/addBookmark', () => ({
+  useAddBookmarkMutation: () => [mockAddBookmark],
+}))
+
+jest.mock('operations/mutations/removeBookmark', () => ({
+  useRemoveBookmarkMutation: () => [mockRemoveBookmark],
+}))
 
 const mocks = [
   {
@@ -108,10 +121,6 @@ describe('My Space Component', () => {
   })
 
   it('handles the remove bookmark operation', async () => {
-    const removeSpy = jest.spyOn(removeBookmark, 'useRemoveBookmarkMutation')
-
-    jest.useFakeTimers()
-
     /*
     // TODO - this is not working as expected, I believe because we're using
     // @client with a mutation. Try again once the operation doesn't use @client
@@ -135,6 +144,8 @@ describe('My Space Component', () => {
     ]
     */
 
+    jest.useFakeTimers()
+
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <MySpace />
@@ -154,6 +165,37 @@ describe('My Space Component', () => {
 
     jest.useRealTimers()
 
-    expect(removeSpy).toHaveBeenCalled()
+    expect(mockRemoveBookmark).toHaveBeenCalledWith({
+      variables: {
+        id: mocks[0].result.data.collections[0].bookmarks[0].id,
+        collectionId: mocks[0].result.data.collections[0].id,
+      },
+    })
+  })
+
+  it('handles the add bookmark operation', async () => {
+    renderWithModalRoot(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MySpace />
+      </MockedProvider>
+    )
+
+    const addLinkButton = await screen.findByRole('button', {
+      name: '+ Add link',
+    })
+
+    userEvent.click(addLinkButton)
+    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
+    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+    userEvent.type(screen.getByLabelText('Label'), 'My Custom Link')
+    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+
+    expect(mockAddBookmark).toHaveBeenCalledWith({
+      variables: {
+        collectionId: mocks[0].result.data.collections[0].id,
+        url: 'http://www.example.com',
+        label: 'My Custom Link',
+      },
+    })
   })
 })

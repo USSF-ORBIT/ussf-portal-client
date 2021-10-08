@@ -28,16 +28,21 @@ const AddCustomLinkModal = ({
   const modalId = 'addCustomLinkModal'
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const resetForm = () => {
+    const inputEl = inputRef.current as HTMLInputElement
+    inputEl.value = ''
+  }
+
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
     const label = `${data.get('bookmarkLabel')}`
-    if (inputRef.current) inputRef.current.value = ''
+    resetForm()
     onSave(label)
   }
 
   const handleCancel = () => {
-    if (inputRef.current) inputRef.current.value = ''
+    resetForm()
     onCancel()
   }
 

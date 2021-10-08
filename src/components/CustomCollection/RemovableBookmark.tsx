@@ -21,7 +21,7 @@ export const RemovableBookmark = ({
   const [isHidden, setHidden] = useState<boolean>(false)
 
   const handleDeleteBookmark = () => {
-    if (!isHidden) setHidden(true)
+    setHidden(true)
   }
 
   const handleUndoDelete = () => {
