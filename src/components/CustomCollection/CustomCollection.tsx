@@ -32,7 +32,7 @@ const CustomCollection = ({
   handleRemoveCollection,
 }: PropTypes) => {
   const [isAdding, setIsAdding] = useState<boolean>(false)
-  const urlInputValue = useRef<string>()
+  const urlInputValue = useRef<string>('')
   const addCustomLinkModal = useRef<ModalRef>(null)
 
   const handleShowAdding = () => setIsAdding(true)
@@ -53,12 +53,8 @@ const CustomCollection = ({
   }
 
   const handleSaveBookmark = (label: string) => {
-    if (urlInputValue.current) {
-      handleAddBookmark(urlInputValue.current, label)
-      urlInputValue.current = ''
-    } else {
-      // need a URL value
-    }
+    handleAddBookmark(urlInputValue.current, label)
+    urlInputValue.current = ''
 
     setIsAdding(false)
     addCustomLinkModal.current?.toggleModal(undefined, false)
