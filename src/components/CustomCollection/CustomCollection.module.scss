@@ -15,12 +15,3 @@
   @include u-padding-x(2);
   @include u-margin-top(2);
 }
-
-button.collectionSettingsDropdown,
-.usa-prose > button.collectionSettingsDropdown {
-  background-color: #ffffff;
-  color: #005ea2;
-  border: 0;
-  border-radius: 0;
-  font-weight: normal;
-}

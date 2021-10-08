@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 export const useCloseWhenClickedOutside = (
-  el: React.RefObject<HTMLDivElement>,
+  el: React.RefObject<HTMLElement>,
   initialState: boolean
 ) => {
   const [isActive, setIsActive] = useState(initialState)

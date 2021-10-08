@@ -1,13 +1,18 @@
 import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
+import { useRouter } from 'next/router'
+
 import styles from './MySpace.module.scss'
+
 import CustomCollection from 'components/CustomCollection/CustomCollection'
+import AddWidget from 'components/AddWidget/AddWidget'
 import { useCollectionsQuery } from 'operations/queries/getCollections'
 import { useRemoveBookmarkMutation } from 'operations/mutations/removeBookmark'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useRemoveCollectionMutation } from 'operations/mutations/removeCollection'
 
 const MySpace = () => {
+  const router = useRouter()
   const { loading, error, data } = useCollectionsQuery()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
@@ -54,6 +59,20 @@ const MySpace = () => {
                 />
               </Grid>
             ))}
+
+          <Grid
+            key={`collection_addNew`}
+            tablet={{ col: 6 }}
+            desktop={{ col: 3 }}>
+            <AddWidget
+              handleSelectCollection={() =>
+                router.push({
+                  pathname: '/sites-and-applications',
+                  query: { selectMode: 'true' },
+                })
+              }
+            />
+          </Grid>
         </Grid>
       </div>
     </div>

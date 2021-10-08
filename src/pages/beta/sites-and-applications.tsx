@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { InferGetStaticPropsType } from 'next'
 import { Button, Grid } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -30,10 +30,18 @@ const SitesAndApplications = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter()
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
-  const [selectMode, setSelectMode] = useState<boolean>(false)
+  const [selectMode, setSelectMode] = useState<boolean>(
+    router.query.selectMode == 'true' || false
+  )
   const [selectedCollections, setSelectedCollections] =
     useState<SelectedCollections>([])
   const [handleAddCollections] = useAddCollectionsMutation()
+
+  useEffect(() => {
+    if (router.query.selectMode == 'true') {
+      setSelectMode(true)
+    }
+  }, [router.query])
 
   const handleSortClick = (sortType: SortBy) => setSort(sortType)
 
