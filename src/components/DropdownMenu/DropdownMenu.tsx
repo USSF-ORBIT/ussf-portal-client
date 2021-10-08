@@ -39,13 +39,13 @@ const DropdownMenu = ({
 
       {isActive && (
         <div className={styles.dropdownMenu}>
-          <ul>
+          <ol>
             {Array.isArray(children) ? (
               children.map((child, i) => <li key={`dropdown${i}`}>{child}</li>)
             ) : (
               <li key={`dropdown_0`}>{children}</li>
             )}
-          </ul>
+          </ol>
         </div>
       )}
     </div>
