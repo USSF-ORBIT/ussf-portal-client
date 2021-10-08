@@ -28,7 +28,8 @@ describe('Sites and Applications', () => {
     cy.contains('Life & Fitness').should('not.exist')
 
     // Go to Sites & Applications
-    cy.contains('All sites & applications').click()
+    cy.findByRole('link', { name: 'All sites & applications' }).click()
+    cy.url().should('eq', Cypress.config().baseUrl + '/sites-and-applications')
 
     // Enter select mode
     cy.findByRole('button', { name: 'Select multiple collections' }).click()
@@ -49,7 +50,9 @@ describe('Sites and Applications', () => {
     cy.findByRole('button', { name: 'Add selected' }).click()
 
     // Go back to My Space
-    cy.contains('My Space').click()
+    cy.url().should('eq', Cypress.config().baseUrl + '/')
+
+    cy.contains('My Space')
     cy.contains('Career')
     cy.contains('Life & Fitness')
     cy.contains('Medical & Dental').should('not.exist')

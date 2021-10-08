@@ -3,6 +3,7 @@ import { InferGetStaticPropsType } from 'next'
 import { Button, Grid } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
+import { useRouter } from 'next/router'
 
 import { lists } from '.keystone/api'
 
@@ -27,6 +28,7 @@ const SitesAndApplications = ({
   collections,
   bookmarks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const router = useRouter()
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
   const [selectMode, setSelectMode] = useState<boolean>(false)
   const [selectedCollections, setSelectedCollections] =
@@ -83,6 +85,7 @@ const SitesAndApplications = ({
     })
     setSelectMode(false)
     setSelectedCollections([])
+    router.push('/')
   }
 
   return (
