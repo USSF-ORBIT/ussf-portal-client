@@ -22,6 +22,10 @@
   background: transparent;
   color: #585a5c;
   @include u-font-size('body', 'lg');
+
+  svg {
+    pointer-events: none;
+  }
 }
 
 .plus {

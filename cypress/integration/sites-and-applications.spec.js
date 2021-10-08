@@ -21,18 +21,22 @@ describe('Sites and Applications', () => {
     cy.contains('Application name').should('not.exist')
   })
 
-  it('can add collections from the Sites & Applications page to My Space', () => {
+  it.only('can add collections from the Sites & Applications page to My Space', () => {
     cy.contains('My Space')
     cy.contains('Career').should('not.exist')
     cy.contains('Medical & Dental').should('not.exist')
     cy.contains('Life & Fitness').should('not.exist')
 
     // Go to Sites & Applications
-    cy.findByRole('link', { name: 'All sites & applications' }).click()
-    cy.url().should('eq', Cypress.config().baseUrl + '/sites-and-applications')
+    cy.findByRole('button', { name: 'Add section' }).click()
 
-    // Enter select mode
-    cy.findByRole('button', { name: 'Select multiple collections' }).click()
+    cy.findByRole('button', { name: 'Select existing collection(s)' }).click()
+
+    cy.url().should(
+      'eq',
+      Cypress.config().baseUrl + '/sites-and-applications?selectMode=true'
+    )
+
     cy.findByRole('button', { name: 'Select collection Career' }).click()
     cy.findByRole('button', {
       name: 'Select collection Medical & Dental',
