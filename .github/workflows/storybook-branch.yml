@@ -21,7 +21,7 @@ jobs:
         continue-on-error: false
 
       - name: Post Storybook URL
-        uses: thollander/actions-comment-pull-request@1.0.3
+        uses: thollander/actions-comment-pull-request@675cdfe1695d33e816e060460a72feafee079d3f # renovate: tag=v1.0.4
         with:
           GITHUB_TOKEN: '${{github.token}}'
           message: '🎉 View your component in Storybook - [https://${{github.head_ref}}--ussf-storybook.netlify.app]( https://${{github.head_ref}}--ussf-storybook.netlify.app)'
@@ -37,7 +37,7 @@ jobs:
         continue-on-error: false
 
       - name: Post Prototype URL
-        uses: thollander/actions-comment-pull-request@1.0.3
+        uses: thollander/actions-comment-pull-request@675cdfe1695d33e816e060460a72feafee079d3f # renovate: tag=v1.0.4
         with:
           GITHUB_TOKEN: '${{github.token}}'
           message: '🎉 View the deployed prototype - [https://${{github.head_ref}}--ussf-portal-client.netlify.app]( https://${{github.head_ref}}--ussf-portal-client.netlify.app)'
