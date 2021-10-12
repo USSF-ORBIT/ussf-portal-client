@@ -2,7 +2,7 @@ import React from 'react'
 import styles from 'components/DropdownMenu/DropdownMenu.module.scss'
 
 type PropTypes = {
-  triggerEl: React.ReactNode
+  toggleEl: React.ReactNode
   children: React.ReactNode
   isActive: boolean
   dropdownRef?: React.RefObject<HTMLDivElement>
@@ -11,13 +11,13 @@ const DropdownMenu = ({
   children,
   isActive,
   dropdownRef,
-  triggerEl,
+  toggleEl,
 }: PropTypes) => {
   return (
     // Ref needs to encompass the menu trigger in order
     // to properly track inside/outside click for open/close
     <div ref={dropdownRef} className={styles.dropdown}>
-      {triggerEl}
+      {toggleEl}
 
       {isActive && (
         <div className={styles.dropdownMenu}>

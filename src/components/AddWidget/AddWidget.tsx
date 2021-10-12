@@ -32,7 +32,7 @@ const AddWidget = ({
         <IconAdd />
       </span>
       <DropdownMenu
-        triggerEl={
+        toggleEl={
           <button
             className={styles.addWidgetButton}
             type="button"

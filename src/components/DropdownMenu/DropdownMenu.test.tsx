@@ -17,14 +17,14 @@ describe('Dropdown Menu ', () => {
   beforeEach(() => {
     const mockRef = createRef<HTMLDivElement>()
 
-    const triggerEl = (
+    const toggleEl = (
       <button type="button" onClick={mockOnClick} aria-label="Test Aria Label">
         Toggle Dropdown
       </button>
     )
 
     html = render(
-      <DropdownMenu triggerEl={triggerEl} isActive={true} dropdownRef={mockRef}>
+      <DropdownMenu toggleEl={toggleEl} isActive={true} dropdownRef={mockRef}>
         {menuItems}
       </DropdownMenu>
     )

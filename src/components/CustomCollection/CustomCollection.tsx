@@ -130,7 +130,7 @@ const CustomCollection = ({
   const customCollectionSettings = (
     <>
       <DropdownMenu
-        triggerEl={
+        toggleEl={
           <button
             type="button"
             className={styles.dropdownMenuToggle}

@@ -109,6 +109,7 @@ describe('Sites and Applications page', () => {
       )
       expect(screen.queryByRole('table')).not.toBeInTheDocument()
     })
+
     describe('selecting collections', () => {
       it('can enter select mode', () => {
         const selectBtn = screen.getByRole('button', {
@@ -268,6 +269,17 @@ describe('Sites and Applications page', () => {
   })
 
   describe('selecting collections', () => {
+    beforeEach(() => {
+      render(
+        <MockedProvider>
+          <SitesAndApplications
+            collections={mockCollections}
+            bookmarks={mockBookmarks}
+          />
+        </MockedProvider>
+      )
+    })
+
     it('can enter select mode', () => {
       const selectBtn = screen.getByRole('button', {
         name: 'Select multiple collections',
