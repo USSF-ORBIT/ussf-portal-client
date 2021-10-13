@@ -147,7 +147,7 @@ describe('My Space Component', () => {
   it('navigates to Sites & Applications when adding new existing collections', async () => {
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace />
+        <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
       </MockedProvider>
     )
 

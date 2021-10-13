@@ -46,11 +46,25 @@ const mocks = [
     },
   },
 ]
+
+const mockBookmarks = [
+  {
+    id: '1',
+    url: 'www.example.com',
+    label: 'Example 1',
+  },
+  {
+    id: '2',
+    url: 'www.example2.com',
+    label: 'Example 2',
+  },
+]
+
 describe('Beta Home page', () => {
   beforeEach(() => {
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <Home />
+        <Home bookmarks={mockBookmarks} />
       </MockedProvider>
     )
   })

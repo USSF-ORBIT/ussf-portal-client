@@ -49,7 +49,7 @@ const exampleCollection: Collection[] = [
   },
 ]
 
-export const ExampleMySpace = () => <MySpace />
+export const ExampleMySpace = () => <MySpace bookmarks={[]} />
 
 ExampleMySpace.parameters = {
   apolloClient: {
