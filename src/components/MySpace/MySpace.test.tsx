@@ -15,8 +15,15 @@ import MySpace from './MySpace'
 
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
+const mockRouterPush = jest.fn()
 const mockAddBookmark = jest.fn()
 const mockRemoveBookmark = jest.fn()
+
+jest.mock('next/router', () => ({
+  useRouter: () => ({
+    push: mockRouterPush,
+  }),
+}))
 
 jest.mock('operations/mutations/addBookmark', () => ({
   useAddBookmarkMutation: () => [mockAddBookmark],
@@ -103,6 +110,12 @@ describe('My Space Component', () => {
       expect(await screen.findAllByRole('link')).toHaveLength(3)
     })
 
+    it('renders the add widget component', async () => {
+      expect(
+        await screen.findByRole('button', { name: 'Add section' })
+      ).toBeInTheDocument()
+    })
+
     it('has no a11y violations', async () => {
       // Bug with NextJS Link + axe :(
       // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
@@ -129,6 +142,26 @@ describe('My Space Component', () => {
     )
 
     expect(await screen.findByText('Error')).toBeInTheDocument()
+  })
+
+  it('navigates to Sites & Applications when adding new existing collections', async () => {
+    render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MySpace />
+      </MockedProvider>
+    )
+
+    userEvent.click(await screen.findByRole('button', { name: 'Add section' }))
+    userEvent.click(
+      await screen.findByRole('button', {
+        name: 'Select existing collection(s)',
+      })
+    )
+
+    expect(mockRouterPush).toHaveBeenCalledWith({
+      pathname: '/sites-and-applications',
+      query: { selectMode: 'true' },
+    })
   })
 
   it('handles the remove bookmark operation', async () => {
