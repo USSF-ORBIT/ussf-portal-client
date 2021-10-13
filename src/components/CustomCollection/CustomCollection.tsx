@@ -22,7 +22,7 @@ import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 type PropTypes = {
   title: string
   bookmarks: BookmarkType[]
-  bookmarkOptions: BookmarkRecords
+  bookmarkOptions?: BookmarkRecords
   handleRemoveBookmark: (id: string) => void
   handleAddBookmark: (url: string, label?: string) => void
   handleRemoveCollection: () => void
@@ -31,7 +31,7 @@ type PropTypes = {
 const CustomCollection = ({
   title,
   bookmarks,
-  bookmarkOptions,
+  bookmarkOptions = [],
   handleRemoveBookmark,
   handleAddBookmark,
   handleRemoveCollection,
@@ -47,12 +47,13 @@ const CustomCollection = ({
     addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
+  const selectedExistingLink = (value: string) =>
+    bookmarkOptions.find((i) => i.id === value)
+
   const handleSubmitAdd = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const existingLink = bookmarkOptions.find(
-      (i) => i.id === urlInputValue.current
-    )
+    const existingLink = selectedExistingLink(urlInputValue.current)
 
     if (existingLink) {
       // Adding an existing link
@@ -60,6 +61,7 @@ const CustomCollection = ({
       urlInputValue.current = ''
       setIsAdding(false)
     } else {
+      // TODO - validate URl here
       // Adding a custom link
       addCustomLinkModal.current?.toggleModal(undefined, true)
     }
@@ -115,7 +117,7 @@ const CustomCollection = ({
             onChange={handleSelectChange}
             inputProps={{
               required: true,
-              // type: 'url', // TODO
+              // type: 'url', // TODO - handle conditional validation
               onChange: handleInputChange,
               placeholder: 'Type or paste link...',
             }}
