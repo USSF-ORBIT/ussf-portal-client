@@ -86,6 +86,24 @@ describe('Sites and Applications', () => {
       })
   })
 
+  it('can add existing links to an existing collection', () => {
+    cy.contains('Example Collection')
+      .parent()
+      .parent()
+      .within(() => {
+        // Add a link
+        cy.findByRole('button', { name: '+ Add link' }).click()
+
+        cy.findByLabelText('URL').click()
+        cy.findByRole('option', { name: 'Move.mil' }).click()
+        cy.findByRole('button', { name: 'Add site' }).click()
+      })
+
+    cy.findByRole('link', {
+      name: 'Move.mil (opens in a new window)',
+    }).should('exist')
+  })
+
   it('can add custom links to an existing collection', () => {
     cy.contains('Example Collection')
       .parent()
@@ -98,10 +116,13 @@ describe('Sites and Applications', () => {
           .then(($el) => $el[0].checkValidity())
           .should('be.false')
 
+        /*
+          // TODO - URL validation
         cy.findByLabelText('URL')
           .type('not a URL')
           .then(($el) => $el[0].checkValidity())
           .should('be.false')
+          */
 
         cy.findByLabelText('URL')
           .clear()
@@ -109,6 +130,7 @@ describe('Sites and Applications', () => {
           .then(($el) => $el[0].checkValidity())
           .should('be.true')
 
+        cy.findByRole('option', { name: 'http://www.example.com' }).click()
         cy.findByRole('button', { name: 'Add site' }).click()
       })
 
@@ -124,9 +146,8 @@ describe('Sites and Applications', () => {
       .within(() => {
         // Add a link
         cy.findByRole('button', { name: '+ Add link' }).click()
-
         cy.findByLabelText('URL').clear().type('http://www.example.com')
-
+        cy.findByRole('option', { name: 'http://www.example.com' }).click()
         cy.findByRole('button', { name: 'Add site' }).click()
       })
 
