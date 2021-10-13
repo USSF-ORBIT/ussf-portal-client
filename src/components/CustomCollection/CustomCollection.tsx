@@ -57,6 +57,7 @@ const CustomCollection = ({
 
     if (existingLink) {
       // Adding an existing link
+      // TODO - ensure there is a URL value
       handleAddBookmark(existingLink.url || '', existingLink.label)
       urlInputValue.current = ''
       setIsAdding(false)
@@ -68,6 +69,7 @@ const CustomCollection = ({
   }
 
   const handleSaveBookmark = (label: string) => {
+    // TODO - ensure there is a URL value
     handleAddBookmark(urlInputValue.current, label)
     urlInputValue.current = ''
     setIsAdding(false)

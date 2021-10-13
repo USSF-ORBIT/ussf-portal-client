@@ -65,12 +65,23 @@ const mocks = [
 ]
 
 describe('My Space Component', () => {
+  let scrollSpy: jest.Mock
+
+  beforeAll(() => {
+    scrollSpy = jest.fn()
+    window.HTMLElement.prototype.scrollIntoView = scrollSpy
+  })
+
+  beforeEach(() => {
+    scrollSpy.mockReset()
+  })
+
   describe('default state', () => {
     let html: RenderResult
     beforeEach(() => {
       html = render(
         <MockedProvider mocks={mocks} addTypename={false}>
-          <MySpace />
+          <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
         </MockedProvider>
       )
     })
@@ -113,7 +124,7 @@ describe('My Space Component', () => {
 
     render(
       <MockedProvider mocks={errorMock} addTypename={false}>
-        <MySpace />
+        <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -148,7 +159,7 @@ describe('My Space Component', () => {
 
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace />
+        <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -176,7 +187,7 @@ describe('My Space Component', () => {
   it('handles the add bookmark operation', async () => {
     renderWithModalRoot(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace />
+        <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -186,6 +197,9 @@ describe('My Space Component', () => {
 
     userEvent.click(addLinkButton)
     userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
+    userEvent.click(
+      screen.getByRole('option', { name: 'http://www.example.com' })
+    )
     userEvent.click(screen.getByRole('button', { name: 'Add site' }))
     userEvent.type(screen.getByLabelText('Label'), 'My Custom Link')
     userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
