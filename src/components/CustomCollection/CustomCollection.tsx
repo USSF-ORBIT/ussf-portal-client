@@ -95,7 +95,6 @@ const CustomCollection = ({
   // Initialize hook for delete confirmation modal
   const deleteCollectionModal = useRef<ModalRef>(null)
   // Menu button and its togglefunction
-  const menuIcon = <FontAwesomeIcon icon="cog" />
   const menuOnClick = () => {
     setIsDropdownOpen(!isDropdownOpen)
   }
@@ -131,10 +130,16 @@ const CustomCollection = ({
   const customCollectionSettings = (
     <>
       <DropdownMenu
+        toggleEl={
+          <button
+            type="button"
+            className={styles.dropdownMenuToggle}
+            onClick={menuOnClick}
+            aria-label="Collection Settings">
+            <FontAwesomeIcon icon="cog" />
+          </button>
+        }
         dropdownRef={dropdownEl}
-        menuIcon={menuIcon}
-        ariaLabel="Collection Settings"
-        onMenuClick={menuOnClick}
         isActive={isDropdownOpen}>
         {editCustomCollectionItem}
       </DropdownMenu>
