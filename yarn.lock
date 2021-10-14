@@ -3682,9 +3682,9 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@trussworks/react-uswds@https://github.com/trussworks/react-uswds#sr-combobox-add-new":
+"@trussworks/react-uswds@https://github.com/trussworks/react-uswds#47be1062e4a54472235f8652978a0c69057ff236":
   version "2.2.0"
-  resolved "https://github.com/trussworks/react-uswds#391b750ecaabe3af40fb410a03909a22dfc62ae0"
+  resolved "https://github.com/trussworks/react-uswds#47be1062e4a54472235f8652978a0c69057ff236"
 
 "@types/accepts@*", "@types/accepts@^1.3.5":
   version "1.3.5"

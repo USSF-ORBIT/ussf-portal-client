@@ -34,7 +34,7 @@
     "@keystone-next/fields": "15.0.0",
     "@keystone-next/keystone": "25.0.1",
     "@next/bundle-analyzer": "11.1.2",
-    "@trussworks/react-uswds": "https://github.com/trussworks/react-uswds#sr-combobox-add-new",
+    "@trussworks/react-uswds": "https://github.com/trussworks/react-uswds#47be1062e4a54472235f8652978a0c69057ff236",
     "classnames": "2.3.1",
     "graphql": "15.5.3",
     "next": "11.1.2",
