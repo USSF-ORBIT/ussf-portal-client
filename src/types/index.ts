@@ -6,7 +6,8 @@ export type Bookmark = {
   description?: string
 }
 
-export type BookmarkRecords = readonly Partial<Bookmark>[]
+type BookmarkRecord = Partial<Bookmark> & Pick<Bookmark, 'id'>
+export type BookmarkRecords = readonly BookmarkRecord[]
 
 export type Collection = {
   __typename?: string
@@ -15,4 +16,5 @@ export type Collection = {
   bookmarks: Bookmark[]
 }
 
-export type CollectionRecords = readonly Partial<Collection>[]
+type CollectionRecord = Partial<Collection> & Pick<Collection, 'id'>
+export type CollectionRecords = readonly CollectionRecord[]

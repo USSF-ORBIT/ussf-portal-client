@@ -9,7 +9,12 @@ import { useRouter } from 'next/router'
 import SitesAndApplications, {
   getStaticProps,
 } from 'pages/beta/sites-and-applications'
-import * as addCollections from 'operations/mutations/addCollections'
+
+const mockAddCollections = jest.fn()
+
+jest.mock('operations/mutations/addCollections', () => ({
+  useAddCollectionsMutation: () => [mockAddCollections],
+}))
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -17,6 +22,7 @@ jest.mock('next/router', () => ({
     pathname: '',
     query: '',
     asPath: '',
+    push: jest.fn(),
   }),
 }))
 
@@ -99,15 +105,22 @@ describe('Sites and Applications page', () => {
       })
 
       const sortTypeBtn = screen.getByRole('button', { name: 'Sort by type' })
+
+      expect(sortTypeBtn).toBeDisabled()
       userEvent.click(sortAlphaBtn)
+
+      expect(sortAlphaBtn).toBeDisabled()
       expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(0)
       expect(screen.getByRole('table')).toBeInTheDocument()
       expect(screen.getAllByRole('link')).toHaveLength(mockBookmarks.length)
+      expect(sortTypeBtn).not.toBeDisabled()
+
       userEvent.click(sortTypeBtn)
       expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(
         mockCollections.length
       )
       expect(screen.queryByRole('table')).not.toBeInTheDocument()
+      expect(sortAlphaBtn).not.toBeDisabled()
     })
 
     describe('selecting collections', () => {
@@ -117,6 +130,12 @@ describe('Sites and Applications page', () => {
         })
         expect(selectBtn).toBeInTheDocument()
         userEvent.click(selectBtn)
+
+        expect(
+          screen.getByRole('button', {
+            name: 'Sort alphabetically',
+          })
+        ).toBeDisabled()
 
         expect(
           screen.queryByRole('button', { name: 'Select multiple collections' })
@@ -162,11 +181,6 @@ describe('Sites and Applications page', () => {
       })
 
       it('can select multiple collections and add them', () => {
-        const addCollectionsSpy = jest.spyOn(
-          addCollections,
-          'useAddCollectionsMutation'
-        )
-
         userEvent.click(
           screen.getByRole('button', {
             name: 'Select multiple collections',
@@ -193,7 +207,14 @@ describe('Sites and Applications page', () => {
         expect(
           screen.getByRole('button', { name: 'Add selected' })
         ).toBeEnabled()
-        expect(addCollectionsSpy).toHaveBeenCalled()
+
+        userEvent.click(screen.getByRole('button', { name: 'Add selected' }))
+
+        expect(mockAddCollections).toHaveBeenCalledWith({
+          variables: {
+            collections: mockCollections,
+          },
+        })
       })
 
       it('selecting the same collection twice removes it from the selection', () => {
@@ -266,140 +287,6 @@ describe('Sites and Applications page', () => {
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Add selected' })).toBeDisabled()
     expect(screen.getByText('0 collections selected')).toBeInTheDocument()
-  })
-
-  describe('selecting collections', () => {
-    beforeEach(() => {
-      render(
-        <MockedProvider>
-          <SitesAndApplications
-            collections={mockCollections}
-            bookmarks={mockBookmarks}
-          />
-        </MockedProvider>
-      )
-    })
-
-    it('can enter select mode', () => {
-      const selectBtn = screen.getByRole('button', {
-        name: 'Select multiple collections',
-      })
-      expect(selectBtn).toBeInTheDocument()
-      userEvent.click(selectBtn)
-
-      expect(
-        screen.queryByRole('button', { name: 'Select multiple collections' })
-      ).not.toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument()
-      expect(
-        screen.getByRole('button', { name: 'Add selected' })
-      ).toBeDisabled()
-      expect(screen.getByText('0 collections selected')).toBeInTheDocument()
-
-      expect(
-        screen.getByRole('button', {
-          name: 'Select collection Example Collection 1',
-        })
-      ).toBeInTheDocument()
-      expect(
-        screen.getByRole('button', {
-          name: 'Select collection Example Collection 2',
-        })
-      ).toBeInTheDocument()
-    })
-
-    it('can cancel out of select mode', () => {
-      expect(
-        screen.queryByText('0 collections selected')
-      ).not.toBeInTheDocument()
-
-      userEvent.click(
-        screen.getByRole('button', {
-          name: 'Select multiple collections',
-        })
-      )
-
-      expect(screen.queryByText('0 collections selected')).toBeInTheDocument()
-
-      userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
-
-      expect(
-        screen.queryByText('0 collections selected')
-      ).not.toBeInTheDocument()
-    })
-
-    it('can select multiple collections and add them', () => {
-      const addCollectionsSpy = jest.spyOn(
-        addCollections,
-        'useAddCollectionsMutation'
-      )
-
-      userEvent.click(
-        screen.getByRole('button', {
-          name: 'Select multiple collections',
-        })
-      )
-
-      expect(
-        screen.getByRole('button', { name: 'Add selected' })
-      ).toBeDisabled()
-      expect(screen.getByText('0 collections selected')).toBeInTheDocument()
-
-      userEvent.click(
-        screen.getByRole('button', {
-          name: 'Select collection Example Collection 1',
-        })
-      )
-      expect(screen.getByText('1 collection selected')).toBeInTheDocument()
-      userEvent.click(
-        screen.getByRole('button', {
-          name: 'Select collection Example Collection 2',
-        })
-      )
-      expect(screen.getByText('2 collections selected')).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Add selected' })).toBeEnabled()
-      expect(addCollectionsSpy).toHaveBeenCalled()
-    })
-
-    it('selecting the same collection twice removes it from the selection', () => {
-      userEvent.click(
-        screen.getByRole('button', {
-          name: 'Select multiple collections',
-        })
-      )
-
-      expect(
-        screen.getByRole('button', { name: 'Add selected' })
-      ).toBeDisabled()
-      expect(screen.getByText('0 collections selected')).toBeInTheDocument()
-
-      userEvent.click(
-        screen.getByRole('button', {
-          name: 'Select collection Example Collection 1',
-        })
-      )
-      expect(screen.getByText('1 collection selected')).toBeInTheDocument()
-      userEvent.click(
-        screen.getByRole('button', {
-          name: 'Select collection Example Collection 2',
-        })
-      )
-      expect(screen.getByText('2 collections selected')).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Add selected' })).toBeEnabled()
-
-      userEvent.click(
-        screen.getByRole('button', {
-          name: 'Unselect collection Example Collection 1',
-        })
-      )
-      expect(screen.getByText('1 collection selected')).toBeInTheDocument()
-      userEvent.click(
-        screen.getByRole('button', {
-          name: 'Unselect collection Example Collection 2',
-        })
-      )
-      expect(screen.getByText('0 collections selected')).toBeInTheDocument()
-    })
   })
 })
 

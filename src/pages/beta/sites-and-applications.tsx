@@ -54,12 +54,7 @@ const SitesAndApplications = ({
     [styles.selectMode]: selectMode,
   })
 
-  const handleSelectCollection = (id?: string): void => {
-    if (!id) {
-      // error
-      return
-    }
-
+  const handleSelectCollection = (id: string): void => {
     if (isSelected(id)) {
       setSelectedCollections((state) => {
         const itemIndex = state.indexOf(id)
@@ -72,14 +67,8 @@ const SitesAndApplications = ({
     }
   }
 
-  const isSelected = (id?: string): boolean => {
-    if (!id) {
-      // error
-      return false
-    }
-
-    return selectedCollections.indexOf(id) > -1
-  }
+  const isSelected = (id: string): boolean =>
+    selectedCollections.indexOf(id) > -1
 
   const handleAddSelected = () => {
     const collectionObjs = selectedCollections.map((id) =>
@@ -157,9 +146,9 @@ const SitesAndApplications = ({
                   desktop={{ col: 3 }}>
                   {selectMode ? (
                     <SelectableCollection
-                      id={collection.id || ''}
-                      title={collection.title || ''}
-                      bookmarks={collection.bookmarks || []}
+                      id={collection.id}
+                      title={collection.title}
+                      bookmarks={collection.bookmarks}
                       isSelected={isSelected(collection.id)}
                       onSelect={() => handleSelectCollection(collection.id)}
                     />
