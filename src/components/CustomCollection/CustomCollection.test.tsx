@@ -52,6 +52,7 @@ describe('CustomCollection component', () => {
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={jest.fn()}
         handleRemoveCollection={jest.fn()}
+        handleEditCollection={jest.fn()}
       />
     )
     expect(screen.getByRole('list')).toBeInTheDocument()
@@ -76,6 +77,7 @@ describe('CustomCollection component', () => {
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={jest.fn()}
         handleRemoveCollection={jest.fn()}
+        handleEditCollection={jest.fn()}
       />
     )
 
@@ -102,6 +104,7 @@ describe('CustomCollection component', () => {
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={mockAddLink}
         handleRemoveCollection={jest.fn()}
+        handleEditCollection={jest.fn()}
       />
     )
 
@@ -133,6 +136,7 @@ describe('CustomCollection component', () => {
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={mockAddLink}
         handleRemoveCollection={jest.fn()}
+        handleEditCollection={jest.fn()}
       />
     )
 
@@ -171,6 +175,7 @@ describe('CustomCollection component', () => {
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={mockAddLink}
         handleRemoveCollection={jest.fn()}
+        handleEditCollection={jest.fn()}
       />
     )
 
@@ -213,6 +218,7 @@ describe('CustomCollection component', () => {
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={jest.fn()}
         handleRemoveCollection={jest.fn()}
+        handleEditCollection={jest.fn()}
       />
     )
     const menuToggleButton = screen.getByRole('button', {
@@ -234,6 +240,7 @@ describe('CustomCollection component', () => {
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={jest.fn()}
         handleRemoveCollection={mockRemoveCollection}
+        handleEditCollection={jest.fn()}
       />
     )
 
@@ -264,6 +271,7 @@ describe('CustomCollection component', () => {
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={jest.fn()}
         handleRemoveCollection={mockRemoveCollection}
+        handleEditCollection={jest.fn()}
       />
     )
 
@@ -308,6 +316,7 @@ describe('CustomCollection component', () => {
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={jest.fn()}
         handleRemoveCollection={mockRemoveCollection}
+        handleEditCollection={jest.fn()}
       />
     )
     expect(screen.queryByRole('dialog', removeCollectionDialog)).toHaveClass(
@@ -346,6 +355,7 @@ describe('CustomCollection component', () => {
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={jest.fn()}
         handleRemoveCollection={mockRemoveCollection}
+        handleEditCollection={jest.fn()}
       />
     )
 
@@ -381,6 +391,7 @@ describe('CustomCollection component', () => {
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={jest.fn()}
         handleRemoveCollection={mockRemoveCollection}
+        handleEditCollection={jest.fn()}
       />
     )
 
