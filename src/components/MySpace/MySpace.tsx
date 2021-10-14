@@ -10,6 +10,7 @@ import { useCollectionsQuery } from 'operations/queries/getCollections'
 import { useRemoveBookmarkMutation } from 'operations/mutations/removeBookmark'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useRemoveCollectionMutation } from 'operations/mutations/removeCollection'
+import { useEditCollectionMutation } from 'operations/mutations/editCollection'
 
 const MySpace = () => {
   const router = useRouter()
@@ -17,6 +18,7 @@ const MySpace = () => {
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
   const [handleRemoveCollection] = useRemoveCollectionMutation()
+  const [handleEditCollection] = useEditCollectionMutation()
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
@@ -39,6 +41,14 @@ const MySpace = () => {
                     handleRemoveCollection({
                       variables: {
                         id: collection.id,
+                      },
+                    })
+                  }}
+                  handleEditCollection={(title: string) => {
+                    handleEditCollection({
+                      variables: {
+                        id: collection.id,
+                        title,
                       },
                     })
                   }}

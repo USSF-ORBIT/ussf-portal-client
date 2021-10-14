@@ -7,6 +7,7 @@ import {
   ModalRef,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { EditableInput } from './EditableInput'
 import { RemovableBookmark } from './RemovableBookmark'
 import styles from './CustomCollection.module.scss'
 import Collection from 'components/Collection/Collection'
@@ -22,6 +23,7 @@ type PropTypes = {
   handleRemoveBookmark: (id: string) => void
   handleAddBookmark: (url: string, label?: string) => void
   handleRemoveCollection: () => void
+  handleEditCollection: (title: string) => void
 }
 
 const CustomCollection = ({
@@ -30,10 +32,13 @@ const CustomCollection = ({
   handleRemoveBookmark,
   handleAddBookmark,
   handleRemoveCollection,
+  handleEditCollection,
 }: PropTypes) => {
   const [isAdding, setIsAdding] = useState<boolean>(false)
   const urlInputValue = useRef<string>('')
   const addCustomLinkModal = useRef<ModalRef>(null)
+  const [customTitle, setCustomTitle] = useState(title)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const handleShowAdding = () => setIsAdding(true)
 
@@ -125,10 +130,23 @@ const CustomCollection = ({
     </>
   )
 
-  // Component and modal for Settings to pass as
-  // Custom Collection header
-  const customCollectionSettings = (
+  const customCollectionHeader = (
     <>
+      <EditableInput
+        childRef={inputRef}
+        text={customTitle}
+        placeholder={'Add a title for this collection'}
+        onSave={handleEditCollection}>
+        <input
+          id="editableCollectionTitle"
+          type="text"
+          name="title"
+          value={customTitle}
+          ref={inputRef}
+          placeholder={'Add a title for this collection'}
+          onChange={(e) => setCustomTitle(e.target.value)}
+        />{' '}
+      </EditableInput>
       <DropdownMenu
         toggleEl={
           <button
@@ -154,8 +172,8 @@ const CustomCollection = ({
   return (
     <>
       <Collection
-        title={title}
-        header={customCollectionSettings}
+        // title={title} -- if the title is our editable input, can we make title optional here?
+        header={customCollectionHeader}
         footer={addLinkForm}>
         {bookmarks.map((bookmark: BookmarkType) => (
           <RemovableBookmark
