@@ -178,14 +178,14 @@ export default SitesAndApplications
 SitesAndApplications.getLayout = withBetaLayout
 
 export async function getStaticProps() {
-  const collections: CollectionRecords = await lists.Collection.findMany({
+  const collections: CollectionRecords = (await lists.Collection.findMany({
     query: 'id title bookmarks { id url label }',
-  })
+  })) as CollectionRecords
 
-  const bookmarks: BookmarkRecords = await lists.Bookmark.findMany({
+  const bookmarks: BookmarkRecords = (await lists.Bookmark.findMany({
     query: 'id url label description',
     orderBy: [{ label: 'asc' }],
-  })
+  })) as BookmarkRecords
 
   return { props: { collections, bookmarks } }
 }

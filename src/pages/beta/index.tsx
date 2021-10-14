@@ -21,10 +21,10 @@ BetaLayout.displayName = 'BetaLayout'
 Home.getLayout = BetaLayout
 
 export async function getStaticProps() {
-  const bookmarks: BookmarkRecords = await lists.Bookmark.findMany({
+  const bookmarks: BookmarkRecords = (await lists.Bookmark.findMany({
     query: 'id url label',
     orderBy: [{ label: 'asc' }],
-  })
+  })) as BookmarkRecords
 
   return { props: { bookmarks } }
 }
