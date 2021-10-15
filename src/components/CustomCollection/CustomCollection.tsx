@@ -7,7 +7,7 @@ import {
   ModalRef,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { EditableInput } from './EditableInput'
+import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
 import styles from './CustomCollection.module.scss'
 import Collection from 'components/Collection/Collection'
@@ -37,8 +37,6 @@ const CustomCollection = ({
   const [isAdding, setIsAdding] = useState<boolean>(false)
   const urlInputValue = useRef<string>('')
   const addCustomLinkModal = useRef<ModalRef>(null)
-  const [customTitle, setCustomTitle] = useState(title)
-  const inputRef = useRef<HTMLInputElement>(null)
 
   const handleShowAdding = () => setIsAdding(true)
 
@@ -132,21 +130,12 @@ const CustomCollection = ({
 
   const customCollectionHeader = (
     <>
-      <EditableInput
-        childRef={inputRef}
-        text={customTitle}
+      <EditableCollectionTitle
+        text={title}
         placeholder={'Add a title for this collection'}
-        onSave={handleEditCollection}>
-        <input
-          id="editableCollectionTitle"
-          type="text"
-          name="title"
-          value={customTitle}
-          ref={inputRef}
-          placeholder={'Add a title for this collection'}
-          onChange={(e) => setCustomTitle(e.target.value)}
-        />{' '}
-      </EditableInput>
+        onSave={handleEditCollection}
+      />
+
       <DropdownMenu
         toggleEl={
           <button
