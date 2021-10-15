@@ -160,10 +160,7 @@ const CustomCollection = ({
 
   return (
     <>
-      <Collection
-        // title={title} -- if the title is our editable input, can we make title optional here?
-        header={customCollectionHeader}
-        footer={addLinkForm}>
+      <Collection header={customCollectionHeader} footer={addLinkForm}>
         {bookmarks.map((bookmark: BookmarkType) => (
           <RemovableBookmark
             key={`bookmark_${bookmark.id}`}

@@ -1,4 +1,4 @@
-import React, { useState, MutableRefObject, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import styles from './CustomCollection.module.scss'
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 type PropTypes = {
@@ -10,7 +10,6 @@ export const EditableCollectionTitle = ({
   text,
   placeholder,
   onSave,
-  ...props
 }: PropTypes) => {
   const [isEditing, setEditing] = useState(false)
   const [currentText, setCurrentText] = useState(text)
