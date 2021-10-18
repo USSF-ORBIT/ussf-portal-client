@@ -153,7 +153,12 @@ describe('Sites and Applications', () => {
       name: 'My Custom Link (opens in a new window)',
     }).should('exist')
   })
-
+  it('can edit an existing collection title', () => {
+    cy.contains('Example Collection').click()
+    cy.findByRole('textbox').clear()
+    cy.findByRole('textbox').type('Updated Title{enter}')
+    cy.findByRole('button', { name: 'Updated Title' }).should('exist')
+  })
   it('can delete an existing collection', () => {
     cy.contains('Example Collection')
       .parent()
