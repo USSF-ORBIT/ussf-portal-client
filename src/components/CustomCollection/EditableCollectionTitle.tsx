@@ -42,6 +42,7 @@ export const EditableCollectionTitle = ({
           id="editableCollectionTitle"
           type="text"
           name="title"
+          maxLength={200}
           className={styles.h3}
           value={currentText}
           placeholder={'Add a title for this collection'}
