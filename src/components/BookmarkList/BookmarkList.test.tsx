@@ -43,11 +43,13 @@ const exampleInvalidBookmarks = [
   { id: '2', label: 'MyPay' },
   { id: '3', label: 'vMPF' },
   {
+    id: '4',
     label: 'AFFMS',
     url: '#',
     description: 'Air Force Fitness Management System',
   },
   {
+    id: '5',
     label: 'AFIMS',
     url: '#',
     description: 'Air Force Incident Management System',
@@ -76,7 +78,7 @@ describe('BookmarkList component', () => {
   it('doesn’t render invalid bookmarks', () => {
     render(<BookmarkList bookmarks={exampleInvalidBookmarks} />)
     expect(screen.getByRole('table')).toBeInTheDocument()
-    expect(screen.getAllByRole('link')).toHaveLength(2)
+    expect(screen.getAllByRole('link')).toHaveLength(4)
   })
 
   it('has no a11y violations', async () => {

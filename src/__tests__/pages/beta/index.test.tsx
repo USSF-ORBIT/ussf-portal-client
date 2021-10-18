@@ -5,8 +5,9 @@
 import { render, screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import { v4 } from 'uuid'
-import { GET_COLLECTIONS } from '../../../operations/queries/getCollections'
-import Home from 'pages/beta/index'
+
+import { GET_COLLECTIONS } from 'operations/queries/getCollections'
+import Home, { getStaticProps } from 'pages/beta/index'
 import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
 
 const mocks = [
@@ -46,11 +47,25 @@ const mocks = [
     },
   },
 ]
+
+const mockBookmarks = [
+  {
+    id: '1',
+    url: 'www.example.com',
+    label: 'Example 1',
+  },
+  {
+    id: '2',
+    url: 'www.example2.com',
+    label: 'Example 2',
+  },
+]
+
 describe('Beta Home page', () => {
   beforeEach(() => {
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <Home />
+        <Home bookmarks={mockBookmarks} />
       </MockedProvider>
     )
   })
@@ -77,5 +92,12 @@ describe('Beta Home page', () => {
   it('returns the Default Beta Layout in getLayout', async () => {
     const page = 'page'
     expect(Home.getLayout(page)).toEqual(<Layout>page</Layout>)
+  })
+})
+
+describe('getStaticProps', () => {
+  it('returns expected props', async () => {
+    const results = await getStaticProps()
+    expect(results).toEqual({ props: { bookmarks: [] } })
   })
 })
