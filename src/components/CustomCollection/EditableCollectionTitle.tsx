@@ -25,13 +25,13 @@ export const EditableCollectionTitle = ({
 
     if (keys.includes(key)) {
       setEditing(!isEditing)
-      onSave(text)
+      onSave(currentText)
     }
   }
 
   const handleOnBlur = () => {
     setEditing(!isEditing)
-    onSave(text)
+    onSave(currentText)
   }
 
   return (

@@ -11,8 +11,8 @@ interface EditCollectionInput {
 }
 
 export const EDIT_COLLECTION = gql`
-  mutation editCollection($title: String) {
-    editCollection(title: $title) @client
+  mutation editCollection($title: String, $id: ID) {
+    editCollection(title: $title, id: $id) @client
   }
 `
 
