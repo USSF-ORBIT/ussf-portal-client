@@ -56,9 +56,9 @@ describe('CustomCollection component', () => {
       />
     )
     expect(screen.getByRole('list')).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
-      exampleCollection.title
-    )
+    expect(
+      screen.getByRole('button', { name: exampleCollection.title })
+    ).toBeInTheDocument()
     expect(screen.getAllByRole('listitem')).toHaveLength(
       exampleCollection.bookmarks.length
     )
@@ -373,7 +373,7 @@ describe('CustomCollection component', () => {
     expect(menuToggleButton).toBeInTheDocument()
 
     // Click outside menu
-    const outsideEl = screen.getByRole('heading', {
+    const outsideEl = screen.getByRole('button', {
       name: 'Example Collection',
     })
     userEvent.click(outsideEl)

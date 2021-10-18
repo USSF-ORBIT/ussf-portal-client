@@ -19,6 +19,7 @@ const mockRouterPush = jest.fn()
 const mockAddBookmark = jest.fn()
 const mockRemoveBookmark = jest.fn()
 const mockEditCollection = jest.fn()
+const mockRemoveCollection = jest.fn()
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
@@ -36,6 +37,10 @@ jest.mock('operations/mutations/removeBookmark', () => ({
 
 jest.mock('operations/mutations/editCollection', () => ({
   useEditCollectionMutation: () => [mockEditCollection],
+}))
+
+jest.mock('operations/mutations/removeCollection', () => ({
+  useRemoveCollectionMutation: () => [mockRemoveCollection],
 }))
 
 const mocks = [
@@ -258,6 +263,27 @@ describe('My Space Component', () => {
       variables: {
         id: mocks[0].result.data.collections[0].id,
         title: 'Updated Title',
+      },
+    })
+  })
+
+  it('handles the remove collection operation', async () => {
+    renderWithModalRoot(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MySpace />
+      </MockedProvider>
+    )
+
+    const dropdownMenu = await screen.findByRole('button', {
+      name: 'Collection Settings',
+    })
+    userEvent.click(dropdownMenu)
+    userEvent.click(screen.getByRole('button', { name: 'Delete Collection' }))
+    userEvent.click(screen.getByRole('button', { name: 'Delete' }))
+
+    expect(mockRemoveCollection).toHaveBeenCalledWith({
+      variables: {
+        id: mocks[0].result.data.collections[0].id,
       },
     })
   })
