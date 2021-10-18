@@ -11,6 +11,7 @@ import { useRemoveBookmarkMutation } from 'operations/mutations/removeBookmark'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useRemoveCollectionMutation } from 'operations/mutations/removeCollection'
 import { useEditCollectionMutation } from 'operations/mutations/editCollection'
+import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 
 const MySpace = () => {
   const router = useRouter()
@@ -19,6 +20,7 @@ const MySpace = () => {
   const [handleAddBookmark] = useAddBookmarkMutation()
   const [handleRemoveCollection] = useRemoveCollectionMutation()
   const [handleEditCollection] = useEditCollectionMutation()
+  const [handleAddCollection] = useAddCollectionMutation()
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
@@ -75,6 +77,9 @@ const MySpace = () => {
             tablet={{ col: 6 }}
             desktop={{ col: 3 }}>
             <AddWidget
+              handleCreateCollection={() => {
+                handleAddCollection({ variables: { title: '', bookmarks: [] } })
+              }}
               handleSelectCollection={() =>
                 router.push({
                   pathname: '/sites-and-applications',

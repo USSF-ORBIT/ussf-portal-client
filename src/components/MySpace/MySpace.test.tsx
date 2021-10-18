@@ -20,6 +20,7 @@ const mockAddBookmark = jest.fn()
 const mockRemoveBookmark = jest.fn()
 const mockEditCollection = jest.fn()
 const mockRemoveCollection = jest.fn()
+const mockAddCollection = jest.fn()
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
@@ -41,6 +42,10 @@ jest.mock('operations/mutations/editCollection', () => ({
 
 jest.mock('operations/mutations/removeCollection', () => ({
   useRemoveCollectionMutation: () => [mockRemoveCollection],
+}))
+
+jest.mock('operations/mutations/addCollection', () => ({
+  useAddCollectionMutation: () => [mockAddCollection],
 }))
 
 const mocks = [
@@ -284,6 +289,25 @@ describe('My Space Component', () => {
     expect(mockRemoveCollection).toHaveBeenCalledWith({
       variables: {
         id: mocks[0].result.data.collections[0].id,
+      },
+    })
+  })
+
+  it('handles the add collection operation', async () => {
+    render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MySpace />
+      </MockedProvider>
+    )
+
+    userEvent.click(await screen.findByRole('button', { name: 'Add section' }))
+    userEvent.click(
+      screen.getByRole('button', { name: 'Create new collection' })
+    )
+    expect(mockAddCollection).toHaveBeenCalledWith({
+      variables: {
+        title: '',
+        bookmarks: [],
       },
     })
   })
