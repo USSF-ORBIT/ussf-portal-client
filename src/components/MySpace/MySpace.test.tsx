@@ -160,7 +160,7 @@ describe('My Space Component', () => {
     userEvent.click(await screen.findByRole('button', { name: 'Add section' }))
     userEvent.click(
       await screen.findByRole('button', {
-        name: 'Select existing collection(s)',
+        name: 'Select collection from template',
       })
     )
 

@@ -50,7 +50,7 @@ const AddWidget = ({
           Create new collection
         </Button>
         <Button type="button" onClick={handleSelectCollection}>
-          Select existing collection(s)
+          Select collection from template
         </Button>
       </DropdownMenu>
     </label>

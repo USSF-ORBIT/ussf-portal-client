@@ -35,7 +35,7 @@ describe('AddWidget component', () => {
     )
 
     expect(
-      screen.queryByRole('button', { name: 'Select existing collection(s)' })
+      screen.queryByRole('button', { name: 'Select collection from template' })
     ).not.toBeInTheDocument()
 
     const menuButton = screen.getByRole('button', { name: 'Add section' })
@@ -43,12 +43,12 @@ describe('AddWidget component', () => {
     userEvent.click(menuButton)
 
     expect(
-      screen.getByRole('button', { name: 'Select existing collection(s)' })
+      screen.getByRole('button', { name: 'Select collection from template' })
     ).toBeInTheDocument()
 
     userEvent.click(screen.getByRole('button', { name: 'Another element' }))
     expect(
-      screen.queryByRole('button', { name: 'Select existing collection(s)' })
+      screen.queryByRole('button', { name: 'Select collection from template' })
     ).not.toBeInTheDocument()
   })
 
@@ -68,10 +68,10 @@ describe('AddWidget component', () => {
     userEvent.click(menuButton)
 
     expect(
-      screen.getByRole('button', { name: 'Select existing collection(s)' })
+      screen.getByRole('button', { name: 'Select collection from template' })
     ).toBeInTheDocument()
     userEvent.click(
-      screen.getByRole('button', { name: 'Select existing collection(s)' })
+      screen.getByRole('button', { name: 'Select collection from template' })
     )
 
     expect(mockHandleSelect).toHaveBeenCalled()

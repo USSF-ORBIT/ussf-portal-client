@@ -12,7 +12,7 @@ export default {
   title: 'Components/AddWidget',
   component: AddWidget,
   argTypes: {
-    handleSelectCollection: { action: 'Select existing collection(s)' },
+    handleSelectCollection: { action: 'Select collection from template' },
     handleCreateCollection: { action: 'Create new collection' },
   },
 } as Meta
