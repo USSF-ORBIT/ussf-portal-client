@@ -18,6 +18,7 @@ import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectio
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
 type PropTypes = {
+  id: string
   title?: string
   bookmarks?: BookmarkType[]
   handleRemoveBookmark: (id: string) => void
@@ -27,6 +28,7 @@ type PropTypes = {
 }
 
 const CustomCollection = ({
+  id,
   title = '',
   bookmarks = [],
   handleRemoveBookmark,
@@ -131,8 +133,9 @@ const CustomCollection = ({
   const customCollectionHeader = (
     <>
       <EditableCollectionTitle
+        collectionId={id}
         text={title}
-        placeholder={'Add a title for this collection'}
+        placeholder="Untitled"
         onSave={handleEditCollection}
       />
 

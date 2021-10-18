@@ -20,10 +20,29 @@ const MySpace = () => {
   const [handleAddBookmark] = useAddBookmarkMutation()
   const [handleRemoveCollection] = useRemoveCollectionMutation()
   const [handleEditCollection] = useEditCollectionMutation()
-  const [handleAddCollection] = useAddCollectionMutation()
+  const [handleAddCollection] = useAddCollectionMutation({
+    onCompleted: (data) => {
+      /*
+      console.log('added collection', data)
+      const { id } = data
+
+      const collectionTitleInput = document.querySelector(
+        `#collectionTitle_${id}`
+      ) as HTMLInputElement
+      if (collectionTitleInput) {
+        console.log('found input', collectionTitleInput)
+        collectionTitleInput.focus()
+      }
+      */
+    },
+  })
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
+
+  const addNewCollection = () => {
+    handleAddCollection({ variables: { title: '', bookmarks: [] } })
+  }
 
   return (
     <div className={styles.mySpace}>
@@ -37,6 +56,7 @@ const MySpace = () => {
                 tablet={{ col: 6 }}
                 desktop={{ col: 3 }}>
                 <CustomCollection
+                  id={collection.id}
                   title={collection.title}
                   bookmarks={collection.bookmarks}
                   handleRemoveCollection={() => {
@@ -77,9 +97,7 @@ const MySpace = () => {
             tablet={{ col: 6 }}
             desktop={{ col: 3 }}>
             <AddWidget
-              handleCreateCollection={() => {
-                handleAddCollection({ variables: { title: '', bookmarks: [] } })
-              }}
+              handleCreateCollection={addNewCollection}
               handleSelectCollection={() =>
                 router.push({
                   pathname: '/sites-and-applications',

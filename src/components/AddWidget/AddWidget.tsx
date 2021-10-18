@@ -18,7 +18,7 @@ const AddWidget = ({
   handleSelectCollection: () => void
   handleCreateCollection: () => void
 }) => {
-  const dropdownEl = useRef<HTMLLabelElement>(null)
+  const dropdownEl = useRef<HTMLDivElement>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
     dropdownEl,
     false
@@ -28,8 +28,10 @@ const AddWidget = ({
     setIsDropdownOpen((state) => !state)
   }
 
+  // TODO - click on container to toggle dropdown?
+
   return (
-    <label className={styles.addWidget} htmlFor="addNewWidget" ref={dropdownEl}>
+    <div className={styles.addWidget}>
       <span className={styles.plus}>
         <IconAdd />
       </span>
@@ -45,15 +47,26 @@ const AddWidget = ({
             {isDropdownOpen ? <IconExpandLess /> : <IconExpandMore />}
           </button>
         }
+        dropdownRef={dropdownEl}
         isActive={isDropdownOpen}>
-        <Button type="button" onClick={handleCreateCollection}>
+        <Button
+          type="button"
+          onClick={() => {
+            handleCreateCollection()
+            setIsDropdownOpen(false)
+          }}>
           Create new collection
         </Button>
-        <Button type="button" onClick={handleSelectCollection}>
+        <Button
+          type="button"
+          onClick={() => {
+            handleSelectCollection()
+            setIsDropdownOpen(false)
+          }}>
           Select collection from template
         </Button>
       </DropdownMenu>
-    </label>
+    </div>
   )
 }
 
