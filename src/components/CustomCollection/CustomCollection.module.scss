@@ -31,10 +31,16 @@ button.collectionSettingsDropdown {
 }
 
 h3.h3 {
-  padding-bottom: 5px;
+  font-size: font-size('heading', 7);
+  line-height: lh('heading', 2);
+  @include u-padding(1);
+  @include u-margin-left(-1);
+  border: 2px transparent solid;
+  flex-grow: 1;
 }
+
 input[type='text'].h3 {
   font-size: font-size('heading', 7);
-  display: inline-block;
-  max-width: 85%;
+  line-height: lh('heading', 2);
+  margin: 0;
 }

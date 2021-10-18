@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { TextInput } from '@trussworks/react-uswds'
+
 import styles from './CustomCollection.module.scss'
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 type PropTypes = {
@@ -37,8 +39,8 @@ export const EditableCollectionTitle = ({
   return (
     <>
       {isEditing ? (
-        <input
-          ref={inputRef}
+        <TextInput
+          inputRef={inputRef}
           id="editableCollectionTitle"
           type="text"
           name="title"
