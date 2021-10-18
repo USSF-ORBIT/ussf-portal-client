@@ -13,8 +13,10 @@ import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
 const AddWidget = ({
   handleSelectCollection,
+  handleCreateCollection,
 }: {
   handleSelectCollection: () => void
+  handleCreateCollection: () => void
 }) => {
   const dropdownEl = useRef<HTMLLabelElement>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
@@ -44,6 +46,9 @@ const AddWidget = ({
           </button>
         }
         isActive={isDropdownOpen}>
+        <Button type="button" onClick={handleCreateCollection}>
+          Create new collection
+        </Button>
         <Button type="button" onClick={handleSelectCollection}>
           Select existing collection(s)
         </Button>

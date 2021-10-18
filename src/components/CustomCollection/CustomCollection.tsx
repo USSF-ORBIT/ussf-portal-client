@@ -18,8 +18,8 @@ import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectio
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
 type PropTypes = {
-  title: string
-  bookmarks: BookmarkType[]
+  title?: string
+  bookmarks?: BookmarkType[]
   handleRemoveBookmark: (id: string) => void
   handleAddBookmark: (url: string, label?: string) => void
   handleRemoveCollection: () => void
@@ -27,8 +27,8 @@ type PropTypes = {
 }
 
 const CustomCollection = ({
-  title,
-  bookmarks,
+  title = '',
+  bookmarks = [],
   handleRemoveBookmark,
   handleAddBookmark,
   handleRemoveCollection,

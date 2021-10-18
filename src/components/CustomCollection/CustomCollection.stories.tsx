@@ -30,3 +30,12 @@ export const ExampleCustomCollection = (argTypes: StorybookArgTypes) => (
     handleEditCollection={argTypes.handleEditCollection}
   />
 )
+
+export const BlankCustomCollection = (argTypes: StorybookArgTypes) => (
+  <CustomCollection
+    handleAddBookmark={argTypes.handleAddBookmark}
+    handleRemoveBookmark={argTypes.handleRemoveBookmark}
+    handleRemoveCollection={argTypes.handleRemoveCollection}
+    handleEditCollection={argTypes.handleEditCollection}
+  />
+)
