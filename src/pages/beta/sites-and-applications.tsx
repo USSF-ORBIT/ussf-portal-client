@@ -19,6 +19,8 @@ import Bookmark from 'components/Bookmark/Bookmark'
 import BookmarkList from 'components/BookmarkList/BookmarkList'
 import SelectableCollection from 'components/SelectableCollection/SelectableCollection'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
+
+import { useCollectionsQuery } from 'operations/queries/getCollections'
 import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark' // TODO
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
@@ -32,6 +34,7 @@ const SitesAndApplications = ({
   bookmarks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter()
+  const { loading, error, data } = useCollectionsQuery()
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
   const [selectMode, setSelectMode] = useState<boolean>(
     router.query.selectMode == 'true' || false
@@ -40,12 +43,16 @@ const SitesAndApplications = ({
     useState<SelectedCollections>([])
   const [handleAddCollections] = useAddCollectionsMutation()
   const [handleAddCollection] = useAddCollectionMutation()
+  const [handleAddBookmark] = useAddBookmarkMutation()
 
   useEffect(() => {
     if (router.query.selectMode == 'true') {
       setSelectMode(true)
     }
   }, [router.query])
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error</p>
 
   const handleSortClick = (sortType: SortBy) => setSort(sortType)
 
@@ -89,15 +96,27 @@ const SitesAndApplications = ({
     router.push('/')
   }
 
-  const handleAddToNewCollection = (bookmark: BookmarkType) => {
-    handleAddCollection({
-      variables: {
-        title: '',
-        bookmarks: [bookmark],
-      },
-    })
+  const handleAddToCollection = (
+    bookmark: BookmarkType,
+    collectionId?: string
+  ) => {
+    if (collectionId) {
+      handleAddBookmark({
+        variables: {
+          collectionId,
+          ...bookmark,
+        },
+      })
+    } else {
+      handleAddCollection({
+        variables: {
+          title: '',
+          bookmarks: [bookmark],
+        },
+      })
 
-    router.push('/')
+      router.push('/')
+    }
   }
 
   return (
@@ -125,7 +144,8 @@ const SitesAndApplications = ({
       {sortBy === 'SORT_ALPHA' && (
         <BookmarkList
           bookmarks={bookmarks}
-          handleAddToNewCollection={handleAddToNewCollection}
+          userCollectionOptions={data?.collections}
+          handleAddToCollection={handleAddToCollection}
         />
       )}
 

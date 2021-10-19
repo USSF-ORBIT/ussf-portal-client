@@ -6,19 +6,21 @@ import {
   IconExpandMore,
 } from '@trussworks/react-uswds'
 
-import type { Bookmark, BookmarkRecords } from 'types'
+import type { Bookmark, BookmarkRecords, CollectionRecords } from 'types'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
 type BookmarkListRowProps = {
   bookmark: Bookmark
-  handleAddToNewCollection: () => void
+  userCollectionOptions?: CollectionRecords
+  handleAddToCollection: (b: Bookmark, c?: string) => void
 }
 
 const BookmarkListRow = ({
   bookmark,
-  handleAddToNewCollection,
+  userCollectionOptions = [],
+  handleAddToCollection,
 }: BookmarkListRowProps) => {
   const { id, url, label, description } = bookmark
   const dropdownEl = useRef<HTMLDivElement>(null)
@@ -30,6 +32,29 @@ const BookmarkListRow = ({
   const menuOnClick = () => {
     setIsDropdownOpen((state) => !state)
   }
+
+  const collectionOptions = [
+    ...userCollectionOptions.map((collection) => (
+      <Button
+        type="button"
+        key={`addToCollection_${collection.id}`}
+        onClick={() => {
+          handleAddToCollection(bookmark, collection.id)
+          setIsDropdownOpen(false)
+        }}>
+        {collection.title || 'Untitled Collection'}
+      </Button>
+    )),
+    <Button
+      type="button"
+      key={`addToCollection_new`}
+      onClick={() => {
+        handleAddToCollection(bookmark)
+        setIsDropdownOpen(false)
+      }}>
+      Add to new collection
+    </Button>,
+  ]
 
   return (
     <tr key={`bookmark_${id}`}>
@@ -54,9 +79,7 @@ const BookmarkListRow = ({
           }
           isActive={isDropdownOpen}
           dropdownRef={dropdownEl}>
-          <Button type="button" onClick={handleAddToNewCollection}>
-            Add to new collection
-          </Button>
+          {collectionOptions}
         </DropdownMenu>
       </td>
     </tr>
@@ -65,12 +88,14 @@ const BookmarkListRow = ({
 
 type BookmarkListProps = {
   bookmarks: BookmarkRecords
-  handleAddToNewCollection: (b: Bookmark) => void
+  userCollectionOptions?: CollectionRecords
+  handleAddToCollection: (b: Bookmark, c?: string) => void
 }
 
 const BookmarkList = ({
   bookmarks,
-  handleAddToNewCollection,
+  userCollectionOptions = [],
+  handleAddToCollection,
 }: BookmarkListProps) => {
   const filterInvalidBookmarks = (b: Partial<Bookmark>): b is Bookmark =>
     !(b.id === undefined || b.url === undefined)
@@ -89,9 +114,8 @@ const BookmarkList = ({
           <BookmarkListRow
             key={`bookmark_${b.id}`}
             bookmark={b}
-            handleAddToNewCollection={() => {
-              handleAddToNewCollection(b)
-            }}
+            userCollectionOptions={userCollectionOptions}
+            handleAddToCollection={handleAddToCollection}
           />
         ))}
       </tbody>
