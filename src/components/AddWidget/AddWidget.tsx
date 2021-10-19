@@ -28,13 +28,8 @@ const AddWidget = ({
     setIsDropdownOpen((state) => !state)
   }
 
-  // TODO - click on container to toggle dropdown?
-
   return (
     <div className={styles.addWidget}>
-      <span className={styles.plus}>
-        <IconAdd />
-      </span>
       <DropdownMenu
         toggleEl={
           <button
@@ -43,6 +38,10 @@ const AddWidget = ({
             id="addNewWidget"
             onClick={menuOnClick}
             aria-label="Add section">
+            <span className={styles.plus}>
+              <IconAdd />
+            </span>
+            <br />
             Add section{' '}
             {isDropdownOpen ? <IconExpandLess /> : <IconExpandMore />}
           </button>

@@ -73,7 +73,8 @@ export const EditableCollectionTitle = ({
           role="button"
           className={styles.h3}
           onClick={() => setEditing(true)}
-          onKeyDown={(e) => handleKeyDown(e)}>
+          onKeyDown={(e) => handleKeyDown(e)}
+          aria-label="Edit collection title">
           {currentText || placeholder}
         </h3>
       )}
