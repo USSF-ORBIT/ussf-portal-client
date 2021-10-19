@@ -1,13 +1,23 @@
 import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
+import { useRouter } from 'next/router'
+
 import styles from './MySpace.module.scss'
+
+import type { BookmarkRecords } from 'types/index'
 import CustomCollection from 'components/CustomCollection/CustomCollection'
+import AddWidget from 'components/AddWidget/AddWidget'
 import { useCollectionsQuery } from 'operations/queries/getCollections'
 import { useRemoveBookmarkMutation } from 'operations/mutations/removeBookmark'
+import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
+import { useRemoveCollectionMutation } from 'operations/mutations/removeCollection'
 
-const MySpace = () => {
+const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
+  const router = useRouter()
   const { loading, error, data } = useCollectionsQuery()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
+  const [handleAddBookmark] = useAddBookmarkMutation()
+  const [handleRemoveCollection] = useRemoveCollectionMutation()
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
@@ -26,14 +36,45 @@ const MySpace = () => {
                 <CustomCollection
                   title={collection.title}
                   bookmarks={collection.bookmarks}
+                  bookmarkOptions={bookmarks}
+                  handleRemoveCollection={() => {
+                    handleRemoveCollection({
+                      variables: {
+                        id: collection.id,
+                      },
+                    })
+                  }}
                   handleRemoveBookmark={(id) =>
                     handleRemoveBookmark({
                       variables: { id, collectionId: collection.id },
                     })
                   }
+                  handleAddBookmark={(url, label) => {
+                    handleAddBookmark({
+                      variables: {
+                        collectionId: collection.id,
+                        url,
+                        label,
+                      },
+                    })
+                  }}
                 />
               </Grid>
             ))}
+
+          <Grid
+            key={`collection_addNew`}
+            tablet={{ col: 6 }}
+            desktop={{ col: 3 }}>
+            <AddWidget
+              handleSelectCollection={() =>
+                router.push({
+                  pathname: '/sites-and-applications',
+                  query: { selectMode: 'true' },
+                })
+              }
+            />
+          </Grid>
         </Grid>
       </div>
     </div>

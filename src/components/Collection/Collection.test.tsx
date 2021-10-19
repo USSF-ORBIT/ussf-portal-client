@@ -66,4 +66,18 @@ describe('Collection component', () => {
       expect(await axe(html.container)).toHaveNoViolations()
     })
   })
+
+  it('can render a footer node', async () => {
+    const testFooter = <p>Collection footer</p>
+
+    html = render(
+      <Collection title="Example collection" footer={testFooter}>
+        <Bookmark key="link1" href="#">
+          Link 1
+        </Bookmark>
+      </Collection>
+    )
+
+    expect(screen.getByText('Collection footer')).toBeInTheDocument()
+  })
 })

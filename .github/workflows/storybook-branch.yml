@@ -14,14 +14,14 @@ jobs:
     if: github.event.label.name == format('type{0} storybook component', ':')
     steps:
       - name: Check out repository
-        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+        uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
       - name: Trigger Netlify build
         run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/$NETLIFY_BRANCH_DEPLOY\?trigger_branch\=$BRANCH_NAME\&trigger_title\=triggered+by+github+workflow
         continue-on-error: false
 
       - name: Post Storybook URL
-        uses: thollander/actions-comment-pull-request@1.0.3
+        uses: thollander/actions-comment-pull-request@675cdfe1695d33e816e060460a72feafee079d3f # renovate: tag=v1.0.4
         with:
           GITHUB_TOKEN: '${{github.token}}'
           message: '🎉 View your component in Storybook - [https://${{github.head_ref}}--ussf-storybook.netlify.app]( https://${{github.head_ref}}--ussf-storybook.netlify.app)'
@@ -30,14 +30,14 @@ jobs:
     if: github.event.label.name == 'prototype'
     steps:
       - name: Check out repository
-        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+        uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
 
       - name: Trigger Netlify build
         run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/$PROTOTYPE_DEPLOY\?trigger_branch\=$BRANCH_NAME\&trigger_title\=triggered+by+github+workflow
         continue-on-error: false
 
       - name: Post Prototype URL
-        uses: thollander/actions-comment-pull-request@1.0.3
+        uses: thollander/actions-comment-pull-request@675cdfe1695d33e816e060460a72feafee079d3f # renovate: tag=v1.0.4
         with:
           GITHUB_TOKEN: '${{github.token}}'
           message: '🎉 View the deployed prototype - [https://${{github.head_ref}}--ussf-portal-client.netlify.app]( https://${{github.head_ref}}--ussf-portal-client.netlify.app)'

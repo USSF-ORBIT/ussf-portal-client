@@ -19,7 +19,7 @@ describe('Login page', () => {
   })
 
   it('renders the accordion title', () => {
-    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
+    expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent(
       'Contact the Help Desk'
     )
   })

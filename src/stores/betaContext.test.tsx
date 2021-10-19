@@ -3,6 +3,8 @@
  */
 import React, { useEffect } from 'react'
 import { render } from '@testing-library/react'
+import { renderHook } from '@testing-library/react-hooks'
+
 import { BetaContextProvider, useBetaContext } from './betaContext'
 
 jest.mock('next/dist/client/router', () => ({
@@ -21,6 +23,7 @@ jest.mock('next/dist/client/router', () => ({
     replace: jest.fn(() => Promise.resolve(true)),
   }),
 }))
+
 describe('beta context', () => {
   it('expects betaOptIn to be false by default', () => {
     const TestComponent = () => {
@@ -39,6 +42,7 @@ describe('beta context', () => {
       'Default beta status is false'
     )
   })
+
   it('expects join beta to work', () => {
     const TestComponent = () => {
       const { betaOptIn, joinBeta } = useBetaContext()
@@ -83,5 +87,18 @@ describe('beta context', () => {
     )
     getByRole('button').click()
     expect(getByRole('heading')).toHaveTextContent('Leave beta status is false')
+  })
+})
+
+describe('useBetaContext', () => {
+  it('throws an error if BetaContext is undefined', () => {
+    jest.spyOn(React, 'useContext').mockReturnValueOnce(undefined)
+    expect(() => useBetaContext()).toThrowError()
+  })
+
+  it('returns the created context', () => {
+    const { result } = renderHook(() => useBetaContext())
+    expect(result.current).toBeTruthy()
+    expect(result.current.betaOptIn).toEqual(false)
   })
 })

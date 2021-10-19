@@ -14,9 +14,9 @@ jobs:
         uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
 
       - name: Set up node
-        uses: actions/setup-node@f1f314fca9dfce2769ece7d933488f076716723e # renovate: tag=v1
+        uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # renovate: tag=v2
         with:
-          node-version: '14.17.6'
+          node-version: '14.18.1'
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -32,7 +32,7 @@ jobs:
 
       # The yarn cache is not node_modules
       - name: Install dependencies
-        run: yarn --frozen-lockfile --prefer-offline
+        run: yarn --frozen-lockfile --network-concurrency 1
 
       - name: Lint code
         run: yarn lint

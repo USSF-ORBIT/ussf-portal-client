@@ -8,11 +8,11 @@
   margin-bottom: units(3);
 
   h3 {
-    margin: 0 units(2);
+    margin: 0;
     font-weight: normal;
   }
 
-  h3 + ol {
+  .header + ol {
     margin-top: units('205');
   }
 
@@ -25,11 +25,24 @@
 
       > * {
         flex: auto;
+        width: 100%;
       }
     }
 
     > li + li {
       margin-top: units('05');
+    }
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: units(1) units(2);
+
+    svg {
+      font-size: 12px;
+      color: color('base-darker');
     }
   }
 }

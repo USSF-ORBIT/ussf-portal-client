@@ -79,7 +79,7 @@ const LoginNotice = () => {
                   </p>
                   <LinkTo
                     href="/login"
-                    className="usa-button usa-button--big text-white text-no-underline">
+                    className="usa-button button-pill usa-button--big text-white text-no-underline">
                     I agree
                   </LinkTo>
                 </div>
