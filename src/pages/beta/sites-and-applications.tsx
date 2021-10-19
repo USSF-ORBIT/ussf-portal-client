@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { InferGetStaticPropsType } from 'next'
-import { Button, Grid } from '@trussworks/react-uswds'
+import { Button, Grid, Alert } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
@@ -35,15 +35,20 @@ const SitesAndApplications = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter()
   const { loading, error, data } = useCollectionsQuery()
+
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
   const [selectMode, setSelectMode] = useState<boolean>(
     router.query.selectMode == 'true' || false
   )
   const [selectedCollections, setSelectedCollections] =
     useState<SelectedCollections>([])
+
   const [handleAddCollections] = useAddCollectionsMutation()
   const [handleAddCollection] = useAddCollectionMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
+
+  // TODO - move flash to context, reset on a timeout and/or unmount?
+  const [flashAlert, setFlashAlert] = useState<React.ReactNode>(null)
 
   useEffect(() => {
     if (router.query.selectMode == 'true') {
@@ -107,6 +112,15 @@ const SitesAndApplications = ({
           ...bookmark,
         },
       })
+
+      const collection = data?.collections.find((c) => c.id === collectionId)
+
+      setFlashAlert(
+        <Alert type="success" slim>
+          You have successfully added “{bookmark.label}” to the “
+          {collection?.title}” section.
+        </Alert>
+      )
     } else {
       handleAddCollection({
         variables: {
@@ -142,11 +156,14 @@ const SitesAndApplications = ({
       </div>
 
       {sortBy === 'SORT_ALPHA' && (
-        <BookmarkList
-          bookmarks={bookmarks}
-          userCollectionOptions={data?.collections}
-          handleAddToCollection={handleAddToCollection}
-        />
+        <div className={styles.widgetContainer}>
+          {flashAlert}
+          <BookmarkList
+            bookmarks={bookmarks}
+            userCollectionOptions={data?.collections}
+            handleAddToCollection={handleAddToCollection}
+          />
+        </div>
       )}
 
       {sortBy === 'SORT_TYPE' && (

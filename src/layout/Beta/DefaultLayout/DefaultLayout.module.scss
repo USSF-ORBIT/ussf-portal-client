@@ -16,10 +16,15 @@
     flex: 1;
     margin-bottom: units(7);
 
-    // Reset MVP styles
+    // Reset MVP type styles
     h2 {
       text-transform: none;
       letter-spacing: normal;
+    }
+
+    p,
+    .usa-prose ul {
+      color: color('ink');
     }
   }
 }
