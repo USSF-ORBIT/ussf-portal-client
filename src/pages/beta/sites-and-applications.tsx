@@ -11,6 +11,7 @@ import type {
   BookmarkRecords,
   CollectionRecords,
   Collection as CollectionType,
+  Bookmark as BookmarkType,
 } from 'types/index'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 import Collection from 'components/Collection/Collection'
@@ -19,6 +20,8 @@ import BookmarkList from 'components/BookmarkList/BookmarkList'
 import SelectableCollection from 'components/SelectableCollection/SelectableCollection'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
+import { useAddBookmarkMutation } from 'operations/mutations/addBookmark' // TODO
+import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
@@ -36,6 +39,7 @@ const SitesAndApplications = ({
   const [selectedCollections, setSelectedCollections] =
     useState<SelectedCollections>([])
   const [handleAddCollections] = useAddCollectionsMutation()
+  const [handleAddCollection] = useAddCollectionMutation()
 
   useEffect(() => {
     if (router.query.selectMode == 'true') {
@@ -85,6 +89,17 @@ const SitesAndApplications = ({
     router.push('/')
   }
 
+  const handleAddToNewCollection = (bookmark: BookmarkType) => {
+    handleAddCollection({
+      variables: {
+        title: '',
+        bookmarks: [bookmark],
+      },
+    })
+
+    router.push('/')
+  }
+
   return (
     <>
       <h2 className={styles.pageTitle}>Sites &amp; Applications</h2>
@@ -107,7 +122,12 @@ const SitesAndApplications = ({
         </button>
       </div>
 
-      {sortBy === 'SORT_ALPHA' && <BookmarkList bookmarks={bookmarks} />}
+      {sortBy === 'SORT_ALPHA' && (
+        <BookmarkList
+          bookmarks={bookmarks}
+          handleAddToNewCollection={handleAddToNewCollection}
+        />
+      )}
 
       {sortBy === 'SORT_TYPE' && (
         <div className={widgetClasses}>

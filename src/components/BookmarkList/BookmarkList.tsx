@@ -11,7 +11,16 @@ import LinkTo from 'components/util/LinkTo/LinkTo'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
-const BookmarkListRow = ({ id, url, label, description }: Bookmark) => {
+type BookmarkListRowProps = {
+  bookmark: Bookmark
+  handleAddToNewCollection: () => void
+}
+
+const BookmarkListRow = ({
+  bookmark,
+  handleAddToNewCollection,
+}: BookmarkListRowProps) => {
+  const { id, url, label, description } = bookmark
   const dropdownEl = useRef<HTMLDivElement>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
     dropdownEl,
@@ -45,14 +54,24 @@ const BookmarkListRow = ({ id, url, label, description }: Bookmark) => {
           }
           isActive={isDropdownOpen}
           dropdownRef={dropdownEl}>
-          <Button type="button">Add to new collection</Button>
+          <Button type="button" onClick={handleAddToNewCollection}>
+            Add to new collection
+          </Button>
         </DropdownMenu>
       </td>
     </tr>
   )
 }
 
-const BookmarkList = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
+type BookmarkListProps = {
+  bookmarks: BookmarkRecords
+  handleAddToNewCollection: (b: Bookmark) => void
+}
+
+const BookmarkList = ({
+  bookmarks,
+  handleAddToNewCollection,
+}: BookmarkListProps) => {
   const filterInvalidBookmarks = (b: Partial<Bookmark>): b is Bookmark =>
     !(b.id === undefined || b.url === undefined)
 
@@ -67,7 +86,13 @@ const BookmarkList = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
       </thead>
       <tbody>
         {bookmarks.filter(filterInvalidBookmarks).map((b) => (
-          <BookmarkListRow key={`bookmark_${b.id}`} {...b} />
+          <BookmarkListRow
+            key={`bookmark_${b.id}`}
+            bookmark={b}
+            handleAddToNewCollection={() => {
+              handleAddToNewCollection(b)
+            }}
+          />
         ))}
       </tbody>
     </Table>
