@@ -61,7 +61,7 @@ const BookmarkListRow = ({
         </LinkTo>
       </th>
       <td>{description}</td>
-      <td>
+      <td className="text-right">
         <DropdownMenu
           toggleEl={
             <Button unstyled type="button" onClick={menuOnClick}>

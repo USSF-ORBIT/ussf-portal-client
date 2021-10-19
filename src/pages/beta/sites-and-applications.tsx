@@ -155,15 +155,14 @@ const SitesAndApplications = ({
         </button>
       </div>
 
+      {flashAlert && <div className={styles.flash}>{flashAlert}</div>}
+
       {sortBy === 'SORT_ALPHA' && (
-        <div className={styles.widgetContainer}>
-          {flashAlert}
-          <BookmarkList
-            bookmarks={bookmarks}
-            userCollectionOptions={data?.collections}
-            handleAddToCollection={handleAddToCollection}
-          />
-        </div>
+        <BookmarkList
+          bookmarks={bookmarks}
+          userCollectionOptions={data?.collections}
+          handleAddToCollection={handleAddToCollection}
+        />
       )}
 
       {sortBy === 'SORT_TYPE' && (

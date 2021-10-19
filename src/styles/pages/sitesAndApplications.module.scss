@@ -15,7 +15,12 @@
   display: flex;
 }
 
-.toolbar + .widgetContainer {
+.toolbar + .widgetContainer,
+.toolbar + .flash {
+  margin-top: units(4);
+}
+
+.flash + .widgetContainer {
   margin-top: units(4);
 }
 
