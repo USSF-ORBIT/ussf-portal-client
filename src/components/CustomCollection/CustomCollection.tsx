@@ -135,8 +135,8 @@ const CustomCollection = ({
       <EditableCollectionTitle
         collectionId={id}
         text={title}
-        placeholder="Untitled"
         onSave={handleEditCollection}
+        onDelete={handleRemoveCollection}
       />
 
       <DropdownMenu

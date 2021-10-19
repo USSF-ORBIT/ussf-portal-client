@@ -6,14 +6,14 @@ import styles from './CustomCollection.module.scss'
 type PropTypes = {
   collectionId: string
   text: string
-  placeholder: string
   onSave: (s: string) => void
+  onDelete: () => void
 }
 export const EditableCollectionTitle = ({
   collectionId,
   text,
-  placeholder,
   onSave,
+  onDelete,
 }: PropTypes) => {
   const [isEditing, setEditing] = useState(text === '')
   const [currentText, setCurrentText] = useState(text)
@@ -42,6 +42,13 @@ export const EditableCollectionTitle = ({
     if (currentText.length) {
       setEditing(!isEditing)
       onSave(currentText)
+    } else if (text.length) {
+      // Revert to previous value
+      setCurrentText(text)
+      setEditing(false)
+    } else {
+      // No value, delete the collection
+      onDelete()
     }
   }
 
@@ -75,7 +82,7 @@ export const EditableCollectionTitle = ({
           onClick={() => setEditing(true)}
           onKeyDown={(e) => handleKeyDown(e)}
           aria-label="Edit collection title">
-          {currentText || placeholder}
+          {currentText}
         </h3>
       )}
     </>

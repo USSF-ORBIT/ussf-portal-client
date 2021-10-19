@@ -53,8 +53,4 @@ textarea.h3 {
     font-style: italic;
     color: color('base-light');
   }
-
-  &:focus::placeholder {
-    color: transparent;
-  }
 }
