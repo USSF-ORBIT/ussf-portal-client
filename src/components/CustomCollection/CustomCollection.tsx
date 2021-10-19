@@ -3,15 +3,17 @@ import {
   Button,
   Form,
   Label,
-  TextInput,
   ModalRef,
+  ComboBox,
+  ComboBoxOption,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
 import styles from './CustomCollection.module.scss'
+
 import Collection from 'components/Collection/Collection'
-import type { Bookmark as BookmarkType } from 'types/index'
+import type { Bookmark as BookmarkType, BookmarkRecords } from 'types/index'
 import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
@@ -20,6 +22,7 @@ import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 type PropTypes = {
   title: string
   bookmarks: BookmarkType[]
+  bookmarkOptions?: BookmarkRecords
   handleRemoveBookmark: (id: string) => void
   handleAddBookmark: (url: string, label?: string) => void
   handleRemoveCollection: () => void
@@ -29,6 +32,7 @@ type PropTypes = {
 const CustomCollection = ({
   title,
   bookmarks,
+  bookmarkOptions = [],
   handleRemoveBookmark,
   handleAddBookmark,
   handleRemoveCollection,
@@ -45,22 +49,61 @@ const CustomCollection = ({
     addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
+  const selectedExistingLink = (value: string) =>
+    bookmarkOptions.find((i) => i.id === value)
+
   const handleSubmitAdd = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const data = new FormData(event.currentTarget)
-    const url = `${data.get('bookmarkUrl')}`
-    urlInputValue.current = url
+    const existingLink = selectedExistingLink(urlInputValue.current)
 
-    addCustomLinkModal.current?.toggleModal(undefined, true)
+    if (existingLink) {
+      // Adding an existing link
+      // TODO - ensure there is a URL value
+      handleAddBookmark(existingLink.url || '', existingLink.label)
+      urlInputValue.current = ''
+      setIsAdding(false)
+    } else {
+      // TODO - validate URl here
+      // Adding a custom link
+      addCustomLinkModal.current?.toggleModal(undefined, true)
+    }
   }
 
   const handleSaveBookmark = (label: string) => {
+    // TODO - ensure there is a URL value
     handleAddBookmark(urlInputValue.current, label)
     urlInputValue.current = ''
-
     setIsAdding(false)
     addCustomLinkModal.current?.toggleModal(undefined, false)
+  }
+
+  const urlOptions = bookmarkOptions
+    .filter((b) => !!b.url)
+    .map(
+      (b) =>
+        ({
+          value: b.id,
+          label: b.label || b.url,
+        } as ComboBoxOption)
+    )
+
+  const handleSelectChange = (value: string | undefined) => {
+    urlInputValue.current = value || ''
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+
+    if (value) {
+      if (urlOptions.length === bookmarkOptions.length) {
+        // Add new option to end of list
+        urlOptions.push({ value, label: value })
+      } else {
+        // Rewrite the new option
+        urlOptions[urlOptions.length - 1] = { value, label: value }
+      }
+    }
   }
 
   const addLinkForm = (
@@ -70,12 +113,18 @@ const CustomCollection = ({
           <Label htmlFor="bookmarkUrl" className="usa-sr-only">
             URL
           </Label>
-          <TextInput
-            type="url"
+
+          <ComboBox
             id="bookmarkUrl"
             name="bookmarkUrl"
-            placeholder="Type or paste link..."
-            required
+            options={urlOptions}
+            onChange={handleSelectChange}
+            inputProps={{
+              required: true,
+              // type: 'url', // TODO - handle conditional validation
+              onChange: handleInputChange,
+              placeholder: 'Type or paste link...',
+            }}
           />
           <Button type="submit">Add site</Button>
         </Form>

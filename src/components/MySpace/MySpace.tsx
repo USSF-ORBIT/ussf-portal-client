@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 
 import styles from './MySpace.module.scss'
 
+import type { BookmarkRecords } from 'types/index'
 import CustomCollection from 'components/CustomCollection/CustomCollection'
 import AddWidget from 'components/AddWidget/AddWidget'
 import { useCollectionsQuery } from 'operations/queries/getCollections'
@@ -12,7 +13,7 @@ import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useRemoveCollectionMutation } from 'operations/mutations/removeCollection'
 import { useEditCollectionMutation } from 'operations/mutations/editCollection'
 
-const MySpace = () => {
+const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const router = useRouter()
   const { loading, error, data } = useCollectionsQuery()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
@@ -37,6 +38,7 @@ const MySpace = () => {
                 <CustomCollection
                   title={collection.title}
                   bookmarks={collection.bookmarks}
+                  bookmarkOptions={bookmarks}
                   handleRemoveCollection={() => {
                     handleRemoveCollection({
                       variables: {
