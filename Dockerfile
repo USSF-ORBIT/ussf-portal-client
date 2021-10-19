@@ -20,7 +20,7 @@ COPY --from=deps /app/node_modules ./node_modules
 RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
 
 # Production image, copy all the files and run next
-FROM gcr.io/distroless/nodejs:14 AS runner
+FROM node:14.18.1-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
@@ -39,4 +39,4 @@ EXPOSE 3000
 # Uncomment the following line in case you want to disable telemetry.
 ENV NEXT_TELEMETRY_DISABLED 1
 
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
