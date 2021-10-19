@@ -279,6 +279,7 @@ describe('CustomCollection component', () => {
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={mockAddLink}
         handleRemoveCollection={jest.fn()}
+        handleEditCollection={jest.fn()}
       />
     )
 
