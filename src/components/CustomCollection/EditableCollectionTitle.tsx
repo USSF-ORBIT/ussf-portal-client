@@ -32,8 +32,8 @@ export const EditableCollectionTitle = ({
   }
 
   const handleOnBlur = () => {
-    setEditing(!isEditing)
-    onSave(currentText)
+    // setEditing(!isEditing)
+    // onSave(currentText)
   }
 
   return (
@@ -45,7 +45,7 @@ export const EditableCollectionTitle = ({
           type="text"
           name="title"
           maxLength={200}
-          className={styles.h3}
+          className={styles.collectionTitle}
           value={currentText}
           placeholder={'Add a title for this collection'}
           onKeyDown={(e) => handleKeyDown(e)}
@@ -56,7 +56,7 @@ export const EditableCollectionTitle = ({
         <h3
           tabIndex={0}
           role="button"
-          className={styles.h3}
+          className={` ${styles.collectionTitle}`}
           onClick={() => setEditing(true)}
           onKeyDown={(e) => handleKeyDown(e)}>
           {currentText || placeholder}

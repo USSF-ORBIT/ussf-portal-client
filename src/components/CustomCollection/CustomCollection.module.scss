@@ -30,7 +30,7 @@ button.collectionSettingsDropdown {
   cursor: pointer;
 }
 
-h3.h3 {
+h3.collectionTitle {
   font-size: font-size('heading', 7);
   line-height: lh('heading', 2);
   @include u-padding(1);
@@ -39,7 +39,7 @@ h3.h3 {
   flex-grow: 1;
 }
 
-input[type='text'].h3 {
+input[type='text'].collectionTitle {
   font-size: font-size('heading', 7);
   line-height: lh('heading', 2);
   margin: 0;
