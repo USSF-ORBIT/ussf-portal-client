@@ -32,8 +32,8 @@ export const EditableCollectionTitle = ({
   }
 
   const handleOnBlur = () => {
-    // setEditing(!isEditing)
-    // onSave(currentText)
+    setEditing(!isEditing)
+    onSave(currentText)
   }
 
   return (
