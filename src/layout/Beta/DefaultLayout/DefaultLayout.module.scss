@@ -37,3 +37,29 @@
     margin-top: units(4);
   }
 }
+
+.defaultTheme {
+    h1 {
+        font: 400 42px "Trebuchet", sans-serif;
+    }
+    
+    h2 {
+        font: 400 32px "Trebuchet", sans-serif;
+    }
+    
+    h3 {
+        font: 400 22px "Trebuchet", sans-serif;
+    }
+    
+    h4 {
+        font: 400 16px "Trebuchet", sans-serif;
+    }
+    
+    h5 {
+        font: 400 15px "Trebuchet", sans-serif;
+    }
+    
+    h6 {
+        font: 400 13px "Trebuchet", sans-serif;
+    }
+}
