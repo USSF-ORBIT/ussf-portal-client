@@ -11,6 +11,8 @@
   h3 {
     margin: 0;
     font-weight: normal;
+    font-size: font-size('heading', 'lg');
+    line-height: lh('heading', 2);
   }
 
   .header + ol {

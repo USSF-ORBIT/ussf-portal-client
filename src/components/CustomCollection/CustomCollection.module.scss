@@ -31,16 +31,30 @@ button.collectionSettingsDropdown {
 }
 
 h3.h3 {
-  font-size: font-size('heading', 7);
+  font-size: font-size('heading', 'lg');
   line-height: lh('heading', 2);
-  @include u-padding(1);
-  @include u-margin-left(-1);
-  border: 2px transparent solid;
   flex-grow: 1;
 }
 
-input[type='text'].h3 {
-  font-size: font-size('heading', 7);
+textarea.h3 {
+  font-size: font-size('heading', 'lg');
   line-height: lh('heading', 2);
+  flex-grow: 1;
+  height: auto;
   margin: 0;
+  border: 0;
+  padding: 0;
+  resize: none;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  outline-offset: 4px;
+
+  &::placeholder {
+    font-style: italic;
+    color: color('base-light');
+  }
+
+  &:focus::placeholder {
+    color: transparent;
+  }
 }

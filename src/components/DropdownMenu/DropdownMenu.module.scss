@@ -42,7 +42,7 @@
   }
 
   @include at-media('tablet') {
-    min-width: 255px;
     width: auto;
+    white-space: nowrap;
   }
 }

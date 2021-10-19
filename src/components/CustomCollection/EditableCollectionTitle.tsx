@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { TextInput } from '@trussworks/react-uswds'
+import { Textarea } from '@trussworks/react-uswds'
 
 import styles from './CustomCollection.module.scss'
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
@@ -17,7 +17,7 @@ export const EditableCollectionTitle = ({
 }: PropTypes) => {
   const [isEditing, setEditing] = useState(text === '')
   const [currentText, setCurrentText] = useState(text)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     if (isEditing) {
@@ -30,14 +30,19 @@ export const EditableCollectionTitle = ({
     const keys = ['Escape', 'Enter', 'Tab']
 
     if (keys.includes(key)) {
-      setEditing(!isEditing)
-      onSave(currentText)
+      if (isEditing && currentText.length) {
+        inputRef?.current?.blur()
+      } else if (!isEditing && key === 'Enter') {
+        setEditing(true)
+      }
     }
   }
 
   const handleOnBlur = () => {
-    setEditing(!isEditing)
-    onSave(currentText)
+    if (currentText.length) {
+      setEditing(!isEditing)
+      onSave(currentText)
+    }
   }
 
   const inputId = `collectionTitle_${collectionId}`
@@ -49,15 +54,14 @@ export const EditableCollectionTitle = ({
           <label htmlFor={inputId} className="sr-only">
             Collection Title
           </label>
-          <TextInput
+          <Textarea
             inputRef={inputRef}
             id={inputId}
-            type="text"
             name="title"
             maxLength={200}
             className={styles.h3}
             value={currentText}
-            placeholder={'Add a title for this collection'}
+            placeholder="Add a title for this collection"
             onKeyDown={(e) => handleKeyDown(e)}
             onChange={(e) => setCurrentText(e.target.value)}
             onBlur={handleOnBlur}
