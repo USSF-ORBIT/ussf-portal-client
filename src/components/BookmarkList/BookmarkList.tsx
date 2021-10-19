@@ -6,6 +6,8 @@ import {
   IconExpandMore,
 } from '@trussworks/react-uswds'
 
+import styles from './BookmarkList.module.scss'
+
 import type { Bookmark, BookmarkRecords, CollectionRecords } from 'types'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
@@ -33,28 +35,18 @@ const BookmarkListRow = ({
     setIsDropdownOpen((state) => !state)
   }
 
-  const collectionOptions = [
-    ...userCollectionOptions.map((collection) => (
+  const collectionOptions = userCollectionOptions.map((collection) => (
+    <li key={`addToCollection_${collection.id}`}>
       <Button
         type="button"
-        key={`addToCollection_${collection.id}`}
         onClick={() => {
           handleAddToCollection(bookmark, collection.id)
           setIsDropdownOpen(false)
         }}>
         {collection.title || 'Untitled Collection'}
       </Button>
-    )),
-    <Button
-      type="button"
-      key={`addToCollection_new`}
-      onClick={() => {
-        handleAddToCollection(bookmark)
-        setIsDropdownOpen(false)
-      }}>
-      Add to new collection
-    </Button>,
-  ]
+    </li>
+  ))
 
   return (
     <tr key={`bookmark_${id}`}>
@@ -79,7 +71,15 @@ const BookmarkListRow = ({
           }
           isActive={isDropdownOpen}
           dropdownRef={dropdownEl}>
-          {collectionOptions}
+          <ol className={styles.collectionOptions}>{collectionOptions}</ol>
+          <Button
+            type="button"
+            onClick={() => {
+              handleAddToCollection(bookmark)
+              setIsDropdownOpen(false)
+            }}>
+            Add to new collection
+          </Button>
         </DropdownMenu>
       </td>
     </tr>
