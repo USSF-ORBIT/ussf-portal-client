@@ -82,8 +82,7 @@ describe('Beta Home page', () => {
       })
     )
     expect(
-      await screen.findByRole('heading', {
-        level: 3,
+      await screen.findByRole('button', {
         name: 'Example Collection',
       })
     )
