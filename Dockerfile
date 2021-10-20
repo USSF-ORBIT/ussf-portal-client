@@ -1,62 +1,48 @@
-# Inspired by https://github.com/kachar/yadi
+# Install dependencies only when needed
+FROM node:14.18.1-alpine AS deps
 
-# Build target base #
-#####################
-FROM node:14.18.1-alpine AS base
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+
+WORKDIR /app
+# COPY package.json yarn.lock ./
+
+# We need to copy everything as long as we're using embedded Keystone
+COPY . .
+
+RUN yarn install --frozen-lockfile
+
+# Build source code
+FROM node:14.18.1-alpine AS builder
+WORKDIR /app
+COPY . .
+COPY --from=deps /app/node_modules ./node_modules
+RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
+
+# Production image, copy all the files and run next
+FROM node:14.18.1-alpine AS runner
 
 WORKDIR /app
 
-# Default NODE_ENV to production
-ARG NODE_ENV=production
-ARG NEXT_PUBLIC_SITE_URL
+ENV NODE_ENV production
 
-ENV PATH=/app/node_modules/.bin:$PATH \
-  NODE_ENV="$NODE_ENV" \
-  NEXT_PUBLIC_SITE_URL="$NEXT_PUBLIC_SITE_URL"
-ENV NEXT_TELEMETRY_DISABLED=1
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
 
-COPY package.json yarn.lock /app/
-COPY scripts/copy_uswds_assets.sh scripts/copy_uswds_assets.sh
+# You only need to copy next.config.js if you are NOT using the default configuration
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+
+USER nextjs
+
 EXPOSE 3000
 
-RUN echo "Building with NODE_ENV: ${NODE_ENV}"
-
-# Build target dependencies #
-#############################
-FROM base AS dependencies
-
-# Install prod deps
-RUN yarn install --production --frozen-lockfile && \
-  # Cache prod dependencies
-  cp -R node_modules /prod_node_modules && \
-  # Install dev dependencies
-  yarn install --frozen-lockfile --production=false
-
-# Build target development #
-############################
-FROM dependencies AS development
-
-COPY . /app
-
-CMD ["yarn", "dev"]
-
-# Build target builder #
-########################
-FROM base AS builder
-
-COPY --from=dependencies /app/node_modules /app/node_modules
-COPY . /app
-
-RUN yarn lint && \
-  yarn build && \
-  rm -rf node_modules
-
-# Build target production #
-###########################
-FROM base AS production
-
-COPY --from=builder /app/.next /app/.next
-COPY --from=builder /app/public /app/public
-COPY --from=dependencies /prod_node_modules /app/node_modules
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line in case you want to disable telemetry.
+ENV NEXT_TELEMETRY_DISABLED 1
 
 CMD ["yarn", "start"]
