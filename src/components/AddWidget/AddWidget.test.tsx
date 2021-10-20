@@ -75,6 +75,11 @@ describe('AddWidget component', () => {
     )
 
     expect(mockHandleSelect).toHaveBeenCalled()
+    expect(
+      screen.queryByRole('button', {
+        name: 'Select collection from template',
+      })
+    ).not.toBeInTheDocument()
   })
 
   it('handles the create collection button', () => {
@@ -100,5 +105,8 @@ describe('AddWidget component', () => {
     )
 
     expect(mockHandleCreate).toHaveBeenCalled()
+    expect(
+      screen.queryByRole('button', { name: 'Create new collection' })
+    ).not.toBeInTheDocument()
   })
 })

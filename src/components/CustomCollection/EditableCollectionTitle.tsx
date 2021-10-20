@@ -30,9 +30,9 @@ export const EditableCollectionTitle = ({
     const keys = ['Escape', 'Enter', 'Tab']
 
     if (keys.includes(key)) {
-      if (isEditing && currentText.length) {
+      if (isEditing) {
         inputRef?.current?.blur()
-      } else if (!isEditing && key === 'Enter') {
+      } else if (key === 'Enter') {
         setEditing(true)
       }
     }
