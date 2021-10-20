@@ -1,19 +1,33 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
+import { v4 } from 'uuid'
+
+import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
 import SitesAndApplications, {
   getStaticProps,
 } from 'pages/beta/sites-and-applications'
 
 const mockAddCollections = jest.fn()
+const mockAddCollection = jest.fn()
+const mockAddBookmark = jest.fn()
+const mockPush = jest.fn()
 
 jest.mock('operations/mutations/addCollections', () => ({
   useAddCollectionsMutation: () => [mockAddCollections],
+}))
+
+jest.mock('operations/mutations/addCollection', () => ({
+  useAddCollectionMutation: () => [mockAddCollection],
+}))
+
+jest.mock('operations/mutations/addBookmark', () => ({
+  useAddBookmarkMutation: () => [mockAddBookmark],
 }))
 
 jest.mock('next/router', () => ({
@@ -22,11 +36,19 @@ jest.mock('next/router', () => ({
     pathname: '',
     query: '',
     asPath: '',
-    push: jest.fn(),
+    push: jest.fn(), // mockPush,
   }),
 }))
 
 const mockedUseRouter = useRouter as jest.Mock
+
+mockedUseRouter.mockReturnValue({
+  route: '',
+  pathname: '',
+  query: '',
+  asPath: '',
+  push: mockPush,
+})
 
 const mockBookmarks = [
   {
@@ -71,11 +93,50 @@ const mockCollections = [
   },
 ]
 
+const mocks = [
+  {
+    request: {
+      query: GET_COLLECTIONS,
+    },
+    result: {
+      data: {
+        collections: [
+          {
+            id: v4(),
+            title: 'Example Collection',
+            bookmarks: [
+              {
+                id: v4(),
+                url: 'https://google.com',
+                label: 'Webmail',
+                description: 'Lorem ipsum',
+              },
+              {
+                id: v4(),
+                url: 'https://mypay.dfas.mil/#/',
+                label: 'MyPay',
+                description: 'Lorem ipsum',
+              },
+              {
+                id: v4(),
+                url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+                label: 'vMPF',
+                description: 'Lorem ipsum',
+              },
+            ],
+          },
+        ],
+      },
+    },
+  },
+]
+
 describe('Sites and Applications page', () => {
   describe('default state', () => {
     beforeEach(() => {
+      jest.useFakeTimers()
       render(
-        <MockedProvider>
+        <MockedProvider mocks={mocks}>
           <SitesAndApplications
             collections={mockCollections}
             bookmarks={mockBookmarks}
@@ -84,14 +145,18 @@ describe('Sites and Applications page', () => {
       )
     })
 
-    it('renders Sites & Applications content', () => {
+    it('renders the loading state', () => {
+      expect(screen.getByText('Loading...')).toBeInTheDocument()
+    })
+
+    it('renders Sites & Applications content', async () => {
       expect(
-        screen.getByRole('heading', { name: 'Sites & Applications' })
+        await screen.findByRole('heading', { name: 'Sites & Applications' })
       ).toBeInTheDocument()
     })
 
-    it('sorts by type by default', () => {
-      const collections = screen.getAllByRole('heading', { level: 3 })
+    it('sorts by type by default', async () => {
+      const collections = await screen.findAllByRole('heading', { level: 3 })
       expect(collections).toHaveLength(mockCollections.length)
       collections.forEach((c, i) => {
         // eslint-disable-next-line security/detect-object-injection
@@ -99,8 +164,8 @@ describe('Sites and Applications page', () => {
       })
     })
 
-    it('can toggle sort type', () => {
-      const sortAlphaBtn = screen.getByRole('button', {
+    it('can toggle sort type', async () => {
+      const sortAlphaBtn = await screen.findByRole('button', {
         name: 'Sort alphabetically',
       })
 
@@ -124,6 +189,12 @@ describe('Sites and Applications page', () => {
     })
 
     describe('selecting collections', () => {
+      beforeEach(async () => {
+        await screen.findByRole('button', {
+          name: 'Select multiple collections',
+        })
+      })
+
       it('can enter select mode', () => {
         const selectBtn = screen.getByRole('button', {
           name: 'Select multiple collections',
@@ -259,9 +330,65 @@ describe('Sites and Applications page', () => {
         expect(screen.getByText('0 collections selected')).toBeInTheDocument()
       })
     })
+
+    describe('selecting bookmarks', () => {
+      beforeEach(async () => {
+        userEvent.click(
+          await screen.findByRole('button', {
+            name: 'Sort alphabetically',
+          })
+        )
+      })
+
+      it('can add a bookmark to an existing collection', () => {
+        userEvent.click(
+          screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+        )
+        userEvent.click(
+          screen.getByRole('button', { name: 'Example Collection' })
+        )
+
+        expect(mockAddBookmark).toHaveBeenCalledWith({
+          variables: {
+            collectionId: mocks[0].result.data.collections[0].id,
+            ...mockBookmarks[0],
+          },
+        })
+
+        const flashMessage = screen.getByRole('alert')
+
+        expect(flashMessage).toHaveTextContent(
+          `You have successfully added “${mockBookmarks[0].label}” to the “${mocks[0].result.data.collections[0].title}” section.`
+        )
+
+        act(() => {
+          jest.runAllTimers()
+        })
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      it('can add a bookmark to a new collection', () => {
+        userEvent.click(
+          screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+        )
+        userEvent.click(
+          screen.getByRole('button', { name: 'Add to new collection' })
+        )
+
+        expect(mockAddCollection).toHaveBeenCalledWith({
+          variables: {
+            title: '',
+            bookmarks: [mockBookmarks[0]],
+          },
+        })
+
+        expect(mockPush).toHaveBeenCalledWith('/')
+      })
+    })
   })
 
-  it('enters select mode by default if a query param is specified', () => {
+  it('enters select mode by default if a query param is specified', async () => {
     mockedUseRouter.mockReturnValueOnce({
       route: '',
       pathname: '/',
@@ -270,13 +397,17 @@ describe('Sites and Applications page', () => {
     })
 
     render(
-      <MockedProvider>
+      <MockedProvider mocks={mocks}>
         <SitesAndApplications
           collections={mockCollections}
           bookmarks={mockBookmarks}
         />
       </MockedProvider>
     )
+
+    expect(
+      await screen.findByText('0 collections selected')
+    ).toBeInTheDocument()
 
     expect(
       screen.queryByRole('button', {
@@ -286,7 +417,28 @@ describe('Sites and Applications page', () => {
 
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Add selected' })).toBeDisabled()
-    expect(screen.getByText('0 collections selected')).toBeInTheDocument()
+  })
+
+  it('shows an error state', async () => {
+    const errorMock = [
+      {
+        request: {
+          query: GET_COLLECTIONS,
+        },
+        error: new Error(),
+      },
+    ]
+
+    render(
+      <MockedProvider mocks={errorMock} addTypename={false}>
+        <SitesAndApplications
+          collections={mockCollections}
+          bookmarks={mockBookmarks}
+        />
+      </MockedProvider>
+    )
+
+    expect(await screen.findByText('Error')).toBeInTheDocument()
   })
 })
 

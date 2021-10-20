@@ -43,13 +43,11 @@ const SitesAndApplications = ({
   )
   const [selectedCollections, setSelectedCollections] =
     useState<SelectedCollections>([])
+  const [flash, setFlash] = useState<React.ReactNode>(null)
 
   const [handleAddCollections] = useAddCollectionsMutation()
   const [handleAddCollection] = useAddCollectionMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
-
-  // TODO - move flash to context, reset on a timeout and/or unmount?
-  const [flashAlert, setFlashAlert] = useState<React.ReactNode>(null)
 
   useEffect(() => {
     if (router.query.selectMode == 'true') {
@@ -116,8 +114,8 @@ const SitesAndApplications = ({
 
       const collection = data?.collections.find((c) => c.id === collectionId)
 
-      setFlashAlert(
-        <Alert type="success" slim>
+      setFlash(
+        <Alert type="success" slim role="alert">
           You have successfully added “{bookmark.label}” to the “
           {collection?.title}” section.
         </Alert>
@@ -156,9 +154,9 @@ const SitesAndApplications = ({
         </button>
       </div>
 
-      {flashAlert && (
+      {flash && (
         <div className={styles.flash}>
-          <Flash handleClear={() => setFlashAlert(null)}>{flashAlert}</Flash>
+          <Flash handleClear={() => setFlash(null)}>{flash}</Flash>
         </div>
       )}
 
