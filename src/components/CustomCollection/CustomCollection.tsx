@@ -8,7 +8,7 @@ import {
   ComboBoxOption,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
 import styles from './CustomCollection.module.scss'
 
@@ -26,6 +26,7 @@ type PropTypes = {
   handleRemoveBookmark: (id: string) => void
   handleAddBookmark: (url: string, label?: string) => void
   handleRemoveCollection: () => void
+  handleEditCollection: (title: string) => void
 }
 
 const CustomCollection = ({
@@ -35,6 +36,7 @@ const CustomCollection = ({
   handleRemoveBookmark,
   handleAddBookmark,
   handleRemoveCollection,
+  handleEditCollection,
 }: PropTypes) => {
   const [isAdding, setIsAdding] = useState<boolean>(false)
   const urlInputValue = useRef<string>('')
@@ -175,10 +177,14 @@ const CustomCollection = ({
     </>
   )
 
-  // Component and modal for Settings to pass as
-  // Custom Collection header
-  const customCollectionSettings = (
+  const customCollectionHeader = (
     <>
+      <EditableCollectionTitle
+        text={title}
+        placeholder={'Add a title for this collection'}
+        onSave={handleEditCollection}
+      />
+
       <DropdownMenu
         toggleEl={
           <button
@@ -203,10 +209,7 @@ const CustomCollection = ({
 
   return (
     <>
-      <Collection
-        title={title}
-        header={customCollectionSettings}
-        footer={addLinkForm}>
+      <Collection header={customCollectionHeader} footer={addLinkForm}>
         {bookmarks.map((bookmark: BookmarkType) => (
           <RemovableBookmark
             key={`bookmark_${bookmark.id}`}

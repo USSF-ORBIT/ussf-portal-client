@@ -6,6 +6,7 @@ type StorybookArgTypes = {
   handleAddBookmark: () => void
   handleRemoveBookmark: () => void
   handleRemoveCollection: () => void
+  handleEditCollection: () => void
 }
 
 export default {
@@ -15,6 +16,7 @@ export default {
     handleAddBookmark: { action: 'Add bookmark' },
     handleRemoveBookmark: { action: 'Remove bookmark' },
     handleRemoveCollection: { action: 'Remove collection' },
+    handleEditCollection: { action: 'Edit collection' },
   },
 } as Meta
 
@@ -25,5 +27,6 @@ export const ExampleCustomCollection = (argTypes: StorybookArgTypes) => (
     handleAddBookmark={argTypes.handleAddBookmark}
     handleRemoveBookmark={argTypes.handleRemoveBookmark}
     handleRemoveCollection={argTypes.handleRemoveCollection}
+    handleEditCollection={argTypes.handleEditCollection}
   />
 )

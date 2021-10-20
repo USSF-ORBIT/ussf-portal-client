@@ -18,6 +18,7 @@ import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 const mockRouterPush = jest.fn()
 const mockAddBookmark = jest.fn()
 const mockRemoveBookmark = jest.fn()
+const mockEditCollection = jest.fn()
 const mockRemoveCollection = jest.fn()
 
 jest.mock('next/router', () => ({
@@ -32,6 +33,10 @@ jest.mock('operations/mutations/addBookmark', () => ({
 
 jest.mock('operations/mutations/removeBookmark', () => ({
   useRemoveBookmarkMutation: () => [mockRemoveBookmark],
+}))
+
+jest.mock('operations/mutations/editCollection', () => ({
+  useEditCollectionMutation: () => [mockEditCollection],
 }))
 
 jest.mock('operations/mutations/removeCollection', () => ({
@@ -105,7 +110,9 @@ describe('My Space Component', () => {
     })
 
     it('should render the collection', async () => {
-      const collection = await screen.findByRole('heading', { level: 3 })
+      const collection = await screen.findByRole('button', {
+        name: 'Example Collection',
+      })
       expect(collection).toHaveTextContent(
         mocks[0].result.data.collections[0].title
       )
@@ -247,6 +254,29 @@ describe('My Space Component', () => {
         collectionId: mocks[0].result.data.collections[0].id,
         url: 'http://www.example.com',
         label: 'My Custom Link',
+      },
+    })
+  })
+
+  it('handles the edit collection title operation', async () => {
+    render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
+      </MockedProvider>
+    )
+
+    const editTitleButton = await screen.findByRole('button', {
+      name: 'Example Collection',
+    })
+    userEvent.click(editTitleButton)
+    const input = screen.getByRole('textbox')
+    userEvent.clear(input)
+    userEvent.type(input, 'Updated Title{enter}')
+
+    expect(mockEditCollection).toHaveBeenCalledWith({
+      variables: {
+        id: mocks[0].result.data.collections[0].id,
+        title: 'Updated Title',
       },
     })
   })

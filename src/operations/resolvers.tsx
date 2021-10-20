@@ -63,6 +63,35 @@ export const localResolvers: Resolvers = {
       cache.writeQuery({ query: GET_COLLECTIONS, data })
       return newCollections
     },
+    editCollection: (_root, { id, title }, { cache, getCacheKey }) => {
+      const queryFragment = gql`
+        fragment UpdatedCollection on Collection {
+          id
+          title
+        }
+      `
+
+      const cacheId = getCacheKey({
+        __typename: 'Collection',
+        id: id,
+      })
+
+      cache.writeFragment({
+        id: cacheId,
+        fragment: queryFragment,
+        data: {
+          id,
+          title,
+        },
+      })
+
+      const updatedCollection = cache.readFragment({
+        id: cacheId,
+        fragment: queryFragment,
+      })
+
+      return updatedCollection
+    },
     removeCollection: (_root, { id }, { cache }) => {
       cache.modify({
         fields: {
