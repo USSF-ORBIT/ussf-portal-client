@@ -69,6 +69,71 @@ describe('Sites and Applications', () => {
     cy.contains('Medical & Dental').should('not.exist')
   })
 
+  it('can add links to a new collection from the Sites & Applications page', () => {
+    // Client-side navigate to the page
+    cy.contains('All sites & applications').click()
+
+    cy.url().should('eq', Cypress.config().baseUrl + '/sites-and-applications')
+    cy.contains('Sites & Applications')
+
+    // Toggle sorting
+    cy.contains('Career')
+    cy.contains('Sort alphabetically').click()
+
+    cy.contains('Move.mil')
+      .parent()
+      .parent()
+      .within(() => {
+        cy.findByRole('button', { name: 'Add to My Space Closed' }).click()
+        cy.contains('Add to new collection').click()
+      })
+
+    // Go back to My Space
+    cy.url().should('eq', Cypress.config().baseUrl + '/')
+
+    cy.findByLabelText('Collection Title').type('My New Collection{enter}')
+    cy.contains('My New Collection')
+      .parent()
+      .next()
+      .within(() => {
+        cy.contains('Move.mil')
+      })
+  })
+
+  it('can add links to an existing collection from the Sites & Applications page', () => {
+    // Client-side navigate to the page
+    cy.contains('All sites & applications').click()
+
+    cy.url().should('eq', Cypress.config().baseUrl + '/sites-and-applications')
+    cy.contains('Sites & Applications')
+
+    // Toggle sorting
+    cy.contains('Career')
+    cy.contains('Sort alphabetically').click()
+
+    cy.contains('Move.mil')
+      .parent()
+      .parent()
+      .within(() => {
+        cy.findByRole('button', { name: 'Add to My Space Closed' }).click()
+        cy.contains('Example Collection').click()
+      })
+
+    cy.contains(
+      'You have successfully added “Move.mil” to the “Example Collection” section.'
+    )
+
+    // Go back to My Space
+    cy.contains('My Space').click()
+
+    cy.contains('Example Collection')
+      .parent()
+      .next()
+      .within(() => {
+        cy.contains('Move.mil')
+      })
+  })
+
   it('can hide links from an existing collection', () => {
     cy.contains('My Space')
 
