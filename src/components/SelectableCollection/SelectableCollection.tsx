@@ -10,16 +10,16 @@ import type { Bookmark as BookmarkType } from 'types/index'
 
 type SelectableCollectionProps = {
   id: string
-  title: string
-  bookmarks: BookmarkType[]
+  title?: string
+  bookmarks?: BookmarkType[]
   onSelect: () => void
   isSelected: boolean
 }
 
 const SelectableCollection = ({
   id,
-  title,
-  bookmarks,
+  title = '',
+  bookmarks = [],
   onSelect,
   isSelected,
 }: SelectableCollectionProps) => {
