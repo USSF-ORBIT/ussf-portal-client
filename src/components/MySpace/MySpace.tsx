@@ -21,22 +21,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const [handleAddBookmark] = useAddBookmarkMutation()
   const [handleRemoveCollection] = useRemoveCollectionMutation()
   const [handleEditCollection] = useEditCollectionMutation()
-  const [handleAddCollection] = useAddCollectionMutation({
-    onCompleted: (data) => {
-      /*
-      console.log('added collection', data)
-      const { id } = data
-
-      const collectionTitleInput = document.querySelector(
-        `#collectionTitle_${id}`
-      ) as HTMLInputElement
-      if (collectionTitleInput) {
-        console.log('found input', collectionTitleInput)
-        collectionTitleInput.focus()
-      }
-      */
-    },
-  })
+  const [handleAddCollection] = useAddCollectionMutation()
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>

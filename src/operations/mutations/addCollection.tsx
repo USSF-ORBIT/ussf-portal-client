@@ -1,4 +1,4 @@
-import { gql, useMutation, MutationHookOptions } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
 import type { Bookmark } from 'types'
 
 interface AddCollectionResponse {
@@ -18,11 +18,6 @@ export const ADD_COLLECTION = gql`
   }
 `
 
-export function useAddCollectionMutation(
-  options?: MutationHookOptions<AddCollectionResponse, AddCollectionInput>
-) {
-  return useMutation<AddCollectionResponse, AddCollectionInput>(
-    ADD_COLLECTION,
-    options
-  )
+export function useAddCollectionMutation() {
+  return useMutation<AddCollectionResponse, AddCollectionInput>(ADD_COLLECTION)
 }

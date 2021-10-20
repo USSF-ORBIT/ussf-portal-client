@@ -22,7 +22,7 @@ import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 type PropTypes = {
   id: string
   title?: string
-  bookmarks: BookmarkType[]
+  bookmarks?: BookmarkType[]
   bookmarkOptions?: BookmarkRecords
   handleRemoveBookmark: (id: string) => void
   handleAddBookmark: (url: string, label?: string) => void
