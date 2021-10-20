@@ -14,6 +14,7 @@ import type {
   Bookmark as BookmarkType,
 } from 'types/index'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
+import Flash from 'components/util/Flash/Flash'
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 import BookmarkList from 'components/BookmarkList/BookmarkList'
@@ -155,7 +156,11 @@ const SitesAndApplications = ({
         </button>
       </div>
 
-      {flashAlert && <div className={styles.flash}>{flashAlert}</div>}
+      {flashAlert && (
+        <div className={styles.flash}>
+          <Flash handleClear={() => setFlashAlert(null)}>{flashAlert}</Flash>
+        </div>
+      )}
 
       {sortBy === 'SORT_ALPHA' && (
         <BookmarkList

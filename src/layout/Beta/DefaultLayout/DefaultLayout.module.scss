@@ -23,7 +23,7 @@
     }
 
     p,
-    .usa-prose ul {
+    :global(.usa-prose) ul {
       color: color('ink');
     }
   }
