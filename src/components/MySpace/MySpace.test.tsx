@@ -116,8 +116,9 @@ describe('My Space Component', () => {
 
     it('should render the collection', async () => {
       const collection = await screen.findByRole('button', {
-        name: 'Example Collection',
+        name: 'Edit collection title',
       })
+
       expect(collection).toHaveTextContent(
         mocks[0].result.data.collections[0].title
       )
@@ -271,7 +272,7 @@ describe('My Space Component', () => {
     )
 
     const editTitleButton = await screen.findByRole('button', {
-      name: 'Example Collection',
+      name: 'Edit collection title',
     })
     userEvent.click(editTitleButton)
     const input = screen.getByRole('textbox')

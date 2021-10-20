@@ -68,8 +68,8 @@ describe('CustomCollection component', () => {
     )
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(
-      screen.getByRole('button', { name: exampleCollection.title })
-    ).toBeInTheDocument()
+      screen.getByRole('button', { name: 'Edit collection title' })
+    ).toHaveTextContent(exampleCollection.title)
     expect(screen.getAllByRole('listitem')).toHaveLength(
       exampleCollection.bookmarks.length
     )
@@ -459,7 +459,7 @@ describe('CustomCollection component', () => {
 
     // Click outside menu
     const outsideEl = screen.getByRole('button', {
-      name: 'Example Collection',
+      name: 'Edit collection title',
     })
     userEvent.click(outsideEl)
 
@@ -498,5 +498,55 @@ describe('CustomCollection component', () => {
 
     // Confirm the menu has been closed
     expect(deleteCollection).not.toBeInTheDocument()
+  })
+
+  describe('an empty collection', () => {
+    it('renders a focused input for the title', () => {
+      render(
+        <CustomCollection
+          id="testCollection"
+          handleRemoveBookmark={jest.fn()}
+          handleAddBookmark={jest.fn()}
+          handleRemoveCollection={jest.fn()}
+          handleEditCollection={jest.fn()}
+        />
+      )
+
+      expect(screen.getByRole('textbox')).toHaveFocus()
+    })
+
+    it('can enter a title', () => {
+      const mockEditCollection = jest.fn()
+
+      render(
+        <CustomCollection
+          id="testCollection"
+          handleRemoveBookmark={jest.fn()}
+          handleAddBookmark={jest.fn()}
+          handleRemoveCollection={jest.fn()}
+          handleEditCollection={mockEditCollection}
+        />
+      )
+
+      userEvent.type(screen.getByRole('textbox'), 'My New Collection{enter}')
+      expect(mockEditCollection).toHaveBeenCalledWith('My New Collection')
+    })
+
+    it('not entering a title deletes the collection', () => {
+      const mockDeleteCollection = jest.fn()
+
+      render(
+        <CustomCollection
+          id="testCollection"
+          handleRemoveBookmark={jest.fn()}
+          handleAddBookmark={jest.fn()}
+          handleRemoveCollection={mockDeleteCollection}
+          handleEditCollection={jest.fn()}
+        />
+      )
+
+      userEvent.keyboard('{enter}')
+      expect(mockDeleteCollection).toHaveBeenCalled()
+    })
   })
 })
