@@ -4,6 +4,13 @@ describe('Sites and Applications', () => {
     cy.visit('/joinbeta')
   })
 
+  it('can add a new custom collection', () => {
+    cy.findByRole('button', { name: 'Add section' }).click()
+    cy.findByRole('button', { name: 'Create new collection' }).click()
+    cy.findByLabelText('Collection Title').type('My New Collection{enter}')
+    cy.contains('My New Collection')
+  })
+
   it('can visit the Sites & Applications page', () => {
     // Client-side navigate to the page
     cy.contains('All sites & applications').click()
@@ -174,12 +181,14 @@ describe('Sites and Applications', () => {
       name: 'My Custom Link (opens in a new window)',
     }).should('exist')
   })
+
   it('can edit an existing collection title', () => {
     cy.contains('Example Collection').click()
     cy.findByRole('textbox').clear()
     cy.findByRole('textbox').type('Updated Title{enter}')
     cy.findByRole('button', { name: 'Updated Title' }).should('exist')
   })
+
   it('can delete an existing collection', () => {
     cy.contains('Example Collection')
       .parent()
