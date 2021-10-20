@@ -186,7 +186,10 @@ describe('Sites and Applications', () => {
     cy.contains('Example Collection').click()
     cy.findByRole('textbox').clear()
     cy.findByRole('textbox').type('Updated Title{enter}')
-    cy.findByRole('button', { name: 'Updated Title' }).should('exist')
+    cy.findByRole('button', { name: 'Edit collection title' }).should(
+      'have.text',
+      'Updated Title'
+    )
   })
 
   it('can delete an existing collection', () => {
