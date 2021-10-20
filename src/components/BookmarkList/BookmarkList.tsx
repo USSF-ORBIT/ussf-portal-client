@@ -66,7 +66,11 @@ const BookmarkListRow = ({
           toggleEl={
             <Button unstyled type="button" onClick={menuOnClick}>
               Add to My Space{' '}
-              {isDropdownOpen ? <IconExpandLess /> : <IconExpandMore />}
+              {isDropdownOpen ? (
+                <IconExpandLess aria-label="Open" />
+              ) : (
+                <IconExpandMore aria-label="Closed" />
+              )}
             </Button>
           }
           isActive={isDropdownOpen}

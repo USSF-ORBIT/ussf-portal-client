@@ -3,6 +3,7 @@
  */
 
 import { render, screen } from '@testing-library/react'
+import { axe } from 'jest-axe'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 
@@ -108,5 +109,16 @@ describe('AddWidget component', () => {
     expect(
       screen.queryByRole('button', { name: 'Create new collection' })
     ).not.toBeInTheDocument()
+  })
+
+  it('has no a11y violations', async () => {
+    const testProps = {
+      handleSelectCollection: jest.fn(),
+      handleCreateCollection: jest.fn(),
+    }
+
+    const { container } = render(<AddWidget {...testProps} />)
+
+    expect(await axe(container)).toHaveNoViolations()
   })
 })
