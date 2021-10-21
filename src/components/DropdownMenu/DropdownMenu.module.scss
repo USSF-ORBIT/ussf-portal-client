@@ -20,6 +20,10 @@
     padding: 0;
   }
 
+  ol > li + li {
+    border-top: 1px solid color('base-dark');
+  }
+
   ol > li {
     padding: 0;
     > * {
@@ -33,11 +37,13 @@
       border: 0;
       border-radius: 0;
       font-weight: normal;
+      text-align: left;
+      padding: units(1) units('105');
     }
   }
 
   @include at-media('tablet') {
-    min-width: 191px;
     width: auto;
+    white-space: nowrap;
   }
 }

@@ -2,7 +2,6 @@
 
 .addWidget {
   display: block;
-  cursor: pointer;
   text-align: center;
   background-color: rgba(220, 222, 224, 0.15);
   border: 1px solid color('base-lighter');
@@ -26,12 +25,18 @@
   svg {
     pointer-events: none;
   }
-}
 
-.plus {
-  color: rgba(0, 0, 0, 0.1);
-  svg {
-    width: 70px;
-    height: 70px;
+  .plus {
+    color: rgba(0, 0, 0, 0.1);
+    svg {
+      width: 70px;
+      height: 70px;
+    }
+  }
+
+  &:hover {
+    .plus {
+      color: rgba(0, 0, 0, 0.25);
+    }
   }
 }

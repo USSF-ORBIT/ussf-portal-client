@@ -12,6 +12,7 @@ import { useRemoveBookmarkMutation } from 'operations/mutations/removeBookmark'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useRemoveCollectionMutation } from 'operations/mutations/removeCollection'
 import { useEditCollectionMutation } from 'operations/mutations/editCollection'
+import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const router = useRouter()
@@ -20,9 +21,14 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const [handleAddBookmark] = useAddBookmarkMutation()
   const [handleRemoveCollection] = useRemoveCollectionMutation()
   const [handleEditCollection] = useEditCollectionMutation()
+  const [handleAddCollection] = useAddCollectionMutation()
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
+
+  const addNewCollection = () => {
+    handleAddCollection({ variables: { title: '', bookmarks: [] } })
+  }
 
   return (
     <div className={styles.mySpace}>
@@ -36,6 +42,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                 tablet={{ col: 6 }}
                 desktop={{ col: 3 }}>
                 <CustomCollection
+                  id={collection.id}
                   title={collection.title}
                   bookmarks={collection.bookmarks}
                   bookmarkOptions={bookmarks}
@@ -77,6 +84,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
             tablet={{ col: 6 }}
             desktop={{ col: 3 }}>
             <AddWidget
+              handleCreateCollection={addNewCollection}
               handleSelectCollection={() =>
                 router.push({
                   pathname: '/sites-and-applications',
