@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-const FLASH_TIMEOUT = 3000 // 3 seconds
+const FLASH_TIMEOUT = 3200 // 3.2 seconds
 
 const Flash = ({
   children,

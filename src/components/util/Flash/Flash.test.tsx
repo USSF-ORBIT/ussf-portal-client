@@ -41,7 +41,7 @@ describe('Flash component', () => {
     jest.advanceTimersByTime(2000)
     expect(mockHandleClear).not.toHaveBeenCalled()
 
-    jest.advanceTimersByTime(1000)
+    jest.advanceTimersByTime(1200)
     expect(mockHandleClear).toHaveBeenCalled()
   })
 
