@@ -26,7 +26,7 @@
     "test:watch": "jest --watch  --runInBand --testTimeout=60000",
     "cypress:dev": "cypress open",
     "cypress:static": "CYPRESS_BASE_URL=http://localhost:5000 cypress open",
-    "postinstall": "sh ./scripts/copy_uswds_assets.sh && keystone-next postinstall",
+    "postinstall": "sh ./scripts/copy_uswds_assets.sh && keystone-next postinstall --fix",
     "release": "standard-version -t ''"
   },
   "dependencies": {

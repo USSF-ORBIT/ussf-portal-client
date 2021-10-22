@@ -1,10 +1,26 @@
-FROM node:14.18.1-alpine
+FROM node:14.18.1-slim
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
-
-# RUN mkdir /app
+# RUN apk add --no-cache libc6-compat
+RUN apt-get update
+RUN apt-get install -y openssl
 WORKDIR /app
+
+# Install and cache dependencies
+COPY package.json yarn.lock /app/
+# Copy files that embedded keystone requires
+COPY ./src/cms/schema.ts ./src/cms/schema.ts
+COPY ./cms.db .
+COPY keystone.ts .
+
+# Copy script for uswds assets
+COPY scripts/copy_uswds_assets.sh scripts/copy_uswds_assets.sh
+
+RUN yarn install --frozen-lockfile
+
+# Copy app code
 COPY . .
-RUN yarn install --frozen-lockfile --production=false
+
+RUN yarn keystone-next postinstall --fix
+
 EXPOSE 3000
 CMD ["yarn", "dev"]
