@@ -13,3 +13,17 @@ services:
       - /app/.next
     ports:
       - '3000:3000'
+    depends_on:
+      - mongo
+    links:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongodb_data_container:/data/db
+    ports:
+      - '27017:27017'
+volumes:
+  mongodb_data_container:
