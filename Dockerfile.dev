@@ -1,8 +1,8 @@
 FROM node:14.18.1-slim
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-# RUN apk add --no-cache libc6-compat
-RUN apt-get update
-RUN apt-get install -y openssl
+
+RUN apt-get update \
+ && apt-get -y --no-cache install openssl libc6
 WORKDIR /app
 
 # Install and cache dependencies
@@ -19,8 +19,6 @@ RUN yarn install --frozen-lockfile
 
 # Copy app code
 COPY . .
-
-RUN yarn keystone-next postinstall --fix
 
 EXPOSE 3000
 CMD ["yarn", "dev"]
