@@ -22,8 +22,19 @@ export default {
 
 export const ExampleCustomCollection = (argTypes: StorybookArgTypes) => (
   <CustomCollection
+    id="testCollection"
     title="Example collection"
     bookmarks={[{ id: 'link1', url: '#', label: 'Webmail' }]}
+    handleAddBookmark={argTypes.handleAddBookmark}
+    handleRemoveBookmark={argTypes.handleRemoveBookmark}
+    handleRemoveCollection={argTypes.handleRemoveCollection}
+    handleEditCollection={argTypes.handleEditCollection}
+  />
+)
+
+export const BlankCustomCollection = (argTypes: StorybookArgTypes) => (
+  <CustomCollection
+    id="testCollection"
     handleAddBookmark={argTypes.handleAddBookmark}
     handleRemoveBookmark={argTypes.handleRemoveBookmark}
     handleRemoveCollection={argTypes.handleRemoveCollection}

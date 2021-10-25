@@ -23,6 +23,8 @@ const SelectableCollection = ({
   onSelect,
   isSelected,
 }: SelectableCollectionProps) => {
+  // TODO - what should happen if empty collection? throw error?
+
   const handleSelect = () => {
     onSelect()
   }
