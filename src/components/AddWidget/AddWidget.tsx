@@ -39,11 +39,15 @@ const AddWidget = ({
             onClick={menuOnClick}
             aria-label="Add section">
             <span className={styles.plus}>
-              <IconAdd />
+              <IconAdd role="presentation" />
             </span>
             <br />
             Add section{' '}
-            {isDropdownOpen ? <IconExpandLess /> : <IconExpandMore />}
+            {isDropdownOpen ? (
+              <IconExpandLess aria-label="Open" />
+            ) : (
+              <IconExpandMore aria-label="Closed" />
+            )}
           </button>
         }
         dropdownRef={dropdownEl}
