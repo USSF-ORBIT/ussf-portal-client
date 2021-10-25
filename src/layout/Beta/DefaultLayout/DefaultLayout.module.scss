@@ -39,12 +39,15 @@
 }
 
 .defaultTheme {
+  font-family: "Trebuchet", sans-serif;
+  color: color('ink');
+  
     h1 {
-        font: 400 42px "Trebuchet", sans-serif;
+        font: 700 40px "Trebuchet", sans-serif;
     }
     
     h2 {
-        font: 400 32px "Trebuchet", sans-serif;
+        font: 700 32px "Trebuchet", sans-serif;
     }
     
     h3 {
@@ -52,7 +55,7 @@
     }
     
     h4 {
-        font: 400 16px "Trebuchet", sans-serif;
+        font: 700 16px "Trebuchet", sans-serif;
     }
     
     h5 {
@@ -61,5 +64,10 @@
     
     h6 {
         font: 400 13px "Trebuchet", sans-serif;
+    }
+
+    p, main p {
+      font: 400 16px "Trebuchet", sans-serif;
+      color: color('ink');
     }
 }
