@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { InferGetStaticPropsType } from 'next'
-import { Button, Grid } from '@trussworks/react-uswds'
+import { Button, Grid, Alert } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
@@ -11,14 +11,20 @@ import type {
   BookmarkRecords,
   CollectionRecords,
   Collection as CollectionType,
+  Bookmark as BookmarkType,
 } from 'types/index'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
+import Flash from 'components/util/Flash/Flash'
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 import BookmarkList from 'components/BookmarkList/BookmarkList'
 import SelectableCollection from 'components/SelectableCollection/SelectableCollection'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
+
+import { useCollectionsQuery } from 'operations/queries/getCollections'
 import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
+import { useAddBookmarkMutation } from 'operations/mutations/addBookmark' // TODO
+import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
@@ -29,19 +35,28 @@ const SitesAndApplications = ({
   bookmarks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter()
+  const { loading, error, data } = useCollectionsQuery()
+
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
   const [selectMode, setSelectMode] = useState<boolean>(
     router.query.selectMode == 'true' || false
   )
   const [selectedCollections, setSelectedCollections] =
     useState<SelectedCollections>([])
+  const [flash, setFlash] = useState<React.ReactNode>(null)
+
   const [handleAddCollections] = useAddCollectionsMutation()
+  const [handleAddCollection] = useAddCollectionMutation()
+  const [handleAddBookmark] = useAddBookmarkMutation()
 
   useEffect(() => {
     if (router.query.selectMode == 'true') {
       setSelectMode(true)
     }
   }, [router.query])
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error</p>
 
   const handleSortClick = (sortType: SortBy) => setSort(sortType)
 
@@ -85,6 +100,38 @@ const SitesAndApplications = ({
     router.push('/')
   }
 
+  const handleAddToCollection = (
+    bookmark: BookmarkType,
+    collectionId?: string
+  ) => {
+    if (collectionId) {
+      handleAddBookmark({
+        variables: {
+          collectionId,
+          ...bookmark,
+        },
+      })
+
+      const collection = data?.collections.find((c) => c.id === collectionId)
+
+      setFlash(
+        <Alert type="success" slim role="alert">
+          You have successfully added “{bookmark.label}” to the “
+          {collection?.title}” section.
+        </Alert>
+      )
+    } else {
+      handleAddCollection({
+        variables: {
+          title: '',
+          bookmarks: [bookmark],
+        },
+      })
+
+      router.push('/')
+    }
+  }
+
   return (
     <>
       <h2 className={styles.pageTitle}>Sites &amp; Applications</h2>
@@ -107,7 +154,19 @@ const SitesAndApplications = ({
         </button>
       </div>
 
-      {sortBy === 'SORT_ALPHA' && <BookmarkList bookmarks={bookmarks} />}
+      {flash && (
+        <div className={styles.flash}>
+          <Flash handleClear={() => setFlash(null)}>{flash}</Flash>
+        </div>
+      )}
+
+      {sortBy === 'SORT_ALPHA' && (
+        <BookmarkList
+          bookmarks={bookmarks}
+          userCollectionOptions={data?.collections}
+          handleAddToCollection={handleAddToCollection}
+        />
+      )}
 
       {sortBy === 'SORT_TYPE' && (
         <div className={widgetClasses}>

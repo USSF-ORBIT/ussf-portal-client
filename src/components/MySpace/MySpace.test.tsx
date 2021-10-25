@@ -20,6 +20,7 @@ const mockAddBookmark = jest.fn()
 const mockRemoveBookmark = jest.fn()
 const mockEditCollection = jest.fn()
 const mockRemoveCollection = jest.fn()
+const mockAddCollection = jest.fn()
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
@@ -41,6 +42,10 @@ jest.mock('operations/mutations/editCollection', () => ({
 
 jest.mock('operations/mutations/removeCollection', () => ({
   useRemoveCollectionMutation: () => [mockRemoveCollection],
+}))
+
+jest.mock('operations/mutations/addCollection', () => ({
+  useAddCollectionMutation: () => [mockAddCollection],
 }))
 
 const mocks = [
@@ -111,8 +116,9 @@ describe('My Space Component', () => {
 
     it('should render the collection', async () => {
       const collection = await screen.findByRole('button', {
-        name: 'Example Collection',
+        name: 'Edit collection title',
       })
+
       expect(collection).toHaveTextContent(
         mocks[0].result.data.collections[0].title
       )
@@ -166,7 +172,7 @@ describe('My Space Component', () => {
     userEvent.click(await screen.findByRole('button', { name: 'Add section' }))
     userEvent.click(
       await screen.findByRole('button', {
-        name: 'Select existing collection(s)',
+        name: 'Select collection from template',
       })
     )
 
@@ -266,7 +272,7 @@ describe('My Space Component', () => {
     )
 
     const editTitleButton = await screen.findByRole('button', {
-      name: 'Example Collection',
+      name: 'Edit collection title',
     })
     userEvent.click(editTitleButton)
     const input = screen.getByRole('textbox')
@@ -288,17 +294,35 @@ describe('My Space Component', () => {
       </MockedProvider>
     )
 
-    const collectionDropdown = await screen.findByRole('button', {
+    const dropdownMenu = await screen.findByRole('button', {
       name: 'Collection Settings',
     })
-
-    userEvent.click(collectionDropdown)
+    userEvent.click(dropdownMenu)
     userEvent.click(screen.getByRole('button', { name: 'Delete Collection' }))
     userEvent.click(screen.getByRole('button', { name: 'Delete' }))
 
     expect(mockRemoveCollection).toHaveBeenCalledWith({
       variables: {
         id: mocks[0].result.data.collections[0].id,
+      },
+    })
+  })
+
+  it('handles the add collection operation', async () => {
+    render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
+      </MockedProvider>
+    )
+
+    userEvent.click(await screen.findByRole('button', { name: 'Add section' }))
+    userEvent.click(
+      screen.getByRole('button', { name: 'Create new collection' })
+    )
+    expect(mockAddCollection).toHaveBeenCalledWith({
+      variables: {
+        title: '',
+        bookmarks: [],
       },
     })
   })

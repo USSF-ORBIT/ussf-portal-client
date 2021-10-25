@@ -80,12 +80,12 @@ describe('Beta Home page', () => {
         level: 2,
         name: 'My Space',
       })
-    )
-    expect(
-      await screen.findByRole('button', {
-        name: 'Example Collection',
-      })
-    )
+    ).toBeInTheDocument()
+
+    const collectionTitle = await screen.findByRole('button', {
+      name: 'Edit collection title',
+    })
+    expect(collectionTitle).toHaveTextContent('Example Collection')
   })
 
   it('returns the Default Beta Layout in getLayout', async () => {

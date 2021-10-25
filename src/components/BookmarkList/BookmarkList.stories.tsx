@@ -3,9 +3,16 @@ import { Meta } from '@storybook/react'
 import BookmarkList from './BookmarkList'
 import type { Bookmark } from 'types/index'
 
+type StorybookArgTypes = {
+  handleAddToCollection: () => void
+}
+
 export default {
   title: 'Components/BookmarkList',
   component: BookmarkList,
+  argTypes: {
+    handleAddToCollection: { action: 'Add to collection' },
+  },
 } as Meta
 
 const exampleBookmarks: Bookmark[] = [
@@ -38,6 +45,9 @@ const exampleBookmarks: Bookmark[] = [
   },
 ]
 
-export const ExampleBookmarkList = () => (
-  <BookmarkList bookmarks={exampleBookmarks} />
+export const ExampleBookmarkList = (argTypes: StorybookArgTypes) => (
+  <BookmarkList
+    bookmarks={exampleBookmarks}
+    handleAddToCollection={argTypes.handleAddToCollection}
+  />
 )
