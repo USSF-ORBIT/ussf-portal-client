@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
-import { InferGetStaticPropsType } from 'next'
+import { InferGetServerSidePropsType, InferGetStaticPropsType } from 'next'
+import { connect } from '../../mongodb'
 
 import { lists } from '.keystone/api'
 
@@ -9,7 +10,7 @@ import MySpace from 'components/MySpace/MySpace'
 
 const Home = ({
   bookmarks,
-}: InferGetStaticPropsType<typeof getStaticProps>) => (
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => (
   <MySpace bookmarks={bookmarks} />
 )
 
@@ -20,11 +21,17 @@ const BetaLayout = (page: ReactNode) => <Layout>{page}</Layout>
 BetaLayout.displayName = 'BetaLayout'
 Home.getLayout = BetaLayout
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const bookmarks: BookmarkRecords = (await lists.Bookmark.findMany({
     query: 'id url label',
     orderBy: [{ label: 'asc' }],
   })) as BookmarkRecords
 
-  return { props: { bookmarks } }
+  // Connect to MongoDB -- for testing only
+  await connect()
+
+  // return props
+  return {
+    props: { bookmarks },
+  }
 }
