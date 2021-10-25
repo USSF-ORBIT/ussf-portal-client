@@ -103,6 +103,9 @@
     "*.{js,jsx,ts,tsx,json}": [
       "prettier --write",
       "eslint"
+    ],
+    "*.{css,scss}": [
+      "prettier --write"
     ]
   },
   "standard-version": {
