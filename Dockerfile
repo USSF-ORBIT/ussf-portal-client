@@ -5,7 +5,6 @@ FROM node:14.18.1-alpine AS deps
 RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
-
 # COPY package.json yarn.lock ./
 # We need to copy everything as long as we're using embedded Keystone
 COPY . .
