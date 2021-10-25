@@ -3682,10 +3682,9 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@trussworks/react-uswds@2.3.0":
+"@trussworks/react-uswds@https://github.com/trussworks/react-uswds#sr-1693-combobox-scroll":
   version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@trussworks/react-uswds/-/react-uswds-2.3.0.tgz#8e502a25bf9b15748c0709b74e7a17a5e4f67277"
-  integrity sha512-uT54mDqWKqS1+UJi8p0iaeZjS8auiPLl3PW6LD0CR2sAPgiXMV7uMA+zWcjKwS5MGJ0L9Fv4ZbsQlLQg8Yhojw==
+  resolved "https://github.com/trussworks/react-uswds#d7ca594787bfec38cc3b59792a0e5bb811ce4671"
 
 "@types/accepts@*", "@types/accepts@^1.3.5":
   version "1.3.5"
