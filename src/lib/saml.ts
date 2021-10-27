@@ -4,7 +4,7 @@ import { Strategy as SamlStrategy, VerifyWithoutRequest } from 'passport-saml'
 
 const verifyCallback: VerifyWithoutRequest = (profile, done) => {
   console.log('got profile', profile)
-  const user = {}
+  const user = profile?.attributes || {}
   done(null, user)
 }
 
