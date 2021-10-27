@@ -13,17 +13,36 @@ services:
       - /app/.next
     ports:
       - '3000:3000'
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      - MONGODB_DB=dev
+    stdin_open: true
     depends_on:
       - mongo
-    links:
-      - mongo
+    networks:
+      - ussf-portal
   mongo:
     container_name: mongo
-    image: mongo:latest
+    image: mongo:5.0.3
     restart: always
     volumes:
       - mongodb_data_container:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     ports:
       - '27017:27017'
+    networks:
+      - ussf-portal
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express:latest
+    restart: always
+    ports:
+      - '8888:8081'
+    networks:
+      - ussf-portal
+    depends_on:
+      - mongo
 volumes:
   mongodb_data_container:
+networks:
+  ussf-portal:
