@@ -10,9 +10,11 @@ const LOGOUT_URL =
   'http://localhost:8080/simplesaml/saml2/idp/SingleLogoutService.php'
 const IDP_CERT = '/certs/idp_key.pem'
 
+type User = Record<string, string>
+
 export const samlStrategy = new SamlStrategy(
   {
-    path: '/api/login',
+    path: '/api/auth/login',
     entryPoint: IDP_ENTRYPOINT,
     issuer: ISSUER,
     audience: ISSUER,
@@ -20,14 +22,14 @@ export const samlStrategy = new SamlStrategy(
     disableRequestedAuthnContext: true, // for ADFS - https://github.com/node-saml/passport-saml/issues/226
     authnRequestBinding: 'HTTP-Redirect', // default, or: 'HTTP-POST'
     logoutUrl: LOGOUT_URL,
-    logoutCallbackUrl: '/api/logout',
+    logoutCallbackUrl: '/api/auth/logout',
 
     // passport config
     passReqToCallback: true,
   },
   function (req, profile, done) {
     console.log('got profile', profile)
-    const user = profile?.attributes || {}
-    done(null, user)
+    const profileAttributes = (profile?.attributes as User) || {}
+    done(null, profileAttributes)
   }
 )
