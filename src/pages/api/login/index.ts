@@ -37,6 +37,10 @@ export default nextConnect<NextApiRequest, NextApiResponse>()
       }
 
       console.log('got user', user)
-      res.send(`User! ${user.uid} ${user.email} ${user.eduPersonAffiliation}`)
+      res.send(
+        `Logged in as user: ${user.edipi} ${user.userprincipalname} ${user[
+          'iv-groups'
+        ].join(', ')}`
+      )
     })(req, res)
   })
