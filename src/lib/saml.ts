@@ -8,7 +8,7 @@ const IDP_ENTRYPOINT =
   'http://localhost:8080/simplesaml/saml2/idp/SSOService.php'
 const LOGOUT_URL =
   'http://localhost:8080/simplesaml/saml2/idp/SingleLogoutService.php'
-const IDP_CERT = '/certs/idp_key.pem'
+const IDP_CERT = '/certs/localdev_idp_key.pem'
 
 type User = Record<string, string>
 
