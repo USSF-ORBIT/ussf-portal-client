@@ -17,7 +17,7 @@ $config = [
             'sans' => 'msupn:1540897553197005@mil',
             'surname' => 'Hall',
             'userprincipalname' => 'MICHAEL.HALL.1540897553@testusers.cce.af.mil',
-            'iv-groups' => ['AF_USERS'],
+            'iv-groups' => 'AFIN_TRANSIT,BA-AFMC-GUNTER-USERS,REMIS_USAF,AF_USERS',
         ],
     ],
 ];

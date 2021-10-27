@@ -1,24 +1,33 @@
 import fs from 'fs'
+import { Strategy as SamlStrategy } from 'passport-saml'
 
-import { Strategy as SamlStrategy, VerifyWithoutRequest } from 'passport-saml'
+const ISSUER = 'ussf-portal-client' // TODO - get this value from C1
 
-const verifyCallback: VerifyWithoutRequest = (profile, done) => {
-  console.log('got profile', profile)
-  const user = profile?.attributes || {}
-  done(null, user)
-}
+// TODO - move into env
+const IDP_ENTRYPOINT =
+  'http://localhost:8080/simplesaml/saml2/idp/SSOService.php'
+const LOGOUT_URL =
+  'http://localhost:8080/simplesaml/saml2/idp/SingleLogoutService.php'
+const IDP_CERT = '/certs/idp_key.pem'
 
 export const samlStrategy = new SamlStrategy(
   {
     path: '/api/login',
-    entryPoint: 'http://localhost:8080/simplesaml/saml2/idp/SSOService.php',
-    issuer: 'ussf-portal-client',
-    cert: fs.readFileSync(process.cwd() + '/certs/idp_key.pem', 'utf8'),
-    identifierFormat: null,
-    decryptionPvk: fs.readFileSync(process.cwd() + '/certs/key.pem', 'utf8'),
-    privateKey: fs.readFileSync(process.cwd() + '/certs/key.pem', 'utf8'),
-    validateInResponseTo: false,
-    disableRequestedAuthnContext: true,
+    entryPoint: IDP_ENTRYPOINT,
+    issuer: ISSUER,
+    audience: ISSUER,
+    cert: fs.readFileSync(process.cwd() + IDP_CERT, 'utf8'), // IdP public cert
+    disableRequestedAuthnContext: true, // for ADFS - https://github.com/node-saml/passport-saml/issues/226
+    authnRequestBinding: 'HTTP-Redirect', // default, or: 'HTTP-POST'
+    logoutUrl: LOGOUT_URL,
+    logoutCallbackUrl: '/api/logout',
+
+    // passport config
+    passReqToCallback: true,
   },
-  verifyCallback
+  function (req, profile, done) {
+    console.log('got profile', profile)
+    const user = profile?.attributes || {}
+    done(null, user)
+  }
 )
