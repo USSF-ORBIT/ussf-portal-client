@@ -5,13 +5,11 @@ import { lists } from '.keystone/api'
 import type { BookmarkRecords } from 'types/index'
 import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
 import MySpace from 'components/MySpace/MySpace'
-import { InferGetServerSidePropsType, InferGetStaticPropsType } from 'next'
-/* eslint-disable */
-import clientPromise from '../../utils/connection'
+import { InferGetStaticPropsType } from 'next'
 
 const Home = ({
   bookmarks,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => (
+}: InferGetStaticPropsType<typeof getStaticProps>) => (
   <MySpace bookmarks={bookmarks} />
 )
 
@@ -22,24 +20,11 @@ const BetaLayout = (page: ReactNode) => <Layout>{page}</Layout>
 BetaLayout.displayName = 'BetaLayout'
 Home.getLayout = BetaLayout
 
-// export async function getStaticProps() {
-//   const bookmarks: BookmarkRecords = (await lists.Bookmark.findMany({
-//     query: 'id url label',
-//     orderBy: [{ label: 'asc' }],
-//   })) as BookmarkRecords
-
-//   return { props: { bookmarks } }
-// }
-
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const bookmarks: BookmarkRecords = (await lists.Bookmark.findMany({
     query: 'id url label',
     orderBy: [{ label: 'asc' }],
   })) as BookmarkRecords
 
-  const client: Promise<MongoClient> = await clientPromise
-
-  5
-  6
   return { props: { bookmarks } }
 }
