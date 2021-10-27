@@ -1,19 +1,60 @@
 /* eslint no-undef: "off" */
-db = db.getSiblingDB('dev')
+/*
 
+
+
+*/
+db = db.getSiblingDB('dev')
+print('🚨 Database is ', db)
+print('🚨🚨🚨🚨🚨🚨🚨')
 db.createCollection('users')
 
-db.users.insertMany([
-  {
-    name: 'Grace Griffin',
-    email: 'gracegriffin@example.com',
-  },
-  {
-    name: 'Sophia Smith',
-    email: 'sophiasmith@example.com',
-  },
-  {
-    name: 'Lily White',
-    email: 'lilywhite@example.com',
-  },
-])
+const exampleCollection = {
+  __typename: 'Collection',
+  id: '96b1ff31-f668-4fc3-91e2-c9c981d7adc0',
+  title: 'Example Collection',
+  bookmarks: [
+    {
+      __typename: 'Bookmark',
+      id: '7f2da5b2-869a-413b-959f-8e1a76a6c735',
+      url: 'https://google.com',
+      label: 'Webmail',
+      description: 'Lorem ipsum',
+    },
+    {
+      __typename: 'Bookmark',
+      id: '31337edc-51c0-4128-9bd2-14f1373f2cd7',
+      url: 'https://mypay.dfas.mil/#/',
+      label: 'MyPay',
+      description: 'Lorem ipsum',
+    },
+    {
+      __typename: 'Bookmark',
+      id: '2c27577b-a30f-43e9-9637-72573497074f',
+      url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+      label: 'vMPF',
+      description: 'Lorem ipsum',
+    },
+    {
+      __typename: 'Bookmark',
+      id: '60a4614f-0db6-4077-a1a8-d6a3b5c5ea2e',
+      url: 'https://leave.af.mil/profile',
+      label: 'LeaveWeb',
+      description: 'Lorem ipsum',
+    },
+    {
+      __typename: 'Bookmark',
+      id: '6856241b-9c34-4a89-94aa-cbee47e93a10',
+      url: 'https://www.e-publishing.af.mil/',
+      label: 'e-Publications',
+      description: 'Lorem ipsum',
+    },
+  ],
+}
+
+const exampleUser = {
+  userId: '252c9a64-48bf-4b22-acd9-a211a9b0b272',
+  collections: exampleCollection,
+}
+
+db.users.insertOne(exampleUser)
