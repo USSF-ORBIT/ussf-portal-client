@@ -1,7 +1,7 @@
-import { PassportStatic } from 'passport'
-import { Strategy as SamlStrategy, Profile } from 'passport-saml'
+import type { PassportStatic } from 'passport'
+import { Strategy as SamlStrategy, Profile, SamlConfig } from 'passport-saml'
 import { fetch, toPassportConfig } from 'passport-saml-metadata'
-import { NextApiRequest } from 'next'
+import type { NextApiRequest } from 'next'
 import type * as express from 'express'
 
 /** Types */
@@ -58,14 +58,35 @@ const samlConfig = {
 /** Configure Passport + SAML */
 export const configSaml = (passport: PassportWithLogout) => {
   if (!IDP_METADATA) {
+    // TODO - assert this on server start
     throw new Error('Error: no IdP metadata URL provided!')
   }
 
   fetch({ url: IDP_METADATA })
     .then((reader) => {
-      const strategyConfig = {
+      const strategyConfig: SamlConfig & { identityProviderUrl?: string } = {
         ...toPassportConfig(reader),
         ...samlConfig,
+      }
+
+      // DEVELOPMENT ONLY
+      if (
+        IDP_METADATA === 'http://idp:8080/simplesaml/saml2/idp/metadata.php'
+      ) {
+        // rewrite docker network hostnames to localhost
+        strategyConfig.identityProviderUrl =
+          strategyConfig.identityProviderUrl?.replace(
+            'idp:8080',
+            'localhost:8080'
+          )
+        strategyConfig.entryPoint = strategyConfig.entryPoint?.replace(
+          'idp:8080',
+          'localhost:8080'
+        )
+        strategyConfig.logoutUrl = strategyConfig.logoutUrl?.replace(
+          'idp:8080',
+          'localhost:8080'
+        )
       }
 
       const samlStrategy = new SamlStrategy(strategyConfig, function (
@@ -80,6 +101,7 @@ export const configSaml = (passport: PassportWithLogout) => {
       passport.use(samlStrategy)
 
       passport.logoutSaml = function (req, done) {
+        // Take our LogoutRequest type and cast it as the expected RequestWithUser type
         const samlRequest = {
           ...req,
           samlLogoutRequest: null,
@@ -101,7 +123,7 @@ export const configSaml = (passport: PassportWithLogout) => {
     .catch((err) => {
       // TODO - log error
       // eslint-disable-next-line no-console
-      console.error('Error loading SAML metadata', err)
+      console.error(`Error loading SAML metadata from URL ${IDP_METADATA}`, err)
       process.exit(1)
     })
 }

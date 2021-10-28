@@ -4139,7 +4139,7 @@
   resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-5.0.3.tgz#e7b5aebbac150f8b5fdd4a46e7f0bd8e65e19109"
   integrity sha512-kUNnecmtkunAoQ3CnjmMkzNU/gtxG8guhi+Fk2U/kOpIKjIMKnXGp4IJCgQJrXSgMsWYimYG4TGjz/UzbGEBTw==
 
-"@types/passport-saml-metadata@^2.2.1":
+"@types/passport-saml-metadata@2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@types/passport-saml-metadata/-/passport-saml-metadata-2.2.1.tgz#7d90780215442085b1bd0333d8dc2e01a3501cbe"
   integrity sha512-WOkSqVIKVPu0ySBj5yHpjasIMI549wGY25DKriMJ6LPH7HhYfQsKOcOOofcHl2eSIH6JinM3Bk4KU/vWLQtkJg==
@@ -4154,7 +4154,7 @@
     "@types/express" "*"
     "@types/passport" "*"
 
-"@types/passport@*", "@types/passport@^1.0.7":
+"@types/passport@*", "@types/passport@1.0.7":
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@types/passport/-/passport-1.0.7.tgz#85892f14932168158c86aecafd06b12f5439467a"
   integrity sha512-JtswU8N3kxBYgo+n9of7C97YQBT+AYPP2aBfNGTzABqPAZnK/WOAaKfh3XesUYMZRrXFuoPc2Hv0/G/nQFveHw==
@@ -12216,7 +12216,7 @@ new-github-issue-url@0.2.1:
   resolved "https://registry.yarnpkg.com/new-github-issue-url/-/new-github-issue-url-0.2.1.tgz#e17be1f665a92de465926603e44b9f8685630c1d"
   integrity sha512-md4cGoxuT4T4d/HDOXbrUHkTKrp/vp+m3aOA7XXVYwNsUNMK49g3SQicTSeV5GIz/5QVGAeYRAOlyp9OvlgsYA==
 
-next-connect@^0.11.0:
+next-connect@0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/next-connect/-/next-connect-0.11.0.tgz#447c7b78937ff71f36c97d03f1623a6d0264ef49"
   integrity sha512-7VW5z9MWOpd8wnbST9dXgVd0c0V76LLLk5mBDYLSMtEC2dj3v3YF/Bl3t58cJrzm4SZ0e/s3yeD361F888u0yg==
@@ -12864,7 +12864,7 @@ pascalcase@^0.1.1:
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
   integrity sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
 
-passport-saml-metadata@^2.5.0:
+passport-saml-metadata@2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/passport-saml-metadata/-/passport-saml-metadata-2.5.0.tgz#b2cc6f1a5e0d94852d7613ee1a9dd75d3deb6a66"
   integrity sha512-pbn7FLwJGiYsCG/En5K+ulcm4qx25BhvC7P2XnL7q/ZamWMUnM4/FTTUA2JiLFH0b3na0r7gsvHVh+A+/adW+w==
@@ -12876,7 +12876,7 @@ passport-saml-metadata@^2.5.0:
     passport-saml "^3.1.0"
     xpath "0.0.32"
 
-passport-saml@^3.1.0, passport-saml@^3.2.0:
+passport-saml@3.2.0, passport-saml@^3.1.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/passport-saml/-/passport-saml-3.2.0.tgz#72ec8203df6dd872a205b8d5f578859a4e723e42"
   integrity sha512-EUzL+Wk8ZVdvOYhCBTkUrR1fwuMwF9za1FinFabP5Tl9qeJktsJWfoiBz7Fk6jQvpLwfnfryGdvwcOlGVct41A==
@@ -12894,7 +12894,7 @@ passport-strategy@1.x.x, passport-strategy@^1.0.0:
   resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
   integrity sha1-tVOaqPwiWj0a0XlHbd8ja0QPUuQ=
 
-passport@^0.5.0:
+passport@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/passport/-/passport-0.5.0.tgz#7914aaa55844f9dce8c3aa28f7d6b73647ee0169"
   integrity sha512-ln+ue5YaNDS+fes6O5PCzXKSseY5u8MYhX9H5Co4s+HfYI5oqvnHKoOORLYDUPh+8tHvrxugF2GFcUA1Q1Gqfg==
