@@ -1,7 +1,5 @@
 version: '3.8'
-# environment:
-#   MONGO_ROOT_USER: admin-local
-#   MONGO_ROOT_PASSWORD: mysecretpassword
+
 services:
   app:
     build:
