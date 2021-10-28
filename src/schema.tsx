@@ -7,18 +7,22 @@ export const typeDefs = gql`
     label: String
     description: String
   }
-
   type Collection {
     id: ID!
     title: String!
     bookmarks: [Bookmark]
   }
-
   type Query {
-    getCollections: [Collection!]
+    collections: [Collection!]
   }
-
   type Mutation {
-    removeBookmark(id: ID!, collectionId: ID!): Collection
+    addCollection(title: String!, bookmarks: [BookmarkInput!]!): Collection
+    removeCollection(id: ID!): Collection
+    removeBookmark(id: ID!, collectionId: ID!): Bookmark
+  }
+  input BookmarkInput {
+    url: String!
+    label: String
+    description: String
   }
 `
