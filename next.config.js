@@ -7,7 +7,6 @@ const { withKeystone } = require('@keystone-next/keystone/next')
 
 module.exports = withKeystone(
   withBundleAnalyzer({
-    experimental: { outputFileTracing: true }, // in order to use fs to read certs
     async rewrites() {
       return {
         beforeFiles: [

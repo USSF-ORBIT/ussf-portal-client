@@ -4139,7 +4139,22 @@
   resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-5.0.3.tgz#e7b5aebbac150f8b5fdd4a46e7f0bd8e65e19109"
   integrity sha512-kUNnecmtkunAoQ3CnjmMkzNU/gtxG8guhi+Fk2U/kOpIKjIMKnXGp4IJCgQJrXSgMsWYimYG4TGjz/UzbGEBTw==
 
-"@types/passport@^1.0.7":
+"@types/passport-saml-metadata@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@types/passport-saml-metadata/-/passport-saml-metadata-2.2.1.tgz#7d90780215442085b1bd0333d8dc2e01a3501cbe"
+  integrity sha512-WOkSqVIKVPu0ySBj5yHpjasIMI549wGY25DKriMJ6LPH7HhYfQsKOcOOofcHl2eSIH6JinM3Bk4KU/vWLQtkJg==
+  dependencies:
+    "@types/passport-saml" "*"
+
+"@types/passport-saml@*":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@types/passport-saml/-/passport-saml-1.1.3.tgz#efc57902a07ebe1ec114d00acd8d990e873813a1"
+  integrity sha512-4kqfyTN6Ud8xTPIdmsYDOBVs4vQFQRcLWhMcGLYiMBc0sFeC44k0Q8Z8v1TIYTmZUrqaO6rbf78GZXl4xAvCRA==
+  dependencies:
+    "@types/express" "*"
+    "@types/passport" "*"
+
+"@types/passport@*", "@types/passport@^1.0.7":
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@types/passport/-/passport-1.0.7.tgz#85892f14932168158c86aecafd06b12f5439467a"
   integrity sha512-JtswU8N3kxBYgo+n9of7C97YQBT+AYPP2aBfNGTzABqPAZnK/WOAaKfh3XesUYMZRrXFuoPc2Hv0/G/nQFveHw==
@@ -4716,7 +4731,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@xmldom/xmldom@^0.7.0", "@xmldom/xmldom@^0.7.5":
+"@xmldom/xmldom@^0.7.0", "@xmldom/xmldom@^0.7.4", "@xmldom/xmldom@^0.7.5":
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.7.5.tgz#09fa51e356d07d0be200642b0e4f91d8e6dd408d"
   integrity sha512-V3BIhmY36fXZ1OtVcI9W+FxQqxVLsPKcNjWigIaa81dLC9IolJl5Mt4Cvhmr0flUnjSpTdrbMTSbXqYqV5dT6A==
@@ -5483,6 +5498,13 @@ axe-core@^4.0.2, axe-core@^4.2.0:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.2.3.tgz#2a3afc332f0031b42f602f4a3de03c211ca98f72"
   integrity sha512-pXnVMfJKSIWU2Ml4JHP7pZEPIrgBO1Fd3WGx+fPBsS+KRGhE4vxooD8XBGWbQOIVSZsVK7pUDBBkCicNu80yzQ==
+
+axios@^0.21.4:
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
+  integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
+  dependencies:
+    follow-redirects "^1.14.0"
 
 axobject-query@^2.2.0:
   version "2.2.0"
@@ -8844,6 +8866,11 @@ focus-trap@^6.6.1:
   integrity sha512-x9BWuAeF5UrfWuYKJ3jYrjcVYSYptS9CqtxH5IH7lPlZrMsaugKeAa0HtoZSBZe5DmeTMx2m0qY464ZMzqarzw==
   dependencies:
     tabbable "^5.2.1"
+
+follow-redirects@^1.14.0:
+  version "1.14.4"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.4.tgz#838fdf48a8bbdd79e52ee51fb1c94e3ed98b9379"
+  integrity sha512-zwGkiSXC1MUJG/qmeIFH2HBJx9u0V46QGUe3YR1fXG8bXQxq7fLj0RjLZQ5nubr9qNJUZrH+xUcwXEoXNpfS+g==
 
 for-each@^0.3.3:
   version "0.3.3"
@@ -12837,7 +12864,19 @@ pascalcase@^0.1.1:
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
   integrity sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
 
-passport-saml@^3.2.0:
+passport-saml-metadata@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/passport-saml-metadata/-/passport-saml-metadata-2.5.0.tgz#b2cc6f1a5e0d94852d7613ee1a9dd75d3deb6a66"
+  integrity sha512-pbn7FLwJGiYsCG/En5K+ulcm4qx25BhvC7P2XnL7q/ZamWMUnM4/FTTUA2JiLFH0b3na0r7gsvHVh+A+/adW+w==
+  dependencies:
+    "@xmldom/xmldom" "^0.7.4"
+    axios "^0.21.4"
+    debug "^4.3.2"
+    lodash "^4.17.20"
+    passport-saml "^3.1.0"
+    xpath "0.0.32"
+
+passport-saml@^3.1.0, passport-saml@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/passport-saml/-/passport-saml-3.2.0.tgz#72ec8203df6dd872a205b8d5f578859a4e723e42"
   integrity sha512-EUzL+Wk8ZVdvOYhCBTkUrR1fwuMwF9za1FinFabP5Tl9qeJktsJWfoiBz7Fk6jQvpLwfnfryGdvwcOlGVct41A==
