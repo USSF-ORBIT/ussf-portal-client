@@ -192,21 +192,20 @@ describe('Sites and Applications', () => {
           .then(($el) => $el[0].checkValidity())
           .should('be.false')
 
-        /*
-          // TODO - URL validation
         cy.findByLabelText('URL')
           .type('not a URL')
           .then(($el) => $el[0].checkValidity())
           .should('be.false')
-          */
 
         cy.findByLabelText('URL')
           .clear()
-          .type('http://www.example.com')
+          .type('http://www.example.com{enter}')
+          .blur()
           .then(($el) => $el[0].checkValidity())
           .should('be.true')
 
-        cy.findByRole('option', { name: 'http://www.example.com' }).click()
+        cy.findByLabelText('URL').should('have.value', 'http://www.example.com')
+
         cy.findByRole('button', { name: 'Add site' }).click()
       })
 

@@ -19,6 +19,9 @@ import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
+// Not an ideal way to validate URLs but this will work for now
+const VALID_URL_REGEX = /^(ftp|http|https):\/\/[^ "]+$/
+
 type PropTypes = {
   id: string
   title?: string
@@ -66,7 +69,6 @@ const CustomCollection = ({
       urlInputValue.current = ''
       setIsAdding(false)
     } else {
-      // TODO - validate URl here
       // Adding a custom link
       addCustomLinkModal.current?.toggleModal(undefined, true)
     }
@@ -106,6 +108,16 @@ const CustomCollection = ({
         urlOptions[urlOptions.length - 1] = { value, label: value }
       }
     }
+
+    if (VALID_URL_REGEX.test(value)) {
+      // valid
+      e.target.setCustomValidity('')
+    } else {
+      // invalid
+      e.target.setCustomValidity(
+        'Please enter a valid URL, starting with http:// or https://'
+      )
+    }
   }
 
   const addLinkForm = (
@@ -123,7 +135,6 @@ const CustomCollection = ({
             onChange={handleSelectChange}
             inputProps={{
               required: true,
-              // type: 'url', // TODO - handle conditional validation
               onChange: handleInputChange,
               placeholder: 'Type or paste link...',
             }}

@@ -100,13 +100,11 @@ describe('CustomCollection component', () => {
     expect(urlInput).toBeInTheDocument()
     expect(urlInput).toBeInvalid()
 
-    /*
-    // TODO - add URL validation back
     userEvent.type(urlInput, 'example')
     expect(urlInput).toBeInvalid()
+    userEvent.clear(urlInput)
     userEvent.type(urlInput, 'http://www.example.com')
     expect(urlInput).toBeValid()
-    */
   })
 
   it('entering a new custom URL opens the modal', () => {
