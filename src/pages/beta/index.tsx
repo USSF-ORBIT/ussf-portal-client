@@ -1,11 +1,11 @@
 import { ReactNode } from 'react'
+import { InferGetStaticPropsType } from 'next'
 
 import { lists } from '.keystone/api'
 
 import type { BookmarkRecords } from 'types/index'
 import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
 import MySpace from 'components/MySpace/MySpace'
-import { InferGetStaticPropsType } from 'next'
 
 const Home = ({
   bookmarks,
