@@ -24,5 +24,6 @@ services:
     environment:
       SIMPLESAMLPHP_SP_ENTITY_ID: ussf-portal-client
       SIMPLESAMLPHP_SP_ASSERTION_CONSUMER_SERVICE: http://localhost:3000/api/auth/login
+      SIMPLESAMLPHP_SP_SINGLE_LOGOUT_SERVICE: http://localhost:3000/api/auth/logout/callback
     volumes:
       - ./users.php:/var/www/simplesamlphp/config/authsources.php
