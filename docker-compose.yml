@@ -19,8 +19,6 @@ services:
     stdin_open: true
     depends_on:
       - mongo
-    networks:
-      - ussf-portal
   mongo:
     container_name: mongo
     image: mongo:5.0.3
@@ -34,8 +32,6 @@ services:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     ports:
       - '27017:27017'
-    networks:
-      - ussf-portal
   mongo-express:
     container_name: mongo-express
     image: mongo-express:latest
@@ -46,11 +42,7 @@ services:
       ME_CONFIG_MONGODB_URL: mongodb://admin-local:mysecretpassword@mongo:27017/
     ports:
       - '8888:8081'
-    networks:
-      - ussf-portal
     depends_on:
       - mongo
 volumes:
   mongodb_data_container:
-networks:
-  ussf-portal:
