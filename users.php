@@ -13,11 +13,11 @@ $config = [
         'exampleauth:UserPass',
         'user1:user1pass' => [
             'edipi' => '1540897553',
-            'givenname' => 'Michael',
-            'sans' => 'msupn:1540897553197005@mil',
-            'surname' => 'Hall',
-            'userprincipalname' => 'MICHAEL.HALL.1540897553@testusers.cce.af.mil',
-            'iv-groups' => 'AFIN_TRANSIT,BA-AFMC-GUNTER-USERS,REMIS_USAF,AF_USERS',
+            'givenname' => 'Test',
+            'sans' => 'msupn:1234567890@mil',
+            'surname' => 'User',
+            'userprincipalname' => 'TEST.USER.1234567890@testusers.cce.af.mil',
+            'iv-groups' => 'AFIN_TRANSIT,AF_USERS',
         ],
     ],
 ];
