@@ -1,12 +1,17 @@
 /* eslint no-undef: "off" */
+
 /*
+This script will only run if there is no existing database. 
+To trigger on subsequent Docker builds, make sure to run
+`docker volume rm ussf-portal-client-mongodb_data_container`
 
-
+The variable 'db' refers to the $MONGO_INITDB_DATABASE
+variable declared in the MongoDB Docker container in docker-compose.yml
 
 */
-db = db.getSiblingDB('dev')
-print('🚨 Database is ', db)
-print('🚨🚨🚨🚨🚨🚨🚨')
+
+print('✅ Connected to database: ', db)
+
 db.createCollection('users')
 
 const exampleCollection = {
