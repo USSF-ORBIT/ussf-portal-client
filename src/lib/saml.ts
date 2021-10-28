@@ -15,7 +15,7 @@ type User = Record<string, string>
 // samlLogoutRequest is not used in the code, so passed in as null
 // maybe related but unsolved issue: https://github.com/node-saml/passport-saml/issues/549
 interface RequestWithUser extends express.Request {
-  samlLogoutRequest: any
+  samlLogoutRequest: unknown
   user?: Profile
 }
 
@@ -40,8 +40,7 @@ export type PassportWithLogout = PassportStatic & {
 // TODO - get this value from C1
 const ISSUER = 'ussf-portal-client'
 
-// TODO - move into env
-const IDP_METADATA = 'http://localhost:8080/simplesaml/saml2/idp/metadata.php'
+const IDP_METADATA = process.env.SAML_IDP_METADATA_URL
 
 /** Service Provider config */
 const samlConfig = {
@@ -58,6 +57,10 @@ const samlConfig = {
 
 /** Configure Passport + SAML */
 export const configSaml = (passport: PassportWithLogout) => {
+  if (!IDP_METADATA) {
+    throw new Error('Error: no IdP metadata URL provided!')
+  }
+
   fetch({ url: IDP_METADATA })
     .then((reader) => {
       const strategyConfig = {
