@@ -37,11 +37,11 @@ jobs:
       - name: Run Jest tests
         run: yarn test --coverage
 
-      - name: Lint code
-        run: yarn lint
-
       - name: Debugging with ssh
         uses: lhotari/action-upterm@v1
+
+      - name: Lint code
+        run: yarn lint
 
       - name: Build Storybook
         run: yarn storybook --ci --smoke-test
