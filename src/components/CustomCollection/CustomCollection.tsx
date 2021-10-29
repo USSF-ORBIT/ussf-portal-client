@@ -131,7 +131,11 @@ const CustomCollection = ({
           <Button type="submit">Add site</Button>
         </Form>
       ) : (
-        <Button type="button" outline onClick={handleShowAdding}>
+        <Button
+          type="button"
+          className={styles.addLinkButton}
+          outline
+          onClick={handleShowAdding}>
           + Add link
         </Button>
       )}
