@@ -32,7 +32,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
 
   return (
     <div className={styles.mySpace}>
-      <h2>My Space</h2>
+      <h2 className={styles.pageTitle}>My Space</h2>
       <div className={styles.widgetContainer}>
         <Grid row gap={2}>
           {data &&
