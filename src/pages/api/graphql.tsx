@@ -11,6 +11,9 @@ import { typeDefs } from '../../schema'
 import type { Bookmark, Collection } from 'types'
 import { connectToDB } from 'utils/mongodb'
 
+async function connect() {
+  return await connectToDB()
+}
 export const config: PageConfig = {
   api: { bodyParser: false },
 }
@@ -19,13 +22,11 @@ const collections: Collection[] = []
 
 const resolvers: Resolvers = {
   Query: {
-    collections: async (root, args) => {
-      // #TODO Find the best way to create this connection
-      const db = await connectToDB()
-      const collection = db.collection('users')
+    collections: async (root, args, context) => {
+      //#TODO: refactor to find particular user
+      const collection = await context.db.collection('users')
       const data = await collection.find({}).toArray()
       const collections: Collection[] = [data[0].collections]
-
       return collections
     },
   },
@@ -68,6 +69,10 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
+  context: async () => {
+    const db = await connect()
+    return { db }
+  },
 })
 
 const startServer = apolloServer.start()

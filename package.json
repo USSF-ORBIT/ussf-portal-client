@@ -38,6 +38,7 @@
     "@keystone-next/keystone": "25.0.1",
     "@next/bundle-analyzer": "11.1.2",
     "@trussworks/react-uswds": "2.3.0",
+    "apollo-datasource-mongodb": "^0.5.2",
     "apollo-server-core": "^3.3.0",
     "apollo-server-micro": "^3.3.0",
     "apollo3-cache-persist": "^0.12.1",
