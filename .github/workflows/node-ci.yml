@@ -34,14 +34,14 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
 
-      - name: Debugging with ssh
-        uses: lhotari/action-upterm@v1
+      - name: Run Jest tests
+        run: yarn test --coverage
 
       - name: Lint code
         run: yarn lint
 
-      - name: Run Jest tests
-        run: yarn test --coverage
+      - name: Debugging with ssh
+        uses: lhotari/action-upterm@v1
 
       - name: Build Storybook
         run: yarn storybook --ci --smoke-test
