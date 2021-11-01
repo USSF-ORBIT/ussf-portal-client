@@ -32,7 +32,11 @@ const Header = () => {
   // The wrapper div is needed for mobile nav to work, so the header/overlay are not flex children */
   return (
     <div>
-      <div className={`usa-overlay ${expanded ? 'is-visible' : ''}`} />
+      <div
+        className={`usa-overlay ${expanded ? 'is-visible' : ''}`}
+        onClick={() => setExpanded(false)}
+        role="presentation"
+      />
       <USWDSHeader basic className={styles.header}>
         <div className="usa-nav-container">
           <div className="usa-navbar">
