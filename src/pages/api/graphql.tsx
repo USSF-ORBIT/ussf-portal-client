@@ -10,24 +10,32 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-co
 import { typeDefs } from '../../schema'
 import type { Bookmark, Collection } from 'types'
 import { connectToDB } from 'utils/mongodb'
+import { findUser } from '../../services/user.service'
 
 async function connect() {
   return await connectToDB()
 }
+
 export const config: PageConfig = {
   api: { bodyParser: false },
 }
-
+// #TODO: Refactor after adding support for user session
+const testUserId = '252c9a64-48bf-4b22-acd9-a211a9b0b272'
 const collections: Collection[] = []
 
 const resolvers: Resolvers = {
   Query: {
     collections: async (root, args, context) => {
-      //#TODO: refactor to find particular user
-      const collection = await context.db.collection('users')
-      const data = await collection.find({}).toArray()
-      const collections: Collection[] = [data[0].collections]
-      return collections
+      console.log('inside collectinos resolver')
+      // const collection = await context.db.collection('users')
+      // const data = await collection.find({ userId: testUserId }).toArray()
+      // const collections: Collection[] = [data[0].collections]
+      // return collections
+      const payload = {
+        userId: testUserId,
+      }
+      const foundUser = await findUser(payload)
+      console.log(foundUser)
     },
   },
   Mutation: {
