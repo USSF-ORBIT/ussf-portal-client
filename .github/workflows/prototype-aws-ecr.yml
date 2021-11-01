@@ -2,7 +2,8 @@ name: Docker Stuff
 
 on:
   push:
-    branches: [main]
+    tags:
+      - 'release-2.0.0-alpha.*'
 
 jobs:
   build-and-push-aws:
@@ -40,7 +41,7 @@ jobs:
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
-        task-definition: dev-task-definition.json
+        task-definition: prototype-task-definition.json
         container-name: portal-client
         image: ${{ steps.build-image.outputs.image }}
 
@@ -49,17 +50,5 @@ jobs:
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         service: portal-client
-        cluster: app-my-webapp-dev
+        cluster: app-portal-client-prototype
         wait-for-service-stability: true
-
-    - name: Build, tag, and push image to C1 Artifactory
-      id: build-image
-      env:
-        IMAGE_TAG: ${{ env.RELEASE_VERSION }}
-        C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
-        C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
-      run: |
-        docker build -t $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG .
-        docker push $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG"
-        docker logout $C1_REGISTRY
