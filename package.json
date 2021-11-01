@@ -12,10 +12,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:static": "next build && next export",
     "build:analyze": "ANALYZE=true yarn build",
     "start": "next start",
-    "start:static": "serve out",
     "storybook": "start-storybook -p 6006 -s ./public",
     "storybook:build": "build-storybook",
     "format": "prettier --write .",
@@ -25,7 +23,6 @@
     "test": "jest --runInBand --testTimeout=60000",
     "test:watch": "jest --watch  --runInBand --testTimeout=60000",
     "cypress:dev": "cypress open",
-    "cypress:static": "CYPRESS_BASE_URL=http://localhost:5000 cypress open",
     "postinstall": "sh ./scripts/copy_uswds_assets.sh && keystone-next postinstall --fix",
     "release": "standard-version -t ''"
   },
@@ -88,7 +85,6 @@
     "prettier": "2.3.2",
     "sass": "1.39.0",
     "sass-loader": "10.2.0",
-    "serve": "12.0.0",
     "standard-version": "9.3.1",
     "storybook-addon-apollo-client": "4.0.9",
     "storybook-addon-next-router": "3.0.8",

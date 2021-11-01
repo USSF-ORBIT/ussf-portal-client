@@ -1,5 +1,5 @@
 import logging from '../plugins/logging'
-describe('the static Beta site', () => {
+describe('the Beta gate', () => {
   beforeEach(() => {
     cy.injectAxe()
   })
