@@ -12,9 +12,6 @@ import Footer from 'components/Footer/Footer'
 const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   const navItems = [
     { path: '/', label: 'My Space' },
-    { path: '/profile', label: 'My profile' },
-    { path: '/subordinates', label: 'Subordinate profiles' },
-    { path: '/reminders', label: 'Manage reminders' },
     {
       path: '/sites-and-applications',
       label: <>All sites &amp; applications</>,

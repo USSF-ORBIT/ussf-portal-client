@@ -17,6 +17,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
 }
 
 .disabled {
