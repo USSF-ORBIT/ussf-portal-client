@@ -294,6 +294,62 @@ describe('CustomCollection component', () => {
     )
   })
 
+  it('can enter an invalid link, and then select an existing link', () => {
+    const mockAddLink = jest.fn()
+
+    const mockLinks = [
+      {
+        id: 'testBookmark1',
+        url: 'http://www.example.com/1',
+        label: 'Test Bookmark 1',
+      },
+      {
+        id: 'testBookmark2',
+        url: 'http://www.example.com/2',
+        label: 'Test Bookmark 2',
+      },
+      {
+        id: 'testBookmark3',
+        url: 'http://www.example.com/3',
+        label: 'Test Bookmark 3',
+      },
+    ]
+
+    render(
+      <CustomCollection
+        {...exampleCollection}
+        bookmarkOptions={mockLinks}
+        handleRemoveBookmark={jest.fn()}
+        handleAddBookmark={mockAddLink}
+        handleRemoveCollection={jest.fn()}
+        handleEditCollection={jest.fn()}
+      />
+    )
+
+    userEvent.click(
+      screen.getByRole('button', {
+        name: '+ Add link',
+      })
+    )
+
+    const urlInput = screen.getByLabelText('URL')
+    userEvent.type(urlInput, 'example{enter}')
+    expect(urlInput).toBeInvalid()
+
+    userEvent.click(
+      screen.getByRole('button', { name: 'Toggle the dropdown list' })
+    )
+    userEvent.click(screen.getByRole('option', { name: 'Test Bookmark 2' }))
+    expect(urlInput).toBeValid()
+
+    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+
+    expect(mockAddLink).toHaveBeenCalledWith(
+      'http://www.example.com/2',
+      'Test Bookmark 2'
+    )
+  })
+
   it('renders the settings dropdown menu', () => {
     render(
       <CustomCollection
