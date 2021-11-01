@@ -19,6 +19,7 @@ jobs:
       run : |
         echo $RELEASE_VERSION
         echo ${{ env.RELEASE_VERSION }}
+        echo ${{ github.ref }}
     # - name: Configure AWS credentials
     #   uses: aws-actions/configure-aws-credentials@v1
     #   with:
