@@ -18,7 +18,7 @@ jobs:
     - name: test
       run : |
         echo $RELEASE_VERSION
-        echo ${{ env.RELEASE_VERSION }}
+        echo ${{ env.RELEASE_VERSION:10 }}
     # - name: Configure AWS credentials
     #   uses: aws-actions/configure-aws-credentials@v1
     #   with:
