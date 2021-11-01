@@ -93,11 +93,23 @@ const CustomCollection = ({
     )
 
   const handleSelectChange = (value: string | undefined) => {
+    const existingLink = value && selectedExistingLink(value)
+    const enteredCustomLink = urlOptions.length !== bookmarkOptions.length
+
+    // console.log('select option', value)
+
+    if (existingLink && enteredCustomLink) {
+      // Remove entered custom link
+      urlOptions.pop()
+    }
+
     urlInputValue.current = value || ''
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
+
+    // console.log('INPUT CHANGE', value)
 
     if (value) {
       if (urlOptions.length === bookmarkOptions.length) {
