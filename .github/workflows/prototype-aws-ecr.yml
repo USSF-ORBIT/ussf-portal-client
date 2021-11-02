@@ -16,14 +16,13 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.GHA_ECR_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.GHA_ECR_AWS_SECRET_ACCESS_KEY }}
         aws-region: us-west-2
 
     - name: Login to Amazon ECR
       id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v
-1
+      uses: aws-actions/amazon-ecr-login@v1
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
@@ -36,6 +35,10 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
         docker logout $ECR_REGISTRY
+
+    - name: Download task definition
+      run: |
+        aws ecs describe-task-definition --task-definition portal-client-prototype --query taskDefinition > prototype-task-definition.json
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
