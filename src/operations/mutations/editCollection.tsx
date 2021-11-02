@@ -1,8 +1,10 @@
 import { gql, useMutation } from '@apollo/client'
+import type { Bookmark } from '../../types/index'
 
 interface EditCollectionResponse {
   id: string
   title: string
+  bookmarks: Bookmark[]
 }
 
 interface EditCollectionInput {
@@ -11,8 +13,16 @@ interface EditCollectionInput {
 }
 
 export const EDIT_COLLECTION = gql`
-  mutation editCollection($title: String, $id: ID) {
-    editCollection(title: $title, id: $id) @client
+  mutation editCollection($title: String!, $id: ID!) {
+    editCollection(id: $id, title: $title) {
+      id
+      title
+      bookmarks {
+        id
+        label
+        url
+      }
+    }
   }
 `
 

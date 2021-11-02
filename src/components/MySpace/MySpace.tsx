@@ -27,6 +27,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   if (error) return <p>Error</p>
 
   const addNewCollection = () => {
+    console.log('add new collection...')
     handleAddCollection({ variables: { title: '', bookmarks: [] } })
   }
 
@@ -54,6 +55,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                     })
                   }}
                   handleEditCollection={(title: string) => {
+                    console.log('inside handle edit collection---->')
                     handleEditCollection({
                       variables: {
                         id: collection.id,

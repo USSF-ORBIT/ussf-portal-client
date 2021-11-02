@@ -1,7 +1,7 @@
 /* eslint no-undef: "off" */
 
 /*
-This script will only run if there is no existing database. 
+This script will only run if there is no existing database.
 To trigger on subsequent Docker builds, make sure to run
 `docker volume rm ussf-portal-client-mongodb_data_container`
 
@@ -59,7 +59,7 @@ const exampleCollection = {
 
 const exampleUser = {
   userId: '252c9a64-48bf-4b22-acd9-a211a9b0b272',
-  collections: exampleCollection,
+  collections: [exampleCollection],
 }
 
 db.users.insertOne(exampleUser)
