@@ -3,7 +3,16 @@ describe('the Beta gate', () => {
   beforeEach(() => {
     cy.injectAxe()
   })
+
   it('joins and leaves the beta', () => {
+    // Just in case
+    cy.clearCookies()
+
+    // Start on MVP
+    cy.visit('/')
+    cy.contains('Manage your life')
+
+    // Join the beta
     cy.visit('/joinbeta')
     cy.contains('My Space')
     cy.url().should('contain', '/')
@@ -12,7 +21,6 @@ describe('the Beta gate', () => {
     cy.contains('Leave Beta').click()
 
     // Return to MVP
-    cy.visit('/')
     cy.contains('Manage your life')
   })
 
