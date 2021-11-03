@@ -37,9 +37,7 @@ export type PassportWithLogout = PassportStatic & {
   ) => void
 }
 
-// TODO - get this value from C1
-const ISSUER = 'ussf-portal-client'
-
+const ISSUER = process.env.SAML_ISSUER
 const IDP_METADATA = process.env.SAML_IDP_METADATA_URL
 
 /** Service Provider config */

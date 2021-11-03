@@ -14,6 +14,7 @@ services:
     ports:
       - '3000:3000'
     environment:
+      SAML_ISSUER: ussf-portal-client
       SAML_IDP_METADATA_URL: http://idp:8080/simplesaml/saml2/idp/metadata.php
 
   idp:
