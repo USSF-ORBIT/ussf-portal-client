@@ -1,4 +1,4 @@
-name: Docker Stuff
+name: Docker Build Main
 
 on:
   push:
@@ -52,7 +52,7 @@ jobs:
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         service: portal-client
-        cluster: app-my-webapp-dev
+        cluster: app-portal-client-dev
         wait-for-service-stability: true
 
     - name: Build, tag, and push image to C1 Artifactory
