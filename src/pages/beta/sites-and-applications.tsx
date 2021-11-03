@@ -23,7 +23,7 @@ import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useCollectionsQuery } from 'operations/queries/getCollections'
 import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
-import { useAddBookmarkMutation } from 'operations/mutations/addBookmark' // TODO
+import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
@@ -202,7 +202,7 @@ const SitesAndApplications = ({
                 <Grid
                   key={`collection_${collection.id}`}
                   tablet={{ col: 6 }}
-                  desktop={{ col: 3 }}>
+                  desktop={{ col: 4 }}>
                   {selectMode ? (
                     <SelectableCollection
                       id={collection.id}
