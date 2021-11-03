@@ -7,7 +7,7 @@ const { withKeystone } = require('@keystone-next/keystone/next')
 
 module.exports = withKeystone(
   withBundleAnalyzer({
-    swcMinify: true,
+    // swcMinify: true,
     async rewrites() {
       return {
         beforeFiles: [
