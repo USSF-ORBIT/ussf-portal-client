@@ -1,4 +1,4 @@
-export const lists = {
+export const query = {
   Collection: {
     findMany: () => Promise.resolve([]),
   },

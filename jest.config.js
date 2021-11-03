@@ -2,7 +2,10 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/', '.next/', 'cypress/'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+    '^.+\\.(js|jsx|ts|tsx)$': [
+      'babel-jest',
+      { configFile: './babel.jest.config.js' },
+    ],
   },
   transformIgnorePatterns: ['node_modules/(?!(.keystone)/)'],
   moduleNameMapper: {
