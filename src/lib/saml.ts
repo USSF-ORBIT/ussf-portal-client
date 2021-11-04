@@ -45,12 +45,14 @@ const samlConfig = {
   path: '/api/auth/login',
   logoutCallbackUrl: '/api/auth/logout/callback',
   issuer: ISSUER,
-  audience: ISSUER,
+  // audience: ISSUER,
   disableRequestedAuthnContext: true, // for ADFS - https://github.com/node-saml/passport-saml/issues/226
   authnRequestBinding: 'HTTP-Redirect', // default, or: 'HTTP-POST'
-
+  // wantAssertionsSigned: false,
   // passport config
   passReqToCallback: true,
+  // signatureAlgorithm: 'sha256',
+  // digestAlgorithm: 'sha256',
 }
 
 /** Configure Passport + SAML */
@@ -66,6 +68,8 @@ export const configSaml = (passport: PassportWithLogout) => {
         ...toPassportConfig(reader),
         ...samlConfig,
       }
+
+      console.log('got metadata!', strategyConfig)
 
       // DEVELOPMENT ONLY
       if (
@@ -122,6 +126,6 @@ export const configSaml = (passport: PassportWithLogout) => {
       // TODO - log error
       // eslint-disable-next-line no-console
       console.error(`Error loading SAML metadata from URL ${IDP_METADATA}`, err)
-      process.exit(1)
+      // process.exit(1)
     })
 }

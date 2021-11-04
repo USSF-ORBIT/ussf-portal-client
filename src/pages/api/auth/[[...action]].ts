@@ -43,6 +43,8 @@ export default nextConnect<NextApiRequest, NextApiResponse>()
         res.redirect('/login')
       }
 
+      console.log('got user', user)
+
       // TODO - set user in session & redirect
       SESSION_USER = user
       res.send(
@@ -73,6 +75,13 @@ export default nextConnect<NextApiRequest, NextApiResponse>()
     })
   })
   .get('/api/auth/logout/callback', (req, res) => {
+    console.log('get logout callback')
+    // TODO - clear session & redirect
+    SESSION_USER = emptyUser
+    res.send('User logged out!')
+  })
+  .post('/api/auth/logout/callback', (req, res) => {
+    console.log('post logout callback')
     // TODO - clear session & redirect
     SESSION_USER = emptyUser
     res.send('User logged out!')
