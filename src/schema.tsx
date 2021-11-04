@@ -2,13 +2,13 @@ import { gql } from '@apollo/client'
 
 export const typeDefs = gql`
   type Bookmark {
-    id: ID!
+    _id: ID!
     url: String!
     label: String
     description: String
   }
   type Collection {
-    id: ID!
+    _id: ID!
     title: String!
     bookmarks: [Bookmark]
   }
@@ -17,9 +17,9 @@ export const typeDefs = gql`
   }
   type Mutation {
     addCollection(title: String!, bookmarks: [BookmarkInput!]!): Collection
-    editCollection(id: ID!, title: String!): Collection
-    removeCollection(id: ID!): Collection
-    removeBookmark(id: ID!, collectionId: ID!): Bookmark
+    editCollection(_id: ID!, title: String!): Collection
+    removeCollection(_id: ID!): Collection
+    removeBookmark(_id: ID!, collectionId: ID!): Bookmark
   }
   input BookmarkInput {
     url: String!

@@ -52,7 +52,7 @@ const CustomCollection = ({
   }
 
   const selectedExistingLink = (value: string) =>
-    bookmarkOptions.find((i) => i.id === value)
+    bookmarkOptions.find((i) => i._id === value)
 
   const handleSubmitAdd = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -85,7 +85,7 @@ const CustomCollection = ({
     .map(
       (b) =>
         ({
-          value: b.id,
+          value: b._id,
           label: b.label || b.url,
         } as ComboBoxOption)
     )
@@ -215,9 +215,9 @@ const CustomCollection = ({
       <Collection header={customCollectionHeader} footer={addLinkForm}>
         {bookmarks.map((bookmark: BookmarkType) => (
           <RemovableBookmark
-            key={`bookmark_${bookmark.id}`}
+            key={`bookmark_${bookmark._id}`}
             bookmark={bookmark}
-            handleRemove={() => handleRemoveBookmark(bookmark.id)}
+            handleRemove={() => handleRemoveBookmark(bookmark._id)}
           />
         ))}
       </Collection>

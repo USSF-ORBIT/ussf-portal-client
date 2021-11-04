@@ -2,92 +2,112 @@ import { ServerResponse } from 'http'
 
 import { MicroRequest } from 'apollo-server-micro/dist/types'
 
-import { v4 } from 'uuid'
 import { ApolloServer } from 'apollo-server-micro'
 import type { PageConfig } from 'next'
 import type { Resolvers } from '@apollo/client'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { typeDefs } from '../../schema'
-import type { Bookmark, Collection } from 'types'
+import type { Bookmark, Collection } from 'types/index'
 import clientPromise from 'utils/mongodb'
-
+import { ObjectId } from 'mongodb'
 export const config: PageConfig = {
   api: { bodyParser: false },
 }
 // #TODO remove this
-const testUserId = '252c9a64-48bf-4b22-acd9-a211a9b0b272'
-// const collections: Collection[] = []
+
+const commonName = 'HALL.MICHAEL.0123456789'
 
 const resolvers: Resolvers = {
   Query: {
-    collections: async (root, args, context) => {
-      const users = await context.db.collection('users')
-      const foundUser = await users.find({ userId: testUserId }).toArray()
+    collections: async (_, args, { db }) => {
+      try {
+        const foundUser = await db
+          .collection('users')
+          .find({ commonName: commonName })
+          .toArray()
 
-      const collections = foundUser[0].collections
-      return collections
+        return foundUser[0].mySpace
+      } catch (e) {
+        console.error('error in query collections', e)
+      }
     },
   },
   Mutation: {
-    addCollection: async (root, args, context) => {
-      // const newBookmarks: Bookmark[] = args.bookmarks.map((input: any) => ({
-      //   id: v4(),
-      //   url: input.url,
-      //   label: input.label,
-      //   description: input.description,
-      // }))
+    // addCollection: async (_, args, { db }) => {
+    //   const newBookmarks: Bookmark[] = args.bookmarks.map((input: any) => ({
+    //     _id: new ObjectId().toHexString(),
+    //     url: input.url,
+    //     label: input.label,
+    //     description: input.description,
+    //   }))
 
-      // const newCollection: Collection = {
-      //   id: v4(),
-      //   title: args.title,
-      //   bookmarks: newBookmarks,
-      // }
+    //   console.log('what are the new bookmarks,', newBookmarks)
 
-      const foundUser = await context.db
-        .collection('users')
-        .find({ userId: testUserId })
-        .toArray()
+    //   const newCollection: Collection = {
+    //     _id: new ObjectId().toHexString(),
+    //     title: args.title,
+    //     bookmarks: newBookmarks,
+    //   }
 
-      console.log('found user in add collection', foundUser)
+    //   const foundUser = await db
+    //     .collection('users')
+    //     .find({ commonName: commonName })
+    //     .toArray()
 
-      // const collections = [foundUser[0].collections]
-
-      // collections.push(newCollection)
-
-      // return newCollection
-      return
-    },
-    editCollection: async (root, { id, title }, { db }) => {
-      const users = await db.collection('users')
-
+    // return newCollection
+    //   return
+    // },
+    editCollection: async (_, { _id, title }, { db }) => {
       const query = {
-        'collections.id': id,
+        commonName: commonName,
+        'mySpace._id': new ObjectId(_id),
       }
 
       const updateDocument = {
-        $set: { 'collections.$.title': title },
+        $set: {
+          'mySpace.$.title': title,
+        },
       }
+
       try {
-        await users.updateOne(query, updateDocument)
+        await db.collection('users').updateOne(query, updateDocument)
 
-        const updatedCollection = await users.findOne({
-          'collections.id': id,
-        })
+        const c = await db
+          .collection('users')
+          .find({ 'mySpace._id': new ObjectId(_id) })
+          .project({ 'mySpace.$': 1, _id: 0 })
+          .toArray()
 
-        return updatedCollection.collections[0]
+        return c[0].mySpace[0]
       } catch (e) {
-        console.log('error in editCollection', e)
+        console.error('error in edit collection', e)
         return e
       }
     },
-    removeCollection: async (root, args, context) => {
-      // const deleteIndex = collections.findIndex((c) => c.id === args.id)
-      // const deleted = collections.splice(deleteIndex, 1)
-      // return deleted
-      console.log('remove colleciton')
-      return
+    removeCollection: async (root, { _id }, { db }) => {
+      const query = {
+        commonName: commonName,
+      }
+
+      const updateDocument = {
+        $pull: {
+          mySpace: { _id: new ObjectId(_id) },
+        },
+      }
+
+      try {
+        const result = await db
+          .collection('users')
+          .updateOne(query, updateDocument)
+        console.log('result of delete is -- ', result)
+
+        // TODO this works but need to figure out what to return
+      } catch (e) {
+        console.error('error in remove collection', e)
+        return e
+      }
     },
-    removeBookmark: async (root, args, context) => {
+    removeBookmark: async (root, args, { db }) => {
       // const collection = collections.find((c) => c.id === args.collectionId)
       // const deleteIndex =
       //   collection?.bookmarks.findIndex((b) => b.id === args.id) || -1
