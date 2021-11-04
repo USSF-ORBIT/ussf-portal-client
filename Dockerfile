@@ -13,9 +13,10 @@ RUN yarn install --frozen-lockfile
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
-ARG APP_URL
-ENV APP_URL=${APP_URL}
-RUN echo "Build with variables: ${NODE_ENV} ${APP_URL}"
+ARG NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+
+RUN echo "Build with variables: ${NODE_ENV} ${NEXT_PUBLIC_SITE_URL}"
 
 RUN yarn build
 
