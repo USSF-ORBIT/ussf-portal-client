@@ -8,7 +8,7 @@ describe('CMS schema', () => {
     it(
       'can create a Bookmark',
       runner(async ({ context }) => {
-        const bookmark = await context.lists.Bookmark.createOne({
+        const bookmark = await context.query.Bookmark.createOne({
           data: { url: 'www.example.com', label: 'Test Bookmark' },
           query: 'id url label',
         })
@@ -35,7 +35,7 @@ describe('CMS schema', () => {
         if (errors) {
           expect(errors[0].path).toEqual(['createBookmark'])
           expect(errors[0].message).toEqual(
-            'You provided invalid data for this operation.\n  - Bookmark.url: Required field "url" is null or undefined.'
+            'You provided invalid data for this operation.\n  - Bookmark.url: Url must not be empty'
           )
         }
       })
@@ -46,7 +46,7 @@ describe('CMS schema', () => {
     it(
       'can create an empty Collection',
       runner(async ({ context }) => {
-        const collection = await context.lists.Collection.createOne({
+        const collection = await context.query.Collection.createOne({
           data: { title: 'Example collection' },
           query: 'id title',
         })
@@ -59,12 +59,12 @@ describe('CMS schema', () => {
     it(
       'can add a Bookmark to a Collection',
       runner(async ({ context }) => {
-        const bookmark = await context.lists.Bookmark.createOne({
+        const bookmark = await context.query.Bookmark.createOne({
           data: { url: 'www.example.com', label: 'Test Bookmark' },
           query: 'id',
         })
 
-        const collection = await context.lists.Collection.createOne({
+        const collection = await context.query.Collection.createOne({
           data: {
             title: 'Example collection',
             bookmarks: { connect: { id: bookmark.id } },

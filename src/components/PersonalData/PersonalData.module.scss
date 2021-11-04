@@ -2,7 +2,6 @@
 
 .personalData {
   h2 {
-    @include u-font-size('heading', 14);
     margin-bottom: units(2.5);
   }
   dt {

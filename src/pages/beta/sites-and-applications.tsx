@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
 
-import { lists } from '.keystone/api'
+import { query } from '.keystone/api'
 
 import type {
   BookmarkRecords,
@@ -23,7 +23,7 @@ import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useCollectionsQuery } from 'operations/queries/getCollections'
 import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
-import { useAddBookmarkMutation } from 'operations/mutations/addBookmark' // TODO
+import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
@@ -202,7 +202,7 @@ const SitesAndApplications = ({
                 <Grid
                   key={`collection_${collection.id}`}
                   tablet={{ col: 6 }}
-                  desktop={{ col: 3 }}>
+                  desktop={{ col: 4 }}>
                   {selectMode ? (
                     <SelectableCollection
                       id={collection.id}
@@ -237,11 +237,11 @@ export default SitesAndApplications
 SitesAndApplications.getLayout = withBetaLayout
 
 export async function getStaticProps() {
-  const collections: CollectionRecords = (await lists.Collection.findMany({
+  const collections: CollectionRecords = (await query.Collection.findMany({
     query: 'id title bookmarks { id url label }',
   })) as CollectionRecords
 
-  const bookmarks: BookmarkRecords = (await lists.Bookmark.findMany({
+  const bookmarks: BookmarkRecords = (await query.Bookmark.findMany({
     query: 'id url label description',
     orderBy: [{ label: 'asc' }],
   })) as BookmarkRecords
