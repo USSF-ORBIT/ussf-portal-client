@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { InferGetStaticPropsType } from 'next'
 
-import { lists } from '.keystone/api'
+import { query } from '.keystone/api'
 
 import type { BookmarkRecords } from 'types/index'
 import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
@@ -21,7 +21,7 @@ BetaLayout.displayName = 'BetaLayout'
 Home.getLayout = BetaLayout
 
 export async function getStaticProps() {
-  const bookmarks: BookmarkRecords = (await lists.Bookmark.findMany({
+  const bookmarks: BookmarkRecords = (await query.Bookmark.findMany({
     query: 'id url label',
     orderBy: [{ label: 'asc' }],
   })) as BookmarkRecords
