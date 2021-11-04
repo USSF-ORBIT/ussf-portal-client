@@ -1,7 +1,9 @@
 /* eslint no-undef: "off" */
 
+// const { ObjectId } = require('bson')
+
 /*
-This script will only run if there is no existing database. 
+This script will only run if there is no existing database.
 To trigger on subsequent Docker builds, make sure to run
 `docker volume rm ussf-portal-client-mongodb_data_container`
 
@@ -13,43 +15,45 @@ variable declared in the MongoDB Docker container in docker-compose.yml
 print('✅ Connected to database: ', db)
 
 db.createCollection('users')
+// db.createCollection('mySpace')
+// db.createCollection('canonicalBookmarks')
 
-const exampleCollection = {
+const exampleCollection1 = {
   __typename: 'Collection',
-  id: '96b1ff31-f668-4fc3-91e2-c9c981d7adc0',
   title: 'Example Collection',
+  _id: ObjectId(),
   bookmarks: [
     {
       __typename: 'Bookmark',
-      id: '7f2da5b2-869a-413b-959f-8e1a76a6c735',
+      _id: ObjectId(),
       url: 'https://google.com',
       label: 'Webmail',
       description: 'Lorem ipsum',
     },
     {
       __typename: 'Bookmark',
-      id: '31337edc-51c0-4128-9bd2-14f1373f2cd7',
+      _id: ObjectId(),
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
       description: 'Lorem ipsum',
     },
     {
       __typename: 'Bookmark',
-      id: '2c27577b-a30f-43e9-9637-72573497074f',
+      _id: ObjectId(),
       url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
       label: 'vMPF',
       description: 'Lorem ipsum',
     },
     {
       __typename: 'Bookmark',
-      id: '60a4614f-0db6-4077-a1a8-d6a3b5c5ea2e',
+      _id: ObjectId(),
       url: 'https://leave.af.mil/profile',
       label: 'LeaveWeb',
       description: 'Lorem ipsum',
     },
     {
       __typename: 'Bookmark',
-      id: '6856241b-9c34-4a89-94aa-cbee47e93a10',
+      _id: ObjectId(),
       url: 'https://www.e-publishing.af.mil/',
       label: 'e-Publications',
       description: 'Lorem ipsum',
@@ -57,9 +61,51 @@ const exampleCollection = {
   ],
 }
 
+// db.mySpace.insertOne(exampleCollection1)
+
+// const createdCollection1 = db.mySpace.find({}).toArray()
+// const collectionId1 = createdCollection1[0]._id
+
+const exampleCollection2 = {
+  __typename: 'Collection',
+  title: 'Second Collection',
+  _id: ObjectId(),
+  bookmarks: [
+    {
+      __typename: 'Bookmark',
+      _id: ObjectId(),
+      url: 'https://google.com',
+      label: 'Search Engine',
+      description: 'Lorem ipsum',
+    },
+  ],
+}
+
+// db.mySpace.insertOne(exampleCollection2)
+
+// const createdCollection2 = db.mySpace.find({}).toArray()
+// const collectionId2 = createdCollection2[1]._id
+
+// db.users.updateOne(
+//   {
+//     _id: userId,
+//   },
+//   {
+//     $push: {
+//       mySpace: {
+//         $each: [collectionId1, collectionId2],
+//       },
+//     },
+//   }
+// )
+
 const exampleUser = {
-  userId: '252c9a64-48bf-4b22-acd9-a211a9b0b272',
-  collections: exampleCollection,
+  commonName: 'HALL.MICHAEL.0123456789',
+  isBeta: true,
+  mySpace: [exampleCollection1, exampleCollection2],
 }
 
 db.users.insertOne(exampleUser)
+
+// const createdUser = db.users.find({}).toArray()
+// const userId = createdUser[0]._id

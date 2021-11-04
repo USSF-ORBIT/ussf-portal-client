@@ -7,10 +7,10 @@ export interface CollectionsQueryResponse {
 export const GET_COLLECTIONS = gql`
   query getCollections {
     collections {
-      id
+      _id
       title
       bookmarks {
-        id
+        _id
         url
         label
         description

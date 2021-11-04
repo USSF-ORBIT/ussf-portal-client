@@ -27,6 +27,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   if (error) return <p>Error</p>
 
   const addNewCollection = () => {
+    console.log('add new collection...')
     handleAddCollection({ variables: { title: '', bookmarks: [] } })
   }
 
@@ -38,38 +39,38 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
           {data &&
             data.collections.map((collection) => (
               <Grid
-                key={`collection_${collection.id}`}
+                key={`collection_${collection._id}`}
                 tablet={{ col: 6 }}
                 desktop={{ col: 3 }}>
                 <CustomCollection
-                  id={collection.id}
+                  id={collection._id}
                   title={collection.title}
                   bookmarks={collection.bookmarks}
                   bookmarkOptions={bookmarks}
                   handleRemoveCollection={() => {
                     handleRemoveCollection({
                       variables: {
-                        id: collection.id,
+                        _id: collection._id,
                       },
                     })
                   }}
                   handleEditCollection={(title: string) => {
                     handleEditCollection({
                       variables: {
-                        id: collection.id,
+                        _id: collection._id,
                         title,
                       },
                     })
                   }}
                   handleRemoveBookmark={(id) =>
                     handleRemoveBookmark({
-                      variables: { id, collectionId: collection.id },
+                      variables: { id, collectionId: collection._id },
                     })
                   }
                   handleAddBookmark={(url, label) => {
                     handleAddBookmark({
                       variables: {
-                        collectionId: collection.id,
+                        collectionId: collection._id,
                         url,
                         label,
                       },
