@@ -21,6 +21,7 @@ jobs:
         aws-region: us-west-2
         role-to-assume: ${{ secrets.GHA_ECR_ROLE_ASSUMPTION }}
         role-skip-session-tagging: true
+        role-duration-seconds: "3600"
 
     - name: Login to Amazon ECR
       id: login-ecr
