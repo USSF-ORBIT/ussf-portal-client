@@ -21,17 +21,14 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@2113e5bc19c45979ba123df6e07256d2aaba9a33 # renovate: tag=v2.11.7
         env:
-          NEXT_PUBLIC_SITE_URL: http://localhost:5000
-          CYPRESS_BASE_URL: http://localhost:5000
+          NEXT_PUBLIC_SITE_URL: http://localhost:3000
+          CYPRESS_BASE_URL: http://localhost:3000
           NEXT_TELEMETRY_DISABLED: 1
         with:
           install-command: yarn --frozen-lockfile
-          # Commands for NextJS server:
-          # build: yarn build
-          # start: yarn start
-          # Commands for static site:
-          build: yarn build:static
-          start: yarn start:static
+          # Build & start NextJS server:
+          build: yarn build
+          start: yarn start
 
       - name: Upload screenshots
         uses: actions/upload-artifact@27121b0bdffd731efa15d66772be8dc71245d074 # renovate: tag=v2
