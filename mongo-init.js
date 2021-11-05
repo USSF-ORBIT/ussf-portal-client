@@ -15,45 +15,43 @@ variable declared in the MongoDB Docker container in docker-compose.yml
 print('✅ Connected to database: ', db)
 
 db.createCollection('users')
-// db.createCollection('mySpace')
-// db.createCollection('canonicalBookmarks')
 
 const exampleCollection1 = {
   __typename: 'Collection',
   title: 'Example Collection',
-  _id: ObjectId(),
+  _id: new ObjectId(),
   bookmarks: [
     {
       __typename: 'Bookmark',
-      _id: ObjectId(),
+      _id: new ObjectId(),
       url: 'https://google.com',
       label: 'Webmail',
       description: 'Lorem ipsum',
     },
     {
       __typename: 'Bookmark',
-      _id: ObjectId(),
+      _id: new ObjectId(),
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
       description: 'Lorem ipsum',
     },
     {
       __typename: 'Bookmark',
-      _id: ObjectId(),
+      _id: new ObjectId(),
       url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
       label: 'vMPF',
       description: 'Lorem ipsum',
     },
     {
       __typename: 'Bookmark',
-      _id: ObjectId(),
+      _id: new ObjectId(),
       url: 'https://leave.af.mil/profile',
       label: 'LeaveWeb',
       description: 'Lorem ipsum',
     },
     {
       __typename: 'Bookmark',
-      _id: ObjectId(),
+      _id: new ObjectId(),
       url: 'https://www.e-publishing.af.mil/',
       label: 'e-Publications',
       description: 'Lorem ipsum',
@@ -69,11 +67,11 @@ const exampleCollection1 = {
 const exampleCollection2 = {
   __typename: 'Collection',
   title: 'Second Collection',
-  _id: ObjectId(),
+  _id: new ObjectId(),
   bookmarks: [
     {
       __typename: 'Bookmark',
-      _id: ObjectId(),
+      _id: new ObjectId(),
       url: 'https://google.com',
       label: 'Search Engine',
       description: 'Lorem ipsum',

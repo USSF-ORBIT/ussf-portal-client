@@ -1,24 +1,24 @@
 import { gql, useMutation } from '@apollo/client'
-import type { Bookmark } from 'types'
+import type { Bookmark, BookmarkInput } from 'types'
 
 interface AddCollectionResponse {
-  id: string
+  _id: string
   title: string
   bookmarks: Bookmark[]
 }
 
 interface AddCollectionInput {
   title: string
-  bookmarks: Bookmark[]
+  bookmarks: BookmarkInput[]
 }
 
 export const ADD_COLLECTION = gql`
-  mutation addCollection($title: String, $bookmarks: [Bookmark!]!) {
+  mutation addCollection($title: String, $bookmarks: [BookmarkInput]!) {
     addCollection(title: $title, bookmarks: $bookmarks) {
-      id
+      _id
       title
       bookmarks {
-        id
+        _id
         url
         label
       }

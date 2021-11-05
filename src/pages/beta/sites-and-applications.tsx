@@ -87,7 +87,7 @@ const SitesAndApplications = ({
 
   const handleAddSelected = () => {
     const collectionObjs = selectedCollections.map((id) =>
-      collections.find((i) => i.id === id)
+      collections.find((i) => i._id === id)
     ) as CollectionType[]
 
     handleAddCollections({
@@ -112,7 +112,7 @@ const SitesAndApplications = ({
         },
       })
 
-      const collection = data?.collections.find((c) => c.id === collectionId)
+      const collection = data?.collections.find((c) => c._id === collectionId)
 
       setFlash(
         <Alert type="success" slim role="alert">
@@ -200,22 +200,22 @@ const SitesAndApplications = ({
             {collections.map((collection) => {
               return (
                 <Grid
-                  key={`collection_${collection.id}`}
+                  key={`collection_${collection._id}`}
                   tablet={{ col: 6 }}
                   desktop={{ col: 3 }}>
                   {selectMode ? (
                     <SelectableCollection
-                      id={collection.id}
+                      id={collection._id}
                       title={collection.title}
                       bookmarks={collection.bookmarks}
-                      isSelected={isSelected(collection.id)}
-                      onSelect={() => handleSelectCollection(collection.id)}
+                      isSelected={isSelected(collection._id)}
+                      onSelect={() => handleSelectCollection(collection._id)}
                     />
                   ) : (
                     <Collection title={collection.title}>
                       {collection.bookmarks?.map((bookmark) => (
                         <Bookmark
-                          key={`bookmark_${bookmark.id}`}
+                          key={`bookmark_${bookmark._id}`}
                           href={bookmark.url}>
                           {bookmark.label}
                         </Bookmark>

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 import styles from './MySpace.module.scss'
 
-import type { BookmarkRecords } from 'types/index'
+import type { BookmarkRecords, BookmarkInput } from 'types/index'
 import CustomCollection from 'components/CustomCollection/CustomCollection'
 import AddWidget from 'components/AddWidget/AddWidget'
 import { useCollectionsQuery } from 'operations/queries/getCollections'
@@ -27,8 +27,11 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   if (error) return <p>Error</p>
 
   const addNewCollection = () => {
-    console.log('add new collection...')
-    handleAddCollection({ variables: { title: '', bookmarks: [] } })
+    const bookmarks: BookmarkInput[] = []
+    handleAddCollection({
+      variables: { title: '', bookmarks: bookmarks },
+      refetchQueries: [`getCollections`],
+    })
   }
 
   return (
@@ -52,6 +55,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                       variables: {
                         _id: collection._id,
                       },
+                      refetchQueries: [`getCollections`],
                     })
                   }}
                   handleEditCollection={(title: string) => {

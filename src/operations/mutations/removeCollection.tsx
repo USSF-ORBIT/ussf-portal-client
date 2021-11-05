@@ -3,7 +3,6 @@ import type { Collection } from 'types'
 interface RemoveCollectionResponse {
   _id: string
 }
-
 interface RemoveCollectionInput {
   _id: string
 }

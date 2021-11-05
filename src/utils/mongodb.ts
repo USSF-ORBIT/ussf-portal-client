@@ -5,7 +5,7 @@ import { MongoClient } from 'mongodb'
 
 // #TODO Ask suz where to put to avoid error
 /* eslint-disable-next-line */
-declare global {
+declare global {/* eslint-disable-next-line */
   namespace NodeJS {
     interface Global {
       _mongoClientPromise: Promise<MongoClient>
