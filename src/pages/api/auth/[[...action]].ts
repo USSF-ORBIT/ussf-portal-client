@@ -1,16 +1,8 @@
-import passport from 'passport'
 import nextConnect from 'next-connect'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import {
-  configSaml,
-  PassportWithLogout,
-  LogoutRequest,
-} from '../../../lib/saml'
-
-// Configure Passport & SAML
-const passportWithLogout = passport as PassportWithLogout
-configSaml(passportWithLogout)
+import passport from '../../../lib/passport'
+import type { LogoutRequest } from '../../../lib/saml'
 
 // TODO - store a session
 const emptyUser = { nameID: '', nameIDFormat: '' }
@@ -25,10 +17,10 @@ let SESSION_USER = emptyUser
  * GET /api/auth/logout/callback - callback URL for IdP SLO
  */
 export default nextConnect<NextApiRequest, NextApiResponse>()
-  .use(passportWithLogout.initialize())
-  .get('/api/auth/login', passportWithLogout.authenticate('saml'))
+  .use(passport.initialize())
+  .get('/api/auth/login', passport.authenticate('saml'))
   .post('/api/auth/login', (req, res) => {
-    passportWithLogout.authenticate('saml', function (err, user) {
+    passport.authenticate('saml', function (err, user) {
       if (err) {
         // TODO - error handling
         // eslint-disable-next-line no-console
@@ -60,8 +52,9 @@ export default nextConnect<NextApiRequest, NextApiResponse>()
       nameIDFormat: SESSION_USER.nameIDFormat,
     }
 
-    passportWithLogout.logoutSaml(logoutRequest, (err, request) => {
+    passport.logoutSaml(logoutRequest, (err, request) => {
       if (!err && request) {
+        // TODO - POST not Redirect
         res.redirect(request)
       } else if (err) {
         // TODO - error handling
