@@ -3,7 +3,7 @@ name: Docker Build Alpha
 on:
   push:
     tags:
-      - 'release-2.0.0-alpha.*'
+      - '2.0.0-alpha.*'
 
 jobs:
   build-and-push-aws:
