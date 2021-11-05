@@ -1,0 +1,72 @@
+name: Docker Build Main
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-push-aws:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get tag
+      run: echo "RELEASE_VERSION=${GITHUB_REF:10}" >> $GITHUB_ENV
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.GHA_ECR_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.GHA_ECR_AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+        role-to-assume: ${{ secrets.GHA_ECR_ROLE_ASSUMPTION }}
+        role-skip-session-tagging: true
+        role-duration-seconds: "3600"
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-aws-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: portal-client
+        IMAGE_TAG: ${{ env.RELEASE_VERSION }}
+
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+        docker logout $ECR_REGISTRY
+
+    - name: Download task definition
+      run: |
+        aws ecs describe-task-definition --task-definition portal-client --query taskDefinition > dev-task-definition.json
+
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: dev-task-definition.json
+        container-name: portal-client
+        image: ${{ steps.build-image.outputs.image }}
+
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: portal-client
+        cluster: app-portal-client-dev
+        wait-for-service-stability: true
+
+    - name: Build, tag, and push image to C1 Artifactory
+      id: build-c1-image
+      env:
+        IMAGE_TAG: ${{ env.RELEASE_VERSION }}
+        C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
+        C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
+      run: |
+        docker login -u portal -p ${{ secrets.C1_ARTIFACTORY_TOKEN }} $C1_REGISTRY
+        docker build -t $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG .
+        docker push $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG"
+        docker logout $C1_REGISTRY
