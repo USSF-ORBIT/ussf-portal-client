@@ -49,7 +49,7 @@ jobs:
       with:
         task-definition: prototype-task-definition.json
         container-name: portal-client
-        image: ${{ steps.build-image.outputs.image }}
+        image: ${{ steps.build-aws-image.outputs.image }}
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
