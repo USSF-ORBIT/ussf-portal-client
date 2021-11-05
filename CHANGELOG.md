@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [2.0.0-alpha.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/1.0.0...2.0.0-alpha.0) (2021-11-02)
+## [2.0.0-alpha.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/1.0.0...2.0.0-alpha.0) (2021-11-05)
 
 
 ### Features
@@ -33,6 +33,7 @@ All notable changes to this project will be documented in this file. See [standa
 * **deps:** update dependencies ([#165](https://github.com/USSF-ORBIT/ussf-portal-client/issues/165)) ([deee557](https://github.com/USSF-ORBIT/ussf-portal-client/commit/deee557abdcc2d3e96afc3ce388060d602538fec))
 * **deps:** update dependency next to v11.1.1 [security] ([#189](https://github.com/USSF-ORBIT/ussf-portal-client/issues/189)) ([7530c57](https://github.com/USSF-ORBIT/ussf-portal-client/commit/7530c57654829612fa51007d69b15f9765a256d5))
 * Fix link color on home page ([#227](https://github.com/USSF-ORBIT/ussf-portal-client/issues/227)) ([85f4cad](https://github.com/USSF-ORBIT/ussf-portal-client/commit/85f4cada75aa94cab3ac2dd18a2f0d387ca11928)), closes [#225](https://github.com/USSF-ORBIT/ussf-portal-client/issues/225)
+* Production Dockerfile ([#327](https://github.com/USSF-ORBIT/ussf-portal-client/issues/327)) ([63d482c](https://github.com/USSF-ORBIT/ussf-portal-client/commit/63d482c085ba0d6c779c84885eb79aecfaf66554))
 * Unable to close out of flyout menu ([#306](https://github.com/USSF-ORBIT/ussf-portal-client/issues/306)) ([2ed614c](https://github.com/USSF-ORBIT/ussf-portal-client/commit/2ed614c9a2faefebe146346986c54f0b288081bc))
 
 
