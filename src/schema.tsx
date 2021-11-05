@@ -16,7 +16,7 @@ export const typeDefs = gql`
     collections: [Collection!]
   }
   type Mutation {
-    addCollection(title: String!, bookmarks: [BookmarkInput]!): Collection
+    addCollection(title: String!, bookmarks: [BookmarkInput!]!): Collection
     editCollection(_id: ID!, title: String!): Collection
     removeCollection(_id: ID!): Collection
     removeBookmark(_id: ID!, collectionId: ID!): Bookmark

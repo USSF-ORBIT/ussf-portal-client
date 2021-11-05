@@ -35,6 +35,7 @@ const resolvers: Resolvers = {
   },
   Mutation: {
     addCollection: async (_, args, { db }) => {
+      console.log('🧐 DO WE EVEN GET HEREEEEE')
       const newBookmarks: Bookmark[] = args.bookmarks.map((input: any) => ({
         _id: new ObjectId(),
         url: input.url,
@@ -60,6 +61,9 @@ const resolvers: Resolvers = {
 
       try {
         await db.collection('users').updateOne(query, updateDocument)
+
+        // may need to return something else
+        console.log(newCollection)
         return newCollection
       } catch (e) {
         console.error('error in add collection', e)

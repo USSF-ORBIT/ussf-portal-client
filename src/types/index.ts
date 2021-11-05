@@ -10,9 +10,13 @@ export type Bookmark = {
 }
 
 type BookmarkRecord = Partial<Bookmark> & Pick<Bookmark, '_id'>
-export type BookmarkInput = Partial<Bookmark> & Pick<Bookmark, 'url' & 'label' & 'description'>
-export type BookmarkRecords = readonly BookmarkRecord[]
 
+export type BookmarkRecords = readonly BookmarkRecord[]
+export type BookmarkInput = {
+  url: string
+  label?: string
+  description?: string
+}
 
 export type Collection = {
   __typename?: string

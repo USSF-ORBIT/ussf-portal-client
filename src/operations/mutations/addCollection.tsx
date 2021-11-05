@@ -13,7 +13,7 @@ interface AddCollectionInput {
 }
 
 export const ADD_COLLECTION = gql`
-  mutation addCollection($title: String, $bookmarks: [BookmarkInput]!) {
+  mutation addCollection($title: String!, $bookmarks: [BookmarkInput!]!) {
     addCollection(title: $title, bookmarks: $bookmarks) {
       _id
       title
