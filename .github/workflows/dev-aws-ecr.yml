@@ -30,7 +30,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: portal-client
-        IMAGE_TAG: ${{ env.RELEASE_VERSION }}
+        IMAGE_TAG: ${{ github.sha }}
 
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
@@ -61,7 +61,7 @@ jobs:
     - name: Build, tag, and push image to C1 Artifactory
       id: build-c1-image
       env:
-        IMAGE_TAG: ${{ env.RELEASE_VERSION }}
+        IMAGE_TAG: ${{ github.sha }}
         C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
         C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
       run: |
