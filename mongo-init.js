@@ -79,24 +79,6 @@ const exampleCollection2 = {
   ],
 }
 
-// db.mySpace.insertOne(exampleCollection2)
-
-// const createdCollection2 = db.mySpace.find({}).toArray()
-// const collectionId2 = createdCollection2[1]._id
-
-// db.users.updateOne(
-//   {
-//     _id: userId,
-//   },
-//   {
-//     $push: {
-//       mySpace: {
-//         $each: [collectionId1, collectionId2],
-//       },
-//     },
-//   }
-// )
-
 const exampleUser = {
   commonName: 'HALL.MICHAEL.0123456789',
   isBeta: true,
@@ -105,5 +87,4 @@ const exampleUser = {
 
 db.users.insertOne(exampleUser)
 
-// const createdUser = db.users.find({}).toArray()
-// const userId = createdUser[0]._id
+db.users.createIndex({ mySpace: 1 })

@@ -20,6 +20,5 @@ export const GET_COLLECTIONS = gql`
 `
 
 export function useCollectionsQuery() {
-  console.log('Use Collections Queryyyy')
   return useQuery<CollectionsQueryResponse>(GET_COLLECTIONS)
 }

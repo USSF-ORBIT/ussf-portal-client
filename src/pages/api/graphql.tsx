@@ -14,8 +14,7 @@ import clientPromise from 'utils/mongodb'
 export const config: PageConfig = {
   api: { bodyParser: false },
 }
-// #TODO remove this
-
+// #TODO remove this once we have sessions
 const commonName = 'HALL.MICHAEL.0123456789'
 
 const resolvers: Resolvers = {
@@ -35,7 +34,6 @@ const resolvers: Resolvers = {
   },
   Mutation: {
     addCollection: async (_, args, { db }) => {
-      console.log('🧐 DO WE EVEN GET HEREEEEE')
       const newBookmarks: Bookmark[] = args.bookmarks.map((input: any) => ({
         _id: new ObjectId(),
         url: input.url,
@@ -61,9 +59,6 @@ const resolvers: Resolvers = {
 
       try {
         await db.collection('users').updateOne(query, updateDocument)
-
-        // may need to return something else
-        console.log(newCollection)
         return newCollection
       } catch (e) {
         console.error('error in add collection', e)
@@ -140,15 +135,55 @@ const resolvers: Resolvers = {
         return e
       }
     },
-    removeBookmark: async (root, args, { db }) => {
-      // const collection = collections.find((c) => c.id === args.collectionId)
-      // const deleteIndex =
-      //   collection?.bookmarks.findIndex((b) => b.id === args.id) || -1
-      // const deleted =
-      //   deleteIndex > -1 && collection?.bookmarks.splice(deleteIndex, 1)
-      // return deleted
+    removeBookmark: async (root, { _id, collectionId }, { db }) => {
+      const query = {
+        commonName: commonName,
+        'mySpace._id': new ObjectId(collectionId),
+      }
 
-      console.log('remove bookmark')
+      const updateDocument = {
+        $pull: {
+          'mySpace.$.bookmarks': {
+            _id: new ObjectId(_id),
+          },
+        },
+      }
+
+      try {
+        // save collection in const to return if successful
+
+        const bookmarkQuery = await db
+          .collection('users')
+          .find({
+            mySpace: {
+              $elemMatch: {
+                _id: new ObjectId(collectionId),
+                bookmarks: {
+                  $elemMatch: {
+                    _id: new ObjectId(_id),
+                  },
+                },
+              },
+            },
+          })
+          .project({
+            'mySpace.bookmarks.$': 1,
+            _id: 0,
+          })
+          .toArray()
+
+        // #TODO add error check
+        const removedBookmark: Bookmark =
+          bookmarkQuery[0].mySpace[0].bookmarks[0]
+        // #TODO look into using findAndModify to avoid duplicate query
+        // Remove the collection from the database
+        await db.collection('users').updateOne(query, updateDocument)
+
+        return removedBookmark
+      } catch (e) {
+        console.error('error in remove collection', e)
+        return e
+      }
     },
   },
 }

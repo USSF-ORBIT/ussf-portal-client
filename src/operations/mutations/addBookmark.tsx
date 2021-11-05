@@ -25,7 +25,7 @@ export const ADD_BOOKMARK = gql`
       label: $label
       description: $description
       collectionId: $collectionId
-    ) @client
+    )
   }
 `
 export function useAddBookmarkMutation() {
