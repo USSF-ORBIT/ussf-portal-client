@@ -11,19 +11,27 @@ COPY . .
 
 RUN yarn install --frozen-lockfile
 
-ENV NEXT_TELEMETRY_DISABLED 1
-
 ARG NEXT_PUBLIC_SITE_URL
+ARG SAML_IDP_METADATA_URL
+ARG SAML_ISSUER
+
 ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+ENV SAML_IDP_METADATA_URL=${SAML_IDP_METADATA_URL}
+ENV SAML_ISSUER=${SAML_ISSUER}
 
-RUN echo "Build with variables: ${NODE_ENV} ${NEXT_PUBLIC_SITE_URL}"
+RUN echo "Build with variables: ${NODE_ENV} ${NEXT_PUBLIC_SITE_URL} ${SAML_IDP_METADATA_URL} ${SAML_ISSUER}"
 
+ENV NEXT_TELEMETRY_DISABLED 1
 RUN yarn build
 
 # Production image, copy all the files and run next
 FROM builder AS runner
 WORKDIR /app
 
+# TODO: where to store certs?
+COPY ./certs/DoD_CAs.pem /etc/ssl/certs/DoD_CAs.pem
+
+ENV NODE_EXTRA_CA_CERTS='/etc/ssl/certs/DoD_CAs.pem'
 ENV NODE_ENV production
 
 # You only need to copy next.config.js if you are NOT using the default configuration
