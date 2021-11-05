@@ -20,6 +20,7 @@ jobs:
         aws-region: us-west-2
         role-to-assume: ${{ secrets.GHA_ECR_ROLE_ASSUMPTION }}
         role-skip-session-tagging: true
+        role-duration-seconds: "3600"
 
     - name: Login to Amazon ECR
       id: login-ecr
@@ -29,7 +30,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: portal-client
-        IMAGE_TAG: ${{ env.RELEASE_VERSION }}
+        IMAGE_TAG: ${{ github.sha }}
 
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
@@ -39,7 +40,7 @@ jobs:
 
     - name: Download task definition
       run: |
-        aws ecs describe-task-definition --task-definition portal-client --query taskDefinition > dev-task-definition.json
+        aws ecs describe-task-definition --task-definition portal-client-dev --query taskDefinition > dev-task-definition.json
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
@@ -47,7 +48,7 @@ jobs:
       with:
         task-definition: dev-task-definition.json
         container-name: portal-client
-        image: ${{ steps.build-image.outputs.image }}
+        image: ${{ steps.build-aws-image.outputs.image }}
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
@@ -60,7 +61,7 @@ jobs:
     - name: Build, tag, and push image to C1 Artifactory
       id: build-c1-image
       env:
-        IMAGE_TAG: ${{ env.RELEASE_VERSION }}
+        IMAGE_TAG: ${{ github.sha }}
         C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
         C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
       run: |
