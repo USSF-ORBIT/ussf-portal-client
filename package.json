@@ -92,7 +92,12 @@
     "style-loader": "2.0.0",
     "typescript": "4.4.4"
   },
-  "resolutions": {},
+  "resolutions": {
+    "nth-check": "2.0.1",
+    "tar": "6.1.11",
+    "tmpl": "1.0.5",
+    "object-path": "0.11.8"
+  },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json}": [
       "prettier --write",
