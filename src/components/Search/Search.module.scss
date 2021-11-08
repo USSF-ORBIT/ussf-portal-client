@@ -7,10 +7,13 @@
       border-radius: 0px 6px 6px 0px;
       background-color: color($theme-color-primary);
       text-transform: unset;
+      font-family: 'Trebuchet', sans-serif;
       font-weight: 700;
       letter-spacing: normal;
       border: 1px solid #565c65;
+
       &.usa-select {
+        color: white;
         @include u-font-size('sans', 1);
         border-radius: 6px 0 0 6px;
         margin: 0;

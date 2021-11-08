@@ -1,10 +1,12 @@
-import { createSchema, list } from '@keystone-next/keystone'
+import { list } from '@keystone-next/keystone'
 import { text, relationship } from '@keystone-next/keystone/fields'
 
 const Bookmark = list({
   fields: {
     url: text({
-      isRequired: true,
+      validation: {
+        isRequired: true,
+      },
     }),
     label: text({
       isOrderable: true,
@@ -16,10 +18,12 @@ const Bookmark = list({
 const Collection = list({
   fields: {
     title: text({
-      isRequired: true,
+      validation: {
+        isRequired: true,
+      },
     }),
     bookmarks: relationship({ ref: 'Bookmark', many: true }),
   },
 })
 
-export default createSchema({ Bookmark, Collection })
+export default { Bookmark, Collection }

@@ -38,6 +38,13 @@
     .usa-nav__primary > .usa-nav__primary-item > a {
       color: #fff;
       font-weight: normal;
+      font-family: 'Trebuchet', sans-serif;
+
+      &:hover {
+        background: #e4e4e4;
+        color: #000000;
+        border-radius: 6px;
+      }
     }
   }
 }

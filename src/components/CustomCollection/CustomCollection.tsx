@@ -19,6 +19,9 @@ import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
+// Not an ideal way to validate URLs but this will work for now
+const VALID_URL_REGEX = /^(ftp|http|https):\/\/[^ "]+$/
+
 type PropTypes = {
   id: string
   title?: string
@@ -52,7 +55,7 @@ const CustomCollection = ({
   }
 
   const selectedExistingLink = (value: string) =>
-    bookmarkOptions.find((i) => i._id === value)
+    bookmarkOptions.find((i) => `i._id` === value)
 
   const handleSubmitAdd = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -66,7 +69,6 @@ const CustomCollection = ({
       urlInputValue.current = ''
       setIsAdding(false)
     } else {
-      // TODO - validate URl here
       // Adding a custom link
       addCustomLinkModal.current?.toggleModal(undefined, true)
     }
@@ -74,7 +76,7 @@ const CustomCollection = ({
 
   const handleSaveBookmark = (label: string) => {
     // TODO - ensure there is a URL value
-    console.log('handle save bookmark---')
+
     handleAddBookmark(urlInputValue.current, label)
     urlInputValue.current = ''
     setIsAdding(false)
@@ -86,12 +88,24 @@ const CustomCollection = ({
     .map(
       (b) =>
         ({
-          value: b._id,
+          value: `b._id`,
           label: b.label || b.url,
         } as ComboBoxOption)
     )
 
   const handleSelectChange = (value: string | undefined) => {
+    const existingLink = value && selectedExistingLink(value)
+    const enteredCustomLink = urlOptions.length !== bookmarkOptions.length
+
+    if (existingLink && enteredCustomLink) {
+      // Remove entered custom link
+      urlOptions.pop()
+      // Reset input validation
+      const inputEl = document.getElementById('bookmarkUrl') as HTMLInputElement
+      inputEl?.setCustomValidity('')
+      inputEl?.reportValidity()
+    }
+
     urlInputValue.current = value || ''
   }
 
@@ -106,6 +120,16 @@ const CustomCollection = ({
         // Rewrite the new option
         urlOptions[urlOptions.length - 1] = { value, label: value }
       }
+    }
+
+    if (VALID_URL_REGEX.test(value)) {
+      // valid
+      e.target.setCustomValidity('')
+    } else {
+      // invalid
+      e.target.setCustomValidity(
+        'Please enter a valid URL, starting with http:// or https://'
+      )
     }
   }
 
@@ -124,7 +148,6 @@ const CustomCollection = ({
             onChange={handleSelectChange}
             inputProps={{
               required: true,
-              // type: 'url', // TODO - handle conditional validation
               onChange: handleInputChange,
               placeholder: 'Type or paste link...',
             }}
@@ -132,7 +155,11 @@ const CustomCollection = ({
           <Button type="submit">Add site</Button>
         </Form>
       ) : (
-        <Button type="button" outline onClick={handleShowAdding}>
+        <Button
+          type="button"
+          className={styles.addLinkButton}
+          outline
+          onClick={handleShowAdding}>
           + Add link
         </Button>
       )}
@@ -218,7 +245,7 @@ const CustomCollection = ({
           <RemovableBookmark
             key={`bookmark_${bookmark._id}`}
             bookmark={bookmark}
-            handleRemove={() => handleRemoveBookmark(bookmark._id)}
+            handleRemove={() => handleRemoveBookmark(`bookmark._id`)}
           />
         ))}
       </Collection>

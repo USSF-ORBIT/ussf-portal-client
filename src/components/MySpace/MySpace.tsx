@@ -37,15 +37,15 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   console.log(data)
   return (
     <div className={styles.mySpace}>
-      <h2>My Space</h2>
+      <h2 className={styles.pageTitle}>My Space</h2>
       <div className={styles.widgetContainer}>
-        <Grid row gap>
+        <Grid row gap={2}>
           {data &&
             data.collections.map((collection) => (
               <Grid
                 key={`collection_${collection._id}`}
                 tablet={{ col: 6 }}
-                desktop={{ col: 3 }}>
+                desktop={{ col: 4 }}>
                 <CustomCollection
                   id={collection._id}
                   title={collection.title}
@@ -90,7 +90,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
           <Grid
             key={`collection_addNew`}
             tablet={{ col: 6 }}
-            desktop={{ col: 3 }}>
+            desktop={{ col: 4 }}>
             <AddWidget
               handleCreateCollection={addNewCollection}
               handleSelectCollection={() =>

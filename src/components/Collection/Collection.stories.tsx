@@ -4,7 +4,7 @@ import Collection from './Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 
 export default {
-  title: 'Components/Collection',
+  title: 'Components/Collections/Collection',
   component: Collection,
 } as Meta
 

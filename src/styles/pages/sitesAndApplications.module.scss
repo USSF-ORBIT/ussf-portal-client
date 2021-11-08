@@ -72,6 +72,11 @@
   @include u-padding-y(1);
   text-align: left;
   text-decoration: none;
+  border: 1px solid #a9aeb1;
+  border-radius: 4px;
+  padding: 12px;
+  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.15);
+  font-weight: 700;
 
   svg {
     margin-right: units(1);
@@ -83,5 +88,9 @@
 
   &[disabled] {
     color: color('disabled');
+    background-color: #f9fafa;
+    color: #787a7c;
+    box-shadow: none;
+    font-weight: 400;
   }
 }

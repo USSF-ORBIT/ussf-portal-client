@@ -42,6 +42,20 @@ describe('Header component', () => {
     expect(nav).not.toHaveClass('is-visible')
   })
 
+  it('can click the overlay to close the mobile navigation', () => {
+    render(<Header />)
+
+    const nav = screen.getByRole('navigation')
+    expect(nav).not.toHaveClass('is-visible')
+
+    userEvent.click(screen.getByRole('button', { name: 'Menu' }))
+
+    expect(nav).toHaveClass('is-visible')
+
+    userEvent.click(screen.getByRole('presentation'))
+    expect(nav).not.toHaveClass('is-visible')
+  })
+
   it('has no a11y violations', async () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334

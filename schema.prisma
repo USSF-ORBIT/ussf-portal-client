@@ -7,20 +7,21 @@ datasource sqlite {
 }
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "node_modules/.prisma/client"
+  provider   = "prisma-client-js"
+  output     = "node_modules/.prisma/client"
+  engineType = "binary"
 }
 
 model Bookmark {
   id                        String       @id @default(cuid())
-  url                       String?
-  label                     String?
-  description               String?
+  url                       String       @default("")
+  label                     String       @default("")
+  description               String       @default("")
   from_Collection_bookmarks Collection[] @relation("Collection_bookmarks_many")
 }
 
 model Collection {
   id        String     @id @default(cuid())
-  title     String?
+  title     String     @default("")
   bookmarks Bookmark[] @relation("Collection_bookmarks_many")
 }
