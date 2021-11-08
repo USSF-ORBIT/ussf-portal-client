@@ -12,7 +12,7 @@ export const typeDefs = gql`
     bookmarks: [Bookmark]
   }
   type Query {
-    collections: [Collection!]
+    collections: [Collection]
   }
   type Mutation {
     addCollection(title: String!, bookmarks: [BookmarkInput!]!): Collection

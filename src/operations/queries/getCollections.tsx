@@ -13,7 +13,6 @@ export const GET_COLLECTIONS = gql`
         _id
         url
         label
-        description
       }
     }
   }

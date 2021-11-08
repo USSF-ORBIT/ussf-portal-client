@@ -25,6 +25,7 @@ const commonName = 'HALL.MICHAEL.0123456789'
 const resolvers: Resolvers = {
   Query: {
     collections: async (_, args, { db }) => {
+      console.log('Get Collections Query')
       try {
         const foundUser = await db
           .collection('users')

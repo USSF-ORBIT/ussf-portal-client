@@ -33,7 +33,8 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
       refetchQueries: [`getCollections`],
     })
   }
-
+  console.log(error)
+  console.log(data)
   return (
     <div className={styles.mySpace}>
       <h2>My Space</h2>
