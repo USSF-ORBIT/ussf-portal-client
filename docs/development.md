@@ -75,6 +75,15 @@ To run the application stack in development mode (with hot reloading):
 docker-compose up -d
 ```
 
+This will also start a test SAML IDP (identity provider) at `localhost:8080, localhost:8443` for testing our authentication flow against. You can log in with the test user credentials:
+
+```
+username: user1
+password: user1pass
+```
+
+Additional users can be configured in the `users.php` file.
+
 ## Working on an issue
 
 To begin working on an issue, make sure you've assigned yourself to the issue in Github and marked it as "In Progress.".
