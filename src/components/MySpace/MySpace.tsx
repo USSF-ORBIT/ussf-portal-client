@@ -79,6 +79,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                         url,
                         label,
                       },
+                      refetchQueries: [`getCollections`],
                     })
                   }}
                 />

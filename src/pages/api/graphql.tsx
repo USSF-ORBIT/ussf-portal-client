@@ -8,7 +8,12 @@ import type { Resolvers } from '@apollo/client'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ObjectId } from 'mongodb'
 import { typeDefs } from '../../schema'
-import type { Bookmark, Collection, CollectionInput } from 'types/index'
+import type {
+  Bookmark,
+  Collection,
+  CollectionInput,
+  BookmarkInput,
+} from 'types/index'
 import clientPromise from 'utils/mongodb'
 
 export const config: PageConfig = {
@@ -33,8 +38,8 @@ const resolvers: Resolvers = {
     },
   },
   Mutation: {
-    addCollection: async (_, args, { db }) => {
-      const newBookmarks: Bookmark[] = args.bookmarks.map((input: any) => ({
+    addCollection: async (_, { title, bookmarks }, { db }) => {
+      const newBookmarks: Bookmark[] = bookmarks.map((input: any) => ({
         _id: new ObjectId(),
         url: input.url,
         label: input.label,
@@ -43,7 +48,7 @@ const resolvers: Resolvers = {
 
       const newCollection: CollectionInput = {
         _id: new ObjectId(),
-        title: args.title,
+        title: title,
         bookmarks: newBookmarks,
       }
 
@@ -130,8 +135,36 @@ const resolvers: Resolvers = {
         await db.collection('users').updateOne(query, updateDocument)
 
         return removedCollection
+        // #TODO update to use findAndModify like remove bookmark? would simplify
       } catch (e) {
         console.error('error in remove collection', e)
+        return e
+      }
+    },
+    addBookmark: async (root, { collectionId, url, label }, { db }) => {
+      const newBookmark: Bookmark = {
+        _id: new ObjectId(),
+        url,
+        label,
+      }
+
+      const query = {
+        'mySpace._id': new ObjectId(collectionId),
+      }
+
+      const updateDocument = {
+        $push: {
+          'mySpace.$.bookmarks': newBookmark,
+        },
+      }
+      try {
+        await db
+          .collection('users')
+          .findAndModify(query, [], updateDocument, { new: true })
+
+        return newBookmark
+      } catch (e) {
+        console.error('error in add bookmark', e)
         return e
       }
     },
@@ -151,35 +184,15 @@ const resolvers: Resolvers = {
 
       try {
         // save collection in const to return if successful
-
-        const bookmarkQuery = await db
+        const updated = await db
           .collection('users')
-          .find({
-            mySpace: {
-              $elemMatch: {
-                _id: new ObjectId(collectionId),
-                bookmarks: {
-                  $elemMatch: {
-                    _id: new ObjectId(_id),
-                  },
-                },
-              },
-            },
-          })
-          .project({
-            'mySpace.bookmarks.$': 1,
-            _id: 0,
-          })
-          .toArray()
+          .findAndModify(query, [], updateDocument, { new: true })
 
-        // #TODO add error check
-        const removedBookmark: Bookmark =
-          bookmarkQuery[0].mySpace[0].bookmarks[0]
-        // #TODO look into using findAndModify to avoid duplicate query
-        // Remove the collection from the database
-        await db.collection('users').updateOne(query, updateDocument)
+        const updatedCollection = updated?.value?.mySpace?.filter((c: any) => {
+          return String(c._id) === String(collectionId)
+        })
 
-        return removedBookmark
+        return updatedCollection[0]
       } catch (e) {
         console.error('error in remove collection', e)
         return e

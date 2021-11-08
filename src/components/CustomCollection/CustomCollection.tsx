@@ -56,7 +56,7 @@ const CustomCollection = ({
 
   const handleSubmitAdd = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-
+    console.log('inside handle submit add')
     const existingLink = selectedExistingLink(urlInputValue.current)
 
     if (existingLink) {
@@ -74,6 +74,7 @@ const CustomCollection = ({
 
   const handleSaveBookmark = (label: string) => {
     // TODO - ensure there is a URL value
+    console.log('handle save bookmark---')
     handleAddBookmark(urlInputValue.current, label)
     urlInputValue.current = ''
     setIsAdding(false)

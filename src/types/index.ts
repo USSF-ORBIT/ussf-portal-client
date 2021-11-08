@@ -1,9 +1,8 @@
-import { ObjectId } from "mongodb"
-
+import { ObjectId } from 'mongodb'
 
 export type Bookmark = {
   __typename?: string
-  _id: string
+  _id: ObjectId
   url: string
   label?: string
   description?: string
@@ -12,10 +11,18 @@ export type Bookmark = {
 type BookmarkRecord = Partial<Bookmark> & Pick<Bookmark, '_id'>
 
 export type BookmarkRecords = readonly BookmarkRecord[]
+
 export type BookmarkInput = {
   url: string
   label?: string
   description?: string
+}
+
+export type BookmarkResponse = {
+  url: string
+  label?: string
+  description?: string
+  collectionId: string
 }
 
 export type Collection = {
