@@ -1,5 +1,6 @@
 import nextConnect from 'next-connect'
 import { NextApiRequest, NextApiResponse } from 'next'
+import axios from 'axios'
 
 import passport from '../../../lib/passport'
 import { configSaml } from '../../../lib/saml'
@@ -59,8 +60,10 @@ export default nextConnect<NextApiRequest, NextApiResponse>()
 
     passport.logoutSaml(logoutRequest, (err, request) => {
       if (!err && request) {
-        // TODO - POST not Redirect
-        res.redirect(request)
+        // TODO - IDP should post back to logout callback?
+        axios.post(request).then(() => {
+          res.redirect('/login')
+        })
       } else if (err) {
         // TODO - error handling
         // eslint-disable-next-line no-console

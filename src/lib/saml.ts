@@ -4,6 +4,9 @@ import { fetch, toPassportConfig } from 'passport-saml-metadata'
 import type { NextApiRequest } from 'next'
 import type * as express from 'express'
 
+// TEMPORARY
+import cert from '../../certs/gcds_workaround'
+
 /** Types */
 
 // This represents the data we'll get back from the SAML response
@@ -53,6 +56,7 @@ const samlConfig = {
   passReqToCallback: true,
   // signatureAlgorithm: 'sha256',
   // digestAlgorithm: 'sha256',
+  cert, // temporary
 }
 
 /** Configure Passport + SAML */
