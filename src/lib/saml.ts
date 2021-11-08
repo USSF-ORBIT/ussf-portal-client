@@ -116,11 +116,11 @@ export const configSaml = async (passport: PassportWithLogout) => {
 
       samlStrategy.logout(samlRequest, done)
     }
-  } catch (error) {
+  } catch (err) {
     // TODO - log error
     // eslint-disable-next-line no-console
-    console.error(`Error loading SAML metadata from URL ${IDP_METADATA}`, error)
-    throw error
+    console.error(`Error loading SAML metadata from URL ${IDP_METADATA}`, err)
+    throw err
     // process.exit(1)
   }
 }

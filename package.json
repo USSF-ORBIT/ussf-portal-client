@@ -89,6 +89,7 @@
     "jest-axe": "5.0.1",
     "lint-staged": "11.2.6",
     "mkdirp": "1.0.4",
+    "next-test-api-route-handler": "^2.3.2",
     "prettier": "2.4.1",
     "sass": "1.43.4",
     "sass-loader": "10.2.0",

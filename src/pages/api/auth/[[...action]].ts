@@ -3,8 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import axios from 'axios'
 
 import passport from '../../../lib/passport'
-import { configSaml } from '../../../lib/saml'
-import type { LogoutRequest } from '../../../lib/saml'
+import { configSaml, LogoutRequest } from '../../../lib/saml'
 
 // TODO - store a session
 const emptyUser = { nameID: '', nameIDFormat: '' }

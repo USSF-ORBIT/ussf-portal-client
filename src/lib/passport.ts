@@ -2,7 +2,6 @@ import passport from 'passport' // This is the only file that should import pass
 
 import { User, PassportWithLogout } from './saml'
 
-// Configure Passport & SAML
 const passportWithLogout = passport as PassportWithLogout
 
 // Used for saving/retreiving user in session
