@@ -2,6 +2,7 @@ import nextConnect from 'next-connect'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import passport from '../../../lib/passport'
+import { configSaml } from '../../../lib/saml'
 import type { LogoutRequest } from '../../../lib/saml'
 
 // TODO - store a session
@@ -17,6 +18,10 @@ let SESSION_USER = emptyUser
  * GET /api/auth/logout/callback - callback URL for IdP SLO
  */
 export default nextConnect<NextApiRequest, NextApiResponse>()
+  .use(async (req, res, next) => {
+    await configSaml(passport)
+    next()
+  })
   .use(passport.initialize())
   .get('/api/auth/login', passport.authenticate('saml'))
   .post('/api/auth/login', (req, res) => {
