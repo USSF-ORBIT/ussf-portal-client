@@ -2,13 +2,16 @@ import type { PassportStatic } from 'passport'
 import { Strategy as SamlStrategy, Profile, SamlConfig } from 'passport-saml'
 import { fetch, toPassportConfig } from 'passport-saml-metadata'
 import type * as express from 'express'
+import { NextApiRequest } from 'next'
 
 import type { SAMLUser } from 'types'
 
 /** Types */
 
-export interface PassportRequest extends Omit<express.Request, 'session'> {
+export interface PassportRequest extends NextApiRequest {
   user?: SAMLUser
+  isAuthenticated(): boolean
+  login(user: SAMLUser, callback: (error?: Error) => void): void
   session: {
     destroy(): Promise<void>
   }
@@ -26,7 +29,7 @@ interface RequestWithUser extends express.Request {
 // Widen Passport type so we can add our own logout method to it
 export type PassportWithLogout = PassportStatic & {
   logoutSaml: (
-    req: express.Request,
+    req: PassportRequest,
     callback: (err: Error | null, url?: string | null | undefined) => void
   ) => void
 }

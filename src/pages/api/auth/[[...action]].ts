@@ -1,6 +1,5 @@
 import NextConnect from 'next-connect'
 import { NextApiResponse } from 'next'
-import type * as express from 'express'
 
 import passport from '../../../lib/passport'
 import session from '../../../lib/session'
@@ -74,8 +73,7 @@ handler.get('/api/auth/logout', async (req, res) => {
   } else {
     await req.session.destroy()
 
-    const expressRequest = req as unknown as express.Request
-    passport.logoutSaml(expressRequest, async (err, logoutRequest) => {
+    passport.logoutSaml(req, async (err, logoutRequest) => {
       if (!err && logoutRequest) {
         res.redirect(logoutRequest)
       } else if (err) {
