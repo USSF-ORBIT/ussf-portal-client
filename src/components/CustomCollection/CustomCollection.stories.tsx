@@ -1,5 +1,6 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
+import { ObjectID } from 'mongodb'
 import CustomCollection from './CustomCollection'
 
 type StorybookArgTypes = {
@@ -24,7 +25,7 @@ export const ExampleCustomCollection = (argTypes: StorybookArgTypes) => (
   <CustomCollection
     id="testCollection"
     title="Example collection"
-    bookmarks={[{ _id: 'link1', url: '#', label: 'Webmail' }]}
+    bookmarks={[{ _id: new ObjectID('link1'), url: '#', label: 'Webmail' }]}
     handleAddBookmark={argTypes.handleAddBookmark}
     handleRemoveBookmark={argTypes.handleRemoveBookmark}
     handleRemoveCollection={argTypes.handleRemoveCollection}

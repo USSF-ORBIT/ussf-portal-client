@@ -5,23 +5,25 @@ export type Bookmark = {
   _id: ObjectId
   url: string
   label?: string
-  description?: string
 }
 
-type BookmarkRecord = Partial<Bookmark> & Pick<Bookmark, '_id'>
+type BookmarkRecord = {
+  id: string
+  url: string
+  label?: string
+}
 
 export type BookmarkRecords = readonly BookmarkRecord[]
 
 export type BookmarkInput = {
   url: string
   label?: string
-  description?: string
 }
 
 export type BookmarkResponse = {
   url: string
   label?: string
-  description?: string
+
   collectionId: string
 }
 
@@ -37,5 +39,15 @@ export type CollectionInput = {
   title: string
   bookmarks: Bookmark[]
 }
-type CollectionRecord = Partial<Collection> & Pick<Collection, '_id'>
+
+export type CollectionsInput = {
+  _id: string
+  title: string
+  bookmarks: Bookmark[]
+}
+type CollectionRecord = {
+  id: string
+  title: string
+  bookmarks: BookmarkRecords
+}
 export type CollectionRecords = readonly CollectionRecord[]

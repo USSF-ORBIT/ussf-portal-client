@@ -25,7 +25,6 @@ const commonName = 'HALL.MICHAEL.0123456789'
 const resolvers: Resolvers = {
   Query: {
     collections: async (_, args, { db }) => {
-      console.log('Get Collections Query')
       try {
         const foundUser = await db
           .collection('users')
@@ -139,6 +138,46 @@ const resolvers: Resolvers = {
         // #TODO update to use findAndModify like remove bookmark? would simplify
       } catch (e) {
         console.error('error in remove collection', e)
+        return e
+      }
+    },
+    addCollections: async (_, args, { db }) => {
+      const newCollections = args.collections.map((collection: any) => ({
+        _id: new ObjectId(),
+        cmsId: collection.id,
+        title: collection.title,
+        bookmarks: collection.bookmarks.map((bookmark: any) => ({
+          _id: new ObjectId(),
+          cmsId: bookmark.id,
+          url: bookmark.url,
+          label: bookmark.label,
+        })),
+      }))
+
+      const query = {
+        commonName: commonName,
+      }
+
+      const updateDocument = {
+        $push: {
+          mySpace: {
+            $each: newCollections,
+          },
+        },
+      }
+
+      try {
+        await db.collection('users').updateOne(query, updateDocument)
+        const updatedCollections = await db
+          .collection('users')
+          .find({
+            commonName: commonName,
+          })
+          .toArray()
+
+        return updatedCollections[0].mySpace
+      } catch (e) {
+        console.error('error in add collection', e)
         return e
       }
     },

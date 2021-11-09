@@ -4,13 +4,14 @@ import { Button, Grid, Alert } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
-
+import { ObjectId } from 'mongodb'
 import { query } from '.keystone/api'
 
 import type {
   BookmarkRecords,
   CollectionRecords,
   Collection as CollectionType,
+  CollectionInput,
   Bookmark as BookmarkType,
 } from 'types/index'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
@@ -87,13 +88,14 @@ const SitesAndApplications = ({
 
   const handleAddSelected = () => {
     const collectionObjs = selectedCollections.map((id) =>
-      collections.find((i) => i._id === id)
-    ) as CollectionType[]
+      collections.find((i) => i.id === id)
+    ) as CollectionRecords
 
     handleAddCollections({
       variables: {
-        collections: collectionObjs,
+        collections: collectionObjs, // TODO fix this _id id business
       },
+      refetchQueries: [`getCollections`],
     })
     setSelectMode(false)
     setSelectedCollections([])
@@ -200,22 +202,22 @@ const SitesAndApplications = ({
             {collections.map((collection) => {
               return (
                 <Grid
-                  key={`collection_${collection._id}`}
+                  key={`collection_${collection.id}`}
                   tablet={{ col: 6 }}
                   desktop={{ col: 4 }}>
                   {selectMode ? (
                     <SelectableCollection
-                      id={collection._id}
+                      id={collection.id}
                       title={collection.title}
                       bookmarks={collection.bookmarks}
-                      isSelected={isSelected(collection._id)}
-                      onSelect={() => handleSelectCollection(collection._id)}
+                      isSelected={isSelected(collection.id)}
+                      onSelect={() => handleSelectCollection(collection.id)}
                     />
                   ) : (
                     <Collection title={collection.title}>
                       {collection.bookmarks?.map((bookmark) => (
                         <Bookmark
-                          key={`bookmark_${bookmark._id}`}
+                          key={`bookmark_${bookmark.id}`}
                           href={bookmark.url}>
                           {bookmark.label}
                         </Bookmark>
