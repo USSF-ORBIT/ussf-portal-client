@@ -37,5 +37,6 @@ export const typeDefs = gql`
     id: ID!
     url: String!
     label: String
+    description: String
   }
 `

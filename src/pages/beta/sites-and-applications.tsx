@@ -4,15 +4,12 @@ import { Button, Grid, Alert } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
-import { ObjectId } from 'mongodb'
 import { query } from '.keystone/api'
 
 import type {
   BookmarkRecords,
   CollectionRecords,
-  Collection as CollectionType,
-  CollectionInput,
-  Bookmark as BookmarkType,
+  BookmarkRecord,
 } from 'types/index'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 import Flash from 'components/util/Flash/Flash'
@@ -93,7 +90,7 @@ const SitesAndApplications = ({
 
     handleAddCollections({
       variables: {
-        collections: collectionObjs, // TODO fix this _id id business
+        collections: collectionObjs,
       },
       refetchQueries: [`getCollections`],
     })
@@ -103,7 +100,7 @@ const SitesAndApplications = ({
   }
 
   const handleAddToCollection = (
-    bookmark: BookmarkType,
+    bookmark: BookmarkRecord,
     collectionId?: string
   ) => {
     if (collectionId) {

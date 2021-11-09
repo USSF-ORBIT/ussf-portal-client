@@ -15,7 +15,7 @@ export default {
   },
 } as Meta
 
-const exampleBookmarks: Bookmark[] = [
+const exampleBookmarks: BookmarkRecord[] = [
   { id: '1', label: 'Webmail', url: '#' },
   { id: '2', label: 'MyPay', url: '#' },
   { id: '3', label: 'vMPF', url: '#' },

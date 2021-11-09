@@ -7,10 +7,11 @@ export type Bookmark = {
   label?: string
 }
 
-type BookmarkRecord = {
+export type BookmarkRecord = {
   id: string
   url: string
   label?: string
+  description?: string
 }
 
 export type BookmarkRecords = readonly BookmarkRecord[]
