@@ -4,7 +4,6 @@
 
     # Location of bundle from DISA site
     bundle=https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/certificates_pkcs7_DoD.zip
-    bundle=https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/certificates_pkcs7_DoD.zip
 
     # Extract the bundle
     cd /usr/local/share/ca-certificates
