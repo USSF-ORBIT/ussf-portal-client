@@ -23,7 +23,7 @@ import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 const VALID_URL_REGEX = /^(ftp|http|https):\/\/[^ "]+$/
 
 type PropTypes = {
-  id: string
+  _id: string
   title?: string
   bookmarks?: BookmarkType[]
   bookmarkOptions?: BookmarkRecords
@@ -34,7 +34,7 @@ type PropTypes = {
 }
 
 const CustomCollection = ({
-  id,
+  _id,
   title = '',
   bookmarks = [],
   bookmarkOptions = [],
@@ -210,7 +210,7 @@ const CustomCollection = ({
   const customCollectionHeader = (
     <>
       <EditableCollectionTitle
-        collectionId={id}
+        collectionId={_id}
         text={title}
         onSave={handleEditCollection}
         onDelete={handleRemoveCollection}

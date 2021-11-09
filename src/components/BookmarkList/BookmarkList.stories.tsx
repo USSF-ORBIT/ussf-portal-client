@@ -1,7 +1,7 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
 import BookmarkList from './BookmarkList'
-import type { Bookmark } from 'types/index'
+import type { BookmarkRecord } from 'types/index'
 
 type StorybookArgTypes = {
   handleAddToCollection: () => void

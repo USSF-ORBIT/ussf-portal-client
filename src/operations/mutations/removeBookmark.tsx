@@ -1,5 +1,4 @@
 import { gql, useMutation } from '@apollo/client'
-import { Bookmark } from 'types'
 
 interface RemoveBookmarkResponse {
   _id: string

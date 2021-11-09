@@ -110,6 +110,7 @@ const SitesAndApplications = ({
           collectionId,
           ...bookmark,
         },
+        refetchQueries: [`getCollections`],
       })
 
       const collection = data?.collections.find((c) => c._id === collectionId)

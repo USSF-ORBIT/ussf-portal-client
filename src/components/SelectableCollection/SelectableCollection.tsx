@@ -6,7 +6,7 @@ import styles from './SelectableCollection.module.scss'
 
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
-import type { Bookmark as BookmarkType, BookmarkRecords } from 'types/index'
+import type { BookmarkRecords } from 'types/index'
 
 type SelectableCollectionProps = {
   id: string

@@ -8,12 +8,7 @@ import type { Resolvers } from '@apollo/client'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ObjectId } from 'mongodb'
 import { typeDefs } from '../../schema'
-import type {
-  Bookmark,
-  Collection,
-  CollectionInput,
-  BookmarkInput,
-} from 'types/index'
+import type { Bookmark, Collection, CollectionInput } from 'types/index'
 import clientPromise from 'utils/mongodb'
 
 export const config: PageConfig = {
@@ -111,31 +106,15 @@ const resolvers: Resolvers = {
       }
 
       try {
-        // save collection in const to return if successful
-        const collectionQuery = await db
+        // Update and save modified document
+        const updated = await db
           .collection('users')
-          .find({
-            commonName: commonName,
-            mySpace: {
-              $elemMatch: {
-                _id: new ObjectId(_id),
-              },
-            },
-          })
-          .project({
-            'mySpace.$': 1,
-            _id: 0,
-          })
-          .toArray()
+          .findAndModify(query, [], updateDocument, { new: true })
 
         // #TODO add error check
-        const removedCollection: Collection = collectionQuery[0].mySpace[0]
-
-        // Remove the collection from the database
-        await db.collection('users').updateOne(query, updateDocument)
+        const removedCollection: Collection = updated?.value?.mySpace[0]
 
         return removedCollection
-        // #TODO update to use findAndModify like remove bookmark? would simplify
       } catch (e) {
         console.error('error in remove collection', e)
         return e
@@ -144,6 +123,7 @@ const resolvers: Resolvers = {
     addCollections: async (_, args, { db }) => {
       const newCollections = args.collections.map((collection: any) => ({
         _id: new ObjectId(),
+        // #TODO Future data modeling to be done for canonical collections
         cmsId: collection.id,
         title: collection.title,
         bookmarks: collection.bookmarks.map((bookmark: any) => ({
@@ -177,7 +157,7 @@ const resolvers: Resolvers = {
 
         return updatedCollections[0].mySpace
       } catch (e) {
-        console.error('error in add collection', e)
+        console.error('error in add collections', e)
         return e
       }
     },
@@ -198,6 +178,7 @@ const resolvers: Resolvers = {
         },
       }
       try {
+        // Update and save modified document
         await db
           .collection('users')
           .findAndModify(query, [], updateDocument, { new: true })
@@ -223,7 +204,7 @@ const resolvers: Resolvers = {
       }
 
       try {
-        // save collection in const to return if successful
+        // Update and save modified document
         const updated = await db
           .collection('users')
           .findAndModify(query, [], updateDocument, { new: true })

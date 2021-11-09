@@ -8,12 +8,7 @@ import {
 
 import styles from './BookmarkList.module.scss'
 
-import type {
-  BookmarkRecord,
-  BookmarkRecords,
-  CollectionRecords,
-  Collection,
-} from 'types'
+import type { BookmarkRecord, BookmarkRecords, Collection } from 'types'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'

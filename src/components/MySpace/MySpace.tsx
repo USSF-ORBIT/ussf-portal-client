@@ -46,7 +46,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                 tablet={{ col: 6 }}
                 desktop={{ col: 4 }}>
                 <CustomCollection
-                  id={collection._id}
+                  _id={collection._id}
                   title={collection.title}
                   bookmarks={collection.bookmarks}
                   bookmarkOptions={bookmarks}
