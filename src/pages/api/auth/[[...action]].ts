@@ -4,17 +4,11 @@ import type * as express from 'express'
 
 import passport from '../../../lib/passport'
 import session from '../../../lib/session'
-import { configSaml } from '../../../lib/saml'
-
-import type { SAMLUser } from 'types'
+import { configSaml, PassportRequest } from '../../../lib/saml'
 
 /************************************/
 /*  /api/auth/[[...action]] handler */
 /************************************/
-
-interface PassportRequest extends express.Request {
-  user?: SAMLUser
-}
 
 const handler = NextConnect<PassportRequest, NextApiResponse>()
 
@@ -72,32 +66,28 @@ handler.post('/api/auth/login', (req, res) => {
 })
 
 //  GET /api/auth/logout - initiate a SLO (logout) request
-handler.get('/api/auth/logout', (req, res) => {
+handler.get('/api/auth/logout', async (req, res) => {
   if (!req.user) {
     // Not logged in
-    req.session.destroy(() => {
-      res.redirect('/login')
-    })
+    await req.session.destroy()
+    res.redirect('/login')
   } else {
-    passport.logoutSaml(req, (err, request) => {
-      if (!err && request) {
-        req.session.destroy(() => {
-          res.redirect(request)
-        })
+    await req.session.destroy()
+
+    const expressRequest = req as unknown as express.Request
+    passport.logoutSaml(expressRequest, async (err, logoutRequest) => {
+      if (!err && logoutRequest) {
+        res.redirect(logoutRequest)
       } else if (err) {
         // TODO - error handling
         // eslint-disable-next-line no-console
         console.error('Error initiating SLO request', err)
-        req.session.destroy(() => {
-          res.redirect('/login')
-        })
+        res.redirect('/login')
       } else {
         // TODO - error handling
         // eslint-disable-next-line no-console
         console.error('Error initiating SLO request, missing request URL')
-        req.session.destroy(() => {
-          res.redirect('/login')
-        })
+        res.redirect('/login')
       }
     })
   }
@@ -105,13 +95,7 @@ handler.get('/api/auth/logout', (req, res) => {
 
 // GET /api/auth/logout/callback - callback URL for IdP SLO
 handler.get('/api/auth/logout/callback', (req, res) => {
-  if (req.user) {
-    req.session.destroy(() => {
-      res.redirect('/login')
-    })
-  } else {
-    res.redirect('/login')
-  }
+  res.redirect('/login')
 })
 
 export default handler

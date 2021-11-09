@@ -7,6 +7,13 @@ import type { SAMLUser } from 'types'
 
 /** Types */
 
+export interface PassportRequest extends Omit<express.Request, 'session'> {
+  user?: SAMLUser
+  session: {
+    destroy(): Promise<void>
+  }
+}
+
 // from: https://github.com/node-saml/passport-saml/blob/master/src/types.ts#L19
 // This is the type expected by samlStrategy.logout but it is unclear why
 // samlLogoutRequest is not used in the code, so passed in as null
@@ -84,7 +91,7 @@ export const configSaml = async (passport: PassportWithLogout) => {
 
     passport.use(samlStrategy)
 
-    passport.logoutSaml = function (req, done) {
+    passport.logoutSaml = (req, done) => {
       // Take our LogoutRequest type and cast it as the expected RequestWithUser type
       const samlRequest = {
         ...req,
