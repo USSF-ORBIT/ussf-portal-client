@@ -38,25 +38,9 @@ jobs:
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
         docker logout $ECR_REGISTRY
 
-    - name: Download task definition
+    - name: Download task definition | Update Task Definition | Update ECS Service
       run: |
-        aws ecs describe-task-definition --task-definition portal-client-dev --query taskDefinition > dev-task-definition.json
-
-    - name: Fill in the new image ID in the Amazon ECS task definition
-      id: task-def
-      uses: aws-actions/amazon-ecs-render-task-definition@v1
-      with:
-        task-definition: dev-task-definition.json
-        container-name: portal-client-dev
-        image: ${{ steps.build-aws-image.outputs.image }}
-
-    - name: Deploy Amazon ECS task definition
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      with:
-        task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: portal-client
-        cluster: app-portal-client-dev
-        wait-for-service-stability: true
+        ./scripts/deploy-dev-aws.sh
 
     - name: Build, tag, and push image to C1 Artifactory
       id: build-c1-image
@@ -65,6 +49,7 @@ jobs:
         C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
         C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
       run: |
+        sudo sh scripts/add-dod-cas.sh
         docker login -u portal -p ${{ secrets.C1_ARTIFACTORY_TOKEN }} $C1_REGISTRY
         docker build -t $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG .
         docker push $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG
