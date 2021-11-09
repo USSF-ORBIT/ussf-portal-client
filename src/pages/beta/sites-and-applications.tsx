@@ -105,8 +105,6 @@ const SitesAndApplications = ({
     collectionId?: string
   ) => {
     if (collectionId) {
-      console.log('collection id is ', collectionId)
-      console.log('book mark to add is ', bookmark)
       handleAddBookmark({
         variables: {
           collectionId,
