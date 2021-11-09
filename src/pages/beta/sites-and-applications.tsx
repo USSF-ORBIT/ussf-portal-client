@@ -10,6 +10,7 @@ import type {
   BookmarkRecords,
   CollectionRecords,
   BookmarkRecord,
+  BookmarkInput,
 } from 'types/index'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 import Flash from 'components/util/Flash/Flash'
@@ -104,6 +105,8 @@ const SitesAndApplications = ({
     collectionId?: string
   ) => {
     if (collectionId) {
+      console.log('collection id is ', collectionId)
+      console.log('book mark to add is ', bookmark)
       handleAddBookmark({
         variables: {
           collectionId,
@@ -120,11 +123,13 @@ const SitesAndApplications = ({
         </Alert>
       )
     } else {
+      const bookmarkInput: BookmarkInput = {
+        url: bookmark.url,
+        label: bookmark.label,
+      }
       handleAddCollection({
-        variables: {
-          title: '',
-          bookmarks: [bookmark],
-        },
+        variables: { title: '', bookmarks: [bookmarkInput] },
+        refetchQueries: [`getCollections`],
       })
 
       router.push('/')
