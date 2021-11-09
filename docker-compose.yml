@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  app:
+  portal_app:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: app
+    container_name: portal_app
     restart: always
     volumes:
       - ./:/app
@@ -18,6 +18,7 @@ services:
       NEXT_PUBLIC_SITE_URL: http://localhost:3000
       SAML_ISSUER: ussf-portal-client
       SAML_IDP_METADATA_URL: http://idp:8080/simplesaml/saml2/idp/metadata.php
+      REDIS_URL: redis://portal_redis
 
   idp:
     container_name: test-saml-idp
@@ -32,3 +33,9 @@ services:
       SIMPLESAMLPHP_SP_SINGLE_LOGOUT_SERVICE: http://localhost:3000/api/auth/logout/callback
     volumes:
       - ./users.php:/var/www/simplesamlphp/config/authsources.php
+
+  redis:
+    container_name: portal_redis
+    image: redis
+    expose:
+      - '6379'
