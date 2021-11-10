@@ -1,7 +1,5 @@
 /* eslint no-undef: "off" */
 
-// const { ObjectId } = require('bson')
-
 /*
 This script will only run if there is no existing database.
 To trigger on subsequent Docker builds, make sure to run
@@ -17,40 +15,34 @@ print('✅ Connected to database: ', db)
 db.createCollection('users')
 
 const exampleCollection1 = {
-  __typename: 'Collection',
   title: 'Example Collection',
   _id: new ObjectId(),
   bookmarks: [
     {
-      __typename: 'Bookmark',
       _id: new ObjectId(),
       url: 'https://google.com',
       label: 'Webmail',
       description: 'Lorem ipsum',
     },
     {
-      __typename: 'Bookmark',
       _id: new ObjectId(),
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
       description: 'Lorem ipsum',
     },
     {
-      __typename: 'Bookmark',
       _id: new ObjectId(),
       url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
       label: 'vMPF',
       description: 'Lorem ipsum',
     },
     {
-      __typename: 'Bookmark',
       _id: new ObjectId(),
       url: 'https://leave.af.mil/profile',
       label: 'LeaveWeb',
       description: 'Lorem ipsum',
     },
     {
-      __typename: 'Bookmark',
       _id: new ObjectId(),
       url: 'https://www.e-publishing.af.mil/',
       label: 'e-Publications',
@@ -59,18 +51,11 @@ const exampleCollection1 = {
   ],
 }
 
-// db.mySpace.insertOne(exampleCollection1)
-
-// const createdCollection1 = db.mySpace.find({}).toArray()
-// const collectionId1 = createdCollection1[0]._id
-
 const exampleCollection2 = {
-  __typename: 'Collection',
   title: 'Second Collection',
   _id: new ObjectId(),
   bookmarks: [
     {
-      __typename: 'Bookmark',
       _id: new ObjectId(),
       url: 'https://google.com',
       label: 'Search Engine',
@@ -86,5 +71,3 @@ const exampleUser = {
 }
 
 db.users.insertOne(exampleUser)
-
-db.users.createIndex({ mySpace: 1 })

@@ -8,7 +8,7 @@ import { axe } from 'jest-axe'
 import React from 'react'
 
 import BookmarkList from './BookmarkList'
-import type { BookmarkRecord } from 'types'
+import type { BookmarkRecord, BookmarkRecords } from 'types'
 
 const exampleBookmarks: BookmarkRecord[] = [
   { id: '1', label: 'Webmail', url: '#' },
@@ -93,13 +93,16 @@ describe('BookmarkList component', () => {
     ).toHaveLength(7)
   })
 
-  // it('doesn’t render invalid bookmarks', () => {
-  //   // #TODO Do we need to do anything to permit these invalid bookmarks?
-  //   // We wanna test the invalid ones!
-  //   render(<BookmarkList {...testProps} bookmarks={exampleInvalidBookmarks} />)
-  //   expect(screen.getByRole('table')).toBeInTheDocument()
-  //   expect(screen.getAllByRole('link')).toHaveLength(4)
-  // })
+  it('doesn’t render invalid bookmarks', () => {
+    render(
+      <BookmarkList
+        {...testProps}
+        bookmarks={exampleInvalidBookmarks as BookmarkRecords}
+      />
+    )
+    expect(screen.getByRole('table')).toBeInTheDocument()
+    expect(screen.getAllByRole('link')).toHaveLength(4)
+  })
 
   it('has no a11y violations', async () => {
     // Bug with NextJS Link + axe :(

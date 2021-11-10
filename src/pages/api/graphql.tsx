@@ -61,6 +61,7 @@ const resolvers: Resolvers = {
         await db.collection('users').updateOne(query, updateDocument)
         return newCollection
       } catch (e) {
+        // #TODO Add logging
         console.error('error in add collection', e)
         return e
       }
@@ -80,13 +81,13 @@ const resolvers: Resolvers = {
       try {
         await db.collection('users').updateOne(query, updateDocument)
 
-        const c = await db
+        const updatedCollection = await db
           .collection('users')
           .find({ 'mySpace._id': new ObjectId(_id) })
           .project({ 'mySpace.$': 1, _id: 0 })
           .toArray()
 
-        return c[0].mySpace[0]
+        return updatedCollection[0].mySpace[0]
       } catch (e) {
         console.error('error in edit collection', e)
         return e
