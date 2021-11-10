@@ -17,7 +17,7 @@
 
 1. **Install [Docker](https://www.docker.com/products/docker-desktop)**
 
-   - We're using Docker to build & run the application.
+   - We're using Docker for local development, and to build & run the application in production.
    - Since we are _not_ using Docker as a full development environment, you will still need to check your node version and install packages (in order to do things like run tests, linting, Storybook, etc. on your local machine).
 
 1. **Check your node version: `node -v`**
@@ -67,22 +67,78 @@ You can start the NextJS server in "production mode" (i.e., the server will run 
 - `yarn build` builds static assets that will be served by NextJS. This command must be used before `yarn serve`.
 - `yarn serve` starts the NextJS server running at `localhost:3000` (the same port used by the dev server).
 
-### Running in Docker (WIP)
+### Running in Docker
 
-To run the application stack in development mode (with hot reloading):
+There are two separate Dockerfiles: `Dockerfile.dev`, which is used for running a local dev environment, and `Dockerfile`, which builds the production-ready image.
+
+### Local Development with Docker
+
+You can spin up your Docker environment using Docker Compose. By running `docker compose up`, it will use `docker-compose.yml` to create and run the services required for development.
+
+Services include:
+
+1. Next.js App
+
+- Uses image built in `Dockerfile.dev`
+- access on `localhost:3000`
+
+2. MongoDB
+
+- Uses official MongoDB image v4.0.0
+- exposed on port `:27017`
+- initalizes `dev` database
+
+3. Mongo Express
+
+- In-browser GUI for MongoDB
+- access on `localhost:8888`
+
+4. Test SAML Identity Provider
+
+- Service for testing auth flow
+- Access on `localhost:8080`, `localhost:8443`
+- Log in with test user credentials:
+  - username: user1
+  - password: user1pass
+- Additional users can be configured in the `users.php` file
+
+To run the app in detached development mode (with hot reloading):
 
 ```
-docker-compose up -d
-```
-
-This will also start a test SAML IDP (identity provider) at `localhost:8080, localhost:8443` for testing our authentication flow against. You can log in with the test user credentials:
+docker compose up -d
 
 ```
-username: user1
-password: user1pass
+
+### MongoDB in Docker
+
+On first creation of the MongoDB container, it will initialize a database as specified in `docker-compose` environment variables.
+
+```
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      - MONGODB_DB=dev
 ```
 
-Additional users can be configured in the `users.php` file.
+It will also run `mongo-init.js`, which sets up a `users` collection and adds a user with test data to the database.
+
+**Note**: This script only runs if the `dev` database does not already exist.
+
+To **reset the database** and re-initialize with test user:
+
+```
+docker compose down
+
+# Remove mounted volume for db
+docker volume rm ussf-portal-client_mongodb_data_container
+
+docker compose up
+```
+
+### Known limitations
+
+- Currently Docker is not set up to run the static site.
+
+- If a change is made to package.json, you'll need to shut down the environment and rebuild the app image using `docker compose up --build`
 
 ## Working on an issue
 
