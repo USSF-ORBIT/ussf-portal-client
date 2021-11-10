@@ -6,7 +6,7 @@ import { act, screen, render } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { v4 } from 'uuid'
+import { ObjectId } from 'mongodb'
 import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
 
@@ -48,6 +48,34 @@ jest.mock('operations/mutations/addCollection', () => ({
   useAddCollectionMutation: () => [mockAddCollection],
 }))
 
+const collectionRecords = [
+  {
+    id: '1',
+    title: 'Example Collection',
+    bookmarks: [
+      {
+        id: '1',
+        url: 'https://google.com',
+        label: 'Webmail',
+        description: 'Lorem ipsum',
+      },
+      {
+        id: '2',
+        url: 'https://mypay.dfas.mil/#/',
+        label: 'MyPay',
+        description: 'Lorem ipsum',
+      },
+      {
+        id: '3',
+        url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+        label: 'vMPF',
+        description: 'Lorem ipsum',
+      },
+    ],
+  },
+]
+
+const mockId = new ObjectId()
 const mocks = [
   {
     request: {
@@ -57,23 +85,23 @@ const mocks = [
       data: {
         collections: [
           {
-            id: v4(),
+            _id: '1',
             title: 'Example Collection',
             bookmarks: [
               {
-                id: v4(),
+                _id: '2',
                 url: 'https://google.com',
                 label: 'Webmail',
                 description: 'Lorem ipsum',
               },
               {
-                id: v4(),
+                _id: '3',
                 url: 'https://mypay.dfas.mil/#/',
                 label: 'MyPay',
                 description: 'Lorem ipsum',
               },
               {
-                id: v4(),
+                _id: '4',
                 url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
                 label: 'vMPF',
                 description: 'Lorem ipsum',
@@ -103,7 +131,7 @@ describe('My Space Component', () => {
     beforeEach(() => {
       html = render(
         <MockedProvider mocks={mocks} addTypename={false}>
-          <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
+          <MySpace bookmarks={collectionRecords[0].bookmarks} />
         </MockedProvider>
       )
     })
@@ -155,7 +183,7 @@ describe('My Space Component', () => {
 
     render(
       <MockedProvider mocks={errorMock} addTypename={false}>
-        <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
+        <MySpace bookmarks={collectionRecords[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -165,7 +193,7 @@ describe('My Space Component', () => {
   it('navigates to Sites & Applications when adding new existing collections', async () => {
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
+        <MySpace bookmarks={collectionRecords[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -210,7 +238,7 @@ describe('My Space Component', () => {
 
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
+        <MySpace bookmarks={collectionRecords[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -229,16 +257,17 @@ describe('My Space Component', () => {
 
     expect(mockRemoveBookmark).toHaveBeenCalledWith({
       variables: {
-        id: mocks[0].result.data.collections[0].bookmarks[0].id,
-        collectionId: mocks[0].result.data.collections[0].id,
+        _id: mocks[0].result.data.collections[0].bookmarks[0]._id,
+        collectionId: mocks[0].result.data.collections[0]._id,
       },
+      refetchQueries: [`getCollections`],
     })
   })
 
   it('handles the add bookmark operation', async () => {
     renderWithModalRoot(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
+        <MySpace bookmarks={collectionRecords[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -257,17 +286,18 @@ describe('My Space Component', () => {
 
     expect(mockAddBookmark).toHaveBeenCalledWith({
       variables: {
-        collectionId: mocks[0].result.data.collections[0].id,
+        collectionId: mocks[0].result.data.collections[0]._id,
         url: 'http://www.example.com',
         label: 'My Custom Link',
       },
+      refetchQueries: [`getCollections`],
     })
   })
 
   it('handles the edit collection title operation', async () => {
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
+        <MySpace bookmarks={collectionRecords[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -281,7 +311,7 @@ describe('My Space Component', () => {
 
     expect(mockEditCollection).toHaveBeenCalledWith({
       variables: {
-        id: mocks[0].result.data.collections[0].id,
+        _id: mocks[0].result.data.collections[0]._id,
         title: 'Updated Title',
       },
     })
@@ -290,7 +320,7 @@ describe('My Space Component', () => {
   it('handles the remove collection operation', async () => {
     renderWithModalRoot(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
+        <MySpace bookmarks={collectionRecords[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -303,15 +333,16 @@ describe('My Space Component', () => {
 
     expect(mockRemoveCollection).toHaveBeenCalledWith({
       variables: {
-        id: mocks[0].result.data.collections[0].id,
+        _id: mocks[0].result.data.collections[0]._id,
       },
+      refetchQueries: [`getCollections`],
     })
   })
 
   it('handles the add collection operation', async () => {
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace bookmarks={mocks[0].result.data.collections[0].bookmarks} />
+        <MySpace bookmarks={collectionRecords[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -324,6 +355,7 @@ describe('My Space Component', () => {
         title: '',
         bookmarks: [],
       },
+      refetchQueries: [`getCollections`],
     })
   })
 })
