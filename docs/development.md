@@ -67,7 +67,7 @@ You can start the NextJS server in "production mode" (i.e., the server will run 
 - `yarn build` builds static assets that will be served by NextJS. This command must be used before `yarn serve`.
 - `yarn serve` starts the NextJS server running at `localhost:3000` (the same port used by the dev server).
 
-### Running in Docker (WIP)
+### Running in Docker
 
 There are two separate Dockerfiles: `Dockerfile.dev`, which is used for running a local dev environment, and `Dockerfile`, which builds the production-ready image.
 
