@@ -106,6 +106,20 @@ docker compose up -d
 
 ```
 
+### MongoDB in Docker
+
+On first creation of the MongoDB container, it will initialize a database as specified in `docker-compose` environment variables.
+
+```
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      - MONGODB_DB=dev
+```
+
+It will also run `mongo-init.js`, which sets up a `users` collection and adds a user with test data to the database.
+
+**Note**: This script only runs if the `dev` database does not already exist.
+
 To **reset the database** and re-initialize with test user:
 
 ```
