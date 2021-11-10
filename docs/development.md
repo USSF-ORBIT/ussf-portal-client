@@ -18,7 +18,7 @@
 
 1. **Install [Docker](https://www.docker.com/products/docker-desktop)**
 
-   - We're using Docker to build & run the application.
+   - We're using Docker for local development, and to build & run the application in production.
    - Since we are _not_ using Docker as a full development environment, you will still need to check your node version and install packages (in order to do things like run tests, linting, Storybook, etc. on your local machine).
 
 1. **Check your node version: `node -v`**
@@ -75,34 +75,53 @@ The `yarn dev` command starts the NextJS dev server at `localhost:3000`, but thi
 
 ## Running in Docker
 
-To run the app in development mode (with hot reloading):
+There are two separate Dockerfiles: `Dockerfile.dev`, which is used for running a local dev environment, and `Dockerfile`, which builds the production-ready image.
+
+### Local Development with Docker
+
+You can spin up your Docker environment using Docker Compose. By running `docker compose up`, it will use `docker-compose.yml` to create and run the services required for development.
+
+Services include:
+
+1. Next.js App
+
+- Uses image built in `Dockerfile.dev`
+- access on `localhost:3000`
+
+2. MongoDB
+
+- Uses official MongoDB image v4.0.0
+- exposed on port `:27017`
+- initalizes `dev` database
+
+3. Mongo Express
+
+- In-browser GUI for MongoDB
+- access on `localhost:8888`
+
+To run the app in detached development mode (with hot reloading):
 
 ```
-// Relies on the following env vars (which are the defaults in .envrc)
-// NODE_ENV=development
-// TARGET_ENV=development
-
-docker-compose up -d
-```
-
-To build the app & run the server in production mode:
+docker compose up -d
 
 ```
-// Relies on the following env vars (override in .envrc.local)
-// NODE_ENV=production
-// TARGET_ENV=production
-docker-compose up -d
-```
 
-You will need to rebuild when changing the env vars:
+To **reset the database** and re-initialize with test user:
 
 ```
-docker-compose down // if it was running
-direnv allow
-docker-compose up -d --build
+docker compose down
+
+# Remove mounted volume for db
+docker volume rm ussf-portal-client_mongodb_data_container
+
+docker compose up
 ```
 
-Currently Docker is not set up to run the static site.
+### Known limitations
+
+- Currently Docker is not set up to run the static site.
+
+- If a change is made to package.json, you'll need to shut down the environment and rebuild the app image using `docker compose up --build`
 
 ## Working on an issue
 
