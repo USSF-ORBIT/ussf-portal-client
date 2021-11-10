@@ -17,6 +17,9 @@ input BookmarkWhereInput {
   OR: [BookmarkWhereInput!]
   NOT: [BookmarkWhereInput!]
   id: IDFilter
+  url: StringFilter
+  label: StringFilter
+  description: StringFilter
 }
 
 input IDFilter {
@@ -30,9 +33,39 @@ input IDFilter {
   not: IDFilter
 }
 
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
 input BookmarkOrderByInput {
   id: OrderDirection
+  url: OrderDirection
   label: OrderDirection
+  description: OrderDirection
 }
 
 enum OrderDirection {
@@ -78,10 +111,19 @@ input CollectionWhereInput {
   OR: [CollectionWhereInput!]
   NOT: [CollectionWhereInput!]
   id: IDFilter
+  title: StringFilter
+  bookmarks: BookmarkManyRelationFilter
+}
+
+input BookmarkManyRelationFilter {
+  every: BookmarkWhereInput
+  some: BookmarkWhereInput
+  none: BookmarkWhereInput
 }
 
 input CollectionOrderByInput {
   id: OrderDirection
+  title: OrderDirection
 }
 
 input CollectionUpdateInput {
@@ -200,7 +242,7 @@ type KeystoneAdminUIFieldMeta {
   customViewsIndex: Int
   createView: KeystoneAdminUIFieldMetaCreateView!
   listView: KeystoneAdminUIFieldMetaListView!
-  itemView(id: ID!): KeystoneAdminUIFieldMetaItemView
+  itemView(id: ID): KeystoneAdminUIFieldMetaItemView
   search: QueryMode
 }
 
@@ -223,7 +265,7 @@ enum KeystoneAdminUIFieldMetaListViewFieldMode {
 }
 
 type KeystoneAdminUIFieldMetaItemView {
-  fieldMode: KeystoneAdminUIFieldMetaItemViewFieldMode!
+  fieldMode: KeystoneAdminUIFieldMetaItemViewFieldMode
 }
 
 enum KeystoneAdminUIFieldMetaItemViewFieldMode {

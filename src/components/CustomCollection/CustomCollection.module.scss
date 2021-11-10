@@ -16,6 +16,12 @@
   @include u-margin-top(2);
 }
 
+.addLinkButton {
+  &:hover {
+    background-color: #f0f0f0;
+  }
+}
+
 button.collectionSettingsDropdown {
   background-color: #ffffff;
   color: #005ea2;

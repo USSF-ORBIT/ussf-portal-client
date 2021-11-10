@@ -41,3 +41,5 @@ cypress/reports
 # dotenv environment variables file
 .env
 .envrc.local
+
+tsconfig.tsbuildinfo
