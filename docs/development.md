@@ -93,6 +93,15 @@ Services include:
 - In-browser GUI for MongoDB
 - access on `localhost:8888`
 
+4. Test SAML Identity Provider
+
+- Service for testing auth flow
+- Access on `localhost:8080`, `localhost:8443`
+- Log in with test user credentials:
+  - username: user1
+  - password: user1pass
+- Additional users can be configured in the `users.php` file
+
 To run the app in detached development mode (with hot reloading):
 
 ```
