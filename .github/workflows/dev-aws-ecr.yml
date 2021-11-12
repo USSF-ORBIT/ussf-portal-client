@@ -39,6 +39,10 @@ jobs:
         docker logout $ECR_REGISTRY
 
     - name: Download task definition | Update Task Definition | Update ECS Service
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: portal-client
+        IMAGE_TAG: ${{ github.sha }}
       run: |
         ./scripts/deploy-dev-aws.sh
 
