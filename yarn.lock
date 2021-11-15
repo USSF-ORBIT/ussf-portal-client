@@ -3978,7 +3978,7 @@
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
 
-"@types/connect-redis@^0.0.17":
+"@types/connect-redis@0.0.17":
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/@types/connect-redis/-/connect-redis-0.0.17.tgz#657e13c22dd9ad1a0486ebf8f8df66aebce617e4"
   integrity sha512-6apVqZFTMspIWwjGPfip7fKP+6Sl3M589DuYuYtzyc+Fzn2fnZqtQQ2o/UfwDlLh6zxq0RAnFbW3Mx1+2Nuh0w==
@@ -6812,7 +6812,7 @@ concat-stream@^2.0.0:
     readable-stream "^3.0.2"
     typedarray "^0.0.6"
 
-connect-redis@^6.0.0:
+connect-redis@6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/connect-redis/-/connect-redis-6.0.0.tgz#7e443fc7028eca43302bee59f51a315f65cd56b5"
   integrity sha512-6eGEAAPHYvcfbRNCMmPzBIjrqRWLw7at9lCUH4G6NQ8gwWDJelaUmFNOqPIhehbw941euVmIuqWsaWiKXfb+5g==
@@ -12378,7 +12378,7 @@ next-connect@0.11.0:
   dependencies:
     trouter "^3.1.0"
 
-next-session@^4.0.2:
+next-session@4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/next-session/-/next-session-4.0.2.tgz#3dfd248cfb5a7542fe4b28b188fdf90339f4bbce"
   integrity sha512-cyDLNiryaQBMH/l8zv/PLN4CvFuwQpdw1VBLfT1qvDzf9l332XBo6gLzyjCp+3PJyskLTzAi22jxbDDEnLa5Jg==
@@ -14206,7 +14206,7 @@ redis-parser@^3.0.0:
   dependencies:
     redis-errors "^1.0.0"
 
-redis@^3.1.2:
+redis@3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/redis/-/redis-3.1.2.tgz#766851117e80653d23e0ed536254677ab647638c"
   integrity sha512-grn5KoZLr/qrRQVwoSkmzdbw6pwF+/rwODtrOr6vuBRiR/f3rjSTGupbF90Zpqm2oenix8Do6RV7pYEkGwlKkw==
