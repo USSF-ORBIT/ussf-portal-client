@@ -5,30 +5,29 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { ObjectId } from 'mongodb'
 
 import { renderWithModalRoot } from '../../testHelpers'
 
 import CustomCollection from './CustomCollection'
 
 const exampleCollection = {
-  _id: new ObjectId().toHexString(),
+  _id: '1',
   title: 'Example Collection',
   bookmarks: [
     {
-      _id: new ObjectId(),
+      _id: '1',
       url: 'https://google.com',
       label: 'Webmail',
       description: 'Lorem ipsum',
     },
     {
-      _id: new ObjectId(),
+      _id: '2',
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
       description: 'Lorem ipsum',
     },
     {
-      _id: new ObjectId(),
+      _id: '3',
       url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
       label: 'vMPF',
       description: 'Lorem ipsum',
@@ -558,7 +557,7 @@ describe('CustomCollection component', () => {
     it('renders a focused input for the title', () => {
       render(
         <CustomCollection
-          _id={new ObjectId().toHexString()}
+          _id="1"
           handleRemoveBookmark={jest.fn()}
           handleAddBookmark={jest.fn()}
           handleRemoveCollection={jest.fn()}
@@ -574,7 +573,7 @@ describe('CustomCollection component', () => {
 
       render(
         <CustomCollection
-          _id={new ObjectId().toHexString()}
+          _id="2"
           handleRemoveBookmark={jest.fn()}
           handleAddBookmark={jest.fn()}
           handleRemoveCollection={jest.fn()}
@@ -591,7 +590,7 @@ describe('CustomCollection component', () => {
 
       render(
         <CustomCollection
-          _id={new ObjectId().toHexString()}
+          _id="3"
           handleRemoveBookmark={jest.fn()}
           handleAddBookmark={jest.fn()}
           handleRemoveCollection={mockDeleteCollection}

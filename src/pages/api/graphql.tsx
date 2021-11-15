@@ -8,7 +8,7 @@ import type { Resolvers } from '@apollo/client'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ObjectId } from 'mongodb'
 import { typeDefs } from '../../schema'
-import type { Bookmark, Collection, CollectionInput } from 'types/index'
+import type { BookmarkInput, Collection, CollectionInput } from 'types/index'
 import clientPromise from 'utils/mongodb'
 
 export const config: PageConfig = {
@@ -34,7 +34,7 @@ const resolvers: Resolvers = {
   },
   Mutation: {
     addCollection: async (_, { title, bookmarks }, { db }) => {
-      const newBookmarks: Bookmark[] = bookmarks.map((input: any) => ({
+      const newBookmarks: BookmarkInput[] = bookmarks.map((input: any) => ({
         _id: new ObjectId(),
         url: input.url,
         label: input.label,
@@ -163,7 +163,7 @@ const resolvers: Resolvers = {
       }
     },
     addBookmark: async (root, { collectionId, url, label }, { db }) => {
-      const newBookmark: Bookmark = {
+      const newBookmark: BookmarkInput = {
         _id: new ObjectId(),
         url,
         label,

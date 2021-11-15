@@ -1,6 +1,6 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
-import { ObjectId } from 'mongodb'
+
 import MySpace from './MySpace'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
@@ -10,23 +10,23 @@ export default {
 } as Meta
 
 const exampleCollection = {
-  _id: new ObjectId().toHexString(),
+  _id: '1',
   title: 'Example Collection',
   bookmarks: [
     {
-      _id: new ObjectId(),
+      _id: '1',
       url: 'https://google.com',
       label: 'Webmail',
       description: 'Lorem ipsum',
     },
     {
-      _id: new ObjectId(),
+      _id: '2',
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
       description: 'Lorem ipsum',
     },
     {
-      _id: new ObjectId(),
+      _id: '3',
       url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
       label: 'vMPF',
       description: 'Lorem ipsum',

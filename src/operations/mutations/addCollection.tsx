@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client'
-import type { Bookmark, BookmarkInput } from 'types'
+import type { Bookmark, NewBookmarkInput } from 'types'
 
 interface AddCollectionResponse {
   _id: string
@@ -9,7 +9,7 @@ interface AddCollectionResponse {
 
 interface AddCollectionInput {
   title: string
-  bookmarks: BookmarkInput[]
+  bookmarks: NewBookmarkInput[]
 }
 
 export const ADD_COLLECTION = gql`

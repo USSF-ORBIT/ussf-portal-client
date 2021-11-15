@@ -10,6 +10,7 @@ import type {
   BookmarkRecords,
   CollectionRecords,
   BookmarkRecord,
+  NewBookmarkInput,
   BookmarkInput,
 } from 'types/index'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
@@ -122,7 +123,9 @@ const SitesAndApplications = ({
         </Alert>
       )
     } else {
-      const bookmarkInput: BookmarkInput = {
+      // #TODO what is happening here
+      // Create a new collection and add the bookmark to it
+      const bookmarkInput: NewBookmarkInput = {
         url: bookmark.url,
         label: bookmark.label,
       }

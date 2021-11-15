@@ -1,11 +1,12 @@
 import { ObjectId } from 'mongodb'
 
-export type Bookmark = {
-  __typename?: string
-  _id: ObjectId
-  url: string
-  label?: string
-}
+/**
+ * ***********************
+ * Types for Keystone Data
+ * ***********************
+ * */
+
+/* BookmarkRecord refers to canonical bookmarks created and managed in CMS */
 
 export type BookmarkRecord = {
   id: string
@@ -16,20 +17,45 @@ export type BookmarkRecord = {
 
 export type BookmarkRecords = readonly BookmarkRecord[]
 
+/* CollectionRecord refers to canonical collections created and managed in CMS */
+
+type CollectionRecord = {
+  id: string
+  title: string
+  bookmarks: BookmarkRecords
+}
+export type CollectionRecords = readonly CollectionRecord[]
+
+/**
+ * ***********************
+ * Types for Portal Data
+ * ***********************
+ * */
+
+/* Bookmark refers to a user-created object containing a url */
+
+export type Bookmark = {
+  _id: string
+  url: string
+  label?: string
+}
+
+// When creating a new collection, we need to initialize an empty bookmark with no ID
+export type NewBookmarkInput = {
+  url: string
+  label?: string
+}
+
+// When creating a new Bookmark, the _id must be type ObjectId
 export type BookmarkInput = {
+  _id: ObjectId
   url: string
   label?: string
 }
 
-export type BookmarkResponse = {
-  url: string
-  label?: string
-
-  collectionId: string
-}
+/* Collection refers to a user-created collection containing one or more bookmarks */
 
 export type Collection = {
-  __typename?: string
   _id: string
   title: string
   bookmarks: Bookmark[]
@@ -38,17 +64,11 @@ export type Collection = {
 export type CollectionInput = {
   _id: ObjectId
   title: string
-  bookmarks: Bookmark[]
+  bookmarks: BookmarkInput[]
 }
 
 export type CollectionsInput = {
-  _id: string
+  _id: string // Does this need to be objectid?
   title: string
-  bookmarks: Bookmark[]
+  bookmarks: BookmarkInput[]
 }
-type CollectionRecord = {
-  id: string
-  title: string
-  bookmarks: BookmarkRecords
-}
-export type CollectionRecords = readonly CollectionRecord[]
