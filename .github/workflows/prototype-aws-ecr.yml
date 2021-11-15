@@ -3,7 +3,7 @@ name: Docker Build Alpha
 on:
   push:
     tags:
-      - 'release-2.0.0-alpha.*'
+      - '2.0.0-alpha.*'
 
 jobs:
   build-and-push-aws:
@@ -20,6 +20,8 @@ jobs:
         aws-secret-access-key: ${{ secrets.GHA_ECR_AWS_SECRET_ACCESS_KEY }}
         aws-region: us-west-2
         role-to-assume: ${{ secrets.GHA_ECR_ROLE_ASSUMPTION }}
+        role-skip-session-tagging: true
+        role-duration-seconds: "3600"
 
     - name: Login to Amazon ECR
       id: login-ecr
@@ -37,22 +39,6 @@ jobs:
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
         docker logout $ECR_REGISTRY
 
-    - name: Download task definition
+    - name: Download task definition | Update Task Definition | Update ECS Service
       run: |
-        aws ecs describe-task-definition --task-definition portal-client-prototype --query taskDefinition > prototype-task-definition.json
-
-    - name: Fill in the new image ID in the Amazon ECS task definition
-      id: task-def
-      uses: aws-actions/amazon-ecs-render-task-definition@v1
-      with:
-        task-definition: prototype-task-definition.json
-        container-name: portal-client
-        image: ${{ steps.build-image.outputs.image }}
-
-    - name: Deploy Amazon ECS task definition
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      with:
-        task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: portal-client
-        cluster: app-portal-client-prototype
-        wait-for-service-stability: true
+        ./scripts/deploy-prototype-aws.sh

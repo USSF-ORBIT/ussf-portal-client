@@ -6,7 +6,8 @@ RUN apt-get update \
 WORKDIR /app
 
 # Install and cache dependencies
-COPY package.json yarn.lock /app/
+COPY package.json yarn.lock ./
+
 # Copy files that embedded keystone requires
 COPY ./src/cms/schema.ts ./src/cms/schema.ts
 COPY ./cms.db .

@@ -2,8 +2,7 @@
 
 1. [Environment Setup](#environment-setup)
 1. [yarn scripts](#yarn-scripts)
-1. [Static site vs. NextJS server](#static-site-vs-nextjs-server)
-1. [Running in Docker](#running-in-docker)
+1. [Running the application](#running-the-application)
 1. [Working on an issue](#working-on-an-issue)
 1. [PR linting](#pr-linting)
 1. [Testing](#testing)
@@ -18,7 +17,7 @@
 
 1. **Install [Docker](https://www.docker.com/products/docker-desktop)**
 
-   - We're using Docker to build & run the application.
+   - We're using Docker for local development, and to build & run the application in production.
    - Since we are _not_ using Docker as a full development environment, you will still need to check your node version and install packages (in order to do things like run tests, linting, Storybook, etc. on your local machine).
 
 1. **Check your node version: `node -v`**
@@ -40,69 +39,106 @@ Most commonly used during development:
 - `yarn test:watch`: Run Jest tests in watch mode
 - `yarn cypress:dev`: Start the Cypress test runner UI
 
-Other (you won't use these often):
+To start the app server as it will run in production:
+
+- `yarn build`: Builds the NextJS production asset bundle
+- `yarn start`: Starts the NextJS server in production mode
+
+Other:
 
 - `yarn format`: Autoformat all code using Prettier
 - `yarn lint`: Runs the TypeScript compiler and ESLint and outputs issues
 - `yarn test`: Run Jest tests once
 - `yarn storybook:build`: Build Storybook to a static site that can be deployed
-- `yarn build`: Builds the NextJS production asset bundle
-- `yarn start`: Starts the NextJS server in production mode
-- `yarn build:static`: Build the static site asset bundle for deploy
-- `yarn start:static`: Serves the static site using the [`serve`](https://github.com/vercel/serve) module
 - `yarn build:analyze`: Builds the asset bundle and generates webpack stats files
 
-## Static site vs. NextJS server
+## Running the application
 
-As development of the USSF portal progresses, we will be transitioning from a static site to one served by NextJS. During this period, we will need to be developing and supporting both the static site and the server-rendered site. Since NextJS supports both types, we can share code across them, but server-side features cannot be included in the static site build. Here are some key differences in how to develop & interact with either version:
+### Development Mode
 
-### Local Development (`localhost:3000`)
+The `yarn dev` command starts the NextJS dev server at `localhost:3000`. This command will automatically watch for changes to files, and re-compile/reload the browser window. This is usually what you'll have running during active development.
 
-The `yarn dev` command starts the NextJS dev server at `localhost:3000`, but this assumes the site will be hosted on a webserver. It's easiest to use this while actively developing, but be cautious of including server features on static pages.
+### Production Mode
 
-- The [NextJS docs](https://nextjs.org/docs/basic-features/pages#two-forms-of-pre-rendering) detail the difference between **static generation** and **server-side rendering**. The key thing to keep in mind is that only **static generation** can be used on the static site.
-- In order to develop server features, we'll likely need to implement some kind of flag in the application code that is turned off when building the static site. The details of this will be determined & fleshed out in the docs as part of the work on https://github.com/USSF-ORBIT/ussf-portal-prototype/issues/30
+_Not to be confused with the production environment!_
 
-### Testing & Deploying the Static Site (`localhost:5000`)
+You can start the NextJS server in "production mode" (i.e., the server will run in the same way it will on a deployed environment with no recompilation or hot reloading) by running both:
 
-- `yarn build:static` uses the [NextJS static export feature](https://nextjs.org/docs/advanced-features/static-html-export) to generate a static site into the `out/` directory. If the build includes any server features, it will throw an error. This build command must be used before `yarn serve:static`.
-- `yarn serve:static` uses [serve](https://github.com/vercel/serve) to serve the static site from the `out/` directory (defaulting to `localhost:5000`). You can use this locally to test the static site and it's also used to run Cypress tests against the static site.
+- `yarn build` builds static assets that will be served by NextJS. This command must be used before `yarn serve`.
+- `yarn serve` starts the NextJS server running at `localhost:3000` (the same port used by the dev server).
 
-### Testing & Deploying the NextJS Server (`localhost:3000`)
+### Running in Docker
 
-- `yarn build` builds static assets that will be served by NextJS - these are _not_ the same as assets as the static site. This command must be used before `yarn serve`.
-- `yarn serve` starts the NextJS server running at `localhost:3000` (the same port used by the dev server). This is run in production mode, and will _not_ watch for code changes (you will have to rebuild and restart the server).
+There are two separate Dockerfiles: `Dockerfile.dev`, which is used for running a local dev environment, and `Dockerfile`, which builds the production-ready image.
 
-## Running in Docker
+### Local Development with Docker
 
-To run the app in development mode (with hot reloading):
+You can spin up your Docker environment using Docker Compose. By running `docker compose up`, it will use `docker-compose.yml` to create and run the services required for development.
+
+Services include:
+
+1. Next.js App
+
+- Uses image built in `Dockerfile.dev`
+- access on `localhost:3000`
+
+2. MongoDB
+
+- Uses official MongoDB image v4.0.0
+- exposed on port `:27017`
+- initalizes `dev` database
+
+3. Mongo Express
+
+- In-browser GUI for MongoDB
+- access on `localhost:8888`
+
+4. Test SAML Identity Provider
+
+- Service for testing auth flow
+- Access on `localhost:8080`, `localhost:8443`
+- Log in with test user credentials:
+  - username: user1
+  - password: user1pass
+- Additional users can be configured in the `users.php` file
+
+To run the app in detached development mode (with hot reloading):
 
 ```
-// Relies on the following env vars (which are the defaults in .envrc)
-// NODE_ENV=development
-// TARGET_ENV=development
-
-docker-compose up -d
-```
-
-To build the app & run the server in production mode:
+docker compose up -d
 
 ```
-// Relies on the following env vars (override in .envrc.local)
-// NODE_ENV=production
-// TARGET_ENV=production
-docker-compose up -d
-```
 
-You will need to rebuild when changing the env vars:
+### MongoDB in Docker
+
+On first creation of the MongoDB container, it will initialize a database as specified in `docker-compose` environment variables.
 
 ```
-docker-compose down // if it was running
-direnv allow
-docker-compose up -d --build
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      - MONGODB_DB=dev
 ```
 
-Currently Docker is not set up to run the static site.
+It will also run `mongo-init.js`, which sets up a `users` collection and adds a user with test data to the database.
+
+**Note**: This script only runs if the `dev` database does not already exist.
+
+To **reset the database** and re-initialize with test user:
+
+```
+docker compose down
+
+# Remove mounted volume for db
+docker volume rm ussf-portal-client_mongodb_data_container
+
+docker compose up
+```
+
+### Known limitations
+
+- Currently Docker is not set up to run the static site.
+
+- If a change is made to package.json, you'll need to shut down the environment and rebuild the app image using `docker compose up --build`
 
 ## Working on an issue
 
@@ -174,14 +210,17 @@ The footer should also include `BREAKING CHANGE:` if the commit includes any bre
 ## Testing
 
 - Use [Jest](https://jestjs.io/) to write unit tests for JavaScript code & React components that will be run in [jsdom](https://github.com/jsdom/jsdom).
-  - We are currently enforcing a minimum Jest test coverage of 95% across the codebase.
+  - We are currently enforcing Jest test coverage across the codebase. You can find the minimum required % in [jest.config.js](../jest.config.js)
   - All Jest tests are run in Github CI and must pass before merging.
 - Use [Cypress](https://www.cypress.io/) to write integration & end-to-end tests that can be run in a real browser. This allows testing certain browser behaviors that are not reproducible in jsdom.
-  - All Cypress tests are run in Github CI and must pass before merging. Currently, they are only run against the static site (since that is what is currently in production) at `localhost:5000`. You can test Cypress against the static site on your local machine by running the following commands in order:
-    - `yarn build:static` (export the static site)
-    - `yarn start:static` (serve the static site)
-    - `yarn cypress:static` (start the Cypress runner against the static site)
-  - You can also run Cypress against the dev server with `yarn cypress:dev`. Just note that the dev server does _not_ match the same behavior as the static site, or even when it is running in production, so Cypress tests should always also be verified against what is going to be deployed to production.
+  - All Cypress tests are run in Github CI and must pass before merging. You can test Cypress on your local machine, and by default it will test whatever is running at `http://localhost:3000` (whether it’s the dev server or production server).
+  - To test against the production site on your local machine, run the following commands in order:
+    - `yarn build` (build NextJS assets)
+    - `yarn start` (start the NextJS server at localhost:3000)
+    - `yarn cypress` (start the Cypress runner against the site)
+  - You can also run Cypress against the dev server. Just note that the dev server does _not_ match the same behavior as when it is running in production, so Cypress tests should always also be verified against what is going to be deployed to production.
+    - `yarn dev` (start the NextJS dev server at localhost:3000)
+    - `yarn cypress` (start the Cypress runner against the site)
 
 ## Releasing
 
