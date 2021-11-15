@@ -19,6 +19,13 @@ services:
       SAML_ISSUER: ussf-portal-client
       SAML_IDP_METADATA_URL: http://idp:8080/simplesaml/saml2/idp/metadata.php
       REDIS_URL: redis://portal_redis
+      MONGO_URL: mongodb://mongo:27017
+      MONGODB_DB: dev
+    stdin_open: true
+    depends_on:
+      - mongo
+      - redis
+      - idp
 
   idp:
     container_name: test-saml-idp
@@ -39,3 +46,27 @@ services:
     image: redis
     expose:
       - '6379'
+
+  mongo:
+    container_name: mongo
+    image: mongo:4.0.0
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: dev
+    volumes:
+      - mongodb_data_container:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    ports:
+      - '27017:27017'
+
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express:latest
+    restart: always
+    ports:
+      - '8888:8081'
+    depends_on:
+      - mongo
+
+volumes:
+  mongodb_data_container:

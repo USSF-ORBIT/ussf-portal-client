@@ -10,7 +10,7 @@ export const Typography = () => {
   return (
     <div>
       <h1>Typography</h1>
-      <p>Typeface: Trebuchet</p>
+      <p>Typeface: Trebuchet MS</p>
       <table className={styles.typeTable}>
         <tr>
           <td>
