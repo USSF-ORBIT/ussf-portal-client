@@ -56,7 +56,7 @@ handler.post('/api/auth/login', (req, res) => {
       if (err) {
         // TODO - error handling
         // eslint-disable-next-line no-console
-        console.error('Error logging user in', err)
+        console.error('Error logging user into', err)
         res.status(401).end()
       }
 
@@ -76,9 +76,19 @@ handler.get('/api/auth/logout', async (req, res) => {
 
     passport.logoutSaml(req, async (err, logoutRequest) => {
       if (!err && logoutRequest) {
-        axios.post(logoutRequest).then(() => {
-          res.status(200).end()
-        })
+        // TEMPORARY - DEVELOPMENT ONLY
+        // because our test IDP does not support SLO HTTP-POST bindings
+        if (
+          process.env.SAML_IDP_METADATA_URL ===
+          'http://idp:8080/simplesaml/saml2/idp/metadata.php'
+        ) {
+          res.redirect(logoutRequest)
+        } else {
+          // POST to the SLO URL
+          axios.post(logoutRequest).then(() => {
+            res.status(200).end()
+          })
+        }
       } else if (err) {
         // TODO - error handling
         // eslint-disable-next-line no-console
