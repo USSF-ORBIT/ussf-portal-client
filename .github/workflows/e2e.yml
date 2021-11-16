@@ -2,7 +2,7 @@ name: e2e with mongo
 
 on: 
   push:
-    branches: [main]
+    branches: [main, local-to-server-resolvers]
   pull_request:
     branches: [main]
 
