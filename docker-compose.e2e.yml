@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    restart: always
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - '3000:3000'
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      - MONGODB_DB=dev
+    stdin_open: true
+    depends_on:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo:4.0.0
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: dev
+    volumes:
+      - mongodb_data_container:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    ports:
+      - '27017:27017'
+  cypress:
+    image: 'cypress/included:8.7.0'
+    # build: .
+    # working_dir: /e2e
+    # command: '--browser chrome' # "cypress/included" images have entrypoint set to globally installed cypress so the command can simply add any arguments
+    # command: --entrypoint="" /bin/bash -c 'npx wait-on http://localhost:3000 && cypress run'
+    #entrypoint: npx wait-on http-get://app:3000
+    command: cypress run
+    container_name: cypress
+    depends_on:
+      - app
+    environment:
+      - CYPRESS_baseUrl=http://app:3000
+    volumes:
+      - ./:/e2e
+volumes:
+  mongodb_data_container:
+  # cypress:
+  #   image: cypress/included:8.7.0
+  #   container_name: cypress
+  #   build: .
+  #   depends_on:
+  #     - app
+  #     - mongo
+  #   entrypoint: npx wait-on http-get://app:3000 && npx cypress run
+  #   environment:
+  #     - CYPRESS_baseUrl=http://localhost:3000
+  #   volumes:
+  #     - ./:/e2e
+  #   # command: npx wait-on http://localhost:3000 && npx cypress run
