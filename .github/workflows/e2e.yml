@@ -1,6 +1,6 @@
 name: e2e with mongo
 
-on: 
+on:
   push:
     branches: [main, local-to-server-resolvers]
   pull_request:
@@ -12,17 +12,15 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
-
       - name: Docker Compose
         run: docker compose up -d
-
       - name: Cypress run
-        uses: cypress-io/github-action@2113e5bc19c45979ba123df6e07256d2aaba9a33
-      env:
-        NEXT_PUBLIC_SITE_URL: http://localhost:3000
-        CYPRESS_BASE_URL: http://localhost:3000
-        NEXT_TELEMETRY_DISABLED: 1
-      with:
-        wait-on: 'http-get:localhost:3000'
-        wait-on-timeout: 300  
-
+        uses: cypress-io/github-action@v2
+        env:
+          NEXT_PUBLIC_SITE_URL: http://localhost:3000
+          CYPRESS_BASE_URL: http://localhost:3000
+          NEXT_TELEMETRY_DISABLED: 1
+        with:
+          browser: chrome
+          wait-on: 'http-get:localhost:3000'
+          wait-on-timeout: 300
