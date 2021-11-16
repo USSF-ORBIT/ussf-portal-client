@@ -28,6 +28,6 @@ export type SAMLUser = {
     sans: string
     surname: string
     userprincipalname: string
-    'iv-groups': string
+    ivgroups: string
   }
 }

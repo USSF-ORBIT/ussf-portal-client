@@ -17,7 +17,7 @@ $config = [
             'sans' => 'msupn:1234567890@mil',
             'surname' => 'User',
             'userprincipalname' => 'TEST.USER.1234567890@testusers.cce.af.mil',
-            'iv-groups' => 'AFIN_TRANSIT,AF_USERS',
+            'ivgroups' => 'AFIN_TRANSIT,AF_USERS',
         ],
         'user2:user2pass' => [
             'edipi' => '1234567890',
@@ -25,7 +25,7 @@ $config = [
             'sans' => 'msupn:1234567890@mil',
             'surname' => 'Tester',
             'userprincipalname' => 'SECOND.TESTER.1234567890@testusers.cce.af.mil',
-            'iv-groups' => 'AFIN_TRANSIT,AF_USERS',
+            'ivgroups' => 'AFIN_TRANSIT,AF_USERS',
         ],
     ],
 ];
