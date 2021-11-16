@@ -56,7 +56,7 @@ handler.post('/api/auth/login', (req, res) => {
       if (err) {
         // TODO - error handling
         // eslint-disable-next-line no-console
-        console.error('Error logging user into Passport', err)
+        console.error('Error logging user in', err)
         res.status(401).end()
       }
 

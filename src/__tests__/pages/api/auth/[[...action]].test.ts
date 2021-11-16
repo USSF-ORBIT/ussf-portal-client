@@ -30,6 +30,7 @@ interface RequestWithSession extends IncomingMessage {
 
 describe('API / Auth handlers', () => {
   afterEach(() => {
+    // Reset mock state
     jest.clearAllMocks()
   })
 

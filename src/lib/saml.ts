@@ -2,7 +2,7 @@ import type { PassportStatic } from 'passport'
 import { Strategy as SamlStrategy, Profile, SamlConfig } from 'passport-saml'
 import { fetch, toPassportConfig } from 'passport-saml-metadata'
 import type * as express from 'express'
-import { NextApiRequest } from 'next'
+import type { NextApiRequest } from 'next'
 
 import type { SAMLUser } from 'types'
 
