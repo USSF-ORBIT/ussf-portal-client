@@ -7,9 +7,8 @@ on:
     branches: [main]
 
 jobs:
-  setup:
+  cypress-run:
     runs-on: ubuntu-latest
-    container: cypress/included:8.7.0
     steps:
       - name: Set up node
         uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # renovate: tag=v2
@@ -19,59 +18,17 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
 
-      - name: Cypress install
+      - name: Cypress run
         uses: cypress-io/github-action@2113e5bc19c45979ba123df6e07256d2aaba9a33 # renovate: tag=v2.11.7
-        # env:
-        #   NEXT_PUBLIC_SITE_URL: http://localhost:3000
-        #   CYPRESS_BASE_URL: http://localhost:3000
-        #   NEXT_TELEMETRY_DISABLED: 1
-        with:
-          runTests: false
-          # # Build & start NextJS server:
-          # build: yarn build
-          # start: yarn start
-  ui-chrome-tests:
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    container: cypress/included:8.7.0
-    needs: setup
-    strategy:
-      # when one test fails, DO NOT cancel the other
-      # containers, because this will kill Cypress processes
-      # leaving the Dashboard hanging ...
-      # https://github.com/cypress-io/github-action/issues/48
-      fail-fast: false
-      # matrix:
-      #   # run copies of the current job in parallel
-      #   containers: [1, 2, 3, 4, 5]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Download the build folders
-        uses: actions/download-artifact@v2
-        with:
-          name: build
-          path: build
-
-      - name: 'UI Tests - Chrome'
-        uses: cypress-io/github-action@v2
-        with:
-          start: yarn start:ci
-          wait-on: 'http-get://localhost:3000'
-          wait-on-timeout: 300
-          browser: chrome
-          record: true
-          # parallel: true
-          group: 'UI - Chrome'
-          spec: cypress/tests/ui/*
         env:
           NEXT_PUBLIC_SITE_URL: http://localhost:3000
           CYPRESS_BASE_URL: http://localhost:3000
           NEXT_TELEMETRY_DISABLED: 1
-          # Recommended: pass the GitHub token lets this action correctly
-          # determine the unique run id necessary to re-run the checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          install-command: yarn --frozen-lockfile
+          # Build & start NextJS server:
+          build: yarn build
+          start: yarn start
 
       - name: Upload screenshots
         uses: actions/upload-artifact@27121b0bdffd731efa15d66772be8dc71245d074 # renovate: tag=v2
