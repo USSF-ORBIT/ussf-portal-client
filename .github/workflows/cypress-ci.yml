@@ -18,6 +18,9 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
 
+      - name: Docker compose
+        run: docker-compose -f docker-compose.e2e.yml up -d
+
       - name: Cypress run
         uses: cypress-io/github-action@2113e5bc19c45979ba123df6e07256d2aaba9a33 # renovate: tag=v2.11.7
         env:
@@ -27,8 +30,8 @@ jobs:
         with:
           install-command: yarn --frozen-lockfile
           # Build & start NextJS server:
-          build: yarn build
-          start: yarn start
+          # build: yarn build
+          # start: yarn start
 
       - name: Upload screenshots
         uses: actions/upload-artifact@27121b0bdffd731efa15d66772be8dc71245d074 # renovate: tag=v2
