@@ -1,4 +1,7 @@
 describe('Sites and Applications', () => {
+  before(() => {
+    cy.exec('yarn e2e:seedDB')
+  })
   beforeEach(() => {
     // Make sure the beta cookie is set
     cy.visit('/joinbeta')
@@ -14,7 +17,6 @@ describe('Sites and Applications', () => {
   it('can visit the Sites & Applications page', () => {
     // Client-side navigate to the page
     cy.contains('All sites & applications').click()
-
     cy.url().should('eq', Cypress.config().baseUrl + '/sites-and-applications')
     cy.contains('Sites & Applications')
 
@@ -257,7 +259,7 @@ describe('Sites and Applications', () => {
   })
 
   it('can delete an existing collection', () => {
-    cy.contains('Example Collection')
+    cy.contains('Second Collection')
       .parent()
       .within(() => {
         cy.findByRole('button', { name: 'Collection Settings' }).click()
@@ -273,7 +275,7 @@ describe('Sites and Applications', () => {
     })
 
     // Reopen the modal
-    cy.contains('Example Collection')
+    cy.contains('Second Collection')
       .parent()
       .within(() => {
         cy.findByRole('button', { name: 'Collection Settings' }).click()
@@ -289,6 +291,6 @@ describe('Sites and Applications', () => {
     })
 
     // Make sure no collection exists
-    cy.contains('Example Collection').should('not.exist')
+    cy.contains('Second Collection').should('not.exist')
   })
 })

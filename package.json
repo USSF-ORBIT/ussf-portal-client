@@ -24,6 +24,7 @@
     "test:watch": "jest --watch  --runInBand --testTimeout=60000",
     "cypress:install": "yarn --cwd e2e/ install",
     "cypress:dev": "yarn --cwd e2e/ cypress open",
+    "cypress:seed": "node e2e/cypress/database/seedMongo.js",
     "postinstall": "sh ./scripts/copy_uswds_assets.sh && keystone-next postinstall --fix",
     "release": "standard-version -t ''"
   },
