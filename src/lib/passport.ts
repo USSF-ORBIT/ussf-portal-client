@@ -1,6 +1,8 @@
 import passport from 'passport' // This is the only file that should import passport
 
-import { User, PassportWithLogout } from './saml'
+import { PassportWithLogout } from './saml'
+
+import type { SAMLUser } from 'types'
 
 const passportWithLogout = passport as PassportWithLogout
 
@@ -11,7 +13,7 @@ passportWithLogout.serializeUser((user, done) => {
 })
 
 passportWithLogout.deserializeUser((user, done) => {
-  done(null, user as User)
+  done(null, user as SAMLUser)
 })
 
 export default passportWithLogout
