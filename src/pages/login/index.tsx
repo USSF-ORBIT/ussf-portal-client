@@ -1,14 +1,10 @@
 import { ReactNode } from 'react'
-import { InferGetServerSidePropsType } from 'next'
 import { GridContainer, Accordion } from '@trussworks/react-uswds'
-
 import styles from './login.module.scss'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import Layout from 'layout/MVP/LoginLayout/LoginLayout'
 
-const Login = ({
-  loginURL = '/',
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Login = () => {
   const contactAccordion = [
     {
       title: 'Contact the Help Desk',
@@ -33,9 +29,6 @@ const Login = ({
       id: 'a1',
     },
   ]
-
-  console.log('render login page', loginURL)
-
   return (
     <div className={styles.loginPage}>
       <section className="usa-section padding-top-3">
@@ -56,7 +49,7 @@ const Login = ({
                 </p>
                 <LinkTo
                   className="usa-button button-pill usa-button--big text-white text-no-underline"
-                  href={loginURL}>
+                  href="/">
                   Login
                 </LinkTo>
                 <p className="font-body-2xs">
@@ -139,13 +132,4 @@ export default Login
 const LoginLayout = (page: ReactNode) => <Layout>{page}</Layout>
 
 LoginLayout.displayName = 'LoginLayout'
-
 Login.getLayout = LoginLayout
-
-export async function getServerSideProps() {
-  return {
-    props: {
-      loginURL: process.env.SAML_LOGIN_URL || '/',
-    },
-  }
-}

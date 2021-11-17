@@ -6,11 +6,7 @@ import type { NextApiRequest } from 'next'
 
 import type { SAMLUser } from 'types'
 
-// TEMPORARY
-// import cert from '../../certs/gcds_workaround'
-
 /** Types */
-
 export interface PassportRequest extends NextApiRequest {
   user?: SAMLUser
   isAuthenticated(): boolean
@@ -45,15 +41,12 @@ const samlConfig = {
   path: '/api/auth/login',
   logoutCallbackUrl: '/api/auth/logout/callback',
   issuer: ISSUER,
-  // audience: ISSUER,
+  audience: ISSUER,
   disableRequestedAuthnContext: true, // for ADFS - https://github.com/node-saml/passport-saml/issues/226
   authnRequestBinding: 'HTTP-Redirect', // default, or: 'HTTP-POST'
-  wantAssertionsSigned: false,
+
   // passport config
   passReqToCallback: true,
-  // signatureAlgorithm: 'sha256',
-  // digestAlgorithm: 'sha256',
-  // cert, // temporary
 }
 
 /** Configure Passport + SAML */
@@ -70,8 +63,6 @@ export const configSaml = async (passport: PassportWithLogout) => {
       ...toPassportConfig(reader, { multipleCerts: true }),
       ...samlConfig,
     }
-
-    console.log('got metadata!', strategyConfig)
 
     // DEVELOPMENT ONLY
     if (IDP_METADATA === 'http://idp:8080/simplesaml/saml2/idp/metadata.php') {
@@ -98,7 +89,6 @@ export const configSaml = async (passport: PassportWithLogout) => {
       done
     ) {
       // Verify the response & user here
-      console.log('verify user', profile)
       return done(null, profile as SAMLUser)
     })
 
@@ -118,6 +108,5 @@ export const configSaml = async (passport: PassportWithLogout) => {
     // eslint-disable-next-line no-console
     console.error(`Error loading SAML metadata from URL ${IDP_METADATA}`, err)
     throw err
-    // process.exit(1)
   }
 }
