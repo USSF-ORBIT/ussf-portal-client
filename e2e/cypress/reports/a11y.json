@@ -1,0 +1,8 @@
+[
+  {
+    "id": "region",
+    "impact": "moderate",
+    "description": "Ensures all page content is contained by landmarks",
+    "nodes": 3
+  }
+]
