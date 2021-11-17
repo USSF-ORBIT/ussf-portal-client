@@ -1,5 +1,5 @@
 module.exports = {
-  testPathIgnorePatterns: ['/node_modules/', '.next/', 'cypress/'],
+  testPathIgnorePatterns: ['/node_modules/', '.next/', 'e2e/'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
