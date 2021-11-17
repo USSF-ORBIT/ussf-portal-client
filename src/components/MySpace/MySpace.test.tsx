@@ -6,7 +6,6 @@ import { act, screen, render } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { ObjectId } from 'mongodb'
 import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
 
@@ -75,7 +74,6 @@ const collectionRecords = [
   },
 ]
 
-const mockId = new ObjectId()
 const mocks = [
   {
     request: {

@@ -11,7 +11,6 @@ import type {
   CollectionRecords,
   BookmarkRecord,
   NewBookmarkInput,
-  BookmarkInput,
 } from 'types/index'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 import Flash from 'components/util/Flash/Flash'

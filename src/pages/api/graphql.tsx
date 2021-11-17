@@ -8,7 +8,13 @@ import type { Resolvers } from '@apollo/client'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ObjectId } from 'mongodb'
 import { typeDefs } from '../../schema'
-import type { BookmarkInput, Collection, CollectionInput } from 'types/index'
+import type {
+  BookmarkInput,
+  BookmarkRecord,
+  Collection,
+  CollectionInput,
+  CollectionRecord,
+} from 'types/index'
 import clientPromise from 'utils/mongodb'
 
 export const config: PageConfig = {
@@ -28,18 +34,21 @@ const resolvers: Resolvers = {
 
         return foundUser[0].mySpace
       } catch (e) {
+        // TODO error logging
+        // eslint-disable-next-line no-console
         console.error('error in query collections', e)
       }
     },
   },
   Mutation: {
     addCollection: async (_, { title, bookmarks }, { db }) => {
-      const newBookmarks: BookmarkInput[] = bookmarks.map((input: any) => ({
-        _id: new ObjectId(),
-        url: input.url,
-        label: input.label,
-        description: input.description,
-      }))
+      const newBookmarks: BookmarkInput[] = bookmarks.map(
+        (input: BookmarkInput) => ({
+          _id: new ObjectId(),
+          url: input.url,
+          label: input.label,
+        })
+      )
 
       const newCollection: CollectionInput = {
         _id: new ObjectId(),
@@ -61,7 +70,8 @@ const resolvers: Resolvers = {
         await db.collection('users').updateOne(query, updateDocument)
         return newCollection
       } catch (e) {
-        // #TODO Add logging
+        // TODO error logging
+        // eslint-disable-next-line no-console
         console.error('error in add collection', e)
         return e
       }
@@ -89,6 +99,8 @@ const resolvers: Resolvers = {
 
         return updatedCollection[0].mySpace[0]
       } catch (e) {
+        // TODO error logging
+        // eslint-disable-next-line no-console
         console.error('error in edit collection', e)
         return e
       }
@@ -117,23 +129,27 @@ const resolvers: Resolvers = {
 
         return removedCollection
       } catch (e) {
+        // TODO error logging
+        // eslint-disable-next-line no-console
         console.error('error in remove collection', e)
         return e
       }
     },
     addCollections: async (_, args, { db }) => {
-      const newCollections = args.collections.map((collection: any) => ({
-        _id: new ObjectId(),
-        // #TODO Future data modeling to be done for canonical collections
-        cmsId: collection.id,
-        title: collection.title,
-        bookmarks: collection.bookmarks.map((bookmark: any) => ({
+      const newCollections = args.collections.map(
+        (collection: CollectionRecord) => ({
           _id: new ObjectId(),
-          cmsId: bookmark.id,
-          url: bookmark.url,
-          label: bookmark.label,
-        })),
-      }))
+          // #TODO Future data modeling to be done for canonical collections
+          cmsId: collection.id,
+          title: collection.title,
+          bookmarks: collection.bookmarks.map((bookmark: BookmarkRecord) => ({
+            _id: new ObjectId(),
+            cmsId: bookmark.id,
+            url: bookmark.url,
+            label: bookmark.label,
+          })),
+        })
+      )
 
       const query = {
         commonName: commonName,
@@ -158,6 +174,8 @@ const resolvers: Resolvers = {
 
         return updatedCollections[0].mySpace
       } catch (e) {
+        // TODO error logging
+        // eslint-disable-next-line no-console
         console.error('error in add collections', e)
         return e
       }
@@ -186,6 +204,8 @@ const resolvers: Resolvers = {
 
         return newBookmark
       } catch (e) {
+        // TODO error logging
+        // eslint-disable-next-line no-console
         console.error('error in add bookmark', e)
         return e
       }
@@ -210,12 +230,16 @@ const resolvers: Resolvers = {
           .collection('users')
           .findAndModify(query, [], updateDocument, { new: true })
 
-        const updatedCollection = updated?.value?.mySpace?.filter((c: any) => {
-          return String(c._id) === String(collectionId)
-        })
+        const updatedCollection = updated?.value?.mySpace?.filter(
+          (c: Collection) => {
+            return String(c._id) === String(collectionId)
+          }
+        )
 
         return updatedCollection[0]
       } catch (e) {
+        // TODO error logging
+        // eslint-disable-next-line no-console
         console.error('error in remove collection', e)
         return e
       }

@@ -19,7 +19,7 @@ export type BookmarkRecords = readonly BookmarkRecord[]
 
 /* CollectionRecord refers to canonical collections created and managed in CMS */
 
-type CollectionRecord = {
+export type CollectionRecord = {
   id: string
   title: string
   bookmarks: BookmarkRecords
