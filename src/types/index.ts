@@ -18,3 +18,16 @@ export type Collection = {
 
 type CollectionRecord = Partial<Collection> & Pick<Collection, 'id'>
 export type CollectionRecords = readonly CollectionRecord[]
+
+export type SAMLUser = {
+  nameID: string
+  nameIDFormat: string
+  attributes: {
+    edipi: string
+    givenname: string
+    sans: string
+    surname: string
+    userprincipalname: string
+    ivgroups: string
+  }
+}
