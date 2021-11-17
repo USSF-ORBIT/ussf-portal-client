@@ -42,7 +42,25 @@ describe('SAML flow (with test IdP)', () => {
 
   it('can request the current user', () => {
     cy.getCookie('sid').should('exist')
-    cy.request('/api/auth/user').its('status').should('eq', 200)
+
+    // Cypress is being dumb and for some reason not attaching the sid cookie to the request even though it exists!
+    // https://docs.cypress.io/api/commands/request#Cookies
+    cy.getCookies()
+      .should('have.length', 3)
+      .then((cookies) => {
+        const cookieString = cookies.reduce((prev, cur) => {
+          return prev + `${cur.name}=${cur.value}; `
+        }, '')
+
+        cy.request({
+          url: '/api/auth/user',
+          headers: {
+            Cookie: cookieString,
+          },
+        })
+          .its('status')
+          .should('eq', 200)
+      })
   })
 
   it('can log out', () => {
