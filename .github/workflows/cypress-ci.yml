@@ -26,7 +26,7 @@ jobs:
         env:
           CYPRESS_BASE_URL: http://localhost:3000
         with:
-          install-command: yarn cypress:install --frozen-lockfile
+          install-command: yarn install --frozen-lockfile
           working-directory: e2e
 
       - name: Upload screenshots
