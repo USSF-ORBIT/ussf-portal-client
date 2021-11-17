@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_SITE_URL: http://localhost:3000
+    container_name: app
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      MONGO_URL: mongodb://mongo:27017
+      MONGODB_DB: dev
+    stdin_open: true
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: mongo
+    image: mongo:4.0.0
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: dev
+    volumes:
+      - mongodb_data_container:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    expose:
+      - '27017'
+
+volumes:
+  mongodb_data_container:
