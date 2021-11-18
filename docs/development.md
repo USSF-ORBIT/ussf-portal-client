@@ -30,6 +30,30 @@
    - [Install yarn](https://classic.yarnpkg.com/en/docs/install) if you do not already have it.
    - Type `yarn` or `yarn install` inside the project directory to install dependencies. You will need to do this once after cloning the project, and continuously if the dependencies in `package.json` change.
 
+### Authentication with SAML
+
+This application uses SAML for its authentication mechanism. SAML relies on the existance of an Identity Provider (IdP). When running the app locally, there are two IdP options:
+
+- Test SAML IdP: this is a service that is included in our docker compose development stack, and will work automatically when running `docker compose up`. There are two test users you can log in as, and more can be added to the `users.php` file. These test users have been set up with attributes that mirror the data we should get back from the real-life IdP.
+
+  - username: user1, password: user1pass
+  - username: user2, password: user2pass
+
+- Production SSO IdP: if you want to log in to the actual IdP we will use in all deployed environments (dev, test, and production) you can also do that. You will need to do some additional configuration:
+
+  - Set the following environment variables locally (ask another team member for the values):
+    - `SAML_IDP_METADATA_URL`
+    - `SAML_ISSUER`
+  - Ask another team member for the certificates required and save this file to `./certs/DoD_CAs.pem`
+  - Set this local environment variable also:
+    - `NODE_EXTRA_CA_CERTS='./certs/DoD_CAs.pem'`
+  - Start other services (Redis & Mongo) in Docker:
+    - `docker-compose -f docker-compose.services.yml up -d`
+  - Run the app locally, either in dev or production modes:
+    - `yarn dev` OR
+    - `yarn build && yarn start`
+  - Once the app has started, navigate to `/api/auth/login` to test the login flow
+
 ## yarn scripts
 
 Most commonly used during development:
