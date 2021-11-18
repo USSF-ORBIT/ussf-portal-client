@@ -43,4 +43,6 @@ e2e/cypress/reports
 .env
 .envrc.local
 
+certs/
+
 tsconfig.tsbuildinfo

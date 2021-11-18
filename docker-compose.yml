@@ -18,11 +18,15 @@ services:
       NEXT_PUBLIC_SITE_URL: http://localhost:3000
       SAML_ISSUER: ussf-portal-client
       SAML_IDP_METADATA_URL: http://idp:8080/simplesaml/saml2/idp/metadata.php
+      REDIS_URL: redis://portal_redis:6379
       MONGO_URL: mongodb://mongo:27017
       MONGODB_DB: dev
     stdin_open: true
     depends_on:
       - mongo
+      - redis
+      - idp
+
   idp:
     container_name: test-saml-idp
     image: kristophjunge/test-saml-idp
@@ -36,6 +40,13 @@ services:
       SIMPLESAMLPHP_SP_SINGLE_LOGOUT_SERVICE: http://localhost:3000/api/auth/logout/callback
     volumes:
       - ./users.php:/var/www/simplesamlphp/config/authsources.php
+
+  redis:
+    container_name: portal_redis
+    image: redis:6.0
+    expose:
+      - '6379'
+
   mongo:
     container_name: mongo
     image: mongo:4.0.0
@@ -47,6 +58,7 @@ services:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     ports:
       - '27017:27017'
+
   mongo-express:
     container_name: mongo-express
     image: mongo-express:latest
@@ -55,5 +67,6 @@ services:
       - '8888:8081'
     depends_on:
       - mongo
+
 volumes:
   mongodb_data_container:

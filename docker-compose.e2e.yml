@@ -12,11 +12,30 @@ services:
     ports:
       - '3000:3000'
     environment:
+      SAML_ISSUER: ussf-portal-client
+      SAML_IDP_METADATA_URL: http://idp:8080/simplesaml/saml2/idp/metadata.php
+      REDIS_URL: redis://portal_redis:6379
       MONGO_URL: mongodb://mongo:27017
       MONGODB_DB: cypress-e2e
     stdin_open: true
     depends_on:
       - mongo
+      - redis
+      - idp
+
+  idp:
+    container_name: test-saml-idp
+    image: kristophjunge/test-saml-idp
+    restart: always
+    ports:
+      - '8080:8080'
+      - '8443:8443'
+    environment:
+      SIMPLESAMLPHP_SP_ENTITY_ID: ussf-portal-client
+      SIMPLESAMLPHP_SP_ASSERTION_CONSUMER_SERVICE: http://localhost:3000/api/auth/login
+      SIMPLESAMLPHP_SP_SINGLE_LOGOUT_SERVICE: http://localhost:3000/api/auth/logout/callback
+    volumes:
+      - ./users.php:/var/www/simplesamlphp/config/authsources.php
 
   mongo:
     container_name: mongo
@@ -26,3 +45,10 @@ services:
       MONGO_INITDB_DATABASE: cypress-e2e
     ports:
       - '27017:27017'
+      
+  redis:
+    container_name: portal_redis
+    image: redis:6.0
+    expose:
+      - '6379'
+

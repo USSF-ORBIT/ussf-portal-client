@@ -68,7 +68,20 @@ export type CollectionInput = {
 }
 
 export type CollectionsInput = {
-  _id: string // Does this need to be objectid?
+  _id: string
   title: string
   bookmarks: BookmarkInput[]
+}
+
+export type SAMLUser = {
+  nameID: string
+  nameIDFormat: string
+  attributes: {
+    edipi: string
+    givenname: string
+    sans: string
+    surname: string
+    userprincipalname: string
+    ivgroups: string
+  }
 }
