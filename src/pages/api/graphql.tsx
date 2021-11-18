@@ -5,6 +5,7 @@ import { MicroRequest } from 'apollo-server-micro/dist/types'
 import { ApolloServer } from 'apollo-server-micro'
 import type { PageConfig } from 'next'
 import type { Resolvers } from '@apollo/client'
+import { ApolloError } from 'apollo-server-errors'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ObjectId } from 'mongodb'
 import { typeDefs } from '../../schema'
@@ -37,6 +38,7 @@ const resolvers: Resolvers = {
         // TODO error logging
         // eslint-disable-next-line no-console
         console.error('error in query collections', e)
+        return e
       }
     },
   },
@@ -252,10 +254,19 @@ const apolloServer = new ApolloServer({
   resolvers,
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
   context: async () => {
-    const client = await clientPromise
-    const db = client.db(process.env.MONGODB_DB)
+    let client, db
+    try {
+      client = await clientPromise
+      db = client.db(process.env.MONGODB_DB)
 
-    return { db }
+      return { db }
+    } catch (err) {
+      const error = new Error('Cannot connect to database')
+      console.log(error)
+      throw new ApolloError('Cannot connect to database', '500')
+    } finally {
+      client?.close()
+    }
   },
 })
 

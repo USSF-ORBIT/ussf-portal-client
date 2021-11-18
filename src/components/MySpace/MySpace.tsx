@@ -24,7 +24,10 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const [handleAddCollection] = useAddCollectionMutation()
 
   if (loading) return <p>Loading...</p>
-  if (error) return <p>Error</p>
+  if (error) {
+    console.log('what is the error', error)
+    return <p>Error ${error.clientErrors}</p>
+  }
 
   const addNewCollection = () => {
     const bookmarks: BookmarkInput[] = []
@@ -44,7 +47,8 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
               <Grid
                 key={`collection_${collection._id}`}
                 tablet={{ col: 6 }}
-                desktop={{ col: 4 }}>
+                desktop={{ col: 4 }}
+              >
                 <CustomCollection
                   _id={collection._id}
                   title={collection.title}
@@ -89,7 +93,8 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
           <Grid
             key={`collection_addNew`}
             tablet={{ col: 6 }}
-            desktop={{ col: 4 }}>
+            desktop={{ col: 4 }}
+          >
             <AddWidget
               handleCreateCollection={addNewCollection}
               handleSelectCollection={() =>
