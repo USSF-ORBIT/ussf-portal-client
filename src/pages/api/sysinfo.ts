@@ -18,9 +18,8 @@ function getGitCommitHash() {
   }
 
   if (process.env.NODE_ENV === 'production') {
-    // todo set env for sha
-    // get from build step
-    return ''
+    // Passed to Dockerfile from build step
+    return process.env.BUILD
   }
 
   return ''
