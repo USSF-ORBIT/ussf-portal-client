@@ -8,7 +8,7 @@ declare global {
   /* eslint-disable-next-line */
   namespace NodeJS {
     interface Global {
-      _mongoClientPromise: Promise<MongoClient>
+      _mongoClientPromise: Promise<typeof MongoClient>
     }
   }
 }
@@ -16,7 +16,7 @@ declare global {
 const uri = process.env.MONGO_URL || ''
 
 let client
-let clientPromise: Promise<MongoClient>
+let clientPromise: Promise<typeof MongoClient>
 
 if (!process.env.MONGO_URL) {
   throw new Error('Please add your Mongo URI to docker-compose.yml')
