@@ -17,7 +17,6 @@ services:
       NODE_ENV: development
       NEXT_PUBLIC_SITE_URL: http://localhost:3000
       SAML_ISSUER: ussf-portal-client
-      SAML_LOGIN_URL: http://localhost:3000/api/auth/login
       SAML_IDP_METADATA_URL: http://idp:8080/simplesaml/saml2/idp/metadata.php
       REDIS_URL: redis://portal_redis:6379
       MONGO_URL: mongodb://mongo:27017
