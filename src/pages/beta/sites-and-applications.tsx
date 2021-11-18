@@ -122,7 +122,6 @@ const SitesAndApplications = ({
         </Alert>
       )
     } else {
-      // #TODO what is happening here
       // Create a new collection and add the bookmark to it
       const bookmarkInput: NewBookmarkInput = {
         url: bookmark.url,

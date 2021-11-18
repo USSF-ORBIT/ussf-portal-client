@@ -24,7 +24,6 @@ export const ExampleCustomCollection = (argTypes: StorybookArgTypes) => (
   <CustomCollection
     _id="testCollection"
     title="Example collection"
-    // #TODO should i change objectid to a string since client cant read it
     bookmarks={[{ _id: 'link1', url: '#', label: 'Webmail' }]}
     handleAddBookmark={argTypes.handleAddBookmark}
     handleRemoveBookmark={argTypes.handleRemoveBookmark}

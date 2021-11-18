@@ -27,9 +27,9 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   if (error) return <p>Error</p>
 
   const addNewCollection = () => {
-    const bookmarks: BookmarkInput[] = []
+    const newBookmark: BookmarkInput[] = []
     handleAddCollection({
-      variables: { title: '', bookmarks: bookmarks },
+      variables: { title: '', bookmarks: newBookmark },
       refetchQueries: [`getCollections`],
     })
   }
