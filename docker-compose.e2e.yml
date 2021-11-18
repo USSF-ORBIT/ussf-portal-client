@@ -51,7 +51,7 @@ services:
 
   redis:
     container_name: portal_redis
-    image: redis:6.0
+    image: redis:6.2
     expose:
       - '6379'
 
