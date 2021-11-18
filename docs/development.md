@@ -44,6 +44,7 @@ This application uses SAML for its authentication mechanism. SAML relies on the 
   - Set the following environment variables locally (ask another team member for the values):
     - `SAML_IDP_METADATA_URL`
     - `SAML_ISSUER`
+    - `SAML_SSO_CALLBACK_URL=http://localhost:3000/api/auth/login`
   - Ask another team member for the certificates required and save this file to `./certs/DoD_CAs.pem`
   - Set this local environment variable also:
     - `NODE_EXTRA_CA_CERTS='./certs/DoD_CAs.pem'`

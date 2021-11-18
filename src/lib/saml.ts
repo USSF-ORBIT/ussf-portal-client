@@ -36,9 +36,14 @@ export type PassportWithLogout = PassportStatic & {
 const ISSUER = process.env.SAML_ISSUER
 const IDP_METADATA = process.env.SAML_IDP_METADATA_URL
 
+// Setting this lets us override the callback URL to http for local dev
+const CALLBACK_URL = process.env.SAML_SSO_CALLBACK_URL
+
 /** Service Provider config */
 const samlConfig = {
+  callbackUrl: CALLBACK_URL || undefined,
   path: '/api/auth/login',
+  protocol: 'https://',
   logoutCallbackUrl: '/api/auth/logout/callback',
   issuer: ISSUER,
   audience: ISSUER,
