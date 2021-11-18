@@ -147,7 +147,7 @@ describe('Sites and Applications', () => {
       .next()
       .within(() => {
         // Inside of <ol>
-        cy.findAllByRole('listitem').should('have.length', 5)
+        cy.findAllByRole('listitem').should('have.length', 6)
         cy.contains('Webmail')
 
         // First undo
@@ -163,7 +163,7 @@ describe('Sites and Applications', () => {
           .first()
           .click()
         cy.contains('Webmail').should('not.exist')
-        cy.findAllByRole('listitem').should('have.length', 4)
+        cy.findAllByRole('listitem').should('have.length', 5)
       })
   })
 
