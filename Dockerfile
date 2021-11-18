@@ -26,12 +26,13 @@ FROM node:14.18.1-slim AS runner
 
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apt-get update \
-  && apt-get -y install openssl libc6
+  && apt-get -y install openssl libc6 ca-certificates
 
 WORKDIR /app
 
 # TODO: where to store certs?
 COPY ./certs/DoD_CAs.pem /etc/ssl/certs/DoD_CAs.pem
+RUN update-ca-certificates
 
 ENV NODE_EXTRA_CA_CERTS='/etc/ssl/certs/DoD_CAs.pem'
 ENV NODE_ENV production
