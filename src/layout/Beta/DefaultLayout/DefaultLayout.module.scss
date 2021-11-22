@@ -37,39 +37,3 @@
     margin-top: units(4);
   }
 }
-
-/** USSF design system styles **/
-.defaultTheme {
-  font-family: 'Trebuchet MS', sans-serif;
-  color: color('ink');
-
-  h1 {
-    font: 700 40px 'Trebuchet MS', sans-serif;
-  }
-
-  h2 {
-    font: 700 32px 'Trebuchet MS', sans-serif;
-  }
-
-  h3 {
-    font: 400 22px 'Trebuchet MS', sans-serif;
-  }
-
-  h4 {
-    font: 700 16px 'Trebuchet MS', sans-serif;
-  }
-
-  h5 {
-    font: 400 15px 'Trebuchet MS', sans-serif;
-  }
-
-  h6 {
-    font: 400 13px 'Trebuchet MS', sans-serif;
-  }
-
-  p,
-  main p {
-    font: 400 16px 'Trebuchet MS', sans-serif;
-    color: color('ink');
-  }
-}

@@ -27,7 +27,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
       <a className="usa-skipnav" href="#main-content">
         Skip to main content
       </a>
-      <div className={`${styles.siteContainer} ${styles.defaultTheme}`}>
+      <div className={`${styles.siteContainer} sfds`}>
         <GovBanner tld=".mil" />
         <Header />
         <main id="main-content">
