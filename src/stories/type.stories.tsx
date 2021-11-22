@@ -8,7 +8,7 @@ export default {
 export const Typeface = () => {
   return (
     <div className="sfds">
-      <section>
+      <section style={{ fontFamily: 'Sharp Sans' }}>
         <h1>Font</h1>
         <p>
           Typeface:{' '}

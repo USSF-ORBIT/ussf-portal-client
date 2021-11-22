@@ -5,12 +5,25 @@
 @import 'type';
 
 .sfds {
-  font-family: $sfds-theme-font;
+  font-family: $sfds-body-font;
 
   .usa-prose,
   .usa-intro,
   .usa-table,
-  .usa-table caption {
+  .usa-table caption,
+  .usa-header,
+  .usa-nav,
+  .usa-accordion,
+  .usa-nav .usa-accordion {
+    font-family: $sfds-body-font;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: $sfds-theme-font;
   }
 
@@ -21,10 +34,13 @@
       h3,
       h4,
       h5,
-      h6,
+      h6 {
+        font-family: $sfds-theme-font;
+      }
+
       table,
       table caption {
-        font-family: $sfds-theme-font;
+        font-family: $sfds-body-font;
       }
     }
   }
