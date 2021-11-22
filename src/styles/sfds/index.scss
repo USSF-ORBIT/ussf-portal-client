@@ -64,4 +64,16 @@
     line-height: normal;
     @include font-book;
   }
+
+  .usa-link {
+    color: $theme-ultraviolet-base;
+  }
+
+  .usa-dark-background {
+    background-color: $theme-spacebase-darkest;
+
+    a {
+      color: $theme-aurora-base;
+    }
+  }
 }
