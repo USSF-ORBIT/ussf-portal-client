@@ -5,6 +5,11 @@
   color: $theme-white;
   background-color: $theme-black;
 
+  a,
+  :global(.usa-link) {
+    color: $theme-aurora-base;
+  }
+
   :global(.grid-row) {
     align-items: center;
   }
