@@ -11,7 +11,7 @@ import PersonalData from './PersonalData'
 describe('Personal Data Placeholder', () => {
   let html: RenderResult
   beforeEach(() => {
-    html = render(<PersonalData />)
+    html = render(<PersonalData name="Michael Hall" />)
   })
 
   it('renders the Greeting', () => {

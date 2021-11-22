@@ -1,5 +1,5 @@
 import React from 'react'
-import { Meta } from '@storybook/react'
+import type { Meta } from '@storybook/react'
 import PersonalData from './PersonalData'
 
 export default {
@@ -13,4 +13,6 @@ export default {
   ],
 } as Meta
 
-export const PersonalDataPlaceholder = () => <PersonalData />
+export const PersonalDataPlaceholder = () => (
+  <PersonalData name="Michael Hall" />
+)
