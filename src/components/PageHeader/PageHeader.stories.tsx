@@ -22,3 +22,9 @@ export const PortalHome = () => (
     <PersonalData name="Michael Hall" />
   </PageHeader>
 )
+
+export const PortalHomeDisabledSearch = () => (
+  <PageHeader disableSearch>
+    <PersonalData name="Michael Hall" />
+  </PageHeader>
+)

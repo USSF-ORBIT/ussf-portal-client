@@ -14,4 +14,6 @@ export default {
   ],
 } as Meta
 
-export const DefaultSearch = () => <Search />
+export const Enabled = () => <Search />
+
+export const Disabled = () => <Search disabled />

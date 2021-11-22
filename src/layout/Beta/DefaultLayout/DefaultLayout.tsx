@@ -31,7 +31,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
         <GovBanner tld=".mil" />
         <Header />
         <main id="main-content">
-          <PageHeader>
+          <PageHeader disableSearch>
             <PersonalData name="Michael Hall" />
           </PageHeader>
 

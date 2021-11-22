@@ -2,10 +2,24 @@
 @import 'styles/sfds/sfdsDependencies';
 
 .search {
+  position: relative;
+
+  .disabled {
+    filter: blur(3px);
+  }
+
+  .comingSoon {
+    text-align: center;
+  }
+
   :global {
     .usa-select {
       background-image: url('/vendor/img/usa-icons-bg/expand_more--white.svg'),
         linear-gradient(transparent, transparent);
+    }
+
+    .usa-input {
+      background-color: #fff;
     }
 
     .usa-button {
