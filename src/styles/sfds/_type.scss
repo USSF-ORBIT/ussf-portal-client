@@ -1,0 +1,21 @@
+$sfds-theme-font: 'Sharp Sans', 'Trebuchet MS', sans-serif;
+
+@mixin font-book {
+  font-weight: 400;
+}
+
+@mixin font-medium {
+  font-weight: 500;
+}
+
+@mixin font-bold {
+  font-weight: 700;
+}
+
+@mixin font-normal {
+  font-style: normal;
+}
+
+@mixin font-italic {
+  font-style: italic;
+}

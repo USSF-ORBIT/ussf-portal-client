@@ -1,1 +1,64 @@
 @import 'colors';
+@import 'type';
+
+.sfds {
+  font-family: $sfds-theme-font;
+
+  .usa-prose,
+  .usa-intro,
+  .usa-table,
+  .usa-table caption {
+    font-family: $sfds-theme-font;
+  }
+
+  .usa-prose {
+    > {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      table,
+      table caption {
+        font-family: $sfds-theme-font;
+      }
+    }
+  }
+
+  h1 {
+    font-size: 40px;
+    line-height: normal;
+    @include font-bold;
+  }
+
+  h2 {
+    font-size: 32px;
+    line-height: normal;
+    @include font-bold;
+  }
+
+  h3 {
+    font-size: 22px;
+    line-height: normal;
+    @include font-book;
+  }
+
+  h4 {
+    font-size: 16px;
+    line-height: normal;
+    @include font-bold;
+  }
+
+  h5 {
+    font-size: 15px;
+    line-height: normal;
+    @include font-book;
+  }
+
+  h6 {
+    font-size: 13px;
+    line-height: normal;
+    @include font-book;
+  }
+}
