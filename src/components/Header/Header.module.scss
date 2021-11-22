@@ -1,8 +1,8 @@
 @import 'styles/uswdsDependencies';
-@import 'styles/sfds';
+@import 'styles/sfds/sfdsDependencies';
 
 .header {
-  background: $black;
+  background: $theme-black;
 
   @include at-media('desktop') {
     padding: units('105') 0;
@@ -28,7 +28,7 @@
     }
 
     .usa-nav {
-      background: $black;
+      background: $theme-black;
 
       @include at-media('desktop') {
         align-self: center;
@@ -37,14 +37,13 @@
     }
 
     .usa-nav__primary > .usa-nav__primary-item > a {
-      color: $white;
+      color: $theme-white;
       font-weight: normal;
       font-family: 'Trebuchet MS', sans-serif;
 
       &:hover {
-        // TODO
-        background: #e4e4e4;
-        color: $black;
+        background: $theme-white;
+        color: $theme-black;
         border-radius: 6px;
       }
     }
