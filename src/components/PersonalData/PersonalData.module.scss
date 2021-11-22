@@ -1,13 +1,17 @@
 @import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
 
 .personalData {
   h2 {
     margin-bottom: units(2.5);
   }
+
   dt {
+    font-family: $sfds-theme-font;
     @include u-line-height('heading', 3);
     font-weight: 700;
   }
+
   dd {
     @include u-line-height('body', 4);
     margin-inline-start: 0;
