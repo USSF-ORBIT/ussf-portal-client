@@ -5,7 +5,7 @@ $hero-image: url('/assets/images/hero.jpeg');
 
 .PageHeader {
   color: $theme-white;
-  background: $theme-black $hero-image no-repeat;
+  background: $black $hero-image no-repeat;
   background-position: bottom -240px center;
   background-size: cover;
   @include u-padding-bottom(4);
@@ -17,6 +17,10 @@ $hero-image: url('/assets/images/hero.jpeg');
 
   @media (min-width: 2000px) {
     background-size: cover;
+  }
+
+  &:global(.usa-dark-background) {
+    background-color: $black;
   }
 
   a,

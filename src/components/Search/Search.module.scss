@@ -6,6 +6,8 @@
 
   .disabled {
     filter: blur(3px);
+    user-select: none;
+    pointer-events: none;
   }
 
   .comingSoon {
@@ -27,8 +29,7 @@
       border-radius: 0px 6px 6px 0px;
       background-color: $theme-ultraviolet-base;
       text-transform: unset;
-      font-family: $sfds-theme-font;
-      @include font-book;
+      @include heading-book;
 
       &.usa-select {
         color: white;

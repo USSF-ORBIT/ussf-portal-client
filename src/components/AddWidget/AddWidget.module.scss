@@ -23,7 +23,7 @@
   background: transparent;
   color: #585a5c;
   @include u-font-size('body', 'lg');
-  font-family: $sfds-theme-font;
+  font-family: $sfds-heading-font;
 
   svg {
     pointer-events: none;

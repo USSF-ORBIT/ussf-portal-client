@@ -13,7 +13,7 @@ const PageHeader = ({
   children: React.ReactNode
 }) => {
   return (
-    <div className={styles.PageHeader}>
+    <div className={`usa-dark-background ${styles.PageHeader}`}>
       <GridContainer containerSize="widescreen">
         <Grid row gap>
           <Grid col="auto" desktop={{ col: 6 }}>

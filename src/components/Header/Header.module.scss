@@ -2,7 +2,7 @@
 @import 'styles/sfds/sfdsDependencies';
 
 .header {
-  background: $theme-black;
+  background: $black;
 
   @include at-media('desktop') {
     padding: units('105') 0;
@@ -28,7 +28,7 @@
     }
 
     .usa-nav {
-      background: $theme-black;
+      background: $black;
 
       @include at-media('desktop') {
         align-self: center;

@@ -1,22 +1,27 @@
-$sfds-theme-font: 'Sharp Sans', 'Trebuchet MS', sans-serif;
+$sfds-heading-font: 'Sharp Sans', 'Trebuchet MS', sans-serif;
 $sfds-body-font: 'Trebuchet MS', sans-serif;
 
-@mixin font-book {
+@mixin heading-book {
+  font-family: $sfds-heading-font;
   font-weight: 400;
 }
 
-@mixin font-medium {
+@mixin heading-medium {
+  font-family: $sfds-heading-font;
   font-weight: 500;
 }
 
-@mixin font-bold {
+@mixin heading-bold {
+  font-family: $sfds-heading-font;
   font-weight: 700;
 }
 
-@mixin font-normal {
+@mixin heading-normal {
+  font-family: $sfds-heading-font;
   font-style: normal;
 }
 
-@mixin font-italic {
+@mixin heading-italic {
+  font-family: $sfds-heading-font;
   font-style: italic;
 }
