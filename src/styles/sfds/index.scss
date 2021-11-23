@@ -11,6 +11,11 @@
 // namespace all styles in the .sfds class (until MVP is deprecated)
 .sfds {
   font-family: $sfds-body-font;
+  color: $theme-spacebase-darkest;
+
+  ::selection {
+    background: $theme-ultraviolet-muted-lighter;
+  }
 
   h1 {
     font-size: 40px;
@@ -94,6 +99,15 @@
 
   .usa-dark-background {
     background-color: $theme-spacebase-darkest;
+
+    ::selection {
+      background: $theme-ultraviolet-muted-base;
+    }
+
+    p,
+    span {
+      color: $theme-cosmiclatte-lightest;
+    }
 
     a {
       color: $theme-aurora-base;

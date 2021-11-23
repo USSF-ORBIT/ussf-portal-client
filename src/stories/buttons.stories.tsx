@@ -173,7 +173,7 @@ export const Buttons = () => {
 
       <h3 className="site-preview-heading">Outline inverse</h3>
       <div
-        className="bg-base-darkest padding-1"
+        className="usa-dark-background padding-1"
         style={{ maxWidth: 'fit-content' }}>
         <button
           type="button"
