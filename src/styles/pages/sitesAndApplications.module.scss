@@ -1,4 +1,5 @@
 @import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
 @import 'styles/deps';
 
 .pageTitle {
@@ -48,7 +49,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  color: #fff;
+  color: $theme-white;
   padding: units(1) units(4) units('105');
 
   > * + * {
@@ -57,11 +58,11 @@
   }
 
   :global(.usa-button--inverse) {
-    color: #fff;
+    color: $theme-white;
   }
 
   :global(.usa-button--outline) {
-    background-color: #fff;
+    background-color: $theme-white;
   }
 }
 
@@ -70,6 +71,7 @@
   @include typeset-link;
   @include u-border-y(1px, solid, 'base-light');
   @include u-padding-y(1);
+  color: $theme-ultraviolet-base;
   text-align: left;
   text-decoration: none;
   border: 1px solid #a9aeb1;
@@ -82,14 +84,17 @@
     margin-right: units(1);
   }
 
+  &:hover {
+    color: $theme-ultraviolet-dark;
+  }
+
   & + .sortButton {
     margin-left: units(4);
   }
 
   &[disabled] {
-    color: color('disabled');
+    color: $state-disabled-dark;
     background-color: #f9fafa;
-    color: #787a7c;
     box-shadow: none;
     font-weight: 400;
   }
