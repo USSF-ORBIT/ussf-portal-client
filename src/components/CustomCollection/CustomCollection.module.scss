@@ -44,6 +44,7 @@ h3.collectionTitle {
 }
 
 textarea.collectionTitle {
+  font-family: $sfds-heading-font;
   font-size: font-size('heading', 'lg');
   line-height: lh('heading', 2);
   flex-grow: 1;
