@@ -14,9 +14,9 @@ describe('Personal Data Placeholder', () => {
     html = render(<PersonalData name="Michael Hall" />)
   })
 
-  it('renders the Greeting', () => {
+  it('renders the greeting with the name prop', () => {
     const greeting = screen.getByRole('heading', { level: 2 })
-    expect(greeting).toHaveTextContent('Welcome, Sgt Snuffy')
+    expect(greeting).toHaveTextContent('Welcome, Michael Hall')
   })
 
   it('renders the list of key/value pairs', () => {
