@@ -48,6 +48,14 @@
     @include heading-book;
   }
 
+  .usa-focus,
+  input:not([disabled]):focus,
+  select:not([disabled]):focus,
+  textarea:not([disabled]):focus,
+  button:not([disabled]):focus {
+    outline: 0.25rem solid $theme-ultraviolet-light;
+  }
+
   .usa-prose,
   .usa-intro,
   .usa-table,
@@ -236,6 +244,10 @@
 
       &.usa-button--unstyled {
         box-shadow: none;
+
+        &:focus {
+          outline: 0.25rem solid $theme-ultraviolet-light;
+        }
       }
     }
   }
