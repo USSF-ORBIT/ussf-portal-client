@@ -23,7 +23,7 @@ const Color = ({ color }: { color: string }) => (
     }}>
     <span
       style={{
-        backgroundColor: colors[color],
+        backgroundColor: colors[`${color}`],
         display: 'block',
         height: '4em',
         marginBottom: '0.3em',
@@ -33,7 +33,7 @@ const Color = ({ color }: { color: string }) => (
     <span style={{ fontFamily: 'monospace, monospace' }}>
       ${color}
       <br />
-      {colors[color]}
+      {colors[`${color}`]}
     </span>
   </li>
 )
