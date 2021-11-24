@@ -141,6 +141,16 @@
       color: $theme-white;
       background-color: $state-disabled-base;
     }
+
+    // Reset modal close buton styles
+    &.usa-modal__close {
+      color: #71767a;
+      background-color: transparent;
+      &:hover,
+      &:active {
+        color: #000;
+      }
+    }
   }
 
   // Secondary
