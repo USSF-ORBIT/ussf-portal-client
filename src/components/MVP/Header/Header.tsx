@@ -9,6 +9,7 @@ import {
   Menu,
   NavDropDownButton,
   NavList,
+  Button,
 } from '@trussworks/react-uswds'
 
 import styles from './Header.module.scss'
@@ -88,6 +89,10 @@ const Header = () => {
 
   navItems.push(servicePortalMenu)
 
+  const handleJoinBeta = () => {
+    console.log('open beta modal')
+  }
+
   return (
     <>
       <div
@@ -131,6 +136,12 @@ const Header = () => {
               </div>
             )}
           </PrimaryNav>
+
+          <div className={`sfds ${styles.joinBeta}`}>
+            <Button type="button" secondary onClick={handleJoinBeta}>
+              Join Beta
+            </Button>
+          </div>
         </div>
       </USWDSHeader>
     </>
