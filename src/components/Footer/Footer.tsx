@@ -32,13 +32,25 @@ const Footer = () => {
                 <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
                   <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">Privacy Policy</LinkTo>
+                      <LinkTo
+                        href="https://www.my.af.mil/afp/netstorage/faq/privacy_advisory.html"
+                        target="_blank">
+                        Privacy Policy
+                      </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">Section508.gov Privacy Policy</LinkTo>
+                      <LinkTo
+                        href="https://dodcio.defense.gov/DoDSection508/Std_Stmt/"
+                        target="_blank">
+                        Section508.gov
+                      </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">Budget and Performance</LinkTo>
+                      <LinkTo
+                        href="https://comptroller.defense.gov/Budget-Materials/"
+                        target="_blank">
+                        Budget and Performance
+                      </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
                       <LinkTo href="#">Orders &amp; Directives</LinkTo>
@@ -50,12 +62,16 @@ const Footer = () => {
                 <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
                   <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">
+                      <LinkTo href="https://www.foia.af.mil/" target="_blank">
                         Freedom of Information Act Requests
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">No FEAR Act</LinkTo>
+                      <LinkTo
+                        href="https://www.af.mil/Equal-Opportunity/"
+                        target="_blank">
+                        No FEAR Act
+                      </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
                       <LinkTo href="#">Reports</LinkTo>
