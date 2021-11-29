@@ -1,0 +1,268 @@
+/** Space Force Design System **/
+/** ------------------------- **/
+
+// Sharp Sans
+@import '../fonts.scss';
+
+// variables, mixins, etc.
+@import 'colors';
+@import 'type';
+
+// namespace all styles in the .sfds class (until MVP is deprecated)
+.sfds {
+  font-family: $sfds-body-font;
+  color: $theme-spacebase-darkest;
+
+  ::selection {
+    background: $theme-ultraviolet-muted-lighter;
+  }
+
+  h1 {
+    font-size: 40px;
+    line-height: normal;
+    @include heading-bold;
+  }
+
+  h2 {
+    font-size: 32px;
+    line-height: normal;
+    @include heading-bold;
+  }
+
+  h3 {
+    font-size: 22px;
+    line-height: normal;
+    @include heading-book;
+  }
+
+  h4 {
+    font-size: 16px;
+    line-height: normal;
+    @include heading-bold;
+  }
+
+  h5 {
+    font-size: 15px;
+    line-height: normal;
+    @include heading-book;
+  }
+
+  h6 {
+    font-size: 13px;
+    line-height: normal;
+    @include heading-book;
+  }
+
+  .usa-focus,
+  input:not([disabled]):focus,
+  select:not([disabled]):focus,
+  textarea:not([disabled]):focus,
+  button:not([disabled]):focus {
+    outline: 0.25rem solid $theme-ultraviolet-light;
+  }
+
+  .usa-prose,
+  .usa-intro,
+  .usa-table,
+  .usa-table caption,
+  .usa-header,
+  .usa-nav,
+  .usa-accordion,
+  .usa-nav .usa-accordion {
+    font-family: $sfds-body-font;
+  }
+
+  .usa-prose {
+    > {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: $sfds-heading-font;
+      }
+
+      table,
+      table caption {
+        font-family: $sfds-body-font;
+      }
+    }
+  }
+
+  .usa-link {
+    color: $theme-ultraviolet-base;
+    &:hover {
+      color: $theme-ultraviolet-darker;
+    }
+  }
+
+  .usa-dark-background {
+    background-color: $theme-spacebase-darkest;
+
+    ::selection {
+      background: $theme-ultraviolet-muted-base;
+    }
+
+    p,
+    span {
+      color: $theme-cosmiclatte-lightest;
+    }
+
+    a {
+      color: $theme-aurora-base;
+      &:hover {
+        color: $theme-aurora-lighter;
+      }
+    }
+  }
+
+  /*** Buttons ***/
+
+  // Primary (default)
+  .usa-button {
+    background-color: $theme-ultraviolet-base;
+
+    &:hover,
+    &.usa-button--hover {
+      background-color: $theme-ultraviolet-dark;
+    }
+
+    &:active,
+    &.usa-button--active {
+      background-color: $theme-ultraviolet-darker;
+    }
+
+    &:disabled {
+      background-color: $state-disabled-base;
+    }
+  }
+
+  // Secondary
+  .usa-button--secondary {
+    background-color: $theme-mars-base;
+
+    &:hover,
+    &.usa-button--hover {
+      background-color: $theme-mars-dark;
+    }
+
+    &:active,
+    &.usa-button--active {
+      background-color: $theme-mars-darker;
+    }
+  }
+
+  .usa-button--accent-cool {
+    background-color: $theme-aurora-base;
+
+    &:hover,
+    &.usa-button--hover {
+      background-color: $theme-aurora-dark;
+    }
+
+    &:active,
+    &.usa-button--active {
+      background-color: $theme-aurora-darker;
+    }
+  }
+
+  .usa-button--muted {
+    background-color: $theme-ultraviolet-muted-base;
+
+    &:hover,
+    &.usa-button--hover {
+      background-color: $theme-ultraviolet-muted-dark;
+    }
+
+    &:active,
+    &.usa-button--active {
+      background-color: $theme-ultraviolet-muted-darker;
+    }
+  }
+
+  .usa-button--base {
+    background-color: $theme-spacebase-light;
+
+    &:hover,
+    &.usa-button--hover {
+      background-color: $theme-spacebase-base;
+    }
+
+    &:active,
+    &.usa-button--active {
+      background-color: $theme-spacebase-darkest;
+    }
+  }
+
+  .usa-button--unstyled {
+    background-color: transparent;
+    color: $theme-ultraviolet-base;
+
+    &:hover {
+      background-color: transparent;
+      color: $theme-ultraviolet-darker;
+    }
+  }
+
+  .usa-button--outline {
+    background-color: transparent;
+    color: $theme-ultraviolet-base;
+    box-shadow: inset 0 0 0 2px $theme-ultraviolet-base;
+
+    &:hover,
+    &.usa-button--hover {
+      background-color: transparent;
+      color: $theme-ultraviolet-dark;
+      box-shadow: inset 0 0 0 2px $theme-ultraviolet-dark;
+    }
+
+    &:active,
+    &.usa-button--active {
+      background-color: transparent;
+      color: $theme-ultraviolet-darker;
+      box-shadow: inset 0 0 0 2px $theme-ultraviolet-darker;
+    }
+
+    &:disabled {
+      background-color: transparent;
+      color: $state-disabled-dark;
+      box-shadow: inset 0 0 0 2px $state-disabled-base;
+    }
+
+    &.usa-button--unstyled {
+      box-shadow: none;
+    }
+
+    // Outline + Inverse (dark background)
+    &.usa-button--inverse {
+      box-shadow: inset 0 0 0 2px $theme-cosmiclatte-base;
+      color: $theme-cosmiclatte-base;
+
+      &:hover,
+      &.usa-button--hover {
+        color: $theme-cosmiclatte-lightest;
+        box-shadow: inset 0 0 0 2px $theme-cosmiclatte-lightest;
+      }
+
+      &:active,
+      &.usa-button--active {
+        color: $theme-cosmiclatte-lightest;
+        box-shadow: inset 0 0 0 2px $theme-cosmiclatte-lightest;
+      }
+
+      &:disabled {
+        color: $state-disabled-dark;
+        box-shadow: inset 0 0 0 2px $state-disabled-dark;
+      }
+
+      &.usa-button--unstyled {
+        box-shadow: none;
+
+        &:focus {
+          outline: 0.25rem solid $theme-ultraviolet-light;
+        }
+      }
+    }
+  }
+}
