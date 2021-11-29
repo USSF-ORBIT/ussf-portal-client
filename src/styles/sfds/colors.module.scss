@@ -1,0 +1,95 @@
+@import 'colors';
+
+:export {
+  theme: {
+    spacebase: {
+      darkest: $theme-spacebase-darkest;
+      darker: $theme-spacebase-darker;
+      dark: $theme-spacebase-dark;
+      base: $theme-spacebase-base;
+      light: $theme-spacebase-light;
+      lighter: $theme-spacebase-lighter;
+      lightest: $theme-spacebase-lightest;
+    }
+    ultraviolet: {
+      darkest: $theme-ultraviolet-darkest;
+      darker: $theme-ultraviolet-darker;
+      dark: $theme-ultraviolet-dark;
+      base: $theme-ultraviolet-base;
+      light: $theme-ultraviolet-light;
+      lighter: $theme-ultraviolet-lighter;
+      lightest: $theme-ultraviolet-lightest;
+    }
+    ultraviolet-muted: {
+      darkest: $theme-ultraviolet-muted-darkest;
+      darker: $theme-ultraviolet-muted-darker;
+      dark: $theme-ultraviolet-muted-dark;
+      base: $theme-ultraviolet-muted-base;
+      light: $theme-ultraviolet-muted-light;
+      lighter: $theme-ultraviolet-muted-lighter;
+      lightest: $theme-ultraviolet-muted-lightest;
+    }
+    aurora: {
+      darkest: $theme-aurora-darkest;
+      darker: $theme-aurora-darker;
+      dark: $theme-aurora-dark;
+      base: $theme-aurora-base;
+      light: $theme-aurora-light;
+      lighter: $theme-aurora-lighter;
+      lightest: $theme-aurora-lightest;
+    }
+    mars: {
+      darkest: $theme-mars-darkest;
+      darker: $theme-mars-darker;
+      dark: $theme-mars-dark;
+      base: $theme-mars-base;
+      light: $theme-mars-light;
+      lighter: $theme-mars-lighter;
+      lightest: $theme-mars-lightest;
+    }
+    cosmiclatte: {
+      darkest: $theme-cosmiclatte-darkest;
+      darker: $theme-cosmiclatte-darker;
+      dark: $theme-cosmiclatte-dark;
+      base: $theme-cosmiclatte-base;
+      light: $theme-cosmiclatte-light;
+      lighter: $theme-cosmiclatte-lighter;
+      lightest: $theme-cosmiclatte-lightest;
+    }
+  }
+  state: {
+    info: {
+      darker: $state-info-darker;
+      dark: $state-info-dark;
+      base: $state-info-base;
+      light: $state-info-light;
+      lighter: $state-info-lighter;
+    }
+    error: {
+      darker: $state-error-darker;
+      dark: $state-error-dark;
+      base: $state-error-base;
+      light: $state-error-light;
+      lighter: $state-error-lighter;
+    }
+    warning: {
+      darker: $state-warning-darker;
+      dark: $state-warning-dark;
+      base: $state-warning-base;
+      light: $state-warning-light;
+      lighter: $state-warning-lighter;
+    }
+    success: {
+      darker: $state-success-darker;
+      dark: $state-success-dark;
+      base: $state-success-base;
+      light: $state-success-light;
+      lighter: $state-success-lighter;
+    }
+    disabled: {
+      dark: $state-disabled-dark;
+      base: $state-disabled-base;
+      light: $state-disabled-light;
+    }
+  }
+}

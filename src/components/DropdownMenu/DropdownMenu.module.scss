@@ -1,4 +1,5 @@
 @import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
 
 .dropdown {
   position: relative;
@@ -7,10 +8,23 @@
 
 .dropdownMenu {
   position: absolute;
-  background: #ffffff;
+  background: $theme-white;
   border: 1px solid color('base-dark');
   width: 100%;
   z-index: 1;
+
+  &.left {
+    left: 0;
+  }
+
+  &.right {
+    right: 0;
+  }
+
+  &.center {
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
 
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
   border-radius: 2px 2px 0px 0px;
@@ -31,15 +45,21 @@
       margin-right: 0;
     }
 
-    > button {
+    > button,
+    > button:global(.usa-button) {
       width: 100%;
-      background-color: #fff;
-      color: color('primary');
+      background-color: $theme-white;
+      color: $theme-ultraviolet-base;
       border: 0;
       border-radius: 0;
       font-weight: normal;
       text-align: left;
       padding: units(1) units('105');
+
+      &:hover {
+        background-color: #f0f0f0;
+        color: $theme-ultraviolet-dark;
+      }
     }
   }
 

@@ -5,8 +5,15 @@ import MySpace from './MySpace'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
 export default {
-  title: 'Beta/Components/My Space',
+  title: 'Components/My Space',
   component: MySpace,
+  decorators: [
+    (Story) => (
+      <div className="sfds">
+        <Story />
+      </div>
+    ),
+  ],
 } as Meta
 
 const exampleCollection = {

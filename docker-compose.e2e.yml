@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: e2e
       args:
         NEXT_PUBLIC_SITE_URL: http://localhost:3000
     container_name: app
