@@ -1,10 +1,11 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/deps';
+@import 'styles/sfds/sfdsDependencies';
 
 .undo {
   @extend %button-reset;
-  background: #f2784b;
-  color: white;
+  background: $theme-mars-base;
+  color: $theme-white;
   flex: auto;
   text-align: left;
   @include u-padding('205' 4);
@@ -23,8 +24,8 @@
 }
 
 button.collectionSettingsDropdown {
-  background-color: #ffffff;
-  color: #005ea2;
+  background-color: $theme-white;
+  color: $theme-ultraviolet-base;
   border: 0;
   border-radius: 0;
   font-weight: normal;
@@ -43,6 +44,7 @@ h3.collectionTitle {
 }
 
 textarea.collectionTitle {
+  font-family: $sfds-heading-font;
   font-size: font-size('heading', 'lg');
   line-height: lh('heading', 2);
   flex-grow: 1;
