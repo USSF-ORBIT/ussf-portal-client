@@ -10,7 +10,13 @@ import { configSaml, PassportRequest } from '../../../lib/saml'
 /*  /api/auth/[[...action]] handler */
 /************************************/
 
-const handler = NextConnect<PassportRequest, NextApiResponse>()
+const handler = NextConnect<PassportRequest, NextApiResponse>({
+  onError: (err, req, res, next) => {
+    console.error(err)
+    console.error(err.stack)
+    res.status(500).end('Error in auth middleware')
+  },
+})
 
 handler
   .use(session)

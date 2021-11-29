@@ -1,13 +1,15 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { Middleware } from 'next-connect'
-import nextSession from 'next-session'
+// import { NextApiRequest, NextApiResponse } from 'next'
+// import { Middleware } from 'next-connect'
+// import nextSession from 'next-session'
 import RedisStoreFactory from 'connect-redis'
-import { expressSession, promisifyStore } from 'next-session/lib/compat'
+// import { expressSession, promisifyStore } from 'next-session/lib/compat'
+import expressSession from 'express-session'
 
 import redis from './redis'
 
 const RedisStore = RedisStoreFactory(expressSession)
 
+/*
 const getSession = nextSession({
   store: promisifyStore(new RedisStore({ client: redis })),
   cookie: {
@@ -24,8 +26,20 @@ const session: Middleware<NextApiRequest, NextApiResponse> = async (
   res,
   next
 ) => {
-  await getSession(req, res)
-  next()
+  try {
+    await getSession(req, res)
+    next()
+  } catch (e) {
+    console.error('Error getting session', e)
+  }
 }
+*/
+
+const session = expressSession({
+  store: new RedisStore({ client: redis }),
+  saveUninitialized: false,
+  secret: 'keyboard cat',
+  resave: false,
+})
 
 export default session
