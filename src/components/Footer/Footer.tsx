@@ -53,7 +53,16 @@ const Footer = () => {
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">Orders &amp; Directives</LinkTo>
+                      <LinkTo
+                        href="http://www.esd.whs.mil/DD/index.html"
+                        target="_blank">
+                        Orders &amp; Directives
+                      </LinkTo>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo href="https://www.dodig.mil/" target="_blank">
+                        Office of the Inspector General
+                      </LinkTo>
                     </li>
                   </ul>
                 </section>
@@ -74,10 +83,19 @@ const Footer = () => {
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">Reports</LinkTo>
+                      <LinkTo href="https://www.usa.gov/" target="_blank">
+                        USA.gov
+                      </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
                       <LinkTo href="#">Help &amp; Support</LinkTo>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo
+                        href="https://www.resilience.af.mil/SAPR/"
+                        target="_blank">
+                        Sexual Assualt Prevention and Response
+                      </LinkTo>
                     </li>
                   </ul>
                 </section>
