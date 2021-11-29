@@ -13,9 +13,9 @@ const handler = NextConnect<NextApiRequest, NextApiResponse>({
 
 handler.get('/api/redis/write', async (req, res) => {
   try {
-    await redis.connect()
-    await redis.set('testKey', `${Date.now()}`)
-    await redis.quit()
+    // await redis.connect()
+    redis.set('testKey', `${Date.now()}`)
+    // await redis.quit()
     res.status(200).end('successfully wrote to redis')
   } catch (e) {
     console.error('Error writing to redis')
@@ -25,9 +25,9 @@ handler.get('/api/redis/write', async (req, res) => {
 
 handler.get('/api/redis/read', async (req, res) => {
   try {
-    await redis.connect()
-    const value = await redis.get('testKey')
-    await redis.quit()
+    // await redis.connect()
+    const value = redis.get('testKey')
+    // await redis.quit()
     res.status(200).json(value)
   } catch (e) {
     console.error('Error reading from redis')
