@@ -10,7 +10,16 @@ import { configSaml, PassportRequest } from '../../../lib/saml'
 /*  /api/auth/[[...action]] handler */
 /************************************/
 
-const handler = NextConnect<PassportRequest, NextApiResponse>()
+const handler = NextConnect<PassportRequest, NextApiResponse>({
+  onError: (err, req, res) => {
+    /* eslint-disable no-console */
+    console.error('Error in authentication')
+    console.error(err)
+    console.error(err.stack)
+    /* eslint-enable no-console */
+    res.status(500).end('Error authenticating')
+  },
+})
 
 handler
   .use(session)
