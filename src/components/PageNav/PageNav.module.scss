@@ -1,0 +1,34 @@
+@import 'styles/sfds/sfdsDependencies';
+
+.PageNav {
+  :global {
+    .usa-sidenav {
+      border: none;
+    }
+
+    .usa-sidenav__item {
+      border: none;
+    }
+
+    .usa-sidenav a {
+      color: $theme-ultraviolet-base;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+
+    .usa-sidenav a:not(.usa-button):not(.usa-current) {
+      color: $theme-ultraviolet-base;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    .usa-sidenav a.usa-current {
+      font-weight: bold;
+    }
+  }
+}
