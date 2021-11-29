@@ -14,6 +14,8 @@ const FeedbackCard = () => (
     </p>
     <a
       href={`mailto:${FEEDBACK_EMAIL}?subject=${FEEDBACK_SUBJECT}`}
+      target="_blank"
+      rel="noreferrer noopener"
       className="usa-button">
       Send us feedback
     </a>
