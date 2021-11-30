@@ -47,19 +47,18 @@ CMD ["node_modules/.bin/next", "start"]
 FROM node:14.18.1-slim AS runner
 
 RUN apt-get update \
-  && apt-get -y install openssl libc6 ca-certificates
+  && apt-get -y install openssl libc6 ca-certificates wget unzip \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 # TODO: where to store certs for CI builds?
 COPY scripts/add-dod-cas.sh .
-COPY saml.pem /etc/ssl/certs/DoD_CAs.pem
+COPY saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
 
-RUN chmod +x add-dod-cas.sh && ./add-dod-cas.sh
+RUN chmod +x add-dod-cas.sh && sh add-dod-cas.sh
 
-
-
-ENV NODE_EXTRA_CA_CERTS='/etc/ssl/certs/DoD_CAs.pem'
+ENV NODE_EXTRA_CA_CERTS='/usr/local/share/ca-certificates/GCDS.pem'
 ENV NODE_ENV production
 
 COPY --from=builder /app/next.config.js ./

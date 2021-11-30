@@ -1,9 +1,18 @@
 import React from 'react'
-import { Meta } from '@storybook/react'
+import type { Meta } from '@storybook/react'
 import PersonalData from './PersonalData'
 
 export default {
-  title: 'Beta/Components/PersonalData',
+  title: 'Components/PersonalData',
+  decorators: [
+    (Story) => (
+      <div className="sfds">
+        <Story />
+      </div>
+    ),
+  ],
 } as Meta
 
-export const PersonalDataPlaceholder = () => <PersonalData />
+export const PersonalDataPlaceholder = () => (
+  <PersonalData name="Michael Hall" />
+)

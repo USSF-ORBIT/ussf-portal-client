@@ -1,4 +1,5 @@
 @import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
 @import 'styles/deps';
 
 .disabled {
@@ -20,7 +21,7 @@
   &.selected {
     .disabled {
       > * {
-        border: 4px solid #005ea2;
+        border: 4px solid $theme-ultraviolet-base;
         border-radius: 4px;
       }
     }
@@ -46,5 +47,5 @@
   justify-content: center;
   opacity: 0;
   transition: opacity 0.12s;
-  background-color: rgba(236, 240, 245, 0.8);
+  background-color: rgba($grey, 0.8);
 }

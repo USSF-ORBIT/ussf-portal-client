@@ -13,6 +13,13 @@ export default {
   argTypes: {
     handleAddToCollection: { action: 'Add to collection' },
   },
+  decorators: [
+    (Story) => (
+      <div className="sfds">
+        <Story />
+      </div>
+    ),
+  ],
 } as Meta
 
 const exampleBookmarks: Bookmark[] = [

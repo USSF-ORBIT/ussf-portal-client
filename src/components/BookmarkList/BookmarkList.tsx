@@ -73,6 +73,7 @@ const BookmarkListRow = ({
               )}
             </Button>
           }
+          align="right"
           isActive={isDropdownOpen}
           dropdownRef={dropdownEl}>
           <ol className={styles.collectionOptions}>{collectionOptions}</ol>
