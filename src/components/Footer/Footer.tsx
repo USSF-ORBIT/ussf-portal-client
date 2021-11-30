@@ -88,9 +88,6 @@ const Footer = () => {
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">Help &amp; Support</LinkTo>
-                    </li>
-                    <li className="usa-footer__secondary-link">
                       <LinkTo
                         href="https://www.resilience.af.mil/SAPR/"
                         target="_blank">
