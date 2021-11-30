@@ -31,7 +31,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: portal-client
         IMAGE_TAG: ${{ github.sha }}
-        CERT: ${{ secret.SAML_CERT }}
+        CERT: ${{ secrets.SAML_CERT }}
 
       run: |
         echo $CERT > saml.pem
