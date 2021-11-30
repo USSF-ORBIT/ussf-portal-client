@@ -179,19 +179,22 @@ const SitesAndApplications = ({
                 </span>
                 <Button
                   type="button"
-                  accentStyle="warm"
-                  inverse
+                  secondary
                   disabled={selectedCollections.length < 1}
                   onClick={handleAddSelected}>
                   Add selected
                 </Button>
-                <Button type="button" outline onClick={handleToggleSelectMode}>
+                <Button
+                  type="button"
+                  outline
+                  inverse
+                  onClick={handleToggleSelectMode}>
                   Cancel
                 </Button>
               </>
             ) : (
               <Button type="button" onClick={handleToggleSelectMode}>
-                Select multiple collections
+                Select collections
               </Button>
             )}
           </div>

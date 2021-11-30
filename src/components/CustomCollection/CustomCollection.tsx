@@ -226,6 +226,7 @@ const CustomCollection = ({
           </button>
         }
         dropdownRef={dropdownEl}
+        align="right"
         isActive={isDropdownOpen}>
         {editCustomCollectionItem}
       </DropdownMenu>
