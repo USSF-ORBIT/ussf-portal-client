@@ -72,7 +72,7 @@ const Footer = () => {
                   <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
                       <LinkTo href="https://www.foia.af.mil/" target="_blank">
-                        Freedom of Information Act Requests
+                        FOIA Requests
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
