@@ -57,7 +57,7 @@ jobs:
         CERT: ${{ secrets.SAML_CERT }}
 
       run: |
-        echo $CERT > saml.pem
+        echo $CERT > /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
         sudo sh scripts/add-dod-cas.sh
         docker login -u portal -p ${{ secrets.C1_ARTIFACTORY_TOKEN }} $C1_REGISTRY
         docker build -t $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG .
