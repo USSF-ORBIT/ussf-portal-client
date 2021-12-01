@@ -19,7 +19,7 @@ async function dropAndSeed(mongoClient, collectionName, jsonData) {
 async function seedDB() {
   // Connection URL
 
-  const uri = `${process.env.MONGO_URL}/${process.env.MONGODB_DB}`
+  const uri = `${process.env.MONGO_URL}/${DB}`
 
   const client = new MongoClient(uri, {
     useNewUrlParser: true,
@@ -33,7 +33,7 @@ async function seedDB() {
 
     await dropAndSeed(client, 'users', testUser)
 
-    console.log(`${process.env.MONGODB_DB} database seeded!`)
+    console.log(`${DB} database seeded!`)
 
     client.close()
   } catch (err) {
