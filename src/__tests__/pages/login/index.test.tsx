@@ -2,14 +2,19 @@
  * @jest-environment jsdom
  */
 
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
+import { renderWithAuth } from '../../../testHelpers'
+
 import Login from 'pages/login/index'
 import LoginLayout from 'layout/MVP/LoginLayout/LoginLayout'
 
+const mockLogin = jest.fn()
+
 describe('Login page', () => {
   beforeEach(() => {
-    render(<Login />)
+    renderWithAuth(<Login />, { login: mockLogin })
   })
 
   it('renders the page title', () => {
@@ -29,7 +34,7 @@ describe('Login page', () => {
   })
 
   it('renders the open accordion on click', () => {
-    const button = screen.getByRole('button')
+    const button = screen.getByRole('button', { name: 'Contact the Help Desk' })
     userEvent.click(button)
     expect(screen.getByTestId('accordionItem_a1')).toBeVisible()
   })
@@ -41,7 +46,10 @@ describe('Login page', () => {
   })
 
   it('renders the login button', () => {
-    expect(screen.getByRole('link')).toHaveTextContent('Login')
+    const loginButton = screen.getByRole('button', { name: 'Login' })
+    expect(loginButton).toBeInTheDocument()
+    userEvent.click(loginButton)
+    expect(mockLogin).toHaveBeenCalled()
   })
 
   it('returns the LoginLayout in getLayout', () => {

@@ -3,14 +3,14 @@ import axios from 'axios'
 
 import { SAMLUser } from 'types'
 
-type AuthContext = {
+export type AuthContextType = {
   user: SAMLUser | null
   setUser: React.Dispatch<React.SetStateAction<SAMLUser | null>>
   logout: () => void
   login: () => void
 }
 
-export const AuthContext = createContext<AuthContext>({
+export const AuthContext = createContext<AuthContextType>({
   user: null,
   setUser: () => {
     return
@@ -23,7 +23,7 @@ export const AuthContext = createContext<AuthContext>({
   },
 })
 
-const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<SAMLUser | null>(null)
 
   const login = () => {
@@ -48,7 +48,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
 }
 
-const useAuthContext = () => {
+export const useAuthContext = () => {
   const context = useContext(AuthContext)
 
   if (context === undefined) {
@@ -57,5 +57,3 @@ const useAuthContext = () => {
 
   return context
 }
-
-export { AuthProvider, useAuthContext }
