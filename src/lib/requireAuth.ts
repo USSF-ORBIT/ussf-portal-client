@@ -12,7 +12,7 @@ type WithAuthServerSidePropsResult = GetServerSidePropsResult<{
   [key: string]: any
 }>
 
-// Serverside only
+// Server-side only
 export const requireAuth = (getServerSidePropsFunc?: GetServerSideProps) => {
   return async (
     ctx: GetServerSidePropsContext

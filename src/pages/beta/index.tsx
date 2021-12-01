@@ -4,17 +4,15 @@ import { query } from '.keystone/api'
 
 import type { BookmarkRecords } from 'types/index'
 import MySpace from 'components/MySpace/MySpace'
-import { requireAuth } from 'lib/withAuth'
-import { useAuthContext } from 'stores/authContext'
+import { requireAuth } from 'lib/requireAuth'
+import { useUser } from 'hooks/useUser'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 
 const Home = ({
   bookmarks,
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { setUser } = useAuthContext()
-  setUser(user)
-
+  useUser(user)
   return <MySpace bookmarks={bookmarks} />
 }
 

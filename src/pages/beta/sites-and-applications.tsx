@@ -21,6 +21,7 @@ import BookmarkList from 'components/BookmarkList/BookmarkList'
 import SelectableCollection from 'components/SelectableCollection/SelectableCollection'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 
+import { useUser } from 'hooks/useUser'
 import { useCollectionsQuery } from 'operations/queries/getCollections'
 import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
@@ -34,6 +35,7 @@ const SitesAndApplications = ({
   collections,
   bookmarks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { user } = useUser()
   const router = useRouter()
   const { loading, error, data } = useCollectionsQuery()
 
