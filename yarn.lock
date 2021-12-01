@@ -11995,7 +11995,7 @@ next-session@4.0.2:
     cookie "^0.4.1"
     nanoid "^3.1.25"
 
-next-test-api-route-handler@^2.3.2:
+next-test-api-route-handler@2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/next-test-api-route-handler/-/next-test-api-route-handler-2.3.2.tgz#adc244a4e68aa4812276c55d746810b30461a366"
   integrity sha512-kHWH1feuvvqmc+f5POmnI/vEL6bIXP7JPMKzq93hL432USpeJipwo6P/TbAum5vG9fJrt994hMIAaTiT32UjuQ==
