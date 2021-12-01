@@ -32,7 +32,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
         <Header />
         <main id="main-content">
           <PageHeader disableSearch>
-            <PersonalData name="Michael Hall" />
+            <PersonalData />
           </PageHeader>
 
           <GridContainer containerSize="widescreen">

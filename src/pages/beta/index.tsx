@@ -1,30 +1,32 @@
-import { ReactNode } from 'react'
-import { InferGetStaticPropsType } from 'next'
+import { InferGetServerSidePropsType } from 'next'
 
 import { query } from '.keystone/api'
 
 import type { BookmarkRecords } from 'types/index'
-import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
 import MySpace from 'components/MySpace/MySpace'
+import { requireAuth } from 'lib/withAuth'
+import { useAuthContext } from 'stores/authContext'
+import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 
 const Home = ({
   bookmarks,
-}: InferGetStaticPropsType<typeof getStaticProps>) => (
-  <MySpace bookmarks={bookmarks} />
-)
+  user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const { setUser } = useAuthContext()
+  setUser(user)
+
+  return <MySpace bookmarks={bookmarks} />
+}
 
 export default Home
 
-const BetaLayout = (page: ReactNode) => <Layout>{page}</Layout>
+Home.getLayout = withBetaLayout
 
-BetaLayout.displayName = 'BetaLayout'
-Home.getLayout = BetaLayout
-
-export async function getStaticProps() {
+export const getServerSideProps = requireAuth(async () => {
   const bookmarks: BookmarkRecords = (await query.Bookmark.findMany({
     query: 'id url label',
     orderBy: [{ label: 'asc' }],
   })) as BookmarkRecords
 
   return { props: { bookmarks } }
-}
+})
