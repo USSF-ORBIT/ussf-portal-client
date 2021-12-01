@@ -270,7 +270,12 @@ const apolloServer = new ApolloServer({
           isBeta: true,
           mySpace: [],
         }
-        await db.collection('users').insertOne(newUser)
+        try {
+          await db.collection('users').insertOne(newUser)
+        } catch (e) {
+          console.error('error in creating new user', e)
+          return e
+        }
       }
       return { db }
     } catch (e) {
