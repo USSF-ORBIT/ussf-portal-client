@@ -4,7 +4,6 @@ const { MongoClient } = require('mongodb')
 const { testUser } = require('./users.js')
 const DB = 'cypress-e2e'
 
-console.log('what is my example user looking like', testUser)
 async function dropAndSeed(mongoClient, collectionName, jsonData) {
   const collection = mongoClient.db(DB).collection(collectionName)
 

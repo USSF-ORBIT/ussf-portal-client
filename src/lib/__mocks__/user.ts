@@ -1,24 +1,7 @@
-/* eslint no-undef: "off" */
+// eslint-disable-next-line
+import { ObjectId } from 'mongodb'
 
-/*
-This script will only run when using docker-compose.dev and 
-if there is no existing database.
-To trigger on subsequent Docker builds, make sure to run
-`docker volume rm ussf-portal-client-mongodb_data_container`
-
-The variable 'db' refers to the $MONGO_INITDB_DATABASE
-variable declared in the MongoDB Docker container in docker-compose.yml
-
-*/
-
-/* eslint-disable-next-line */
-const testUser = require('src/lib/__mocks__/users.ts')
-
-print('✅ Connected to database: ', db)
-
-db.createCollection('users')
-
-const exampleCollection1 = {
+export const exampleCollection1 = {
   title: 'Example Collection',
   _id: new ObjectId(),
   bookmarks: [
@@ -55,7 +38,7 @@ const exampleCollection1 = {
   ],
 }
 
-const exampleCollection2 = {
+export const exampleCollection2 = {
   title: 'Second Collection',
   _id: new ObjectId(),
   bookmarks: [
@@ -68,10 +51,8 @@ const exampleCollection2 = {
   ],
 }
 
-const exampleUser = {
+export const testUser = {
   commonName: 'HALL.MICHAEL.0123456789',
   isBeta: true,
   mySpace: [exampleCollection1, exampleCollection2],
 }
-
-db.users.insertOne(exampleUser)

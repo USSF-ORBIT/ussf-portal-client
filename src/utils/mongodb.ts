@@ -14,15 +14,19 @@ declare global {
 }
 
 const uri = process.env.MONGO_URL || ''
+const host = process.env.MONGO_HOST || ''
+const user = process.env.MONGO_USER || ''
+const password = process.env.MONGO_PASSWORD || ''
+
+const connectionString = `mongodb://${user}:${password}@${host}/?tls=true&tlsCAFile=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false`
 
 let client
 let clientPromise: Promise<typeof MongoClient>
 
-if (!process.env.MONGO_URL) {
-  throw new Error('Please add your Mongo URI to docker-compose.yml')
-}
-
 if (process.env.NODE_ENV === 'development') {
+  if (!process.env.MONGO_URL) {
+    throw new Error('Please add Mongo URI to your environment variables.')
+  }
   // In development mode, use a global variable so that the value
   // is preserved across module reloads caused by HMR (Hot Module Replacement).
   if (!global._mongoClientPromise) {
@@ -32,7 +36,7 @@ if (process.env.NODE_ENV === 'development') {
   clientPromise = global._mongoClientPromise
 } else {
   // In production mode, it's best to not use a global variable.
-  client = new MongoClient(uri)
+  client = new MongoClient(connectionString)
   clientPromise = client.connect()
 }
 

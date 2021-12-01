@@ -54,6 +54,7 @@ WORKDIR /app
 # TODO: where to store certs for CI builds?
 COPY ./certs/DoD_CAs.pem /etc/ssl/certs/DoD_CAs.pem
 RUN update-ca-certificates
+COPY ./rds-combined-ca-bundle.pem ./rds-combined-ca-bundle.pem
 
 ENV NODE_EXTRA_CA_CERTS='/etc/ssl/certs/DoD_CAs.pem'
 ENV NODE_ENV production

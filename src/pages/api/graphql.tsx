@@ -16,6 +16,8 @@ import type {
   CollectionRecord,
 } from 'types/index'
 import clientPromise from 'utils/mongodb'
+// #TODO Remove this once we have sessions
+import { seedDB } from 'lib/__mocks__/mongodb'
 
 export const config: PageConfig = {
   api: { bodyParser: false },
@@ -32,7 +34,11 @@ const resolvers: Resolvers = {
           .find({ commonName: commonName })
           .toArray()
 
-        return foundUser[0].mySpace
+        if (foundUser.length > 0) {
+          // #TODO when creating a new user, should we create
+          // an empty mySpace so we can return that and display empty state?
+          return foundUser[0].mySpace || []
+        }
       } catch (e) {
         // TODO error logging
         // eslint-disable-next-line no-console
@@ -122,7 +128,7 @@ const resolvers: Resolvers = {
         // Update and save modified document
         const updated = await db
           .collection('users')
-          .findAndModify(query, [], updateDocument, { new: true })
+          .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
 
         // #TODO add error check
         const removedCollection: Collection = updated?.value?.mySpace[0]
@@ -200,7 +206,7 @@ const resolvers: Resolvers = {
         // Update and save modified document
         await db
           .collection('users')
-          .findAndModify(query, [], updateDocument, { new: true })
+          .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
 
         return newBookmark
       } catch (e) {
@@ -228,7 +234,7 @@ const resolvers: Resolvers = {
         // Update and save modified document
         const updated = await db
           .collection('users')
-          .findAndModify(query, [], updateDocument, { new: true })
+          .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
 
         const updatedCollection = updated?.value?.mySpace?.filter(
           (c: Collection) => {
@@ -252,10 +258,22 @@ const apolloServer = new ApolloServer({
   resolvers,
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
   context: async () => {
-    const client = await clientPromise
-    const db = client.db(process.env.MONGODB_DB)
+    try {
+      const client = await clientPromise
+      const db = client.db(process.env.MONGODB_DB)
+      // Check if user exists. If not, seed test data
+      const foundUser = await db
+        .collection('users')
+        .find({ commonName: commonName })
+        .toArray()
 
-    return { db }
+      if (foundUser.length === 0) await seedDB()
+
+      return { db }
+    } catch (e) {
+      console.error('error in creating context', e)
+      return e
+    }
   },
 })
 
