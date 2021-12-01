@@ -11,9 +11,6 @@ variable declared in the MongoDB Docker container in docker-compose.yml
 
 */
 
-/* eslint-disable-next-line */
-const testUser = require('src/lib/__mocks__/users.ts')
-
 print('✅ Connected to database: ', db)
 
 db.createCollection('users')
