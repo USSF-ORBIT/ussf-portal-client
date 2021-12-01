@@ -15,7 +15,7 @@ export const renderWithModalRoot = (
   })
 }
 
-const defaultAuthContext = {
+export const defaultMockAuthContext = {
   user: {
     nameID: 'HALL.MICHAEL.1234567890',
     nameIDFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
@@ -38,7 +38,7 @@ export const renderWithAuth = (
   value: Partial<AuthContextType> = {}
 ) => {
   const contextValue = {
-    ...defaultAuthContext,
+    ...defaultMockAuthContext,
     ...value,
   }
 

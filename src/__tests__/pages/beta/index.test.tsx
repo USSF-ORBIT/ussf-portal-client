@@ -2,13 +2,16 @@
  * @jest-environment jsdom
  */
 
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import { v4 } from 'uuid'
 
+import { renderWithAuth, defaultMockAuthContext } from '../../../testHelpers'
+
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
-import Home, { getStaticProps } from 'pages/beta/index'
-import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
+import Home from 'pages/beta/index'
+
+jest.mock('lib/session')
 
 const mocks = [
   {
@@ -63,9 +66,9 @@ const mockBookmarks = [
 
 describe('Beta Home page', () => {
   beforeEach(() => {
-    render(
+    renderWithAuth(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <Home bookmarks={mockBookmarks} />
+        <Home user={defaultMockAuthContext.user} bookmarks={mockBookmarks} />
       </MockedProvider>
     )
   })
@@ -86,17 +89,5 @@ describe('Beta Home page', () => {
       name: 'Edit collection title',
     })
     expect(collectionTitle).toHaveTextContent('Example Collection')
-  })
-
-  it('returns the Default Beta Layout in getLayout', async () => {
-    const page = 'page'
-    expect(Home.getLayout(page)).toEqual(<Layout>page</Layout>)
-  })
-})
-
-describe('getStaticProps', () => {
-  it('returns expected props', async () => {
-    const results = await getStaticProps()
-    expect(results).toEqual({ props: { bookmarks: [] } })
   })
 })
