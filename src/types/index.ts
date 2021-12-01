@@ -85,3 +85,9 @@ export type SAMLUser = {
     ivgroups: string
   }
 }
+
+export type MongoUser = {
+  commonName: string
+  mySpace: Collection[]
+  isBeta: boolean
+}

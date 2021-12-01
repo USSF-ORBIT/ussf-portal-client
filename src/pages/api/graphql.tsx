@@ -14,10 +14,9 @@ import type {
   Collection,
   CollectionInput,
   CollectionRecord,
+  MongoUser,
 } from 'types/index'
 import clientPromise from 'utils/mongodb'
-// #TODO Remove this once we have sessions
-import { seedDB } from 'lib/__mocks__/mongodb'
 
 export const config: PageConfig = {
   api: { bodyParser: false },
@@ -35,9 +34,7 @@ const resolvers: Resolvers = {
           .toArray()
 
         if (foundUser.length > 0) {
-          // #TODO when creating a new user, should we create
-          // an empty mySpace so we can return that and display empty state?
-          return foundUser[0].mySpace || []
+          return foundUser[0].mySpace
         }
       } catch (e) {
         // TODO error logging
@@ -261,14 +258,20 @@ const apolloServer = new ApolloServer({
     try {
       const client = await clientPromise
       const db = client.db(process.env.MONGODB_DB)
-      // Check if user exists. If not, seed test data
+      // Check if user exists. If not, create new user
       const foundUser = await db
         .collection('users')
         .find({ commonName: commonName })
         .toArray()
 
-      if (foundUser.length === 0) await seedDB()
-
+      if (foundUser.length === 0) {
+        const newUser: MongoUser = {
+          commonName: commonName,
+          isBeta: true,
+          mySpace: [],
+        }
+        await db.collection('users').insertOne(newUser)
+      }
       return { db }
     } catch (e) {
       console.error('error in creating context', e)
