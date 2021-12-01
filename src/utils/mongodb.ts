@@ -18,15 +18,16 @@ const host = process.env.MONGO_HOST || ''
 const user = process.env.MONGO_USER || ''
 const password = process.env.MONGO_PASSWORD || ''
 
-const documentDb = `mongodb://${user}:${password}@${host}/?tls=true&tlsCAFile=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false`
+// Connection string for DocumentDB
+let connectionString = `mongodb://${user}:${password}@${host}/?tls=true&tlsCAFile=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false`
 
 let client
 let clientPromise: Promise<typeof MongoClient>
+// if mongo_url is defined, use that for connection string instead
+// because it will only be defined locally
+// use check for connection string only
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-  if (!process.env.MONGO_URL) {
-    throw new Error('Please add Mongo URI to your environment variables.')
-  }
+if (process.env.NODE_ENV === 'development') {
   // In development mode, use a global variable so that the value
   // is preserved across module reloads caused by HMR (Hot Module Replacement).
   if (!global._mongoClientPromise) {
@@ -35,8 +36,12 @@ if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
   }
   clientPromise = global._mongoClientPromise
 } else {
+  // If MONGO_URL is defined, use it instead
+  if (uri !== undefined && uri !== '') {
+    connectionString = uri
+  }
   // In production mode, it's best to not use a global variable.
-  client = new MongoClient(documentDb)
+  client = new MongoClient(connectionString)
   clientPromise = client.connect()
 }
 
