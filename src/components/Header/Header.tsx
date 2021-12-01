@@ -4,6 +4,7 @@ import {
   Title,
   PrimaryNav,
   NavMenuButton,
+  Button,
 } from '@trussworks/react-uswds'
 
 import styles from './Header.module.scss'
@@ -11,8 +12,10 @@ import styles from './Header.module.scss'
 import Logo from 'components/Logo/Logo'
 import NavLink from 'components/util/NavLink/NavLink'
 import LinkTo from 'components/util/LinkTo/LinkTo'
+import { useAuthContext } from 'stores/authContext'
 
 const Header = () => {
+  const { logout } = useAuthContext()
   const [expanded, setExpanded] = useState(false)
   const handleNavButtonClick = (): void =>
     setExpanded((prevExpanded) => !prevExpanded)
@@ -27,6 +30,9 @@ const Header = () => {
     <NavLink href="#" key="nav_support">
       <span>Help &amp; Support</span>
     </NavLink>,
+    <Button secondary type="button" onClick={logout} key="nav_logout">
+      <span>Log out</span>
+    </Button>,
   ]
 
   // The wrapper div is needed for mobile nav to work, so the header/overlay are not flex children */

@@ -10,7 +10,6 @@ import type { SAMLUser } from 'types'
 export interface PassportRequest extends NextApiRequest {
   user?: SAMLUser
   isAuthenticated(): boolean
-  login(user: SAMLUser, callback: (error?: Error) => void): void
   session: {
     destroy(): Promise<void>
   }

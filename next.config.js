@@ -28,7 +28,7 @@ module.exports = withKeystone(
       return {
         beforeFiles: [
           {
-            source: '/:path',
+            source: '/:path(^login)',
             has: [
               {
                 type: 'cookie',
