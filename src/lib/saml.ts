@@ -7,7 +7,6 @@ import type { NextApiRequest } from 'next'
 import type { SAMLUser } from 'types'
 
 /** Types */
-
 export interface PassportRequest extends NextApiRequest {
   user?: SAMLUser
   isAuthenticated(): boolean
@@ -37,9 +36,14 @@ export type PassportWithLogout = PassportStatic & {
 const ISSUER = process.env.SAML_ISSUER
 const IDP_METADATA = process.env.SAML_IDP_METADATA_URL
 
+// Setting this lets us override the callback URL to http for local dev
+const CALLBACK_URL = process.env.SAML_SSO_CALLBACK_URL
+
 /** Service Provider config */
 const samlConfig = {
+  callbackUrl: CALLBACK_URL || undefined,
   path: '/api/auth/login',
+  protocol: 'https://',
   logoutCallbackUrl: '/api/auth/logout/callback',
   issuer: ISSUER,
   audience: ISSUER,
@@ -61,7 +65,7 @@ export const configSaml = async (passport: PassportWithLogout) => {
     const reader = await fetch({ url: IDP_METADATA })
 
     const strategyConfig: SamlConfig & { identityProviderUrl?: string } = {
-      ...toPassportConfig(reader),
+      ...toPassportConfig(reader, { multipleCerts: true }),
       ...samlConfig,
     }
 
@@ -82,6 +86,7 @@ export const configSaml = async (passport: PassportWithLogout) => {
         'localhost:8080'
       )
     }
+    // END DEVELOPMENT ONLY
 
     const samlStrategy = new SamlStrategy(strategyConfig, function (
       req,
@@ -92,7 +97,7 @@ export const configSaml = async (passport: PassportWithLogout) => {
       return done(null, profile as SAMLUser)
     })
 
-    passport.use(samlStrategy)
+    passport.use('saml', samlStrategy)
 
     passport.logoutSaml = (req, done) => {
       // Take our LogoutRequest type and cast it as the expected RequestWithUser type
@@ -108,6 +113,5 @@ export const configSaml = async (passport: PassportWithLogout) => {
     // eslint-disable-next-line no-console
     console.error(`Error loading SAML metadata from URL ${IDP_METADATA}`, err)
     throw err
-    // process.exit(1)
   }
 }

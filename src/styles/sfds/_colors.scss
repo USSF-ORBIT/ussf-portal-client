@@ -1,6 +1,3 @@
-$black: #000;
-$white: #fff;
-
 /** Theme Colors **/
 $theme-spacebase-darkest: #070f1d;
 $theme-spacebase-darker: #0a162b;
@@ -78,3 +75,12 @@ $state-success-darker: #446443;
 $state-disabled-light: #e6e6e6;
 $state-disabled-base: #c9c9c9;
 $state-disabled-dark: #adadad;
+
+/** Shorcuts **/
+$theme-black: $theme-spacebase-darkest;
+$theme-white: $theme-cosmiclatte-lightest;
+
+/** Other **/
+$black: #000;
+$white: #fff;
+$grey: #f0f0f0;

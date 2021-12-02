@@ -14,6 +14,13 @@ export default {
   argTypes: {
     handleSelect: { action: 'Select collection' },
   },
+  decorators: [
+    (Story) => (
+      <div className="sfds">
+        <Story />
+      </div>
+    ),
+  ],
 } as Meta
 
 const exampleCollection = {
