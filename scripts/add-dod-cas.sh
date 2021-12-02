@@ -24,3 +24,5 @@
 
     # update certificate stores
     update-ca-certificates
+
+    rm certificates_pkcs7_DoD.zip
