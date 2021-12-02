@@ -1,7 +1,6 @@
 describe('Sites and Applications', () => {
   before(() => {
     // Reset the database
-    // cy.exec('yarn e2e:seedDB')
     cy.task('db:seed')
   })
   beforeEach(() => {
