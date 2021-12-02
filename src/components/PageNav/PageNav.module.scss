@@ -1,6 +1,9 @@
 @import 'styles/sfds/sfdsDependencies';
 
 .PageNav {
+  margin-top: 42px;
+  margin-bottom: 75px;
+
   :global {
     .usa-sidenav {
       border: none;

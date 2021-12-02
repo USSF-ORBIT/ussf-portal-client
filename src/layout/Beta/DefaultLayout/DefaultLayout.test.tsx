@@ -36,6 +36,15 @@ describe('DefaultLayout component', () => {
     expect(screen.getByRole('main')).toHaveAttribute('id', 'main-content')
   })
 
+  it('renders a feedback link', () => {
+    expect(
+      screen.getByRole('link', { name: 'Send us feedback' })
+    ).toHaveAttribute(
+      'href',
+      'mailto:feedback@ussforbit.us?subject=USSF portal feedback'
+    )
+  })
+
   it('renders common layout elements', () => {
     expect(screen.getAllByRole('banner')).toHaveLength(2) // Gov banner & site header
     expect(screen.getAllByRole('navigation')).toHaveLength(3) // header, page nav, footer
