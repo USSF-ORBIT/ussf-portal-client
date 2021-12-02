@@ -7,12 +7,12 @@ const DB = 'cypress-e2e'
 async function dropAndSeed(mongoClient, collectionName, jsonData) {
   const collection = mongoClient.db(DB).collection(collectionName)
 
-  await collection.drop().catch((e) => {
-    console.log('error when dropping', e)
-    if (e.code !== 26) {
-      throw e
-    }
-  })
+  // await collection.drop().catch((e) => {
+  //   console.log('error when dropping', e)
+  //   if (e.code !== 26) {
+  //     throw e
+  //   }
+  // })
   await collection.insertOne(jsonData)
 }
 
