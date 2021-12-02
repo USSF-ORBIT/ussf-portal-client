@@ -33,6 +33,8 @@ export const defaultMockAuthContext = {
   login: jest.fn(),
 }
 
+/** Renders the component inside of an already-authenticated AuthProvider */
+/** You can pass custom context values (user, mock functions) as needed */
 export const renderWithAuth = (
   component: React.ReactElement,
   value: Partial<AuthContextType> = {}

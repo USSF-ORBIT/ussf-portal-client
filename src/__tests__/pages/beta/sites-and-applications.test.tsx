@@ -1,11 +1,13 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen, act } from '@testing-library/react'
+import { screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import { v4 } from 'uuid'
+
+import { renderWithAuth } from '../../../testHelpers'
 
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
@@ -135,7 +137,7 @@ describe('Sites and Applications page', () => {
   describe('default state', () => {
     beforeEach(() => {
       jest.useFakeTimers()
-      render(
+      renderWithAuth(
         <MockedProvider mocks={mocks}>
           <SitesAndApplications
             collections={mockCollections}
@@ -396,7 +398,7 @@ describe('Sites and Applications page', () => {
       asPath: '/',
     })
 
-    render(
+    renderWithAuth(
       <MockedProvider mocks={mocks}>
         <SitesAndApplications
           collections={mockCollections}
@@ -429,7 +431,7 @@ describe('Sites and Applications page', () => {
       },
     ]
 
-    render(
+    renderWithAuth(
       <MockedProvider mocks={errorMock} addTypename={false}>
         <SitesAndApplications
           collections={mockCollections}
