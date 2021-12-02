@@ -8,37 +8,6 @@ jobs:
   build-and-push-aws:
     runs-on: ubuntu-latest
     steps:
-<<<<<<< HEAD
-      - uses: actions/checkout@v2
-      - name: Get tag
-        run: echo "RELEASE_VERSION=${GITHUB_REF:10}" >> $GITHUB_ENV
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.GHA_ECR_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.GHA_ECR_AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
-          role-to-assume: ${{ secrets.GHA_ECR_ROLE_ASSUMPTION }}
-          role-skip-session-tagging: true
-          role-duration-seconds: '3600'
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-aws-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: portal-client
-          IMAGE_TAG: ${{ github.sha }}
-
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          docker logout $ECR_REGISTRY
-=======
     - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
     - name: Get tag
       run: echo "RELEASE_VERSION=${GITHUB_REF:10}" >> $GITHUB_ENV
@@ -66,11 +35,10 @@ jobs:
 
       run: |
         echo $CERT > saml.pem
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . --build-arg BUILD=$IMAGE_TAG
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
         docker logout $ECR_REGISTRY
->>>>>>> main
 
       - name: Download task definition | Update Task Definition | Update ECS Service
         env:
@@ -80,20 +48,3 @@ jobs:
         run: |
           ./scripts/deploy-dev-aws.sh
 
-<<<<<<< HEAD
-      - name: Build, tag, and push image to C1 Artifactory
-        id: build-c1-image
-        env:
-          IMAGE_TAG: ${{ github.sha }}
-          C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
-          C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
-        run: |
-          sudo sh scripts/add-dod-cas.sh
-          docker login -u portal -p ${{ secrets.C1_ARTIFACTORY_TOKEN }} $C1_REGISTRY
-          docker build -t $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG . --build-arg BUILD=$IMAGE_TAG 
-          docker push $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG"
-          docker logout $C1_REGISTRY
-=======
-
->>>>>>> main
