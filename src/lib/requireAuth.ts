@@ -17,13 +17,13 @@ export const requireAuth = (getServerSidePropsFunc?: GetServerSideProps) => {
   return async (
     ctx: GetServerSidePropsContext
   ): Promise<WithAuthServerSidePropsResult> => {
+    const { req, res } = ctx
+
+    if (!req || !res) {
+      throw new Error('requireAuth can only be called from the server')
+    }
+
     try {
-      const { req, res } = ctx
-
-      if (!req || !res) {
-        throw new Error('requireAuth can only be called from the server')
-      }
-
       const session = await getSession(req, res)
 
       if (!session || !session.passport || !session.passport.user) {
