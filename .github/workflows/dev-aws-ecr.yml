@@ -55,9 +55,12 @@ jobs:
         C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
         C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
         CERT: ${{ secrets.SAML_CERT }}
+        ART_CHAIN: ${{ secrets.C1_ARTIFACTORY_CHAIN }}
 
       run: |
         echo $CERT > saml.pem
+        sudo mkdir -p /etc/docker/certs.d/$C1_REGISTRY
+        echo $ART_CHAIN > /etc/docker/certs.d/$C1_REGISTRY/ca.crt
         sudo sh scripts/add-dod-cas.sh
         docker login -u portal -p ${{ secrets.C1_ARTIFACTORY_TOKEN }} $C1_REGISTRY
         docker build -t $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG .
