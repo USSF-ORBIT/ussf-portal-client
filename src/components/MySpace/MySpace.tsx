@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 import styles from './MySpace.module.scss'
 
-import type { BookmarkRecords } from 'types/index'
+import type { BookmarkRecords, BookmarkInput } from 'types/index'
 import CustomCollection from 'components/CustomCollection/CustomCollection'
 import AddWidget from 'components/AddWidget/AddWidget'
 import { useCollectionsQuery } from 'operations/queries/getCollections'
@@ -27,7 +27,11 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   if (error) return <p>Error</p>
 
   const addNewCollection = () => {
-    handleAddCollection({ variables: { title: '', bookmarks: [] } })
+    const newBookmark: BookmarkInput[] = []
+    handleAddCollection({
+      variables: { title: '', bookmarks: newBookmark },
+      refetchQueries: [`getCollections`],
+    })
   }
 
   return (
@@ -38,41 +42,44 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
           {data &&
             data.collections.map((collection) => (
               <Grid
-                key={`collection_${collection.id}`}
+                key={`collection_${collection._id}`}
                 tablet={{ col: 6 }}
                 desktop={{ col: 4 }}>
                 <CustomCollection
-                  id={collection.id}
+                  _id={collection._id}
                   title={collection.title}
                   bookmarks={collection.bookmarks}
                   bookmarkOptions={bookmarks}
                   handleRemoveCollection={() => {
                     handleRemoveCollection({
                       variables: {
-                        id: collection.id,
+                        _id: collection._id,
                       },
+                      refetchQueries: [`getCollections`],
                     })
                   }}
                   handleEditCollection={(title: string) => {
                     handleEditCollection({
                       variables: {
-                        id: collection.id,
+                        _id: collection._id,
                         title,
                       },
                     })
                   }}
-                  handleRemoveBookmark={(id) =>
+                  handleRemoveBookmark={(_id) =>
                     handleRemoveBookmark({
-                      variables: { id, collectionId: collection.id },
+                      variables: { _id, collectionId: collection._id },
+                      refetchQueries: [`getCollections`],
                     })
                   }
                   handleAddBookmark={(url, label) => {
                     handleAddBookmark({
                       variables: {
-                        collectionId: collection.id,
+                        collectionId: collection._id,
                         url,
                         label,
                       },
+                      refetchQueries: [`getCollections`],
                     })
                   }}
                 />

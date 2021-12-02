@@ -51,6 +51,7 @@ WORKDIR /app
 COPY scripts/add-dod-cas.sh .
 COPY scripts/create-gcds-chain.sh .
 COPY saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
+COPY ./rds-combined-ca-bundle.pem ./rds-combined-ca-bundle.pem
 
 RUN apt-get update \
     && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip \
