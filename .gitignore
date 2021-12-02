@@ -44,6 +44,6 @@ e2e/cypress/reports
 .envrc.local
 
 certs/
-*.pem
+saml.pem
 
 tsconfig.tsbuildinfo

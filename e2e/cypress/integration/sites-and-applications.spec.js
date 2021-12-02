@@ -1,5 +1,7 @@
 describe('Sites and Applications', () => {
   before(() => {
+    // Reset the database
+    cy.task('db:seed')
     cy.loginTestIDP()
   })
 
@@ -21,7 +23,6 @@ describe('Sites and Applications', () => {
     cy.contains('My Space')
     // Client-side navigate to the page
     cy.contains('All sites & applications').click()
-
     cy.url().should('eq', Cypress.config().baseUrl + '/sites-and-applications')
     cy.contains('Sites & Applications')
 
@@ -118,8 +119,10 @@ describe('Sites and Applications', () => {
     // Go back to My Space
     cy.url().should('eq', Cypress.config().baseUrl + '/')
 
-    cy.findByLabelText('Collection Title').type('My New Collection{enter}')
-    cy.contains('My New Collection')
+    cy.findByLabelText('Collection Title').type(
+      'My Second New Collection{enter}'
+    )
+    cy.contains('My Second New Collection')
       .parent()
       .next()
       .within(() => {
@@ -138,7 +141,7 @@ describe('Sites and Applications', () => {
     cy.contains('Career')
     cy.contains('Sort alphabetically').click()
 
-    cy.contains('Move.mil')
+    cy.contains('SURF')
       .parent()
       .parent()
       .within(() => {
@@ -147,17 +150,17 @@ describe('Sites and Applications', () => {
       })
 
     cy.contains(
-      'You have successfully added “Move.mil” to the “Example Collection” section.'
+      'You have successfully added “SURF” to the “Example Collection” section.'
     )
 
     // Go back to My Space
     cy.contains('My Space').click()
-
+    cy.findByRole('heading', { name: 'My Space' })
     cy.contains('Example Collection')
       .parent()
       .next()
       .within(() => {
-        cy.contains('Move.mil')
+        cy.contains('SURF')
       })
   })
 
@@ -169,7 +172,7 @@ describe('Sites and Applications', () => {
       .next()
       .within(() => {
         // Inside of <ol>
-        cy.findAllByRole('listitem').should('have.length', 5)
+        cy.findAllByRole('listitem').should('have.length', 6)
         cy.contains('Webmail')
 
         // First undo
@@ -185,7 +188,7 @@ describe('Sites and Applications', () => {
           .first()
           .click()
         cy.contains('Webmail').should('not.exist')
-        cy.findAllByRole('listitem').should('have.length', 4)
+        cy.findAllByRole('listitem').should('have.length', 5)
       })
   })
 
@@ -277,14 +280,18 @@ describe('Sites and Applications', () => {
     cy.contains('Example Collection').click()
     cy.findByRole('textbox').clear()
     cy.findByRole('textbox').type('Updated Title{enter}')
-    cy.findByRole('button', { name: 'Edit collection title' }).should(
-      'have.text',
-      'Updated Title'
-    )
+    cy.contains('Updated Title')
+      .parent()
+      .within(() => {
+        cy.findByRole('button', { name: 'Edit collection title' }).should(
+          'have.text',
+          'Updated Title'
+        )
+      })
   })
 
   it('can delete an existing collection', () => {
-    cy.contains('Example Collection')
+    cy.contains('Second Collection')
       .parent()
       .within(() => {
         cy.findByRole('button', { name: 'Collection Settings' }).click()
@@ -300,7 +307,7 @@ describe('Sites and Applications', () => {
     })
 
     // Reopen the modal
-    cy.contains('Example Collection')
+    cy.contains('Second Collection')
       .parent()
       .within(() => {
         cy.findByRole('button', { name: 'Collection Settings' }).click()
@@ -316,6 +323,6 @@ describe('Sites and Applications', () => {
     })
 
     // Make sure no collection exists
-    cy.contains('Example Collection').should('not.exist')
+    cy.contains('Second Collection').should('not.exist')
   })
 })

@@ -8,9 +8,9 @@ import { axe } from 'jest-axe'
 import React from 'react'
 
 import BookmarkList from './BookmarkList'
-import type { Bookmark } from 'types'
+import type { BookmarkRecord, BookmarkRecords } from 'types'
 
-const exampleBookmarks: Bookmark[] = [
+const exampleBookmarks: BookmarkRecord[] = [
   { id: '1', label: 'Webmail', url: '#' },
   { id: '2', label: 'MyPay', url: '#' },
   { id: '3', label: 'vMPF', url: '#' },
@@ -72,8 +72,9 @@ const exampleInvalidBookmarks = [
 
 const exampleCollections = [
   {
-    id: 'testCollectionId',
+    _id: 'testCollectionId',
     title: 'Example Collection',
+    bookmarks: [],
   },
 ]
 
@@ -93,7 +94,12 @@ describe('BookmarkList component', () => {
   })
 
   it('doesn’t render invalid bookmarks', () => {
-    render(<BookmarkList {...testProps} bookmarks={exampleInvalidBookmarks} />)
+    render(
+      <BookmarkList
+        {...testProps}
+        bookmarks={exampleInvalidBookmarks as BookmarkRecords}
+      />
+    )
     expect(screen.getByRole('table')).toBeInTheDocument()
     expect(screen.getAllByRole('link')).toHaveLength(4)
   })

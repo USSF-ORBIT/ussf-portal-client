@@ -41,6 +41,7 @@ export const EditableCollectionTitle = ({
   const handleOnBlur = () => {
     if (currentText.length) {
       onSave(currentText)
+
       setEditing(false)
     } else if (text.length) {
       // Revert to previous value
