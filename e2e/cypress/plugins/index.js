@@ -19,7 +19,7 @@
 const fs = require('fs')
 const path = require('path')
 const mkdirp = require('mkdirp')
-
+const { seedDB } = require('../database/seedMongo')
 const storeData = async (data, filepath) => {
   try {
     await mkdirp(path.dirname(filepath))
@@ -55,6 +55,11 @@ module.exports = (on, config) => {
       const filepath = path.resolve('cypress', 'reports/a11y.json')
       storeData(data, filepath)
 
+      return null
+    },
+    async 'db:seed'() {
+      await seedDB()
+      console.log('Database seeded')
       return null
     },
   })

@@ -1,7 +1,8 @@
 describe('Sites and Applications', () => {
   before(() => {
     // Reset the database
-    cy.exec('yarn e2e:seedDB')
+    // cy.exec('yarn e2e:seedDB')
+    cy.task('db:seed')
   })
   beforeEach(() => {
     // Make sure the beta cookie is set
