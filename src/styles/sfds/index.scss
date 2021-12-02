@@ -122,19 +122,23 @@
 
   // Primary (default)
   .usa-button {
+    color: $theme-white;
     background-color: $theme-ultraviolet-base;
 
     &:hover,
     &.usa-button--hover {
+      color: $theme-white;
       background-color: $theme-ultraviolet-dark;
     }
 
     &:active,
     &.usa-button--active {
+      color: $theme-white;
       background-color: $theme-ultraviolet-darker;
     }
 
     &:disabled {
+      color: $theme-white;
       background-color: $state-disabled-base;
     }
   }
@@ -156,14 +160,17 @@
 
   .usa-button--accent-cool {
     background-color: $theme-aurora-base;
+    color: $theme-black;
 
     &:hover,
     &.usa-button--hover {
+      color: $theme-black;
       background-color: $theme-aurora-dark;
     }
 
     &:active,
     &.usa-button--active {
+      color: $theme-white;
       background-color: $theme-aurora-darker;
     }
   }
