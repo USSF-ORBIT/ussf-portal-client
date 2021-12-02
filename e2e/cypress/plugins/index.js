@@ -58,7 +58,11 @@ module.exports = (on, config) => {
       return null
     },
     async 'db:seed'() {
-      await seedDB()
+      try {
+        await seedDB()
+      } catch (e) {
+        console.log(e)
+      }
       console.log('Database seeded')
       return null
     },

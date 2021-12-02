@@ -19,7 +19,7 @@ async function dropAndSeed(mongoClient, collectionName, jsonData) {
 module.exports.seedDB = async () => {
   // Connection URL
 
-  const uri = `${process.env.MONGO_URL}/${DB}`
+  const uri = `${process.env.MONGO_URL}`
 
   const client = new MongoClient(uri, {
     useNewUrlParser: true,
