@@ -1,5 +1,11 @@
 describe('Sites and Applications', () => {
+  before(() => {
+    cy.loginTestIDP()
+  })
+
   beforeEach(() => {
+    cy.preserveLoginCookies()
+
     // Make sure the beta cookie is set
     cy.visit('/joinbeta')
   })

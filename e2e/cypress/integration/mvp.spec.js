@@ -1,6 +1,11 @@
 import logging from '../plugins/logging'
 describe('The MVP site', () => {
+  before(() => {
+    cy.loginTestIDP()
+  })
+
   beforeEach(() => {
+    cy.preserveLoginCookies()
     cy.visit('/')
     cy.injectAxe()
   })

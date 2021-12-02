@@ -53,7 +53,7 @@ const Login = () => {
                   type="button"
                   className="usa-button button-pill usa-button--big text-white text-no-underline"
                   onClick={login}>
-                  Login
+                  Log In
                 </Button>
                 <p className="font-body-2xs">
                   The security accreditation level of this site is

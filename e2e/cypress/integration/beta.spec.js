@@ -1,13 +1,15 @@
 import logging from '../plugins/logging'
 describe('the Beta gate', () => {
+  before(() => {
+    cy.loginTestIDP()
+  })
+
   beforeEach(() => {
     cy.injectAxe()
+    cy.preserveLoginCookies()
   })
 
   it('joins and leaves the beta', () => {
-    // Just in case
-    cy.clearCookies()
-
     // Start on MVP
     cy.visit('/')
     cy.contains('Manage your life')

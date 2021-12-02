@@ -1,13 +1,22 @@
+import { InferGetServerSidePropsType } from 'next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLaptopCode } from '@fortawesome/free-solid-svg-icons'
 import { CardGroup } from '@trussworks/react-uswds'
+
 import CovidSiteAlert from 'components/MVP/CovidSiteAlert/CovidSiteAlert'
 import type { AnnouncementCardProps } from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import LinkTo from 'components/util/LinkTo/LinkTo'
+import { useUser } from 'hooks/useUser'
+import { requireAuth } from 'lib/requireAuth'
 
 import styles from 'styles/mvp/index.module.scss'
-const Home = () => {
+
+const Home = ({
+  user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  useUser(user)
+
   const manageYourLife = [
     {
       path: 'https://www.defensetravel.dod.mil/site/bahCalc.cfm',
@@ -260,3 +269,5 @@ const Home = () => {
 }
 
 export default Home
+
+export const getServerSideProps = requireAuth()
