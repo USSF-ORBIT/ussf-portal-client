@@ -38,6 +38,7 @@ async function seedDB() {
     client.close()
   } catch (err) {
     console.log(err.stack)
+    return err
   }
 }
 
