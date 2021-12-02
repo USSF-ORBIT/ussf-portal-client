@@ -34,33 +34,40 @@ const Footer = () => {
                     <li className="usa-footer__secondary-link">
                       <LinkTo
                         href="https://www.my.af.mil/afp/netstorage/faq/privacy_advisory.html"
-                        target="_blank">
+                        target="_blank"
+                        rel="noreferrer noopener">
                         Privacy Policy
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
                       <LinkTo
                         href="https://dodcio.defense.gov/DoDSection508/Std_Stmt/"
-                        target="_blank">
+                        target="_blank"
+                        rel="noreferrer noopener">
                         Section508.gov
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
                       <LinkTo
                         href="https://comptroller.defense.gov/Budget-Materials/"
-                        target="_blank">
+                        target="_blank"
+                        rel="noreferrer noopener">
                         Budget and Performance
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
                       <LinkTo
                         href="http://www.esd.whs.mil/DD/index.html"
-                        target="_blank">
+                        target="_blank"
+                        rel="noreferrer noopener">
                         Orders &amp; Directives
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="https://www.dodig.mil/" target="_blank">
+                      <LinkTo
+                        href="https://www.dodig.mil/"
+                        target="_blank"
+                        rel="noreferrer noopener">
                         Office of the Inspector General
                       </LinkTo>
                     </li>
@@ -71,26 +78,34 @@ const Footer = () => {
                 <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
                   <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="https://www.foia.af.mil/" target="_blank">
+                      <LinkTo
+                        href="https://www.foia.af.mil/"
+                        target="_blank"
+                        rel="noreferrer noopener">
                         FOIA Requests
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
                       <LinkTo
                         href="https://www.af.mil/Equal-Opportunity/"
-                        target="_blank">
+                        target="_blank"
+                        rel="noreferrer noopener">
                         No FEAR Act
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="https://www.usa.gov/" target="_blank">
+                      <LinkTo
+                        href="https://www.usa.gov/"
+                        target="_blank"
+                        rel="noreferrer noopener">
                         USA.gov
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
                       <LinkTo
                         href="https://www.resilience.af.mil/SAPR/"
-                        target="_blank">
+                        target="_blank"
+                        rel="noreferrer noopener">
                         Sexual Assualt Prevention and Response
                       </LinkTo>
                     </li>
