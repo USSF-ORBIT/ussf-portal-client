@@ -5,7 +5,6 @@ import { render, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
-import { v4 } from 'uuid'
 
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
@@ -102,23 +101,23 @@ const mocks = [
       data: {
         collections: [
           {
-            id: v4(),
+            _id: '1',
             title: 'Example Collection',
             bookmarks: [
               {
-                id: v4(),
+                _id: '2',
                 url: 'https://google.com',
                 label: 'Webmail',
                 description: 'Lorem ipsum',
               },
               {
-                id: v4(),
+                _id: '3',
                 url: 'https://mypay.dfas.mil/#/',
                 label: 'MyPay',
                 description: 'Lorem ipsum',
               },
               {
-                id: v4(),
+                _id: '4',
                 url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
                 label: 'vMPF',
                 description: 'Lorem ipsum',
@@ -191,13 +190,13 @@ describe('Sites and Applications page', () => {
     describe('selecting collections', () => {
       beforeEach(async () => {
         await screen.findByRole('button', {
-          name: 'Select multiple collections',
+          name: 'Select collections',
         })
       })
 
       it('can enter select mode', () => {
         const selectBtn = screen.getByRole('button', {
-          name: 'Select multiple collections',
+          name: 'Select collections',
         })
         expect(selectBtn).toBeInTheDocument()
         userEvent.click(selectBtn)
@@ -209,7 +208,7 @@ describe('Sites and Applications page', () => {
         ).toBeDisabled()
 
         expect(
-          screen.queryByRole('button', { name: 'Select multiple collections' })
+          screen.queryByRole('button', { name: 'Select collections' })
         ).not.toBeInTheDocument()
         expect(
           screen.getByRole('button', { name: 'Cancel' })
@@ -238,7 +237,7 @@ describe('Sites and Applications page', () => {
 
         userEvent.click(
           screen.getByRole('button', {
-            name: 'Select multiple collections',
+            name: 'Select collections',
           })
         )
 
@@ -254,7 +253,7 @@ describe('Sites and Applications page', () => {
       it('can select multiple collections and add them', () => {
         userEvent.click(
           screen.getByRole('button', {
-            name: 'Select multiple collections',
+            name: 'Select collections',
           })
         )
 
@@ -285,13 +284,14 @@ describe('Sites and Applications page', () => {
           variables: {
             collections: mockCollections,
           },
+          refetchQueries: [`getCollections`],
         })
       })
 
       it('selecting the same collection twice removes it from the selection', () => {
         userEvent.click(
           screen.getByRole('button', {
-            name: 'Select multiple collections',
+            name: 'Select collections',
           })
         )
 
@@ -350,9 +350,10 @@ describe('Sites and Applications page', () => {
 
         expect(mockAddBookmark).toHaveBeenCalledWith({
           variables: {
-            collectionId: mocks[0].result.data.collections[0].id,
+            collectionId: mocks[0].result.data.collections[0]._id,
             ...mockBookmarks[0],
           },
+          refetchQueries: [`getCollections`],
         })
 
         const flashMessage = screen.getByRole('alert')
@@ -379,8 +380,11 @@ describe('Sites and Applications page', () => {
         expect(mockAddCollection).toHaveBeenCalledWith({
           variables: {
             title: '',
-            bookmarks: [mockBookmarks[0]],
+            bookmarks: [
+              { url: mockBookmarks[0].url, label: mockBookmarks[0].label },
+            ],
           },
+          refetchQueries: [`getCollections`],
         })
 
         expect(mockPush).toHaveBeenCalledWith('/')
@@ -411,7 +415,7 @@ describe('Sites and Applications page', () => {
 
     expect(
       screen.queryByRole('button', {
-        name: 'Select multiple collections',
+        name: 'Select collections',
       })
     ).not.toBeInTheDocument()
 

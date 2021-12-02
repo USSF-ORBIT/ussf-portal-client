@@ -1,23 +1,77 @@
-export type Bookmark = {
-  __typename?: string
+import { ObjectId } from 'bson'
+
+/**
+ * ***********************
+ * Types for Keystone Data
+ * ***********************
+ * */
+
+/* BookmarkRecord refers to canonical bookmarks created and managed in CMS */
+
+export type BookmarkRecord = {
   id: string
   url: string
   label?: string
   description?: string
 }
 
-type BookmarkRecord = Partial<Bookmark> & Pick<Bookmark, 'id'>
 export type BookmarkRecords = readonly BookmarkRecord[]
 
-export type Collection = {
-  __typename?: string
+/* CollectionRecord refers to canonical collections created and managed in CMS */
+
+export type CollectionRecord = {
   id: string
+  title: string
+  bookmarks: BookmarkRecords
+}
+export type CollectionRecords = readonly CollectionRecord[]
+
+/**
+ * ***********************
+ * Types for Portal Data
+ * ***********************
+ * */
+
+/* Bookmark refers to a user-created object containing a url */
+
+export type Bookmark = {
+  _id: string
+  url: string
+  label?: string
+}
+
+// When creating a new collection, we need to initialize an empty bookmark with no ID
+export type NewBookmarkInput = {
+  url: string
+  label?: string
+}
+
+// When creating a new Bookmark, the _id must be type ObjectId
+export type BookmarkInput = {
+  _id: ObjectId
+  url: string
+  label?: string
+}
+
+/* Collection refers to a user-created collection containing one or more bookmarks */
+
+export type Collection = {
+  _id: string
   title: string
   bookmarks: Bookmark[]
 }
 
-type CollectionRecord = Partial<Collection> & Pick<Collection, 'id'>
-export type CollectionRecords = readonly CollectionRecord[]
+export type CollectionInput = {
+  _id: ObjectId
+  title: string
+  bookmarks: BookmarkInput[]
+}
+
+export type CollectionsInput = {
+  _id: string
+  title: string
+  bookmarks: BookmarkInput[]
+}
 
 export type SAMLUser = {
   nameID: string
@@ -30,4 +84,10 @@ export type SAMLUser = {
     userprincipalname: string
     ivgroups: string
   }
+}
+
+export type MongoUser = {
+  commonName: string
+  mySpace: Collection[]
+  isBeta: boolean
 }

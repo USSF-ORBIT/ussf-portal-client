@@ -31,6 +31,7 @@ const AddWidget = ({
   return (
     <div className={styles.addWidget}>
       <DropdownMenu
+        align="center"
         toggleEl={
           <button
             className={styles.addWidgetButton}
