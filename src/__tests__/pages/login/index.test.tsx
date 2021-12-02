@@ -46,7 +46,7 @@ describe('Login page', () => {
   })
 
   it('renders the login button', () => {
-    const loginButton = screen.getByRole('button', { name: 'Login' })
+    const loginButton = screen.getByRole('button', { name: 'Log In' })
     expect(loginButton).toBeInTheDocument()
     userEvent.click(loginButton)
     expect(mockLogin).toHaveBeenCalled()
