@@ -1,0 +1,47 @@
+@font-face {
+  font-family: 'Sharp Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/SharpSans-Book.woff2') format('woff2'),
+    url('/assets/fonts/SharpSans-Book.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Sharp Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/assets/fonts/SharpSans-Medium.woff2') format('woff2'),
+    url('/assets/fonts/SharpSans-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Sharp Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/assets/fonts/SharpSans-Bold.woff2') format('woff2'),
+    url('/assets/fonts/SharpSans-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Sharp Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: url('/assets/fonts/SharpSans-BookItalic.woff2') format('woff2'),
+    url('/assets/fonts/SharpSans-BookItalic.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Sharp Sans';
+  font-style: italic;
+  font-weight: 500;
+  src: url('/assets/fonts/SharpSans-MediumItalic.woff2') format('woff2'),
+    url('/assets/fonts/SharpSans-MediumItalic.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Sharp Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: url('/assets/fonts/SharpSans-BoldItalic.woff2') format('woff2'),
+    url('/assets/fonts/SharpSans-BoldItalic.woff') format('woff');
+}

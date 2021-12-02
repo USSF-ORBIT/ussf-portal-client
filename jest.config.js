@@ -1,5 +1,6 @@
 module.exports = {
-  testPathIgnorePatterns: ['/node_modules/', '.next/', 'cypress/'],
+  roots: ['<rootDir>', '<rootDir>/src/'],
+  testPathIgnorePatterns: ['/node_modules/', '.next/', 'e2e/'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
@@ -12,6 +13,7 @@ module.exports = {
     '^__mocks__/(.*)': '<rootDir>/src/__mocks__/$1',
     '^components/(.*)': '<rootDir>/src/components/$1',
     '^hooks/(.*)': '<rootDir>/src/hooks/$1',
+    '^lib/(.*)': '<rootDir>/src/lib/$1',
     '^layout/(.*)': '<rootDir>/src/layout/$1',
     '^operations/(.*)': '<rootDir>/src/operations/$1',
     '^pages/(.*)': '<rootDir>/src/pages/$1',
@@ -22,7 +24,7 @@ module.exports = {
   coverageThreshold: {
     global: {
       statements: 95,
-      branches: 92,
+      branches: 90,
       functions: 95,
       lines: 95,
     },

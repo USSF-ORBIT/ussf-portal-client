@@ -30,6 +30,31 @@
    - [Install yarn](https://classic.yarnpkg.com/en/docs/install) if you do not already have it.
    - Type `yarn` or `yarn install` inside the project directory to install dependencies. You will need to do this once after cloning the project, and continuously if the dependencies in `package.json` change.
 
+### Authentication with SAML
+
+This application uses SAML for its authentication mechanism. SAML relies on the existance of an Identity Provider (IdP). When running the app locally, there are two IdP options:
+
+- Test SAML IdP: this is a service that is included in our docker compose development stack, and will work automatically when running `docker compose up`. There are two test users you can log in as, and more can be added to the `users.php` file. These test users have been set up with attributes that mirror the data we should get back from the real-life IdP.
+
+  - username: user1, password: user1pass
+  - username: user2, password: user2pass
+
+- Production SSO IdP: if you want to log in to the actual IdP we will use in all deployed environments (dev, test, and production) you can also do that. You will need to do some additional configuration:
+
+  - Set the following environment variables locally (ask another team member for the values):
+    - `SAML_IDP_METADATA_URL`
+    - `SAML_ISSUER`
+    - `SAML_SSO_CALLBACK_URL=http://localhost:3000/api/auth/login`
+  - Ask another team member for the certificates required and save this file to `./certs/DoD_CAs.pem`
+  - Set this local environment variable also:
+    - `NODE_EXTRA_CA_CERTS='./certs/DoD_CAs.pem'`
+  - Start other services (Redis & Mongo) in Docker:
+    - `docker-compose -f docker-compose.services.yml up -d`
+  - Run the app locally, either in dev or production modes:
+    - `yarn dev` OR
+    - `yarn build && yarn start`
+  - Once the app has started, navigate to `/api/auth/login` to test the login flow
+
 ## yarn scripts
 
 Most commonly used during development:
@@ -37,7 +62,7 @@ Most commonly used during development:
 - `yarn dev`: Starts NextJS server in development mode and watches for changed files
 - `yarn storybook`: Starts the Storybook component library on port 6006
 - `yarn test:watch`: Run Jest tests in watch mode
-- `yarn cypress:dev`: Start the Cypress test runner UI
+- `yarn cypress:dev`: Start the Cypress test runner UI (make sure to run `yarn cypress:install` first)
 
 To start the app server as it will run in production:
 
@@ -209,18 +234,24 @@ The footer should also include `BREAKING CHANGE:` if the commit includes any bre
 
 ## Testing
 
+### Unit Tests (Jest)
+
 - Use [Jest](https://jestjs.io/) to write unit tests for JavaScript code & React components that will be run in [jsdom](https://github.com/jsdom/jsdom).
   - We are currently enforcing Jest test coverage across the codebase. You can find the minimum required % in [jest.config.js](../jest.config.js)
   - All Jest tests are run in Github CI and must pass before merging.
+
+### E2E Tests (Cypress)
+
 - Use [Cypress](https://www.cypress.io/) to write integration & end-to-end tests that can be run in a real browser. This allows testing certain browser behaviors that are not reproducible in jsdom.
   - All Cypress tests are run in Github CI and must pass before merging. You can test Cypress on your local machine, and by default it will test whatever is running at `http://localhost:3000` (whether it’s the dev server or production server).
-  - To test against the production site on your local machine, run the following commands in order:
-    - `yarn build` (build NextJS assets)
-    - `yarn start` (start the NextJS server at localhost:3000)
-    - `yarn cypress` (start the Cypress runner against the site)
-  - You can also run Cypress against the dev server. Just note that the dev server does _not_ match the same behavior as when it is running in production, so Cypress tests should always also be verified against what is going to be deployed to production.
-    - `yarn dev` (start the NextJS dev server at localhost:3000)
-    - `yarn cypress` (start the Cypress runner against the site)
+  - Cypress has its own `package.json` file with its own set of dependencies. These must be installed before running any Cypress commands:
+    - `yarn cypress:install` (this only needs to be run if Cypress dependencies change)
+  - To test against the production site on your local machine, start the e2e docker compose stack:
+    - `docker-compose -f docker-compose.e2e.yml up -d`
+    - `yarn cypress:dev` (start the Cypress UI runner against the application)
+  - You can also run Cypress against the dev stack. Just note that the dev server does _not_ match the same behavior as when it is running in production, so Cypress tests should always also be verified against what is going to be deployed to production.
+    - `docker compose up -d` (start the NextJS dev server at localhost:3000)
+    - `yarn cypress:dev` (start the Cypress UI runner against the application)
 
 ## Releasing
 

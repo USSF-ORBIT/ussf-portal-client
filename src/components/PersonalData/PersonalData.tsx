@@ -2,25 +2,53 @@ import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
 import styles from './PersonalData.module.scss'
 
-const PersonalData = () => {
+const PersonalData = ({ name }: { name: string }) => {
   return (
     <div className={styles.personalData}>
-      <h2>Welcome, Sgt Snuffy</h2>
+      <h2>Welcome, {name}</h2>
 
       <dl className="grid-row">
         <Grid tablet={{ col: true }}>
           <dt>Next PT Test:</dt>
-          <dd>In 67 days on 12 Dec 2021</dd>
+          <dd>
+            <a
+              href="https://myfss.us.af.mil/USAFCommunity/s/"
+              target="_blank"
+              rel="noreferrer noopener">
+              Check on myFSS
+            </a>
+          </dd>
 
           <dt>Next Immunization:</dt>
-          <dd>Influenza due on 04 July 2021</dd>
+          <dd>
+            <a
+              href="https://asimsimr.health.mil/"
+              target="_blank"
+              rel="noreferrer noopener">
+              Check on IMR
+            </a>
+          </dd>
         </Grid>
         <Grid tablet={{ col: true }}>
           <dt>Next EPR:</dt>
-          <dd>In 245 days on 12 July 2022</dd>
+          <dd>
+            <a
+              href="https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx"
+              target="_blank"
+              rel="noreferrer noopener">
+              Check on vMPF
+            </a>
+          </dd>
 
           <dt>Current Leave Balance:</dt>
-          <dd>20.5 Days</dd>
+          <dd>
+            <a
+              href="https://leave.af.mil/profile"
+              target="_blank"
+              rel="noreferrer noopener">
+              Check on LeaveWeb
+            </a>
+          </dd>
         </Grid>
       </dl>
     </div>

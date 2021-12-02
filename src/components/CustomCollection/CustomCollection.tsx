@@ -23,7 +23,7 @@ import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 const VALID_URL_REGEX = /^(ftp|http|https):\/\/[^ "]+$/
 
 type PropTypes = {
-  id: string
+  _id: string
   title?: string
   bookmarks?: BookmarkType[]
   bookmarkOptions?: BookmarkRecords
@@ -34,7 +34,7 @@ type PropTypes = {
 }
 
 const CustomCollection = ({
-  id,
+  _id,
   title = '',
   bookmarks = [],
   bookmarkOptions = [],
@@ -55,7 +55,7 @@ const CustomCollection = ({
   }
 
   const selectedExistingLink = (value: string) =>
-    bookmarkOptions.find((i) => i.id === value)
+    bookmarkOptions.find((i) => `${i.id}` === value)
 
   const handleSubmitAdd = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -76,6 +76,7 @@ const CustomCollection = ({
 
   const handleSaveBookmark = (label: string) => {
     // TODO - ensure there is a URL value
+
     handleAddBookmark(urlInputValue.current, label)
     urlInputValue.current = ''
     setIsAdding(false)
@@ -87,7 +88,7 @@ const CustomCollection = ({
     .map(
       (b) =>
         ({
-          value: b.id,
+          value: `${b.id}`,
           label: b.label || b.url,
         } as ComboBoxOption)
     )
@@ -209,7 +210,7 @@ const CustomCollection = ({
   const customCollectionHeader = (
     <>
       <EditableCollectionTitle
-        collectionId={id}
+        collectionId={_id}
         text={title}
         onSave={handleEditCollection}
         onDelete={handleRemoveCollection}
@@ -226,6 +227,7 @@ const CustomCollection = ({
           </button>
         }
         dropdownRef={dropdownEl}
+        align="right"
         isActive={isDropdownOpen}>
         {editCustomCollectionItem}
       </DropdownMenu>
@@ -242,9 +244,9 @@ const CustomCollection = ({
       <Collection header={customCollectionHeader} footer={addLinkForm}>
         {bookmarks.map((bookmark: BookmarkType) => (
           <RemovableBookmark
-            key={`bookmark_${bookmark.id}`}
+            key={`bookmark_${bookmark._id}`}
             bookmark={bookmark}
-            handleRemove={() => handleRemoveBookmark(bookmark.id)}
+            handleRemove={() => handleRemoveBookmark(`${bookmark._id}`)}
           />
         ))}
       </Collection>

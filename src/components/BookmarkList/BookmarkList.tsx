@@ -8,15 +8,15 @@ import {
 
 import styles from './BookmarkList.module.scss'
 
-import type { Bookmark, BookmarkRecords, CollectionRecords } from 'types'
+import type { BookmarkRecord, BookmarkRecords, Collection } from 'types'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
 type BookmarkListRowProps = {
-  bookmark: Bookmark
-  userCollectionOptions?: CollectionRecords
-  handleAddToCollection: (b: Bookmark, c?: string) => void
+  bookmark: BookmarkRecord
+  userCollectionOptions?: Collection[]
+  handleAddToCollection: (b: BookmarkRecord, c?: string) => void
 }
 
 const BookmarkListRow = ({
@@ -36,11 +36,11 @@ const BookmarkListRow = ({
   }
 
   const collectionOptions = userCollectionOptions.map((collection) => (
-    <li key={`addToCollection_${collection.id}`}>
+    <li key={`addToCollection_${collection._id}`}>
       <Button
         type="button"
         onClick={() => {
-          handleAddToCollection(bookmark, collection.id)
+          handleAddToCollection(bookmark, collection._id)
           setIsDropdownOpen(false)
         }}>
         {collection.title || 'Untitled Collection'}
@@ -73,6 +73,7 @@ const BookmarkListRow = ({
               )}
             </Button>
           }
+          align="right"
           isActive={isDropdownOpen}
           dropdownRef={dropdownEl}>
           <ol className={styles.collectionOptions}>{collectionOptions}</ol>
@@ -92,8 +93,8 @@ const BookmarkListRow = ({
 
 type BookmarkListProps = {
   bookmarks: BookmarkRecords
-  userCollectionOptions?: CollectionRecords
-  handleAddToCollection: (b: Bookmark, c?: string) => void
+  userCollectionOptions?: Collection[]
+  handleAddToCollection: (b: BookmarkRecord, c?: string) => void
 }
 
 const BookmarkList = ({
@@ -101,8 +102,9 @@ const BookmarkList = ({
   userCollectionOptions = [],
   handleAddToCollection,
 }: BookmarkListProps) => {
-  const filterInvalidBookmarks = (b: Partial<Bookmark>): b is Bookmark =>
-    !(b.id === undefined || b.url === undefined)
+  const filterInvalidBookmarks = (
+    b: Partial<BookmarkRecord>
+  ): b is BookmarkRecord => !(b.id === undefined || b.url === undefined)
 
   return (
     <Table striped fullWidth>

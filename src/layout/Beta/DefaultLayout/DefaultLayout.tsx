@@ -5,7 +5,7 @@ import styles from './DefaultLayout.module.scss'
 
 import Header from 'components/Header/Header'
 import PersonalData from 'components/PersonalData/PersonalData'
-import Search from 'components/Search/Search'
+import PageHeader from 'components/PageHeader/PageHeader'
 import PageNav from 'components/PageNav/PageNav'
 import Footer from 'components/Footer/Footer'
 
@@ -27,20 +27,15 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
       <a className="usa-skipnav" href="#main-content">
         Skip to main content
       </a>
-      <div className={`${styles.siteContainer} ${styles.defaultTheme}`}>
+      <div className={`${styles.siteContainer} sfds`}>
         <GovBanner tld=".mil" />
         <Header />
         <main id="main-content">
-          <GridContainer containerSize="widescreen">
-            <Grid className={styles.pageHeader} row gap>
-              <Grid col="auto" desktop={{ col: 6 }}>
-                <PersonalData />
-              </Grid>
-              <Grid col="auto" desktop={{ col: 6 }}>
-                <Search />
-              </Grid>
-            </Grid>
+          <PageHeader disableSearch>
+            <PersonalData name="Michael Hall" />
+          </PageHeader>
 
+          <GridContainer containerSize="widescreen">
             <Grid row gap>
               <Grid tablet={{ col: 'auto' }}>
                 <PageNav navItems={navItems} />

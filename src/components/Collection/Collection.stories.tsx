@@ -6,6 +6,13 @@ import Bookmark from 'components/Bookmark/Bookmark'
 export default {
   title: 'Components/Collections/Collection',
   component: Collection,
+  decorators: [
+    (Story) => (
+      <div className="sfds">
+        <Story />
+      </div>
+    ),
+  ],
 } as Meta
 
 export const ExampleCollection = () => (
