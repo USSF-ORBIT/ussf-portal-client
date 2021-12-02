@@ -5,12 +5,11 @@
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { v4 } from 'uuid'
 
 import { RemovableBookmark } from './RemovableBookmark'
 
 const testBookmark = {
-  id: v4(),
+  _id: '1',
   url: 'https://google.com',
   label: 'Webmail',
   description: 'Lorem ipsum',
@@ -34,7 +33,7 @@ describe('RemovableBookmark component', () => {
 
   it('renders the bookmark URL if there is no label', () => {
     const testBookmarkNoLabel = {
-      id: v4(),
+      _id: '1',
       url: 'https://example.com',
     }
 

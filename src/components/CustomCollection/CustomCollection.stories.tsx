@@ -18,13 +18,20 @@ export default {
     handleRemoveCollection: { action: 'Remove collection' },
     handleEditCollection: { action: 'Edit collection' },
   },
+  decorators: [
+    (Story) => (
+      <div className="sfds">
+        <Story />
+      </div>
+    ),
+  ],
 } as Meta
 
 export const ExampleCustomCollection = (argTypes: StorybookArgTypes) => (
   <CustomCollection
-    id="testCollection"
+    _id="testCollection"
     title="Example collection"
-    bookmarks={[{ id: 'link1', url: '#', label: 'Webmail' }]}
+    bookmarks={[{ _id: 'link1', url: '#', label: 'Webmail' }]}
     handleAddBookmark={argTypes.handleAddBookmark}
     handleRemoveBookmark={argTypes.handleRemoveBookmark}
     handleRemoveCollection={argTypes.handleRemoveCollection}
@@ -34,7 +41,7 @@ export const ExampleCustomCollection = (argTypes: StorybookArgTypes) => (
 
 export const BlankCustomCollection = (argTypes: StorybookArgTypes) => (
   <CustomCollection
-    id="testCollection"
+    _id="testCollection"
     handleAddBookmark={argTypes.handleAddBookmark}
     handleRemoveBookmark={argTypes.handleRemoveBookmark}
     handleRemoveCollection={argTypes.handleRemoveCollection}

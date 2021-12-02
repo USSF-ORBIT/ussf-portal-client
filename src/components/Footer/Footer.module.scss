@@ -1,8 +1,9 @@
 @import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
 
 .footer {
-  background: #333;
-  color: #fff;
+  background: $theme-black;
+  color: $theme-white;
   @include u-font-size('body', '2xs');
 
   :global {
@@ -11,11 +12,16 @@
     }
 
     .usa-footer__secondary-section {
-      color: white;
+      color: $theme-white;
       background-color: transparent;
 
       a {
-        color: #fff;
+        color: $theme-white;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
 
       > .grid-container {

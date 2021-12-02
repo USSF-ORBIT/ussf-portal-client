@@ -4,14 +4,13 @@ import { Button, Grid, Alert } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
-
 import { query } from '.keystone/api'
 
 import type {
   BookmarkRecords,
   CollectionRecords,
-  Collection as CollectionType,
-  Bookmark as BookmarkType,
+  BookmarkRecord,
+  NewBookmarkInput,
 } from 'types/index'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 import Flash from 'components/util/Flash/Flash'
@@ -88,12 +87,13 @@ const SitesAndApplications = ({
   const handleAddSelected = () => {
     const collectionObjs = selectedCollections.map((id) =>
       collections.find((i) => i.id === id)
-    ) as CollectionType[]
+    ) as CollectionRecords
 
     handleAddCollections({
       variables: {
         collections: collectionObjs,
       },
+      refetchQueries: [`getCollections`],
     })
     setSelectMode(false)
     setSelectedCollections([])
@@ -101,7 +101,7 @@ const SitesAndApplications = ({
   }
 
   const handleAddToCollection = (
-    bookmark: BookmarkType,
+    bookmark: BookmarkRecord,
     collectionId?: string
   ) => {
     if (collectionId) {
@@ -110,9 +110,10 @@ const SitesAndApplications = ({
           collectionId,
           ...bookmark,
         },
+        refetchQueries: [`getCollections`],
       })
 
-      const collection = data?.collections.find((c) => c.id === collectionId)
+      const collection = data?.collections.find((c) => c._id === collectionId)
 
       setFlash(
         <Alert type="success" slim role="alert">
@@ -121,11 +122,14 @@ const SitesAndApplications = ({
         </Alert>
       )
     } else {
+      // Create a new collection and add the bookmark to it
+      const bookmarkInput: NewBookmarkInput = {
+        url: bookmark.url,
+        label: bookmark.label,
+      }
       handleAddCollection({
-        variables: {
-          title: '',
-          bookmarks: [bookmark],
-        },
+        variables: { title: '', bookmarks: [bookmarkInput] },
+        refetchQueries: [`getCollections`],
       })
 
       router.push('/')
@@ -179,19 +183,22 @@ const SitesAndApplications = ({
                 </span>
                 <Button
                   type="button"
-                  accentStyle="warm"
-                  inverse
+                  secondary
                   disabled={selectedCollections.length < 1}
                   onClick={handleAddSelected}>
                   Add selected
                 </Button>
-                <Button type="button" outline onClick={handleToggleSelectMode}>
+                <Button
+                  type="button"
+                  outline
+                  inverse
+                  onClick={handleToggleSelectMode}>
                   Cancel
                 </Button>
               </>
             ) : (
               <Button type="button" onClick={handleToggleSelectMode}>
-                Select multiple collections
+                Select collections
               </Button>
             )}
           </div>

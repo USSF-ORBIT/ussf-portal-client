@@ -1,6 +1,8 @@
 import React from 'react'
 import { SideNav } from '@trussworks/react-uswds'
 
+import styles from './PageNav.module.scss'
+
 import NavLink from 'components/util/NavLink/NavLink'
 
 type PropTypes = {
@@ -22,7 +24,7 @@ const PageNav = ({ navItems }: PropTypes) => {
   ))
 
   return (
-    <nav aria-label="Page navigation">
+    <nav className={styles.PageNav} aria-label="Page navigation">
       <SideNav items={items} />
     </nav>
   )

@@ -6,6 +6,7 @@ import type { ReactNode } from 'react'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import 'styles/index.scss'
+import 'styles/sfds/index.scss'
 import '../../public/vendor/fontawesome-pro-5.15.1-web/css/all.min.css'
 import '../initIcons'
 import { ApolloProvider } from '@apollo/client'
@@ -67,6 +68,79 @@ const USSFPortalApp = ({ Component, pageProps }: Props) => {
             crossOrigin="use-credentials"
           />
           <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+          <link
+            rel="preload"
+            href="/assets/fonts/SharpSans-Book.woff"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/assets/fonts/SharpSans-Book.woff2"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/assets/fonts/SharpSans-BookItalic.woff"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/assets/fonts/SharpSans-BookItalic.woff2"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/assets/fonts/SharpSans-Medium.woff"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/assets/fonts/SharpSans-Medium.woff2"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/assets/fonts/SharpSans-MediumItalic.woff"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/assets/fonts/SharpSans-MediumItalic.woff2"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/assets/fonts/SharpSans-Bold.woff"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/assets/fonts/SharpSans-Bold.woff2"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/assets/fonts/SharpSans-BoldItalic.woff"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/assets/fonts/SharpSans-BoldItalic.woff2"
+            as="font"
+            crossOrigin=""
+          />
+
           <meta name="msapplication-TileColor" content="#da532c" />
           <meta name="theme-color" content="#ffffff" />
         </Head>
