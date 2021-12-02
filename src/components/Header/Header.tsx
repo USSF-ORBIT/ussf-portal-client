@@ -30,7 +30,12 @@ const Header = () => {
     <NavLink href="#" key="nav_support">
       <span>Help &amp; Support</span>
     </NavLink>,
-    <Button secondary type="button" onClick={logout} key="nav_logout">
+    <Button
+      secondary
+      className={styles.logoutButton}
+      type="button"
+      onClick={logout}
+      key="nav_logout">
       <span>Log out</span>
     </Button>,
   ]

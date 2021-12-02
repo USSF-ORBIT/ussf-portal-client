@@ -6,6 +6,9 @@ import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import React from 'react'
+
+import { renderWithAuth } from '../../testHelpers'
+
 import Header from './Header'
 
 jest.mock('next/router', () => ({
@@ -16,6 +19,8 @@ jest.mock('next/router', () => ({
     asPath: '',
   }),
 }))
+
+const mockLogout = jest.fn()
 
 describe('Header component', () => {
   it('renders the USSF portal header', () => {
@@ -54,6 +59,14 @@ describe('Header component', () => {
 
     userEvent.click(screen.getByRole('presentation'))
     expect(nav).not.toHaveClass('is-visible')
+  })
+
+  it('renders the logout button', () => {
+    renderWithAuth(<Header />, { logout: mockLogout })
+    const logoutButton = screen.getByRole('button', { name: 'Log out' })
+    expect(logoutButton).toBeInTheDocument()
+    userEvent.click(logoutButton)
+    expect(mockLogout).toHaveBeenCalled()
   })
 
   it('has no a11y violations', async () => {
