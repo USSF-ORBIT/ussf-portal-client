@@ -16,7 +16,7 @@ async function dropAndSeed(mongoClient, collectionName, jsonData) {
   await collection.insertOne(jsonData)
 }
 
-export async function seedDB() {
+module.exports.seedDB = async () => {
   // Connection URL
 
   const uri = `${process.env.MONGO_URL}/${DB}`
@@ -41,5 +41,3 @@ export async function seedDB() {
     return err
   }
 }
-
-// seedDB()
