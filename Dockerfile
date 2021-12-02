@@ -3,7 +3,7 @@
 FROM node:14.18.1-slim AS builder
 
 RUN apt-get update \
-  && apt-get -y install openssl libc6
+  && apt-get -y --no-install-recommends install openssl libc6
 
 WORKDIR /app
 
@@ -25,7 +25,7 @@ RUN yarn install --production --ignore-scripts --prefer-offline
 FROM node:14.18.1-slim AS e2e
 
 RUN apt-get update \
-  && apt-get -y install openssl libc6
+  && apt-get -y --no-install-recommends install openssl libc6
 
 WORKDIR /app
 
@@ -46,18 +46,20 @@ CMD ["node_modules/.bin/next", "start"]
 # Production image, copy all the files and run next
 FROM node:14.18.1-slim AS runner
 
-RUN apt-get update \
-  && apt-get -y install openssl libc6 ca-certificates wget unzip \
-  && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
-# TODO: where to store certs for CI builds?
 COPY scripts/add-dod-cas.sh .
+COPY scripts/create-gcds-chain.sh .
 COPY saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
 COPY ./rds-combined-ca-bundle.pem ./rds-combined-ca-bundle.pem
 
-RUN chmod +x add-dod-cas.sh && sh add-dod-cas.sh
+RUN apt-get update \
+    && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip \
+    && chmod +x add-dod-cas.sh && sh add-dod-cas.sh && chmod +x create-gcds-chain.sh && sh create-gcds-chain.sh \
+    && apt-get remove -y wget unzip ca-certificates \
+    && apt-get autoremove -y \
+    && apt-get autoclean -y \
+    && rm -rf /var/lib/apt/lists/*
 
 ENV NODE_EXTRA_CA_CERTS='/usr/local/share/ca-certificates/GCDS.pem'
 ENV NODE_ENV production
