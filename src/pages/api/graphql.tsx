@@ -217,7 +217,7 @@ const resolvers: Resolvers = {
     },
     removeBookmark: async (root, { _id, collectionId, cmsId }, { db }) => {
       if (cmsId !== null) {
-        return BookmarkModel.hideOne(_id, collectionId, cmsId, db)
+        return BookmarkModel.hideOne(_id, collectionId, db)
       }
       return BookmarkModel.deleteOne(_id, collectionId, db)
     },

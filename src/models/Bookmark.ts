@@ -32,7 +32,7 @@ export const BookmarkModel = {
       return e
     }
   },
-  async hideOne(_id: string, collectionId: string, cmsId: string, db: Context) {
+  async hideOne(_id: string, collectionId: string, db: Context) {
     const query = {
       'mySpace.bookmarks._id': new ObjectId(_id),
     }
