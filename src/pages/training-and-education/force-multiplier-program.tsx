@@ -1,11 +1,15 @@
 import { GridContainer, Grid } from '@trussworks/react-uswds'
+
 import LinkTo from 'components/util/LinkTo/LinkTo'
+import Loader from 'components/Loader'
 import { useUser } from 'hooks/useUser'
 
 const ForceMultiplierProgram = () => {
-  useUser()
+  const { user } = useUser()
 
-  return (
+  return !user ? (
+    <Loader />
+  ) : (
     <>
       <section className="banner usa-section bg-training text-white">
         <div className="usa-prose grid-container">

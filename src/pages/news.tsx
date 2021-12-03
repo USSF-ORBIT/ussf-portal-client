@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { GridContainer, Grid, CardGroup } from '@trussworks/react-uswds'
 import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import LinkTo from 'components/util/LinkTo/LinkTo'
+import Loader from 'components/Loader'
 import { useUser } from 'hooks/useUser'
 
 const RSS_URL = `https://www.spaceforce.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=1060&max=10`
@@ -26,7 +27,7 @@ export const NewsArticle = ({ date, link, title, desc }: NewsItem) => (
 )
 
 const News = () => {
-  useUser()
+  const { user } = useUser()
 
   const [newsItems, setNewsItems] = useState<NewsItem[]>([])
 
@@ -72,7 +73,9 @@ const News = () => {
       })
   }, [RSS_URL])
 
-  return (
+  return !user ? (
+    <Loader />
+  ) : (
     <>
       <section className="usa-section bg-news text-white">
         <div className="usa-prose grid-container">

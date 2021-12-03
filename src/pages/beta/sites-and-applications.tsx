@@ -13,6 +13,7 @@ import type {
   NewBookmarkInput,
 } from 'types/index'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
+import Loader from 'components/Loader'
 import Flash from 'components/util/Flash/Flash'
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
@@ -34,7 +35,7 @@ const SitesAndApplications = ({
   collections,
   bookmarks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  useUser()
+  const { user } = useUser()
   const router = useRouter()
   const { loading, error, data } = useCollectionsQuery()
 
@@ -138,7 +139,9 @@ const SitesAndApplications = ({
     }
   }
 
-  return (
+  return !user ? (
+    <Loader />
+  ) : (
     <>
       <h2 className={styles.pageTitle}>Sites &amp; Applications</h2>
 

@@ -4,14 +4,15 @@ import { query } from '.keystone/api'
 
 import type { BookmarkRecords } from 'types/index'
 import MySpace from 'components/MySpace/MySpace'
+import Loader from 'components/Loader'
 import { useUser } from 'hooks/useUser'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 
 const Home = ({
   bookmarks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  useUser()
-  return <MySpace bookmarks={bookmarks} />
+  const { user } = useUser()
+  return !user ? <Loader /> : <MySpace bookmarks={bookmarks} />
 }
 
 export default Home

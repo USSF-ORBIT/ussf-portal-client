@@ -1,4 +1,3 @@
-import { InferGetServerSidePropsType } from 'next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLaptopCode } from '@fortawesome/free-solid-svg-icons'
 import { CardGroup } from '@trussworks/react-uswds'
@@ -8,14 +7,12 @@ import type { AnnouncementCardProps } from 'components/MVP/AnnouncementCard/Anno
 import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { useUser } from 'hooks/useUser'
-import { requireAuth } from 'lib/requireAuth'
+import Loader from 'components/Loader'
 
 import styles from 'styles/mvp/index.module.scss'
 
-const Home = ({
-  user,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  useUser(user)
+const Home = () => {
+  const { user } = useUser()
 
   const manageYourLife = [
     {
@@ -94,7 +91,9 @@ const Home = ({
     path: '/uploads/US Space Force Enlisted Rank Insig Info Sheet (1).pdf',
   }
 
-  return (
+  return !user ? (
+    <Loader />
+  ) : (
     <>
       <CovidSiteAlert />
       <section
@@ -269,5 +268,3 @@ const Home = ({
 }
 
 export default Home
-
-export const getServerSideProps = requireAuth()
