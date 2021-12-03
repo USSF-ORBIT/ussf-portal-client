@@ -5,12 +5,10 @@
 import { screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 
-import { renderWithAuth, defaultMockAuthContext } from '../../../testHelpers'
+import { renderWithAuth } from '../../../testHelpers'
 
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 import Home from 'pages/beta/index'
-
-jest.mock('lib/session')
 
 const mocks = [
   {
@@ -67,7 +65,7 @@ describe('Beta Home page', () => {
   beforeEach(() => {
     renderWithAuth(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <Home user={defaultMockAuthContext.user} bookmarks={mockBookmarks} />
+        <Home bookmarks={mockBookmarks} />
       </MockedProvider>
     )
   })
