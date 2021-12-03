@@ -36,7 +36,10 @@ Cypress.Commands.add('loginTestIDP', () => {
   cy.url().should('contain', 'http://localhost:8080/simplesaml/')
 
   cy.contains('Enter your username and password')
-  cy.findByLabelText('Username').type('user1')
+  cy.findByLabelText('Username')
+    .clear()
+    .type('user1')
+    .should('have.value', 'user1')
   cy.findByLabelText('Password').type('user1pass')
   cy.contains('Login').click()
 
@@ -50,4 +53,8 @@ Cypress.Commands.add('preserveLoginCookies', () => {
   // preserve IDP cookies to auto-login after starting session
   Cypress.Cookies.preserveOnce('SimpleSAMLAuthTokenIdp')
   Cypress.Cookies.preserveOnce('PHPSESSIDIDP')
+})
+
+Cypress.Commands.add('joinBeta', () => {
+  cy.setCookie('betaOptIn', 'true')
 })

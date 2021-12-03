@@ -34,7 +34,7 @@ const SitesAndApplications = ({
   collections,
   bookmarks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { user } = useUser()
+  useUser()
   const router = useRouter()
   const { loading, error, data } = useCollectionsQuery()
 

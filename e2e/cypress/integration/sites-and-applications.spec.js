@@ -7,9 +7,8 @@ describe('Sites and Applications', () => {
 
   beforeEach(() => {
     cy.preserveLoginCookies()
-
-    // Make sure the beta cookie is set
-    cy.visit('/joinbeta')
+    cy.joinBeta()
+    cy.visit('/')
   })
 
   it('can add a new custom collection', () => {
@@ -21,6 +20,7 @@ describe('Sites and Applications', () => {
 
   it('can visit the Sites & Applications page', () => {
     cy.contains('My Space')
+
     // Client-side navigate to the page
     cy.contains('All sites & applications').click()
     cy.url().should('eq', Cypress.config().baseUrl + '/sites-and-applications')
@@ -58,9 +58,15 @@ describe('Sites and Applications', () => {
 
   it('can add collections from the Sites & Applications page to My Space', () => {
     cy.contains('My Space')
-    cy.contains('Career').should('not.exist')
-    cy.contains('Medical & Dental').should('not.exist')
-    cy.contains('Life & Fitness').should('not.exist')
+    cy.findByRole('button', { name: 'Edit Career collection title' }).should(
+      'not.exist'
+    )
+    cy.findByRole('button', {
+      name: 'Edit Medical & Dental collection title',
+    }).should('not.exist')
+    cy.findByRole('button', {
+      name: 'Edit Life & Fitness collection title',
+    }).should('not.exist')
 
     // Go to Sites & Applications
     cy.findByRole('button', { name: 'Add section' }).click()
@@ -92,9 +98,15 @@ describe('Sites and Applications', () => {
     cy.url().should('eq', Cypress.config().baseUrl + '/')
 
     cy.contains('My Space')
-    cy.contains('Career')
-    cy.contains('Life & Fitness')
-    cy.contains('Medical & Dental').should('not.exist')
+    cy.findByRole('button', { name: 'Edit Career collection title' }).should(
+      'exist'
+    )
+    cy.findByRole('button', {
+      name: 'Edit Life & Fitness collection title',
+    }).should('exist')
+    cy.findByRole('button', {
+      name: 'Edit Medical & Dental collection title',
+    }).should('not.exist')
   })
 
   it('can add links to a new collection from the Sites & Applications page', () => {
@@ -197,17 +209,22 @@ describe('Sites and Applications', () => {
       .parent()
       .parent()
       .within(() => {
+        cy.findByRole('link', {
+          name: 'ADP (opens in a new window)',
+        }).should('not.exist')
+
         // Add a link
         cy.findByRole('button', { name: '+ Add link' }).click()
+        cy.findByLabelText('URL').click() // Open the select
+        cy.findByRole('option', { name: 'ADP' }).click()
+        cy.findByLabelText('URL').should('have.value', 'ADP')
 
-        cy.findByLabelText('URL').click()
-        cy.findByRole('option', { name: 'Move.mil' }).click()
         cy.findByRole('button', { name: 'Add site' }).click()
-      })
 
-    cy.findByRole('link', {
-      name: 'Move.mil (opens in a new window)',
-    }).should('exist')
+        cy.findByRole('link', {
+          name: 'ADP (opens in a new window)',
+        }).should('exist')
+      })
   })
 
   it('can add custom links to an existing collection', () => {
@@ -253,6 +270,7 @@ describe('Sites and Applications', () => {
         cy.findByRole('button', { name: '+ Add link' }).click()
         cy.findByLabelText('URL').clear().type('http://www.example.com')
         cy.findByRole('option', { name: 'http://www.example.com' }).click()
+        cy.findByLabelText('URL').should('have.value', 'http://www.example.com')
         cy.findByRole('button', { name: 'Add site' }).click()
       })
 
@@ -283,10 +301,9 @@ describe('Sites and Applications', () => {
     cy.contains('Updated Title')
       .parent()
       .within(() => {
-        cy.findByRole('button', { name: 'Edit collection title' }).should(
-          'have.text',
-          'Updated Title'
-        )
+        cy.findByRole('button', {
+          name: 'Edit Updated Title collection title',
+        }).should('have.text', 'Updated Title')
       })
   })
 

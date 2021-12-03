@@ -1,8 +1,11 @@
 import { GridContainer, Grid } from '@trussworks/react-uswds'
 import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import LinkTo from 'components/util/LinkTo/LinkTo'
+import { useUser } from 'hooks/useUser'
 
 const TrainingAndEducation = () => {
+  useUser()
+
   return (
     <>
       <section className="usa-section bg-training text-white">

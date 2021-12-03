@@ -8,7 +8,11 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRocket } from '@fortawesome/free-solid-svg-icons'
 
+import { useUser } from 'hooks/useUser'
+
 const Accomplishments = () => {
+  useUser()
+
   return (
     <>
       <section className="usa-section bg-about text-white">

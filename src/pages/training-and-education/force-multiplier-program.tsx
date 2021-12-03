@@ -1,7 +1,10 @@
 import { GridContainer, Grid } from '@trussworks/react-uswds'
 import LinkTo from 'components/util/LinkTo/LinkTo'
+import { useUser } from 'hooks/useUser'
 
 const ForceMultiplierProgram = () => {
+  useUser()
+
   return (
     <>
       <section className="banner usa-section bg-training text-white">

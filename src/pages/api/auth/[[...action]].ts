@@ -63,13 +63,15 @@ handler.get('/api/auth/logout', async (req, res) => {
   } else {
     await req.session.destroy()
 
-    passport.logoutSaml(req, async (err, logoutRequest) => {
+    passport.logoutSaml(req, (err, logoutRequest) => {
       if (!err && logoutRequest) {
         // TEMPORARY - DEVELOPMENT ONLY
         // because our test IDP does not support SLO HTTP-POST bindings
         if (
           process.env.SAML_IDP_METADATA_URL ===
-          'http://idp:8080/simplesaml/saml2/idp/metadata.php'
+            'http://idp:8080/simplesaml/saml2/idp/metadata.php' ||
+          process.env.SAML_IDP_METADATA_URL ===
+            'http://localhost:8080/simplesaml/saml2/idp/metadata.php'
         ) {
           res.redirect(logoutRequest)
         } else {
