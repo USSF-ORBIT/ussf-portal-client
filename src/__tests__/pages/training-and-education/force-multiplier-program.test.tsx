@@ -1,13 +1,15 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+
+import { renderWithAuth } from '../../../testHelpers'
 
 import ForceMultiplierProgram from 'pages/training-and-education/force-multiplier-program'
 
 describe('Force Multiplier Program page', () => {
   beforeEach(() => {
-    render(<ForceMultiplierProgram />)
+    renderWithAuth(<ForceMultiplierProgram />)
   })
 
   it('renders the page title', () => {

@@ -1,13 +1,15 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+
+import { renderWithAuth } from '../../../testHelpers'
 
 import TrainingAndEducation from 'pages/training-and-education/index'
 
 describe('Training and Education page', () => {
   beforeEach(() => {
-    render(<TrainingAndEducation />)
+    renderWithAuth(<TrainingAndEducation />)
   })
 
   it('renders the page title', () => {

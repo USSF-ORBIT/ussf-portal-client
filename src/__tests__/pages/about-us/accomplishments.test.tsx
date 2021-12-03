@@ -1,13 +1,15 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+
+import { renderWithAuth } from '../../../testHelpers'
 
 import Accomplishments from 'pages/about-us/accomplishments'
 
 describe('Accomplishments page', () => {
   beforeEach(() => {
-    render(<Accomplishments />)
+    renderWithAuth(<Accomplishments />)
   })
 
   it('renders the page title', () => {

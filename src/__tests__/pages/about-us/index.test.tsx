@@ -1,13 +1,15 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+
+import { renderWithAuth } from '../../../testHelpers'
 
 import AboutUs from 'pages/about-us/index'
 
 describe('About Us page', () => {
   beforeEach(() => {
-    render(<AboutUs />)
+    renderWithAuth(<AboutUs />)
   })
 
   it('renders the page title', () => {

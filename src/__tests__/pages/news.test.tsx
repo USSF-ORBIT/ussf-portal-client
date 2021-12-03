@@ -3,6 +3,8 @@
  */
 import { render, screen, waitFor } from '@testing-library/react'
 
+import { renderWithAuth } from '../../testHelpers'
+
 import mockRssFeed from '__mocks__/news-rss'
 import News, { NewsArticle } from 'pages/news'
 
@@ -58,7 +60,7 @@ describe('News page', () => {
   })
 
   it('renders the page title and RSS contents', async () => {
-    render(<News />)
+    renderWithAuth(<News />)
 
     expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(
       'What’s New'
@@ -90,7 +92,7 @@ describe('News page', () => {
 `,
       })
 
-      render(<News />)
+      renderWithAuth(<News />)
 
       expect(await screen.findAllByRole('article')).toHaveLength(1)
       expect(
@@ -105,7 +107,7 @@ describe('News page', () => {
 
       mockedFetch.mockRejectedValueOnce(new Error('Error fetching RSS'))
 
-      render(<News />)
+      renderWithAuth(<News />)
 
       waitFor(() =>
         expect(consoleSpy).toHaveBeenCalledWith('Error displaying RSS feed')

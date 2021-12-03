@@ -105,6 +105,7 @@ describe('EditableCollectionTitle component', () => {
       userEvent.click(editTitle)
       const input = screen.getByRole('textbox')
       userEvent.click(input)
+      userEvent.clear(input)
       userEvent.type(input, 'Updated Title')
       fireEvent.blur(input)
       expect(handleOnSave).toHaveBeenCalled()
@@ -131,6 +132,7 @@ describe('EditableCollectionTitle component', () => {
       userEvent.click(editTitle)
       const input = screen.getByRole('textbox')
       userEvent.click(input)
+      userEvent.clear(input)
       userEvent.type(input, 'Updated Title{enter}')
       expect(handleOnSave).toHaveBeenCalled()
       expect(
@@ -156,6 +158,7 @@ describe('EditableCollectionTitle component', () => {
       userEvent.click(editTitle)
       const input = screen.getByRole('textbox')
       userEvent.click(input)
+      userEvent.clear(input)
       userEvent.type(input, 'Updated Title{esc}')
       expect(handleOnSave).toHaveBeenCalled()
       expect(
@@ -181,6 +184,7 @@ describe('EditableCollectionTitle component', () => {
       userEvent.click(editTitle)
       const input = screen.getByRole('textbox')
       userEvent.click(input)
+      userEvent.clear(input)
       userEvent.type(input, 'Updated Title')
       userEvent.tab()
       expect(handleOnSave).toHaveBeenCalled()
