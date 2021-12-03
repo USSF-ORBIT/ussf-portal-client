@@ -9,7 +9,6 @@ describe('the Beta gate', () => {
 
   it('joins and leaves the beta', () => {
     // Start on MVP
-    cy.visit('/')
     cy.contains('Manage your life')
 
     // Join the beta

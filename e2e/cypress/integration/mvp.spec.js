@@ -9,7 +9,6 @@ describe('The MVP site', () => {
 
     beforeEach(() => {
       cy.preserveLoginCookies()
-      cy.visit('/')
       cy.injectAxe()
     })
 
@@ -17,7 +16,7 @@ describe('The MVP site', () => {
       cy.checkA11y(null, null, logging, { skipFailures: true })
     })
 
-    it('lands on the home page', () => {
+    it('lands on the home page after logging in', () => {
       cy.contains('Manage your life').click()
       cy.url().should('contain', '/#manage-your-life')
 

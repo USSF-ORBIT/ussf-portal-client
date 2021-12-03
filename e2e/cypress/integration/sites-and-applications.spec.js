@@ -7,8 +7,7 @@ describe('Sites and Applications', () => {
 
   beforeEach(() => {
     cy.preserveLoginCookies()
-    cy.joinBeta()
-    cy.visit('/')
+    cy.visit('/joinbeta')
   })
 
   it('can add a new custom collection', () => {
