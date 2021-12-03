@@ -1,0 +1,16 @@
+@import 'styles/uswdsDependencies';
+
+.FeedbackCard {
+  border: 1px solid #929292;
+  border-radius: 8px;
+  padding: units(3);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+
+  > h3 {
+    margin: 0;
+  }
+
+  h3 + p {
+    margin-top: units('105');
+  }
+}
