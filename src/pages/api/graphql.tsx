@@ -17,6 +17,7 @@ import type {
   MongoUser,
 } from 'types/index'
 import clientPromise from 'utils/mongodb'
+import { BookmarkModel } from '../../models/Bookmark'
 
 export const config: PageConfig = {
   api: { bodyParser: false },
@@ -183,11 +184,12 @@ const resolvers: Resolvers = {
         return e
       }
     },
-    addBookmark: async (root, { collectionId, url, label }, { db }) => {
+    addBookmark: async (root, { cmsId, collectionId, url, label }, { db }) => {
       const newBookmark: BookmarkInput = {
         _id: new ObjectId(),
         url,
         label,
+        cmsId,
       }
 
       const query = {
@@ -214,38 +216,7 @@ const resolvers: Resolvers = {
       }
     },
     removeBookmark: async (root, { _id, collectionId }, { db }) => {
-      const query = {
-        commonName: commonName,
-        'mySpace._id': new ObjectId(collectionId),
-      }
-
-      const updateDocument = {
-        $pull: {
-          'mySpace.$.bookmarks': {
-            _id: new ObjectId(_id),
-          },
-        },
-      }
-
-      try {
-        // Update and save modified document
-        const updated = await db
-          .collection('users')
-          .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
-
-        const updatedCollection = updated?.value?.mySpace?.filter(
-          (c: Collection) => {
-            return String(c._id) === String(collectionId)
-          }
-        )
-
-        return updatedCollection[0]
-      } catch (e) {
-        // TODO error logging
-        // eslint-disable-next-line no-console
-        console.error('error in remove collection', e)
-        return e
-      }
+      return BookmarkModel.deleteOne(_id, collectionId, db)
     },
   },
 }

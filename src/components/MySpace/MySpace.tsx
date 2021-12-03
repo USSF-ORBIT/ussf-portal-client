@@ -72,12 +72,13 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                       refetchQueries: [`getCollections`],
                     })
                   }
-                  handleAddBookmark={(url, label) => {
+                  handleAddBookmark={(url, label, id) => {
                     handleAddBookmark({
                       variables: {
                         collectionId: collection._id,
                         url,
                         label,
+                        cmsId: id,
                       },
                       refetchQueries: [`getCollections`],
                     })

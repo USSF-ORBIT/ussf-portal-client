@@ -51,6 +51,7 @@ export type BookmarkInput = {
   _id: ObjectId
   url: string
   label?: string
+  cmsId?: string
 }
 
 /* Collection refers to a user-created collection containing one or more bookmarks */

@@ -28,7 +28,7 @@ type PropTypes = {
   bookmarks?: BookmarkType[]
   bookmarkOptions?: BookmarkRecords
   handleRemoveBookmark: (id: string) => void
-  handleAddBookmark: (url: string, label?: string) => void
+  handleAddBookmark: (url: string, label?: string, cmsId?: string) => void
   handleRemoveCollection: () => void
   handleEditCollection: (title: string) => void
 }
@@ -65,7 +65,11 @@ const CustomCollection = ({
     if (existingLink) {
       // Adding an existing link
       // TODO - ensure there is a URL value
-      handleAddBookmark(existingLink.url || '', existingLink.label)
+      handleAddBookmark(
+        existingLink.url || '',
+        existingLink.label,
+        existingLink.id
+      )
       urlInputValue.current = ''
       setIsAdding(false)
     } else {
