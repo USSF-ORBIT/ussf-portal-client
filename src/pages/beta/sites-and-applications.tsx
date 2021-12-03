@@ -108,6 +108,7 @@ const SitesAndApplications = ({
       handleAddBookmark({
         variables: {
           collectionId,
+          cmsId: bookmark.id,
           ...bookmark,
         },
         refetchQueries: [`getCollections`],

@@ -40,6 +40,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
       <div className={styles.widgetContainer}>
         <Grid row gap={2}>
           {data &&
+            data.collections &&
             data.collections.map((collection) => (
               <Grid
                 key={`collection_${collection._id}`}
@@ -66,9 +67,13 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                       },
                     })
                   }}
-                  handleRemoveBookmark={(_id) =>
+                  handleRemoveBookmark={(_id, cmsId) =>
                     handleRemoveBookmark({
-                      variables: { _id, collectionId: collection._id },
+                      variables: {
+                        _id,
+                        collectionId: collection._id,
+                        cmsId,
+                      },
                       refetchQueries: [`getCollections`],
                     })
                   }

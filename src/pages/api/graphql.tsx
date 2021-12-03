@@ -215,7 +215,10 @@ const resolvers: Resolvers = {
         return e
       }
     },
-    removeBookmark: async (root, { _id, collectionId }, { db }) => {
+    removeBookmark: async (root, { _id, collectionId, cmsId }, { db }) => {
+      if (cmsId !== null) {
+        return BookmarkModel.hideOne(_id, collectionId, cmsId, db)
+      }
       return BookmarkModel.deleteOne(_id, collectionId, db)
     },
   },

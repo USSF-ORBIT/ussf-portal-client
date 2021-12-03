@@ -27,7 +27,7 @@ type PropTypes = {
   title?: string
   bookmarks?: BookmarkType[]
   bookmarkOptions?: BookmarkRecords
-  handleRemoveBookmark: (id: string) => void
+  handleRemoveBookmark: (id: string, cmsId?: string) => void
   handleAddBookmark: (url: string, label?: string, cmsId?: string) => void
   handleRemoveCollection: () => void
   handleEditCollection: (title: string) => void
@@ -246,13 +246,18 @@ const CustomCollection = ({
   return (
     <>
       <Collection header={customCollectionHeader} footer={addLinkForm}>
-        {bookmarks.map((bookmark: BookmarkType) => (
-          <RemovableBookmark
-            key={`bookmark_${bookmark._id}`}
-            bookmark={bookmark}
-            handleRemove={() => handleRemoveBookmark(`${bookmark._id}`)}
-          />
-        ))}
+        {bookmarks.map(
+          (bookmark: BookmarkType) =>
+            !bookmark.isRemoved && (
+              <RemovableBookmark
+                key={`bookmark_${bookmark._id}`}
+                bookmark={bookmark}
+                handleRemove={() =>
+                  handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
+                }
+              />
+            )
+        )}
       </Collection>
 
       <AddCustomLinkModal
