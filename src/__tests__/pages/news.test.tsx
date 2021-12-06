@@ -2,11 +2,20 @@
  * @jest-environment jsdom
  */
 import { render, screen, waitFor } from '@testing-library/react'
+import axios from 'axios'
 
 import { renderWithAuth } from '../../testHelpers'
 
 import mockRssFeed from '__mocks__/news-rss'
 import News, { NewsArticle } from 'pages/news'
+
+jest.mock('axios')
+
+const mockedAxios = axios as jest.Mocked<typeof axios>
+
+mockedAxios.get.mockImplementationOnce(() => {
+  return Promise.reject()
+})
 
 // Mock fetch
 window.fetch = jest.fn(() =>
@@ -55,25 +64,59 @@ describe('NewsArticle component', () => {
 })
 
 describe('News page', () => {
-  beforeEach(() => {
-    mockedFetch.mockClear()
+  describe('without a user', () => {
+    const { location } = window
+
+    beforeAll((): void => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      delete window.location
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      window.location = {
+        href: '',
+      }
+    })
+
+    afterAll((): void => {
+      window.location = location
+    })
+
+    beforeEach(() => {
+      renderWithAuth(<News />, { user: null })
+    })
+
+    it('renders the loader while fetching the user', () => {
+      expect(screen.getByText('Loading...')).toBeInTheDocument()
+    })
+
+    it('redirects to the login page if not logged in', async () => {
+      await waitFor(() => {
+        expect(window.location.href).toEqual('/login')
+      })
+    })
   })
 
-  it('renders the page title and RSS contents', async () => {
-    renderWithAuth(<News />)
+  describe('when logged in', () => {
+    beforeEach(() => {
+      mockedFetch.mockClear()
+    })
 
-    expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(
-      'What’s New'
-    )
+    it('renders the page title and RSS contents', async () => {
+      renderWithAuth(<News />)
 
-    expect(await screen.findAllByRole('article')).toHaveLength(10)
-  })
+      expect(
+        await screen.findByRole('heading', { level: 1 })
+      ).toHaveTextContent('What’s New')
 
-  describe('with an empty item', () => {
-    it('renders without breaking', async () => {
-      mockedFetch.mockResolvedValueOnce({
-        text: async () =>
-          `<?xml version="1.0" encoding="utf-8"?>\r\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"
+      expect(await screen.findAllByRole('article')).toHaveLength(10)
+    })
+
+    describe('with an empty item', () => {
+      it('renders without breaking', async () => {
+        mockedFetch.mockResolvedValueOnce({
+          text: async () =>
+            `<?xml version="1.0" encoding="utf-8"?>\r\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"
   xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cf="http://www.microsoft.com/schemas/rss/core/2005">\r\n <channel>
     \r\n <title>United States Space Force News</title>\r\n
     <link>https://www.spaceforce.mil</link>\r\n <description>United States Space Force News RSS Feed</description>\r\n
@@ -90,28 +133,29 @@ describe('News page', () => {
     </item>\r\n 
   </channel>\r\n</rss>
 `,
+        })
+
+        renderWithAuth(<News />)
+
+        expect(await screen.findAllByRole('article')).toHaveLength(1)
+        expect(
+          await screen.findByText(/This is an empty article/)
+        ).toBeInTheDocument()
       })
-
-      renderWithAuth(<News />)
-
-      expect(await screen.findAllByRole('article')).toHaveLength(1)
-      expect(
-        await screen.findByText(/This is an empty article/)
-      ).toBeInTheDocument()
     })
-  })
 
-  describe('if the RSS fetch fails', () => {
-    it('logs the error', async () => {
-      const consoleSpy = jest.spyOn(console, 'error')
+    describe('if the RSS fetch fails', () => {
+      it('logs the error', async () => {
+        const consoleSpy = jest.spyOn(console, 'error')
 
-      mockedFetch.mockRejectedValueOnce(new Error('Error fetching RSS'))
+        mockedFetch.mockRejectedValueOnce(new Error('Error fetching RSS'))
 
-      renderWithAuth(<News />)
+        renderWithAuth(<News />)
 
-      waitFor(() =>
-        expect(consoleSpy).toHaveBeenCalledWith('Error displaying RSS feed')
-      )
+        waitFor(() =>
+          expect(consoleSpy).toHaveBeenCalledWith('Error displaying RSS feed')
+        )
+      })
     })
   })
 })

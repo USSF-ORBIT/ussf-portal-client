@@ -1,10 +1,11 @@
 /**
  * @jest-environment jsdom
  */
-import { screen, act } from '@testing-library/react'
+import { screen, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
+import axios from 'axios'
 
 import { renderWithAuth } from '../../../testHelpers'
 
@@ -13,6 +14,14 @@ import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 import SitesAndApplications, {
   getStaticProps,
 } from 'pages/beta/sites-and-applications'
+
+jest.mock('axios')
+
+const mockedAxios = axios as jest.Mocked<typeof axios>
+
+mockedAxios.get.mockImplementationOnce(() => {
+  return Promise.reject()
+})
 
 const mockAddCollections = jest.fn()
 const mockAddCollection = jest.fn()
@@ -133,9 +142,321 @@ const mocks = [
 ]
 
 describe('Sites and Applications page', () => {
-  describe('default state', () => {
+  describe('without a user', () => {
+    const { location } = window
+
+    beforeAll((): void => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      delete window.location
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      window.location = {
+        href: '',
+      }
+    })
+
+    afterAll((): void => {
+      window.location = location
+    })
+
     beforeEach(() => {
       jest.useFakeTimers()
+
+      renderWithAuth(
+        <MockedProvider mocks={mocks}>
+          <SitesAndApplications
+            collections={mockCollections}
+            bookmarks={mockBookmarks}
+          />
+        </MockedProvider>,
+        { user: null }
+      )
+    })
+
+    it('renders the loader while fetching the user', () => {
+      expect(screen.getByText('Loading...')).toBeInTheDocument()
+    })
+
+    it('redirects to the login page if not logged in', async () => {
+      await waitFor(() => {
+        expect(window.location.href).toEqual('/login')
+      })
+    })
+  })
+
+  describe('when logged in', () => {
+    describe('default state', () => {
+      beforeEach(() => {
+        jest.useFakeTimers()
+        renderWithAuth(
+          <MockedProvider mocks={mocks}>
+            <SitesAndApplications
+              collections={mockCollections}
+              bookmarks={mockBookmarks}
+            />
+          </MockedProvider>
+        )
+      })
+
+      it('renders the loading state', () => {
+        expect(screen.getByText('Loading...')).toBeInTheDocument()
+      })
+
+      it('renders Sites & Applications content', async () => {
+        expect(
+          await screen.findByRole('heading', { name: 'Sites & Applications' })
+        ).toBeInTheDocument()
+      })
+
+      it('sorts by type by default', async () => {
+        const collections = await screen.findAllByRole('heading', { level: 3 })
+        expect(collections).toHaveLength(mockCollections.length)
+        collections.forEach((c, i) => {
+          // eslint-disable-next-line security/detect-object-injection
+          expect(collections[i]).toHaveTextContent(mockCollections[i].title)
+        })
+      })
+
+      it('can toggle sort type', async () => {
+        const sortAlphaBtn = await screen.findByRole('button', {
+          name: 'Sort alphabetically',
+        })
+
+        const sortTypeBtn = screen.getByRole('button', { name: 'Sort by type' })
+
+        expect(sortTypeBtn).toBeDisabled()
+        userEvent.click(sortAlphaBtn)
+
+        expect(sortAlphaBtn).toBeDisabled()
+        expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(0)
+        expect(screen.getByRole('table')).toBeInTheDocument()
+        expect(screen.getAllByRole('link')).toHaveLength(mockBookmarks.length)
+        expect(sortTypeBtn).not.toBeDisabled()
+
+        userEvent.click(sortTypeBtn)
+        expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(
+          mockCollections.length
+        )
+        expect(screen.queryByRole('table')).not.toBeInTheDocument()
+        expect(sortAlphaBtn).not.toBeDisabled()
+      })
+
+      describe('selecting collections', () => {
+        beforeEach(async () => {
+          await screen.findByRole('button', {
+            name: 'Select collections',
+          })
+        })
+
+        it('can enter select mode', () => {
+          const selectBtn = screen.getByRole('button', {
+            name: 'Select collections',
+          })
+          expect(selectBtn).toBeInTheDocument()
+          userEvent.click(selectBtn)
+
+          expect(
+            screen.getByRole('button', {
+              name: 'Sort alphabetically',
+            })
+          ).toBeDisabled()
+
+          expect(
+            screen.queryByRole('button', { name: 'Select collections' })
+          ).not.toBeInTheDocument()
+          expect(
+            screen.getByRole('button', { name: 'Cancel' })
+          ).toBeInTheDocument()
+          expect(
+            screen.getByRole('button', { name: 'Add selected' })
+          ).toBeDisabled()
+          expect(screen.getByText('0 collections selected')).toBeInTheDocument()
+
+          expect(
+            screen.getByRole('button', {
+              name: 'Select collection Example Collection 1',
+            })
+          ).toBeInTheDocument()
+          expect(
+            screen.getByRole('button', {
+              name: 'Select collection Example Collection 2',
+            })
+          ).toBeInTheDocument()
+        })
+
+        it('can cancel out of select mode', () => {
+          expect(
+            screen.queryByText('0 collections selected')
+          ).not.toBeInTheDocument()
+
+          userEvent.click(
+            screen.getByRole('button', {
+              name: 'Select collections',
+            })
+          )
+
+          expect(
+            screen.queryByText('0 collections selected')
+          ).toBeInTheDocument()
+
+          userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+
+          expect(
+            screen.queryByText('0 collections selected')
+          ).not.toBeInTheDocument()
+        })
+
+        it('can select multiple collections and add them', () => {
+          userEvent.click(
+            screen.getByRole('button', {
+              name: 'Select collections',
+            })
+          )
+
+          expect(
+            screen.getByRole('button', { name: 'Add selected' })
+          ).toBeDisabled()
+          expect(screen.getByText('0 collections selected')).toBeInTheDocument()
+
+          userEvent.click(
+            screen.getByRole('button', {
+              name: 'Select collection Example Collection 1',
+            })
+          )
+          expect(screen.getByText('1 collection selected')).toBeInTheDocument()
+          userEvent.click(
+            screen.getByRole('button', {
+              name: 'Select collection Example Collection 2',
+            })
+          )
+          expect(screen.getByText('2 collections selected')).toBeInTheDocument()
+          expect(
+            screen.getByRole('button', { name: 'Add selected' })
+          ).toBeEnabled()
+
+          userEvent.click(screen.getByRole('button', { name: 'Add selected' }))
+
+          expect(mockAddCollections).toHaveBeenCalledWith({
+            variables: {
+              collections: mockCollections,
+            },
+            refetchQueries: [`getCollections`],
+          })
+        })
+
+        it('selecting the same collection twice removes it from the selection', () => {
+          userEvent.click(
+            screen.getByRole('button', {
+              name: 'Select collections',
+            })
+          )
+
+          expect(
+            screen.getByRole('button', { name: 'Add selected' })
+          ).toBeDisabled()
+          expect(screen.getByText('0 collections selected')).toBeInTheDocument()
+
+          userEvent.click(
+            screen.getByRole('button', {
+              name: 'Select collection Example Collection 1',
+            })
+          )
+          expect(screen.getByText('1 collection selected')).toBeInTheDocument()
+          userEvent.click(
+            screen.getByRole('button', {
+              name: 'Select collection Example Collection 2',
+            })
+          )
+          expect(screen.getByText('2 collections selected')).toBeInTheDocument()
+          expect(
+            screen.getByRole('button', { name: 'Add selected' })
+          ).toBeEnabled()
+
+          userEvent.click(
+            screen.getByRole('button', {
+              name: 'Unselect collection Example Collection 1',
+            })
+          )
+          expect(screen.getByText('1 collection selected')).toBeInTheDocument()
+          userEvent.click(
+            screen.getByRole('button', {
+              name: 'Unselect collection Example Collection 2',
+            })
+          )
+          expect(screen.getByText('0 collections selected')).toBeInTheDocument()
+        })
+      })
+
+      describe('selecting bookmarks', () => {
+        beforeEach(async () => {
+          userEvent.click(
+            await screen.findByRole('button', {
+              name: 'Sort alphabetically',
+            })
+          )
+        })
+
+        it('can add a bookmark to an existing collection', () => {
+          userEvent.click(
+            screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+          )
+          userEvent.click(
+            screen.getByRole('button', { name: 'Example Collection' })
+          )
+
+          expect(mockAddBookmark).toHaveBeenCalledWith({
+            variables: {
+              collectionId: mocks[0].result.data.collections[0]._id,
+              ...mockBookmarks[0],
+            },
+            refetchQueries: [`getCollections`],
+          })
+
+          const flashMessage = screen.getByRole('alert')
+
+          expect(flashMessage).toHaveTextContent(
+            `You have successfully added “${mockBookmarks[0].label}” to the “${mocks[0].result.data.collections[0].title}” section.`
+          )
+
+          act(() => {
+            jest.runAllTimers()
+          })
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+
+        it('can add a bookmark to a new collection', () => {
+          userEvent.click(
+            screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+          )
+          userEvent.click(
+            screen.getByRole('button', { name: 'Add to new collection' })
+          )
+
+          expect(mockAddCollection).toHaveBeenCalledWith({
+            variables: {
+              title: '',
+              bookmarks: [
+                { url: mockBookmarks[0].url, label: mockBookmarks[0].label },
+              ],
+            },
+            refetchQueries: [`getCollections`],
+          })
+
+          expect(mockPush).toHaveBeenCalledWith('/')
+        })
+      })
+    })
+
+    it('enters select mode by default if a query param is specified', async () => {
+      mockedUseRouter.mockReturnValueOnce({
+        route: '',
+        pathname: '/',
+        query: { selectMode: 'true' },
+        asPath: '/',
+      })
+
       renderWithAuth(
         <MockedProvider mocks={mocks}>
           <SitesAndApplications
@@ -144,307 +465,44 @@ describe('Sites and Applications page', () => {
           />
         </MockedProvider>
       )
-    })
 
-    it('renders the loading state', () => {
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
-    })
-
-    it('renders Sites & Applications content', async () => {
       expect(
-        await screen.findByRole('heading', { name: 'Sites & Applications' })
+        await screen.findByText('0 collections selected')
       ).toBeInTheDocument()
-    })
 
-    it('sorts by type by default', async () => {
-      const collections = await screen.findAllByRole('heading', { level: 3 })
-      expect(collections).toHaveLength(mockCollections.length)
-      collections.forEach((c, i) => {
-        // eslint-disable-next-line security/detect-object-injection
-        expect(collections[i]).toHaveTextContent(mockCollections[i].title)
-      })
-    })
-
-    it('can toggle sort type', async () => {
-      const sortAlphaBtn = await screen.findByRole('button', {
-        name: 'Sort alphabetically',
-      })
-
-      const sortTypeBtn = screen.getByRole('button', { name: 'Sort by type' })
-
-      expect(sortTypeBtn).toBeDisabled()
-      userEvent.click(sortAlphaBtn)
-
-      expect(sortAlphaBtn).toBeDisabled()
-      expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(0)
-      expect(screen.getByRole('table')).toBeInTheDocument()
-      expect(screen.getAllByRole('link')).toHaveLength(mockBookmarks.length)
-      expect(sortTypeBtn).not.toBeDisabled()
-
-      userEvent.click(sortTypeBtn)
-      expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(
-        mockCollections.length
-      )
-      expect(screen.queryByRole('table')).not.toBeInTheDocument()
-      expect(sortAlphaBtn).not.toBeDisabled()
-    })
-
-    describe('selecting collections', () => {
-      beforeEach(async () => {
-        await screen.findByRole('button', {
+      expect(
+        screen.queryByRole('button', {
           name: 'Select collections',
         })
-      })
+      ).not.toBeInTheDocument()
 
-      it('can enter select mode', () => {
-        const selectBtn = screen.getByRole('button', {
-          name: 'Select collections',
-        })
-        expect(selectBtn).toBeInTheDocument()
-        userEvent.click(selectBtn)
-
-        expect(
-          screen.getByRole('button', {
-            name: 'Sort alphabetically',
-          })
-        ).toBeDisabled()
-
-        expect(
-          screen.queryByRole('button', { name: 'Select collections' })
-        ).not.toBeInTheDocument()
-        expect(
-          screen.getByRole('button', { name: 'Cancel' })
-        ).toBeInTheDocument()
-        expect(
-          screen.getByRole('button', { name: 'Add selected' })
-        ).toBeDisabled()
-        expect(screen.getByText('0 collections selected')).toBeInTheDocument()
-
-        expect(
-          screen.getByRole('button', {
-            name: 'Select collection Example Collection 1',
-          })
-        ).toBeInTheDocument()
-        expect(
-          screen.getByRole('button', {
-            name: 'Select collection Example Collection 2',
-          })
-        ).toBeInTheDocument()
-      })
-
-      it('can cancel out of select mode', () => {
-        expect(
-          screen.queryByText('0 collections selected')
-        ).not.toBeInTheDocument()
-
-        userEvent.click(
-          screen.getByRole('button', {
-            name: 'Select collections',
-          })
-        )
-
-        expect(screen.queryByText('0 collections selected')).toBeInTheDocument()
-
-        userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
-
-        expect(
-          screen.queryByText('0 collections selected')
-        ).not.toBeInTheDocument()
-      })
-
-      it('can select multiple collections and add them', () => {
-        userEvent.click(
-          screen.getByRole('button', {
-            name: 'Select collections',
-          })
-        )
-
-        expect(
-          screen.getByRole('button', { name: 'Add selected' })
-        ).toBeDisabled()
-        expect(screen.getByText('0 collections selected')).toBeInTheDocument()
-
-        userEvent.click(
-          screen.getByRole('button', {
-            name: 'Select collection Example Collection 1',
-          })
-        )
-        expect(screen.getByText('1 collection selected')).toBeInTheDocument()
-        userEvent.click(
-          screen.getByRole('button', {
-            name: 'Select collection Example Collection 2',
-          })
-        )
-        expect(screen.getByText('2 collections selected')).toBeInTheDocument()
-        expect(
-          screen.getByRole('button', { name: 'Add selected' })
-        ).toBeEnabled()
-
-        userEvent.click(screen.getByRole('button', { name: 'Add selected' }))
-
-        expect(mockAddCollections).toHaveBeenCalledWith({
-          variables: {
-            collections: mockCollections,
-          },
-          refetchQueries: [`getCollections`],
-        })
-      })
-
-      it('selecting the same collection twice removes it from the selection', () => {
-        userEvent.click(
-          screen.getByRole('button', {
-            name: 'Select collections',
-          })
-        )
-
-        expect(
-          screen.getByRole('button', { name: 'Add selected' })
-        ).toBeDisabled()
-        expect(screen.getByText('0 collections selected')).toBeInTheDocument()
-
-        userEvent.click(
-          screen.getByRole('button', {
-            name: 'Select collection Example Collection 1',
-          })
-        )
-        expect(screen.getByText('1 collection selected')).toBeInTheDocument()
-        userEvent.click(
-          screen.getByRole('button', {
-            name: 'Select collection Example Collection 2',
-          })
-        )
-        expect(screen.getByText('2 collections selected')).toBeInTheDocument()
-        expect(
-          screen.getByRole('button', { name: 'Add selected' })
-        ).toBeEnabled()
-
-        userEvent.click(
-          screen.getByRole('button', {
-            name: 'Unselect collection Example Collection 1',
-          })
-        )
-        expect(screen.getByText('1 collection selected')).toBeInTheDocument()
-        userEvent.click(
-          screen.getByRole('button', {
-            name: 'Unselect collection Example Collection 2',
-          })
-        )
-        expect(screen.getByText('0 collections selected')).toBeInTheDocument()
-      })
+      expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: 'Add selected' })
+      ).toBeDisabled()
     })
 
-    describe('selecting bookmarks', () => {
-      beforeEach(async () => {
-        userEvent.click(
-          await screen.findByRole('button', {
-            name: 'Sort alphabetically',
-          })
-        )
-      })
-
-      it('can add a bookmark to an existing collection', () => {
-        userEvent.click(
-          screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
-        )
-        userEvent.click(
-          screen.getByRole('button', { name: 'Example Collection' })
-        )
-
-        expect(mockAddBookmark).toHaveBeenCalledWith({
-          variables: {
-            collectionId: mocks[0].result.data.collections[0]._id,
-            ...mockBookmarks[0],
+    it('shows an error state', async () => {
+      const errorMock = [
+        {
+          request: {
+            query: GET_COLLECTIONS,
           },
-          refetchQueries: [`getCollections`],
-        })
-
-        const flashMessage = screen.getByRole('alert')
-
-        expect(flashMessage).toHaveTextContent(
-          `You have successfully added “${mockBookmarks[0].label}” to the “${mocks[0].result.data.collections[0].title}” section.`
-        )
-
-        act(() => {
-          jest.runAllTimers()
-        })
-
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-      })
-
-      it('can add a bookmark to a new collection', () => {
-        userEvent.click(
-          screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
-        )
-        userEvent.click(
-          screen.getByRole('button', { name: 'Add to new collection' })
-        )
-
-        expect(mockAddCollection).toHaveBeenCalledWith({
-          variables: {
-            title: '',
-            bookmarks: [
-              { url: mockBookmarks[0].url, label: mockBookmarks[0].label },
-            ],
-          },
-          refetchQueries: [`getCollections`],
-        })
-
-        expect(mockPush).toHaveBeenCalledWith('/')
-      })
-    })
-  })
-
-  it('enters select mode by default if a query param is specified', async () => {
-    mockedUseRouter.mockReturnValueOnce({
-      route: '',
-      pathname: '/',
-      query: { selectMode: 'true' },
-      asPath: '/',
-    })
-
-    renderWithAuth(
-      <MockedProvider mocks={mocks}>
-        <SitesAndApplications
-          collections={mockCollections}
-          bookmarks={mockBookmarks}
-        />
-      </MockedProvider>
-    )
-
-    expect(
-      await screen.findByText('0 collections selected')
-    ).toBeInTheDocument()
-
-    expect(
-      screen.queryByRole('button', {
-        name: 'Select collections',
-      })
-    ).not.toBeInTheDocument()
-
-    expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Add selected' })).toBeDisabled()
-  })
-
-  it('shows an error state', async () => {
-    const errorMock = [
-      {
-        request: {
-          query: GET_COLLECTIONS,
+          error: new Error(),
         },
-        error: new Error(),
-      },
-    ]
+      ]
 
-    renderWithAuth(
-      <MockedProvider mocks={errorMock} addTypename={false}>
-        <SitesAndApplications
-          collections={mockCollections}
-          bookmarks={mockBookmarks}
-        />
-      </MockedProvider>
-    )
+      renderWithAuth(
+        <MockedProvider mocks={errorMock} addTypename={false}>
+          <SitesAndApplications
+            collections={mockCollections}
+            bookmarks={mockBookmarks}
+          />
+        </MockedProvider>
+      )
 
-    expect(await screen.findByText('Error')).toBeInTheDocument()
+      expect(await screen.findByText('Error')).toBeInTheDocument()
+    })
   })
 })
 

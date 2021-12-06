@@ -31,47 +31,49 @@ const News = () => {
 
   const [newsItems, setNewsItems] = useState<NewsItem[]>([])
 
-  // Fetch RSS items on load
+  // Fetch RSS items on load if logged in
   useEffect(() => {
-    fetch(RSS_URL)
-      .then((resp) => resp.text())
-      .then((str) => new window.DOMParser().parseFromString(str, 'text/xml'))
-      .then((data) => {
-        const items = data.querySelectorAll('item')
-        const newsObjects: NewsItem[] = []
-        items.forEach((el) => {
-          const desc = el
-            .querySelector('description')
-            ?.innerHTML.split('&lt;br')[0]
+    if (user) {
+      fetch(RSS_URL)
+        .then((resp) => resp.text())
+        .then((str) => new window.DOMParser().parseFromString(str, 'text/xml'))
+        .then((data) => {
+          const items = data.querySelectorAll('item')
+          const newsObjects: NewsItem[] = []
+          items.forEach((el) => {
+            const desc = el
+              .querySelector('description')
+              ?.innerHTML.split('&lt;br')[0]
 
-          const date = el.querySelector('pubDate')?.textContent || ''
-          const formattedDate =
-            date &&
-            new Date(date)
-              .toLocaleString('en-US', {
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric',
-              })
-              .toUpperCase()
-          const link = el.querySelector('link')?.textContent || ''
-          const title = el.querySelector('title')?.textContent || ''
+            const date = el.querySelector('pubDate')?.textContent || ''
+            const formattedDate =
+              date &&
+              new Date(date)
+                .toLocaleString('en-US', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric',
+                })
+                .toUpperCase()
+            const link = el.querySelector('link')?.textContent || ''
+            const title = el.querySelector('title')?.textContent || ''
 
-          newsObjects.push({
-            desc,
-            date: formattedDate,
-            link,
-            title,
+            newsObjects.push({
+              desc,
+              date: formattedDate,
+              link,
+              title,
+            })
           })
-        })
 
-        setNewsItems(newsObjects)
-      })
-      .catch(() => {
-        // Error displaying RSS articles
-        console.error('Error displaying RSS feed')
-      })
-  }, [RSS_URL])
+          setNewsItems(newsObjects)
+        })
+        .catch(() => {
+          // Error displaying RSS articles
+          console.error('Error displaying RSS feed')
+        })
+    }
+  }, [RSS_URL, user])
 
   return !user ? (
     <Loader />
