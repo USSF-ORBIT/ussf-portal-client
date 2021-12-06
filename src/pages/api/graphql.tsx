@@ -14,23 +14,23 @@ import type {
   Collection,
   CollectionInput,
   CollectionRecord,
+  SAMLUser,
   MongoUser,
 } from 'types/index'
 import clientPromise from 'utils/mongodb'
+import { getSession } from 'lib/session'
 
 export const config: PageConfig = {
   api: { bodyParser: false },
 }
-// #TODO remove this once we have sessions
-const commonName = 'HALL.MICHAEL.0123456789'
 
 const resolvers: Resolvers = {
   Query: {
-    collections: async (_, args, { db }) => {
+    collections: async (_, args, { db, user }) => {
       try {
         const foundUser = await db
           .collection('users')
-          .find({ commonName: commonName })
+          .find({ commonName: user.nameID })
           .toArray()
 
         if (foundUser.length > 0) {
@@ -44,7 +44,7 @@ const resolvers: Resolvers = {
     },
   },
   Mutation: {
-    addCollection: async (_, { title, bookmarks }, { db }) => {
+    addCollection: async (_, { title, bookmarks }, { db, user }) => {
       const newBookmarks: BookmarkInput[] = bookmarks.map(
         (input: BookmarkInput) => ({
           _id: new ObjectId(),
@@ -60,7 +60,7 @@ const resolvers: Resolvers = {
       }
 
       const query = {
-        commonName: commonName,
+        commonName: user.nameID,
       }
 
       const updateDocument = {
@@ -79,9 +79,9 @@ const resolvers: Resolvers = {
         return e
       }
     },
-    editCollection: async (_, { _id, title }, { db }) => {
+    editCollection: async (_, { _id, title }, { db, user }) => {
       const query = {
-        commonName: commonName,
+        commonName: user.nameID,
         'mySpace._id': new ObjectId(_id),
       }
 
@@ -108,9 +108,9 @@ const resolvers: Resolvers = {
         return e
       }
     },
-    removeCollection: async (root, { _id }, { db }) => {
+    removeCollection: async (root, { _id }, { db, user }) => {
       const query = {
-        commonName: commonName,
+        commonName: user.nameID,
       }
 
       const updateDocument = {
@@ -138,7 +138,7 @@ const resolvers: Resolvers = {
         return e
       }
     },
-    addCollections: async (_, args, { db }) => {
+    addCollections: async (_, args, { db, user }) => {
       const newCollections = args.collections.map(
         (collection: CollectionRecord) => ({
           _id: new ObjectId(),
@@ -155,7 +155,7 @@ const resolvers: Resolvers = {
       )
 
       const query = {
-        commonName: commonName,
+        commonName: user.nameID,
       }
 
       const updateDocument = {
@@ -171,7 +171,7 @@ const resolvers: Resolvers = {
         const updatedCollections = await db
           .collection('users')
           .find({
-            commonName: commonName,
+            commonName: user.nameID,
           })
           .toArray()
 
@@ -213,9 +213,9 @@ const resolvers: Resolvers = {
         return e
       }
     },
-    removeBookmark: async (root, { _id, collectionId }, { db }) => {
+    removeBookmark: async (root, { _id, collectionId }, { db, user }) => {
       const query = {
-        commonName: commonName,
+        commonName: user.nameID,
         'mySpace._id': new ObjectId(collectionId),
       }
 
@@ -254,22 +254,32 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
-  context: async () => {
+  context: async ({ req, res }) => {
     try {
+      const session = await getSession(req, res)
       const client = await clientPromise
       const db = client.db(process.env.MONGODB_DB)
+
+      if (!session || !session.passport || !session.passport.user) {
+        throw new Error('GraphQL error: no user in session')
+      }
+
+      const user = session.passport.user as SAMLUser
+      const commonName = user.nameID
+
       // Check if user exists. If not, create new user
       const foundUser = await db
         .collection('users')
-        .find({ commonName: commonName })
+        .find({ commonName })
         .toArray()
 
       if (foundUser.length === 0) {
         const newUser: MongoUser = {
-          commonName: commonName,
+          commonName,
           isBeta: true,
           mySpace: [],
         }
+
         try {
           await db.collection('users').insertOne(newUser)
         } catch (e) {
@@ -277,7 +287,7 @@ const apolloServer = new ApolloServer({
           return e
         }
       }
-      return { db }
+      return { db, user }
     } catch (e) {
       console.error('error in creating context', e)
       return e
