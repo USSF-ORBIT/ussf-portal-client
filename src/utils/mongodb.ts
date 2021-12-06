@@ -19,7 +19,9 @@ const user = process.env.MONGO_USER || ''
 const password = process.env.MONGO_PASSWORD || ''
 
 // Connection string for DocumentDB
-let connectionString = `mongodb://${user}:${password}@${host}/?tls=true&tlsCAFile=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false`
+const connectionString =
+  process.env.MONGO_URL ||
+  `mongodb://${user}:${password}@${host}/?tls=true&tlsCAFile=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false`
 
 let client
 let clientPromise: Promise<typeof MongoClient>
@@ -36,10 +38,6 @@ if (process.env.NODE_ENV === 'development') {
   }
   clientPromise = global._mongoClientPromise
 } else {
-  // If MONGO_URL is defined, use it instead
-  if (uri !== undefined && uri !== '') {
-    connectionString = uri
-  }
   // In production mode, it's best to not use a global variable.
   client = new MongoClient(connectionString)
   clientPromise = client.connect()
