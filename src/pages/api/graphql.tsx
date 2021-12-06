@@ -8,6 +8,7 @@ import type { Resolvers } from '@apollo/client'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ObjectId } from 'mongodb'
 import { typeDefs } from '../../schema'
+import { BookmarkModel } from '../../models/Bookmark'
 import type {
   BookmarkInput,
   BookmarkRecord,
@@ -17,7 +18,6 @@ import type {
   MongoUser,
 } from 'types/index'
 import clientPromise from 'utils/mongodb'
-import { BookmarkModel } from '../../models/Bookmark'
 
 export const config: PageConfig = {
   api: { bodyParser: false },

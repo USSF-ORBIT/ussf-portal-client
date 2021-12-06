@@ -289,7 +289,8 @@ describe('CustomCollection component', () => {
 
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com/2',
-      'Test Bookmark 2'
+      'Test Bookmark 2',
+      'testBookmark2'
     )
   })
 
@@ -345,7 +346,8 @@ describe('CustomCollection component', () => {
 
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com/2',
-      'Test Bookmark 2'
+      'Test Bookmark 2',
+      'testBookmark2'
     )
   })
 
