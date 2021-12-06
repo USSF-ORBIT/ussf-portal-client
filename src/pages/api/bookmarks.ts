@@ -1,5 +1,6 @@
-import { query } from '.keystone/api'
 import type { NextApiRequest, NextApiResponse } from 'next'
+
+import { query } from '.keystone/api'
 
 // GET /api/bookmarks
 // Retrieve a list of all bookmarks from Keystone CMS

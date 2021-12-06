@@ -3,14 +3,12 @@
  */
 import { screen } from '@testing-library/react'
 
-import { renderWithAuth, defaultMockAuthContext } from '../../../testHelpers'
+import { renderWithAuth } from '../../../testHelpers'
 import Home from 'pages/index'
-
-jest.mock('lib/session')
 
 describe('Home page', () => {
   beforeEach(() => {
-    renderWithAuth(<Home user={defaultMockAuthContext.user} />)
+    renderWithAuth(<Home />)
   })
 
   it('renders the Covid Alert', () => {

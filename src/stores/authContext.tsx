@@ -33,9 +33,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const logout = async () => {
-    await axios.get('/api/auth/logout')
-    setUser(null)
-    window.location.href = '/login'
+    try {
+      await axios.get('/api/auth/logout')
+      setUser(null)
+      window.location.href = '/login'
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Error logging out', e)
+      // TODO - fix CORS error when logging out of test IDP
+    }
   }
 
   const context = {

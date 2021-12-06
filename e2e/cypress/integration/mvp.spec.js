@@ -7,6 +7,8 @@ describe('The MVP site', () => {
       cy.loginTestIDP()
     })
 
+    // TODO - try visit home page again as part of https://github.com/USSF-ORBIT/ussf-portal-client/issues/404
+
     beforeEach(() => {
       cy.preserveLoginCookies()
       cy.injectAxe()
@@ -27,11 +29,15 @@ describe('The MVP site', () => {
     it('contains the expected meta data', () => {
       cy.document()
       cy.get('head title').should('contain', 'Space Force Portal')
+
+      // TODO - Fix as part of https://github.com/USSF-ORBIT/ussf-portal-client/issues/352
+      /*
       cy.get('head link[rel="canonical"]').should(
         'have.attr',
         'href',
         Cypress.config().baseUrl + '/'
       )
+      */
     })
 
     it('can navigate to the Training and Education page', () => {
