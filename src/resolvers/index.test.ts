@@ -1,10 +1,18 @@
 import { MongoClient, Db } from 'mongodb'
 import { ApolloServer } from 'apollo-server-micro'
+import type { VariableValues } from 'apollo-server-types'
 
 import { typeDefs } from '../schema'
-import { GET_COLLECTIONS } from '../operations/queries/getCollections'
 
 import resolvers from './index'
+
+import { GET_COLLECTIONS } from 'operations/queries/getCollections'
+import { ADD_COLLECTION } from 'operations/mutations/addCollection'
+import { EDIT_COLLECTION } from 'operations/mutations/editCollection'
+import { REMOVE_COLLECTION } from 'operations/mutations/removeCollection'
+import { ADD_COLLECTIONS } from 'operations/mutations/addCollections'
+import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
+import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
 
 let server: ApolloServer
 let connection: typeof MongoClient
@@ -33,20 +41,70 @@ describe('GraphQL resolvers', () => {
       await connection.close()
     })
 
-    it('getCollections returns an authentication error', async () => {
-      const result = await server.executeOperation({
-        query: GET_COLLECTIONS,
-      })
+    it.each([
+      ['getCollections', GET_COLLECTIONS],
+      [
+        'addCollection',
+        ADD_COLLECTION,
+        {
+          title: 'Test Collection',
+          bookmarks: [],
+        },
+      ],
+      [
+        'editCollection',
+        EDIT_COLLECTION,
+        {
+          _id: 'testCollectionId',
+          title: 'New Test Collection',
+        },
+      ],
+      [
+        'removeCollection',
+        REMOVE_COLLECTION,
+        {
+          _id: 'testCollectionId',
+        },
+      ],
+      [
+        'addCollections',
+        ADD_COLLECTIONS,
+        {
+          collections: [],
+        },
+      ],
+      [
+        'addBookmark',
+        ADD_BOOKMARK,
+        { url: 'test', label: 'Test', collectionId: 'testCollectionId' },
+      ],
+      [
+        'removeBookmark',
+        REMOVE_BOOKMARK,
+        {
+          _id: 'testBookmarkId',
+          collectionId: 'testCollectionId',
+        },
+      ],
+    ])(
+      'the %s operation returns an authentication error',
+      async (name, op, variables: VariableValues = {}) => {
+        const result = await server.executeOperation({
+          query: op,
+          variables,
+        })
 
-      expect(result.errors).toHaveLength(1)
+        expect(result.errors).toHaveLength(1)
 
-      if (result.errors?.length) {
-        expect(result.errors[0].message).toEqual(
-          'You must be logged in to perform this operation'
-        )
-        expect(result.errors[0].extensions?.code).toEqual('UNAUTHENTICATED')
+        if (result.errors?.length) {
+          // console.log(result.errors[0].message)
+          expect(result.errors[0].extensions?.code).toEqual('UNAUTHENTICATED')
+          expect(result.errors[0].message).toEqual(
+            'You must be logged in to perform this operation'
+          )
+        }
       }
-    })
+    )
   })
 
   describe('while logged in', () => {

@@ -38,6 +38,12 @@ const resolvers: Resolvers = {
   },
   Mutation: {
     addCollection: async (_, { title, bookmarks }, { db, user }) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
       const newBookmarks: BookmarkInput[] = bookmarks.map(
         (input: BookmarkInput) => ({
           _id: new ObjectId(),
@@ -73,6 +79,12 @@ const resolvers: Resolvers = {
       }
     },
     editCollection: async (_, { _id, title }, { db, user }) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
       const query = {
         commonName: user.nameID,
         'mySpace._id': new ObjectId(_id),
@@ -102,6 +114,11 @@ const resolvers: Resolvers = {
       }
     },
     removeCollection: async (root, { _id }, { db, user }) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
       const query = {
         commonName: user.nameID,
       }
@@ -132,6 +149,12 @@ const resolvers: Resolvers = {
       }
     },
     addCollections: async (_, args, { db, user }) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
       const newCollections = args.collections.map(
         (collection: CollectionRecord) => ({
           _id: new ObjectId(),
@@ -176,7 +199,13 @@ const resolvers: Resolvers = {
         return e
       }
     },
-    addBookmark: async (root, { collectionId, url, label }, { db }) => {
+    addBookmark: async (root, { collectionId, url, label }, { db, user }) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
       const newBookmark: BookmarkInput = {
         _id: new ObjectId(),
         url,
@@ -207,6 +236,12 @@ const resolvers: Resolvers = {
       }
     },
     removeBookmark: async (root, { _id, collectionId }, { db, user }) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
       const query = {
         commonName: user.nameID,
         'mySpace._id': new ObjectId(collectionId),
