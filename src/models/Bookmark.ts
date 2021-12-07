@@ -1,6 +1,5 @@
 import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
-import type { Collection } from 'types/index'
 
 export const BookmarkModel = {
   async deleteOne(_id: string, collectionId: string, db: Context) {
@@ -17,16 +16,11 @@ export const BookmarkModel = {
     }
     try {
       // update and save modified document
-      await db
-        .collection('users')
-        .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
+      await db.collection('users').findOneAndUpdate(query, updateDocument)
 
-      // const updatedCollection = updated?.value?.mySpace?.filter(
-      //   (c: Collection) => {
-      //     return c._id.toString() === collectionId.toString()
-      //   }
-      // )
-      return {_id: _id}
+      return {
+        _id: _id,
+      }
     } catch (e) {
       console.error('error in remove collection', e)
       return e
@@ -57,7 +51,7 @@ export const BookmarkModel = {
       await db.collection('users').updateOne(query, updateDocument, filters)
 
       return {
-        _id: _id
+        _id: _id,
       }
     } catch (e) {
       console.error('error in hide bookmark', e)
