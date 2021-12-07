@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-
+import { gql } from '@apollo/client'
 import { act, screen, render } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -47,25 +47,20 @@ jest.mock('operations/mutations/addCollection', () => ({
   useAddCollectionMutation: () => [mockAddCollection],
 }))
 
+// Collection Records represent CMS data
 const collectionRecords = [
   {
-    id: '1',
+    id: '12',
     title: 'Example Collection',
     bookmarks: [
       {
         id: '1',
-        url: 'https://google.com',
-        label: 'Webmail',
-        description: 'Lorem ipsum',
-      },
-      {
-        id: '2',
         url: 'https://mypay.dfas.mil/#/',
         label: 'MyPay',
         description: 'Lorem ipsum',
       },
       {
-        id: '3',
+        id: '2',
         url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
         label: 'vMPF',
         description: 'Lorem ipsum',
@@ -74,6 +69,7 @@ const collectionRecords = [
   },
 ]
 
+// Represents the data in documentdb
 const mocks = [
   {
     request: {
@@ -83,26 +79,32 @@ const mocks = [
       data: {
         collections: [
           {
-            _id: '1',
+            _id: '34',
             title: 'Example Collection',
             bookmarks: [
               {
-                _id: '2',
+                _id: '3',
                 url: 'https://google.com',
                 label: 'Webmail',
                 description: 'Lorem ipsum',
-              },
-              {
-                _id: '3',
-                url: 'https://mypay.dfas.mil/#/',
-                label: 'MyPay',
-                description: 'Lorem ipsum',
+                cmsId: null,
+                isRemoved: null,
               },
               {
                 _id: '4',
+                url: 'https://mypay.dfas.mil/#/',
+                label: 'MyPay',
+                description: 'Lorem ipsum',
+                cmsId: '1',
+                isRemoved: null,
+              },
+              {
+                _id: '5',
                 url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
                 label: 'vMPF',
                 description: 'Lorem ipsum',
+                cmsId: '2',
+                isRemoved: null,
               },
             ],
           },
@@ -122,6 +124,10 @@ describe('My Space Component', () => {
 
   beforeEach(() => {
     scrollSpy.mockReset()
+  })
+
+  afterEach(() => {
+    jest.useRealTimers()
   })
 
   describe('default state', () => {
@@ -209,36 +215,91 @@ describe('My Space Component', () => {
   })
 
   it('handles the remove bookmark operation', async () => {
-    /*
     // TODO - this is not working as expected, I believe because we're using
     // @client with a mutation. Try again once the operation doesn't use @client
+    const REMOVE_BOOKMARK = gql`
+      mutation removeBookmark($_id: ID!, $collectionId: ID!, $cmsId: ID) {
+        removeBookmark(_id: $_id, collectionId: $collectionId, cmsId: $cmsId) {
+          _id
+        }
+      }
+    `
     let bookmarkRemoved = false
     const mocksWithRemove = [
-      ...mocks,
+      {
+        request: {
+          query: GET_COLLECTIONS,
+        },
+        result: {
+          data: {
+            collections: [
+              {
+                _id: '34',
+                title: 'Example Collection',
+                bookmarks: [
+                  {
+                    _id: '3',
+                    url: 'https://google.com',
+                    label: 'Webmail',
+                    description: 'Lorem ipsum',
+                    cmsId: null,
+                    isRemoved: null,
+                  },
+                  {
+                    _id: '4',
+                    url: 'https://mypay.dfas.mil/#/',
+                    label: 'MyPay',
+                    description: 'Lorem ipsum',
+                    cmsId: '1',
+                    isRemoved: null,
+                  },
+                  {
+                    _id: '5',
+                    url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+                    label: 'vMPF',
+                    description: 'Lorem ipsum',
+                    cmsId: '2',
+                    isRemoved: null,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      },
       {
         request: {
           query: REMOVE_BOOKMARK,
           variables: {
-            id: mocks[0].result.data.collections[0].bookmarks[0].id,
-            collectionId: mocks[0].result.data.collections[0].id,
+            _id: '4',
+            collectionId: '34',
+            cmsId: '1',
           },
+          refetchQueries: [`getCollections`],
         },
         result: () => {
           console.log('RESULT')
           bookmarkRemoved = true
-          return { data: { removeBookmark: {} } }
+          return {
+            data: {
+              removeBookmark: {
+                _id: '4',
+              },
+            },
+          }
         },
       },
     ]
-    */
-
-    jest.useFakeTimers()
-
+    // jest.useFakeTimers()
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <MockedProvider mocks={mocksWithRemove} addTypename={false}>
         <MySpace bookmarks={collectionRecords[0].bookmarks} />
       </MockedProvider>
     )
+
+    // await act(async () => {
+    //   await new Promise((resolve) => setTimeout(resolve, 0))
+    // })
 
     const buttons = await screen.findAllByRole('button', {
       name: 'Remove this bookmark',
@@ -246,20 +307,18 @@ describe('My Space Component', () => {
 
     userEvent.click(buttons[0])
 
+    // await act(async () => {
+    //   await new Promise((resolve) => setTimeout(resolve, 0))
+    // })
     // Wrapping this in act due to https://github.com/apollographql/apollo-client/issues/5920
-    await act(async () => {
-      jest.runAllTimers()
-    })
+    // await act(async () => {
+    //   jest.runAllTimers()
+    // })
 
-    jest.useRealTimers()
+    // await new Promise((resolve) => setTimeout(resolve, 4000))
 
-    expect(mockRemoveBookmark).toHaveBeenCalledWith({
-      variables: {
-        _id: mocks[0].result.data.collections[0].bookmarks[0]._id,
-        collectionId: mocks[0].result.data.collections[0]._id,
-      },
-      refetchQueries: [`getCollections`],
-    })
+    screen.debug()
+    expect(bookmarkRemoved).toBe(true)
   })
 
   it('handles the add bookmark operation', async () => {

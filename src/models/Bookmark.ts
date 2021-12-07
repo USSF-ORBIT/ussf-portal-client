@@ -17,16 +17,16 @@ export const BookmarkModel = {
     }
     try {
       // update and save modified document
-      const updated = await db
+      await db
         .collection('users')
         .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
 
-      const updatedCollection = updated?.value?.mySpace?.filter(
-        (c: Collection) => {
-          return c._id.toString() === collectionId.toString()
-        }
-      )
-      return updatedCollection[0]
+      // const updatedCollection = updated?.value?.mySpace?.filter(
+      //   (c: Collection) => {
+      //     return c._id.toString() === collectionId.toString()
+      //   }
+      // )
+      return {_id: _id}
     } catch (e) {
       console.error('error in remove collection', e)
       return e
@@ -55,6 +55,10 @@ export const BookmarkModel = {
     }
     try {
       await db.collection('users').updateOne(query, updateDocument, filters)
+
+      return {
+        _id: _id
+      }
     } catch (e) {
       console.error('error in hide bookmark', e)
       return e
