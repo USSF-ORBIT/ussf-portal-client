@@ -14,7 +14,7 @@ import type {
   Collection,
   CollectionInput,
   CollectionRecord,
-  MongoUser,
+  PortalUser,
 } from 'types/index'
 import clientPromise from 'utils/mongodb'
 
@@ -265,7 +265,7 @@ const apolloServer = new ApolloServer({
         .toArray()
 
       if (foundUser.length === 0) {
-        const newUser: MongoUser = {
+        const newUser: PortalUser = {
           commonName: commonName,
           isBeta: true,
           mySpace: [],
