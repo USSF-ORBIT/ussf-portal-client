@@ -1,8 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { gql } from '@apollo/client'
-import { act, screen, render, waitFor } from '@testing-library/react'
+import { act, screen, render } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
@@ -13,7 +12,7 @@ import { renderWithModalRoot } from '../../testHelpers'
 import MySpace from './MySpace'
 
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
-
+import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
 const mockRouterPush = jest.fn()
 const mockAddBookmark = jest.fn()
 const mockEditCollection = jest.fn()
@@ -210,60 +209,10 @@ describe('My Space Component', () => {
   })
 
   it('handles the remove bookmark operation', async () => {
-    // TODO - this is not working as expected, I believe because we're using
-    // @client with a mutation. Try again once the operation doesn't use @client
-    const REMOVE_BOOKMARK = gql`
-      mutation removeBookmark($_id: ID!, $collectionId: ID!, $cmsId: ID) {
-        removeBookmark(_id: $_id, collectionId: $collectionId, cmsId: $cmsId) {
-          _id
-        }
-      }
-    `
-
     let bookmarkRemoved = false
 
     const mocksWithRemove = [
-      {
-        request: {
-          query: GET_COLLECTIONS,
-        },
-        result: {
-          data: {
-            collections: [
-              {
-                _id: '34',
-                title: 'Example Collection',
-                bookmarks: [
-                  {
-                    _id: '3',
-                    url: 'https://google.com',
-                    label: 'Webmail',
-                    description: 'Lorem ipsum',
-                    cmsId: null,
-                    isRemoved: null,
-                  },
-                  {
-                    _id: '4',
-                    url: 'https://mypay.dfas.mil/#/',
-                    label: 'MyPay',
-                    description: 'Lorem ipsum',
-                    cmsId: '1',
-                    isRemoved: null,
-                  },
-                  {
-                    _id: '5',
-                    url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-                    label: 'vMPF',
-                    description: 'Lorem ipsum',
-                    cmsId: '2',
-                    isRemoved: null,
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      },
+      ...mocks,
       {
         request: {
           query: REMOVE_BOOKMARK,
@@ -275,7 +224,7 @@ describe('My Space Component', () => {
           refetchQueries: [`getCollections`],
         },
         result: () => {
-          console.log('RESULT')
+          console.log('REMOVE_BOOKMARK RESULT')
           bookmarkRemoved = true
           return {
             data: {
@@ -296,31 +245,17 @@ describe('My Space Component', () => {
       </MockedProvider>
     )
 
-    // await act(async () => {
-    //   await new Promise((resolve) => setTimeout(resolve, 0))
-    // })
-
     const buttons = await screen.findAllByRole('button', {
       name: 'Remove this bookmark',
     })
 
     userEvent.click(buttons[0])
 
-    // await act(async () => {
-    //   await new Promise((resolve) => setTimeout(resolve, 0))
-    // })
-    // Wrapping this in act due to https://github.com/apollographql/apollo-client/issues/5920
-
     await act(async () => {
       jest.runAllTimers()
     })
 
-    // await new Promise((resolve) => setTimeout(resolve, 4000))
-
-    // screen.debug()
-    await waitFor(() => {
-      expect(bookmarkRemoved).toBe(true)
-    })
+    expect(bookmarkRemoved).toBe(true)
   })
 
   it('handles the add bookmark operation', async () => {
