@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import type { Resolvers } from '@apollo/client'
 import { AuthenticationError } from 'apollo-server-micro'
 import { ObjectId } from 'mongodb'
