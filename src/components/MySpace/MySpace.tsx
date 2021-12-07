@@ -67,7 +67,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                       },
                     })
                   }}
-                  handleRemoveBookmark={(_id, cmsId) =>
+                  handleRemoveBookmark={(_id, cmsId) => {
                     handleRemoveBookmark({
                       variables: {
                         _id,
@@ -76,7 +76,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                       },
                       refetchQueries: [`getCollections`],
                     })
-                  }
+                  }}
                   handleAddBookmark={(url, label, id) => {
                     handleAddBookmark({
                       variables: {

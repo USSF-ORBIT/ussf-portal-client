@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { gql } from '@apollo/client'
-import { act, screen, render } from '@testing-library/react'
+import { act, screen, render, waitFor } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
@@ -16,7 +16,6 @@ import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
 const mockRouterPush = jest.fn()
 const mockAddBookmark = jest.fn()
-const mockRemoveBookmark = jest.fn()
 const mockEditCollection = jest.fn()
 const mockRemoveCollection = jest.fn()
 const mockAddCollection = jest.fn()
@@ -29,10 +28,6 @@ jest.mock('next/router', () => ({
 
 jest.mock('operations/mutations/addBookmark', () => ({
   useAddBookmarkMutation: () => [mockAddBookmark],
-}))
-
-jest.mock('operations/mutations/removeBookmark', () => ({
-  useRemoveBookmarkMutation: () => [mockRemoveBookmark],
 }))
 
 jest.mock('operations/mutations/editCollection', () => ({
@@ -224,7 +219,9 @@ describe('My Space Component', () => {
         }
       }
     `
+
     let bookmarkRemoved = false
+
     const mocksWithRemove = [
       {
         request: {
@@ -271,9 +268,9 @@ describe('My Space Component', () => {
         request: {
           query: REMOVE_BOOKMARK,
           variables: {
-            _id: '4',
+            _id: '3',
             collectionId: '34',
-            cmsId: '1',
+            cmsId: null,
           },
           refetchQueries: [`getCollections`],
         },
@@ -283,14 +280,16 @@ describe('My Space Component', () => {
           return {
             data: {
               removeBookmark: {
-                _id: '4',
+                _id: '3',
               },
             },
           }
         },
       },
     ]
-    // jest.useFakeTimers()
+
+    jest.useFakeTimers()
+
     render(
       <MockedProvider mocks={mocksWithRemove} addTypename={false}>
         <MySpace bookmarks={collectionRecords[0].bookmarks} />
@@ -311,14 +310,17 @@ describe('My Space Component', () => {
     //   await new Promise((resolve) => setTimeout(resolve, 0))
     // })
     // Wrapping this in act due to https://github.com/apollographql/apollo-client/issues/5920
-    // await act(async () => {
-    //   jest.runAllTimers()
-    // })
+
+    await act(async () => {
+      jest.runAllTimers()
+    })
 
     // await new Promise((resolve) => setTimeout(resolve, 4000))
 
-    screen.debug()
-    expect(bookmarkRemoved).toBe(true)
+    // screen.debug()
+    await waitFor(() => {
+      expect(bookmarkRemoved).toBe(true)
+    })
   })
 
   it('handles the add bookmark operation', async () => {
