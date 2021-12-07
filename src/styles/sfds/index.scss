@@ -27,6 +27,10 @@
     font-size: 32px;
     line-height: normal;
     @include heading-bold;
+
+    // MVP css reset
+    text-transform: none;
+    letter-spacing: normal;
   }
 
   h3 {
@@ -59,6 +63,11 @@
   textarea:not([disabled]):focus,
   button:not([disabled]):focus {
     outline: 0.25rem solid $theme-ultraviolet-light;
+  }
+
+  p,
+  .usa-prose ul {
+    color: $theme-black;
   }
 
   .usa-prose,

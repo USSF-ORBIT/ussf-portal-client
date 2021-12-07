@@ -1,15 +1,14 @@
-import logging from '../plugins/logging'
 describe('the Beta gate', () => {
+  before(() => {
+    cy.loginTestIDP()
+  })
+
   beforeEach(() => {
-    cy.injectAxe()
+    cy.preserveLoginCookies()
   })
 
   it('joins and leaves the beta', () => {
-    // Just in case
-    cy.clearCookies()
-
     // Start on MVP
-    cy.visit('/')
     cy.contains('Manage your life')
 
     // Join the beta
@@ -22,9 +21,5 @@ describe('the Beta gate', () => {
 
     // Return to MVP
     cy.contains('Manage your life')
-  })
-
-  it('logs any a11y violations', () => {
-    cy.checkA11y(null, null, logging, { skipFailures: true })
   })
 })

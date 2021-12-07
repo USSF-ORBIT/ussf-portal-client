@@ -36,6 +36,11 @@
       }
     }
 
+    .usa-nav__primary button {
+      color: $theme-white;
+      border-radius: 6px;
+    }
+
     .usa-nav__primary > .usa-nav__primary-item > a {
       color: $theme-white;
       font-weight: normal;
@@ -48,4 +53,8 @@
       }
     }
   }
+}
+
+.logoutButton {
+  margin-left: units(4);
 }
