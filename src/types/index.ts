@@ -1,4 +1,4 @@
-import { ObjectId } from 'bson'
+import type { ObjectId } from 'bson'
 
 /**
  * ***********************
@@ -89,7 +89,7 @@ export type SAMLUser = {
   }
 }
 
-export type MongoUser = {
+export type PortalUser = {
   commonName: string
   mySpace: Collection[]
   isBeta: boolean
