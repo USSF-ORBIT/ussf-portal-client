@@ -224,7 +224,6 @@ describe('My Space Component', () => {
           refetchQueries: [`getCollections`],
         },
         result: () => {
-          console.log('REMOVE_BOOKMARK RESULT')
           bookmarkRemoved = true
           return {
             data: {

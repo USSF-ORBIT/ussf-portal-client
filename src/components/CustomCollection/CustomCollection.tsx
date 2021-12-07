@@ -246,18 +246,17 @@ const CustomCollection = ({
   return (
     <>
       <Collection header={customCollectionHeader} footer={addLinkForm}>
-        {bookmarks.map(
-          (bookmark: BookmarkType) =>
-            !bookmark.isRemoved && (
-              <RemovableBookmark
-                key={`bookmark_${bookmark._id}`}
-                bookmark={bookmark}
-                handleRemove={() =>
-                  handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
-                }
-              />
-            )
-        )}
+        {bookmarks
+          .filter((b: BookmarkType) => !b.isRemoved)
+          .map((bookmark: BookmarkType) => (
+            <RemovableBookmark
+              key={`bookmark_${bookmark._id}`}
+              bookmark={bookmark}
+              handleRemove={() =>
+                handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
+              }
+            />
+          ))}
       </Collection>
 
       <AddCustomLinkModal
