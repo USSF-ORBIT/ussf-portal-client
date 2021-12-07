@@ -1,9 +1,13 @@
 import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
 
+// #TODO remove this once we have sessions
+const commonName = 'HALL.MICHAEL.0123456789'
+
 export const BookmarkModel = {
   async deleteOne(_id: string, collectionId: string, db: Context) {
     const query = {
+      commonName: commonName,
       'mySpace._id': new ObjectId(collectionId),
     }
 
@@ -15,19 +19,19 @@ export const BookmarkModel = {
       },
     }
     try {
-      // update and save modified document
       await db.collection('users').findOneAndUpdate(query, updateDocument)
 
       return {
         _id: _id,
       }
     } catch (e) {
-      console.error('error in remove collection', e)
+      console.error('Error in Bookmark.deleteOne', e)
       return e
     }
   },
   async hideOne(_id: string, collectionId: string, db: Context) {
     const query = {
+      commonName: commonName,
       'mySpace.bookmarks._id': new ObjectId(_id),
     }
 
@@ -54,7 +58,7 @@ export const BookmarkModel = {
         _id: _id,
       }
     } catch (e) {
-      console.error('error in hide bookmark', e)
+      console.error('Error in Bookmark.hideOne', e)
       return e
     }
   },
