@@ -3,6 +3,7 @@ import { ApolloServer } from 'apollo-server-micro'
 import type { VariableValues } from 'apollo-server-types'
 
 import { typeDefs } from '../schema'
+import { newPortalUser } from '../__fixtures__/newPortalUser'
 
 import resolvers from './index'
 
@@ -13,6 +14,7 @@ import { REMOVE_COLLECTION } from 'operations/mutations/removeCollection'
 import { ADD_COLLECTIONS } from 'operations/mutations/addCollections'
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
 import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
+import type { Collection } from 'types'
 
 let server: ApolloServer
 let connection: typeof MongoClient
@@ -111,27 +113,43 @@ describe('GraphQL resolvers', () => {
 
   describe('while logged in', () => {
     beforeAll(async () => {
+      // Init database
+      const users = db.collection('users')
+      await users.insertOne(newPortalUser)
+
       server = new ApolloServer({
         typeDefs,
         resolvers,
         context: () => ({
           db,
           user: {
-            nameID: 'testUserID',
+            nameID: newPortalUser.commonName,
           },
         }),
       })
     })
 
     describe('getCollections', () => {
-      it('returns all collections', async () => {
+      it('returns all collections for the logged in user', async () => {
         const result = await server.executeOperation({
           query: GET_COLLECTIONS,
         })
 
+        const expectedData = { ...newPortalUser }
+
+        expectedData.mySpace.forEach((c: Collection) => {
+          c.bookmarks = c.bookmarks.map((b) => ({
+            _id: b._id,
+            url: b.url,
+            label: b.label,
+          }))
+        })
+
         expect(result.errors).toBeUndefined()
-        // TODO - add some collections and query for those
-        expect(result.data).toEqual({ collections: null })
+
+        expect(JSON.stringify(result.data)).toEqual(
+          JSON.stringify({ collections: expectedData.mySpace })
+        )
       })
     })
   })

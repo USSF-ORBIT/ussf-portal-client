@@ -213,6 +213,7 @@ const resolvers: Resolvers = {
       }
 
       const query = {
+        commonName: user.nameID,
         'mySpace._id': new ObjectId(collectionId),
       }
 
