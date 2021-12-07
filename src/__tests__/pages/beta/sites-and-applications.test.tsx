@@ -7,6 +7,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import { getCollectionsMock } from '../../../fixtures/getCollection'
 import { cmsBookmarksMock } from '../../../fixtures/cmsBookmarks'
+import { cmsCollectionsMock } from '../../../fixtures/cmsCollections'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
 import SitesAndApplications, {
@@ -63,35 +64,35 @@ mockedUseRouter.mockReturnValue({
 //   },
 // ]
 
-const mockCollections = [
-  {
-    id: '1',
-    title: 'Example Collection 1',
-    bookmarks: [
-      {
-        id: '1',
-        url: 'www.example.com',
-        label: 'Example 1',
-      },
-    ],
-  },
-  {
-    id: '2',
-    title: 'Example Collection 2',
-    bookmarks: [
-      {
-        id: '1',
-        url: 'www.example.com',
-        label: 'Example 1',
-      },
-      {
-        id: '2',
-        url: 'www.example2.com',
-        label: 'Example 2',
-      },
-    ],
-  },
-]
+// const cmsCollectionsMock = [
+//   {
+//     id: '1',
+//     title: 'Example Collection 1',
+//     bookmarks: [
+//       {
+//         id: '1',
+//         url: 'www.example.com',
+//         label: 'Example 1',
+//       },
+//     ],
+//   },
+//   {
+//     id: '2',
+//     title: 'Example Collection 2',
+//     bookmarks: [
+//       {
+//         id: '1',
+//         url: 'www.example.com',
+//         label: 'Example 1',
+//       },
+//       {
+//         id: '2',
+//         url: 'www.example2.com',
+//         label: 'Example 2',
+//       },
+//     ],
+//   },
+// ]
 
 describe('Sites and Applications page', () => {
   describe('default state', () => {
@@ -100,7 +101,7 @@ describe('Sites and Applications page', () => {
       render(
         <MockedProvider mocks={getCollectionsMock}>
           <SitesAndApplications
-            collections={mockCollections}
+            collections={cmsCollectionsMock}
             bookmarks={cmsBookmarksMock}
           />
         </MockedProvider>
@@ -119,10 +120,10 @@ describe('Sites and Applications page', () => {
 
     it('sorts by type by default', async () => {
       const collections = await screen.findAllByRole('heading', { level: 3 })
-      expect(collections).toHaveLength(mockCollections.length)
+      expect(collections).toHaveLength(cmsCollectionsMock.length)
       collections.forEach((c, i) => {
         // eslint-disable-next-line security/detect-object-injection
-        expect(collections[i]).toHaveTextContent(mockCollections[i].title)
+        expect(collections[i]).toHaveTextContent(cmsCollectionsMock[i].title)
       })
     })
 
@@ -144,7 +145,7 @@ describe('Sites and Applications page', () => {
 
       userEvent.click(sortTypeBtn)
       expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(
-        mockCollections.length
+        cmsCollectionsMock.length
       )
       expect(screen.queryByRole('table')).not.toBeInTheDocument()
       expect(sortAlphaBtn).not.toBeDisabled()
@@ -245,7 +246,7 @@ describe('Sites and Applications page', () => {
 
         expect(mockAddCollections).toHaveBeenCalledWith({
           variables: {
-            collections: mockCollections,
+            collections: cmsCollectionsMock,
           },
           refetchQueries: [`getCollections`],
         })
@@ -369,7 +370,7 @@ describe('Sites and Applications page', () => {
     render(
       <MockedProvider mocks={getCollectionsMock}>
         <SitesAndApplications
-          collections={mockCollections}
+          collections={cmsCollectionsMock}
           bookmarks={cmsBookmarksMock}
         />
       </MockedProvider>
@@ -402,7 +403,7 @@ describe('Sites and Applications page', () => {
     render(
       <MockedProvider mocks={errorMock} addTypename={false}>
         <SitesAndApplications
-          collections={mockCollections}
+          collections={cmsCollectionsMock}
           bookmarks={cmsBookmarksMock}
         />
       </MockedProvider>

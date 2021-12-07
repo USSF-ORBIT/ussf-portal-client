@@ -10,7 +10,7 @@ import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
 import { renderWithModalRoot } from '../../testHelpers'
 import { getCollectionsMock } from '../../fixtures/getCollection'
-import { cmsCollectionMock } from '../../fixtures/cmsCollection'
+import { cmsCollectionsMock } from '../../fixtures/cmsCollections'
 import MySpace from './MySpace'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
@@ -64,7 +64,7 @@ describe('My Space Component', () => {
     beforeEach(() => {
       html = render(
         <MockedProvider mocks={getCollectionsMock} addTypename={false}>
-          <MySpace bookmarks={cmsCollectionMock[0].bookmarks} />
+          <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
         </MockedProvider>
       )
     })
@@ -116,7 +116,7 @@ describe('My Space Component', () => {
 
     render(
       <MockedProvider mocks={errorMock} addTypename={false}>
-        <MySpace bookmarks={cmsCollectionMock[0].bookmarks} />
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -126,7 +126,7 @@ describe('My Space Component', () => {
   it('navigates to Sites & Applications when adding new existing collections', async () => {
     render(
       <MockedProvider mocks={getCollectionsMock} addTypename={false}>
-        <MySpace bookmarks={cmsCollectionMock[0].bookmarks} />
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -171,7 +171,7 @@ describe('My Space Component', () => {
 
     render(
       <MockedProvider mocks={getCollectionsMock} addTypename={false}>
-        <MySpace bookmarks={cmsCollectionMock[0].bookmarks} />
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -200,7 +200,7 @@ describe('My Space Component', () => {
   it('handles the add bookmark operation', async () => {
     renderWithModalRoot(
       <MockedProvider mocks={getCollectionsMock} addTypename={false}>
-        <MySpace bookmarks={cmsCollectionMock[0].bookmarks} />
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -230,7 +230,7 @@ describe('My Space Component', () => {
   it('handles the edit collection title operation', async () => {
     render(
       <MockedProvider mocks={getCollectionsMock} addTypename={false}>
-        <MySpace bookmarks={cmsCollectionMock[0].bookmarks} />
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -253,7 +253,7 @@ describe('My Space Component', () => {
   it('handles the remove collection operation', async () => {
     renderWithModalRoot(
       <MockedProvider mocks={getCollectionsMock} addTypename={false}>
-        <MySpace bookmarks={cmsCollectionMock[0].bookmarks} />
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -275,7 +275,7 @@ describe('My Space Component', () => {
   it('handles the add collection operation', async () => {
     render(
       <MockedProvider mocks={getCollectionsMock} addTypename={false}>
-        <MySpace bookmarks={cmsCollectionMock[0].bookmarks} />
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
