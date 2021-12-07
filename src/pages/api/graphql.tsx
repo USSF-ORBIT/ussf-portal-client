@@ -2,7 +2,11 @@ import { ServerResponse } from 'http'
 
 import { MicroRequest } from 'apollo-server-micro/dist/types'
 
-import { ApolloServer } from 'apollo-server-micro'
+import {
+  ApolloServer,
+  AuthenticationError,
+  ApolloError,
+} from 'apollo-server-micro'
 import type { PageConfig } from 'next'
 import type { Resolvers } from '@apollo/client'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
@@ -261,7 +265,7 @@ const apolloServer = new ApolloServer({
       const db = client.db(process.env.MONGODB_DB)
 
       if (!session || !session.passport || !session.passport.user) {
-        throw new Error('GraphQL error: no user in session')
+        throw new AuthenticationError('No user in session')
       }
 
       const user = session.passport.user as SAMLUser
@@ -283,14 +287,16 @@ const apolloServer = new ApolloServer({
         try {
           await db.collection('users').insertOne(newUser)
         } catch (e) {
-          console.error('error in creating new user', e)
-          return e
+          // TODO log error
+          // console.error('error in creating new user', e)
+          throw new ApolloError('Error creating new user')
         }
       }
       return { db, user }
     } catch (e) {
-      console.error('error in creating context', e)
-      return e
+      // TODO log error
+      // console.error('error in creating context', e)
+      throw new ApolloError('Error creating GraphQL context')
     }
   },
 })
