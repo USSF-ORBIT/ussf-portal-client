@@ -15,7 +15,7 @@ describe('Footer component', () => {
       'alt',
       'USSF Logo'
     )
-    expect(screen.getAllByRole('link')).toHaveLength(8)
+    expect(screen.getAllByRole('link')).toHaveLength(9)
   })
 
   it('has no a11y violations', async () => {
