@@ -13,7 +13,7 @@ import { typeDefs } from '../../schema'
 import resolvers from '../../resolvers/index'
 import clientPromise from '../../utils/mongodb'
 
-import type { SAMLUser, MongoUser } from 'types/index'
+import type { SAMLUser, PortalUser } from 'types/index'
 import { getSession } from 'lib/session'
 
 export const config: PageConfig = {
@@ -44,7 +44,7 @@ export const apolloServer = new ApolloServer({
         .toArray()
 
       if (foundUser.length === 0) {
-        const newUser: MongoUser = {
+        const newUser: PortalUser = {
           commonName,
           isBeta: true,
           mySpace: [],
