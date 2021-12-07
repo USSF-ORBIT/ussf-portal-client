@@ -123,7 +123,9 @@ describe('GraphQL resolvers', () => {
         context: () => ({
           db,
           user: {
-            nameID: newPortalUser.commonName,
+            attributes: {
+              userprincipalname: newPortalUser.commonName,
+            },
           },
         }),
       })

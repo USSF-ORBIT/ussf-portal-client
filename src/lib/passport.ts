@@ -9,6 +9,7 @@ const passportWithLogout = passport as PassportWithLogout
 // Used for saving/retreiving user in session
 // see: https://stackoverflow.com/questions/27637609/understanding-passport-serialize-deserialize
 passportWithLogout.serializeUser((user, done) => {
+  // TODO - set an ID property on user here?
   done(null, user)
 })
 

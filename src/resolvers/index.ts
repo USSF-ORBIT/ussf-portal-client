@@ -24,7 +24,7 @@ const resolvers: Resolvers = {
       try {
         const foundUser = await db
           .collection('users')
-          .find({ commonName: user.nameID })
+          .find({ commonName: user.attributes.userprincipalname })
           .toArray()
 
         if (foundUser.length > 0) {
@@ -61,7 +61,7 @@ const resolvers: Resolvers = {
       }
 
       const query = {
-        commonName: user.nameID,
+        commonName: user.attributes.userprincipalname,
       }
 
       const updateDocument = {
@@ -88,7 +88,7 @@ const resolvers: Resolvers = {
       }
 
       const query = {
-        commonName: user.nameID,
+        commonName: user.attributes.userprincipalname,
         'mySpace._id': new ObjectId(_id),
       }
 
@@ -122,7 +122,7 @@ const resolvers: Resolvers = {
         )
       }
       const query = {
-        commonName: user.nameID,
+        commonName: user.attributes.userprincipalname,
       }
 
       const updateDocument = {
@@ -173,7 +173,7 @@ const resolvers: Resolvers = {
       )
 
       const query = {
-        commonName: user.nameID,
+        commonName: user.attributes.userprincipalname,
       }
 
       const updateDocument = {
@@ -189,7 +189,7 @@ const resolvers: Resolvers = {
         const updatedCollections = await db
           .collection('users')
           .find({
-            commonName: user.nameID,
+            commonName: user.attributes.userprincipalname,
           })
           .toArray()
 
@@ -215,7 +215,7 @@ const resolvers: Resolvers = {
       }
 
       const query = {
-        commonName: user.nameID,
+        commonName: user.attributes.userprincipalname,
         'mySpace._id': new ObjectId(collectionId),
       }
 
@@ -246,7 +246,7 @@ const resolvers: Resolvers = {
       }
 
       const query = {
-        commonName: user.nameID,
+        commonName: user.attributes.userprincipalname,
         'mySpace._id': new ObjectId(collectionId),
       }
 

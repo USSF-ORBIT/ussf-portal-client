@@ -35,7 +35,7 @@ export const apolloServer = new ApolloServer({
       }
 
       const user = session.passport.user as SAMLUser
-      const commonName = user.nameID
+      const commonName = user.attributes.userprincipalname
 
       // Check if user exists. If not, create new user
       const foundUser = await db

@@ -50,8 +50,11 @@ const exampleCollection2 = {
     },
   ],
 }
-module.exports.testUser = {
-  commonName: 'HALL.MICHAEL.0123456789',
+
+export const testUser = {
+  commonName: 'TEST.USER.1234567890@testusers.cce.af.mil',
   isBeta: true,
   mySpace: [exampleCollection1, exampleCollection2],
 }
+
+// TODO - add a second user, log in & test they have their own myspace

@@ -50,7 +50,7 @@ describe('Auth context', () => {
 
       return (
         <div>
-          <h1>User: {user?.nameID}</h1>
+          <h1>User: {user?.attributes?.userprincipalname}</h1>
           <button type="button" onClick={login}>
             Log in
           </button>
