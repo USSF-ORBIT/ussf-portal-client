@@ -13,15 +13,16 @@ declare global {
   }
 }
 
-const uri = process.env.MONGO_URL || ''
 const host = process.env.MONGO_HOST || ''
 const user = process.env.MONGO_USER || ''
 const password = process.env.MONGO_PASSWORD || ''
 
+const RDS_TLS_CERT = process.env.RDS_TLS_CERT || 'rds-combined-ca-bundle.pem'
+
 // Connection string for DocumentDB
 const connectionString =
   process.env.MONGO_URL ||
-  `mongodb://${user}:${password}@${host}/?tls=true&tlsCAFile=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false`
+  `mongodb://${user}:${password}@${host}/?tls=true&tlsCAFile=${RDS_TLS_CERT}&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false`
 
 let client
 let clientPromise: Promise<typeof MongoClient>
@@ -33,7 +34,7 @@ if (process.env.NODE_ENV === 'development') {
   // In development mode, use a global variable so that the value
   // is preserved across module reloads caused by HMR (Hot Module Replacement).
   if (!global._mongoClientPromise) {
-    client = new MongoClient(uri)
+    client = new MongoClient(connectionString)
     global._mongoClientPromise = client.connect()
   }
   clientPromise = global._mongoClientPromise
