@@ -19,14 +19,20 @@ let connection: typeof MongoClient
 let db: typeof Db
 
 describe('GraphQL resolvers', () => {
+  beforeAll(async () => {
+    connection = await MongoClient.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    db = await connection.db()
+  })
+
+  afterAll(async () => {
+    await connection.close()
+  })
+
   describe('without being logged in', () => {
     beforeAll(async () => {
-      connection = await MongoClient.connect(process.env.MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })
-      db = await connection.db()
-
       server = new ApolloServer({
         typeDefs,
         resolvers,
@@ -35,10 +41,6 @@ describe('GraphQL resolvers', () => {
           user: undefined,
         }),
       })
-    })
-
-    afterAll(async () => {
-      await connection.close()
     })
 
     it.each([
@@ -109,12 +111,6 @@ describe('GraphQL resolvers', () => {
 
   describe('while logged in', () => {
     beforeAll(async () => {
-      connection = await MongoClient.connect(process.env.MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })
-      db = await connection.db()
-
       server = new ApolloServer({
         typeDefs,
         resolvers,
@@ -127,19 +123,15 @@ describe('GraphQL resolvers', () => {
       })
     })
 
-    afterAll(async () => {
-      await connection.close()
-    })
-
     describe('getCollections', () => {
       it('returns all collections', async () => {
         const result = await server.executeOperation({
           query: GET_COLLECTIONS,
         })
 
-        console.log('result', result.data)
-
         expect(result.errors).toBeUndefined()
+        // TODO - add some collections and query for those
+        expect(result.data).toEqual({ collections: null })
       })
     })
   })
