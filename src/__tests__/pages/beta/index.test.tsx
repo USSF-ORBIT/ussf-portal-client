@@ -4,48 +4,9 @@
 
 import { render, screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
-
-import { GET_COLLECTIONS } from 'operations/queries/getCollections'
+import { getCollectionsMock } from '../../../fixtures/getCollection'
 import Home, { getStaticProps } from 'pages/beta/index'
 import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
-
-const mocks = [
-  {
-    request: {
-      query: GET_COLLECTIONS,
-    },
-    result: {
-      data: {
-        collections: [
-          {
-            _id: '1',
-            title: 'Example Collection',
-            bookmarks: [
-              {
-                _id: '1',
-                url: 'https://google.com',
-                label: 'Webmail',
-                description: 'Lorem ipsum',
-              },
-              {
-                _id: '2',
-                url: 'https://mypay.dfas.mil/#/',
-                label: 'MyPay',
-                description: 'Lorem ipsum',
-              },
-              {
-                _id: '3',
-                url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-                label: 'vMPF',
-                description: 'Lorem ipsum',
-              },
-            ],
-          },
-        ],
-      },
-    },
-  },
-]
 
 const mockBookmarks = [
   {
@@ -63,7 +24,7 @@ const mockBookmarks = [
 describe('Beta Home page', () => {
   beforeEach(() => {
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <MockedProvider mocks={getCollectionsMock} addTypename={false}>
         <Home bookmarks={mockBookmarks} />
       </MockedProvider>
     )

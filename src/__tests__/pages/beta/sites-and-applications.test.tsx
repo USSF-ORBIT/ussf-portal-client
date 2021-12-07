@@ -5,7 +5,7 @@ import { render, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
-
+import { getCollectionsMock } from '../../../fixtures/getCollection'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
 import SitesAndApplications, {
@@ -92,50 +92,12 @@ const mockCollections = [
   },
 ]
 
-const mocks = [
-  {
-    request: {
-      query: GET_COLLECTIONS,
-    },
-    result: {
-      data: {
-        collections: [
-          {
-            _id: '1',
-            title: 'Example Collection',
-            bookmarks: [
-              {
-                _id: '2',
-                url: 'https://google.com',
-                label: 'Webmail',
-                description: 'Lorem ipsum',
-              },
-              {
-                _id: '3',
-                url: 'https://mypay.dfas.mil/#/',
-                label: 'MyPay',
-                description: 'Lorem ipsum',
-              },
-              {
-                _id: '4',
-                url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-                label: 'vMPF',
-                description: 'Lorem ipsum',
-              },
-            ],
-          },
-        ],
-      },
-    },
-  },
-]
-
 describe('Sites and Applications page', () => {
   describe('default state', () => {
     beforeEach(() => {
       jest.useFakeTimers()
       render(
-        <MockedProvider mocks={mocks}>
+        <MockedProvider mocks={getCollectionsMock}>
           <SitesAndApplications
             collections={mockCollections}
             bookmarks={mockBookmarks}
@@ -350,7 +312,7 @@ describe('Sites and Applications page', () => {
 
         expect(mockAddBookmark).toHaveBeenCalledWith({
           variables: {
-            collectionId: mocks[0].result.data.collections[0]._id,
+            collectionId: getCollectionsMock[0].result.data.collections[0]._id,
             ...mockBookmarks[0],
           },
           refetchQueries: [`getCollections`],
@@ -359,7 +321,7 @@ describe('Sites and Applications page', () => {
         const flashMessage = screen.getByRole('alert')
 
         expect(flashMessage).toHaveTextContent(
-          `You have successfully added “${mockBookmarks[0].label}” to the “${mocks[0].result.data.collections[0].title}” section.`
+          `You have successfully added “${mockBookmarks[0].label}” to the “${getCollectionsMock[0].result.data.collections[0].title}” section.`
         )
 
         act(() => {
@@ -401,7 +363,7 @@ describe('Sites and Applications page', () => {
     })
 
     render(
-      <MockedProvider mocks={mocks}>
+      <MockedProvider mocks={getCollectionsMock}>
         <SitesAndApplications
           collections={mockCollections}
           bookmarks={mockBookmarks}
