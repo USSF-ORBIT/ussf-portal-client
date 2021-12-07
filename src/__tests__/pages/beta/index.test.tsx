@@ -5,27 +5,15 @@
 import { render, screen } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import { getCollectionsMock } from '../../../fixtures/getCollection'
+import { cmsBookmarksMock } from '../../../fixtures/cmsBookmarks'
 import Home, { getStaticProps } from 'pages/beta/index'
 import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
-
-const mockBookmarks = [
-  {
-    id: '1',
-    url: 'www.example.com',
-    label: 'Example 1',
-  },
-  {
-    id: '2',
-    url: 'www.example2.com',
-    label: 'Example 2',
-  },
-]
 
 describe('Beta Home page', () => {
   beforeEach(() => {
     render(
       <MockedProvider mocks={getCollectionsMock} addTypename={false}>
-        <Home bookmarks={mockBookmarks} />
+        <Home bookmarks={cmsBookmarksMock} />
       </MockedProvider>
     )
   })

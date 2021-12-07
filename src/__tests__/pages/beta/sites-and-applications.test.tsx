@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import { getCollectionsMock } from '../../../fixtures/getCollection'
+import { cmsBookmarksMock } from '../../../fixtures/cmsBookmarks'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
 import SitesAndApplications, {
@@ -49,18 +50,18 @@ mockedUseRouter.mockReturnValue({
   push: mockPush,
 })
 
-const mockBookmarks = [
-  {
-    id: '1',
-    url: 'www.example.com',
-    label: 'Example 1',
-  },
-  {
-    id: '2',
-    url: 'www.example2.com',
-    label: 'Example 2',
-  },
-]
+// const mockBookmarks = [
+//   {
+//     id: '1',
+//     url: 'www.example.com',
+//     label: 'Example 1',
+//   },
+//   {
+//     id: '2',
+//     url: 'www.example2.com',
+//     label: 'Example 2',
+//   },
+// ]
 
 const mockCollections = [
   {
@@ -100,7 +101,7 @@ describe('Sites and Applications page', () => {
         <MockedProvider mocks={getCollectionsMock}>
           <SitesAndApplications
             collections={mockCollections}
-            bookmarks={mockBookmarks}
+            bookmarks={cmsBookmarksMock}
           />
         </MockedProvider>
       )
@@ -138,7 +139,7 @@ describe('Sites and Applications page', () => {
       expect(sortAlphaBtn).toBeDisabled()
       expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(0)
       expect(screen.getByRole('table')).toBeInTheDocument()
-      expect(screen.getAllByRole('link')).toHaveLength(mockBookmarks.length)
+      expect(screen.getAllByRole('link')).toHaveLength(cmsBookmarksMock.length)
       expect(sortTypeBtn).not.toBeDisabled()
 
       userEvent.click(sortTypeBtn)
@@ -313,7 +314,7 @@ describe('Sites and Applications page', () => {
         expect(mockAddBookmark).toHaveBeenCalledWith({
           variables: {
             collectionId: getCollectionsMock[0].result.data.collections[0]._id,
-            ...mockBookmarks[0],
+            ...cmsBookmarksMock[0],
           },
           refetchQueries: [`getCollections`],
         })
@@ -321,7 +322,7 @@ describe('Sites and Applications page', () => {
         const flashMessage = screen.getByRole('alert')
 
         expect(flashMessage).toHaveTextContent(
-          `You have successfully added “${mockBookmarks[0].label}” to the “${getCollectionsMock[0].result.data.collections[0].title}” section.`
+          `You have successfully added “${cmsBookmarksMock[0].label}” to the “${getCollectionsMock[0].result.data.collections[0].title}” section.`
         )
 
         act(() => {
@@ -343,7 +344,10 @@ describe('Sites and Applications page', () => {
           variables: {
             title: '',
             bookmarks: [
-              { url: mockBookmarks[0].url, label: mockBookmarks[0].label },
+              {
+                url: cmsBookmarksMock[0].url,
+                label: cmsBookmarksMock[0].label,
+              },
             ],
           },
           refetchQueries: [`getCollections`],
@@ -366,7 +370,7 @@ describe('Sites and Applications page', () => {
       <MockedProvider mocks={getCollectionsMock}>
         <SitesAndApplications
           collections={mockCollections}
-          bookmarks={mockBookmarks}
+          bookmarks={cmsBookmarksMock}
         />
       </MockedProvider>
     )
@@ -399,7 +403,7 @@ describe('Sites and Applications page', () => {
       <MockedProvider mocks={errorMock} addTypename={false}>
         <SitesAndApplications
           collections={mockCollections}
-          bookmarks={mockBookmarks}
+          bookmarks={cmsBookmarksMock}
         />
       </MockedProvider>
     )
