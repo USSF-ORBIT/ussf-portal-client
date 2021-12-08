@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
 
       - name: Docker compose
-        run: docker-compose -f docker-compose.e2e.yml up -d
+        run: docker-compose -f docker-compose.e2e.yml up -d --build
 
       - name: Cypress run
         uses: cypress-io/github-action@2113e5bc19c45979ba123df6e07256d2aaba9a33 # renovate: tag=v2.11.7

@@ -1,10 +1,12 @@
 import { ReactNode } from 'react'
-import { GridContainer, Accordion } from '@trussworks/react-uswds'
+import { GridContainer, Accordion, Button } from '@trussworks/react-uswds'
 import styles from './login.module.scss'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import Layout from 'layout/MVP/LoginLayout/LoginLayout'
+import { useAuthContext } from 'stores/authContext'
 
 const Login = () => {
+  const { login } = useAuthContext()
+
   const contactAccordion = [
     {
       title: 'Contact the Help Desk',
@@ -47,11 +49,12 @@ const Login = () => {
                 <p className="usa-intro">
                   Insert your CAC / ECA to begin your login
                 </p>
-                <LinkTo
+                <Button
+                  type="button"
                   className="usa-button button-pill usa-button--big text-white text-no-underline"
-                  href="/">
-                  Login
-                </LinkTo>
+                  onClick={login}>
+                  Log In
+                </Button>
                 <p className="font-body-2xs">
                   The security accreditation level of this site is
                   UNCLASSIFIED// FOUO and below. Do not process, store, or

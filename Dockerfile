@@ -48,18 +48,20 @@ FROM node:14.18.1-slim AS runner
 
 WORKDIR /app
 
+COPY scripts/add-rds-cas.sh .
 COPY scripts/add-dod-cas.sh .
 COPY scripts/create-gcds-chain.sh .
 COPY saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
 COPY ./rds-combined-ca-bundle.pem ./rds-combined-ca-bundle.pem
 
 RUN apt-get update \
-    && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip \
-    && chmod +x add-dod-cas.sh && sh add-dod-cas.sh && chmod +x create-gcds-chain.sh && sh create-gcds-chain.sh \
-    && apt-get remove -y wget unzip ca-certificates \
-    && apt-get autoremove -y \
-    && apt-get autoclean -y \
-    && rm -rf /var/lib/apt/lists/*
+  && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip \
+  && chmod +x add-rds-cas.sh && sh add-rds-cas.sh \
+  && chmod +x add-dod-cas.sh && sh add-dod-cas.sh && chmod +x create-gcds-chain.sh && sh create-gcds-chain.sh \
+  && apt-get remove -y wget unzip ca-certificates \
+  && apt-get autoremove -y \
+  && apt-get autoclean -y \
+  && rm -rf /var/lib/apt/lists/*
 
 ENV NODE_EXTRA_CA_CERTS='/usr/local/share/ca-certificates/GCDS.pem'
 ENV NODE_ENV production

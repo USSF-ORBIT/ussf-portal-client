@@ -142,7 +142,7 @@ describe('My Space Component', () => {
 
     it('should render the collection', async () => {
       const collection = await screen.findByRole('button', {
-        name: 'Edit collection title',
+        name: 'Edit Example Collection collection title',
       })
 
       expect(collection).toHaveTextContent(
@@ -300,7 +300,7 @@ describe('My Space Component', () => {
     )
 
     const editTitleButton = await screen.findByRole('button', {
-      name: 'Edit collection title',
+      name: 'Edit Example Collection collection title',
     })
     userEvent.click(editTitleButton)
     const input = screen.getByRole('textbox')

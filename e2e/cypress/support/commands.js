@@ -25,3 +25,36 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import '@testing-library/cypress/add-commands'
+
+Cypress.Commands.add('loginTestIDP', () => {
+  cy.clearCookies()
+
+  cy.visit('/login')
+  cy.contains('Log In').click()
+
+  // IDP redirects to their login page
+  cy.url().should('contain', 'http://localhost:8080/simplesaml/')
+
+  cy.contains('Enter your username and password')
+  cy.findByLabelText('Username')
+    .clear()
+    .type('user1')
+    .should('have.value', 'user1')
+  cy.findByLabelText('Password').type('user1pass')
+  cy.contains('Login').click()
+
+  cy.url().should('eq', Cypress.config().baseUrl + '/')
+})
+
+Cypress.Commands.add('preserveLoginCookies', () => {
+  // auto-preserve session cookie between tests
+  Cypress.Cookies.preserveOnce('sid')
+
+  // preserve IDP cookies to auto-login after starting session
+  Cypress.Cookies.preserveOnce('SimpleSAMLAuthTokenIdp')
+  Cypress.Cookies.preserveOnce('PHPSESSIDIDP')
+})
+
+Cypress.Commands.add('joinBeta', () => {
+  cy.setCookie('betaOptIn', 'true')
+})
