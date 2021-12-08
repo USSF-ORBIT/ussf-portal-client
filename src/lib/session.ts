@@ -8,7 +8,7 @@ import redis from './redis'
 
 const RedisStore = RedisStoreFactory(expressSession)
 
-const getSession = nextSession({
+export const getSession = nextSession({
   store: promisifyStore(new RedisStore({ client: redis })),
   cookie: {
     httpOnly: true,

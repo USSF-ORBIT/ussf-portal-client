@@ -85,9 +85,11 @@ describe('API / Auth handlers', () => {
         handler: apiHandler,
         url: '/api/auth/login',
         test: async ({ fetch }) => {
-          const res = await fetch({ method: 'POST' })
-          expect(res.status).toBe(200)
-          expect(await res.json()).toStrictEqual({ user: mockUser })
+          const res = await fetch({ method: 'POST', redirect: 'manual' })
+          expect(res.status).toBe(307)
+          expect(res.cookies).toStrictEqual([
+            expect.objectContaining({ sid: expect.any(String) }),
+          ])
         },
       })
     })
@@ -103,8 +105,8 @@ describe('API / Auth handlers', () => {
         },
         url: '/api/auth/logout',
         test: async ({ fetch }) => {
-          const res = await fetch()
-          expect(res.status).toBe(200)
+          const res = await fetch({ redirect: 'manual' })
+          expect(res.status).toBe(302)
           expect(mockedAxios.post).toHaveBeenCalledWith('mock SLO request URL')
           expect(mockSession.destroy).toHaveBeenCalledTimes(1)
         },
@@ -119,8 +121,8 @@ describe('API / Auth handlers', () => {
         },
         url: '/api/auth/logout',
         test: async ({ fetch }) => {
-          const res = await fetch()
-          expect(res.status).toBe(200)
+          const res = await fetch({ redirect: 'manual' })
+          expect(res.status).toBe(302)
           expect(mockedAxios.post).not.toHaveBeenCalled()
           expect(mockSession.destroy).toHaveBeenCalledTimes(1)
         },
@@ -134,8 +136,8 @@ describe('API / Auth handlers', () => {
         handler: apiHandler,
         url: '/api/auth/logout/callback',
         test: async ({ fetch }) => {
-          const res = await fetch()
-          expect(res.status).toBe(200)
+          const res = await fetch({ redirect: 'manual' })
+          expect(res.status).toBe(302)
         },
       })
     })

@@ -1,8 +1,19 @@
 import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
+
 import styles from './PersonalData.module.scss'
 
-const PersonalData = ({ name }: { name: string }) => {
+import { useAuthContext } from 'stores/authContext'
+
+const PersonalData = () => {
+  let name = ''
+  const { user } = useAuthContext()
+
+  if (user) {
+    const { givenname, surname } = user.attributes
+    name = `${givenname} ${surname}`
+  }
+
   return (
     <div className={styles.personalData}>
       <h2>Welcome, {name}</h2>

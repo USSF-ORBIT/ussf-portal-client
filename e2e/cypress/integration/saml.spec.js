@@ -6,18 +6,14 @@ describe('SAML flow (with test IdP)', () => {
   })
 
   beforeEach(() => {
-    // auto-preserve session cookie between tests
-    Cypress.Cookies.preserveOnce('sid')
-
-    // preserve IDP cookies to auto-login after starting session
-    Cypress.Cookies.preserveOnce('SimpleSAMLAuthTokenIdp')
-    Cypress.Cookies.preserveOnce('PHPSESSIDIDP')
+    cy.preserveLoginCookies()
   })
 
   it('can login to the test SAML IDP', () => {
     cy.getCookie('sid').should('not.exist')
 
     cy.visit('/api/auth/login')
+
     // IDP redirects to their login page
     cy.url().should('contain', 'http://localhost:8080/simplesaml/')
 
@@ -26,18 +22,14 @@ describe('SAML flow (with test IdP)', () => {
     cy.findByLabelText('Password').type('user1pass')
     cy.contains('Login').click()
 
-    cy.url().should('eq', Cypress.config().baseUrl + '/api/auth/login')
-    cy.contains(
-      '"userprincipalname":"TEST.USER.1234567890@testusers.cce.af.mil"'
-    )
+    cy.url().should('eq', Cypress.config().baseUrl + '/')
     cy.getCookie('sid').should('exist')
   })
 
   it('auto-logs in if the IDP session already exists', () => {
     cy.visit('/api/auth/login')
-    cy.contains(
-      '"userprincipalname":"TEST.USER.1234567890@testusers.cce.af.mil"'
-    )
+    cy.url().should('eq', Cypress.config().baseUrl + '/')
+    cy.getCookie('sid').should('exist')
   })
 
   it('can request the current user', () => {
