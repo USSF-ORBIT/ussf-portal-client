@@ -25,10 +25,10 @@ module.exports = {
   preset: '@shelf/jest-mongodb',
   coverageThreshold: {
     global: {
-      statements: 95,
+      statements: 90,
       branches: 90,
-      functions: 95,
-      lines: 95,
+      functions: 90,
+      lines: 90,
     },
   },
 }
