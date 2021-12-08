@@ -8,6 +8,7 @@ import type { Resolvers } from '@apollo/client'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ObjectId } from 'mongodb'
 import { typeDefs } from '../../schema'
+import { BookmarkModel } from '../../models/Bookmark'
 import type {
   BookmarkInput,
   BookmarkRecord,
@@ -183,11 +184,12 @@ const resolvers: Resolvers = {
         return e
       }
     },
-    addBookmark: async (root, { collectionId, url, label }, { db }) => {
+    addBookmark: async (root, { cmsId, collectionId, url, label }, { db }) => {
       const newBookmark: BookmarkInput = {
         _id: new ObjectId(),
         url,
         label,
+        cmsId,
       }
 
       const query = {
@@ -213,38 +215,11 @@ const resolvers: Resolvers = {
         return e
       }
     },
-    removeBookmark: async (root, { _id, collectionId }, { db }) => {
-      const query = {
-        commonName: commonName,
-        'mySpace._id': new ObjectId(collectionId),
-      }
-
-      const updateDocument = {
-        $pull: {
-          'mySpace.$.bookmarks': {
-            _id: new ObjectId(_id),
-          },
-        },
-      }
-
-      try {
-        // Update and save modified document
-        const updated = await db
-          .collection('users')
-          .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
-
-        const updatedCollection = updated?.value?.mySpace?.filter(
-          (c: Collection) => {
-            return String(c._id) === String(collectionId)
-          }
-        )
-
-        return updatedCollection[0]
-      } catch (e) {
-        // TODO error logging
-        // eslint-disable-next-line no-console
-        console.error('error in remove collection', e)
-        return e
+    removeBookmark: async (root, { _id, collectionId, cmsId }, { db }) => {
+      if (cmsId) {
+        return BookmarkModel.hideOne(_id, collectionId, db)
+      } else {
+        return BookmarkModel.deleteOne(_id, collectionId, db)
       }
     },
   },
