@@ -45,57 +45,39 @@ handler.get('/api/auth/user', (req, res) => {
 handler.get('/api/auth/login', passport.authenticate('saml'))
 
 // POST /api/auth/login - callback URL for IdP SSO
-handler.post('/api/auth/login', (req, res) => {
-  passport.authenticate('saml', function (err, user) {
-    if (err) {
-      // TODO - error handling
-      // eslint-disable-next-line no-console
-      console.error('Error authenticating with SAML', err)
-      res.status(401).end()
-    }
-
-    if (!user) {
-      // TODO - error handling
-      // eslint-disable-next-line no-console
-      console.error('Error - missing user in SAML response', err)
-      res.status(401).end()
-    }
-
-    req.login(user, (err) => {
-      if (err) {
-        // TODO - error handling
-        // eslint-disable-next-line no-console
-        console.error('Error logging user into', err)
-        res.status(401).end()
-      }
-
-      res.status(200).json({ user })
-    })
-  })(req, res)
-})
+handler.post(
+  '/api/auth/login',
+  passport.authenticate('saml', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureMessage: true,
+  })
+)
 
 //  GET /api/auth/logout - initiate a SLO (logout) request
 handler.get('/api/auth/logout', async (req, res) => {
   if (!req.user) {
     // Not logged in
     await req.session.destroy()
-    res.status(200).end()
+    res.redirect(302, '/login')
   } else {
     await req.session.destroy()
 
-    passport.logoutSaml(req, async (err, logoutRequest) => {
+    passport.logoutSaml(req, (err, logoutRequest) => {
       if (!err && logoutRequest) {
         // TEMPORARY - DEVELOPMENT ONLY
         // because our test IDP does not support SLO HTTP-POST bindings
         if (
           process.env.SAML_IDP_METADATA_URL ===
-          'http://idp:8080/simplesaml/saml2/idp/metadata.php'
+            'http://idp:8080/simplesaml/saml2/idp/metadata.php' ||
+          process.env.SAML_IDP_METADATA_URL ===
+            'http://localhost:8080/simplesaml/saml2/idp/metadata.php'
         ) {
           res.redirect(logoutRequest)
         } else {
           // POST to the SLO URL
           axios.post(logoutRequest).then(() => {
-            res.status(200).end()
+            res.redirect(302, '/login')
           })
         }
       } else if (err) {
@@ -116,7 +98,7 @@ handler.get('/api/auth/logout', async (req, res) => {
 // GET /api/auth/logout/callback - callback URL for IdP SLO
 handler.get('/api/auth/logout/callback', async (req, res) => {
   // TODO - may need to handle redirect
-  res.status(200).end()
+  res.redirect(302, '/login')
 })
 
 export default handler

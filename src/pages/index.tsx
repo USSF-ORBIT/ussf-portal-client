@@ -1,13 +1,19 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLaptopCode } from '@fortawesome/free-solid-svg-icons'
 import { CardGroup } from '@trussworks/react-uswds'
+
 import CovidSiteAlert from 'components/MVP/CovidSiteAlert/CovidSiteAlert'
 import type { AnnouncementCardProps } from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import LinkTo from 'components/util/LinkTo/LinkTo'
+import { useUser } from 'hooks/useUser'
+import Loader from 'components/Loader'
 
 import styles from 'styles/mvp/index.module.scss'
+
 const Home = () => {
+  const { user } = useUser()
+
   const manageYourLife = [
     {
       path: 'https://www.defensetravel.dod.mil/site/bahCalc.cfm',
@@ -85,7 +91,9 @@ const Home = () => {
     path: '/uploads/US Space Force Enlisted Rank Insig Info Sheet (1).pdf',
   }
 
-  return (
+  return !user ? (
+    <Loader />
+  ) : (
     <>
       <CovidSiteAlert />
       <section

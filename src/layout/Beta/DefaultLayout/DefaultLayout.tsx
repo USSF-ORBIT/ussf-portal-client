@@ -7,6 +7,7 @@ import Header from 'components/Header/Header'
 import PersonalData from 'components/PersonalData/PersonalData'
 import PageHeader from 'components/PageHeader/PageHeader'
 import PageNav from 'components/PageNav/PageNav'
+import FeedbackCard from 'components/FeedbackCard/FeedbackCard'
 import Footer from 'components/Footer/Footer'
 
 const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
@@ -32,13 +33,14 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
         <Header />
         <main id="main-content">
           <PageHeader disableSearch>
-            <PersonalData name="Michael Hall" />
+            <PersonalData />
           </PageHeader>
 
           <GridContainer containerSize="widescreen">
             <Grid row gap>
-              <Grid tablet={{ col: 'auto' }}>
+              <Grid tablet={{ col: 3 }}>
                 <PageNav navItems={navItems} />
+                <FeedbackCard />
               </Grid>
               <Grid tablet={{ col: true }}>
                 {/* PAGE CONTENT */}

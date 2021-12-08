@@ -13,6 +13,7 @@ import type {
   NewBookmarkInput,
 } from 'types/index'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
+import Loader from 'components/Loader'
 import Flash from 'components/util/Flash/Flash'
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
@@ -20,6 +21,7 @@ import BookmarkList from 'components/BookmarkList/BookmarkList'
 import SelectableCollection from 'components/SelectableCollection/SelectableCollection'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 
+import { useUser } from 'hooks/useUser'
 import { useCollectionsQuery } from 'operations/queries/getCollections'
 import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
@@ -33,6 +35,7 @@ const SitesAndApplications = ({
   collections,
   bookmarks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { user } = useUser()
   const router = useRouter()
   const { loading, error, data } = useCollectionsQuery()
 
@@ -136,7 +139,9 @@ const SitesAndApplications = ({
     }
   }
 
-  return (
+  return !user ? (
+    <Loader />
+  ) : (
     <>
       <h2 className={styles.pageTitle}>Sites &amp; Applications</h2>
 

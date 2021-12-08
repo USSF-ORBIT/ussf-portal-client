@@ -67,7 +67,9 @@ describe('CustomCollection component', () => {
     )
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(
-      screen.getByRole('button', { name: 'Edit collection title' })
+      screen.getByRole('button', {
+        name: 'Edit Example Collection collection title',
+      })
     ).toHaveTextContent(exampleCollection.title)
     expect(screen.getAllByRole('listitem')).toHaveLength(
       exampleCollection.bookmarks.length
@@ -512,7 +514,7 @@ describe('CustomCollection component', () => {
 
     // Click outside menu
     const outsideEl = screen.getByRole('button', {
-      name: 'Edit collection title',
+      name: 'Edit Example Collection collection title',
     })
     userEvent.click(outsideEl)
 
