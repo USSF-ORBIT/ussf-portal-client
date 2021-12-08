@@ -55,7 +55,7 @@ const exampleCollection2 = {
   ],
 }
 
-export const testUser = {
+module.exports.testUser = {
   userId: 'TEST.USER.1234567890@testusers.cce.af.mil',
   isBeta: true,
   mySpace: [exampleCollection1, exampleCollection2],
