@@ -9,6 +9,9 @@ import axios from 'axios'
 
 import { renderWithAuth } from '../../../testHelpers'
 
+import { getCollectionsMock } from '../../../fixtures/getCollection'
+import { cmsBookmarksMock } from '../../../fixtures/cmsBookmarks'
+import { cmsCollectionsMock } from '../../../fixtures/cmsCollections'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
 import SitesAndApplications, {
@@ -60,94 +63,48 @@ mockedUseRouter.mockReturnValue({
   push: mockPush,
 })
 
-const mockBookmarks = [
-  {
-    id: '1',
-    url: 'www.example.com',
-    label: 'Example 1',
-    cmsId: '1',
-  },
-  {
-    id: '2',
-    url: 'www.example2.com',
-    label: 'Example 2',
-    cmsId: '2',
-  },
-]
+// const mockBookmarks = [
+//   {
+//     id: '1',
+//     url: 'www.example.com',
+//     label: 'Example 1',
+//   },
+//   {
+//     id: '2',
+//     url: 'www.example2.com',
+//     label: 'Example 2',
+//   },
+// ]
 
-const mockCollections = [
-  {
-    id: '1',
-    title: 'Example Collection 1',
-    bookmarks: [
-      {
-        id: '1',
-        url: 'www.example.com',
-        label: 'Example 1',
-      },
-    ],
-  },
-  {
-    id: '2',
-    title: 'Example Collection 2',
-    bookmarks: [
-      {
-        id: '1',
-        url: 'www.example.com',
-        label: 'Example 1',
-      },
-      {
-        id: '2',
-        url: 'www.example2.com',
-        label: 'Example 2',
-      },
-    ],
-  },
-]
-
-const mocks = [
-  {
-    request: {
-      query: GET_COLLECTIONS,
-    },
-    result: {
-      data: {
-        collections: [
-          {
-            _id: '34',
-            title: 'Example Collection',
-            bookmarks: [
-              {
-                _id: '3',
-                url: 'https://google.com',
-                label: 'Webmail',
-                description: 'Lorem ipsum',
-                cmsId: null,
-                isRemoved: null,
-              },
-              {
-                _id: '4',
-                url: 'https://mypay.dfas.mil/#/',
-                label: 'MyPay',
-                description: 'Lorem ipsum',
-                cmsId: '1',
-                isRemoved: null,
-              },
-              {
-                _id: '5',
-                url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-                label: 'vMPF',
-                description: 'Lorem ipsum',
-                cmsId: '2',
-                isRemoved: null,
-              },
-            ],
-          },
-        ],
-      },
-    },
-  },
-]
+// const cmsCollectionsMock = [
+//   {
+//     id: '1',
+//     title: 'Example Collection 1',
+//     bookmarks: [
+//       {
+//         id: '1',
+//         url: 'www.example.com',
+//         label: 'Example 1',
+//       },
+//     ],
+//   },
+//   {
+//     id: '2',
+//     title: 'Example Collection 2',
+//     bookmarks: [
+//       {
+//         id: '1',
+//         url: 'www.example.com',
+//         label: 'Example 1',
+//       },
+//       {
+//         id: '2',
+//         url: 'www.example2.com',
+//         label: 'Example 2',
+//       },
+//     ],
+//   },
+// ]
 
 describe('Sites and Applications page', () => {
   describe('without a user', () => {
@@ -172,10 +129,10 @@ describe('Sites and Applications page', () => {
       jest.useFakeTimers()
 
       renderWithAuth(
-        <MockedProvider mocks={mocks}>
+        <MockedProvider mocks={getCollectionsMock}>
           <SitesAndApplications
-            collections={mockCollections}
-            bookmarks={mockBookmarks}
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
           />
         </MockedProvider>,
         { user: null }
@@ -198,10 +155,10 @@ describe('Sites and Applications page', () => {
       beforeEach(() => {
         jest.useFakeTimers()
         renderWithAuth(
-          <MockedProvider mocks={mocks}>
+          <MockedProvider mocks={getCollectionsMock}>
             <SitesAndApplications
-              collections={mockCollections}
-              bookmarks={mockBookmarks}
+              collections={cmsCollectionsMock}
+              bookmarks={cmsBookmarksMock}
             />
           </MockedProvider>
         )
@@ -219,10 +176,10 @@ describe('Sites and Applications page', () => {
 
       it('sorts by type by default', async () => {
         const collections = await screen.findAllByRole('heading', { level: 3 })
-        expect(collections).toHaveLength(mockCollections.length)
+        expect(collections).toHaveLength(cmsCollectionsMock.length)
         collections.forEach((c, i) => {
           // eslint-disable-next-line security/detect-object-injection
-          expect(collections[i]).toHaveTextContent(mockCollections[i].title)
+          expect(collections[i]).toHaveTextContent(cmsCollectionsMock[i].title)
         })
       })
 
@@ -239,12 +196,14 @@ describe('Sites and Applications page', () => {
         expect(sortAlphaBtn).toBeDisabled()
         expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(0)
         expect(screen.getByRole('table')).toBeInTheDocument()
-        expect(screen.getAllByRole('link')).toHaveLength(mockBookmarks.length)
+        expect(screen.getAllByRole('link')).toHaveLength(
+          cmsBookmarksMock.length
+        )
         expect(sortTypeBtn).not.toBeDisabled()
 
         userEvent.click(sortTypeBtn)
         expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(
-          mockCollections.length
+          cmsCollectionsMock.length
         )
         expect(screen.queryByRole('table')).not.toBeInTheDocument()
         expect(sortAlphaBtn).not.toBeDisabled()
@@ -347,7 +306,7 @@ describe('Sites and Applications page', () => {
 
           expect(mockAddCollections).toHaveBeenCalledWith({
             variables: {
-              collections: mockCollections,
+              collections: cmsCollectionsMock,
             },
             refetchQueries: [`getCollections`],
           })
@@ -415,8 +374,9 @@ describe('Sites and Applications page', () => {
 
           expect(mockAddBookmark).toHaveBeenCalledWith({
             variables: {
-              collectionId: mocks[0].result.data.collections[0]._id,
-              ...mockBookmarks[0],
+              collectionId:
+                getCollectionsMock[0].result.data.collections[0]._id,
+              ...cmsBookmarksMock[0],
             },
             refetchQueries: [`getCollections`],
           })
@@ -424,7 +384,7 @@ describe('Sites and Applications page', () => {
           const flashMessage = screen.getByRole('alert')
 
           expect(flashMessage).toHaveTextContent(
-            `You have successfully added “${mockBookmarks[0].label}” to the “${mocks[0].result.data.collections[0].title}” section.`
+            `You have successfully added “${cmsBookmarksMock[0].label}” to the “${getCollectionsMock[0].result.data.collections[0].title}” section.`
           )
 
           act(() => {
@@ -446,7 +406,10 @@ describe('Sites and Applications page', () => {
             variables: {
               title: '',
               bookmarks: [
-                { url: mockBookmarks[0].url, label: mockBookmarks[0].label },
+                {
+                  url: cmsBookmarksMock[0].url,
+                  label: cmsBookmarksMock[0].label,
+                },
               ],
             },
             refetchQueries: [`getCollections`],
@@ -466,10 +429,10 @@ describe('Sites and Applications page', () => {
       })
 
       renderWithAuth(
-        <MockedProvider mocks={mocks}>
+        <MockedProvider mocks={getCollectionsMock}>
           <SitesAndApplications
-            collections={mockCollections}
-            bookmarks={mockBookmarks}
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
           />
         </MockedProvider>
       )
@@ -503,8 +466,8 @@ describe('Sites and Applications page', () => {
       renderWithAuth(
         <MockedProvider mocks={errorMock} addTypename={false}>
           <SitesAndApplications
-            collections={mockCollections}
-            bookmarks={mockBookmarks}
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
           />
         </MockedProvider>
       )
