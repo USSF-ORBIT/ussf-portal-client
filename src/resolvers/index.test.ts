@@ -14,7 +14,6 @@ import { REMOVE_COLLECTION } from 'operations/mutations/removeCollection'
 import { ADD_COLLECTIONS } from 'operations/mutations/addCollections'
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
 import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
-import type { Collection } from 'types'
 
 let server: ApolloServer
 let connection: typeof MongoClient
@@ -123,9 +122,7 @@ describe('GraphQL resolvers', () => {
         context: () => ({
           db,
           user: {
-            attributes: {
-              userprincipalname: newPortalUser.commonName,
-            },
+            userId: newPortalUser.userId,
           },
         }),
       })
@@ -139,11 +136,13 @@ describe('GraphQL resolvers', () => {
 
         const expectedData = { ...newPortalUser }
 
-        expectedData.mySpace.forEach((c: Collection) => {
-          c.bookmarks = c.bookmarks.map((b) => ({
+        expectedData.mySpace.forEach((c: any) => {
+          c.bookmarks = c.bookmarks.map((b: any) => ({
             _id: b._id,
             url: b.url,
             label: b.label,
+            cmsId: b.cmsId,
+            isRemoved: b.isRemoved,
           }))
         })
 

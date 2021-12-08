@@ -1,5 +1,7 @@
 import React from 'react'
 import { render, RenderOptions } from '@testing-library/react'
+
+import { testUser1 } from './__fixtures__/authUsers'
 import { AuthContext, AuthContextType } from 'stores/authContext'
 
 export const renderWithModalRoot = (
@@ -16,18 +18,7 @@ export const renderWithModalRoot = (
 }
 
 export const defaultMockAuthContext = {
-  user: {
-    nameID: 'HALL.MICHAEL.1234567890',
-    nameIDFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
-    attributes: {
-      edipi: '1234567890',
-      givenname: 'MICHAEL',
-      sans: 'msupn:1234567890@mil',
-      surname: 'HALL',
-      userprincipalname: 'HALL.MICHAEL.1234567890',
-      ivgroups: 'AF_USERS',
-    },
-  },
+  user: testUser1,
   setUser: jest.fn(),
   logout: jest.fn(),
   login: jest.fn(),

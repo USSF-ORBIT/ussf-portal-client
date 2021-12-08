@@ -26,7 +26,7 @@ const resolvers: Resolvers = {
       try {
         const foundUser = await db
           .collection('users')
-          .find({ commonName: user.attributes.userprincipalname })
+          .find({ userId: user.userId })
           .toArray()
 
         if (foundUser.length > 0) {
@@ -63,7 +63,7 @@ const resolvers: Resolvers = {
       }
 
       const query = {
-        commonName: user.attributes.userprincipalname,
+        userId: user.userId,
       }
 
       const updateDocument = {
@@ -90,7 +90,7 @@ const resolvers: Resolvers = {
       }
 
       const query = {
-        commonName: user.attributes.userprincipalname,
+        userId: user.userId,
         'mySpace._id': new ObjectId(_id),
       }
 
@@ -124,7 +124,7 @@ const resolvers: Resolvers = {
         )
       }
       const query = {
-        commonName: user.attributes.userprincipalname,
+        userId: user.userId,
       }
 
       const updateDocument = {
@@ -175,7 +175,7 @@ const resolvers: Resolvers = {
       )
 
       const query = {
-        commonName: user.attributes.userprincipalname,
+        userId: user.userId,
       }
 
       const updateDocument = {
@@ -191,7 +191,7 @@ const resolvers: Resolvers = {
         const updatedCollections = await db
           .collection('users')
           .find({
-            commonName: user.attributes.userprincipalname,
+            userId: user.userId,
           })
           .toArray()
 
@@ -222,7 +222,7 @@ const resolvers: Resolvers = {
       }
 
       const query = {
-        commonName: user.attributes.userprincipalname,
+        userId: user.userId,
         'mySpace._id': new ObjectId(collectionId),
       }
 
@@ -257,9 +257,9 @@ const resolvers: Resolvers = {
       }
 
       if (cmsId) {
-        return BookmarkModel.hideOne(_id, collectionId, db, user)
+        return BookmarkModel.hideOne(_id, collectionId, db, user.userId)
       } else {
-        return BookmarkModel.deleteOne(_id, collectionId, db, user)
+        return BookmarkModel.deleteOne(_id, collectionId, db, user.userId)
       }
     },
   },

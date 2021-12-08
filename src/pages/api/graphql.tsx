@@ -13,7 +13,7 @@ import { typeDefs } from '../../schema'
 import resolvers from '../../resolvers/index'
 import clientPromise from '../../utils/mongodb'
 
-import type { SAMLUser, PortalUser } from 'types/index'
+import type { SessionUser, PortalUser } from 'types/index'
 import { getSession } from 'lib/session'
 
 export const config: PageConfig = {
@@ -34,18 +34,15 @@ export const apolloServer = new ApolloServer({
         throw new AuthenticationError('No user in session')
       }
 
-      const user = session.passport.user as SAMLUser
-      const commonName = user.attributes.userprincipalname
+      const user = session.passport.user as SessionUser
+      const { userId } = user
 
       // Check if user exists. If not, create new user
-      const foundUser = await db
-        .collection('users')
-        .find({ commonName })
-        .toArray()
+      const foundUser = await db.collection('users').find({ userId }).toArray()
 
       if (foundUser.length === 0) {
         const newUser: PortalUser = {
-          commonName,
+          userId,
           isBeta: true,
           mySpace: [],
         }

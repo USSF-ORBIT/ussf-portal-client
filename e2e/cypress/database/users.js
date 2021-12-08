@@ -56,7 +56,7 @@ const exampleCollection2 = {
 }
 
 export const testUser = {
-  commonName: 'TEST.USER.1234567890@testusers.cce.af.mil',
+  userId: 'TEST.USER.1234567890@testusers.cce.af.mil',
   isBeta: true,
   mySpace: [exampleCollection1, exampleCollection2],
 }

@@ -5,10 +5,10 @@ import type {
 } from 'next'
 
 import { getSession } from 'lib/session'
-import { SAMLUser } from 'types'
+import { SessionUser } from 'types'
 
 type WithAuthServerSidePropsResult = GetServerSidePropsResult<{
-  user: SAMLUser
+  user: SessionUser
   [key: string]: any
 }>
 

@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useState } from 'react'
 import axios from 'axios'
 
-import { SAMLUser } from 'types'
+import { SessionUser } from 'types'
 
 export type AuthContextType = {
-  user: SAMLUser | null
-  setUser: React.Dispatch<React.SetStateAction<SAMLUser | null>>
+  user: SessionUser | null
+  setUser: React.Dispatch<React.SetStateAction<SessionUser | null>>
   logout: () => void
   login: () => void
 }
@@ -24,7 +24,7 @@ export const AuthContext = createContext<AuthContextType>({
 })
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<SAMLUser | null>(null)
+  const [user, setUser] = useState<SessionUser | null>(null)
 
   const login = () => {
     // Initiate SAML flow

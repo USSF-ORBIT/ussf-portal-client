@@ -1,16 +1,15 @@
 import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
-import { SAMLUser } from 'types'
 
 export const BookmarkModel = {
   async deleteOne(
     _id: string,
     collectionId: string,
     db: Context,
-    user: SAMLUser
+    userId: string
   ) {
     const query = {
-      commonName: user.attributes.userprincipalname,
+      userId,
       'mySpace._id': new ObjectId(collectionId),
     }
 
@@ -36,10 +35,10 @@ export const BookmarkModel = {
     _id: string,
     collectionId: string,
     db: Context,
-    user: SAMLUser
+    userId: string
   ) {
     const query = {
-      commonName: user.attributes.userprincipalname,
+      userId,
       'mySpace.bookmarks._id': new ObjectId(_id),
     }
 
