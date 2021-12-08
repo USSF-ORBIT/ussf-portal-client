@@ -14,7 +14,7 @@ jobs:
     if: github.event.label.name == format('type{0} storybook component', ':')
     steps:
       - name: Check out repository
-        uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
+        uses: actions/checkout@230611dbd0eb52da1e1f4f7bc8bb0c3a339fc8b7
 
       - name: Trigger Netlify build
         run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/$NETLIFY_BRANCH_DEPLOY\?trigger_branch\=$BRANCH_NAME\&trigger_title\=triggered+by+github+workflow
@@ -30,7 +30,7 @@ jobs:
     if: github.event.label.name == 'prototype'
     steps:
       - name: Check out repository
-        uses: actions/checkout@afe4af09a72596f47d806ee5f8b2674ec07fdc73
+        uses: actions/checkout@230611dbd0eb52da1e1f4f7bc8bb0c3a339fc8b7
 
       - name: Trigger Netlify build
         run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/$PROTOTYPE_DEPLOY\?trigger_branch\=$BRANCH_NAME\&trigger_title\=triggered+by+github+workflow

@@ -16,7 +16,7 @@ jobs:
           node-version: '14.18.1'
 
       - name: Check out repository
-        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
+        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
 
       - name: Docker compose
         run: docker-compose -f docker-compose.e2e.yml up -d --build
@@ -30,21 +30,21 @@ jobs:
           working-directory: e2e
 
       - name: Upload screenshots
-        uses: actions/upload-artifact@27121b0bdffd731efa15d66772be8dc71245d074 # renovate: tag=v2
+        uses: actions/upload-artifact@da838ae9595ac94171fa2d4de5a2f117b3e7ac32 # renovate: tag=v2
         if: failure()
         with:
           name: cypress-screenshots
           path: e2e/cypress/screenshots
 
       - name: Upload videos
-        uses: actions/upload-artifact@27121b0bdffd731efa15d66772be8dc71245d074 # renovate: tag=v2
+        uses: actions/upload-artifact@da838ae9595ac94171fa2d4de5a2f117b3e7ac32 # renovate: tag=v2
         if: always()
         with:
           name: cypress-videos
           path: e2e/cypress/videos
 
       - name: Upload reports
-        uses: actions/upload-artifact@27121b0bdffd731efa15d66772be8dc71245d074 # renovate: tag=v2
+        uses: actions/upload-artifact@da838ae9595ac94171fa2d4de5a2f117b3e7ac32 # renovate: tag=v2
         if: always()
         with:
           name: cypress-reports
