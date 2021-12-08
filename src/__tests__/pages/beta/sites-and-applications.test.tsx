@@ -65,11 +65,13 @@ const mockBookmarks = [
     id: '1',
     url: 'www.example.com',
     label: 'Example 1',
+    cmsId: '1',
   },
   {
     id: '2',
     url: 'www.example2.com',
     label: 'Example 2',
+    cmsId: '2',
   },
 ]
 
@@ -112,26 +114,32 @@ const mocks = [
       data: {
         collections: [
           {
-            _id: '1',
+            _id: '34',
             title: 'Example Collection',
             bookmarks: [
               {
-                _id: '2',
+                _id: '3',
                 url: 'https://google.com',
                 label: 'Webmail',
                 description: 'Lorem ipsum',
-              },
-              {
-                _id: '3',
-                url: 'https://mypay.dfas.mil/#/',
-                label: 'MyPay',
-                description: 'Lorem ipsum',
+                cmsId: null,
+                isRemoved: null,
               },
               {
                 _id: '4',
+                url: 'https://mypay.dfas.mil/#/',
+                label: 'MyPay',
+                description: 'Lorem ipsum',
+                cmsId: '1',
+                isRemoved: null,
+              },
+              {
+                _id: '5',
                 url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
                 label: 'vMPF',
                 description: 'Lorem ipsum',
+                cmsId: '2',
+                isRemoved: null,
               },
             ],
           },

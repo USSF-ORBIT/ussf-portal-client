@@ -4,6 +4,8 @@ import type { Resolvers } from '@apollo/client'
 import { AuthenticationError } from 'apollo-server-micro'
 import { ObjectId } from 'mongodb'
 
+import { BookmarkModel } from '../models/Bookmark'
+
 import type {
   BookmarkInput,
   BookmarkRecord,
@@ -201,7 +203,11 @@ const resolvers: Resolvers = {
         return e
       }
     },
-    addBookmark: async (root, { collectionId, url, label }, { db, user }) => {
+    addBookmark: async (
+      root,
+      { collectionId, url, label, cmsId },
+      { db, user }
+    ) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -212,6 +218,7 @@ const resolvers: Resolvers = {
         _id: new ObjectId(),
         url,
         label,
+        cmsId,
       }
 
       const query = {
@@ -238,44 +245,21 @@ const resolvers: Resolvers = {
         return e
       }
     },
-    removeBookmark: async (root, { _id, collectionId }, { db, user }) => {
+    removeBookmark: async (
+      root,
+      { _id, collectionId, cmsId },
+      { db, user }
+    ) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
         )
       }
 
-      const query = {
-        commonName: user.attributes.userprincipalname,
-        'mySpace._id': new ObjectId(collectionId),
-      }
-
-      const updateDocument = {
-        $pull: {
-          'mySpace.$.bookmarks': {
-            _id: new ObjectId(_id),
-          },
-        },
-      }
-
-      try {
-        // Update and save modified document
-        const updated = await db
-          .collection('users')
-          .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
-
-        const updatedCollection = updated?.value?.mySpace?.filter(
-          (c: Collection) => {
-            return String(c._id) === String(collectionId)
-          }
-        )
-
-        return updatedCollection[0]
-      } catch (e) {
-        // TODO error logging
-        // eslint-disable-next-line no-console
-        console.error('error in remove collection', e)
-        return e
+      if (cmsId) {
+        return BookmarkModel.hideOne(_id, collectionId, db, user)
+      } else {
+        return BookmarkModel.deleteOne(_id, collectionId, db, user)
       }
     },
   },
