@@ -100,6 +100,7 @@ type Collection {
     skip: Int! = 0
   ): [Bookmark!]
   bookmarksCount(where: BookmarkWhereInput! = {}): Int
+  showInSitesApps: Boolean
 }
 
 input CollectionWhereUniqueInput {
@@ -113,6 +114,7 @@ input CollectionWhereInput {
   id: IDFilter
   title: StringFilter
   bookmarks: BookmarkManyRelationFilter
+  showInSitesApps: BooleanFilter
 }
 
 input BookmarkManyRelationFilter {
@@ -121,14 +123,21 @@ input BookmarkManyRelationFilter {
   none: BookmarkWhereInput
 }
 
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
+}
+
 input CollectionOrderByInput {
   id: OrderDirection
   title: OrderDirection
+  showInSitesApps: OrderDirection
 }
 
 input CollectionUpdateInput {
   title: String
   bookmarks: BookmarkRelateToManyForUpdateInput
+  showInSitesApps: Boolean
 }
 
 input BookmarkRelateToManyForUpdateInput {
@@ -146,6 +155,7 @@ input CollectionUpdateArgs {
 input CollectionCreateInput {
   title: String
   bookmarks: BookmarkRelateToManyForCreateInput
+  showInSitesApps: Boolean
 }
 
 input BookmarkRelateToManyForCreateInput {
