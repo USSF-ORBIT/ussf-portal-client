@@ -2,8 +2,10 @@
  * @jest-environment jsdom
  */
 import { GetServerSidePropsContext } from 'next'
-import { getSession } from './session'
 
+import { testUser1 } from '../__fixtures__/authUsers'
+
+import { getSession } from './session'
 import { requireAuth } from './requireAuth'
 
 jest.mock('./session', () => ({
@@ -41,18 +43,7 @@ const requireAuthWithNotFoundCallback = requireAuth(async () => ({
   notFound: true,
 }))
 
-const mockUserData = {
-  nameID: 'TEST.USER.1234567890',
-  nameIDFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
-  attributes: {
-    edipi: '1234567890',
-    givenname: 'Test',
-    sans: 'msupn:1234567890@mil',
-    surname: 'User',
-    userprincipalname: 'TEST.USER.1234567890',
-    ivgroups: 'AF_USERS',
-  },
-}
+const mockUserData = testUser1
 
 describe('requireAuth', () => {
   it('throws an error if called without a req/res', async () => {

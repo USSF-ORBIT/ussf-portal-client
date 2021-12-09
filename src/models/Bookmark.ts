@@ -1,13 +1,15 @@
 import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
 
-// #TODO remove this once we have sessions
-const commonName = 'HALL.MICHAEL.0123456789'
-
 export const BookmarkModel = {
-  async deleteOne(_id: string, collectionId: string, db: Context) {
+  async deleteOne(
+    _id: string,
+    collectionId: string,
+    db: Context,
+    userId: string
+  ) {
     const query = {
-      commonName: commonName,
+      userId,
       'mySpace._id': new ObjectId(collectionId),
     }
 
@@ -29,9 +31,14 @@ export const BookmarkModel = {
       return e
     }
   },
-  async hideOne(_id: string, collectionId: string, db: Context) {
+  async hideOne(
+    _id: string,
+    collectionId: string,
+    db: Context,
+    userId: string
+  ) {
     const query = {
-      commonName: commonName,
+      userId,
       'mySpace.bookmarks._id': new ObjectId(_id),
     }
 
