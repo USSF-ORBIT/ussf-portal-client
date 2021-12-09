@@ -6,6 +6,8 @@ import { waitFor } from '@testing-library/react'
 import { renderHook } from '@testing-library/react-hooks'
 import axios from 'axios'
 
+import { testUser1 } from '../__fixtures__/authUsers'
+
 import { useUser } from './useUser'
 
 import { AuthProvider } from 'stores/authContext'
@@ -18,18 +20,7 @@ mockedAxios.post.mockImplementation(() => {
   return Promise.resolve()
 })
 
-const mockUserData = {
-  nameID: 'TEST.USER.1234567890',
-  nameIDFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
-  attributes: {
-    edipi: '1234567890',
-    givenname: 'Test',
-    sans: 'msupn:1234567890@mil',
-    surname: 'User',
-    userprincipalname: 'TEST.USER.1234567890',
-    ivgroups: 'AF_USERS',
-  },
-}
+const mockUserData = testUser1
 
 describe('useUser hook', () => {
   const { location } = window

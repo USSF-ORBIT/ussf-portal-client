@@ -77,13 +77,16 @@ export type CollectionsInput = {
   bookmarks: BookmarkInput[]
 }
 
-export type SAMLUser = {
+export interface SAMLUser {
+  issuer: string
   nameID: string
   nameIDFormat: string
+  inResponseTo: string
+  sessionIndex: string
   attributes: {
+    subject: string
     edipi: string
     givenname: string
-    sans: string
     surname: string
     userprincipalname: string
     ivgroups: string
@@ -91,6 +94,10 @@ export type SAMLUser = {
 }
 
 export type PortalUser = {
-  commonName: string
+  userId: string
   mySpace: Collection[]
+}
+
+export type SessionUser = SAMLUser & {
+  userId: string
 }

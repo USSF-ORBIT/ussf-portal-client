@@ -1,10 +1,10 @@
-// eslint-disable-next-line
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { MongoClient } = require('mongodb')
-// eslint-disable-next-line
-const { testUser } = require('./users.js')
+const { testUser1, testUser2 } = require('./users.js')
+
 const DB = 'cypress-e2e'
 
-async function dropAndSeed(mongoClient, collectionName, jsonData) {
+async function dropCollection(mongoClient, collectionName) {
   const collection = mongoClient.db(DB).collection(collectionName)
 
   await collection.drop().catch((e) => {
@@ -13,12 +13,15 @@ async function dropAndSeed(mongoClient, collectionName, jsonData) {
       throw e
     }
   })
+}
+
+async function seedCollection(mongoClient, collectionName, jsonData) {
+  const collection = mongoClient.db(DB).collection(collectionName)
   await collection.insertOne(jsonData)
 }
 
 module.exports.seedDB = async () => {
   // Connection URL
-
   const uri = `mongodb://localhost:27017`
 
   const client = new MongoClient(uri, {
@@ -28,10 +31,11 @@ module.exports.seedDB = async () => {
 
   try {
     await client.connect()
-
     console.log('Connected correctly to server')
 
-    await dropAndSeed(client, 'users', testUser)
+    await dropCollection(client, 'users')
+    await seedCollection(client, 'users', testUser1)
+    await seedCollection(client, 'users', testUser2)
 
     console.log(`${DB} database seeded!`)
 
