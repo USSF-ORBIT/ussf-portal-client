@@ -45,5 +45,8 @@ e2e/cypress/reports
 
 certs/
 saml.pem
+dev-saml.pem
+test-saml.pem
+prod-saml.pem
 
 tsconfig.tsbuildinfo
