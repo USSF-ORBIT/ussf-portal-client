@@ -93,5 +93,4 @@ export type SAMLUser = {
 export type PortalUser = {
   commonName: string
   mySpace: Collection[]
-  isBeta: boolean
 }

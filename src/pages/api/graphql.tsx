@@ -243,7 +243,6 @@ const apolloServer = new ApolloServer({
       if (foundUser.length === 0) {
         const newUser: PortalUser = {
           commonName: commonName,
-          isBeta: true,
           mySpace: [],
         }
         try {

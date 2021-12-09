@@ -56,6 +56,5 @@ const exampleCollection2 = {
 }
 module.exports.testUser = {
   commonName: 'HALL.MICHAEL.0123456789',
-  isBeta: true,
   mySpace: [exampleCollection1, exampleCollection2],
 }
