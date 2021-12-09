@@ -51,6 +51,7 @@ const resolvers: Resolvers = {
           _id: new ObjectId(),
           url: input.url,
           label: input.label,
+          cmsId: input.cmsId,
         })
       )
 

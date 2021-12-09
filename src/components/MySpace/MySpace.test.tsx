@@ -31,26 +31,6 @@ jest.mock('next/router', () => ({
   }),
 }))
 
-// jest.mock('operations/mutations/addBookmark', () => ({
-//   useAddBookmarkMutation: () => [mockAddBookmark],
-// }))
-
-// jest.mock('operations/mutations/removeBookmark', () => ({
-//   useRemoveBookmarkMutation: () => [mockRemoveBookmark],
-// }))
-
-// jest.mock('operations/mutations/editCollection', () => ({
-//   useEditCollectionMutation: () => [mockEditCollection],
-// }))
-
-// jest.mock('operations/mutations/removeCollection', () => ({
-//   useRemoveCollectionMutation: () => [mockRemoveCollection],
-// }))
-
-// jest.mock('operations/mutations/addCollection', () => ({
-//   useAddCollectionMutation: () => [mockAddCollection],
-// }))
-
 describe('My Space Component', () => {
   let scrollSpy: jest.Mock
 
@@ -163,6 +143,7 @@ describe('My Space Component', () => {
             _id: getCollectionsMock[0].result.data.collections[0].bookmarks[0]
               ._id,
             collectionId: getCollectionsMock[0].result.data.collections[0]._id,
+            cmsId: null,
           },
           refetchQueries: [`getCollections`],
         },
@@ -219,6 +200,7 @@ describe('My Space Component', () => {
             data: {
               addBookmark: {
                 _id: '100',
+                cmsId: null,
                 url: 'http://www.example.com',
                 label: 'My Custom Link',
               },
