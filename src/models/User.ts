@@ -5,7 +5,7 @@ import type { PortalUser } from 'types/index'
 
 /** THIS IS BAD :( but easiest way for now while we use embedded Keystone */
 // TODO - change to use Keystone API on backend when we move to hosted Keystone
-const EXAMPLE_COLLECTION = {
+export const EXAMPLE_COLLECTION = {
   _id: ObjectId('61b2232e3c864c6dee60f8f5'),
   cmsId: 'ckwz3u58s1835ql974leo1yll',
   title: 'Example Collection',
