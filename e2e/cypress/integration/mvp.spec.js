@@ -18,26 +18,23 @@ describe('The MVP site', () => {
       cy.checkA11y(null, null, logging, { skipFailures: true })
     })
 
+    it('contains the expected meta data', () => {
+      cy.document()
+      cy.get('head title').should('contain', 'Space Force Portal')
+
+      cy.get('head link[rel="canonical"]').should(
+        'have.attr',
+        'href',
+        Cypress.config().baseUrl + '/'
+      )
+    })
+
     it('lands on the home page after logging in', () => {
       cy.contains('Manage your life').click()
       cy.url().should('contain', '/#manage-your-life')
 
       cy.contains('Work tools').click()
       cy.url().should('contain', '/#work-tools')
-    })
-
-    it('contains the expected meta data', () => {
-      cy.document()
-      cy.get('head title').should('contain', 'Space Force Portal')
-
-      // TODO - Fix as part of https://github.com/USSF-ORBIT/ussf-portal-client/issues/352
-      /*
-      cy.get('head link[rel="canonical"]').should(
-        'have.attr',
-        'href',
-        Cypress.config().baseUrl + '/'
-      )
-      */
     })
 
     it('can navigate to the Training and Education page', () => {
