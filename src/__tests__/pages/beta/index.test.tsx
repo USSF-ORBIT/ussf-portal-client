@@ -8,8 +8,8 @@ import axios from 'axios'
 
 import { renderWithAuth } from '../../../testHelpers'
 
-import { getCollectionsMock } from '../../../fixtures/getCollection'
-import { cmsBookmarksMock } from '../../../fixtures/cmsBookmarks'
+import { getCollectionsMock } from '../../../__fixtures__/operations/getCollection'
+import { cmsBookmarksMock } from '../../../__fixtures__/data/cmsBookmarks'
 import Home from 'pages/beta/index'
 
 jest.mock('axios')
