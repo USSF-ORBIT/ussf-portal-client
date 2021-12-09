@@ -116,4 +116,31 @@ describe('The Authentication flow', () => {
       })
     })
   })
+
+  describe.only('showing user-specific data', () => {
+    before(() => {
+      // Reset the database
+      cy.task('db:seed')
+    })
+
+    it('logging in as Test User 1 loads their My Space data', () => {
+      cy.loginTestIDP()
+      cy.visit('/joinbeta')
+
+      cy.contains('My Space')
+      cy.contains('Welcome, Test User')
+
+      cy.contains('Example Collection')
+      cy.contains('Second Collection')
+    })
+
+    it('logging in as Test User 2 loads their My Space data', () => {
+      cy.loginTestIDP({ username: 'user2', password: 'user2pass' })
+      cy.visit('/joinbeta')
+
+      cy.contains('My Space')
+      cy.contains('Welcome, Second Tester')
+      cy.contains('Third Collection')
+    })
+  })
 })

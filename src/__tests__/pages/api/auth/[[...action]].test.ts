@@ -3,7 +3,7 @@ import { testApiHandler } from 'next-test-api-route-handler'
 import type { NextApiHandler } from 'next'
 import axios from 'axios'
 
-import { mockUser } from '../../../../lib/__mocks__/saml'
+import { testUser1 } from '../../../../__fixtures__/authUsers'
 
 import handler from 'pages/api/auth/[[...action]]'
 
@@ -22,6 +22,8 @@ const apiHandler = handler as unknown as NextApiHandler<any>
 const mockSession = {
   destroy: jest.fn(),
 }
+
+const mockUser = testUser1
 
 interface RequestWithSession extends IncomingMessage {
   user?: typeof mockUser
