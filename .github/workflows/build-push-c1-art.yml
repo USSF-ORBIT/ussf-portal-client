@@ -1,4 +1,4 @@
-name: Docker Build Main Push C1 Artifactory
+name: Automated Docker Build Main Push C1 Artifactory
 
 on:
   push:

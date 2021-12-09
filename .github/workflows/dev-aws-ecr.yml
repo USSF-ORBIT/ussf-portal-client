@@ -1,4 +1,4 @@
-name: Docker Build Main Push AWS Dev
+name: Automated Docker Build Main Push AWS Dev
 
 on:
   push:
