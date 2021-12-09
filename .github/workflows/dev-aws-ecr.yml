@@ -33,7 +33,7 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
         DEV_CERT: ${{ secrets.SAML_CERT }}
         TEST_CERT: ${{ secrets.C1_TEST_SAML_CERT }}
-        PROD_CERT: ${{ secrets.C1.PROD_SAML_CERT }}
+        PROD_CERT: ${{ secrets.C1_PROD_SAML_CERT }}
 
       run: |
         echo $DEV_CERT > dev-saml.pem
