@@ -1,21 +1,14 @@
 import React from 'react'
 import type { Meta } from '@storybook/react'
+
+import { testUser1 } from '../../__fixtures__/authUsers'
+
 import PersonalData from './PersonalData'
+
 import { AuthContext } from 'stores/authContext'
 
 const mockContext = {
-  user: {
-    nameID: 'HALL.MICHAEL.1234567890',
-    nameIDFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
-    attributes: {
-      edipi: '1234567890',
-      givenname: 'MICHAEL',
-      sans: 'msupn:1234567890@mil',
-      surname: 'HALL',
-      userprincipalname: 'HALL.MICHAEL.1234567890',
-      ivgroups: 'AF_USERS',
-    },
-  },
+  user: testUser1,
   setUser: () => {
     return
   },

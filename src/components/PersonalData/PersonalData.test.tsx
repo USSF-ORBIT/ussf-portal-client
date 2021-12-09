@@ -20,7 +20,7 @@ describe('Personal Data Placeholder', () => {
 
   it('renders the greeting with the name prop', () => {
     const greeting = screen.getByRole('heading', { level: 2 })
-    expect(greeting).toHaveTextContent('Welcome, MICHAEL HALL')
+    expect(greeting).toHaveTextContent('Welcome, Test User')
   })
 
   it('renders the list of key/value pairs', () => {

@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import axios, { AxiosResponse } from 'axios'
 
-import { SAMLUser } from 'types'
+import { SessionUser } from 'types'
 import { useAuthContext } from 'stores/authContext'
 
-export const useUser = (ssrUser?: SAMLUser) => {
+export const useUser = (ssrUser?: SessionUser) => {
   const authContext = useAuthContext()
 
   useEffect(() => {
@@ -15,9 +15,8 @@ export const useUser = (ssrUser?: SAMLUser) => {
       // Fetch user client-side if there is none
       const fetchUser = async () => {
         try {
-          const response: AxiosResponse<{ user: SAMLUser }> = await axios.get(
-            '/api/auth/user'
-          )
+          const response: AxiosResponse<{ user: SessionUser }> =
+            await axios.get('/api/auth/user')
 
           authContext.setUser(response.data.user)
         } catch (e) {

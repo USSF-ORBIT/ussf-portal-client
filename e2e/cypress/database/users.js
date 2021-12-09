@@ -54,8 +54,41 @@ const exampleCollection2 = {
     },
   ],
 }
-module.exports.testUser = {
-  commonName: 'HALL.MICHAEL.0123456789',
+
+const exampleCollection3 = {
+  title: 'Third Collection',
+  _id: new ObjectId(),
+  bookmarks: [
+    {
+      _id: new ObjectId(),
+      url: 'https://google.com',
+      label: 'Search Engine',
+      description: 'Lorem ipsum',
+    },
+    {
+      _id: new ObjectId(),
+      url: 'https://google.com',
+      label: 'Webmail',
+      description: 'Lorem ipsum',
+    },
+    {
+      _id: new ObjectId(),
+      url: 'https://mypay.dfas.mil/#/',
+      label: 'MyPay',
+      description: 'Lorem ipsum',
+      cmsId: 'cktd7hjz30636w5977vu4la4c',
+    },
+  ],
+}
+
+module.exports.testUser1 = {
+  userId: 'TEST.USER.1234567890@testusers.cce.af.mil',
   isBeta: true,
   mySpace: [exampleCollection1, exampleCollection2],
+}
+
+module.exports.testUser2 = {
+  userId: 'SECOND.TESTER.1234567890@testusers.cce.af.mil',
+  isBeta: true,
+  mySpace: [exampleCollection3],
 }
