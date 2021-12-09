@@ -16,6 +16,7 @@ export const RemovableBookmark = ({
   handleRemove: () => void
 }) => {
   const { url, label } = bookmark
+
   let timer: NodeJS.Timeout
 
   const [isHidden, setHidden] = useState<boolean>(false)

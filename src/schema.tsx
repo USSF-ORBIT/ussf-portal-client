@@ -5,6 +5,8 @@ export const typeDefs = gql`
     _id: ID!
     url: String!
     label: String
+    cmsId: ID
+    isRemoved: Boolean
   }
   type Collection {
     _id: ID!
@@ -18,9 +20,14 @@ export const typeDefs = gql`
     addCollection(title: String!, bookmarks: [BookmarkInput!]!): Collection
     editCollection(_id: ID!, title: String!): Collection
     removeCollection(_id: ID!): Collection
-    addBookmark(collectionId: ID!, url: String!, label: String): Bookmark
+    addBookmark(
+      collectionId: ID!
+      url: String!
+      label: String
+      cmsId: ID
+    ): Bookmark
     addCollections(collections: [CollectionRecord!]): [Collection]
-    removeBookmark(_id: ID!, collectionId: ID!): Bookmark
+    removeBookmark(_id: ID!, collectionId: ID!, cmsId: ID): Bookmark
   }
   input BookmarkInput {
     url: String!
