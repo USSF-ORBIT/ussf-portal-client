@@ -9,8 +9,13 @@ import axios from 'axios'
 
 import { renderWithAuth } from '../../../testHelpers'
 
+import { getCollectionsMock } from '../../../__fixtures__/operations/getCollection'
+import { cmsBookmarksMock } from '../../../__fixtures__/data/cmsBookmarks'
+import { cmsCollectionsMock } from '../../../__fixtures__/data/cmsCollections'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
-
+import { ADD_COLLECTION } from 'operations/mutations/addCollection'
+import { ADD_COLLECTIONS } from 'operations/mutations/addCollections'
+import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
 import SitesAndApplications, {
   getStaticProps,
 } from 'pages/beta/sites-and-applications'
@@ -23,22 +28,7 @@ mockedAxios.get.mockImplementationOnce(() => {
   return Promise.reject()
 })
 
-const mockAddCollections = jest.fn()
-const mockAddCollection = jest.fn()
-const mockAddBookmark = jest.fn()
 const mockPush = jest.fn()
-
-jest.mock('operations/mutations/addCollections', () => ({
-  useAddCollectionsMutation: () => [mockAddCollections],
-}))
-
-jest.mock('operations/mutations/addCollection', () => ({
-  useAddCollectionMutation: () => [mockAddCollection],
-}))
-
-jest.mock('operations/mutations/addBookmark', () => ({
-  useAddBookmarkMutation: () => [mockAddBookmark],
-}))
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -60,91 +50,95 @@ mockedUseRouter.mockReturnValue({
   push: mockPush,
 })
 
-const mockBookmarks = [
-  {
-    id: '1',
-    url: 'www.example.com',
-    label: 'Example 1',
-    cmsId: '1',
-  },
-  {
-    id: '2',
-    url: 'www.example2.com',
-    label: 'Example 2',
-    cmsId: '2',
-  },
-]
+let collectionAdded = false
+let bookmarkAdded = false
+let collectionsAdded = false
 
-const mockCollections = [
-  {
-    id: '1',
-    title: 'Example Collection 1',
-    bookmarks: [
-      {
-        id: '1',
-        url: 'www.example.com',
-        label: 'Example 1',
-      },
-    ],
-  },
-  {
-    id: '2',
-    title: 'Example Collection 2',
-    bookmarks: [
-      {
-        id: '1',
-        url: 'www.example.com',
-        label: 'Example 1',
-      },
-      {
-        id: '2',
-        url: 'www.example2.com',
-        label: 'Example 2',
-      },
-    ],
-  },
-]
-
-const mocks = [
+const sitesAndAppsMock = [
+  ...getCollectionsMock,
   {
     request: {
-      query: GET_COLLECTIONS,
-    },
-    result: {
-      data: {
-        collections: [
+      query: ADD_COLLECTION,
+      variables: {
+        title: '',
+        bookmarks: [
           {
-            _id: '34',
-            title: 'Example Collection',
-            bookmarks: [
-              {
-                _id: '3',
-                url: 'https://google.com',
-                label: 'Webmail',
-                description: 'Lorem ipsum',
-                cmsId: null,
-                isRemoved: null,
-              },
-              {
-                _id: '4',
-                url: 'https://mypay.dfas.mil/#/',
-                label: 'MyPay',
-                description: 'Lorem ipsum',
-                cmsId: '1',
-                isRemoved: null,
-              },
-              {
-                _id: '5',
-                url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-                label: 'vMPF',
-                description: 'Lorem ipsum',
-                cmsId: '2',
-                isRemoved: null,
-              },
-            ],
+            cmsId: cmsBookmarksMock[0].id,
+            url: cmsBookmarksMock[0].url,
+            label: cmsBookmarksMock[0].label,
           },
         ],
       },
+    },
+    result: () => {
+      collectionAdded = true
+
+      return {
+        data: {
+          addCollection: {
+            _id: '100',
+            title: '',
+            bookmarks: [
+              {
+                _id: '101',
+                cmsId: cmsBookmarksMock[0].id,
+                url: cmsBookmarksMock[0].url,
+                label: cmsBookmarksMock[0].label,
+              },
+            ],
+          },
+        },
+      }
+    },
+  },
+  {
+    request: {
+      query: ADD_COLLECTIONS,
+      variables: {
+        collections: cmsCollectionsMock,
+      },
+    },
+    result: () => {
+      collectionsAdded = true
+      return {
+        data: {
+          addCollections: cmsCollectionsMock.map((c) => ({
+            _id: '100' + c.id,
+            title: c.title,
+            bookmarks: c.bookmarks.map((b) => ({
+              _id: '101' + b.id,
+              cmsId: b.id,
+              url: b.url,
+              label: b.label,
+            })),
+          })),
+        },
+      }
+    },
+  },
+  {
+    request: {
+      query: ADD_BOOKMARK,
+      variables: {
+        collectionId: getCollectionsMock[0].result.data.collections[0]._id,
+        cmsId: cmsBookmarksMock[0].id,
+        url: cmsBookmarksMock[0].url,
+        label: cmsBookmarksMock[0].label,
+        id: cmsBookmarksMock[0].id,
+      },
+    },
+    result: () => {
+      bookmarkAdded = true
+      return {
+        data: {
+          addBookmark: {
+            _id: '101',
+            cmsId: cmsBookmarksMock[0].id,
+            url: cmsBookmarksMock[0].url,
+            label: cmsBookmarksMock[0].label,
+          },
+        },
+      }
     },
   },
 ]
@@ -172,10 +166,10 @@ describe('Sites and Applications page', () => {
       jest.useFakeTimers()
 
       renderWithAuth(
-        <MockedProvider mocks={mocks}>
+        <MockedProvider mocks={sitesAndAppsMock}>
           <SitesAndApplications
-            collections={mockCollections}
-            bookmarks={mockBookmarks}
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
           />
         </MockedProvider>,
         { user: null }
@@ -198,13 +192,17 @@ describe('Sites and Applications page', () => {
       beforeEach(() => {
         jest.useFakeTimers()
         renderWithAuth(
-          <MockedProvider mocks={mocks}>
+          <MockedProvider mocks={sitesAndAppsMock}>
             <SitesAndApplications
-              collections={mockCollections}
-              bookmarks={mockBookmarks}
+              collections={cmsCollectionsMock}
+              bookmarks={cmsBookmarksMock}
             />
           </MockedProvider>
         )
+      })
+
+      afterEach(() => {
+        jest.useRealTimers()
       })
 
       it('renders the loading state', () => {
@@ -219,10 +217,10 @@ describe('Sites and Applications page', () => {
 
       it('sorts by type by default', async () => {
         const collections = await screen.findAllByRole('heading', { level: 3 })
-        expect(collections).toHaveLength(mockCollections.length)
+        expect(collections).toHaveLength(cmsCollectionsMock.length)
         collections.forEach((c, i) => {
           // eslint-disable-next-line security/detect-object-injection
-          expect(collections[i]).toHaveTextContent(mockCollections[i].title)
+          expect(collections[i]).toHaveTextContent(cmsCollectionsMock[i].title)
         })
       })
 
@@ -239,12 +237,14 @@ describe('Sites and Applications page', () => {
         expect(sortAlphaBtn).toBeDisabled()
         expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(0)
         expect(screen.getByRole('table')).toBeInTheDocument()
-        expect(screen.getAllByRole('link')).toHaveLength(mockBookmarks.length)
+        expect(screen.getAllByRole('link')).toHaveLength(
+          cmsBookmarksMock.length
+        )
         expect(sortTypeBtn).not.toBeDisabled()
 
         userEvent.click(sortTypeBtn)
         expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(
-          mockCollections.length
+          cmsCollectionsMock.length
         )
         expect(screen.queryByRole('table')).not.toBeInTheDocument()
         expect(sortAlphaBtn).not.toBeDisabled()
@@ -315,7 +315,7 @@ describe('Sites and Applications page', () => {
           ).not.toBeInTheDocument()
         })
 
-        it('can select multiple collections and add them', () => {
+        it('can select multiple collections and add them', async () => {
           userEvent.click(
             screen.getByRole('button', {
               name: 'Select collections',
@@ -345,12 +345,10 @@ describe('Sites and Applications page', () => {
 
           userEvent.click(screen.getByRole('button', { name: 'Add selected' }))
 
-          expect(mockAddCollections).toHaveBeenCalledWith({
-            variables: {
-              collections: mockCollections,
-            },
-            refetchQueries: [`getCollections`],
+          await act(async () => {
+            jest.runAllTimers()
           })
+          expect(collectionsAdded).toBe(true)
         })
 
         it('selecting the same collection twice removes it from the selection', () => {
@@ -405,7 +403,7 @@ describe('Sites and Applications page', () => {
           )
         })
 
-        it('can add a bookmark to an existing collection', () => {
+        it('can add a bookmark to an existing collection', async () => {
           userEvent.click(
             screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
           )
@@ -413,45 +411,33 @@ describe('Sites and Applications page', () => {
             screen.getByRole('button', { name: 'Example Collection' })
           )
 
-          expect(mockAddBookmark).toHaveBeenCalledWith({
-            variables: {
-              collectionId: mocks[0].result.data.collections[0]._id,
-              ...mockBookmarks[0],
-            },
-            refetchQueries: [`getCollections`],
-          })
-
           const flashMessage = screen.getByRole('alert')
 
           expect(flashMessage).toHaveTextContent(
-            `You have successfully added “${mockBookmarks[0].label}” to the “${mocks[0].result.data.collections[0].title}” section.`
+            `You have successfully added “${cmsBookmarksMock[0].label}” to the “${getCollectionsMock[0].result.data.collections[0].title}” section.`
           )
 
-          act(() => {
+          await act(async () => {
             jest.runAllTimers()
           })
 
+          expect(bookmarkAdded).toBe(true)
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
 
-        it('can add a bookmark to a new collection', () => {
+        it('can add a bookmark to a new collection', async () => {
           userEvent.click(
             screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
           )
+
           userEvent.click(
             screen.getByRole('button', { name: 'Add to new collection' })
           )
 
-          expect(mockAddCollection).toHaveBeenCalledWith({
-            variables: {
-              title: '',
-              bookmarks: [
-                { url: mockBookmarks[0].url, label: mockBookmarks[0].label },
-              ],
-            },
-            refetchQueries: [`getCollections`],
+          await act(async () => {
+            jest.runAllTimers()
           })
-
+          expect(collectionAdded).toBe(true)
           expect(mockPush).toHaveBeenCalledWith('/')
         })
       })
@@ -466,10 +452,10 @@ describe('Sites and Applications page', () => {
       })
 
       renderWithAuth(
-        <MockedProvider mocks={mocks}>
+        <MockedProvider mocks={sitesAndAppsMock}>
           <SitesAndApplications
-            collections={mockCollections}
-            bookmarks={mockBookmarks}
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
           />
         </MockedProvider>
       )
@@ -503,8 +489,8 @@ describe('Sites and Applications page', () => {
       renderWithAuth(
         <MockedProvider mocks={errorMock} addTypename={false}>
           <SitesAndApplications
-            collections={mockCollections}
-            bookmarks={mockBookmarks}
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
           />
         </MockedProvider>
       )

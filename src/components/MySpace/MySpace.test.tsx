@@ -7,106 +7,29 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
-
 import { renderWithModalRoot } from '../../testHelpers'
+import { getCollectionsMock } from '../../__fixtures__/operations/getCollection'
+import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import MySpace from './MySpace'
-
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
+import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
+import { REMOVE_COLLECTION } from 'operations/mutations/removeCollection'
+import { ADD_COLLECTION } from 'operations/mutations/addCollection'
+import { EDIT_COLLECTION } from 'operations/mutations/editCollection'
+
 const mockRouterPush = jest.fn()
-const mockAddBookmark = jest.fn()
-const mockEditCollection = jest.fn()
-const mockRemoveCollection = jest.fn()
-const mockAddCollection = jest.fn()
+// const mockAddBookmark = jest.fn()
+// const mockRemoveBookmark = jest.fn()
+// const mockEditCollection = jest.fn()
+// const mockRemoveCollection = jest.fn()
+// const mockAddCollection = jest.fn()
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
     push: mockRouterPush,
   }),
 }))
-
-jest.mock('operations/mutations/addBookmark', () => ({
-  useAddBookmarkMutation: () => [mockAddBookmark],
-}))
-
-jest.mock('operations/mutations/editCollection', () => ({
-  useEditCollectionMutation: () => [mockEditCollection],
-}))
-
-jest.mock('operations/mutations/removeCollection', () => ({
-  useRemoveCollectionMutation: () => [mockRemoveCollection],
-}))
-
-jest.mock('operations/mutations/addCollection', () => ({
-  useAddCollectionMutation: () => [mockAddCollection],
-}))
-
-// Collection Records represent CMS data
-const collectionRecords = [
-  {
-    id: '12',
-    title: 'Example Collection',
-    bookmarks: [
-      {
-        id: '1',
-        url: 'https://mypay.dfas.mil/#/',
-        label: 'MyPay',
-        description: 'Lorem ipsum',
-      },
-      {
-        id: '2',
-        url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-        label: 'vMPF',
-        description: 'Lorem ipsum',
-      },
-    ],
-  },
-]
-
-// Represents the data in documentdb
-const mocks = [
-  {
-    request: {
-      query: GET_COLLECTIONS,
-    },
-    result: {
-      data: {
-        collections: [
-          {
-            _id: '34',
-            title: 'Example Collection',
-            bookmarks: [
-              {
-                _id: '3',
-                url: 'https://google.com',
-                label: 'Webmail',
-                description: 'Lorem ipsum',
-                cmsId: null,
-                isRemoved: null,
-              },
-              {
-                _id: '4',
-                url: 'https://mypay.dfas.mil/#/',
-                label: 'MyPay',
-                description: 'Lorem ipsum',
-                cmsId: '1',
-                isRemoved: null,
-              },
-              {
-                _id: '5',
-                url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-                label: 'vMPF',
-                description: 'Lorem ipsum',
-                cmsId: '2',
-                isRemoved: null,
-              },
-            ],
-          },
-        ],
-      },
-    },
-  },
-]
 
 describe('My Space Component', () => {
   let scrollSpy: jest.Mock
@@ -128,8 +51,8 @@ describe('My Space Component', () => {
     let html: RenderResult
     beforeEach(() => {
       html = render(
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <MySpace bookmarks={collectionRecords[0].bookmarks} />
+        <MockedProvider mocks={getCollectionsMock} addTypename={false}>
+          <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
         </MockedProvider>
       )
     })
@@ -146,7 +69,7 @@ describe('My Space Component', () => {
       })
 
       expect(collection).toHaveTextContent(
-        mocks[0].result.data.collections[0].title
+        getCollectionsMock[0].result.data.collections[0].title
       )
 
       expect(await screen.findByRole('list')).toBeInTheDocument()
@@ -181,7 +104,7 @@ describe('My Space Component', () => {
 
     render(
       <MockedProvider mocks={errorMock} addTypename={false}>
-        <MySpace bookmarks={collectionRecords[0].bookmarks} />
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -190,8 +113,8 @@ describe('My Space Component', () => {
 
   it('navigates to Sites & Applications when adding new existing collections', async () => {
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace bookmarks={collectionRecords[0].bookmarks} />
+      <MockedProvider mocks={getCollectionsMock} addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -212,13 +135,14 @@ describe('My Space Component', () => {
     let bookmarkRemoved = false
 
     const mocksWithRemove = [
-      ...mocks,
+      ...getCollectionsMock,
       {
         request: {
           query: REMOVE_BOOKMARK,
           variables: {
-            _id: '3',
-            collectionId: '34',
+            _id: getCollectionsMock[0].result.data.collections[0].bookmarks[0]
+              ._id,
+            collectionId: getCollectionsMock[0].result.data.collections[0]._id,
             cmsId: null,
           },
           refetchQueries: [`getCollections`],
@@ -228,7 +152,7 @@ describe('My Space Component', () => {
           return {
             data: {
               removeBookmark: {
-                _id: '3',
+                _id: getCollectionsMock[0].result.data.collections[0]._id,
               },
             },
           }
@@ -240,7 +164,7 @@ describe('My Space Component', () => {
 
     render(
       <MockedProvider mocks={mocksWithRemove} addTypename={false}>
-        <MySpace bookmarks={collectionRecords[0].bookmarks} />
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -258,9 +182,36 @@ describe('My Space Component', () => {
   })
 
   it('handles the add bookmark operation', async () => {
+    let bookmarkAdded = false
+    const addBookmarkMock = [
+      ...getCollectionsMock,
+      {
+        request: {
+          query: ADD_BOOKMARK,
+          variables: {
+            collectionId: getCollectionsMock[0].result.data.collections[0]._id,
+            url: 'http://www.example.com',
+            label: 'My Custom Link',
+          },
+        },
+        result: () => {
+          bookmarkAdded = true
+          return {
+            data: {
+              addBookmark: {
+                _id: '100',
+                cmsId: null,
+                url: 'http://www.example.com',
+                label: 'My Custom Link',
+              },
+            },
+          }
+        },
+      },
+    ]
     renderWithModalRoot(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace bookmarks={collectionRecords[0].bookmarks} />
+      <MockedProvider mocks={addBookmarkMock} addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -275,22 +226,45 @@ describe('My Space Component', () => {
     )
     userEvent.click(screen.getByRole('button', { name: 'Add site' }))
     userEvent.type(screen.getByLabelText('Label'), 'My Custom Link')
+
     userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
 
-    expect(mockAddBookmark).toHaveBeenCalledWith({
-      variables: {
-        collectionId: mocks[0].result.data.collections[0]._id,
-        url: 'http://www.example.com',
-        label: 'My Custom Link',
-      },
-      refetchQueries: [`getCollections`],
-    })
+    await act(
+      async () => await new Promise((resolve) => setTimeout(resolve, 0))
+    ) // wait for response
+    expect(bookmarkAdded).toBe(true)
   })
 
   it('handles the edit collection title operation', async () => {
+    let collectionEdited = false
+    const editCollectionMock = [
+      ...getCollectionsMock,
+      {
+        request: {
+          query: EDIT_COLLECTION,
+          variables: {
+            _id: getCollectionsMock[0].result.data.collections[0]._id,
+            title: 'Updated Title',
+          },
+        },
+        result: () => {
+          collectionEdited = true
+          return {
+            data: {
+              editCollection: {
+                _id: getCollectionsMock[0].result.data.collections[0]._id,
+                title: 'Updated Title',
+                bookmarks:
+                  getCollectionsMock[0].result.data.collections[0].bookmarks,
+              },
+            },
+          }
+        },
+      },
+    ]
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace bookmarks={collectionRecords[0].bookmarks} />
+      <MockedProvider mocks={editCollectionMock} addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -302,18 +276,39 @@ describe('My Space Component', () => {
     userEvent.clear(input)
     userEvent.type(input, 'Updated Title{enter}')
 
-    expect(mockEditCollection).toHaveBeenCalledWith({
-      variables: {
-        _id: mocks[0].result.data.collections[0]._id,
-        title: 'Updated Title',
-      },
-    })
+    await act(
+      async () => await new Promise((resolve) => setTimeout(resolve, 0))
+    ) // wait for response
+    expect(collectionEdited).toBe(true)
   })
 
   it('handles the remove collection operation', async () => {
+    let collectionRemoved = false
+
+    const removeCollectionMock = [
+      ...getCollectionsMock,
+      {
+        request: {
+          query: REMOVE_COLLECTION,
+          variables: {
+            _id: getCollectionsMock[0].result.data.collections[0]._id,
+          },
+        },
+        result: () => {
+          collectionRemoved = true
+          return {
+            data: {
+              removeCollection: {
+                _id: getCollectionsMock[0].result.data.collections[0]._id,
+              },
+            },
+          }
+        },
+      },
+    ]
     renderWithModalRoot(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace bookmarks={collectionRecords[0].bookmarks} />
+      <MockedProvider mocks={removeCollectionMock} addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -324,18 +319,42 @@ describe('My Space Component', () => {
     userEvent.click(screen.getByRole('button', { name: 'Delete Collection' }))
     userEvent.click(screen.getByRole('button', { name: 'Delete' }))
 
-    expect(mockRemoveCollection).toHaveBeenCalledWith({
-      variables: {
-        _id: mocks[0].result.data.collections[0]._id,
-      },
-      refetchQueries: [`getCollections`],
-    })
+    await act(
+      async () => await new Promise((resolve) => setTimeout(resolve, 0))
+    ) // wait for response
+
+    expect(collectionRemoved).toBe(true)
   })
 
   it('handles the add collection operation', async () => {
+    let collectionAdded = false
+    const addCollectionMock = [
+      ...getCollectionsMock,
+      {
+        request: {
+          query: ADD_COLLECTION,
+          variables: {
+            title: '',
+            bookmarks: [],
+          },
+        },
+        result: () => {
+          collectionAdded = true
+          return {
+            data: {
+              addCollection: {
+                _id: '100',
+                title: '',
+                bookmarks: [],
+              },
+            },
+          }
+        },
+      },
+    ]
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <MySpace bookmarks={collectionRecords[0].bookmarks} />
+      <MockedProvider mocks={addCollectionMock} addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
@@ -343,12 +362,11 @@ describe('My Space Component', () => {
     userEvent.click(
       screen.getByRole('button', { name: 'Create new collection' })
     )
-    expect(mockAddCollection).toHaveBeenCalledWith({
-      variables: {
-        title: '',
-        bookmarks: [],
-      },
-      refetchQueries: [`getCollections`],
-    })
+
+    await act(
+      async () => await new Promise((resolve) => setTimeout(resolve, 0))
+    ) // wait for response
+
+    expect(collectionAdded).toBe(true)
   })
 })
