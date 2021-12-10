@@ -11,8 +11,6 @@ COPY . .
 
 RUN yarn install --frozen-lockfile
 
-ARG NEXT_PUBLIC_SITE_URL
-ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
 ENV NEXT_TELEMETRY_DISABLED 1
 RUN yarn build
 
@@ -51,7 +49,9 @@ WORKDIR /app
 COPY scripts/add-rds-cas.sh .
 COPY scripts/add-dod-cas.sh .
 COPY scripts/create-gcds-chain.sh .
-COPY saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
+COPY dev-saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
+COPY test-saml.pem /usr/local/share/ca-certificates/federation.test.cce.af.mil.crt
+COPY prod-saml.pem /usr/local/share/ca-certificates/federation.prod.cce.af.mil.crt
 COPY ./rds-combined-ca-bundle.pem ./rds-combined-ca-bundle.pem
 
 RUN apt-get update \
