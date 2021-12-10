@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
+import App from 'next/app'
 import Head from 'next/head'
-import type { AppProps } from 'next/app'
+import type { AppProps, AppContext } from 'next/app'
 import { useRouter } from 'next/router'
 import type { ReactNode } from 'react'
 import { config } from '@fortawesome/fontawesome-svg-core'
@@ -16,6 +17,7 @@ import { client } from 'apolloClient'
 import { AuthProvider } from 'stores/authContext'
 import { BetaContextProvider } from 'stores/betaContext'
 import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
+import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
 
 config.autoAddCss = false
 
@@ -27,8 +29,16 @@ type Props = AppProps & {
   Component: Page
 }
 
-const USSFPortalApp = ({ Component, pageProps }: Props) => {
-  const canonicalUrl = process.env.NEXT_PUBLIC_SITE_URL || ''
+const USSFPortalApp = ({
+  Component,
+  pageProps,
+  hostname,
+}: Props & {
+  hostname: {
+    origin: string
+  }
+}) => {
+  const canonicalUrl = hostname.origin
   const { asPath } = useRouter()
 
   const getLayout =
@@ -157,6 +167,13 @@ const USSFPortalApp = ({ Component, pageProps }: Props) => {
       </AuthProvider>
     </ApolloProvider>
   )
+}
+
+USSFPortalApp.getInitialProps = async (appContext: AppContext) => {
+  const appProps = await App.getInitialProps(appContext)
+  const hostname = getAbsoluteUrl(appContext.ctx.req)
+
+  return { ...appProps, hostname }
 }
 
 export default USSFPortalApp
