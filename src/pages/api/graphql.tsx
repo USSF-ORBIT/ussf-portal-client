@@ -25,14 +25,15 @@ export const apolloServer = new ApolloServer({
   resolvers,
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
   context: async ({ req, res }) => {
+    const session = await getSession(req, res)
+
+    if (!session || !session.passport || !session.passport.user) {
+      throw new AuthenticationError('No user in session')
+    }
+
     try {
-      const session = await getSession(req, res)
       const client = await clientPromise
       const db = client.db(process.env.MONGODB_DB)
-
-      if (!session || !session.passport || !session.passport.user) {
-        throw new AuthenticationError('No user in session')
-      }
 
       const user = session.passport.user as SessionUser
       const { userId } = user

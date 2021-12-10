@@ -13,8 +13,7 @@ export const getSession = nextSession({
   cookie: {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    // TODO: set cookie max age
-    maxAge: 2 * 7 * 24 * 60 * 60, // 2 weeks
+    maxAge: 60 * 60 * 4, // 4 hours
     sameSite: 'strict',
   },
 })
