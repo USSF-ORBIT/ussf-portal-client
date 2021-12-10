@@ -8,7 +8,8 @@ import axios from 'axios'
 
 import { renderWithAuth } from '../../../testHelpers'
 
-import { GET_COLLECTIONS } from 'operations/queries/getCollections'
+import { getCollectionsMock } from '../../../__fixtures__/operations/getCollection'
+import { cmsBookmarksMock } from '../../../__fixtures__/data/cmsBookmarks'
 import Home from 'pages/beta/index'
 
 jest.mock('axios')
@@ -18,63 +19,6 @@ const mockedAxios = axios as jest.Mocked<typeof axios>
 mockedAxios.get.mockImplementationOnce(() => {
   return Promise.reject()
 })
-
-const mocks = [
-  {
-    request: {
-      query: GET_COLLECTIONS,
-    },
-    result: {
-      data: {
-        collections: [
-          {
-            _id: '34',
-            title: 'Example Collection',
-            bookmarks: [
-              {
-                _id: '3',
-                url: 'https://google.com',
-                label: 'Webmail',
-                description: 'Lorem ipsum',
-                cmsId: null,
-                isRemoved: null,
-              },
-              {
-                _id: '4',
-                url: 'https://mypay.dfas.mil/#/',
-                label: 'MyPay',
-                description: 'Lorem ipsum',
-                cmsId: '1',
-                isRemoved: null,
-              },
-              {
-                _id: '5',
-                url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-                label: 'vMPF',
-                description: 'Lorem ipsum',
-                cmsId: '2',
-                isRemoved: null,
-              },
-            ],
-          },
-        ],
-      },
-    },
-  },
-]
-
-const mockBookmarks = [
-  {
-    id: '1',
-    url: 'www.example.com',
-    label: 'Example 1',
-  },
-  {
-    id: '2',
-    url: 'www.example2.com',
-    label: 'Example 2',
-  },
-]
 
 describe('Beta Home page', () => {
   describe('without a user', () => {
@@ -96,7 +40,7 @@ describe('Beta Home page', () => {
     })
 
     beforeEach(() => {
-      renderWithAuth(<Home bookmarks={mockBookmarks} />, { user: null })
+      renderWithAuth(<Home bookmarks={cmsBookmarksMock} />, { user: null })
     })
 
     it('renders the loader while fetching the user', () => {
@@ -113,8 +57,8 @@ describe('Beta Home page', () => {
   describe('when logged in', () => {
     beforeEach(() => {
       renderWithAuth(
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <Home bookmarks={mockBookmarks} />
+        <MockedProvider mocks={getCollectionsMock} addTypename={false}>
+          <Home bookmarks={cmsBookmarksMock} />
         </MockedProvider>
       )
     })
