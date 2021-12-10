@@ -130,12 +130,13 @@ const SitesAndApplications = ({
       const bookmarkInput: NewBookmarkInput = {
         url: bookmark.url,
         label: bookmark.label,
+        cmsId: bookmark.id,
       }
+
       handleAddCollection({
         variables: { title: '', bookmarks: [bookmarkInput] },
         refetchQueries: [`getCollections`],
       })
-
       router.push('/')
     }
   }

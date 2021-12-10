@@ -32,6 +32,7 @@ export const typeDefs = gql`
   input BookmarkInput {
     url: String!
     label: String
+    cmsId: ID
   }
 
   input CollectionRecord {

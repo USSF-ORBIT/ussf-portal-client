@@ -46,6 +46,7 @@ export type Bookmark = {
 export type NewBookmarkInput = {
   url: string
   label?: string
+  cmsId?: string
 }
 
 // When creating a new Bookmark, the _id must be type ObjectId
@@ -95,7 +96,6 @@ export interface SAMLUser {
 export type PortalUser = {
   userId: string
   mySpace: Collection[]
-  isBeta: boolean
 }
 
 export type SessionUser = SAMLUser & {

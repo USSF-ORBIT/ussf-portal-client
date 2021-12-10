@@ -83,12 +83,10 @@ const exampleCollection3 = {
 
 module.exports.testUser1 = {
   userId: 'TEST.USER.1234567890@testusers.cce.af.mil',
-  isBeta: true,
   mySpace: [exampleCollection1, exampleCollection2],
 }
 
 module.exports.testUser2 = {
   userId: 'SECOND.TESTER.1234567890@testusers.cce.af.mil',
-  isBeta: true,
   mySpace: [exampleCollection3],
 }

@@ -21,6 +21,7 @@ export const ADD_COLLECTION = gql`
         _id
         url
         label
+        cmsId
       }
     }
   }

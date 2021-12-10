@@ -43,7 +43,6 @@ export const apolloServer = new ApolloServer({
       if (foundUser.length === 0) {
         const newUser: PortalUser = {
           userId,
-          isBeta: true,
           mySpace: [],
         }
 
