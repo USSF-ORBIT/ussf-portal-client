@@ -6,36 +6,36 @@ import type { PortalUser } from 'types/index'
 /** THIS IS BAD :( but easiest way for now while we use embedded Keystone */
 // TODO - change to use Keystone API on backend when we move to hosted Keystone
 export const EXAMPLE_COLLECTION = {
-  _id: ObjectId('61b2232e3c864c6dee60f8f5'),
+  _id: new ObjectId(),
   cmsId: 'ckwz3u58s1835ql974leo1yll',
   title: 'Example Collection',
   bookmarks: [
     {
-      _id: ObjectId('61b2232e3c864c6dee60f8f6'),
+      _id: new ObjectId(),
       cmsId: 'cktd7c0d30190w597qoftevq1',
       url: 'https://afpcsecure.us.af.mil/',
       label: 'vMPF',
     },
     {
-      _id: ObjectId('61b2232e3c864c6dee60f8f7'),
+      _id: new ObjectId(),
       cmsId: 'cktd7ettn0457w597p7ja4uye',
       url: 'https://leave.af.mil/profile',
       label: 'LeaveWeb',
     },
     {
-      _id: ObjectId('61b2232e3c864c6dee60f8f8'),
+      _id: new ObjectId(),
       cmsId: 'cktd7hjz30636w5977vu4la4c',
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
     },
     {
-      _id: ObjectId('61b2232e3c864c6dee60f8f9'),
+      _id: new ObjectId(),
       cmsId: 'ckwz3tphw1763ql97pia1zkvc',
       url: 'https://webmail.apps.mil/',
       label: 'Webmail',
     },
     {
-      _id: ObjectId('61b2232e3c864c6dee60f8fa'),
+      _id: new ObjectId(),
       cmsId: 'ckwz3u4461813ql970wkd254m',
       url: 'https://www.e-publishing.af.mil/',
       label: 'e-Publications',
@@ -51,7 +51,6 @@ const UserModel = {
   async createOne(userId: string, { db }: Context) {
     const newUser: PortalUser = {
       userId,
-      isBeta: true,
       mySpace: [EXAMPLE_COLLECTION],
     }
 

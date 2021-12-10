@@ -25,7 +25,6 @@ describe('User model', () => {
     const expectedUser = {
       _id: expect.anything(),
       userId: testUserId,
-      isBeta: true,
       mySpace: [EXAMPLE_COLLECTION],
     }
 
