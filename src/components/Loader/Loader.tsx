@@ -6,7 +6,7 @@ const Loader = () => (
   <div className={styles.loader}>
     {/* <img className="maxw-10" src="/img/ussf-logo-vert.svg" alt="Space Force" /> */}
 
-    <p className="sr-only">Content is loading...</p>
+    <p className="usa-sr-only">Content is loading...</p>
 
     <div className={styles.container}>
       <div className={styles.planet}>
