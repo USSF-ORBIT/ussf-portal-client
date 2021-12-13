@@ -60,7 +60,7 @@ describe('My Space Component', () => {
     it('renders without error ', async () => {
       // Because MockedProvider is async/promise-based,
       // the test always completes when in the loading state
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
+      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
     it('should render the collection', async () => {

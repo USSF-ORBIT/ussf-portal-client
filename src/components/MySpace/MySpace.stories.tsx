@@ -61,3 +61,21 @@ ExampleMySpace.parameters = {
     ],
   },
 }
+
+export const Loading = () => <MySpace bookmarks={[]} />
+
+Loading.parameters = {
+  apolloClient: {
+    mocks: [
+      {
+        delay: 100000000000000,
+        request: {
+          query: GET_COLLECTIONS,
+        },
+        result: {
+          data: {},
+        },
+      },
+    ],
+  },
+}

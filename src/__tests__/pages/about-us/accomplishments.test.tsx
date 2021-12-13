@@ -3,6 +3,7 @@
  */
 import { screen, waitFor } from '@testing-library/react'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 
 import { renderWithAuth } from '../../../testHelpers'
 
@@ -16,36 +17,36 @@ mockedAxios.get.mockImplementationOnce(() => {
   return Promise.reject()
 })
 
+const mockReplace = jest.fn()
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}))
+
+const mockedUseRouter = useRouter as jest.Mock
+
+mockedUseRouter.mockReturnValue({
+  route: '',
+  pathname: '',
+  query: '',
+  asPath: '',
+  push: jest.fn(),
+  replace: mockReplace,
+})
+
 describe('Accomplishments page', () => {
   describe('without a user', () => {
-    const { location } = window
-
-    beforeAll((): void => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      delete window.location
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      window.location = {
-        href: '',
-      }
-    })
-
-    afterAll((): void => {
-      window.location = location
-    })
-
     beforeEach(() => {
       renderWithAuth(<Accomplishments />, { user: null })
     })
 
     it('renders the loader while fetching the user', () => {
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
+      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
     it('redirects to the login page if not logged in', async () => {
       await waitFor(() => {
-        expect(window.location.href).toEqual('/login')
+        expect(mockReplace).toHaveBeenCalledWith('/login')
       })
     })
   })

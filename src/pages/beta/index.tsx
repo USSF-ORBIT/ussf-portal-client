@@ -4,7 +4,7 @@ import { query } from '.keystone/api'
 
 import type { BookmarkRecords } from 'types/index'
 import MySpace from 'components/MySpace/MySpace'
-import Loader from 'components/Loader'
+import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 
