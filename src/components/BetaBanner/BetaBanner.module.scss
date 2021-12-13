@@ -1,0 +1,9 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.betaBanner {
+  color: $theme-white;
+  background-color: $theme-mars-base;
+  padding: units(1) units(2);
+  text-align: center;
+}

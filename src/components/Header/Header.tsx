@@ -25,7 +25,7 @@ const Header = () => {
       key="nav_microsite"
       target="_blank"
       rel="noreferrer noopener">
-      <span>TODO MICROSITE TODO</span>
+      <span>About this portal</span>
     </LinkTo>,
     <Button
       secondary
