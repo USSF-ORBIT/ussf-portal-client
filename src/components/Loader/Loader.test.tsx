@@ -10,6 +10,6 @@ import Loader from './Loader'
 describe('Loader component', () => {
   it('renders loading text', () => {
     render(<Loader />)
-    expect(screen.getByText('Loading...')).toBeInTheDocument()
+    expect(screen.getByText('Content is loading...')).toBeInTheDocument()
   })
 })

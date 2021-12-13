@@ -5,6 +5,7 @@ import React from 'react'
 import { waitFor } from '@testing-library/react'
 import { renderHook } from '@testing-library/react-hooks'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 
 import { testUser1 } from '../__fixtures__/authUsers'
 
@@ -22,24 +23,24 @@ mockedAxios.post.mockImplementation(() => {
 
 const mockUserData = testUser1
 
+const mockReplace = jest.fn()
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}))
+
+const mockedUseRouter = useRouter as jest.Mock
+
+mockedUseRouter.mockReturnValue({
+  route: '',
+  pathname: '',
+  query: '',
+  asPath: '',
+  push: jest.fn(),
+  replace: mockReplace,
+})
+
 describe('useUser hook', () => {
-  const { location } = window
-
-  beforeAll((): void => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    delete window.location
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    window.location = {
-      href: '',
-    }
-  })
-
-  afterAll((): void => {
-    window.location = location
-  })
-
   it('sets the user in context if one is provided', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <AuthProvider>{children}</AuthProvider>
@@ -81,7 +82,7 @@ describe('useUser hook', () => {
     await waitFor(() => {
       expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
       expect(result.current.user).toEqual(null)
-      expect(window.location.href).toEqual('/login')
+      expect(mockReplace).toHaveBeenCalledWith('/login')
     })
   })
 })

@@ -29,6 +29,7 @@ mockedAxios.get.mockImplementationOnce(() => {
 })
 
 const mockPush = jest.fn()
+const mockReplace = jest.fn()
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -37,6 +38,7 @@ jest.mock('next/router', () => ({
     query: '',
     asPath: '',
     push: jest.fn(),
+    replace: jest.fn(),
   }),
 }))
 
@@ -48,6 +50,7 @@ mockedUseRouter.mockReturnValue({
   query: '',
   asPath: '',
   push: mockPush,
+  replace: mockReplace,
 })
 
 let collectionAdded = false
@@ -145,23 +148,6 @@ const sitesAndAppsMock = [
 
 describe('Sites and Applications page', () => {
   describe('without a user', () => {
-    const { location } = window
-
-    beforeAll((): void => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      delete window.location
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      window.location = {
-        href: '',
-      }
-    })
-
-    afterAll((): void => {
-      window.location = location
-    })
-
     beforeEach(() => {
       jest.useFakeTimers()
 
@@ -177,12 +163,12 @@ describe('Sites and Applications page', () => {
     })
 
     it('renders the loader while fetching the user', () => {
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
+      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
     it('redirects to the login page if not logged in', async () => {
       await waitFor(() => {
-        expect(window.location.href).toEqual('/login')
+        expect(mockReplace).toHaveBeenCalledWith('/login')
       })
     })
   })

@@ -2,7 +2,7 @@ import { GridContainer, Grid } from '@trussworks/react-uswds'
 
 import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import LinkTo from 'components/util/LinkTo/LinkTo'
-import Loader from 'components/Loader'
+import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 
 const TrainingAndEducation = () => {

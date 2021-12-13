@@ -8,7 +8,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRocket } from '@fortawesome/free-solid-svg-icons'
 
-import Loader from 'components/Loader'
+import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 
 const Accomplishments = () => {
