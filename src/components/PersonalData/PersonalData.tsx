@@ -10,7 +10,7 @@ const PersonalData = () => {
 
   const greeting = user
     ? `Welcome, ${user.attributes.givenname} ${user.attributes.surname}`
-    : 'Welcome'
+    : 'Welcome!'
 
   return (
     <div className={styles.personalData}>
