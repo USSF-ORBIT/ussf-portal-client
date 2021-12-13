@@ -192,12 +192,22 @@ describe('Sites and Applications page', () => {
       })
 
       it('renders the loading state', () => {
-        expect(screen.getByText('Loading...')).toBeInTheDocument()
+        expect(screen.getByText('Content is loading...')).toBeInTheDocument()
       })
 
       it('renders Sites & Applications content', async () => {
         expect(
           await screen.findByRole('heading', { name: 'Sites & Applications' })
+        ).toBeInTheDocument()
+        expect(
+          await screen.findByRole('button', {
+            name: 'Sort by type',
+          })
+        ).toBeInTheDocument()
+        expect(
+          await screen.findByRole('button', {
+            name: 'Sort alphabetically',
+          })
         ).toBeInTheDocument()
       })
 
@@ -435,6 +445,8 @@ describe('Sites and Applications page', () => {
         pathname: '/',
         query: { selectMode: 'true' },
         asPath: '/',
+        push: mockPush,
+        replace: mockReplace,
       })
 
       renderWithAuth(
