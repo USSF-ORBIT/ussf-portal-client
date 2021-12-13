@@ -64,6 +64,5 @@ export const exampleCollection2 = {
 
 export const newPortalUser = {
   userId: 'HALL.MICHAEL.0123456789',
-  isBeta: true,
   mySpace: [exampleCollection1, exampleCollection2],
 }
