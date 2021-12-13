@@ -253,6 +253,11 @@ SitesAndApplications.getLayout = withBetaLayout
 export async function getStaticProps() {
   const collections: CollectionRecords = (await query.Collection.findMany({
     query: 'id title bookmarks { id url label }',
+    where: {
+      showInSitesApps: {
+        equals: true,
+      },
+    },
   })) as CollectionRecords
 
   const bookmarks: BookmarkRecords = (await query.Bookmark.findMany({

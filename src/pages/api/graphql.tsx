@@ -13,8 +13,9 @@ import { typeDefs } from '../../schema'
 import resolvers from '../../resolvers/index'
 import clientPromise from '../../utils/mongodb'
 
-import type { SessionUser, PortalUser } from 'types/index'
+import type { SessionUser } from 'types/index'
 import { getSession } from 'lib/session'
+import User from 'models/User'
 
 export const config: PageConfig = {
   api: { bodyParser: false },
@@ -32,30 +33,27 @@ export const apolloServer = new ApolloServer({
     }
 
     try {
+      const session = await getSession(req, res)
       const client = await clientPromise
       const db = client.db(process.env.MONGODB_DB)
 
-      const user = session.passport.user as SessionUser
-      const { userId } = user
+      const loggedInUser = session.passport.user as SessionUser
+      const { userId } = loggedInUser
 
       // Check if user exists. If not, create new user
-      const foundUser = await db.collection('users').find({ userId }).toArray()
-
-      if (foundUser.length === 0) {
-        const newUser: PortalUser = {
-          userId,
-          mySpace: [],
-        }
-
+      const foundUser = await User.findOne(userId, { db })
+      if (!foundUser) {
         try {
-          await db.collection('users').insertOne(newUser)
+          await User.createOne(userId, { db })
         } catch (e) {
           // TODO log error
           // console.error('error in creating new user', e)
           throw new ApolloError('Error creating new user')
         }
       }
-      return { db, user }
+
+      // Set db connection and user in context
+      return { db, user: loggedInUser }
     } catch (e) {
       // TODO log error
       // console.error('error in creating context', e)

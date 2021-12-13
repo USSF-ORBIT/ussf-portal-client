@@ -48,7 +48,7 @@ describe('Sites and Applications', () => {
     cy.contains('Sort by type').should('be.enabled')
     cy.contains('Sort alphabetically').should('be.disabled')
     cy.contains('Application name')
-    cy.findAllByRole('row').should('have.length', 305)
+    cy.findAllByRole('row').should('have.length', 307)
 
     cy.contains('Sort by type').click()
     cy.contains('Career')
