@@ -17,7 +17,7 @@ describe('Personal Data Placeholder', () => {
   it('renders the greeting without a name', () => {
     html = render(<PersonalData />)
     const greeting = screen.getByRole('heading', { level: 2 })
-    expect(greeting).toHaveTextContent('Welcome')
+    expect(greeting).toHaveTextContent('Welcome!')
   })
 
   describe('when logged in', () => {
