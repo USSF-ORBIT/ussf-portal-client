@@ -10,7 +10,6 @@ import {
 import styles from './Header.module.scss'
 
 import Logo from 'components/Logo/Logo'
-import NavLink from 'components/util/NavLink/NavLink'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { useAuthContext } from 'stores/authContext'
 
@@ -21,15 +20,13 @@ const Header = () => {
     setExpanded((prevExpanded) => !prevExpanded)
 
   const navItems = [
-    <NavLink href="#" key="nav_about">
-      <span>About Space Force</span>
-    </NavLink>,
-    <NavLink href="#" key="nav_news">
-      <span>News, Announcements &amp; Events</span>
-    </NavLink>,
-    <NavLink href="#" key="nav_support">
-      <span>Help &amp; Support</span>
-    </NavLink>,
+    <LinkTo
+      href="https://ussf-orbit.github.io/ussf-portal/"
+      key="nav_microsite"
+      target="_blank"
+      rel="noreferrer noopener">
+      <span>About this portal</span>
+    </LinkTo>,
     <Button
       secondary
       className={styles.logoutButton}
