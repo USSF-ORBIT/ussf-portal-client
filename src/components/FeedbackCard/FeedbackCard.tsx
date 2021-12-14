@@ -9,8 +9,15 @@ const FeedbackCard = () => (
   <div className={styles.FeedbackCard}>
     <h3>Got feedback?</h3>
     <p>
-      We’d love to hear it! Contact us through this form or schedule an
-      interview.
+      We’d love to hear it! Contact us at{' '}
+      <a
+        href={`mailto:${FEEDBACK_EMAIL}?subject=${FEEDBACK_SUBJECT}`}
+        target="_blank"
+        rel="noreferrer noopener"
+        className="usa-link">
+        {FEEDBACK_EMAIL}
+      </a>{' '}
+      to send us your thoughts or schedule an interview.
     </p>
     <a
       href={`mailto:${FEEDBACK_EMAIL}?subject=${FEEDBACK_SUBJECT}`}
