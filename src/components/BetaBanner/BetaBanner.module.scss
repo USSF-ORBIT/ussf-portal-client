@@ -6,4 +6,8 @@
   background-color: $theme-mars-base;
   padding: units(1) units(2);
   text-align: center;
+
+  a {
+    color: $theme-white;
+  }
 }
