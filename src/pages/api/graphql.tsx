@@ -7,7 +7,6 @@ import {
   ApolloError,
 } from 'apollo-server-micro'
 import type { PageConfig } from 'next'
-import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 
 import { typeDefs } from '../../schema'
 import resolvers from '../../resolvers/index'
@@ -24,7 +23,6 @@ export const config: PageConfig = {
 export const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
   context: async ({ req, res }) => {
     const session = await getSession(req, res)
 
