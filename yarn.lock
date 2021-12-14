@@ -2710,7 +2710,7 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.0.6.tgz#023d72a5c4531b4ce204528971700a78a85a0c50"
   integrity sha512-Myxw//kzromB9yWgS8qYGuGVf91oBUUJpNvy5eM50sqvmKLbKjwLxohJnkWGTeeI9v9IBMtPLxz5Gc60FIfvCA==
 
-"@shelf/jest-mongodb@^2.1.0":
+"@shelf/jest-mongodb@2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@shelf/jest-mongodb/-/jest-mongodb-2.1.0.tgz#2179b53b8e01dde1315b9f333cc2945dd89a6940"
   integrity sha512-sSSS/QnU8sKJUpVqKvcR4CR5ca8Mb1MpQY49H/we9bzyg/UsBhEcVehwaRSEZ13dOd8orGrNa8OW8438l2Gt1g==
