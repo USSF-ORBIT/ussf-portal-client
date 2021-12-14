@@ -2,101 +2,84 @@
  * @jest-environment jsdom
  */
 
-import { render, screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
-import { v4 } from 'uuid'
+import axios from 'axios'
+import { useRouter } from 'next/router'
 
-import { GET_COLLECTIONS } from 'operations/queries/getCollections'
-import Home, { getStaticProps } from 'pages/beta/index'
-import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
+import { renderWithAuth } from '../../../testHelpers'
 
-const mocks = [
-  {
-    request: {
-      query: GET_COLLECTIONS,
-    },
-    result: {
-      data: {
-        collections: [
-          {
-            id: v4(),
-            title: 'Example Collection',
-            bookmarks: [
-              {
-                id: v4(),
-                url: 'https://google.com',
-                label: 'Webmail',
-                description: 'Lorem ipsum',
-              },
-              {
-                id: v4(),
-                url: 'https://mypay.dfas.mil/#/',
-                label: 'MyPay',
-                description: 'Lorem ipsum',
-              },
-              {
-                id: v4(),
-                url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-                label: 'vMPF',
-                description: 'Lorem ipsum',
-              },
-            ],
-          },
-        ],
-      },
-    },
-  },
-]
+import { getCollectionsMock } from '../../../__fixtures__/operations/getCollection'
+import { cmsBookmarksMock } from '../../../__fixtures__/data/cmsBookmarks'
+import Home from 'pages/beta/index'
 
-const mockBookmarks = [
-  {
-    id: '1',
-    url: 'www.example.com',
-    label: 'Example 1',
-  },
-  {
-    id: '2',
-    url: 'www.example2.com',
-    label: 'Example 2',
-  },
-]
+jest.mock('axios')
 
-describe('Beta Home page', () => {
-  beforeEach(() => {
-    render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <Home bookmarks={mockBookmarks} />
-      </MockedProvider>
-    )
-  })
+const mockedAxios = axios as jest.Mocked<typeof axios>
 
-  it('renders the loading page,', () => {
-    expect(screen.getByText('Loading...')).toBeInTheDocument()
-  })
-
-  it('renders the home page', async () => {
-    expect(
-      await screen.findByRole('heading', {
-        level: 2,
-        name: 'My Space',
-      })
-    ).toBeInTheDocument()
-
-    const collectionTitle = await screen.findByRole('button', {
-      name: 'Edit collection title',
-    })
-    expect(collectionTitle).toHaveTextContent('Example Collection')
-  })
-
-  it('returns the Default Beta Layout in getLayout', async () => {
-    const page = 'page'
-    expect(Home.getLayout(page)).toEqual(<Layout>page</Layout>)
-  })
+mockedAxios.get.mockImplementationOnce(() => {
+  return Promise.reject()
 })
 
-describe('getStaticProps', () => {
-  it('returns expected props', async () => {
-    const results = await getStaticProps()
-    expect(results).toEqual({ props: { bookmarks: [] } })
+const mockReplace = jest.fn()
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}))
+
+const mockedUseRouter = useRouter as jest.Mock
+
+mockedUseRouter.mockReturnValue({
+  route: '',
+  pathname: '',
+  query: '',
+  asPath: '',
+  push: jest.fn(),
+  replace: mockReplace,
+})
+
+describe('Beta Home page', () => {
+  describe('without a user', () => {
+    beforeEach(() => {
+      renderWithAuth(<Home bookmarks={cmsBookmarksMock} />, { user: null })
+    })
+
+    it('renders the loader while fetching the user', () => {
+      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
+    })
+
+    it('redirects to the login page if not logged in', async () => {
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith('/login')
+      })
+    })
+  })
+
+  describe('when logged in', () => {
+    beforeEach(() => {
+      renderWithAuth(
+        <MockedProvider mocks={getCollectionsMock} addTypename={false}>
+          <Home bookmarks={cmsBookmarksMock} />
+        </MockedProvider>
+      )
+    })
+
+    it('renders the loading page,', () => {
+      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
+    })
+
+    it('renders the home page', async () => {
+      expect(
+        await screen.findByRole('heading', {
+          level: 2,
+          name: 'My Space',
+        })
+      ).toBeInTheDocument()
+
+      const collectionTitle = await screen.findByRole('button', {
+        name: 'Edit Example Collection collection title',
+      })
+      expect(collectionTitle).toHaveTextContent('Example Collection')
+    })
   })
 })

@@ -4,14 +4,12 @@ import { fetch, toPassportConfig } from 'passport-saml-metadata'
 import type * as express from 'express'
 import type { NextApiRequest } from 'next'
 
-import type { SAMLUser } from 'types'
+import type { SAMLUser, SessionUser } from 'types'
 
 /** Types */
-
 export interface PassportRequest extends NextApiRequest {
-  user?: SAMLUser
+  user?: SessionUser
   isAuthenticated(): boolean
-  login(user: SAMLUser, callback: (error?: Error) => void): void
   session: {
     destroy(): Promise<void>
   }
@@ -37,9 +35,14 @@ export type PassportWithLogout = PassportStatic & {
 const ISSUER = process.env.SAML_ISSUER
 const IDP_METADATA = process.env.SAML_IDP_METADATA_URL
 
+// Setting this lets us override the callback URL to http for local dev
+const CALLBACK_URL = process.env.SAML_SSO_CALLBACK_URL
+
 /** Service Provider config */
 const samlConfig = {
+  callbackUrl: CALLBACK_URL || undefined,
   path: '/api/auth/login',
+  protocol: 'https://',
   logoutCallbackUrl: '/api/auth/logout/callback',
   issuer: ISSUER,
   audience: ISSUER,
@@ -61,7 +64,7 @@ export const configSaml = async (passport: PassportWithLogout) => {
     const reader = await fetch({ url: IDP_METADATA })
 
     const strategyConfig: SamlConfig & { identityProviderUrl?: string } = {
-      ...toPassportConfig(reader),
+      ...toPassportConfig(reader, { multipleCerts: true }),
       ...samlConfig,
     }
 
@@ -82,6 +85,7 @@ export const configSaml = async (passport: PassportWithLogout) => {
         'localhost:8080'
       )
     }
+    // END DEVELOPMENT ONLY
 
     const samlStrategy = new SamlStrategy(strategyConfig, function (
       req,
@@ -89,10 +93,48 @@ export const configSaml = async (passport: PassportWithLogout) => {
       done
     ) {
       // Verify the response & user here
-      return done(null, profile as SAMLUser)
+      if (!profile || !profile.nameID || !profile.attributes) {
+        return done(new Error('Missing SAML profile'))
+      }
+
+      const samlUser = profile as unknown as SAMLUser
+
+      // Convert SAMLUser to SessionUser
+      const {
+        issuer,
+        nameID,
+        nameIDFormat,
+        inResponseTo,
+        sessionIndex,
+        attributes,
+      } = samlUser
+
+      let userId: string
+      if (
+        samlUser.nameIDFormat ===
+        'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
+      ) {
+        userId = samlUser.nameID
+      } else {
+        // DEVELOPMENT ONLY
+        // The test IDP only supports nameIDFormat=transient, so we need to use a different attribute
+        userId = samlUser.attributes.userprincipalname
+      }
+
+      const sessionUser = {
+        userId,
+        issuer,
+        nameID,
+        nameIDFormat,
+        inResponseTo,
+        sessionIndex,
+        attributes,
+      }
+
+      return done(null, sessionUser)
     })
 
-    passport.use(samlStrategy)
+    passport.use('saml', samlStrategy)
 
     passport.logoutSaml = (req, done) => {
       // Take our LogoutRequest type and cast it as the expected RequestWithUser type
@@ -108,6 +150,5 @@ export const configSaml = async (passport: PassportWithLogout) => {
     // eslint-disable-next-line no-console
     console.error(`Error loading SAML metadata from URL ${IDP_METADATA}`, err)
     throw err
-    // process.exit(1)
   }
 }

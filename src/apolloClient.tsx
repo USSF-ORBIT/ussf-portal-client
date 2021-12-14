@@ -1,78 +1,34 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client'
-import { v4 } from 'uuid'
+import { ApolloClient, InMemoryCache, HttpLink, from } from '@apollo/client'
+import { onError } from '@apollo/client/link/error'
 
-import { typeDefs } from './schema'
+const httpLink = new HttpLink({
+  uri: `/api/graphql`,
+})
 
-import type { Collection } from 'types'
-import { GET_COLLECTIONS } from 'operations/queries/getCollections'
-import { localResolvers } from 'operations/resolvers'
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+      // TODO - log error
+      // eslint-disable-next-line no-console
+      console.error(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      )
 
-// Initialize cache
-export const initCache = () => {
-  const cache = new InMemoryCache()
-  cache.writeQuery({
-    query: GET_COLLECTIONS,
-    data: {
-      collections: [],
-    },
-  })
+      // Check for auth
+      if (extensions.code === 'UNAUTHENTICATED') {
+        // Redirect
+        window.location.href = '/login'
+      }
+    })
 
-  // Seed cache with initial collection
-  const exampleCollection: Collection = {
-    __typename: 'Collection',
-    id: v4(),
-    title: 'Example Collection',
-    bookmarks: [
-      {
-        __typename: 'Bookmark',
-        id: v4(),
-        url: 'https://google.com',
-        label: 'Webmail',
-        description: 'Lorem ipsum',
-      },
-      {
-        __typename: 'Bookmark',
-        id: v4(),
-        url: 'https://mypay.dfas.mil/#/',
-        label: 'MyPay',
-        description: 'Lorem ipsum',
-      },
-      {
-        __typename: 'Bookmark',
-        id: v4(),
-        url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-        label: 'vMPF',
-        description: 'Lorem ipsum',
-      },
-      {
-        __typename: 'Bookmark',
-        id: v4(),
-        url: 'https://leave.af.mil/profile',
-        label: 'LeaveWeb',
-        description: 'Lorem ipsum',
-      },
-      {
-        __typename: 'Bookmark',
-        id: v4(),
-        url: 'https://www.e-publishing.af.mil/',
-        label: 'e-Publications',
-        description: 'Lorem ipsum',
-      },
-    ],
+  if (networkError) {
+    // TODO - log error
+    // eslint-disable-next-line no-console
+    console.error(`[Network error]: ${networkError}`)
   }
+})
 
-  cache.writeQuery({
-    query: GET_COLLECTIONS,
-    data: {
-      collections: [exampleCollection],
-    },
-  })
-  return cache
-}
-
-// Set up client with persisted cache and local resolvers
 export const client = new ApolloClient({
-  cache: initCache(),
-  resolvers: localResolvers,
-  typeDefs,
+  link: from([errorLink, httpLink]),
+  cache: new InMemoryCache(),
 })

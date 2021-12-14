@@ -1,24 +1,23 @@
-import { ReactNode } from 'react'
 import { InferGetStaticPropsType } from 'next'
 
 import { query } from '.keystone/api'
 
 import type { BookmarkRecords } from 'types/index'
-import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
 import MySpace from 'components/MySpace/MySpace'
+import Loader from 'components/Loader/Loader'
+import { useUser } from 'hooks/useUser'
+import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 
 const Home = ({
   bookmarks,
-}: InferGetStaticPropsType<typeof getStaticProps>) => (
-  <MySpace bookmarks={bookmarks} />
-)
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { user } = useUser()
+  return !user ? <Loader /> : <MySpace bookmarks={bookmarks} />
+}
 
 export default Home
 
-const BetaLayout = (page: ReactNode) => <Layout>{page}</Layout>
-
-BetaLayout.displayName = 'BetaLayout'
-Home.getLayout = BetaLayout
+Home.getLayout = withBetaLayout
 
 export async function getStaticProps() {
   const bookmarks: BookmarkRecords = (await query.Bookmark.findMany({

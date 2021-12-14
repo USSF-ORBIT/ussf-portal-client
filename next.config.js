@@ -5,14 +5,30 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const { withKeystone } = require('@keystone-next/keystone/next')
 
+const securityHeaders = [
+  {
+    key: 'Strict-Transport-Security',
+    value: 'max-age=63072000; includeSubDomains; preload',
+  },
+]
+
 module.exports = withKeystone(
   withBundleAnalyzer({
     // swcMinify: true,
+    async headers() {
+      return [
+        {
+          // Apply these headers to all routes
+          source: '/(.*)',
+          headers: securityHeaders,
+        },
+      ]
+    },
     async rewrites() {
       return {
         beforeFiles: [
           {
-            source: '/:path',
+            source: '/sites-and-applications',
             has: [
               {
                 type: 'cookie',
@@ -20,10 +36,10 @@ module.exports = withKeystone(
                 value: 'true',
               },
             ],
-            destination: '/beta/:path',
+            destination: '/beta/sites-and-applications',
           },
           {
-            source: '/training-and-education/:path*',
+            source: '/leavebeta',
             has: [
               {
                 type: 'cookie',
@@ -31,18 +47,7 @@ module.exports = withKeystone(
                 value: 'true',
               },
             ],
-            destination: '/beta/training-and-education/:path*',
-          },
-          {
-            source: '/about-us/:path*',
-            has: [
-              {
-                type: 'cookie',
-                key: 'betaOptIn',
-                value: 'true',
-              },
-            ],
-            destination: '/beta/about-us/:path*',
+            destination: '/beta/leavebeta',
           },
           {
             source: '/',

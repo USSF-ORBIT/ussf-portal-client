@@ -1,4 +1,4 @@
-name: Docker Build Main
+name: Automated Docker Build Main Push AWS Dev
 
 on:
   push:
@@ -8,12 +8,12 @@ jobs:
   build-and-push-aws:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
     - name: Get tag
       run: echo "RELEASE_VERSION=${GITHUB_REF:10}" >> $GITHUB_ENV
 
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@ea7b857d8a33dc2fb4ef5a724500044281b49a5e # renovate: tag=v1
       with:
         aws-access-key-id: ${{ secrets.GHA_ECR_AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.GHA_ECR_AWS_SECRET_ACCESS_KEY }}
@@ -24,15 +24,21 @@ jobs:
 
     - name: Login to Amazon ECR
       id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
+      uses: aws-actions/amazon-ecr-login@aaf69d68aa3fb14c1d5a6be9ac61fe15b48453a2 # renovate: tag=v1
     - name: Build, tag, and push image to Amazon ECR
       id: build-aws-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: portal-client
         IMAGE_TAG: ${{ github.sha }}
+        DEV_CERT: ${{ secrets.SAML_CERT }}
+        TEST_CERT: ${{ secrets.C1_TEST_SAML_CERT }}
+        PROD_CERT: ${{ secrets.C1_PROD_SAML_CERT }}
 
       run: |
+        echo $DEV_CERT > dev-saml.pem
+        echo $TEST_CERT > test-saml.pem
+        echo $PROD_CERT > prod-saml.pem
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
@@ -46,16 +52,4 @@ jobs:
       run: |
         ./scripts/deploy-dev-aws.sh
 
-    - name: Build, tag, and push image to C1 Artifactory
-      id: build-c1-image
-      env:
-        IMAGE_TAG: ${{ github.sha }}
-        C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
-        C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
-      run: |
-        sudo sh scripts/add-dod-cas.sh
-        docker login -u portal -p ${{ secrets.C1_ARTIFACTORY_TOKEN }} $C1_REGISTRY
-        docker build -t $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG .
-        docker push $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG"
-        docker logout $C1_REGISTRY
+

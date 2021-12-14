@@ -17,8 +17,10 @@ import styles from './Header.module.scss'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import NavLink from 'components/util/NavLink/NavLink'
 import JoinBetaModal from 'components/modals/JoinBetaModal'
+import { useAuthContext } from 'stores/authContext'
 
 const Header = () => {
+  const { logout } = useAuthContext()
   const router = useRouter()
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [servicePortalNavOpen, setServicePortalNavOpen] = useState(false)
@@ -95,6 +97,12 @@ const Header = () => {
   const handleJoinBeta = () => {
     joinBetaModal.current?.toggleModal(undefined, true)
   }
+
+  navItems.push(
+    <Button secondary type="button" onClick={logout} key="nav_logout">
+      <span>Log out</span>
+    </Button>
+  )
 
   return (
     <>

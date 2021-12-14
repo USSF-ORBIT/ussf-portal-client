@@ -1,8 +1,7 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
-import { v4 } from 'uuid'
+
 import MySpace from './MySpace'
-import type { Collection } from 'types'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
 export default {
@@ -17,39 +16,27 @@ export default {
   ],
 } as Meta
 
-const exampleCollection: Collection[] = [
+const exampleCollection = [
   {
-    id: v4(),
-    title: 'Storybook Collection',
+    _id: '1',
+    title: 'Example Collection',
     bookmarks: [
       {
-        id: v4(),
+        _id: '1',
         url: 'https://google.com',
         label: 'Webmail',
         description: 'Lorem ipsum',
       },
       {
-        id: v4(),
+        _id: '2',
         url: 'https://mypay.dfas.mil/#/',
         label: 'MyPay',
         description: 'Lorem ipsum',
       },
       {
-        id: v4(),
+        _id: '3',
         url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
         label: 'vMPF',
-        description: 'Lorem ipsum',
-      },
-      {
-        id: v4(),
-        url: 'https://leave.af.mil/profile',
-        label: 'LeaveWeb',
-        description: 'Lorem ipsum',
-      },
-      {
-        id: v4(),
-        url: 'https://www.e-publishing.af.mil/',
-        label: 'e-Publications',
         description: 'Lorem ipsum',
       },
     ],
@@ -69,6 +56,24 @@ ExampleMySpace.parameters = {
           data: {
             collections: exampleCollection,
           },
+        },
+      },
+    ],
+  },
+}
+
+export const Loading = () => <MySpace bookmarks={[]} />
+
+Loading.parameters = {
+  apolloClient: {
+    mocks: [
+      {
+        delay: 100000000000000,
+        request: {
+          query: GET_COLLECTIONS,
+        },
+        result: {
+          data: {},
         },
       },
     ],

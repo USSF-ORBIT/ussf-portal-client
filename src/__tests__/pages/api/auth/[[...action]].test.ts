@@ -3,7 +3,7 @@ import { testApiHandler } from 'next-test-api-route-handler'
 import type { NextApiHandler } from 'next'
 import axios from 'axios'
 
-import { mockUser } from '../../../../lib/__mocks__/saml'
+import { testUser1 } from '../../../../__fixtures__/authUsers'
 
 import handler from 'pages/api/auth/[[...action]]'
 
@@ -22,6 +22,8 @@ const apiHandler = handler as unknown as NextApiHandler<any>
 const mockSession = {
   destroy: jest.fn(),
 }
+
+const mockUser = testUser1
 
 interface RequestWithSession extends IncomingMessage {
   user?: typeof mockUser
@@ -85,9 +87,11 @@ describe('API / Auth handlers', () => {
         handler: apiHandler,
         url: '/api/auth/login',
         test: async ({ fetch }) => {
-          const res = await fetch({ method: 'POST' })
-          expect(res.status).toBe(200)
-          expect(await res.json()).toStrictEqual({ user: mockUser })
+          const res = await fetch({ method: 'POST', redirect: 'manual' })
+          expect(res.status).toBe(307)
+          expect(res.cookies).toStrictEqual([
+            expect.objectContaining({ sid: expect.any(String) }),
+          ])
         },
       })
     })
@@ -103,8 +107,8 @@ describe('API / Auth handlers', () => {
         },
         url: '/api/auth/logout',
         test: async ({ fetch }) => {
-          const res = await fetch()
-          expect(res.status).toBe(200)
+          const res = await fetch({ redirect: 'manual' })
+          expect(res.status).toBe(302)
           expect(mockedAxios.post).toHaveBeenCalledWith('mock SLO request URL')
           expect(mockSession.destroy).toHaveBeenCalledTimes(1)
         },
@@ -119,8 +123,8 @@ describe('API / Auth handlers', () => {
         },
         url: '/api/auth/logout',
         test: async ({ fetch }) => {
-          const res = await fetch()
-          expect(res.status).toBe(200)
+          const res = await fetch({ redirect: 'manual' })
+          expect(res.status).toBe(302)
           expect(mockedAxios.post).not.toHaveBeenCalled()
           expect(mockSession.destroy).toHaveBeenCalledTimes(1)
         },
@@ -134,8 +138,8 @@ describe('API / Auth handlers', () => {
         handler: apiHandler,
         url: '/api/auth/logout/callback',
         test: async ({ fetch }) => {
-          const res = await fetch()
-          expect(res.status).toBe(200)
+          const res = await fetch({ redirect: 'manual' })
+          expect(res.status).toBe(302)
         },
       })
     })

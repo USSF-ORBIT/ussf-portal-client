@@ -5,30 +5,29 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { v4 } from 'uuid'
 
 import { renderWithModalRoot } from '../../testHelpers'
 
 import CustomCollection from './CustomCollection'
 
 const exampleCollection = {
-  id: v4(),
+  _id: '1',
   title: 'Example Collection',
   bookmarks: [
     {
-      id: v4(),
+      _id: '1',
       url: 'https://google.com',
       label: 'Webmail',
       description: 'Lorem ipsum',
     },
     {
-      id: v4(),
+      _id: '2',
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
       description: 'Lorem ipsum',
     },
     {
-      id: v4(),
+      _id: '3',
       url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
       label: 'vMPF',
       description: 'Lorem ipsum',
@@ -68,7 +67,9 @@ describe('CustomCollection component', () => {
     )
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(
-      screen.getByRole('button', { name: 'Edit collection title' })
+      screen.getByRole('button', {
+        name: 'Edit Example Collection collection title',
+      })
     ).toHaveTextContent(exampleCollection.title)
     expect(screen.getAllByRole('listitem')).toHaveLength(
       exampleCollection.bookmarks.length
@@ -290,7 +291,8 @@ describe('CustomCollection component', () => {
 
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com/2',
-      'Test Bookmark 2'
+      'Test Bookmark 2',
+      'testBookmark2'
     )
   })
 
@@ -346,7 +348,8 @@ describe('CustomCollection component', () => {
 
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com/2',
-      'Test Bookmark 2'
+      'Test Bookmark 2',
+      'testBookmark2'
     )
   })
 
@@ -513,7 +516,7 @@ describe('CustomCollection component', () => {
 
     // Click outside menu
     const outsideEl = screen.getByRole('button', {
-      name: 'Edit collection title',
+      name: 'Edit Example Collection collection title',
     })
     userEvent.click(outsideEl)
 
@@ -558,7 +561,7 @@ describe('CustomCollection component', () => {
     it('renders a focused input for the title', () => {
       render(
         <CustomCollection
-          id="testCollection"
+          _id="1"
           handleRemoveBookmark={jest.fn()}
           handleAddBookmark={jest.fn()}
           handleRemoveCollection={jest.fn()}
@@ -574,7 +577,7 @@ describe('CustomCollection component', () => {
 
       render(
         <CustomCollection
-          id="testCollection"
+          _id="2"
           handleRemoveBookmark={jest.fn()}
           handleAddBookmark={jest.fn()}
           handleRemoveCollection={jest.fn()}
@@ -591,7 +594,7 @@ describe('CustomCollection component', () => {
 
       render(
         <CustomCollection
-          id="testCollection"
+          _id="3"
           handleRemoveBookmark={jest.fn()}
           handleAddBookmark={jest.fn()}
           handleRemoveCollection={mockDeleteCollection}

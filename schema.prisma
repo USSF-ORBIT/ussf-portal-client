@@ -21,7 +21,8 @@ model Bookmark {
 }
 
 model Collection {
-  id        String     @id @default(cuid())
-  title     String     @default("")
-  bookmarks Bookmark[] @relation("Collection_bookmarks_many")
+  id              String     @id @default(cuid())
+  title           String     @default("")
+  bookmarks       Bookmark[] @relation("Collection_bookmarks_many")
+  showInSitesApps Boolean    @default(false)
 }

@@ -1,20 +1,22 @@
 import { gql, useMutation } from '@apollo/client'
-import { Bookmark } from 'types'
 
 interface RemoveBookmarkResponse {
-  collectionId: string
-  collectionTitle: string
-  bookmarks: Bookmark[]
+  _id: string
+  cmsId?: string
+  isRemoved?: boolean
 }
 
 interface RemoveBookmarkInput {
   collectionId: string
-  id: string
+  _id: string
+  cmsId?: string
 }
 
 export const REMOVE_BOOKMARK = gql`
-  mutation removeBookmark($id: ID!, $collectionId: ID!) {
-    removeBookmark(id: $id, collectionId: $collectionId) @client
+  mutation removeBookmark($_id: ID!, $collectionId: ID!, $cmsId: ID) {
+    removeBookmark(_id: $_id, collectionId: $collectionId, cmsId: $cmsId) {
+      _id
+    }
   }
 `
 export function useRemoveBookmarkMutation() {

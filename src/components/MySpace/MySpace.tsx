@@ -4,8 +4,9 @@ import { useRouter } from 'next/router'
 
 import styles from './MySpace.module.scss'
 
-import type { BookmarkRecords } from 'types/index'
+import type { BookmarkRecords, BookmarkInput } from 'types/index'
 import CustomCollection from 'components/CustomCollection/CustomCollection'
+import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import AddWidget from 'components/AddWidget/AddWidget'
 import { useCollectionsQuery } from 'operations/queries/getCollections'
 import { useRemoveBookmarkMutation } from 'operations/mutations/removeBookmark'
@@ -23,11 +24,14 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const [handleEditCollection] = useEditCollectionMutation()
   const [handleAddCollection] = useAddCollectionMutation()
 
-  if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
 
   const addNewCollection = () => {
-    handleAddCollection({ variables: { title: '', bookmarks: [] } })
+    const newBookmark: BookmarkInput[] = []
+    handleAddCollection({
+      variables: { title: '', bookmarks: newBookmark },
+      refetchQueries: [`getCollections`],
+    })
   }
 
   return (
@@ -35,64 +39,84 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
       <h2 className={styles.pageTitle}>My Space</h2>
       <div className={styles.widgetContainer}>
         <Grid row gap={2}>
+          {loading && (
+            <Grid
+              key={`collection_loading`}
+              tablet={{ col: 6 }}
+              desktop={{ col: 4 }}>
+              <LoadingWidget />
+            </Grid>
+          )}
+
           {data &&
+            data.collections &&
             data.collections.map((collection) => (
               <Grid
-                key={`collection_${collection.id}`}
+                key={`collection_${collection._id}`}
                 tablet={{ col: 6 }}
                 desktop={{ col: 4 }}>
                 <CustomCollection
-                  id={collection.id}
+                  _id={collection._id}
                   title={collection.title}
                   bookmarks={collection.bookmarks}
                   bookmarkOptions={bookmarks}
                   handleRemoveCollection={() => {
                     handleRemoveCollection({
                       variables: {
-                        id: collection.id,
+                        _id: collection._id,
                       },
+                      refetchQueries: [`getCollections`],
                     })
                   }}
                   handleEditCollection={(title: string) => {
                     handleEditCollection({
                       variables: {
-                        id: collection.id,
+                        _id: collection._id,
                         title,
                       },
                     })
                   }}
-                  handleRemoveBookmark={(id) =>
+                  handleRemoveBookmark={(_id, cmsId) => {
                     handleRemoveBookmark({
-                      variables: { id, collectionId: collection.id },
+                      variables: {
+                        _id,
+                        collectionId: collection._id,
+                        cmsId,
+                      },
+                      refetchQueries: [`getCollections`],
                     })
-                  }
-                  handleAddBookmark={(url, label) => {
+                  }}
+                  handleAddBookmark={(url, label, id) => {
                     handleAddBookmark({
                       variables: {
-                        collectionId: collection.id,
+                        collectionId: collection._id,
                         url,
                         label,
+                        cmsId: id,
                       },
+                      refetchQueries: [`getCollections`],
                     })
                   }}
                 />
               </Grid>
             ))}
 
-          <Grid
-            key={`collection_addNew`}
-            tablet={{ col: 6 }}
-            desktop={{ col: 4 }}>
-            <AddWidget
-              handleCreateCollection={addNewCollection}
-              handleSelectCollection={() =>
-                router.push({
-                  pathname: '/sites-and-applications',
-                  query: { selectMode: 'true' },
-                })
-              }
-            />
-          </Grid>
+          {!loading && (
+            <Grid
+              key={`collection_addNew`}
+              tablet={{ col: 6 }}
+              desktop={{ col: 4 }}>
+              <AddWidget
+                handleCreateCollection={addNewCollection}
+                handleSelectCollection={() =>
+                  router.push({
+                    pathname: '/sites-and-applications',
+                    query: { selectMode: 'true' },
+                  })
+                }
+              />
+            </Grid>
+          )}
         </Grid>
       </div>
     </div>

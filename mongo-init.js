@@ -1,7 +1,8 @@
 /* eslint no-undef: "off" */
 
 /*
-This script will only run if there is no existing database. 
+This script will only run when using docker-compose.dev and 
+if there is no existing database.
 To trigger on subsequent Docker builds, make sure to run
 `docker volume rm ussf-portal-client-mongodb_data_container`
 
@@ -14,52 +15,63 @@ print('✅ Connected to database: ', db)
 
 db.createCollection('users')
 
-const exampleCollection = {
-  __typename: 'Collection',
-  id: '96b1ff31-f668-4fc3-91e2-c9c981d7adc0',
+const exampleCollection1 = {
   title: 'Example Collection',
+  _id: new ObjectId(),
   bookmarks: [
     {
-      __typename: 'Bookmark',
-      id: '7f2da5b2-869a-413b-959f-8e1a76a6c735',
+      _id: new ObjectId(),
       url: 'https://google.com',
       label: 'Webmail',
       description: 'Lorem ipsum',
     },
     {
-      __typename: 'Bookmark',
-      id: '31337edc-51c0-4128-9bd2-14f1373f2cd7',
+      _id: new ObjectId(),
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
       description: 'Lorem ipsum',
+      cmsId: 'cktd7hjz30636w5977vu4la4c',
     },
     {
-      __typename: 'Bookmark',
-      id: '2c27577b-a30f-43e9-9637-72573497074f',
+      _id: new ObjectId(),
       url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
       label: 'vMPF',
       description: 'Lorem ipsum',
+      cmsId: 'cktd7c0d30190w597qoftevq1',
     },
     {
-      __typename: 'Bookmark',
-      id: '60a4614f-0db6-4077-a1a8-d6a3b5c5ea2e',
+      _id: new ObjectId(),
       url: 'https://leave.af.mil/profile',
       label: 'LeaveWeb',
       description: 'Lorem ipsum',
+      cmsId: 'cktd7ettn0457w597p7ja4uye',
     },
     {
-      __typename: 'Bookmark',
-      id: '6856241b-9c34-4a89-94aa-cbee47e93a10',
-      url: 'https://www.e-publishing.af.mil/',
-      label: 'e-Publications',
+      _id: new ObjectId(),
+      url: 'https://mypers.af.mil',
+      label: 'EPRs/OPRs',
+      description: 'Lorem ipsum',
+      cmsId: 'cktd7anq40068w597xloypsez',
+    },
+  ],
+}
+
+const exampleCollection2 = {
+  title: 'Second Collection',
+  _id: new ObjectId(),
+  bookmarks: [
+    {
+      _id: new ObjectId(),
+      url: 'https://google.com',
+      label: 'Search Engine',
       description: 'Lorem ipsum',
     },
   ],
 }
 
 const exampleUser = {
-  userId: '252c9a64-48bf-4b22-acd9-a211a9b0b272',
-  collections: exampleCollection,
+  userId: 'HALL.MICHAEL.0123456789',
+  mySpace: [exampleCollection1, exampleCollection2],
 }
 
 db.users.insertOne(exampleUser)
