@@ -205,7 +205,7 @@ const SitesAndApplications = ({
               </>
             ) : (
               <Button type="button" onClick={handleToggleSelectMode}>
-                Select collections
+                Select multiple collections
               </Button>
             )}
           </div>
