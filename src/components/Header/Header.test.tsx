@@ -30,7 +30,7 @@ describe('Header component', () => {
       'alt',
       'USSF Logo'
     )
-    expect(screen.getAllByRole('link')).toHaveLength(4)
+    expect(screen.getAllByRole('link')).toHaveLength(2)
   })
 
   it('can toggle navigation on smaller screen sizes', () => {
