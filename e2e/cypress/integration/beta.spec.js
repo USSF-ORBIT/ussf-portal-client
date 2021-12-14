@@ -17,7 +17,9 @@ describe('the Beta gate', () => {
     cy.url().should('contain', '/')
 
     // Leave the beta
-    cy.contains('Leave Beta').click()
+    cy.contains('Click here to leave the beta.').within(() => {
+      cy.contains('Click here').click()
+    })
 
     // Return to MVP
     cy.contains('Manage your life')

@@ -249,13 +249,13 @@ describe('Sites and Applications page', () => {
       describe('selecting collections', () => {
         beforeEach(async () => {
           await screen.findByRole('button', {
-            name: 'Select collections',
+            name: 'Select multiple collections',
           })
         })
 
         it('can enter select mode', () => {
           const selectBtn = screen.getByRole('button', {
-            name: 'Select collections',
+            name: 'Select multiple collections',
           })
           expect(selectBtn).toBeInTheDocument()
           userEvent.click(selectBtn)
@@ -267,7 +267,9 @@ describe('Sites and Applications page', () => {
           ).toBeDisabled()
 
           expect(
-            screen.queryByRole('button', { name: 'Select collections' })
+            screen.queryByRole('button', {
+              name: 'Select multiple collections',
+            })
           ).not.toBeInTheDocument()
           expect(
             screen.getByRole('button', { name: 'Cancel' })
@@ -296,7 +298,7 @@ describe('Sites and Applications page', () => {
 
           userEvent.click(
             screen.getByRole('button', {
-              name: 'Select collections',
+              name: 'Select multiple collections',
             })
           )
 
@@ -314,7 +316,7 @@ describe('Sites and Applications page', () => {
         it('can select multiple collections and add them', async () => {
           userEvent.click(
             screen.getByRole('button', {
-              name: 'Select collections',
+              name: 'Select multiple collections',
             })
           )
 
@@ -350,7 +352,7 @@ describe('Sites and Applications page', () => {
         it('selecting the same collection twice removes it from the selection', () => {
           userEvent.click(
             screen.getByRole('button', {
-              name: 'Select collections',
+              name: 'Select multiple collections',
             })
           )
 
@@ -464,7 +466,7 @@ describe('Sites and Applications page', () => {
 
       expect(
         screen.queryByRole('button', {
-          name: 'Select collections',
+          name: 'Select multiple collections',
         })
       ).not.toBeInTheDocument()
 

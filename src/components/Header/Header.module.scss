@@ -53,8 +53,8 @@
       }
     }
   }
-}
 
-.logoutButton {
-  margin-left: units(4);
+  :global(.usa-nav__primary) .logoutButton {
+    margin-left: units(4);
+  }
 }
