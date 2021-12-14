@@ -6,17 +6,15 @@ import styles from './PersonalData.module.scss'
 import { useAuthContext } from 'stores/authContext'
 
 const PersonalData = () => {
-  let name = ''
   const { user } = useAuthContext()
 
-  if (user) {
-    const { givenname, surname } = user.attributes
-    name = `${givenname} ${surname}`
-  }
+  const greeting = user
+    ? `Welcome, ${user.attributes.givenname} ${user.attributes.surname}`
+    : 'Welcome!'
 
   return (
     <div className={styles.personalData}>
-      <h2>Welcome, {name}</h2>
+      <h2>{greeting}</h2>
 
       <dl className="grid-row">
         <Grid tablet={{ col: true }}>

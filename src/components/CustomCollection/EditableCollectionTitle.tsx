@@ -59,7 +59,7 @@ export const EditableCollectionTitle = ({
     <>
       {isEditing ? (
         <>
-          <label htmlFor={inputId} className="sr-only">
+          <label htmlFor={inputId} className="usa-sr-only">
             Collection Title
           </label>
           <Textarea
