@@ -152,7 +152,7 @@ const Header = () => {
 
           <div className={`sfds ${styles.joinBeta}`}>
             <Button type="button" secondary onClick={handleJoinBeta}>
-              Join Beta
+              Join beta
             </Button>
           </div>
         </div>

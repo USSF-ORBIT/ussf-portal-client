@@ -30,7 +30,7 @@ const JoinBetaModal = ({ modalRef, ...props }: JoinBetaModalProps) => {
         aria-describedby={`${modalId}-description`}
         modalRoot="#modal-root"
         className="sfds">
-        <ModalHeading id={`${modalId}-heading`}>Join the Beta</ModalHeading>
+        <ModalHeading id={`${modalId}-heading`}>Join the beta</ModalHeading>
         <div className="usa-prose" id={`${modalId}-description`}>
           <p>
             Become a beta tester to access features that haven’t been released
