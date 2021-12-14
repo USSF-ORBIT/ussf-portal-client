@@ -34,28 +34,26 @@ const JoinBetaModal = ({ modalRef, ...props }: JoinBetaModalProps) => {
         <ModalHeading id={`${modalId}-heading`}>Join the Beta</ModalHeading>
         <div className="usa-prose" id={`${modalId}-description`}>
           <p>
-            This will give you a sneak peek at features that haven’t been
-            released to the public yet and you can return to this version of the
-            portal at anytime.
+            Become a beta tester to access features that haven’t been released
+            to the public yet and to share your feedback - your input will make
+            this site better.
           </p>
           <p>
-            We’d love to hear your feedback on what you like (or don’t)! Share
-            your thoughts about new features or issues you experience at any
-            time by emailing us at feedback@ussforbit.us.
+            You can return to the current version of the site at any time, and
+            you can always opt-out of the beta program.
           </p>
         </div>
         <ModalFooter>
           <ButtonGroup>
             <LinkTo href="/joinbeta" className="usa-button" data-close-modal>
-              Join Beta
+              Join beta
             </LinkTo>
             <LinkTo
               href={MICROSITE_URL}
               target="_blank"
               rel="noreferrer noopener"
-              data-close-modal
               className="padding-105 text-center usa-button usa-button--unstyled">
-              Learn more
+              What is beta?
             </LinkTo>
           </ButtonGroup>
         </ModalFooter>
