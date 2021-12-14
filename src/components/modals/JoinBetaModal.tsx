@@ -6,7 +6,6 @@ import {
   ModalFooter,
   ModalRef,
   ButtonGroup,
-  Button,
 } from '@trussworks/react-uswds'
 
 import ModalPortal from 'components/util/ModalPortal'
