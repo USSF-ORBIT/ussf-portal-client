@@ -50,7 +50,7 @@ const Header = () => {
           <div className="usa-navbar">
             <Title>
               <LinkTo href="/" title="USSF Portal Home">
-                <Logo abbreviated />
+                <Logo darkBg />
               </LinkTo>
             </Title>
             <NavMenuButton onClick={handleNavButtonClick} label="Menu" />
