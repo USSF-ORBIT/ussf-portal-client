@@ -5,7 +5,7 @@
   background: $black;
 
   @include at-media('desktop') {
-    padding: units('105') 0;
+    padding: units('105') 0 0;
   }
 
   :global {
@@ -22,7 +22,7 @@
         margin: 0;
 
         img {
-          width: 114px;
+          width: 200px;
         }
       }
     }

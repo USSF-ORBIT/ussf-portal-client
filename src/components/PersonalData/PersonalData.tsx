@@ -39,7 +39,7 @@ const PersonalData = () => {
           </dd>
         </Grid>
         <Grid tablet={{ col: true }}>
-          <dt>Next EPR:</dt>
+          <dt>Next Performance Report:</dt>
           <dd>
             <a
               href="https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx"
