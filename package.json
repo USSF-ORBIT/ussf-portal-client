@@ -10,10 +10,10 @@
     "url": "github:USSF-ORBIT/ussf-portal-client"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "node -r ./server-preload.js node_modules/.bin/next dev",
     "build": "next build",
     "build:analyze": "ANALYZE=true yarn build",
-    "start": "next start",
+    "start": "node -r ./server-preload.js node_modules/.bin/next start",
     "storybook": "start-storybook -p 6006 -s ./public",
     "storybook:build": "build-storybook",
     "format": "prettier --write .",
@@ -52,6 +52,7 @@
     "passport-saml": "3.2.0",
     "passport-saml-metadata": "2.5.0",
     "path-to-regexp": "6.2.0",
+    "pino": "7.5.1",
     "react": "17.0.2",
     "react-cookie": "4.1.1",
     "react-dom": "17.0.2",
