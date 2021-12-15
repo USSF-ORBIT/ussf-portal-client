@@ -6,6 +6,7 @@ import {
   AuthenticationError,
   ApolloError,
 } from 'apollo-server-micro'
+import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core'
 import type { PageConfig } from 'next'
 
 import { typeDefs } from '../../schema'
@@ -23,6 +24,7 @@ export const config: PageConfig = {
 export const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  plugins: [ApolloServerPluginLandingPageDisabled()],
   context: async ({ req, res }) => {
     const session = await getSession(req, res)
 
