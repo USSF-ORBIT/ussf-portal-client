@@ -53,6 +53,7 @@ COPY dev-saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
 COPY test-saml.pem /usr/local/share/ca-certificates/federation.test.cce.af.mil.crt
 COPY prod-saml.pem /usr/local/share/ca-certificates/federation.prod.cce.af.mil.crt
 COPY ./rds-combined-ca-bundle.pem ./rds-combined-ca-bundle.pem
+COPY ./server-preload.js ./server-preload.js
 
 RUN apt-get update \
   && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip \
@@ -74,4 +75,4 @@ COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
-CMD ["node_modules/.bin/next", "start"]
+CMD ["node","-r","./server-preload.js", "node_modules/.bin/next", "start"]
