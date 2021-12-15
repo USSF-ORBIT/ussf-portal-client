@@ -12,7 +12,13 @@ describe('the Beta gate', () => {
     cy.contains('Manage your life')
 
     // Join the beta
-    cy.visit('/joinbeta')
+    cy.contains('Join beta').click()
+
+    cy.findByRole('dialog').within(() => {
+      cy.contains('Join the beta')
+      cy.contains('Join beta').click()
+    })
+
     cy.contains('My Space')
     cy.url().should('contain', '/')
 
