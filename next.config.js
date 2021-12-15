@@ -14,6 +14,7 @@ const securityHeaders = [
 
 module.exports = withKeystone(
   withBundleAnalyzer({
+    reactStrictMode: true,
     // swcMinify: true,
     async headers() {
       return [
