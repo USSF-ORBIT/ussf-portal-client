@@ -11,7 +11,7 @@ const Logo = ({
     return (
       <img
         src="/assets/images/SpaceForce_Horizontal_Gradient_RGBmod-01.svg"
-        alt="United States Space Force"
+        alt="United States Space Force Logo"
       />
     )
   }
