@@ -1,5 +1,5 @@
 import React from 'react'
-import { GovBanner, GridContainer } from '@trussworks/react-uswds'
+import { GovBanner } from '@trussworks/react-uswds'
 
 import styles from './ErrorLayout.module.scss'
 
@@ -16,10 +16,8 @@ const ErrorLayout = ({ children }: { children: React.ReactNode }) => {
         <GovBanner tld=".mil" />
         <Header />
         <main id="main-content">
-          <GridContainer containerSize="widescreen">
-            {/* PAGE CONTENT */}
-            {children}
-          </GridContainer>
+          {/* PAGE CONTENT */}
+          {children}
         </main>
         <Footer />
       </div>
