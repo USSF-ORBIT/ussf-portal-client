@@ -1,10 +1,18 @@
 import { ReactNode } from 'react'
 import { Alert } from '@trussworks/react-uswds'
+
+import { useUser } from 'hooks/useUser'
+
+import Loader from 'components/Loader/Loader'
 import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
 export default function Custom404() {
-  return (
+  const { user } = useUser()
+
+  return !user ? (
+    <Loader />
+  ) : (
     <>
       <section className={`usa-section padding-top-4 padding-bottom-0`}>
         <div className="grid-container">
