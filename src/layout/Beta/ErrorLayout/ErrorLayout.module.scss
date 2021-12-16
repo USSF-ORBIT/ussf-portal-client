@@ -1,0 +1,74 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/mvp/mixins';
+@import 'styles/mvp/settings';
+@import 'styles/sfds/sfdsDependencies';
+
+$hero-image: url('/assets/images/hero.jpeg');
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  :global {
+    // Dark theme gov banner
+    @include gov-banner;
+  }
+
+  main {
+    flex: 1;
+
+    background: $black $hero-image no-repeat;
+    background-position: bottom -235px center;
+    background-size: cover;
+    padding-bottom: 100px;
+
+    @include at-media('mobile-lg') {
+      padding-bottom: 120px;
+    }
+
+    @include at-media('tablet') {
+      background-size: 2000px auto;
+      background-position: bottom -72px center;
+    }
+
+    color: $theme-white;
+    text-align: center;
+
+    section {
+      overflow: hidden;
+    }
+
+    h1 {
+      color: $theme-cosmiclatte-base;
+      opacity: 0.35;
+      font-size: 140px;
+      margin: 0 0 -66px;
+
+      @include at-media('mobile-lg') {
+        font-size: 230px;
+        margin: 0 0 -107px;
+      }
+
+      @include at-media('tablet') {
+        font-size: 320px;
+        margin: 0 0 -150px;
+      }
+
+      @include at-media('desktop') {
+        font-size: 460px;
+        margin: 0 0 -215px;
+      }
+
+      @include at-media('desktop-lg') {
+        font-size: 600px;
+        margin: 0 0 -281px;
+      }
+    }
+
+    h2 {
+      margin-bottom: units(2.5);
+      text-transform: uppercase;
+    }
+  }
+}

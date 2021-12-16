@@ -1,11 +1,9 @@
-import { ReactNode } from 'react'
-import { Alert } from '@trussworks/react-uswds'
-
 import { useUser } from 'hooks/useUser'
 
 import Loader from 'components/Loader/Loader'
-import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
+import { withErrorLayout } from 'layout/Beta/ErrorLayout/ErrorLayout'
 import LinkTo from 'components/util/LinkTo/LinkTo'
+import Logo from 'components/Logo/Logo'
 
 export default function Custom404() {
   const { user } = useUser()
@@ -13,28 +11,23 @@ export default function Custom404() {
   return !user ? (
     <Loader />
   ) : (
-    <>
-      <section className={`usa-section padding-top-4 padding-bottom-0`}>
-        <div className="grid-container">
-          <Alert type="error" heading="Error status">
-            404 - Page Not Found
-          </Alert>
-          <div className="grid-row grid-gap">
-            <div className="tablet:grid-col-4">
-              <div className="padding-top-2">
-                <LinkTo className="usa-button usa-button--secondary" href="/">
-                  Go Home
-                </LinkTo>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+    <section>
+      <Logo />
+
+      <h2>Looks like you’re a little lost</h2>
+
+      <h3>
+        That page doesn’t exist (or never did). Let’s get you back where you
+        belong.
+      </h3>
+
+      <LinkTo className="usa-button usa-button--secondary" href="/">
+        Take me home
+      </LinkTo>
+
+      <h1>404</h1>
+    </section>
   )
 }
 
-const BetaLayout = (page: ReactNode) => <Layout>{page}</Layout>
-
-BetaLayout.displayName = 'BetaLayout'
-Custom404.getLayout = BetaLayout
+Custom404.getLayout = withErrorLayout
