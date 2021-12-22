@@ -148,13 +148,13 @@ const Header = () => {
                 <NavList items={homeNavItems} type="primary" />
               </div>
             )}
-          </PrimaryNav>
 
-          <div className={`sfds ${styles.joinBeta}`}>
-            <Button type="button" secondary onClick={handleJoinBeta}>
-              Join beta
-            </Button>
-          </div>
+            <div className={`sfds ${styles.joinBeta}`}>
+              <Button type="button" secondary onClick={handleJoinBeta}>
+                Join beta
+              </Button>
+            </div>
+          </PrimaryNav>
         </div>
       </USWDSHeader>
     </>
