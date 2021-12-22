@@ -5,6 +5,7 @@ import type { AppProps, AppContext } from 'next/app'
 import Script from 'next/script'
 import { useRouter } from 'next/router'
 import type { ReactNode } from 'react'
+import { useEffect } from 'react'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { ApolloProvider } from '@apollo/client'
@@ -40,11 +41,41 @@ const USSFPortalApp = ({
   }
 }) => {
   const canonicalUrl = hostname.origin
-  const { asPath } = useRouter()
+  const router = useRouter()
 
   const getLayout =
     Component.getLayout ||
     ((page: ReactNode) => <DefaultLayout>{page}</DefaultLayout>)
+
+  // TODO - refactor into analytics tracker lib?
+  // https://github.com/SocialGouv/matomo-next
+  useEffect(() => {
+    const handleRouteChange = (
+      url: string,
+      { shallow }: { shallow: boolean }
+    ) => {
+      console.log(
+        `App changing to ${url} ${shallow ? 'with' : 'without'} shallow routing`
+      )
+
+      const windowWithAnalytics = window as unknown as typeof Window & {
+        _paq?: {
+          push: (arr: string[]) => void
+        }
+      }
+      if (windowWithAnalytics && windowWithAnalytics._paq) {
+        windowWithAnalytics._paq.push(['setCustomUrl', url])
+        windowWithAnalytics._paq.push(['setDocumentTitle', document.title])
+        windowWithAnalytics._paq.push(['trackPageView'])
+      }
+    }
+
+    router.events.on('routeChangeStart', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+    }
+  }, [])
 
   return (
     <ApolloProvider client={client}>
@@ -58,7 +89,7 @@ const USSFPortalApp = ({
               content="width=device-width, initial-scale=1"
               key="viewport"
             />
-            <link rel="canonical" href={canonicalUrl + asPath} />
+            <link rel="canonical" href={canonicalUrl + router.asPath} />
             <title>Space Force Portal</title>
             <link
               rel="apple-touch-icon"
