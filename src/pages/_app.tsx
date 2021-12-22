@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import App from 'next/app'
 import Head from 'next/head'
 import type { AppProps, AppContext } from 'next/app'
+import Script from 'next/script'
 import { useRouter } from 'next/router'
 import type { ReactNode } from 'react'
 import { config } from '@fortawesome/fontawesome-svg-core'
@@ -162,6 +163,22 @@ const USSFPortalApp = ({
             <meta name="msapplication-TileColor" content="#da532c" />
             <meta name="theme-color" content="#ffffff" />
           </Head>
+
+          <Script id="matomo-init" strategy="afterInteractive">
+            {`console.log('INIT Matomo tracker');
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//localhost/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+`}
+          </Script>
           {getLayout(<Component {...pageProps} />)}
         </BetaContextProvider>
       </AuthProvider>
