@@ -17,6 +17,7 @@ jobs:
           C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
           C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
           CERT: ${{ secrets.SAML_CERT }}
+          NODE_ENV: production
 
         run: |
           echo $CERT > saml.pem

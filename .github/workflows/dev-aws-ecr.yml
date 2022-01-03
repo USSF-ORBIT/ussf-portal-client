@@ -32,6 +32,7 @@ jobs:
         ECR_REPOSITORY: portal-client
         IMAGE_TAG: ${{ github.sha }}
         CERT: ${{ secrets.SAML_CERT }}
+        NODE_ENV: production
 
       run: |
         echo $CERT > saml.pem
