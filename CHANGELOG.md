@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.0.0...2.0.1) (2022-01-03)
+
+
+### Bug Fixes
+
+* Join Beta button not visible at certain window sizes ([#457](https://github.com/USSF-ORBIT/ussf-portal-client/issues/457)) ([e8f5b36](https://github.com/USSF-ORBIT/ussf-portal-client/commit/e8f5b36b07ac8bae278ace43ee55db88e50749d5))
+
 ## [2.0.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/1.0.0...2.0.0) (2021-12-20)
 
 
