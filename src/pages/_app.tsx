@@ -2,10 +2,8 @@ import type { NextPage } from 'next'
 import App from 'next/app'
 import Head from 'next/head'
 import type { AppProps, AppContext } from 'next/app'
-import Script from 'next/script'
 import { useRouter } from 'next/router'
 import type { ReactNode } from 'react'
-import { useEffect } from 'react'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { ApolloProvider } from '@apollo/client'
@@ -20,6 +18,7 @@ import { AuthProvider } from 'stores/authContext'
 import { BetaContextProvider } from 'stores/betaContext'
 import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
 import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
+import useAnalytics from 'hooks/useAnalytics'
 
 config.autoAddCss = false
 
@@ -43,39 +42,15 @@ const USSFPortalApp = ({
   const canonicalUrl = hostname.origin
   const router = useRouter()
 
+  useAnalytics({
+    url: process.env.NEXT_PUBLIC_MATOMO_DOMAIN,
+    siteId: process.env.NEXT_PUBLIC_MATOMO_SITE_ID,
+    debug: true,
+  })
+
   const getLayout =
     Component.getLayout ||
     ((page: ReactNode) => <DefaultLayout>{page}</DefaultLayout>)
-
-  // TODO - refactor into analytics tracker lib?
-  // https://github.com/SocialGouv/matomo-next
-  useEffect(() => {
-    const handleRouteChange = (
-      url: string,
-      { shallow }: { shallow: boolean }
-    ) => {
-      console.log(
-        `App changing to ${url} ${shallow ? 'with' : 'without'} shallow routing`
-      )
-
-      const windowWithAnalytics = window as unknown as typeof Window & {
-        _paq?: {
-          push: (arr: string[]) => void
-        }
-      }
-      if (windowWithAnalytics && windowWithAnalytics._paq) {
-        windowWithAnalytics._paq.push(['setCustomUrl', url])
-        windowWithAnalytics._paq.push(['setDocumentTitle', document.title])
-        windowWithAnalytics._paq.push(['trackPageView'])
-      }
-    }
-
-    router.events.on('routeChangeStart', handleRouteChange)
-
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange)
-    }
-  }, [])
 
   return (
     <ApolloProvider client={client}>
@@ -194,24 +169,6 @@ const USSFPortalApp = ({
             <meta name="msapplication-TileColor" content="#da532c" />
             <meta name="theme-color" content="#ffffff" />
           </Head>
-
-          <Script id="matomo-init" strategy="afterInteractive">
-            {`console.log('INIT Matomo tracker');
-  var _paq = window._paq = window._paq || [];
-  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-  _paq.push(['setDocumentTitle', document.domain + '/' + document.title]);
-  _paq.push(['setDoNotTrack', true])
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="//${process.env.NEXT_PUBLIC_MATOMO_DOMAIN}/";
-    _paq.push(['setTrackerUrl', u+'matomo.php']);
-    _paq.push(['setSiteId', '${process.env.NEXT_PUBLIC_MATOMO_SITE_ID}']);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-  })();
-`}
-          </Script>
           {getLayout(<Component {...pageProps} />)}
         </BetaContextProvider>
       </AuthProvider>
