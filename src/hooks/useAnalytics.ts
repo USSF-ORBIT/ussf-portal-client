@@ -34,6 +34,7 @@ const useAnalytics = ({
   const push: PushFn = (args): void => {
     if (!window) {
       console.warn('ANALYTICS: Cannot call push from server side code')
+      return
     }
 
     const windowWithAnalytics = window as unknown as WindowWithAnalytics

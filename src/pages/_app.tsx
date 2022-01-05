@@ -46,7 +46,7 @@ const USSFPortalApp = ({
   }
 }) => {
   const canonicalUrl = hostname.origin
-  const router = useRouter()
+  const { asPath } = useRouter()
 
   useAnalytics({
     url: appConfig.MATOMO_URL,
@@ -70,7 +70,7 @@ const USSFPortalApp = ({
               content="width=device-width, initial-scale=1"
               key="viewport"
             />
-            <link rel="canonical" href={canonicalUrl + router.asPath} />
+            <link rel="canonical" href={canonicalUrl + asPath} />
             <title>Space Force Portal</title>
             <link
               rel="apple-touch-icon"
