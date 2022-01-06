@@ -51,7 +51,7 @@ const USSFPortalApp = ({
   useAnalytics({
     url: appConfig.MATOMO_URL,
     siteId: appConfig.MATOMO_SITE_ID,
-    debug: true,
+    debug: process.env.NODE_ENV === 'development',
   })
 
   const getLayout =
@@ -188,7 +188,7 @@ USSFPortalApp.getInitialProps = async (appContext: AppContext) => {
   const { publicRuntimeConfig } = getConfig()
   const hostname = getAbsoluteUrl(appContext.ctx.req)
 
-  return { ...appProps, hostname, appConfig: publicRuntimeConfig }
+  return { ...appProps, hostname, appConfig: publicRuntimeConfig || {} }
 }
 
 export default USSFPortalApp
