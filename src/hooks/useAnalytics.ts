@@ -92,7 +92,7 @@ const useAnalytics = ({
     scriptEl.type = 'text/javascript'
     scriptEl.async = true
     scriptEl.defer = true
-    scriptEl.src = `//${url}/${jsTrackerFile}`
+    scriptEl.src = `${url}/${jsTrackerFile}`
     if (refElement.parentNode) {
       refElement.parentNode.insertBefore(scriptEl, refElement)
     }
