@@ -10,7 +10,7 @@ import type {
 } from 'types'
 
 export const CollectionModel = {
-  async getAllCollections(userId: string, db: Context) {
+  async getAll(userId: string, db: Context) {
     try {
       const foundUser = await db
         .collection('users')
