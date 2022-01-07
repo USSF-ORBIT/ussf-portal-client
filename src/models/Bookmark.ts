@@ -1,5 +1,6 @@
 import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
+import type { BookmarkInput } from 'types'
 
 export const BookmarkModel = {
   async deleteOne(
@@ -66,6 +67,45 @@ export const BookmarkModel = {
       }
     } catch (e) {
       console.error('Error in Bookmark.hideOne', e)
+      return e
+    }
+  },
+  async addOne(
+    collectionId: string,
+    url: string,
+    label: string,
+    cmsId: string,
+    db: Context,
+    userId: string
+  ) {
+    const newBookmark: BookmarkInput = {
+      _id: new ObjectId(),
+      url,
+      label,
+      cmsId,
+    }
+
+    const query = {
+      userId,
+      'mySpace._id': new ObjectId(collectionId),
+    }
+
+    const updateDocument = {
+      $push: {
+        'mySpace.$.bookmarks': newBookmark,
+      },
+    }
+    try {
+      // Update and save modified document
+      await db
+        .collection('users')
+        .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
+
+      return newBookmark
+    } catch (e) {
+      // TODO error logging
+      // eslint-disable-next-line no-console
+      console.error('error in Bookmark.addOne', e)
       return e
     }
   },
