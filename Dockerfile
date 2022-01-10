@@ -12,6 +12,7 @@ COPY . .
 RUN yarn install --frozen-lockfile
 
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_PUBLIC_TEST_VALUE 'testing'
 RUN yarn build
 
 # Install only production deps this time
@@ -27,6 +28,8 @@ RUN apt-get update \
 
 WORKDIR /app
 
+COPY ./server-preload.js ./server-preload.js
+
 ENV NODE_ENV production
 
 COPY --from=builder /app/next.config.js ./
@@ -37,7 +40,7 @@ COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
-CMD ["node_modules/.bin/next", "start"]
+CMD ["node","-r","./server-preload.js", "node_modules/.bin/next", "start"]
 
 ##--------- Stage: runner ---------##
 

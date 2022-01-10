@@ -14,7 +14,13 @@ const securityHeaders = [
 
 module.exports = withKeystone(
   withBundleAnalyzer({
+    serverRuntimeConfig: {
+      testSecret: 'testSecretValue',
+      MATOMO_URL: process.env.MATOMO_URL,
+      MATOMO_SITE_ID: process.env.MATOMO_SITE_ID,
+    },
     publicRuntimeConfig: {
+      testPublic: 'testPublicValue',
       MATOMO_URL: process.env.MATOMO_URL,
       MATOMO_SITE_ID: process.env.MATOMO_SITE_ID,
     },
