@@ -4,15 +4,26 @@ import type { BookmarkInput, Collection, Bookmark } from 'types'
 
 export const BookmarkModel = {
   async findOne(_id: string, collectionId: string, db: Context) {
-    const found = await db
-      .collection('users')
-      .find({
-        'mySpace.bookmarks._id': new ObjectId(_id),
-      })
-      .toArray()
-    // Currently this is returning the document, not the nested bookmark
-    // but this is only being used to validate the existence of the bookmark itself
-    return found
+    try {
+      const found = await db
+        .collection('users')
+        .aggregate([
+          { $unwind: '$mySpace' },
+          { $match: { 'mySpace._id': new ObjectId(collectionId) } },
+          { $unwind: '$mySpace.bookmarks' },
+          { $match: { 'mySpace.bookmarks._id': new ObjectId(_id) } },
+          {
+            $project: {
+              'mySpace.bookmarks': 1,
+            },
+          },
+        ])
+        .toArray()
+
+      return found[0]?.mySpace.bookmarks || []
+    } catch (error) {
+      console.error('Error in BookmarkModel.findOne', error)
+    }
   },
   async deleteOne(
     _id: string,

@@ -26,6 +26,29 @@ describe('Bookmark Model', () => {
     await connection.close()
   })
 
+  it('can create and find a bookmark', async () => {
+    const newBookmark = {
+      url: 'https://www.cats.com',
+      label: 'Cats',
+      cmsId: 'testCmsId',
+    }
+    const created = await BookmarkModel.addOne(
+      exampleCollectionId,
+      newBookmark.url,
+      newBookmark.label,
+      db,
+      'testUserId',
+      newBookmark.cmsId
+    )
+    const found = await BookmarkModel.findOne(
+      created._id,
+      exampleCollectionId,
+      db
+    )
+
+    expect(found).toEqual(created)
+  })
+
   it('can create and hide a new bookmark with cmsId', async () => {
     const newBookmark = {
       url: 'https://www.google.com',
