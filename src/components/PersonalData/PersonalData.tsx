@@ -1,11 +1,20 @@
 import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
+
 import styles from './PersonalData.module.scss'
 
-const PersonalData = ({ name }: { name: string }) => {
+import { useAuthContext } from 'stores/authContext'
+
+const PersonalData = () => {
+  const { user } = useAuthContext()
+
+  const greeting = user
+    ? `Welcome, ${user.attributes.givenname} ${user.attributes.surname}`
+    : 'Welcome!'
+
   return (
     <div className={styles.personalData}>
-      <h2>Welcome, {name}</h2>
+      <h2>{greeting}</h2>
 
       <dl className="grid-row">
         <Grid tablet={{ col: true }}>
@@ -30,7 +39,7 @@ const PersonalData = ({ name }: { name: string }) => {
           </dd>
         </Grid>
         <Grid tablet={{ col: true }}>
-          <dt>Next EPR:</dt>
+          <dt>Next Performance Report:</dt>
           <dd>
             <a
               href="https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx"

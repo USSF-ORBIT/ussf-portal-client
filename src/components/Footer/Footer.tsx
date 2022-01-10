@@ -20,7 +20,8 @@ const Footer = () => {
       secondary={
         <div className="grid-row grid-gap">
           <div className="grid-col-auto">
-            <USWDSFooterLogo image={<Logo abbreviated />} />
+            <USWDSFooterLogo image={<Logo darkBg />} />
+            <br />
             <small>©2021 All rights reserved, ORBIT Space Force</small>
           </div>
 
@@ -32,16 +33,44 @@ const Footer = () => {
                 <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
                   <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">Privacy Policy</LinkTo>
+                      <LinkTo
+                        href="https://www.my.af.mil/afp/netstorage/faq/privacy_advisory.html"
+                        target="_blank"
+                        rel="noreferrer noopener">
+                        Privacy Policy
+                      </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">Section508.gov Privacy Policy</LinkTo>
+                      <LinkTo
+                        href="https://dodcio.defense.gov/DoDSection508/Std_Stmt/"
+                        target="_blank"
+                        rel="noreferrer noopener">
+                        Section508.gov
+                      </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">Budget and Performance</LinkTo>
+                      <LinkTo
+                        href="https://comptroller.defense.gov/Budget-Materials/"
+                        target="_blank"
+                        rel="noreferrer noopener">
+                        Budget and Performance
+                      </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">Orders &amp; Directives</LinkTo>
+                      <LinkTo
+                        href="http://www.esd.whs.mil/DD/index.html"
+                        target="_blank"
+                        rel="noreferrer noopener">
+                        Orders &amp; Directives
+                      </LinkTo>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo
+                        href="https://www.dodig.mil/"
+                        target="_blank"
+                        rel="noreferrer noopener">
+                        Office of the Inspector General
+                      </LinkTo>
                     </li>
                   </ul>
                 </section>
@@ -50,18 +79,36 @@ const Footer = () => {
                 <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
                   <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">
-                        Freedom of Information Act Requests
+                      <LinkTo
+                        href="https://www.foia.af.mil/"
+                        target="_blank"
+                        rel="noreferrer noopener">
+                        FOIA Requests
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">No FEAR Act</LinkTo>
+                      <LinkTo
+                        href="https://www.af.mil/Equal-Opportunity/"
+                        target="_blank"
+                        rel="noreferrer noopener">
+                        No FEAR Act
+                      </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">Reports</LinkTo>
+                      <LinkTo
+                        href="https://www.usa.gov/"
+                        target="_blank"
+                        rel="noreferrer noopener">
+                        USA.gov
+                      </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="#">Help &amp; Support</LinkTo>
+                      <LinkTo
+                        href="https://www.resilience.af.mil/SAPR/"
+                        target="_blank"
+                        rel="noreferrer noopener">
+                        Sexual Assualt Prevention and Response
+                      </LinkTo>
                     </li>
                   </ul>
                 </section>

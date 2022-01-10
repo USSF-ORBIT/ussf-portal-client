@@ -13,13 +13,16 @@ import type {
   NewBookmarkInput,
 } from 'types/index'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
+import Loader from 'components/Loader/Loader'
 import Flash from 'components/util/Flash/Flash'
+import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 import BookmarkList from 'components/BookmarkList/BookmarkList'
 import SelectableCollection from 'components/SelectableCollection/SelectableCollection'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 
+import { useUser } from 'hooks/useUser'
 import { useCollectionsQuery } from 'operations/queries/getCollections'
 import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
@@ -34,6 +37,7 @@ const SitesAndApplications = ({
   bookmarks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter()
+  const { user } = useUser()
   const { loading, error, data } = useCollectionsQuery()
 
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
@@ -54,7 +58,6 @@ const SitesAndApplications = ({
     }
   }, [router.query])
 
-  if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
 
   const handleSortClick = (sortType: SortBy) => setSort(sortType)
@@ -108,6 +111,7 @@ const SitesAndApplications = ({
       handleAddBookmark({
         variables: {
           collectionId,
+          cmsId: bookmark.id,
           ...bookmark,
         },
         refetchQueries: [`getCollections`],
@@ -126,37 +130,42 @@ const SitesAndApplications = ({
       const bookmarkInput: NewBookmarkInput = {
         url: bookmark.url,
         label: bookmark.label,
+        cmsId: bookmark.id,
       }
+
       handleAddCollection({
         variables: { title: '', bookmarks: [bookmarkInput] },
         refetchQueries: [`getCollections`],
       })
-
       router.push('/')
     }
   }
 
-  return (
+  return !user ? (
+    <Loader />
+  ) : (
     <>
       <h2 className={styles.pageTitle}>Sites &amp; Applications</h2>
 
-      <div className={styles.toolbar}>
-        <button
-          type="button"
-          className={styles.sortButton}
-          disabled={sortBy === 'SORT_ALPHA' || selectMode}
-          onClick={() => handleSortClick('SORT_ALPHA')}>
-          <FontAwesomeIcon icon="list" /> Sort alphabetically
-        </button>
-        <button
-          type="button"
-          className={styles.sortButton}
-          disabled={sortBy === 'SORT_TYPE'}
-          onClick={() => handleSortClick('SORT_TYPE')}>
-          <FontAwesomeIcon icon="th-large" />
-          Sort by type
-        </button>
-      </div>
+      {!loading && (
+        <div className={styles.toolbar}>
+          <button
+            type="button"
+            className={styles.sortButton}
+            disabled={sortBy === 'SORT_ALPHA' || selectMode}
+            onClick={() => handleSortClick('SORT_ALPHA')}>
+            <FontAwesomeIcon icon="list" /> Sort alphabetically
+          </button>
+          <button
+            type="button"
+            className={styles.sortButton}
+            disabled={sortBy === 'SORT_TYPE'}
+            onClick={() => handleSortClick('SORT_TYPE')}>
+            <FontAwesomeIcon icon="th-large" />
+            Sort by type
+          </button>
+        </div>
+      )}
 
       {flash && (
         <div className={styles.flash}>
@@ -164,7 +173,18 @@ const SitesAndApplications = ({
         </div>
       )}
 
-      {sortBy === 'SORT_ALPHA' && (
+      {loading && (
+        <Grid row gap className={styles.widgets}>
+          <Grid
+            key={`collection_loading`}
+            tablet={{ col: 6 }}
+            desktop={{ col: 4 }}>
+            <LoadingWidget />
+          </Grid>
+        </Grid>
+      )}
+
+      {!loading && sortBy === 'SORT_ALPHA' && (
         <BookmarkList
           bookmarks={bookmarks}
           userCollectionOptions={data?.collections}
@@ -172,7 +192,7 @@ const SitesAndApplications = ({
         />
       )}
 
-      {sortBy === 'SORT_TYPE' && (
+      {!loading && sortBy === 'SORT_TYPE' && (
         <div className={widgetClasses}>
           <div className={styles.widgetToolbar}>
             {selectMode ? (
@@ -198,7 +218,7 @@ const SitesAndApplications = ({
               </>
             ) : (
               <Button type="button" onClick={handleToggleSelectMode}>
-                Select collections
+                Select multiple collections
               </Button>
             )}
           </div>
@@ -246,6 +266,11 @@ SitesAndApplications.getLayout = withBetaLayout
 export async function getStaticProps() {
   const collections: CollectionRecords = (await query.Collection.findMany({
     query: 'id title bookmarks { id url label }',
+    where: {
+      showInSitesApps: {
+        equals: true,
+      },
+    },
   })) as CollectionRecords
 
   const bookmarks: BookmarkRecords = (await query.Bookmark.findMany({

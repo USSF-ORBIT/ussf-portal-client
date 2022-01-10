@@ -1,4 +1,4 @@
-import { ObjectId } from 'bson'
+import type { ObjectId } from 'bson'
 
 /**
  * ***********************
@@ -38,12 +38,15 @@ export type Bookmark = {
   _id: string
   url: string
   label?: string
+  cmsId?: string
+  isRemoved?: boolean
 }
 
 // When creating a new collection, we need to initialize an empty bookmark with no ID
 export type NewBookmarkInput = {
   url: string
   label?: string
+  cmsId?: string
 }
 
 // When creating a new Bookmark, the _id must be type ObjectId
@@ -51,6 +54,7 @@ export type BookmarkInput = {
   _id: ObjectId
   url: string
   label?: string
+  cmsId?: string
 }
 
 /* Collection refers to a user-created collection containing one or more bookmarks */
@@ -73,21 +77,27 @@ export type CollectionsInput = {
   bookmarks: BookmarkInput[]
 }
 
-export type SAMLUser = {
+export interface SAMLUser {
+  issuer: string
   nameID: string
   nameIDFormat: string
+  inResponseTo: string
+  sessionIndex: string
   attributes: {
+    subject: string
     edipi: string
     givenname: string
-    sans: string
     surname: string
     userprincipalname: string
     ivgroups: string
   }
 }
 
-export type MongoUser = {
-  commonName: string
+export type PortalUser = {
+  userId: string
   mySpace: Collection[]
-  isBeta: boolean
+}
+
+export type SessionUser = SAMLUser & {
+  userId: string
 }

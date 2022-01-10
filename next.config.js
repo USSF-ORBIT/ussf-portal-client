@@ -14,6 +14,7 @@ const securityHeaders = [
 
 module.exports = withKeystone(
   withBundleAnalyzer({
+    reactStrictMode: true,
     // swcMinify: true,
     async headers() {
       return [
@@ -28,7 +29,7 @@ module.exports = withKeystone(
       return {
         beforeFiles: [
           {
-            source: '/:path',
+            source: '/sites-and-applications',
             has: [
               {
                 type: 'cookie',
@@ -36,10 +37,10 @@ module.exports = withKeystone(
                 value: 'true',
               },
             ],
-            destination: '/beta/:path',
+            destination: '/beta/sites-and-applications',
           },
           {
-            source: '/training-and-education/:path*',
+            source: '/leavebeta',
             has: [
               {
                 type: 'cookie',
@@ -47,18 +48,7 @@ module.exports = withKeystone(
                 value: 'true',
               },
             ],
-            destination: '/beta/training-and-education/:path*',
-          },
-          {
-            source: '/about-us/:path*',
-            has: [
-              {
-                type: 'cookie',
-                key: 'betaOptIn',
-                value: 'true',
-              },
-            ],
-            destination: '/beta/about-us/:path*',
+            destination: '/beta/leavebeta',
           },
           {
             source: '/',

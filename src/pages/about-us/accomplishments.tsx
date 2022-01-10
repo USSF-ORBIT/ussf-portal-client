@@ -8,8 +8,15 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRocket } from '@fortawesome/free-solid-svg-icons'
 
+import Loader from 'components/Loader/Loader'
+import { useUser } from 'hooks/useUser'
+
 const Accomplishments = () => {
-  return (
+  const { user } = useUser()
+
+  return !user ? (
+    <Loader />
+  ) : (
     <>
       <section className="usa-section bg-about text-white">
         <div className="usa-prose grid-container">
