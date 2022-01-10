@@ -6,6 +6,7 @@ import {
   ModalRef,
   ComboBox,
   ComboBoxOption,
+  ComboBoxRef,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { EditableCollectionTitle } from './EditableCollectionTitle'
@@ -31,11 +32,6 @@ type PropTypes = {
   handleAddBookmark: (url: string, label?: string, cmsId?: string) => void
   handleRemoveCollection: () => void
   handleEditCollection: (title: string) => void
-}
-
-type ComboBoxRef = {
-  focus: () => void
-  clearSelection: () => void
 }
 
 const CustomCollection = ({

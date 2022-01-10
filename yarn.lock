@@ -4014,7 +4014,7 @@
 
 "@trussworks/react-uswds@https://github.com/trussworks/react-uswds#1875-combobox-ref-focus":
   version "2.6.0"
-  resolved "https://github.com/trussworks/react-uswds#83ced46329e89c62afb76ec24b8e589b2d4817a6"
+  resolved "https://github.com/trussworks/react-uswds#70fe84d7bd43d6bc16ce92f4935161ef3c70faff"
 
 "@types/accepts@*", "@types/accepts@^1.3.5":
   version "1.3.5"
