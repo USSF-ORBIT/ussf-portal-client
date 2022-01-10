@@ -4,12 +4,21 @@ import type {
   BookmarkInput,
   BookmarkRecord,
   CollectionInput,
-  Collection,
   CollectionRecord,
   CollectionRecords,
 } from 'types'
 
 export const CollectionModel = {
+  async findOne(_id: string, db: Context, userId: string) {
+    const query = {
+      userId,
+      'mySpace._id': new ObjectId(_id),
+    }
+    const found = await db.collection('users').findOne(query)
+
+    return found?.mySpace || []
+  },
+
   async getAll(userId: string, db: Context) {
     try {
       const foundUser = await db
@@ -140,7 +149,7 @@ export const CollectionModel = {
       return e
     }
   },
-  async removeOne(_id: string, db: Context, userId: string) {
+  async deleteOne(_id: string, db: Context, userId: string) {
     const query = {
       userId: userId,
     }
@@ -155,14 +164,12 @@ export const CollectionModel = {
 
     try {
       // Update and save modified document
-      const updated = await db
+      await db
         .collection('users')
         .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
 
-      // #TODO add error check
-      const removedCollection: Collection = updated?.value?.mySpace[0]
-
-      return removedCollection
+      // Return deleted collection id
+      return { _id: _id }
     } catch (e) {
       // TODO error logging
       // eslint-disable-next-line no-console

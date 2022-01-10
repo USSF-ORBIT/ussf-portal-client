@@ -42,7 +42,7 @@ const resolvers: Resolvers = {
           'You must be logged in to perform this operation'
         )
       }
-      return CollectionModel.removeOne(_id, db, user.userId)
+      return CollectionModel.deleteOne(_id, db, user.userId)
     },
     addCollections: async (_, args, { db, user }) => {
       if (!user) {

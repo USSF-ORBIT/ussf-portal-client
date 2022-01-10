@@ -100,6 +100,6 @@ describe('Bookmark Model', () => {
       db
     )
 
-    expect(deleted).toEqual([])
+    expect(deleted.length).toBe(0)
   })
 })
