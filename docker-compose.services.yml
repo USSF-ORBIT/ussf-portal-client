@@ -42,5 +42,18 @@ services:
     volumes:
       - ./users.php:/var/www/simplesamlphp/config/authsources.php
 
+  keystone-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=keystonecms
+      - POSTGRES_USER=keystone
+      - POSTGRES_DB=keystone
+    ports:
+      - '5432:5432'
+    volumes:
+      - cms_data:/var/lib/postgresql/data/
+
 volumes:
   mongodb_data_container:
+  cms_data:

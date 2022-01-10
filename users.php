@@ -29,5 +29,23 @@ $config = [
             'ivgroups' => 'AFIN_TRANSIT,AF_USERS',
             'subject' => '/C=US/O=U.S. Government/OU=DoD/OU=PKI/OU=CONTRACTOR/CN=TESTER.SECOND.1234567890'
         ],
+        'user3:user3pass' => [
+            'edipi' => '1112223334',
+            'givenname' => 'CMS',
+            'sans' => 'msupn:1112223334@mil',
+            'surname' => 'Admin',
+            'userprincipalname' => 'CMS.ADMIN.1112223334@testusers.cce.af.mil',
+            'ivgroups' => 'USSF_CMS_ADMIN',
+            'subject' => '/C=US/O=U.S. Government/OU=DoD/OU=PKI/OU=CONTRACTOR/CN=ADMIN.CMS.1112223334'
+        ],
+        'user4:user4pass' => [
+            'edipi' => '1112223335',
+            'givenname' => 'CMS',
+            'sans' => 'msupn:1112223335@mil',
+            'surname' => 'User',
+            'userprincipalname' => 'CMS.USER.1112223335@testusers.cce.af.mil',
+            'ivgroups' => 'USSF_CMS_USERS',
+            'subject' => '/C=US/O=U.S. Government/OU=DoD/OU=PKI/OU=CONTRACTOR/CN=USER.CMS.1112223335'
+        ],
     ],
 ];
