@@ -49,9 +49,10 @@ const USSFPortalApp = ({
   const { asPath } = useRouter()
 
   useAnalytics({
-    url: appConfig.MATOMO_URL,
-    siteId: appConfig.MATOMO_SITE_ID,
-    debug: process.env.NODE_ENV === 'development',
+    // TODO - hardcoded values for testing, do not merge
+    url: appConfig.MATOMO_URL || 'https://analytics.ussforbit.us',
+    siteId: appConfig.MATOMO_SITE_ID || '2',
+    debug: true, // process.env.NODE_ENV === 'development',
   })
 
   const getLayout =
