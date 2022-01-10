@@ -4012,10 +4012,9 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
-"@trussworks/react-uswds@2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@trussworks/react-uswds/-/react-uswds-2.4.1.tgz#62604c86940492564465286c8214ae22a4bb5e2b"
-  integrity sha512-jjzBV3nVH3ee0UhWJmQr8+5k/bOTQREUWMi0U75dhF6z+kalw20c9yWBA4DlsE6ePu5d55y3ye2Rz7F+4dO+dA==
+"@trussworks/react-uswds@https://github.com/trussworks/react-uswds#1875-combobox-ref-focus":
+  version "2.6.0"
+  resolved "https://github.com/trussworks/react-uswds#83ced46329e89c62afb76ec24b8e589b2d4817a6"
 
 "@types/accepts@*", "@types/accepts@^1.3.5":
   version "1.3.5"
