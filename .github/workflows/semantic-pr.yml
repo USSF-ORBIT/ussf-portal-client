@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Lint pr title
-        uses: amannn/action-semantic-pull-request@7bfb19c48fc334d3dacb072cf982e81535041209 # renovate: tag=v3.4.6
+        uses: amannn/action-semantic-pull-request@e682a390b8f9f522ca538b5b5514b8cde08f1857 # renovate: tag=v3.5.0
         with:
           wip: true
           types: |

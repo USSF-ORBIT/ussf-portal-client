@@ -1,9 +1,16 @@
 import { GridContainer, Grid } from '@trussworks/react-uswds'
+
 import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import LinkTo from 'components/util/LinkTo/LinkTo'
+import Loader from 'components/Loader/Loader'
+import { useUser } from 'hooks/useUser'
 
 const AboutUs = () => {
-  return (
+  const { user } = useUser()
+
+  return !user ? (
+    <Loader />
+  ) : (
     <>
       <section className="usa-section bg-about text-white">
         <div className="usa-prose grid-container">

@@ -1,13 +1,22 @@
+import { useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLaptopCode } from '@fortawesome/free-solid-svg-icons'
-import { CardGroup } from '@trussworks/react-uswds'
+import { CardGroup, ModalRef } from '@trussworks/react-uswds'
+
 import CovidSiteAlert from 'components/MVP/CovidSiteAlert/CovidSiteAlert'
 import type { AnnouncementCardProps } from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import LinkTo from 'components/util/LinkTo/LinkTo'
+import { useUser } from 'hooks/useUser'
+import Loader from 'components/Loader/Loader'
+import JoinBetaModal from 'components/modals/JoinBetaModal'
 
 import styles from 'styles/mvp/index.module.scss'
+
 const Home = () => {
+  const { user } = useUser()
+  const joinBetaModal = useRef<ModalRef>(null)
+
   const manageYourLife = [
     {
       path: 'https://www.defensetravel.dod.mil/site/bahCalc.cfm',
@@ -69,6 +78,10 @@ const Home = () => {
     },
   ]
 
+  const handleJoinBeta = () => {
+    joinBetaModal.current?.toggleModal(undefined, true)
+  }
+
   const guardianIdealAnnouncement: AnnouncementCardProps = {
     heading: <>Read it here – The Guardian Ideal</>,
     tag: 'news',
@@ -77,16 +90,19 @@ const Home = () => {
     path: '/uploads/Guardian Ideal - FINAL - 1600 17Sept21.pdf',
   }
 
-  const insigniasAnnouncement: AnnouncementCardProps = {
-    heading: <>View the new Guardian Enlisted Rank insignia</>,
+  const portalBetaAnnouncement: AnnouncementCardProps = {
+    heading: <>Preview the new Space Force portal</>,
     tag: 'news',
     bgColor: 'gradient--orange bg-accent-warm-dark',
     cols: true,
-    path: '/uploads/US Space Force Enlisted Rank Insig Info Sheet (1).pdf',
+    onClick: handleJoinBeta,
   }
 
-  return (
+  return !user ? (
+    <Loader />
+  ) : (
     <>
+      <JoinBetaModal modalRef={joinBetaModal} />
       <CovidSiteAlert />
       <section
         className={`usa-section padding-top-4 padding-bottom-0 ${styles.home}`}>
@@ -94,7 +110,7 @@ const Home = () => {
           <div className="grid-row grid-gap">
             <div className="tablet:grid-col-8 usa-prose">
               <CardGroup>
-                <AnnouncementCard {...insigniasAnnouncement} />
+                <AnnouncementCard {...portalBetaAnnouncement} />
                 <AnnouncementCard {...guardianIdealAnnouncement} />
               </CardGroup>
             </div>

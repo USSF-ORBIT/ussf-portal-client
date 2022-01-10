@@ -4,13 +4,12 @@ import { fetch, toPassportConfig } from 'passport-saml-metadata'
 import type * as express from 'express'
 import type { NextApiRequest } from 'next'
 
-import type { SAMLUser } from 'types'
+import type { SAMLUser, SessionUser } from 'types'
 
 /** Types */
 export interface PassportRequest extends NextApiRequest {
-  user?: SAMLUser
+  user?: SessionUser
   isAuthenticated(): boolean
-  login(user: SAMLUser, callback: (error?: Error) => void): void
   session: {
     destroy(): Promise<void>
   }
@@ -94,7 +93,45 @@ export const configSaml = async (passport: PassportWithLogout) => {
       done
     ) {
       // Verify the response & user here
-      return done(null, profile as SAMLUser)
+      if (!profile || !profile.nameID || !profile.attributes) {
+        return done(new Error('Missing SAML profile'))
+      }
+
+      const samlUser = profile as unknown as SAMLUser
+
+      // Convert SAMLUser to SessionUser
+      const {
+        issuer,
+        nameID,
+        nameIDFormat,
+        inResponseTo,
+        sessionIndex,
+        attributes,
+      } = samlUser
+
+      let userId: string
+      if (
+        samlUser.nameIDFormat ===
+        'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
+      ) {
+        userId = samlUser.nameID
+      } else {
+        // DEVELOPMENT ONLY
+        // The test IDP only supports nameIDFormat=transient, so we need to use a different attribute
+        userId = samlUser.attributes.userprincipalname
+      }
+
+      const sessionUser = {
+        userId,
+        issuer,
+        nameID,
+        nameIDFormat,
+        inResponseTo,
+        sessionIndex,
+        attributes,
+      }
+
+      return done(null, sessionUser)
     })
 
     passport.use('saml', samlStrategy)

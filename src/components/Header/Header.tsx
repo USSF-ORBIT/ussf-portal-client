@@ -4,29 +4,37 @@ import {
   Title,
   PrimaryNav,
   NavMenuButton,
+  Button,
 } from '@trussworks/react-uswds'
 
 import styles from './Header.module.scss'
 
 import Logo from 'components/Logo/Logo'
-import NavLink from 'components/util/NavLink/NavLink'
 import LinkTo from 'components/util/LinkTo/LinkTo'
+import { useAuthContext } from 'stores/authContext'
 
 const Header = () => {
+  const { logout } = useAuthContext()
   const [expanded, setExpanded] = useState(false)
   const handleNavButtonClick = (): void =>
     setExpanded((prevExpanded) => !prevExpanded)
 
   const navItems = [
-    <NavLink href="#" key="nav_about">
-      <span>About Space Force</span>
-    </NavLink>,
-    <NavLink href="#" key="nav_news">
-      <span>News, Announcements &amp; Events</span>
-    </NavLink>,
-    <NavLink href="#" key="nav_support">
-      <span>Help &amp; Support</span>
-    </NavLink>,
+    <LinkTo
+      href="https://ussf-orbit.github.io/ussf-portal/"
+      key="nav_microsite"
+      target="_blank"
+      rel="noreferrer noopener">
+      <span>About this portal</span>
+    </LinkTo>,
+    <Button
+      secondary
+      className={styles.logoutButton}
+      type="button"
+      onClick={logout}
+      key="nav_logout">
+      <span>Log out</span>
+    </Button>,
   ]
 
   // The wrapper div is needed for mobile nav to work, so the header/overlay are not flex children */
@@ -42,7 +50,7 @@ const Header = () => {
           <div className="usa-navbar">
             <Title>
               <LinkTo href="/" title="USSF Portal Home">
-                <Logo abbreviated />
+                <Logo darkBg />
               </LinkTo>
             </Title>
             <NavMenuButton onClick={handleNavButtonClick} label="Menu" />

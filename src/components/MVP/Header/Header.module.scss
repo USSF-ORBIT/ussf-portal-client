@@ -10,7 +10,20 @@
   }
 }
 
+.joinBeta {
+  align-self: flex-start;
+  margin-top: units(4);
+  margin-bottom: units(4);
+  padding-right: units(2);
+
+  button {
+    margin: 0;
+  }
+}
+
 .Header {
+  overflow: auto;
+
   // USWDS OVERRIDES
   &:global(.usa-header) {
     background-color: color($theme-color-base-lightest);

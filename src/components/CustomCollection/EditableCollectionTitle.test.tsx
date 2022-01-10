@@ -20,7 +20,9 @@ describe('EditableCollectionTitle component', () => {
     )
 
     expect(
-      screen.getByRole('button', { name: 'Edit collection title' })
+      screen.getByRole('button', {
+        name: 'Edit Test Collection collection title',
+      })
     ).toBeInTheDocument()
   })
 
@@ -48,7 +50,7 @@ describe('EditableCollectionTitle component', () => {
       />
     )
     const editTitle = screen.getByRole('button', {
-      name: 'Edit collection title',
+      name: 'Edit Test Collection collection title',
     })
 
     userEvent.click(editTitle)
@@ -56,7 +58,9 @@ describe('EditableCollectionTitle component', () => {
     expect(input).toBeInTheDocument()
 
     expect(
-      screen.queryByRole('button', { name: 'Edit collection title' })
+      screen.queryByRole('button', {
+        name: 'Edit Test Collection collection title',
+      })
     ).not.toBeInTheDocument()
   })
 
@@ -70,7 +74,7 @@ describe('EditableCollectionTitle component', () => {
       />
     )
     const editTitle = screen.getByRole('button', {
-      name: 'Edit collection title',
+      name: 'Edit Test Collection collection title',
     })
     userEvent.tab()
     expect(editTitle).toHaveFocus()
@@ -78,7 +82,9 @@ describe('EditableCollectionTitle component', () => {
     const input = screen.getByRole('textbox')
     expect(input).toBeInTheDocument()
     expect(
-      screen.queryByRole('button', { name: 'Edit collection title' })
+      screen.queryByRole('button', {
+        name: 'Edit  Test Collection collection title',
+      })
     ).not.toBeInTheDocument()
   })
 
@@ -94,16 +100,19 @@ describe('EditableCollectionTitle component', () => {
         />
       )
       const editTitle = screen.getByRole('button', {
-        name: 'Edit collection title',
+        name: 'Edit Test Collection collection title',
       })
       userEvent.click(editTitle)
       const input = screen.getByRole('textbox')
       userEvent.click(input)
+      userEvent.clear(input)
       userEvent.type(input, 'Updated Title')
       fireEvent.blur(input)
       expect(handleOnSave).toHaveBeenCalled()
       expect(
-        screen.getByRole('button', { name: 'Edit collection title' })
+        screen.getByRole('button', {
+          name: 'Edit Updated Title collection title',
+        })
       ).toHaveTextContent('Updated Title')
     })
 
@@ -118,15 +127,18 @@ describe('EditableCollectionTitle component', () => {
         />
       )
       const editTitle = screen.getByRole('button', {
-        name: 'Edit collection title',
+        name: 'Edit Test Collection collection title',
       })
       userEvent.click(editTitle)
       const input = screen.getByRole('textbox')
       userEvent.click(input)
+      userEvent.clear(input)
       userEvent.type(input, 'Updated Title{enter}')
       expect(handleOnSave).toHaveBeenCalled()
       expect(
-        screen.getByRole('button', { name: 'Edit collection title' })
+        screen.getByRole('button', {
+          name: 'Edit Updated Title collection title',
+        })
       ).toHaveTextContent('Updated Title')
     })
 
@@ -141,15 +153,18 @@ describe('EditableCollectionTitle component', () => {
         />
       )
       const editTitle = screen.getByRole('button', {
-        name: 'Edit collection title',
+        name: 'Edit Test Collection collection title',
       })
       userEvent.click(editTitle)
       const input = screen.getByRole('textbox')
       userEvent.click(input)
+      userEvent.clear(input)
       userEvent.type(input, 'Updated Title{esc}')
       expect(handleOnSave).toHaveBeenCalled()
       expect(
-        screen.getByRole('button', { name: 'Edit collection title' })
+        screen.getByRole('button', {
+          name: 'Edit Updated Title collection title',
+        })
       ).toHaveTextContent('Updated Title')
     })
 
@@ -164,16 +179,19 @@ describe('EditableCollectionTitle component', () => {
         />
       )
       const editTitle = screen.getByRole('button', {
-        name: 'Edit collection title',
+        name: 'Edit Test Collection collection title',
       })
       userEvent.click(editTitle)
       const input = screen.getByRole('textbox')
       userEvent.click(input)
+      userEvent.clear(input)
       userEvent.type(input, 'Updated Title')
       userEvent.tab()
       expect(handleOnSave).toHaveBeenCalled()
       expect(
-        screen.getByRole('button', { name: 'Edit collection title' })
+        screen.getByRole('button', {
+          name: 'Edit Updated Title collection title',
+        })
       ).toHaveTextContent('Updated Title')
     })
   })
@@ -190,7 +208,7 @@ describe('EditableCollectionTitle component', () => {
       />
     )
     const editTitle = screen.getByRole('button', {
-      name: 'Edit collection title',
+      name: 'Edit Test Collection collection title',
     })
     userEvent.click(editTitle)
     const input = screen.getByRole('textbox')
@@ -199,7 +217,9 @@ describe('EditableCollectionTitle component', () => {
     fireEvent.blur(input)
     expect(handleOnSave).not.toHaveBeenCalled()
     expect(
-      screen.getByRole('button', { name: 'Edit collection title' })
+      screen.getByRole('button', {
+        name: 'Edit Test Collection collection title',
+      })
     ).toHaveTextContent('Test Collection')
   })
 

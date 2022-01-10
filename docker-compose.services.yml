@@ -28,5 +28,19 @@ services:
     depends_on:
       - mongo
 
+  idp:
+    container_name: test-saml-idp
+    image: kristophjunge/test-saml-idp
+    restart: always
+    ports:
+      - '8080:8080'
+      - '8443:8443'
+    environment:
+      SIMPLESAMLPHP_SP_ENTITY_ID: ussf-portal-client
+      SIMPLESAMLPHP_SP_ASSERTION_CONSUMER_SERVICE: http://localhost:3000/api/auth/login
+      SIMPLESAMLPHP_SP_SINGLE_LOGOUT_SERVICE: http://localhost:3000/api/auth/logout/callback
+    volumes:
+      - ./users.php:/var/www/simplesamlphp/config/authsources.php
+
 volumes:
   mongodb_data_container:

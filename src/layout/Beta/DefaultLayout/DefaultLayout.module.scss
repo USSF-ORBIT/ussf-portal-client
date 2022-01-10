@@ -18,16 +18,5 @@
     color: $theme-black;
     flex: 1;
     margin-bottom: units(7);
-
-    // Reset MVP type styles
-    h2 {
-      text-transform: none;
-      letter-spacing: normal;
-    }
-
-    p,
-    :global(.usa-prose) ul {
-      color: $theme-black;
-    }
   }
 }

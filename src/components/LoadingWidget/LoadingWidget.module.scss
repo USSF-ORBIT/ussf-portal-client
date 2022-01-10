@@ -1,0 +1,31 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.loadingWidget {
+  display: block;
+  cursor: progress;
+  text-align: center;
+  border: 1px solid color('base-lighter');
+  box-sizing: border-box;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: units(3);
+
+  background: linear-gradient(0.25turn, transparent, $white, transparent),
+    linear-gradient(color('base-lightest'), color('base-lightest'));
+  background-repeat: no-repeat;
+  background-size: contain, cover;
+  background-position: -500px 0, 0 0;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  to {
+    background-position: calc(100% + 500px) 0, 0 0;
+  }
+}

@@ -16,6 +16,20 @@ describe('Logo component', () => {
     expect(screen.getByRole('img')).toHaveAttribute('alt', 'USSF Logo')
   })
 
+  it('renders the dark bg logo image', () => {
+    render(<Logo darkBg />)
+
+    expect(screen.getByRole('img')).toBeInTheDocument()
+    expect(screen.getByRole('img')).toHaveAttribute(
+      'src',
+      '/assets/images/SpaceForce_Horizontal_Gradient_RGBmod-01.svg'
+    )
+    expect(screen.getByRole('img')).toHaveAttribute(
+      'alt',
+      'United States Space Force Logo'
+    )
+  })
+
   it('renders the abbreviated logo image', () => {
     render(<Logo abbreviated />)
 
