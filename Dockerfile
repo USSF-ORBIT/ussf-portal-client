@@ -77,12 +77,6 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
-<<<<<<< HEAD
 EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
 CMD ["node","-r","./server-preload.js", "node_modules/.bin/next", "start"]
-=======
-EXPOSE 3000
-ENV NEXT_TELEMETRY_DISABLED 1
-CMD ["node","-r","./server-preload.js", "node_modules/.bin/next", "start"]
->>>>>>> 30a1fe4b0f9111051ab7ab569e3039b2b1d22d6d
