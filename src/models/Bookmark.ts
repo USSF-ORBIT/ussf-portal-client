@@ -1,8 +1,19 @@
 import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
-import type { BookmarkInput } from 'types'
+import type { BookmarkInput, Collection, Bookmark } from 'types'
 
 export const BookmarkModel = {
+  async findOne(_id: string, collectionId: string, db: Context) {
+    const found = await db
+      .collection('users')
+      .find({
+        'mySpace.bookmarks._id': new ObjectId(_id),
+      })
+      .toArray()
+    // Currently this is returning the document, not the nested bookmark
+    // but this is only being used to validate the existence of the bookmark itself
+    return found
+  },
   async deleteOne(
     _id: string,
     collectionId: string,
@@ -74,9 +85,9 @@ export const BookmarkModel = {
     collectionId: string,
     url: string,
     label: string,
-    cmsId: string,
     db: Context,
-    userId: string
+    userId: string,
+    cmsId?: string
   ) {
     const newBookmark: BookmarkInput = {
       _id: new ObjectId(),
@@ -97,11 +108,21 @@ export const BookmarkModel = {
     }
     try {
       // Update and save modified document
-      await db
+      const result = await db
         .collection('users')
         .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
 
-      return newBookmark
+      const createdBookmark = result.value.mySpace
+        .filter(
+          (collection: Collection) =>
+            collection._id.toString() === collectionId.toString()
+        )[0]
+        .bookmarks.filter(
+          (bookmark: Bookmark) =>
+            bookmark._id.toString() === newBookmark._id.toString()
+        )[0]
+
+      return createdBookmark
     } catch (e) {
       // TODO error logging
       // eslint-disable-next-line no-console

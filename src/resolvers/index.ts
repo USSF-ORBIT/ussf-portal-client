@@ -3,7 +3,7 @@
 import type { Resolvers } from '@apollo/client'
 import { AuthenticationError } from 'apollo-server-micro'
 import { BookmarkModel } from '../models/Bookmark'
-import { CollectionModel } from 'models/Collection'
+import { CollectionModel } from '../models/Collection'
 
 const resolvers: Resolvers = {
   Query: {
