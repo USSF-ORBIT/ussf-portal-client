@@ -11,10 +11,7 @@ COPY . .
 
 RUN yarn install --frozen-lockfile
 
-ARG BUILD
-
 ENV NEXT_TELEMETRY_DISABLED 1
-ENV BUILD=${BUILD}
 
 RUN yarn build
 
