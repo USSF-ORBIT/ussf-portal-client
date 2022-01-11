@@ -3,7 +3,7 @@
 FROM node:14.18.2-slim AS builder
 
 RUN apt-get update \
-  && apt-get -y --no-install-recommends install openssl libc6 git
+  && apt-get -y --no-install-recommends install openssl libc6
 
 WORKDIR /app
 
@@ -11,7 +11,11 @@ COPY . .
 
 RUN yarn install --frozen-lockfile
 
+ARG BUILD
+
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV IMAGE_TAG=${BUILD}
+
 RUN yarn build
 
 # Install only production deps this time
