@@ -42,6 +42,15 @@ export const CollectionModel = {
     db: Context,
     userId: string
   ) {
+    try {
+      const existing = await CollectionModel.getAll(userId, db)
+      if (existing.length >= 25) {
+        return new Error('You have reached the maximum number of collections')
+      }
+    } catch (e) {
+      console.error('Error in CollectionModel.addOne', e)
+    }
+
     const newBookmarks: BookmarkInput[] = bookmarks.map(
       (input: BookmarkInput) => ({
         _id: new ObjectId(),
@@ -78,6 +87,15 @@ export const CollectionModel = {
     }
   },
   async addMany(collections: CollectionRecords, db: Context, userId: string) {
+    try {
+      const existing = await CollectionModel.getAll(userId, db)
+      if (existing.length >= 25 || existing.length + collections.length >= 25) {
+        return new Error('You have reached the maximum number of collections')
+      }
+    } catch (e) {
+      console.error('Error in CollectionModel.addOne', e)
+    }
+
     const newCollections = collections.map((collection: CollectionRecord) => ({
       _id: new ObjectId(),
       // #TODO Future data modeling to be done for canonical collections

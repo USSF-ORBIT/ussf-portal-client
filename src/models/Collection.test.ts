@@ -8,6 +8,8 @@ let db: typeof Db
 let exampleCollectionId: string
 let testUserId: string
 
+let manyCollections: CollectionRecords
+
 describe('Bookmark Model', () => {
   beforeAll(async () => {
     connection = await MongoClient.connect(process.env.MONGO_URL, {
@@ -22,6 +24,125 @@ describe('Bookmark Model', () => {
     await User.createOne(testUserId, { db })
     const testUser = await User.findOne(testUserId, { db })
     exampleCollectionId = testUser.mySpace[0]._id
+
+    // Create many collections
+    manyCollections = [
+      {
+        id: 'testCmsId3',
+        title: 'CMS Collection 3',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId3',
+        title: 'CMS Collection 4',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId5',
+        title: 'CMS Collection 5',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId6',
+        title: 'CMS Collection 6',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId7',
+        title: 'CMS Collection 7',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId8',
+        title: 'CMS Collection 8',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId9',
+        title: 'CMS Collection 9',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId10',
+        title: 'CMS Collection 10',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId11',
+        title: 'CMS Collection 11',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId12',
+        title: 'CMS Collection 12',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId13',
+        title: 'CMS Collection 13',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId14',
+        title: 'CMS Collection 14',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId15',
+        title: 'CMS Collection 15',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId16',
+        title: 'CMS Collection 16',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId17',
+        title: 'CMS Collection 17',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId18',
+        title: 'CMS Collection 18',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId19',
+        title: 'CMS Collection 19',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId20',
+        title: 'CMS Collection 20',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId21',
+        title: 'CMS Collection 21',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId22',
+        title: 'CMS Collection 22',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId23',
+        title: 'CMS Collection 23',
+        bookmarks: [],
+      },
+      // {
+      //   id: 'testCmsId24',
+      //   title: 'CMS Collection 24',
+      //   bookmarks: [],
+      // },
+      // {
+      //   id: 'testCmsId25',
+      //   title: 'CMS Collection 25',
+      //   bookmarks: [],
+      // },
+    ]
   })
 
   afterAll(async () => {
@@ -128,5 +249,47 @@ describe('Bookmark Model', () => {
     )
 
     expect(found.length).toBe(0)
+  })
+  it('cannot add more than 25 collections using addMany', async () => {
+    const addCollections: CollectionRecords = [
+      ...manyCollections,
+      {
+        id: 'testCmsId24',
+        title: 'CMS Collection 24',
+        bookmarks: [],
+      },
+      {
+        id: 'testCmsId25',
+        title: 'CMS Collection 25',
+        bookmarks: [],
+      },
+    ]
+    const error = await CollectionModel.addMany(addCollections, db, testUserId)
+
+    const all = await CollectionModel.getAll(testUserId, db)
+
+    expect(error).toBeInstanceOf(Error)
+    expect(all.length).toBeLessThan(25)
+  })
+
+  it('cannot go over 25 collections limit using addOne', async () => {
+    // add bulk collections using addMany
+
+    let all = await CollectionModel.addMany(manyCollections, db, testUserId)
+    // should add one return all collections if successful?
+    await CollectionModel.addOne('CMS Collection 26', [], db, testUserId)
+
+    all = await CollectionModel.getAll(testUserId, db)
+
+    expect(all.length).toEqual(25)
+
+    const error = await CollectionModel.addOne(
+      'CMS Collection 27',
+      [],
+      db,
+      testUserId
+    )
+
+    expect(error).toBeInstanceOf(Error)
   })
 })
