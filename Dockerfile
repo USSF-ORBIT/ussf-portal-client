@@ -27,7 +27,7 @@ RUN yarn install --production --ignore-scripts --prefer-offline
 FROM node:14.18.2-slim AS e2e
 
 RUN apt-get update \
-  && apt-get -y --no-install-recommends install openssl libc6
+  && apt-get -y --no-install-recommends install openssl libc6 git
 
 WORKDIR /app
 
