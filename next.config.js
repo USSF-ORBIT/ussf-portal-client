@@ -15,10 +15,11 @@ const securityHeaders = [
 
 module.exports = withKeystone(
   withBundleAnalyzer({
-    generateBuildId: () => nextBuildId({ dir: __dirname }),
+    generateBuildId: () =>
+      process.env.IMAGE_TAG || nextBuildId({ dir: __dirname }),
     reactStrictMode: true,
     env: {
-      BUILD_ID: nextBuildId.sync({ dir: __dirname }),
+      BUILD_ID: process.env.IMAGE_TAG || nextBuildId.sync({ dir: __dirname }),
     },
     // swcMinify: true,
     async headers() {
