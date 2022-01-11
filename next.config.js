@@ -3,6 +3,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
+const nextBuildId = require('next-build-id')
 const { withKeystone } = require('@keystone-next/keystone/next')
 
 const securityHeaders = [
@@ -14,7 +15,11 @@ const securityHeaders = [
 
 module.exports = withKeystone(
   withBundleAnalyzer({
+    generateBuildId: () => nextBuildId({ dir: __dirname }),
     reactStrictMode: true,
+    env: {
+      BUILD_ID: nextBuildId.sync({ dir: __dirname }),
+    },
     // swcMinify: true,
     async headers() {
       return [
