@@ -15,7 +15,7 @@ const securityHeaders = [
 
 module.exports = withKeystone(
   withBundleAnalyzer({
-    generateBuildId: () => process.env.IMAGE_TAG,
+    generateBuildId: process.env.IMAGE_TAG,
     reactStrictMode: true,
     env: {
       BUILD_ID: process.env.IMAGE_TAG,
