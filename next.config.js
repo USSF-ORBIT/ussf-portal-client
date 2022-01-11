@@ -3,7 +3,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
-// const nextBuildId = require('next-build-id')
 const { withKeystone } = require('@keystone-next/keystone/next')
 
 const securityHeaders = [
