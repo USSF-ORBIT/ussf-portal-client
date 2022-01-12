@@ -3,6 +3,20 @@ import { ObjectId } from 'mongodb'
 import type { BookmarkInput, Collection, Bookmark } from 'types'
 
 export const BookmarkModel = {
+  async getAllCollectionBookmarks(collectionId: string, db: Context) {
+    try {
+      const found = await db
+        .collection('users')
+        .find({ 'mySpace._id': new ObjectId(collectionId) })
+        .project({ 'mySpace.$': 1 })
+        .toArray()
+
+      const bookmarks = found[0]?.mySpace[0]?.bookmarks || []
+      return bookmarks
+    } catch (error) {
+      console.error('Error in BookmarkModel.getAllCollectionBookmarks', error)
+    }
+  },
   async findOne(_id: string, collectionId: string, db: Context) {
     try {
       const found = await db
@@ -95,11 +109,25 @@ export const BookmarkModel = {
   async addOne(
     collectionId: string,
     url: string,
-    label: string,
     db: Context,
     userId: string,
+    label?: string,
     cmsId?: string
   ) {
+    try {
+      const existing = await BookmarkModel.getAllCollectionBookmarks(
+        collectionId,
+        db
+      )
+      if (existing.length >= 10) {
+        return new Error(
+          'You have reached the maximum number of bookmarks per collection'
+        )
+      }
+    } catch (e) {
+      console.error('Error in CollectionModel.addOne', e)
+    }
+
     const newBookmark: BookmarkInput = {
       _id: new ObjectId(),
       url,
