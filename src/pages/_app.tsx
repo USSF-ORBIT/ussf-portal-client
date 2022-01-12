@@ -49,10 +49,9 @@ const USSFPortalApp = ({
   const { asPath } = useRouter()
 
   useAnalytics({
-    // TODO - hardcoded values for testing, do not merge
-    url: appConfig.MATOMO_URL || 'https://analytics.ussforbit.us',
-    siteId: appConfig.MATOMO_SITE_ID || '2',
-    debug: true, // process.env.NODE_ENV === 'development',
+    url: appConfig.MATOMO_URL,
+    siteId: appConfig.MATOMO_SITE_ID,
+    debug: process.env.NODE_ENV === 'development',
   })
 
   const getLayout =
@@ -186,19 +185,8 @@ const USSFPortalApp = ({
 USSFPortalApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext)
 
-  // TODO - for debugging, dont merge
-  console.log('get initial app props on server')
-  console.log('NODE_ENV', process.env.NODE_ENV)
-  console.log('MONGO_URL', process.env.MONGO_URL)
-  console.log('NEXT_PUBLIC_TEST_VALUE', process.env.NEXT_PUBLIC_TEST_VALUE)
-  console.log('MATOMO_URL', process.env.MATOMO_URL)
-  console.log('MATOMO_SITE_ID', process.env.MATOMO_SITE_ID)
-
-  const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+  const { publicRuntimeConfig } = getConfig()
   const hostname = getAbsoluteUrl(appContext.ctx.req)
-
-  console.log('server runtime config', serverRuntimeConfig)
-  console.log('public runtime config', publicRuntimeConfig)
 
   return { ...appProps, hostname, appConfig: publicRuntimeConfig || {} }
 }

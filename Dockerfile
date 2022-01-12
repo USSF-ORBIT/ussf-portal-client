@@ -12,7 +12,6 @@ COPY . .
 RUN yarn install --frozen-lockfile
 
 ENV NEXT_TELEMETRY_DISABLED 1
-ENV NEXT_PUBLIC_TEST_VALUE 'testing'
 RUN yarn build
 
 # Install only production deps this time
