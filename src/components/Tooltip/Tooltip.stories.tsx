@@ -16,7 +16,7 @@ export default {
   ],
 } as Meta
 
-const labelText = `You have reached the maximum 25 collections that can be added to your My Space page. Please remove or reorganize your sections to continue to add more.`
+const labelText = `You can only add 10 links to a collection.\nTo add more links, please create a new collection.`
 
 export const tooltipDefault = (): React.ReactElement => (
   <div className="margin-4">
