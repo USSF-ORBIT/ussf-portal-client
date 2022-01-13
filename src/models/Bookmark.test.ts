@@ -1,18 +1,19 @@
 import { ObjectId } from 'bson'
 import { MongoClient, Db } from 'mongodb'
-import type { BookmarkInput, Collection } from 'types'
-
-import { exampleCollection1 } from '../__fixtures__/newPortalUser'
 import { BookmarkModel } from './Bookmark'
 import { CollectionModel } from './Collection'
 import User from './User'
-
+import type { BookmarkInput, Collection, RemovedBookmark } from 'types'
 let connection: typeof MongoClient
 let db: typeof Db
 let exampleCollectionId: string
 
 describe('Bookmark Model', () => {
   beforeAll(async () => {
+    // Create mongodb connection
+    // Create Test User with 1 collection, 5 bookmarks
+    // Store collection id to use for all tests
+
     connection = await MongoClient.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -20,10 +21,15 @@ describe('Bookmark Model', () => {
 
     db = await connection.db()
 
+    // Clean db before running test suite
+    await db.collection('users').deleteMany({})
+
     // Create test user
     const testUserId = 'testUserId'
     await User.createOne(testUserId, { db })
     const testUser = await User.findOne(testUserId, { db })
+
+    // Test user comes with an example collection
     exampleCollectionId = testUser.mySpace[0]._id
   })
 
@@ -32,6 +38,8 @@ describe('Bookmark Model', () => {
   })
 
   it('can create and find a bookmark', async () => {
+    // Start Data: Test User, 1 collection, 5 bookmarks
+    // End Data: Test User, 1 collection, 6 bookmarks
     const newBookmark = {
       url: 'https://www.example.com',
       label: 'Example Bookmark',
@@ -52,9 +60,17 @@ describe('Bookmark Model', () => {
     )
 
     expect(found).toEqual(created)
+
+    const all = await BookmarkModel.getAllCollectionBookmarks(
+      exampleCollectionId,
+      db
+    )
+    expect(all.length).toEqual(6)
   })
 
   it('can create and hide a new bookmark with cmsId', async () => {
+    // Start Data: Test User, 1 collection, 6 bookmarks
+    // End Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
     const newBookmark = {
       url: 'https://www.google.com',
       label: 'Google',
@@ -73,9 +89,28 @@ describe('Bookmark Model', () => {
     expect(created.cmsId).toEqual(newBookmark.cmsId)
     expect(created.label).toEqual(newBookmark.label)
     expect(created.url).toEqual(newBookmark.url)
+
+    const hidden: RemovedBookmark = await BookmarkModel.hideOne(
+      created._id,
+      exampleCollectionId,
+      db,
+      'testUserId'
+    )
+
+    const all = await BookmarkModel.getAllCollectionBookmarks(
+      exampleCollectionId,
+      db
+    )
+    expect(all.length).toEqual(7)
+
+    const found = all.find((b: any) => `${b._id}` === `${hidden._id}`)
+
+    expect(found.isRemoved).toBe(true)
   })
 
   it('can create and delete a new bookmark without a cmsId', async () => {
+    // Start Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
+    // End Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
     const newBookmark = {
       url: 'https://www.google.com',
       label: 'Google',
@@ -106,17 +141,31 @@ describe('Bookmark Model', () => {
     )
 
     expect(deleted.length).toBe(0)
+
+    const all = await BookmarkModel.getAllCollectionBookmarks(
+      exampleCollectionId,
+      db
+    )
+    expect(all.length).toEqual(7)
   })
 
   it('can get all bookmarks in a single collection', async () => {
+    // Start Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
+    // End Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
     const bookmarks = await BookmarkModel.getAllCollectionBookmarks(
       exampleCollectionId,
       db
     )
+
     expect(bookmarks).toHaveLength(7)
   })
 
   it('cannot add a bookmark if reached max limit of 10', async () => {
+    // Start Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
+    // Create 1 new collection with 10 bookmarks
+    // Add 1 new bookmark to that collection
+    // End Data: Test User, 1 new collection with 10 bookmarks
+
     // Create full collection
     const maxBookmarks: BookmarkInput[] = [
       {
@@ -195,6 +244,6 @@ describe('Bookmark Model', () => {
     )
 
     expect(error).toBeInstanceOf(Error)
-    expect(all.length).toBeLessThanOrEqual(10)
+    expect(all.length).toBe(10)
   })
 })

@@ -1,6 +1,11 @@
 import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
-import type { BookmarkInput, Collection, Bookmark } from 'types'
+import type {
+  BookmarkInput,
+  Collection,
+  Bookmark,
+  RemovedBookmark,
+} from 'types'
 
 export const BookmarkModel = {
   async getAllCollectionBookmarks(collectionId: string, db: Context) {
@@ -12,6 +17,7 @@ export const BookmarkModel = {
         .toArray()
 
       const bookmarks = found[0]?.mySpace[0]?.bookmarks || []
+      // console.log('bookmarks in getAll', bookmarks)
       return bookmarks
     } catch (error) {
       console.error('Error in BookmarkModel.getAllCollectionBookmarks', error)
@@ -73,7 +79,7 @@ export const BookmarkModel = {
     collectionId: string,
     db: Context,
     userId: string
-  ) {
+  ): Promise<RemovedBookmark> {
     const query = {
       userId,
       'mySpace.bookmarks._id': new ObjectId(_id),
@@ -101,7 +107,7 @@ export const BookmarkModel = {
       return {
         _id: _id,
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error('Error in Bookmark.hideOne', e)
       return e
     }

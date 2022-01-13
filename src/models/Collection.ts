@@ -89,7 +89,7 @@ export const CollectionModel = {
   async addMany(collections: CollectionRecords, db: Context, userId: string) {
     try {
       const existing = await CollectionModel.getAll(userId, db)
-      if (existing.length >= 25 || existing.length + collections.length >= 25) {
+      if (existing.length >= 25 || existing.length + collections.length > 25) {
         return new Error('You have reached the maximum number of collections')
       }
     } catch (e) {
