@@ -306,6 +306,36 @@ describe('Sites and Applications', () => {
       })
   })
 
+  it('can remove multiple links at once from an existing collection', () => {
+    cy.contains('My Space')
+
+    cy.contains('Updated Title')
+      .parent()
+      .next()
+      .within(() => {
+        // Inside of <ol>
+        cy.findAllByRole('listitem').should('have.length', 7)
+
+        cy.contains('e-publications')
+
+        // // First delete
+        cy.findAllByRole('button', { name: 'Remove this bookmark' })
+          .first()
+          .click()
+        cy.contains('e-publications').should('not.exist')
+
+        cy.contains('My Custom Link')
+
+        // // First delete
+        cy.findAllByRole('button', { name: 'Remove this bookmark' })
+          .first()
+          .click()
+        cy.contains('My Custom Link').should('not.exist')
+
+        cy.findAllByRole('listitem').should('have.length', 5)
+      })
+  })
+
   it('can delete an existing collection', () => {
     cy.contains('Second Collection')
       .parent()
