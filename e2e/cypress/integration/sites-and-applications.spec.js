@@ -316,13 +316,13 @@ describe('Sites and Applications', () => {
         // Inside of <ol>
         cy.findAllByRole('listitem').should('have.length', 7)
 
-        cy.contains('e-publications')
+        cy.contains('MyPay')
 
         // // First delete
         cy.findAllByRole('button', { name: 'Remove this bookmark' })
           .first()
           .click()
-        cy.contains('e-publications').should('not.exist')
+        cy.contains('MyPay').should('not.exist')
 
         cy.contains('My Custom Link')
 
