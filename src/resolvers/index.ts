@@ -63,14 +63,13 @@ const resolvers: Resolvers = {
           'You must be logged in to perform this operation'
         )
       }
-
       return BookmarkModel.addOne(
         collectionId,
         url,
-        label,
-        cmsId,
         db,
-        user.userId
+        user.userId,
+        label,
+        cmsId
       )
     },
     removeBookmark: async (
