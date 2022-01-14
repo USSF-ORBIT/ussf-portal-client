@@ -17,7 +17,7 @@ export const BookmarkModel = {
         .toArray()
 
       const bookmarks = found[0]?.mySpace[0]?.bookmarks || []
-      // console.log('bookmarks in getAll', bookmarks)
+
       return bookmarks
     } catch (error) {
       console.error('Error in BookmarkModel.getAllCollectionBookmarks', error)

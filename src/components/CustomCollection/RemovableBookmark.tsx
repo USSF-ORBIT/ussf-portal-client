@@ -13,7 +13,7 @@ export const RemovableBookmark = ({
   handleRemove,
 }: {
   bookmark: BookmarkType
-  handleRemove: () => void
+  handleRemove: () => Promise<void>
 }) => {
   const { url, label } = bookmark
 
@@ -32,8 +32,8 @@ export const RemovableBookmark = ({
 
   useEffect(() => {
     if (isHidden) {
-      timer = setTimeout(() => {
-        handleRemove()
+      timer = setTimeout(async () => {
+        await handleRemove()
       }, UNDO_TIMEOUT)
 
       return () => clearTimeout(timer)

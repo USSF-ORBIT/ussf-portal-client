@@ -252,7 +252,7 @@ const CustomCollection = ({
             <RemovableBookmark
               key={`bookmark_${bookmark._id}`}
               bookmark={bookmark}
-              handleRemove={() =>
+              handleRemove={async () =>
                 handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
               }
             />
