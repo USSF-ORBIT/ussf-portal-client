@@ -316,21 +316,21 @@ describe('Sites and Applications', () => {
         // Inside of <ol>
         cy.findAllByRole('listitem').should('have.length', 7)
 
-        cy.contains('MyPay')
+        cy.contains('LeaveWeb')
 
         // // First delete
+        cy.findAllByRole('button', { name: 'Remove this bookmark' })
+          .first()
+          .click()
+
+        cy.contains('MyPay')
+
+        // // Second delete
         cy.findAllByRole('button', { name: 'Remove this bookmark' })
           .first()
           .click()
         cy.contains('MyPay').should('not.exist')
-
-        cy.contains('My Custom Link')
-
-        // // First delete
-        cy.findAllByRole('button', { name: 'Remove this bookmark' })
-          .first()
-          .click()
-        cy.contains('My Custom Link').should('not.exist')
+        cy.contains('LeaveWeb').should('not.exist')
 
         cy.findAllByRole('listitem').should('have.length', 5)
       })
