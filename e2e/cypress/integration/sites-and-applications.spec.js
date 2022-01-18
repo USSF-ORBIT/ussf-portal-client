@@ -314,21 +314,12 @@ describe('Sites and Applications', () => {
       .next()
       .within(() => {
         // Inside of <ol>
+        // Start with 7 links, remove 2
         cy.findAllByRole('listitem').should('have.length', 7)
 
-        cy.contains('LeaveWeb')
+        cy.contains('LeaveWeb').next().click()
+        cy.contains('MyPay').next().click()
 
-        // // First delete
-        cy.findAllByRole('button', { name: 'Remove this bookmark' })
-          .first()
-          .click()
-
-        cy.contains('MyPay')
-
-        // // Second delete
-        cy.findAllByRole('button', { name: 'Remove this bookmark' })
-          .first()
-          .click()
         cy.contains('MyPay').should('not.exist')
         cy.contains('LeaveWeb').should('not.exist')
 
