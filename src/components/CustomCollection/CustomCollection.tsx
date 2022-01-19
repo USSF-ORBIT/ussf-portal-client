@@ -11,6 +11,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
+import { CustomBookmark } from './CustomBookmark'
 import styles from './CustomCollection.module.scss'
 
 import Collection from 'components/Collection/Collection'
@@ -257,15 +258,25 @@ const CustomCollection = ({
       <Collection header={customCollectionHeader} footer={addLinkForm}>
         {bookmarks
           .filter((b: BookmarkType) => !b.isRemoved)
-          .map((bookmark: BookmarkType) => (
-            <RemovableBookmark
-              key={`bookmark_${bookmark._id}`}
-              bookmark={bookmark}
-              handleRemove={() =>
-                handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
-              }
-            />
-          ))}
+          .map((bookmark: BookmarkType) =>
+            bookmark.cmsId ? (
+              <RemovableBookmark
+                key={`bookmark_${bookmark._id}`}
+                bookmark={bookmark}
+                handleRemove={() =>
+                  handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
+                }
+              />
+            ) : (
+              <CustomBookmark
+                key={`bookmark_${bookmark._id}`}
+                bookmark={bookmark}
+                handleEdit={() => {
+                  /* TODO */
+                }}
+              />
+            )
+          )}
       </Collection>
 
       <AddCustomLinkModal
