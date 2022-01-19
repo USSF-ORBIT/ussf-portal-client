@@ -291,4 +291,10 @@
       }
     }
   }
+
+  /** Tooltip **/
+  .usa-tooltip__body {
+    background-color: $theme-spacebase-dark;
+    padding: units(2);
+  }
 }

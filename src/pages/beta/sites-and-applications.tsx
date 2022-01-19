@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { InferGetStaticPropsType } from 'next'
-import { Button, Grid, Alert } from '@trussworks/react-uswds'
+import { Button, Grid, Alert, IconInfo } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
@@ -20,6 +20,7 @@ import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 import BookmarkList from 'components/BookmarkList/BookmarkList'
 import SelectableCollection from 'components/SelectableCollection/SelectableCollection'
+import Tooltip from 'components/Tooltip/Tooltip'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useUser } from 'hooks/useUser'
@@ -41,9 +42,7 @@ const SitesAndApplications = ({
   const { loading, error, data } = useCollectionsQuery()
 
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
-  const [selectMode, setSelectMode] = useState<boolean>(
-    router.query.selectMode == 'true' || false
-  )
+  const [selectMode, setSelectMode] = useState<boolean>(false)
   const [selectedCollections, setSelectedCollections] =
     useState<SelectedCollections>([])
   const [flash, setFlash] = useState<React.ReactNode>(null)
@@ -59,6 +58,8 @@ const SitesAndApplications = ({
   }, [router.query])
 
   if (error) return <p>Error</p>
+
+  const canAddSections = data && data.collections.length < 25
 
   const handleSortClick = (sortType: SortBy) => setSort(sortType)
 
@@ -217,9 +218,21 @@ const SitesAndApplications = ({
                 </Button>
               </>
             ) : (
-              <Button type="button" onClick={handleToggleSelectMode}>
-                Select multiple collections
-              </Button>
+              <>
+                {!canAddSections && (
+                  <Tooltip
+                    position="left"
+                    label={`You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`}>
+                    <IconInfo size={3} />
+                  </Tooltip>
+                )}
+                <Button
+                  type="button"
+                  onClick={handleToggleSelectMode}
+                  disabled={!canAddSections}>
+                  Select multiple collections
+                </Button>
+              </>
             )}
           </div>
 

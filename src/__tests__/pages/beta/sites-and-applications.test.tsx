@@ -9,7 +9,10 @@ import axios from 'axios'
 
 import { renderWithAuth } from '../../../testHelpers'
 
-import { getCollectionsMock } from '../../../__fixtures__/operations/getCollection'
+import {
+  getCollectionsMock,
+  getMaximumCollectionsMock,
+} from '../../../__fixtures__/operations/getCollection'
 import { cmsBookmarksMock } from '../../../__fixtures__/data/cmsBookmarks'
 import { cmsCollectionsMock } from '../../../__fixtures__/data/cmsCollections'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
@@ -474,6 +477,22 @@ describe('Sites and Applications page', () => {
       expect(
         screen.getByRole('button', { name: 'Add selected' })
       ).toBeDisabled()
+    })
+
+    it('prevents adding more collections if the user already has 25', async () => {
+      renderWithAuth(
+        <MockedProvider mocks={getMaximumCollectionsMock}>
+          <SitesAndApplications
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
+          />
+        </MockedProvider>
+      )
+
+      const selectBtn = await screen.findByRole('button', {
+        name: 'Select multiple collections',
+      })
+      expect(selectBtn).toBeDisabled()
     })
 
     it('shows an error state', async () => {
