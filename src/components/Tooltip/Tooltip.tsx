@@ -4,8 +4,6 @@ import classnames from 'classnames'
 
 import styles from './Tooltip.module.scss'
 
-// type TooltipProps = ComponentPropsWithoutRef<typeof Tooltip>
-
 type TooltipProps = {
   label: string
   position?: 'top' | 'bottom' | 'left' | 'right' | undefined
