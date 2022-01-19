@@ -34,6 +34,8 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     })
   }
 
+  const canAddSections = data && data.collections.length < 25
+
   return (
     <div className={styles.mySpace}>
       <h2 className={styles.pageTitle}>My Space</h2>
@@ -101,7 +103,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
               </Grid>
             ))}
 
-          {!loading && (
+          {!loading && canAddSections && (
             <Grid
               key={`collection_addNew`}
               tablet={{ col: 6 }}

@@ -43,3 +43,37 @@ export const getCollectionsMock = [
     },
   },
 ]
+
+const mockCollection = {
+  title: 'Example Collection',
+  bookmarks: [
+    {
+      _id: '3',
+      url: 'https://google.com',
+      label: 'Webmail',
+      description: 'Lorem ipsum',
+      cmsId: null,
+      isRemoved: null,
+    },
+  ],
+}
+
+const maxCollections = Array.from({ length: 25 }, (x, i) => {
+  return {
+    ...mockCollection,
+    _id: `${i}`,
+  }
+})
+
+export const getMaximumCollectionsMock = [
+  {
+    request: {
+      query: GET_COLLECTIONS,
+    },
+    result: {
+      data: {
+        collections: maxCollections,
+      },
+    },
+  },
+]

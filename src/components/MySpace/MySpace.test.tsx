@@ -7,10 +7,15 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
+
 import { renderWithModalRoot } from '../../testHelpers'
-import { getCollectionsMock } from '../../__fixtures__/operations/getCollection'
+import {
+  getCollectionsMock,
+  getMaximumCollectionsMock,
+} from '../../__fixtures__/operations/getCollection'
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import MySpace from './MySpace'
+
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
@@ -19,11 +24,6 @@ import { ADD_COLLECTION } from 'operations/mutations/addCollection'
 import { EDIT_COLLECTION } from 'operations/mutations/editCollection'
 
 const mockRouterPush = jest.fn()
-// const mockAddBookmark = jest.fn()
-// const mockRemoveBookmark = jest.fn()
-// const mockEditCollection = jest.fn()
-// const mockRemoveCollection = jest.fn()
-// const mockAddCollection = jest.fn()
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
@@ -109,6 +109,18 @@ describe('My Space Component', () => {
     )
 
     expect(await screen.findByText('Error')).toBeInTheDocument()
+  })
+
+  it('does not render the add widget component if there are 25 sections', async () => {
+    render(
+      <MockedProvider mocks={getMaximumCollectionsMock} addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
+      </MockedProvider>
+    )
+
+    expect(
+      screen.queryByRole('button', { name: 'Add section' })
+    ).not.toBeInTheDocument()
   })
 
   it('navigates to Sites & Applications when adding new existing collections', async () => {
