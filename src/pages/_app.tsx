@@ -7,6 +7,7 @@ import type { ReactNode } from 'react'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { ApolloProvider } from '@apollo/client'
+import getConfig from 'next/config'
 
 import 'styles/index.scss'
 import 'styles/sfds/index.scss'
@@ -18,6 +19,7 @@ import { AuthProvider } from 'stores/authContext'
 import { BetaContextProvider } from 'stores/betaContext'
 import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
 import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
+import useAnalytics from 'hooks/useAnalytics'
 
 config.autoAddCss = false
 
@@ -33,13 +35,24 @@ const USSFPortalApp = ({
   Component,
   pageProps,
   hostname,
+  appConfig,
 }: Props & {
   hostname: {
     origin: string
   }
+  appConfig: {
+    MATOMO_URL?: string
+    MATOMO_SITE_ID?: string
+  }
 }) => {
   const canonicalUrl = hostname.origin
   const { asPath } = useRouter()
+
+  useAnalytics({
+    url: appConfig.MATOMO_URL,
+    siteId: appConfig.MATOMO_SITE_ID,
+    debug: process.env.NODE_ENV === 'development',
+  })
 
   const getLayout =
     Component.getLayout ||
@@ -171,9 +184,11 @@ const USSFPortalApp = ({
 
 USSFPortalApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext)
+
+  const { publicRuntimeConfig } = getConfig()
   const hostname = getAbsoluteUrl(appContext.ctx.req)
 
-  return { ...appProps, hostname }
+  return { ...appProps, hostname, appConfig: publicRuntimeConfig || {} }
 }
 
 export default USSFPortalApp
