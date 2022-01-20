@@ -26,10 +26,15 @@ const AddCustomLinkModal = ({
   ...props
 }: AddCustomLinkModalProps) => {
   const modalId = 'addCustomLinkModal'
-  const formRef = useRef<HTMLFormElement>(null)
+  const nameInputRef = useRef<HTMLInputElement>(null)
+  const urlInputRef = useRef<HTMLInputElement>(null)
 
   const resetForm = () => {
-    formRef.current?.reset()
+    // TODO - ideally we'd just reset the form but ReactUSWDS does not (yet) forward a ref to the form
+    const nameInputEl = nameInputRef.current as HTMLInputElement
+    const urlInputEl = urlInputRef.current as HTMLInputElement
+    nameInputEl.value = ''
+    urlInputEl.value = ''
   }
 
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
@@ -57,17 +62,24 @@ const AddCustomLinkModal = ({
         forceAction
         modalRoot="#modal-root">
         <ModalHeading id={`${modalId}-heading`}>Add a custom link</ModalHeading>
-        <Form ref={formRef} onSubmit={handleSave}>
+        <Form onSubmit={handleSave}>
           <Label htmlFor="bookmarkLabel">Name</Label>
           <TextInput
             type="text"
             id="bookmarkLabel"
             name="bookmarkLabel"
             required
+            inputRef={nameInputRef}
           />
 
           <Label htmlFor="bookmarkUrl">URL</Label>
-          <TextInput type="url" id="bookmarkUrl" name="bookmarkUrl" required />
+          <TextInput
+            type="url"
+            id="bookmarkUrl"
+            name="bookmarkUrl"
+            required
+            inputRef={urlInputRef}
+          />
           <ButtonGroup>
             <Button type="submit" data-close-modal>
               Save custom link
