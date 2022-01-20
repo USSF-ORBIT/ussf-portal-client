@@ -1,5 +1,5 @@
 import type { ObjectId } from 'bson'
-
+import { Context } from '@apollo/client'
 /**
  * ***********************
  * Types for Keystone Data
@@ -88,7 +88,7 @@ export type CollectionsInput = {
 }
 
 export type PortalContext = {
-  db: any //#TODO check type for db if we need this declared
+  db: Context //#TODO check if this is correct
   userId: string
 }
 export interface SAMLUser {
