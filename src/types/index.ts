@@ -1,5 +1,5 @@
 import type { ObjectId } from 'bson'
-import { Context } from '@apollo/client'
+
 /**
  * ***********************
  * Types for Keystone Data
@@ -64,6 +64,7 @@ export type RemovedBookmark = {
 export type AddBookmarkInput = {
   url: string
   collectionId: string
+  userId: string
   label?: string
   cmsId?: string
 }
@@ -87,10 +88,6 @@ export type CollectionsInput = {
   bookmarks: BookmarkInput[]
 }
 
-export type PortalContext = {
-  db: Context //#TODO check if this is correct
-  userId: string
-}
 export interface SAMLUser {
   issuer: string
   nameID: string

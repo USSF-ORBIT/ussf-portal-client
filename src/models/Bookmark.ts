@@ -6,7 +6,6 @@ import type {
   Collection,
   Bookmark,
   RemovedBookmark,
-  PortalContext,
 } from 'types'
 
 export const BookmarkModel = {
@@ -116,8 +115,8 @@ export const BookmarkModel = {
   },
   // #TODO check that this approach is correct
   async addOne(
-    { collectionId, url, label, cmsId }: AddBookmarkInput,
-    { db, userId }: PortalContext
+    { url, collectionId, userId, label, cmsId }: AddBookmarkInput,
+    { db }: Context
   ) {
     try {
       const existing = await BookmarkModel.getAllInCollection(collectionId, db)

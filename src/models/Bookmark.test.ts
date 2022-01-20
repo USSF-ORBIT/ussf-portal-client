@@ -49,12 +49,12 @@ describe('Bookmark Model', () => {
       {
         collectionId: exampleCollectionId,
         url: newBookmark.url,
+        userId: 'testUserId',
         label: newBookmark.label,
         cmsId: newBookmark.cmsId,
       },
       {
         db,
-        userId: 'testUserId',
       }
     )
     const found = await BookmarkModel.findOne(
@@ -82,12 +82,12 @@ describe('Bookmark Model', () => {
       {
         collectionId: exampleCollectionId,
         url: newBookmark.url,
+        userId: 'testUserId',
         label: newBookmark.label,
         cmsId: newBookmark.cmsId,
       },
       {
         db,
-        userId: 'testUserId',
       }
     )
 
@@ -122,10 +122,11 @@ describe('Bookmark Model', () => {
       {
         collectionId: exampleCollectionId,
         url: newBookmark.url,
+        userId: 'testUserId',
         label: newBookmark.label,
       },
 
-      { db, userId: 'testUserId' }
+      { db }
     )
 
     expect(created.label).toEqual(newBookmark.label)
@@ -235,12 +236,10 @@ describe('Bookmark Model', () => {
       {
         collectionId: newCollection._id,
         url: 'https://www.example11.com',
+        userId: 'testUserId',
         label: 'Label 11',
       },
-      {
-        db,
-        userId: 'testUserId',
-      }
+      { db }
     )
 
     const all = await BookmarkModel.getAllInCollection(newCollection._id, db)
