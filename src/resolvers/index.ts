@@ -80,9 +80,15 @@ const resolvers: Resolvers = {
       }
 
       if (cmsId) {
-        return BookmarkModel.hideOne(_id, collectionId, db, user.userId)
+        return BookmarkModel.hideOne(
+          { _id, collectionId, userId: user.userId },
+          { db }
+        )
       } else {
-        return BookmarkModel.deleteOne(_id, collectionId, db, user.userId)
+        return BookmarkModel.deleteOne(
+          { _id, collectionId, userId: user.userId },
+          { db }
+        )
       }
     },
   },

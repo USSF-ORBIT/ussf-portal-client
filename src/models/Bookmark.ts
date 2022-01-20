@@ -7,7 +7,8 @@ import type {
   RemovedBookmark,
 } from 'types'
 
-type AddBookmarkInput = {
+// Types for BookmarkModel
+type AddOneInput = {
   url: string
   collectionId: string
   userId: string
@@ -15,8 +16,23 @@ type AddBookmarkInput = {
   cmsId?: string
 }
 
+type GetAllInput = {
+  collectionId: string
+}
+
+type FindOneInput = {
+  _id: string
+  collectionId: string
+}
+
+type DeleteOrHideInput = {
+  _id: string
+  collectionId: string
+  userId: string
+}
+
 export const BookmarkModel = {
-  async getAllInCollection(collectionId: string, db: Context) {
+  async getAllInCollection({ collectionId }: GetAllInput, { db }: Context) {
     try {
       const found = await db
         .collection('users')
@@ -32,7 +48,7 @@ export const BookmarkModel = {
       throw e
     }
   },
-  async findOne(_id: string, collectionId: string, db: Context) {
+  async findOne({ _id, collectionId }: FindOneInput, { db }: Context) {
     try {
       const found = await db
         .collection('users')
@@ -56,10 +72,8 @@ export const BookmarkModel = {
     }
   },
   async deleteOne(
-    _id: string,
-    collectionId: string,
-    db: Context,
-    userId: string
+    { _id, collectionId, userId }: DeleteOrHideInput,
+    { db }: Context
   ) {
     const query = {
       userId,
@@ -85,10 +99,8 @@ export const BookmarkModel = {
     }
   },
   async hideOne(
-    _id: string,
-    collectionId: string,
-    db: Context,
-    userId: string
+    { _id, collectionId, userId }: DeleteOrHideInput,
+    { db }: Context
   ): Promise<RemovedBookmark> {
     const query = {
       userId,
@@ -122,13 +134,15 @@ export const BookmarkModel = {
       throw e
     }
   },
-  // #TODO check that this approach is correct
   async addOne(
-    { url, collectionId, userId, label, cmsId }: AddBookmarkInput,
+    { url, collectionId, userId, label, cmsId }: AddOneInput,
     { db }: Context
   ) {
     try {
-      const existing = await BookmarkModel.getAllInCollection(collectionId, db)
+      const existing = await BookmarkModel.getAllInCollection(
+        { collectionId },
+        { db }
+      )
       const visible = existing.filter((b: Bookmark) => !b.isRemoved)
 
       if (visible.length >= 10) {
