@@ -25,7 +25,10 @@ const resolvers: Resolvers = {
         )
       }
 
-      return CollectionModel.addOne(title, bookmarks, db, user.userId)
+      return CollectionModel.addOne(
+        { title, bookmarks, userId: user.userId },
+        { db }
+      )
     },
     editCollection: async (_, { _id, title }, { db, user }) => {
       if (!user) {
@@ -34,7 +37,10 @@ const resolvers: Resolvers = {
         )
       }
 
-      return CollectionModel.editOne(_id, title, db, user.userId)
+      return CollectionModel.editOne(
+        { _id, title, userId: user.userId },
+        { db }
+      )
     },
     removeCollection: async (root, { _id }, { db, user }) => {
       if (!user) {
@@ -42,7 +48,7 @@ const resolvers: Resolvers = {
           'You must be logged in to perform this operation'
         )
       }
-      return CollectionModel.deleteOne(_id, db, user.userId)
+      return CollectionModel.deleteOne({ _id, userId: user.userId }, { db })
     },
     addCollections: async (_, args, { db, user }) => {
       if (!user) {
@@ -51,7 +57,10 @@ const resolvers: Resolvers = {
         )
       }
 
-      return CollectionModel.addMany(args.collections, db, user.userId)
+      return CollectionModel.addMany(
+        { collections: args.collections, userId: user.userId },
+        { db }
+      )
     },
     addBookmark: async (
       root,

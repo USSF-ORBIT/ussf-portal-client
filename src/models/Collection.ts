@@ -8,8 +8,40 @@ import type {
   CollectionRecords,
 } from 'types'
 
+// Types for CollectionModel
+type FindOneInput = {
+  _id: string
+  userId: string
+}
+
+type GetAllInput = {
+  userId: string
+}
+
+type AddOneInput = {
+  title: string
+  bookmarks: BookmarkInput[]
+  userId: string
+}
+
+type AddManyInput = {
+  collections: CollectionRecords
+  userId: string
+}
+
+type EditOneInput = {
+  _id: string
+  title: string
+  userId: string
+}
+
+type DeleteOneInput = {
+  _id: string
+  userId: string
+}
+
 export const CollectionModel = {
-  async findOne(_id: string, db: Context, userId: string) {
+  async findOne({ _id, userId }: FindOneInput, { db }: Context) {
     const query = {
       userId,
       'mySpace._id': new ObjectId(_id),
@@ -19,7 +51,7 @@ export const CollectionModel = {
     return found?.mySpace || []
   },
 
-  async getAll(userId: string, db: Context) {
+  async getAll({ userId }: GetAllInput, { db }: Context) {
     try {
       const foundUser = await db
         .collection('users')
@@ -35,14 +67,9 @@ export const CollectionModel = {
       throw e
     }
   },
-  async addOne(
-    title: string,
-    bookmarks: BookmarkInput[],
-    db: Context,
-    userId: string
-  ) {
+  async addOne({ title, bookmarks, userId }: AddOneInput, { db }: Context) {
     try {
-      const existing = await CollectionModel.getAll(userId, db)
+      const existing = await CollectionModel.getAll({ userId }, { db })
       if (existing.length >= 25) {
         return new Error('You have reached the maximum number of collections')
       }
@@ -85,9 +112,9 @@ export const CollectionModel = {
       throw e
     }
   },
-  async addMany(collections: CollectionRecords, db: Context, userId: string) {
+  async addMany({ collections, userId }: AddManyInput, { db }: Context) {
     try {
-      const existing = await CollectionModel.getAll(userId, db)
+      const existing = await CollectionModel.getAll({ userId }, { db })
       if (existing.length >= 25 || existing.length + collections.length > 25) {
         return new Error('You have reached the maximum number of collections')
       }
@@ -137,7 +164,7 @@ export const CollectionModel = {
       throw e
     }
   },
-  async editOne(_id: string, title: string, db: Context, userId: string) {
+  async editOne({ _id, title, userId }: EditOneInput, { db }: Context) {
     const query = {
       userId: userId,
       'mySpace._id': new ObjectId(_id),
@@ -165,7 +192,7 @@ export const CollectionModel = {
       throw e
     }
   },
-  async deleteOne(_id: string, db: Context, userId: string) {
+  async deleteOne({ _id, userId }: DeleteOneInput, { db }: Context) {
     const query = {
       userId: userId,
     }
