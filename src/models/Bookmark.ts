@@ -2,11 +2,18 @@ import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
 import type {
   BookmarkInput,
-  AddBookmarkInput,
   Collection,
   Bookmark,
   RemovedBookmark,
 } from 'types'
+
+type AddBookmarkInput = {
+  url: string
+  collectionId: string
+  userId: string
+  label?: string
+  cmsId?: string
+}
 
 export const BookmarkModel = {
   async getAllInCollection(collectionId: string, db: Context) {
@@ -20,8 +27,9 @@ export const BookmarkModel = {
       const bookmarks = found[0]?.mySpace[0]?.bookmarks || []
 
       return bookmarks
-    } catch (error) {
-      console.error('Error in BookmarkModel.getAllInCollection', error)
+    } catch (e) {
+      console.error('BookmarkModel Error: error in getAllInCollection', e)
+      throw e
     }
   },
   async findOne(_id: string, collectionId: string, db: Context) {
@@ -42,8 +50,9 @@ export const BookmarkModel = {
         .toArray()
 
       return found[0]?.mySpace.bookmarks || []
-    } catch (error) {
-      console.error('Error in BookmarkModel.findOne', error)
+    } catch (e) {
+      console.error('BookmarkModel Error: error in findOne', e)
+      throw e
     }
   },
   async deleteOne(
@@ -71,8 +80,8 @@ export const BookmarkModel = {
         _id: _id,
       }
     } catch (e) {
-      console.error('Error in Bookmark.deleteOne', e)
-      return e
+      console.error('BookmarkModel Error: error in deleteOne', e)
+      throw e
     }
   },
   async hideOne(
@@ -108,9 +117,9 @@ export const BookmarkModel = {
       return {
         _id: _id,
       }
-    } catch (e: any) {
-      console.error('Error in Bookmark.hideOne', e)
-      return e
+    } catch (e) {
+      console.error('BookmarkModel Error: error in hideOne', e)
+      throw e
     }
   },
   // #TODO check that this approach is correct
@@ -128,7 +137,8 @@ export const BookmarkModel = {
         )
       }
     } catch (e) {
-      console.error('Error in CollectionModel.addOne', e)
+      console.error('BookmarkModel Error: error in addOne', e)
+      throw e
     }
 
     const newBookmark: BookmarkInput = {
@@ -166,10 +176,9 @@ export const BookmarkModel = {
 
       return createdBookmark
     } catch (e) {
-      // TODO error logging
       // eslint-disable-next-line no-console
-      console.error('error in Bookmark.addOne', e)
-      return e
+      console.error('BookmarkModel Error: error in addOne', e)
+      throw e
     }
   },
 }

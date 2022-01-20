@@ -30,9 +30,8 @@ export const CollectionModel = {
         return foundUser[0].mySpace
       }
     } catch (e) {
-      // TODO error logging
       // eslint-disable-next-line no-console
-      console.error('error in query collections', e)
+      console.error('CollectionModel Error: error in getAll', e)
       throw e
     }
   },
@@ -48,7 +47,8 @@ export const CollectionModel = {
         return new Error('You have reached the maximum number of collections')
       }
     } catch (e) {
-      console.error('Error in CollectionModel.addOne', e)
+      console.error('CollectionModel Error: error in addOne', e)
+      throw e
     }
 
     const newBookmarks: BookmarkInput[] = bookmarks.map(
@@ -80,10 +80,9 @@ export const CollectionModel = {
       await db.collection('users').updateOne(query, updateDocument)
       return newCollection
     } catch (e) {
-      // TODO error logging
       // eslint-disable-next-line no-console
-      console.error('error in add collection', e)
-      return e
+      console.error('CollectionModel Error: error in addOne', e)
+      throw e
     }
   },
   async addMany(collections: CollectionRecords, db: Context, userId: string) {
@@ -93,7 +92,8 @@ export const CollectionModel = {
         return new Error('You have reached the maximum number of collections')
       }
     } catch (e) {
-      console.error('Error in CollectionModel.addOne', e)
+      console.error('CollectionModel Error: error in addMany', e)
+      throw e
     }
 
     const newCollections = collections.map((collection: CollectionRecord) => ({
@@ -132,10 +132,9 @@ export const CollectionModel = {
 
       return updatedCollections[0].mySpace
     } catch (e) {
-      // TODO error logging
       // eslint-disable-next-line no-console
-      console.error('error in add collections', e)
-      return e
+      console.error('CollectionModel Error: error in addMany', e)
+      throw e
     }
   },
   async editOne(_id: string, title: string, db: Context, userId: string) {
@@ -161,10 +160,9 @@ export const CollectionModel = {
 
       return updatedCollection[0].mySpace[0]
     } catch (e) {
-      // TODO error logging
       // eslint-disable-next-line no-console
-      console.error('error in edit collection', e)
-      return e
+      console.error('CollectionModel Error: error in editOne', e)
+      throw e
     }
   },
   async deleteOne(_id: string, db: Context, userId: string) {
@@ -189,10 +187,9 @@ export const CollectionModel = {
       // Return deleted collection id
       return { _id: _id }
     } catch (e) {
-      // TODO error logging
       // eslint-disable-next-line no-console
-      console.error('error in remove collection', e)
-      return e
+      console.error('CollectionModel Error: error in deleteOne', e)
+      throw e
     }
   },
 }
