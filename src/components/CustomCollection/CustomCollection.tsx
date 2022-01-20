@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import {
   Button,
-  Form,
   Label,
   ModalRef,
   ComboBox,
@@ -20,9 +19,6 @@ import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
-
-// Not an ideal way to validate URLs but this will work for now
-const VALID_URL_REGEX = /^(ftp|http|https):\/\/[^ "]+$/
 
 type PropTypes = {
   _id: string
@@ -46,56 +42,53 @@ const CustomCollection = ({
   handleEditCollection,
 }: PropTypes) => {
   const [isAdding, setIsAdding] = useState<boolean>(false)
-  const urlInputValue = useRef<string>('')
   const addCustomLinkModal = useRef<ModalRef>(null)
   const linkInput = useRef<ComboBoxRef>(null)
 
   useEffect(() => {
+    // Auto-focus on ComboBox when clicking Add Link
     if (isAdding && linkInput.current) {
       linkInput.current.focus()
     }
   }, [isAdding])
 
+  // Show the Add Link form
   const handleShowAdding = () => setIsAdding(true)
 
+  // Open Add Custom Link modal
+  const openCustomLinkModal = () => {
+    addCustomLinkModal.current?.toggleModal(undefined, true)
+  }
+
+  // Cancel out of Add Custom Link modal
   const handleCancel = () => {
     setIsAdding(false)
     addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
-  const selectedExistingLink = (value: string) =>
-    bookmarkOptions.find((i) => `${i.id}` === value)
+  // Save a custom link from the modal
+  const handleSaveCustomLink = (url: string, label: string) => {
+    handleAddBookmark(url, label)
+    setIsAdding(false)
+    addCustomLinkModal.current?.toggleModal(undefined, false)
+  }
 
-  const handleSubmitAdd = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    const existingLink = selectedExistingLink(urlInputValue.current)
+  // Save an existing link from the ComboBox
+  const handleSelectChange = (value: string | undefined) => {
+    const existingLink =
+      value && bookmarkOptions.find((i) => `${i.id}` === value)
 
     if (existingLink) {
-      // Adding an existing link
-      // TODO - ensure there is a URL value
       handleAddBookmark(
         existingLink.url || '',
         existingLink.label,
         existingLink.id
       )
-      urlInputValue.current = ''
       setIsAdding(false)
-    } else {
-      // Adding a custom link
-      addCustomLinkModal.current?.toggleModal(undefined, true)
     }
   }
 
-  const handleSaveBookmark = (label: string) => {
-    // TODO - ensure there is a URL value
-
-    handleAddBookmark(urlInputValue.current, label)
-    urlInputValue.current = ''
-    setIsAdding(false)
-    addCustomLinkModal.current?.toggleModal(undefined, false)
-  }
-
+  // Map CMS link options to ComboBox options
   const urlOptions = bookmarkOptions
     .filter((b) => !!b.url)
     .map(
@@ -106,68 +99,34 @@ const CustomCollection = ({
         } as ComboBoxOption)
     )
 
-  const handleSelectChange = (value: string | undefined) => {
-    const existingLink = value && selectedExistingLink(value)
-    const enteredCustomLink = urlOptions.length !== bookmarkOptions.length
-
-    if (existingLink && enteredCustomLink) {
-      // Remove entered custom link
-      urlOptions.pop()
-      // Reset input validation
-      const inputEl = document.getElementById('bookmarkUrl') as HTMLInputElement
-      inputEl?.setCustomValidity('')
-      inputEl?.reportValidity()
-    }
-
-    urlInputValue.current = value || ''
-  }
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target
-
-    if (value) {
-      if (urlOptions.length === bookmarkOptions.length) {
-        // Add new option to end of list
-        urlOptions.push({ value, label: value })
-      } else {
-        // Rewrite the new option
-        urlOptions[urlOptions.length - 1] = { value, label: value }
-      }
-    }
-
-    if (VALID_URL_REGEX.test(value)) {
-      // valid
-      e.target.setCustomValidity('')
-    } else {
-      // invalid
-      e.target.setCustomValidity(
-        'Please enter a valid URL, starting with http:// or https://'
-      )
-    }
-  }
-
   const addLinkForm = (
     <div className={styles.addLink}>
       {isAdding ? (
-        <Form onSubmit={handleSubmitAdd}>
-          <Label htmlFor="bookmarkUrl" className="usa-sr-only">
-            URL
+        <>
+          <Label htmlFor="bookmarkId" className="usa-sr-only">
+            Select existing link
           </Label>
 
           <ComboBox
-            id="bookmarkUrl"
-            name="bookmarkUrl"
+            id="bookmarkId"
+            name="bookmarkId"
+            className={styles.addLinkComboBox}
             options={urlOptions}
             onChange={handleSelectChange}
             ref={linkInput}
             inputProps={{
               required: true,
-              onChange: handleInputChange,
               placeholder: 'Type or paste link...',
             }}
           />
-          <Button type="submit">Add site</Button>
-        </Form>
+          <p className="usa-form__note">
+            Don’t see what you need?
+            <br />
+            <Button type="button" unstyled onClick={openCustomLinkModal}>
+              Add a custom link
+            </Button>
+          </p>
+        </>
       ) : (
         <Button
           type="button"
@@ -282,7 +241,7 @@ const CustomCollection = ({
       <AddCustomLinkModal
         modalRef={addCustomLinkModal}
         onCancel={handleCancel}
-        onSave={handleSaveBookmark}
+        onSave={handleSaveCustomLink}
       />
     </>
   )

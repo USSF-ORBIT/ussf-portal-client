@@ -14,7 +14,7 @@ import {
 import ModalPortal from 'components/util/ModalPortal'
 
 type AddCustomLinkModalProps = {
-  onSave: (label: string) => void
+  onSave: (url: string, label: string) => void
   onCancel: () => void
   modalRef: React.RefObject<ModalRef>
 } & Omit<ModalProps, 'children' | 'id'>
@@ -26,19 +26,19 @@ const AddCustomLinkModal = ({
   ...props
 }: AddCustomLinkModalProps) => {
   const modalId = 'addCustomLinkModal'
-  const inputRef = useRef<HTMLInputElement>(null)
+  const formRef = useRef<HTMLFormElement>(null)
 
   const resetForm = () => {
-    const inputEl = inputRef.current as HTMLInputElement
-    inputEl.value = ''
+    formRef.current?.reset()
   }
 
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
     const label = `${data.get('bookmarkLabel')}`
+    const url = `${data.get('bookmarkUrl')}`
     resetForm()
-    onSave(label)
+    onSave(url, label)
   }
 
   const handleCancel = () => {
@@ -56,29 +56,21 @@ const AddCustomLinkModal = ({
         aria-describedby={`${modalId}-description`}
         forceAction
         modalRoot="#modal-root">
-        <ModalHeading id={`${modalId}-heading`}>
-          We don’t recognize that link
-        </ModalHeading>
-        <div className="usa-prose">
-          <p id={`${modalId}-description`}>
-            Please provide a title for the custom link you’d like to save.
-          </p>
-        </div>
-
-        <Form onSubmit={handleSave}>
-          <Label htmlFor="bookmarkLabel" className="usa-sr-only">
-            Label
-          </Label>
+        <ModalHeading id={`${modalId}-heading`}>Add a custom link</ModalHeading>
+        <Form ref={formRef} onSubmit={handleSave}>
+          <Label htmlFor="bookmarkLabel">Name</Label>
           <TextInput
             type="text"
             id="bookmarkLabel"
             name="bookmarkLabel"
             required
-            inputRef={inputRef}
           />
+
+          <Label htmlFor="bookmarkUrl">URL</Label>
+          <TextInput type="url" id="bookmarkUrl" name="bookmarkUrl" required />
           <ButtonGroup>
             <Button type="submit" data-close-modal>
-              Save link name
+              Save custom link
             </Button>
             <Button
               type="button"
