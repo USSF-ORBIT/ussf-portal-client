@@ -61,10 +61,7 @@ describe('Bookmark Model', () => {
 
     expect(found).toEqual(created)
 
-    const all = await BookmarkModel.getAllCollectionBookmarks(
-      exampleCollectionId,
-      db
-    )
+    const all = await BookmarkModel.getAllInCollection(exampleCollectionId, db)
     expect(all.length).toEqual(6)
   })
 
@@ -97,10 +94,7 @@ describe('Bookmark Model', () => {
       'testUserId'
     )
 
-    const all = await BookmarkModel.getAllCollectionBookmarks(
-      exampleCollectionId,
-      db
-    )
+    const all = await BookmarkModel.getAllInCollection(exampleCollectionId, db)
     expect(all.length).toEqual(7)
 
     const found = all.find((b: any) => `${b._id}` === `${hidden._id}`)
@@ -142,17 +136,14 @@ describe('Bookmark Model', () => {
 
     expect(deleted.length).toBe(0)
 
-    const all = await BookmarkModel.getAllCollectionBookmarks(
-      exampleCollectionId,
-      db
-    )
+    const all = await BookmarkModel.getAllInCollection(exampleCollectionId, db)
     expect(all.length).toEqual(7)
   })
 
   it('can get all bookmarks in a single collection', async () => {
     // Start Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
     // End Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
-    const bookmarks = await BookmarkModel.getAllCollectionBookmarks(
+    const bookmarks = await BookmarkModel.getAllInCollection(
       exampleCollectionId,
       db
     )
@@ -238,10 +229,7 @@ describe('Bookmark Model', () => {
       'Label 11'
     )
 
-    const all = await BookmarkModel.getAllCollectionBookmarks(
-      newCollection._id,
-      db
-    )
+    const all = await BookmarkModel.getAllInCollection(newCollection._id, db)
 
     expect(error).toBeInstanceOf(Error)
     expect(all.length).toBe(10)

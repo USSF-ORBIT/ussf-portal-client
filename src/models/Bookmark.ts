@@ -8,7 +8,7 @@ import type {
 } from 'types'
 
 export const BookmarkModel = {
-  async getAllCollectionBookmarks(collectionId: string, db: Context) {
+  async getAllInCollection(collectionId: string, db: Context) {
     try {
       const found = await db
         .collection('users')
@@ -17,10 +17,10 @@ export const BookmarkModel = {
         .toArray()
 
       const bookmarks = found[0]?.mySpace[0]?.bookmarks || []
-      // console.log('bookmarks in getAll', bookmarks)
+
       return bookmarks
     } catch (error) {
-      console.error('Error in BookmarkModel.getAllCollectionBookmarks', error)
+      console.error('Error in BookmarkModel.getAllInCollection', error)
     }
   },
   async findOne(_id: string, collectionId: string, db: Context) {
@@ -121,10 +121,7 @@ export const BookmarkModel = {
     cmsId?: string
   ) {
     try {
-      const existing = await BookmarkModel.getAllCollectionBookmarks(
-        collectionId,
-        db
-      )
+      const existing = await BookmarkModel.getAllInCollection(collectionId, db)
       if (existing.length >= 10) {
         return new Error(
           'You have reached the maximum number of bookmarks per collection'
