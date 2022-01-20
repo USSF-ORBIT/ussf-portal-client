@@ -2,9 +2,11 @@ import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
 import type {
   BookmarkInput,
+  AddBookmarkInput,
   Collection,
   Bookmark,
   RemovedBookmark,
+  PortalContext,
 } from 'types'
 
 export const BookmarkModel = {
@@ -112,17 +114,16 @@ export const BookmarkModel = {
       return e
     }
   },
+  // #TODO check that this approach is correct
   async addOne(
-    collectionId: string,
-    url: string,
-    db: Context,
-    userId: string,
-    label?: string,
-    cmsId?: string
+    { collectionId, url, label, cmsId }: AddBookmarkInput,
+    { db, userId }: PortalContext
   ) {
     try {
       const existing = await BookmarkModel.getAllInCollection(collectionId, db)
-      if (existing.length >= 10) {
+      const visible = existing.filter((b: Bookmark) => !b.isRemoved)
+
+      if (visible.length >= 10) {
         return new Error(
           'You have reached the maximum number of bookmarks per collection'
         )

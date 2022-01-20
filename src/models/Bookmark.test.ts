@@ -46,12 +46,16 @@ describe('Bookmark Model', () => {
       cmsId: 'testCmsId',
     }
     const created = await BookmarkModel.addOne(
-      exampleCollectionId,
-      newBookmark.url,
-      db,
-      'testUserId',
-      newBookmark.label,
-      newBookmark.cmsId
+      {
+        collectionId: exampleCollectionId,
+        url: newBookmark.url,
+        label: newBookmark.label,
+        cmsId: newBookmark.cmsId,
+      },
+      {
+        db,
+        userId: 'testUserId',
+      }
     )
     const found = await BookmarkModel.findOne(
       created._id,
@@ -75,12 +79,16 @@ describe('Bookmark Model', () => {
     }
 
     const created = await BookmarkModel.addOne(
-      exampleCollectionId,
-      newBookmark.url,
-      db,
-      'testUserId',
-      newBookmark.label,
-      newBookmark.cmsId
+      {
+        collectionId: exampleCollectionId,
+        url: newBookmark.url,
+        label: newBookmark.label,
+        cmsId: newBookmark.cmsId,
+      },
+      {
+        db,
+        userId: 'testUserId',
+      }
     )
 
     expect(created.cmsId).toEqual(newBookmark.cmsId)
@@ -111,11 +119,13 @@ describe('Bookmark Model', () => {
     }
 
     const created = await BookmarkModel.addOne(
-      exampleCollectionId,
-      newBookmark.url,
-      db,
-      'testUserId',
-      newBookmark.label
+      {
+        collectionId: exampleCollectionId,
+        url: newBookmark.url,
+        label: newBookmark.label,
+      },
+
+      { db, userId: 'testUserId' }
     )
 
     expect(created.label).toEqual(newBookmark.label)
@@ -222,11 +232,15 @@ describe('Bookmark Model', () => {
     expect(newCollection.bookmarks).toHaveLength(10)
 
     const error = await BookmarkModel.addOne(
-      newCollection._id,
-      'https://www.example11.com',
-      db,
-      'testUserId',
-      'Label 11'
+      {
+        collectionId: newCollection._id,
+        url: 'https://www.example11.com',
+        label: 'Label 11',
+      },
+      {
+        db,
+        userId: 'testUserId',
+      }
     )
 
     const all = await BookmarkModel.getAllInCollection(newCollection._id, db)

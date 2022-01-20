@@ -60,6 +60,13 @@ export type BookmarkInput = {
 export type RemovedBookmark = {
   _id: string
 }
+
+export type AddBookmarkInput = {
+  url: string
+  collectionId: string
+  label?: string
+  cmsId?: string
+}
 /* Collection refers to a user-created collection containing one or more bookmarks */
 
 export type Collection = {
@@ -80,6 +87,10 @@ export type CollectionsInput = {
   bookmarks: BookmarkInput[]
 }
 
+export type PortalContext = {
+  db: any //#TODO check type for db if we need this declared
+  userId: string
+}
 export interface SAMLUser {
   issuer: string
   nameID: string
