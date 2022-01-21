@@ -26,16 +26,24 @@ describe('AddCustomLinkModal', () => {
   })
 
   it('renders a form to add a link label', () => {
-    expect(screen.getByRole('heading')).toHaveTextContent(
-      'We don’t recognize that link'
-    )
+    expect(screen.getByRole('heading')).toHaveTextContent('Add a custom link')
 
-    const labelInput = screen.getByLabelText('Label')
+    const labelInput = screen.getByLabelText('Name')
     expect(labelInput).toBeInvalid()
     userEvent.type(labelInput, 'My Custom Link')
     expect(labelInput).toBeValid()
 
-    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    const urlInput = screen.getByLabelText('URL')
+    expect(urlInput).toBeInTheDocument()
+    expect(urlInput).toBeInvalid()
+
+    userEvent.type(urlInput, 'example')
+    expect(urlInput).toBeInvalid()
+    userEvent.clear(urlInput)
+    userEvent.type(urlInput, 'http://www.example.com')
+    expect(urlInput).toBeValid()
+
+    userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
     expect(mockOnSave).toHaveBeenCalled()
   })
 
@@ -45,26 +53,31 @@ describe('AddCustomLinkModal', () => {
   })
 
   it('saving resets the value of the text input', () => {
-    expect(screen.getByRole('heading')).toHaveTextContent(
-      'We don’t recognize that link'
-    )
+    expect(screen.getByRole('heading')).toHaveTextContent('Add a custom link')
 
-    const labelInput = screen.getByLabelText('Label')
+    const labelInput = screen.getByLabelText('Name')
     userEvent.type(labelInput, 'My Custom Link')
-    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    const urlInput = screen.getByLabelText('URL')
+    userEvent.type(urlInput, 'http://www.example.com')
+
+    userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
+
     expect(mockOnSave).toHaveBeenCalled()
-    expect(screen.getByLabelText('Label')).toHaveValue('')
+    expect(screen.getByLabelText('Name')).toHaveValue('')
+    expect(screen.getByLabelText('URL')).toHaveValue('')
   })
 
   it('cancelling resets the value of the text input', () => {
-    expect(screen.getByRole('heading')).toHaveTextContent(
-      'We don’t recognize that link'
-    )
+    expect(screen.getByRole('heading')).toHaveTextContent('Add a custom link')
 
-    const labelInput = screen.getByLabelText('Label')
+    const labelInput = screen.getByLabelText('Name')
     userEvent.type(labelInput, 'My Custom Link')
+    const urlInput = screen.getByLabelText('URL')
+    userEvent.type(urlInput, 'http://www.example.com')
+
     userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
     expect(mockOnCancel).toHaveBeenCalled()
-    expect(screen.getByLabelText('Label')).toHaveValue('')
+    expect(screen.getByLabelText('Name')).toHaveValue('')
+    expect(screen.getByLabelText('URL')).toHaveValue('')
   })
 })

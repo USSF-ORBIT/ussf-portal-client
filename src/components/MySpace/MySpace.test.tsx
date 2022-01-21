@@ -140,10 +140,10 @@ describe('My Space Component', () => {
         request: {
           query: REMOVE_BOOKMARK,
           variables: {
-            _id: getCollectionsMock[0].result.data.collections[0].bookmarks[0]
+            _id: getCollectionsMock[0].result.data.collections[0].bookmarks[1]
               ._id,
             collectionId: getCollectionsMock[0].result.data.collections[0]._id,
-            cmsId: null,
+            cmsId: '1',
           },
           refetchQueries: [`getCollections`],
         },
@@ -190,8 +190,9 @@ describe('My Space Component', () => {
           query: ADD_BOOKMARK,
           variables: {
             collectionId: getCollectionsMock[0].result.data.collections[0]._id,
-            url: 'http://www.example.com',
-            label: 'My Custom Link',
+            url: 'https://mypay.dfas.mil/#/',
+            label: 'MyPay',
+            cmsId: '2',
           },
         },
         result: () => {
@@ -200,9 +201,9 @@ describe('My Space Component', () => {
             data: {
               addBookmark: {
                 _id: '100',
-                cmsId: null,
-                url: 'http://www.example.com',
-                label: 'My Custom Link',
+                cmsId: '2',
+                url: 'https://mypay.dfas.mil/#/',
+                label: 'MyPay',
               },
             },
           }
@@ -220,14 +221,11 @@ describe('My Space Component', () => {
     })
 
     userEvent.click(addLinkButton)
-    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
-    userEvent.click(
-      screen.getByRole('option', { name: 'http://www.example.com' })
-    )
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
-    userEvent.type(screen.getByLabelText('Label'), 'My Custom Link')
 
-    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    userEvent.click(
+      screen.getByRole('button', { name: 'Toggle the dropdown list' })
+    )
+    userEvent.click(screen.getByRole('option', { name: 'MyPay' }))
 
     await act(
       async () => await new Promise((resolve) => setTimeout(resolve, 0))

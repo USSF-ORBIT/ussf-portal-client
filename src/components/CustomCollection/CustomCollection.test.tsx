@@ -19,25 +19,46 @@ const exampleCollection = {
       url: 'https://google.com',
       label: 'Webmail',
       description: 'Lorem ipsum',
+      cmsId: 'cmsId1',
     },
     {
       _id: '2',
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
       description: 'Lorem ipsum',
+      cmsId: 'cmsId2',
     },
     {
       _id: '3',
       url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
       label: 'vMPF',
       description: 'Lorem ipsum',
+      cmsId: 'cmsId3',
     },
   ],
 }
 
+const mockLinks = [
+  {
+    id: 'testBookmark1',
+    url: 'http://www.example.com/1',
+    label: 'Test Bookmark 1',
+  },
+  {
+    id: 'testBookmark2',
+    url: 'http://www.example.com/2',
+    label: 'Test Bookmark 2',
+  },
+  {
+    id: 'testBookmark3',
+    url: 'http://www.example.com/3',
+    label: 'Test Bookmark 3',
+  },
+]
+
 describe('CustomCollection component', () => {
   const addLinkDialog = {
-    name: 'We don’t recognize that link',
+    name: 'Add a custom link',
   }
 
   const removeCollectionDialog = {
@@ -86,6 +107,7 @@ describe('CustomCollection component', () => {
     render(
       <CustomCollection
         {...exampleCollection}
+        bookmarkOptions={mockLinks}
         handleRemoveBookmark={jest.fn()}
         handleAddBookmark={jest.fn()}
         handleRemoveCollection={jest.fn()}
@@ -97,18 +119,18 @@ describe('CustomCollection component', () => {
     expect(toggleFormButton).toBeInTheDocument()
 
     userEvent.click(toggleFormButton)
-    const urlInput = screen.getByLabelText('URL')
-    expect(urlInput).toBeInTheDocument()
-    expect(urlInput).toBeInvalid()
+    const linkInput = screen.getByLabelText('Select existing link')
+    expect(linkInput).toBeInTheDocument()
+    expect(linkInput).toBeInvalid()
 
-    userEvent.type(urlInput, 'example')
-    expect(urlInput).toBeInvalid()
-    userEvent.clear(urlInput)
-    userEvent.type(urlInput, 'http://www.example.com')
-    expect(urlInput).toBeValid()
+    userEvent.click(
+      screen.getByRole('button', { name: 'Toggle the dropdown list' })
+    )
+    userEvent.click(screen.getByRole('option', { name: 'Test Bookmark 2' }))
+    expect(linkInput).toBeValid()
   })
 
-  it('entering a new custom URL opens the modal', () => {
+  it('can open the Add Custom Link modal', () => {
     const mockAddLink = jest.fn()
 
     renderWithModalRoot(
@@ -123,22 +145,20 @@ describe('CustomCollection component', () => {
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
     userEvent.click(toggleFormButton)
-    const urlInput = screen.getByLabelText('URL')
-    userEvent.type(urlInput, 'http://www.example.com')
-    userEvent.click(
-      screen.getByRole('option', { name: 'http://www.example.com' })
-    )
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+    userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
 
     // Open modal
     expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
 
-    const labelInput = screen.getByLabelText('Label')
+    const labelInput = screen.getByLabelText('Name')
     expect(labelInput).toBeInvalid()
     userEvent.type(labelInput, 'My Custom Link')
     expect(labelInput).toBeValid()
+    const urlInput = screen.getByLabelText('URL')
+    userEvent.type(urlInput, 'http://www.example.com')
+    expect(urlInput).toBeValid()
 
-    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
 
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com',
@@ -161,12 +181,7 @@ describe('CustomCollection component', () => {
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
     userEvent.click(toggleFormButton)
-    const urlInput = screen.getByLabelText('URL')
-    userEvent.type(urlInput, 'http://www.example.com')
-    userEvent.click(
-      screen.getByRole('option', { name: 'http://www.example.com' })
-    )
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+    userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
 
     // Open modal
     const addLinkModal = screen.getByRole('dialog', addLinkDialog)
@@ -177,7 +192,6 @@ describe('CustomCollection component', () => {
     userEvent.click(cancelButton)
 
     expect(addLinkModal).not.toHaveClass('is-visible')
-
     expect(mockAddLink).not.toHaveBeenCalled()
 
     expect(
@@ -186,7 +200,9 @@ describe('CustomCollection component', () => {
       })
     ).toBeInTheDocument()
 
-    expect(screen.queryByLabelText('URL')).not.toBeInTheDocument()
+    expect(
+      screen.queryByLabelText('Select existing link')
+    ).not.toBeInTheDocument()
   })
 
   it('adding a link closes the modal and resets the form', () => {
@@ -203,21 +219,20 @@ describe('CustomCollection component', () => {
     )
 
     userEvent.click(screen.getByRole('button', { name: '+ Add link' }))
-    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
-    userEvent.click(
-      screen.getByRole('option', { name: 'http://www.example.com' })
-    )
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+    userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
 
     // Open modal
     expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
 
-    const labelInput = screen.getByLabelText('Label')
+    const labelInput = screen.getByLabelText('Name')
     expect(labelInput).toBeInvalid()
     userEvent.type(labelInput, 'My Custom Link')
     expect(labelInput).toBeValid()
+    const urlInput = screen.getByLabelText('URL')
+    userEvent.type(urlInput, 'http://www.example.com')
+    expect(urlInput).toBeValid()
 
-    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com',
       'My Custom Link'
@@ -231,17 +246,16 @@ describe('CustomCollection component', () => {
 
     // Modal is still closed, form is reset
     expect(screen.queryByRole('dialog', addLinkDialog)).toHaveClass('is-hidden')
-    expect(screen.getByLabelText('URL')).toBeInvalid()
-    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
-    userEvent.click(
-      screen.getByRole('option', { name: 'http://www.example.com' })
-    )
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+    userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
     expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
 
-    expect(screen.getByLabelText('Label')).toBeInvalid()
-    userEvent.type(screen.getByLabelText('Label'), 'Another Custom Link')
-    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    expect(screen.getByLabelText('Name')).toBeInvalid()
+    userEvent.type(screen.getByLabelText('Name'), 'Another Custom Link')
+    expect(screen.getByLabelText('URL')).toBeInvalid()
+    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
+    expect(screen.getByLabelText('URL')).toBeValid()
+
+    userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com',
       'Another Custom Link'
@@ -252,24 +266,6 @@ describe('CustomCollection component', () => {
 
   it('can add an existing link', () => {
     const mockAddLink = jest.fn()
-
-    const mockLinks = [
-      {
-        id: 'testBookmark1',
-        url: 'http://www.example.com/1',
-        label: 'Test Bookmark 1',
-      },
-      {
-        id: 'testBookmark2',
-        url: 'http://www.example.com/2',
-        label: 'Test Bookmark 2',
-      },
-      {
-        id: 'testBookmark3',
-        url: 'http://www.example.com/3',
-        label: 'Test Bookmark 3',
-      },
-    ]
 
     renderWithModalRoot(
       <CustomCollection
@@ -284,67 +280,9 @@ describe('CustomCollection component', () => {
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
     userEvent.click(toggleFormButton)
-    const urlInput = screen.getByLabelText('URL')
-    userEvent.click(urlInput)
+    const linkInput = screen.getByLabelText('Select existing link')
+    userEvent.click(linkInput)
     userEvent.click(screen.getByRole('option', { name: 'Test Bookmark 2' }))
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
-
-    expect(mockAddLink).toHaveBeenCalledWith(
-      'http://www.example.com/2',
-      'Test Bookmark 2',
-      'testBookmark2'
-    )
-  })
-
-  it('can enter an invalid link, and then select an existing link', () => {
-    const mockAddLink = jest.fn()
-
-    const mockLinks = [
-      {
-        id: 'testBookmark1',
-        url: 'http://www.example.com/1',
-        label: 'Test Bookmark 1',
-      },
-      {
-        id: 'testBookmark2',
-        url: 'http://www.example.com/2',
-        label: 'Test Bookmark 2',
-      },
-      {
-        id: 'testBookmark3',
-        url: 'http://www.example.com/3',
-        label: 'Test Bookmark 3',
-      },
-    ]
-
-    render(
-      <CustomCollection
-        {...exampleCollection}
-        bookmarkOptions={mockLinks}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={mockAddLink}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
-      />
-    )
-
-    userEvent.click(
-      screen.getByRole('button', {
-        name: '+ Add link',
-      })
-    )
-
-    const urlInput = screen.getByLabelText('URL')
-    userEvent.type(urlInput, 'example{enter}')
-    expect(urlInput).toBeInvalid()
-
-    userEvent.click(
-      screen.getByRole('button', { name: 'Toggle the dropdown list' })
-    )
-    userEvent.click(screen.getByRole('option', { name: 'Test Bookmark 2' }))
-    expect(urlInput).toBeValid()
-
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
 
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com/2',
