@@ -18,7 +18,7 @@ import type { Bookmark as BookmarkType } from 'types/index'
 
 type EditCustomLinkModalProps = {
   bookmark: BookmarkType
-  onSave: (url: string, label: string) => void
+  onSave: (label: string, url: string) => void
   onCancel: () => void
   onDelete: () => void
   modalRef: React.RefObject<ModalRef>
@@ -49,7 +49,7 @@ const EditCustomLinkModal = ({
     const data = new FormData(e.currentTarget)
     const label = `${data.get('bookmarkLabel')}`
     const url = `${data.get('bookmarkUrl')}`
-    onSave(url, label)
+    onSave(label, url)
   }
 
   const handleCancel = () => {

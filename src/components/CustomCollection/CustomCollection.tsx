@@ -29,6 +29,7 @@ type PropTypes = {
   handleAddBookmark: (url: string, label?: string, cmsId?: string) => void
   handleRemoveCollection: () => void
   handleEditCollection: (title: string) => void
+  handleEditBookmark: (id: string, url?: string, label?: string) => void
 }
 
 const CustomCollection = ({
@@ -40,6 +41,7 @@ const CustomCollection = ({
   handleAddBookmark,
   handleRemoveCollection,
   handleEditCollection,
+  handleEditBookmark,
 }: PropTypes) => {
   const [isAdding, setIsAdding] = useState<boolean>(false)
   const addCustomLinkModal = useRef<ModalRef>(null)
@@ -230,8 +232,8 @@ const CustomCollection = ({
               <CustomBookmark
                 key={`bookmark_${bookmark._id}`}
                 bookmark={bookmark}
-                onSave={() => {
-                  /* TODO */
+                onSave={(label, url) => {
+                  handleEditBookmark(bookmark._id, url, label)
                 }}
                 onDelete={() => handleRemoveBookmark(`${bookmark._id}`)}
               />

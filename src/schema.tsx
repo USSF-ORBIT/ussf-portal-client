@@ -28,6 +28,12 @@ export const typeDefs = gql`
     ): Bookmark
     addCollections(collections: [CollectionRecord!]): [Collection]
     removeBookmark(_id: ID!, collectionId: ID!, cmsId: ID): Bookmark
+    editBookmark(
+      _id: ID!
+      collectionId: ID!
+      url: String
+      label: String
+    ): Bookmark
   }
   input BookmarkInput {
     url: String!
