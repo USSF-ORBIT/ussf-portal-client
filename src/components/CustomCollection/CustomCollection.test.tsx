@@ -99,7 +99,7 @@ describe('CustomCollection component', () => {
       exampleCollection.bookmarks.length
     )
     expect(
-      screen.getAllByRole('button', { name: 'Remove this bookmark' })
+      screen.getAllByRole('button', { name: 'Remove this link' })
     ).toHaveLength(exampleCollection.bookmarks.length)
   })
 

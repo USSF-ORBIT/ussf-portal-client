@@ -48,7 +48,7 @@ const Bookmark = ({
           type="button"
           onClick={onDelete}
           className={styles.delete}
-          aria-label="Remove this bookmark">
+          aria-label="Remove this link">
           <FontAwesomeIcon icon="times" />
         </button>
       )}
@@ -58,7 +58,7 @@ const Bookmark = ({
           type="button"
           onClick={onEdit}
           className={styles.delete}
-          aria-label="Edit this bookmark">
+          aria-label="Edit this link">
           <FontAwesomeIcon icon="pen" />
         </button>
       )}

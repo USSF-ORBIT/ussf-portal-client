@@ -169,7 +169,7 @@ describe('My Space Component', () => {
     )
 
     const buttons = await screen.findAllByRole('button', {
-      name: 'Remove this bookmark',
+      name: 'Remove this link',
     })
 
     userEvent.click(buttons[0])
