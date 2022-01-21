@@ -3,11 +3,13 @@ describe('Sites and Applications', () => {
     // Reset the database
     cy.task('db:seed')
     cy.loginTestIDP()
+    cy.visit('/joinbeta')
   })
 
   beforeEach(() => {
     cy.preserveLoginCookies()
-    cy.visit('/joinbeta')
+    cy.preserveBetaCookie()
+    cy.visit('/')
   })
 
   it('can add a new custom collection', () => {
