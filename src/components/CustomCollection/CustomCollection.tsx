@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import {
   Button,
   Form,
@@ -6,6 +6,7 @@ import {
   ModalRef,
   ComboBox,
   ComboBoxOption,
+  ComboBoxRef,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { EditableCollectionTitle } from './EditableCollectionTitle'
@@ -46,6 +47,13 @@ const CustomCollection = ({
   const [isAdding, setIsAdding] = useState<boolean>(false)
   const urlInputValue = useRef<string>('')
   const addCustomLinkModal = useRef<ModalRef>(null)
+  const linkInput = useRef<ComboBoxRef>(null)
+
+  useEffect(() => {
+    if (isAdding && linkInput.current) {
+      linkInput.current.focus()
+    }
+  }, [isAdding])
 
   const handleShowAdding = () => setIsAdding(true)
 
@@ -150,6 +158,7 @@ const CustomCollection = ({
             name="bookmarkUrl"
             options={urlOptions}
             onChange={handleSelectChange}
+            ref={linkInput}
             inputProps={{
               required: true,
               onChange: handleInputChange,

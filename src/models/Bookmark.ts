@@ -2,13 +2,14 @@ import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
 import type {
   BookmarkInput,
+  AddBookmarkInput,
   Collection,
   Bookmark,
   RemovedBookmark,
 } from 'types'
 
 export const BookmarkModel = {
-  async getAllCollectionBookmarks(collectionId: string, db: Context) {
+  async getAllInCollection(collectionId: string, db: Context) {
     try {
       const found = await db
         .collection('users')
@@ -20,7 +21,7 @@ export const BookmarkModel = {
 
       return bookmarks
     } catch (error) {
-      console.error('Error in BookmarkModel.getAllCollectionBookmarks', error)
+      console.error('Error in BookmarkModel.getAllInCollection', error)
     }
   },
   async findOne(_id: string, collectionId: string, db: Context) {
@@ -112,20 +113,16 @@ export const BookmarkModel = {
       return e
     }
   },
+  // #TODO check that this approach is correct
   async addOne(
-    collectionId: string,
-    url: string,
-    db: Context,
-    userId: string,
-    label?: string,
-    cmsId?: string
+    { url, collectionId, userId, label, cmsId }: AddBookmarkInput,
+    { db }: Context
   ) {
     try {
-      const existing = await BookmarkModel.getAllCollectionBookmarks(
-        collectionId,
-        db
-      )
-      if (existing.length >= 10) {
+      const existing = await BookmarkModel.getAllInCollection(collectionId, db)
+      const visible = existing.filter((b: Bookmark) => !b.isRemoved)
+
+      if (visible.length >= 10) {
         return new Error(
           'You have reached the maximum number of bookmarks per collection'
         )

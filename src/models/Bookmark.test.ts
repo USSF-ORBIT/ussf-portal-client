@@ -46,12 +46,16 @@ describe('Bookmark Model', () => {
       cmsId: 'testCmsId',
     }
     const created = await BookmarkModel.addOne(
-      exampleCollectionId,
-      newBookmark.url,
-      db,
-      'testUserId',
-      newBookmark.label,
-      newBookmark.cmsId
+      {
+        collectionId: exampleCollectionId,
+        url: newBookmark.url,
+        userId: 'testUserId',
+        label: newBookmark.label,
+        cmsId: newBookmark.cmsId,
+      },
+      {
+        db,
+      }
     )
     const found = await BookmarkModel.findOne(
       created._id,
@@ -61,10 +65,7 @@ describe('Bookmark Model', () => {
 
     expect(found).toEqual(created)
 
-    const all = await BookmarkModel.getAllCollectionBookmarks(
-      exampleCollectionId,
-      db
-    )
+    const all = await BookmarkModel.getAllInCollection(exampleCollectionId, db)
     expect(all.length).toEqual(6)
   })
 
@@ -78,12 +79,16 @@ describe('Bookmark Model', () => {
     }
 
     const created = await BookmarkModel.addOne(
-      exampleCollectionId,
-      newBookmark.url,
-      db,
-      'testUserId',
-      newBookmark.label,
-      newBookmark.cmsId
+      {
+        collectionId: exampleCollectionId,
+        url: newBookmark.url,
+        userId: 'testUserId',
+        label: newBookmark.label,
+        cmsId: newBookmark.cmsId,
+      },
+      {
+        db,
+      }
     )
 
     expect(created.cmsId).toEqual(newBookmark.cmsId)
@@ -97,10 +102,7 @@ describe('Bookmark Model', () => {
       'testUserId'
     )
 
-    const all = await BookmarkModel.getAllCollectionBookmarks(
-      exampleCollectionId,
-      db
-    )
+    const all = await BookmarkModel.getAllInCollection(exampleCollectionId, db)
     expect(all.length).toEqual(7)
 
     const found = all.find((b: any) => `${b._id}` === `${hidden._id}`)
@@ -117,11 +119,14 @@ describe('Bookmark Model', () => {
     }
 
     const created = await BookmarkModel.addOne(
-      exampleCollectionId,
-      newBookmark.url,
-      db,
-      'testUserId',
-      newBookmark.label
+      {
+        collectionId: exampleCollectionId,
+        url: newBookmark.url,
+        userId: 'testUserId',
+        label: newBookmark.label,
+      },
+
+      { db }
     )
 
     expect(created.label).toEqual(newBookmark.label)
@@ -142,17 +147,14 @@ describe('Bookmark Model', () => {
 
     expect(deleted.length).toBe(0)
 
-    const all = await BookmarkModel.getAllCollectionBookmarks(
-      exampleCollectionId,
-      db
-    )
+    const all = await BookmarkModel.getAllInCollection(exampleCollectionId, db)
     expect(all.length).toEqual(7)
   })
 
   it('can get all bookmarks in a single collection', async () => {
     // Start Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
     // End Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
-    const bookmarks = await BookmarkModel.getAllCollectionBookmarks(
+    const bookmarks = await BookmarkModel.getAllInCollection(
       exampleCollectionId,
       db
     )
@@ -231,17 +233,16 @@ describe('Bookmark Model', () => {
     expect(newCollection.bookmarks).toHaveLength(10)
 
     const error = await BookmarkModel.addOne(
-      newCollection._id,
-      'https://www.example11.com',
-      db,
-      'testUserId',
-      'Label 11'
+      {
+        collectionId: newCollection._id,
+        url: 'https://www.example11.com',
+        userId: 'testUserId',
+        label: 'Label 11',
+      },
+      { db }
     )
 
-    const all = await BookmarkModel.getAllCollectionBookmarks(
-      newCollection._id,
-      db
-    )
+    const all = await BookmarkModel.getAllInCollection(newCollection._id, db)
 
     expect(error).toBeInstanceOf(Error)
     expect(all.length).toBe(10)

@@ -60,6 +60,14 @@ export type BookmarkInput = {
 export type RemovedBookmark = {
   _id: string
 }
+
+export type AddBookmarkInput = {
+  url: string
+  collectionId: string
+  userId: string
+  label?: string
+  cmsId?: string
+}
 /* Collection refers to a user-created collection containing one or more bookmarks */
 
 export type Collection = {

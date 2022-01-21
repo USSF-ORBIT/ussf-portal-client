@@ -64,12 +64,8 @@ const resolvers: Resolvers = {
         )
       }
       return BookmarkModel.addOne(
-        collectionId,
-        url,
-        db,
-        user.userId,
-        label,
-        cmsId
+        { url, collectionId, userId: user.userId, label, cmsId },
+        { db }
       )
     },
     removeBookmark: async (

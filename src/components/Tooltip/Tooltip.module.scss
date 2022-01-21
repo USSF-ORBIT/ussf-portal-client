@@ -1,0 +1,22 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+@import 'styles/deps';
+
+.tooltipButton,
+:global(.sfds) .tooltipButton {
+  @extend %button-reset;
+  background-color: transparent;
+  color: $state-warning-dark;
+
+  &:hover {
+    background-color: transparent;
+    color: $state-warning-dark;
+  }
+}
+
+:global {
+  .sfds .usa-tooltip__body {
+    background-color: $theme-spacebase-dark;
+    padding: units(2);
+  }
+}
