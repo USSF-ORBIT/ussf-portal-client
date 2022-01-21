@@ -187,21 +187,21 @@ describe('Sites and Applications', () => {
       .within(() => {
         // Inside of <ol>
         cy.findAllByRole('listitem').should('have.length', 6)
-        cy.contains('Webmail')
+        cy.contains('MyPay')
 
         // First undo
         cy.findAllByRole('button', { name: 'Remove this bookmark' })
           .first()
           .click()
-        cy.contains('Webmail').should('not.exist')
+        cy.contains('MyPay').should('not.exist')
         cy.contains('Undo remove').click()
-        cy.contains('Webmail')
+        cy.contains('MyPay')
 
         // Don't undo
         cy.findAllByRole('button', { name: 'Remove this bookmark' })
           .first()
           .click()
-        cy.contains('Webmail').should('not.exist')
+        cy.contains('MyPay').should('not.exist')
         cy.findAllByRole('listitem').should('have.length', 5)
       })
   })
@@ -217,12 +217,8 @@ describe('Sites and Applications', () => {
 
         // Add a link
         cy.findByRole('button', { name: '+ Add link' }).click()
-        cy.findByLabelText('URL').click() // Open the select
+        cy.findByLabelText('Select existing link').click() // Open the select
         cy.findByRole('option', { name: 'ADP' }).click()
-        cy.findByLabelText('URL').should('have.value', 'ADP')
-
-        cy.findByRole('button', { name: 'Add site' }).click()
-
         cy.findByRole('link', {
           name: 'ADP (opens in a new window)',
         }).should('exist')
@@ -236,33 +232,12 @@ describe('Sites and Applications', () => {
       .within(() => {
         // Add a link
         cy.findByRole('button', { name: '+ Add link' }).click()
-
-        cy.findByLabelText('URL')
-          .then(($el) => $el[0].checkValidity())
-          .should('be.false')
-
-        cy.findByLabelText('URL')
-          .type('not a URL')
-          .then(($el) => $el[0].checkValidity())
-          .should('be.false')
-
-        cy.findByLabelText('URL')
-          .clear()
-          .type('http://www.example.com{enter}')
-          .blur()
-          .then(($el) => $el[0].checkValidity())
-          .should('be.true')
-
-        cy.findByLabelText('URL').should('have.value', 'http://www.example.com')
-
-        cy.findByRole('button', { name: 'Add site' }).click()
+        cy.findByRole('button', { name: 'Add a custom link' }).click()
       })
 
-    cy.findByRole('dialog', { name: 'We don’t recognize that link' }).within(
-      () => {
-        cy.findByRole('button', { name: 'Cancel' }).click()
-      }
-    )
+    cy.findByRole('dialog', { name: 'Add a custom link' }).within(() => {
+      cy.findByRole('button', { name: 'Cancel' }).click()
+    })
 
     cy.contains('Example Collection')
       .parent()
@@ -270,26 +245,36 @@ describe('Sites and Applications', () => {
       .within(() => {
         // Add a link
         cy.findByRole('button', { name: '+ Add link' }).click()
-        cy.findByLabelText('URL').clear().type('http://www.example.com')
-        cy.findByRole('option', { name: 'http://www.example.com' }).click()
-        cy.findByLabelText('URL').should('have.value', 'http://www.example.com')
-        cy.findByRole('button', { name: 'Add site' }).click()
+        cy.findByRole('button', { name: 'Add a custom link' }).click()
       })
 
-    cy.findByRole('dialog', { name: 'We don’t recognize that link' }).within(
-      () => {
-        cy.findByLabelText('Label')
-          .then(($el) => $el[0].checkValidity())
-          .should('be.false')
+    cy.findByRole('dialog', { name: 'Add a custom link' }).within(() => {
+      cy.findByLabelText('Name')
+        .then(($el) => $el[0].checkValidity())
+        .should('be.false')
 
-        cy.findByLabelText('Label')
-          .type('My Custom Link')
-          .then(($el) => $el[0].checkValidity())
-          .should('be.true')
+      cy.findByLabelText('Name')
+        .type('My Custom Link')
+        .then(($el) => $el[0].checkValidity())
+        .should('be.true')
 
-        cy.findByRole('button', { name: 'Save link name' }).click()
-      }
-    )
+      cy.findByLabelText('URL')
+        .then(($el) => $el[0].checkValidity())
+        .should('be.false')
+
+      cy.findByLabelText('URL')
+        .type('not a URL')
+        .then(($el) => $el[0].checkValidity())
+        .should('be.false')
+
+      cy.findByLabelText('URL')
+        .clear()
+        .type('http://www.example.com')
+        .then(($el) => $el[0].checkValidity())
+        .should('be.true')
+
+      cy.findByRole('button', { name: 'Save custom link' }).click()
+    })
 
     cy.findByRole('link', {
       name: 'My Custom Link (opens in a new window)',
@@ -320,10 +305,10 @@ describe('Sites and Applications', () => {
         // Start with 7 links, remove 2
         cy.findAllByRole('listitem').should('have.length', 7)
 
+        cy.contains('vMPF').next().click()
         cy.contains('LeaveWeb').next().click()
-        cy.contains('MyPay').next().click()
 
-        cy.contains('MyPay').should('not.exist')
+        cy.contains('vMPF').should('not.exist')
         cy.contains('LeaveWeb').should('not.exist')
 
         cy.findAllByRole('listitem').should('have.length', 5)
