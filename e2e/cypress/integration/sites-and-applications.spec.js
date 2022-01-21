@@ -306,6 +306,27 @@ describe('Sites and Applications', () => {
       })
   })
 
+  it('can remove multiple links at once from an existing collection', () => {
+    cy.contains('My Space')
+
+    cy.contains('Updated Title')
+      .parent()
+      .next()
+      .within(() => {
+        // Inside of <ol>
+        // Start with 7 links, remove 2
+        cy.findAllByRole('listitem').should('have.length', 7)
+
+        cy.contains('LeaveWeb').next().click()
+        cy.contains('MyPay').next().click()
+
+        cy.contains('MyPay').should('not.exist')
+        cy.contains('LeaveWeb').should('not.exist')
+
+        cy.findAllByRole('listitem').should('have.length', 5)
+      })
+  })
+
   it('can delete an existing collection', () => {
     cy.contains('Second Collection')
       .parent()
