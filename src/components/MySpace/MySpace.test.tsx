@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { act, screen, render } from '@testing-library/react'
+import { act, screen, render, within } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
@@ -17,13 +17,9 @@ import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
 import { REMOVE_COLLECTION } from 'operations/mutations/removeCollection'
 import { ADD_COLLECTION } from 'operations/mutations/addCollection'
 import { EDIT_COLLECTION } from 'operations/mutations/editCollection'
+import { EDIT_BOOKMARK } from 'operations/mutations/editBookmark'
 
 const mockRouterPush = jest.fn()
-// const mockAddBookmark = jest.fn()
-// const mockRemoveBookmark = jest.fn()
-// const mockEditCollection = jest.fn()
-// const mockRemoveCollection = jest.fn()
-// const mockAddCollection = jest.fn()
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
@@ -315,7 +311,15 @@ describe('My Space Component', () => {
     })
     userEvent.click(dropdownMenu)
     userEvent.click(screen.getByRole('button', { name: 'Delete Collection' }))
-    userEvent.click(screen.getByRole('button', { name: 'Delete' }))
+
+    const confirmDelete = screen.getByRole('dialog', {
+      name: 'Are you sure you’d like to delete this collection from My Space?',
+    })
+
+    expect(confirmDelete).toBeVisible()
+    userEvent.click(
+      within(confirmDelete).getByRole('button', { name: 'Delete' })
+    )
 
     await act(
       async () => await new Promise((resolve) => setTimeout(resolve, 0))
@@ -366,5 +370,71 @@ describe('My Space Component', () => {
     ) // wait for response
 
     expect(collectionAdded).toBe(true)
+  })
+
+  it('handles the edit bookmark operation', async () => {
+    let bookmarkEdited = false
+
+    const editBookmarkMock = [
+      ...getCollectionsMock,
+      {
+        request: {
+          query: EDIT_BOOKMARK,
+          variables: {
+            _id: getCollectionsMock[0].result.data.collections[0].bookmarks[0]
+              ._id,
+            collectionId: getCollectionsMock[0].result.data.collections[0]._id,
+            url: 'https://www.yahoo.com',
+            label: 'Yahoo',
+          },
+        },
+        result: () => {
+          bookmarkEdited = true
+          return {
+            data: {
+              editBookmark: {
+                _id: getCollectionsMock[0].result.data.collections[0]
+                  .bookmarks[0]._id,
+                url: 'https://www.yahoo.com',
+                label: 'Yahoo',
+              },
+            },
+          }
+        },
+      },
+    ]
+
+    renderWithModalRoot(
+      <MockedProvider mocks={editBookmarkMock} addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
+      </MockedProvider>
+    )
+
+    const editButton = await screen.findByRole('button', {
+      name: 'Edit this link',
+    })
+    userEvent.click(editButton)
+
+    const editModal = await screen.findByRole('dialog', {
+      name: 'Edit custom link',
+    })
+
+    expect(editModal).toBeVisible()
+    const nameInput = within(editModal).getByLabelText('Name')
+    const urlInput = within(editModal).getByLabelText('URL')
+
+    userEvent.clear(nameInput)
+    userEvent.clear(urlInput)
+    userEvent.type(nameInput, 'Yahoo')
+    userEvent.type(urlInput, '{clear}https://www.yahoo.com')
+    userEvent.click(
+      within(editModal).getByRole('button', { name: 'Save custom link' })
+    )
+
+    await act(
+      async () => await new Promise((resolve) => setTimeout(resolve, 0))
+    )
+
+    expect(bookmarkEdited).toBe(true)
   })
 })

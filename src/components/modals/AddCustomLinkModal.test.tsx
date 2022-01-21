@@ -25,7 +25,7 @@ describe('AddCustomLinkModal', () => {
     )
   })
 
-  it('renders a form to add a link label', () => {
+  it('renders a form to add a custom link', () => {
     expect(screen.getByRole('heading')).toHaveTextContent('Add a custom link')
 
     const labelInput = screen.getByLabelText('Name')
@@ -52,7 +52,7 @@ describe('AddCustomLinkModal', () => {
     expect(mockOnCancel).toHaveBeenCalled()
   })
 
-  it('saving resets the value of the text input', () => {
+  it('saving resets the value of the text inputs', () => {
     expect(screen.getByRole('heading')).toHaveTextContent('Add a custom link')
 
     const labelInput = screen.getByLabelText('Name')
@@ -67,7 +67,7 @@ describe('AddCustomLinkModal', () => {
     expect(screen.getByLabelText('URL')).toHaveValue('')
   })
 
-  it('cancelling resets the value of the text input', () => {
+  it('cancelling resets the value of the text inputs', () => {
     expect(screen.getByRole('heading')).toHaveTextContent('Add a custom link')
 
     const labelInput = screen.getByLabelText('Name')
