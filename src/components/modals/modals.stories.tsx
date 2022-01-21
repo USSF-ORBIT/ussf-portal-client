@@ -4,6 +4,7 @@ import type { ModalRef } from '@trussworks/react-uswds'
 
 import JoinBetaModal from './JoinBetaModal'
 import AddCustomLinkModal from './AddCustomLinkModal'
+import EditCustomLinkModal from './EditCustomLinkModal'
 import RemoveCustomCollectionModal from './RemoveCustomCollectionModal'
 
 export default {
@@ -44,6 +45,25 @@ export const addCustomLinkModal = () => {
         Open modal
       </button>
       <AddCustomLinkModal
+        modalRef={storybookModal}
+        onSave={closeModal}
+        onCancel={closeModal}
+      />
+    </>
+  )
+}
+
+export const editCustomLinkModal = () => {
+  const storybookModal = useRef<ModalRef>(null)
+  const openModal = () => storybookModal.current?.toggleModal(undefined, true)
+  const closeModal = () => storybookModal.current?.toggleModal(undefined, false)
+
+  return (
+    <>
+      <button type="button" onClick={openModal}>
+        Open modal
+      </button>
+      <EditCustomLinkModal
         modalRef={storybookModal}
         onSave={closeModal}
         onCancel={closeModal}
