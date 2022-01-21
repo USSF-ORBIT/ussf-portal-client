@@ -3,7 +3,7 @@ import { MongoClient, Db } from 'mongodb'
 import { BookmarkModel } from './Bookmark'
 import { CollectionModel } from './Collection'
 import User from './User'
-import type { BookmarkInput, Collection, RemovedBookmark } from 'types'
+import type { BookmarkInput, CollectionInput, RemovedBookmark } from 'types'
 let connection: typeof MongoClient
 let db: typeof Db
 let exampleCollectionId: string
@@ -58,14 +58,16 @@ describe('Bookmark Model', () => {
       }
     )
     const found = await BookmarkModel.findOne(
-      created._id,
-      exampleCollectionId,
-      db
+      { _id: created._id, collectionId: exampleCollectionId },
+      { db }
     )
 
     expect(found).toEqual(created)
 
-    const all = await BookmarkModel.getAllInCollection(exampleCollectionId, db)
+    const all = await BookmarkModel.getAllInCollection(
+      { collectionId: exampleCollectionId },
+      { db }
+    )
     expect(all.length).toEqual(6)
   })
 
@@ -96,13 +98,18 @@ describe('Bookmark Model', () => {
     expect(created.url).toEqual(newBookmark.url)
 
     const hidden: RemovedBookmark = await BookmarkModel.hideOne(
-      created._id,
-      exampleCollectionId,
-      db,
-      'testUserId'
+      {
+        _id: created._id,
+        collectionId: exampleCollectionId,
+        userId: 'testUserId',
+      },
+      { db }
     )
 
-    const all = await BookmarkModel.getAllInCollection(exampleCollectionId, db)
+    const all = await BookmarkModel.getAllInCollection(
+      { collectionId: exampleCollectionId },
+      { db }
+    )
     expect(all.length).toEqual(7)
 
     const found = all.find((b: any) => `${b._id}` === `${hidden._id}`)
@@ -133,21 +140,25 @@ describe('Bookmark Model', () => {
     expect(created.url).toEqual(newBookmark.url)
 
     await BookmarkModel.deleteOne(
-      created._id,
-      exampleCollectionId,
-      db,
-      'testUserId'
+      {
+        _id: created._id,
+        collectionId: exampleCollectionId,
+        userId: 'testUserId',
+      },
+      { db }
     )
 
     const deleted = await BookmarkModel.findOne(
-      created._id,
-      exampleCollectionId,
-      db
+      { _id: created._id, collectionId: exampleCollectionId },
+      { db }
     )
 
     expect(deleted.length).toBe(0)
 
-    const all = await BookmarkModel.getAllInCollection(exampleCollectionId, db)
+    const all = await BookmarkModel.getAllInCollection(
+      { collectionId: exampleCollectionId },
+      { db }
+    )
     expect(all.length).toEqual(7)
   })
 
@@ -155,8 +166,8 @@ describe('Bookmark Model', () => {
     // Start Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
     // End Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
     const bookmarks = await BookmarkModel.getAllInCollection(
-      exampleCollectionId,
-      db
+      { collectionId: exampleCollectionId },
+      { db }
     )
 
     expect(bookmarks).toHaveLength(7)
@@ -223,18 +234,20 @@ describe('Bookmark Model', () => {
     ]
 
     const newCollection = (await CollectionModel.addOne(
-      'Max Collection',
-      maxBookmarks,
-      db,
-      'testUserId'
-    )) as Collection
+      {
+        title: 'Max Collection',
+        bookmarks: maxBookmarks,
+        userId: 'testUserId',
+      },
+      { db }
+    )) as CollectionInput
 
     // Should match length before attempting to add
     expect(newCollection.bookmarks).toHaveLength(10)
 
     const error = await BookmarkModel.addOne(
       {
-        collectionId: newCollection._id,
+        collectionId: `${newCollection._id}`,
         url: 'https://www.example11.com',
         userId: 'testUserId',
         label: 'Label 11',
@@ -242,7 +255,10 @@ describe('Bookmark Model', () => {
       { db }
     )
 
-    const all = await BookmarkModel.getAllInCollection(newCollection._id, db)
+    const all = await BookmarkModel.getAllInCollection(
+      { collectionId: `${newCollection._id}` },
+      { db }
+    )
 
     expect(error).toBeInstanceOf(Error)
     expect(all.length).toBe(10)

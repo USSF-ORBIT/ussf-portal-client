@@ -149,9 +149,8 @@ describe('Collection Model', () => {
   it('can find a collection', async () => {
     // Start Data: Test user, 1 collection, 5 bookmarks
     const found = await CollectionModel.findOne(
-      exampleCollectionId,
-      db,
-      testUserId
+      { _id: exampleCollectionId, userId: testUserId },
+      { db }
     )
 
     expect(found.length).toEqual(1)
@@ -163,17 +162,15 @@ describe('Collection Model', () => {
     // End Data: Test user, 2 collections
     const title = 'New Collection'
     const created = (await CollectionModel.addOne(
-      title,
-      [],
-      db,
-      testUserId
+      { title: title, bookmarks: [], userId: testUserId },
+      { db }
     )) as CollectionInput
 
     expect(created.title).toBe(title)
     expect(created.bookmarks).toHaveLength(0)
     expect(created).toHaveProperty('_id')
 
-    const found = await CollectionModel.getAll(testUserId, db)
+    const found = await CollectionModel.getAll({ userId: testUserId }, { db })
     expect(found.length).toBe(2)
   })
 
@@ -181,13 +178,12 @@ describe('Collection Model', () => {
     // Start Data: Test user, 2 collections
     // End Data: Test user, 25 collections
 
-    let all = await CollectionModel.getAll(testUserId, db)
+    let all = await CollectionModel.getAll({ userId: testUserId }, { db })
     expect(all.length).toBe(2)
 
     const created = await CollectionModel.addMany(
-      manyCollections,
-      db,
-      testUserId
+      { collections: manyCollections, userId: testUserId },
+      { db }
     )
 
     expect(created).toEqual(
@@ -201,7 +197,7 @@ describe('Collection Model', () => {
       ])
     )
 
-    all = await CollectionModel.getAll(testUserId, db)
+    all = await CollectionModel.getAll({ userId: testUserId }, { db })
 
     expect(all.length).toBe(25)
   })
@@ -211,10 +207,12 @@ describe('Collection Model', () => {
     // End Data: Test user, 1 collection, 'New Title'
     const title = 'New Title'
     const updated = await CollectionModel.editOne(
-      exampleCollectionId,
-      title,
-      db,
-      testUserId
+      {
+        _id: exampleCollectionId,
+        userId: testUserId,
+        title: title,
+      },
+      { db }
     )
 
     expect(updated.title).toBe(title)
@@ -223,17 +221,19 @@ describe('Collection Model', () => {
   it('can delete a collection', async () => {
     // Start Data: Test user, 25 collections
     // End Data: Test user, 24 collections
-    let all = await CollectionModel.getAll(testUserId, db)
+    let all = await CollectionModel.getAll({ userId: testUserId }, { db })
     expect(all.length).toBe(25)
-    await CollectionModel.deleteOne(exampleCollectionId, db, testUserId)
+    await CollectionModel.deleteOne(
+      { _id: exampleCollectionId, userId: testUserId },
+      { db }
+    )
     const found = await CollectionModel.findOne(
-      exampleCollectionId,
-      db,
-      testUserId
+      { _id: exampleCollectionId, userId: testUserId },
+      { db }
     )
 
     expect(found.length).toBe(0)
-    all = await CollectionModel.getAll(testUserId, db)
+    all = await CollectionModel.getAll({ userId: testUserId }, { db })
     expect(all.length).toBe(24)
   })
   it('cannot add more than 25 collections using addMany', async () => {
@@ -241,25 +241,15 @@ describe('Collection Model', () => {
     // Action: Add 2 more collections
     // End Data: Return error, Test user, 24 collections
     // #TODO: Should addMany add *up to* 25 collections and error only on those after?
-    let all = await CollectionModel.getAll(testUserId, db)
+    let all = await CollectionModel.getAll({ userId: testUserId }, { db })
     expect(all.length).toBe(24)
 
-    const addCollections: CollectionRecords = [
-      ...manyCollections,
-      {
-        id: 'testCmsId26',
-        title: 'CMS Collection 26',
-        bookmarks: [],
-      },
-      {
-        id: 'testCmsId27',
-        title: 'CMS Collection 27',
-        bookmarks: [],
-      },
-    ]
-    const error = await CollectionModel.addMany(manyCollections, db, testUserId)
+    const error = await CollectionModel.addMany(
+      { collections: manyCollections, userId: testUserId },
+      { db }
+    )
 
-    all = await CollectionModel.getAll(testUserId, db)
+    all = await CollectionModel.getAll({ userId: testUserId }, { db })
 
     expect(error).toBeInstanceOf(Error)
 
@@ -272,25 +262,34 @@ describe('Collection Model', () => {
     // Action: Add 1 additional collection, error
     // End Data: Test user, 25 collections
 
-    let all = await CollectionModel.getAll(testUserId, db)
+    let all = await CollectionModel.getAll({ userId: testUserId }, { db })
     expect(all.length).toBe(24)
 
-    await CollectionModel.addOne('CMS Collection 26', [], db, testUserId)
+    await CollectionModel.addOne(
+      {
+        title: 'CMS Collection 26',
+        bookmarks: [],
+        userId: testUserId,
+      },
+      { db }
+    )
 
-    all = await CollectionModel.getAll(testUserId, db)
+    all = await CollectionModel.getAll({ userId: testUserId }, { db })
 
     expect(all.length).toEqual(25)
 
     const error = await CollectionModel.addOne(
-      'CMS Collection 27',
-      [],
-      db,
-      testUserId
+      {
+        title: 'CMS Collection 27',
+        bookmarks: [],
+        userId: testUserId,
+      },
+      { db }
     )
 
     expect(error).toBeInstanceOf(Error)
 
-    all = await CollectionModel.getAll(testUserId, db)
+    all = await CollectionModel.getAll({ userId: testUserId }, { db })
 
     expect(all.length).toEqual(25)
   })
