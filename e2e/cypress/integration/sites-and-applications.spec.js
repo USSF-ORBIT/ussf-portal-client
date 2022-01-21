@@ -3,11 +3,13 @@ describe('Sites and Applications', () => {
     // Reset the database
     cy.task('db:seed')
     cy.loginTestIDP()
+    cy.visit('/joinbeta')
   })
 
   beforeEach(() => {
     cy.preserveLoginCookies()
-    cy.visit('/joinbeta')
+    cy.preserveBetaCookie()
+    cy.visit('/')
   })
 
   it('can add a new custom collection', () => {
@@ -166,6 +168,7 @@ describe('Sites and Applications', () => {
 
     // Go back to My Space
     cy.contains('My Space').click()
+    cy.url().should('eq', Cypress.config().baseUrl + '/')
     cy.findByRole('heading', { name: 'My Space' })
     cy.contains('Example Collection')
       .parent()
