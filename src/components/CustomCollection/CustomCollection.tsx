@@ -223,11 +223,17 @@ const CustomCollection = ({
     </Button>
   )
 
+  const [isActive, setActive] = useState(false)
+
   const editCustomCollectionTitle = (
     <Button
       type="button"
       className={styles.collectionSettingsDropdown}
-      onClick={handleEditCollectionTitle}>
+      onClick={() => {
+        console.log('clicked')
+        setActive(true)
+        console.log(isActive)
+      }}>
       Edit collection title
     </Button>
   )
@@ -247,6 +253,7 @@ const CustomCollection = ({
         text={title}
         onSave={handleEditCollection}
         onDelete={handleRemoveCollection}
+        isActive={isActive}
       />
 
       <DropdownMenu

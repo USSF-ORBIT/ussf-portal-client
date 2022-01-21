@@ -8,22 +8,26 @@ type PropTypes = {
   text: string
   onSave: (s: string) => void
   onDelete: () => void
+  isActive: boolean
 }
 export const EditableCollectionTitle = ({
   collectionId,
   text,
   onSave,
   onDelete,
+  isActive,
 }: PropTypes) => {
-  const [isEditing, setEditing] = useState(text === '')
+  const [isEditing, setEditing] = useState(isActive)
   const [currentText, setCurrentText] = useState(text)
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
+    console.log('what is isEditing', isEditing)
+
     if (isEditing) {
       inputRef?.current?.focus()
     }
-  }, [isEditing])
+  }, [isEditing, isActive])
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     const { key } = event
@@ -77,12 +81,13 @@ export const EditableCollectionTitle = ({
         </>
       ) : (
         <h3
-          tabIndex={0}
+          // tabIndex={0}
           role="button"
           className={styles.collectionTitle}
-          onClick={() => setEditing(true)}
+          // onClick={() => setEditing(true)}
           onKeyDown={(e) => handleKeyDown(e)}
-          aria-label={`Edit ${currentText} collection title`}>
+          // aria-label={`Edit ${currentText} collection title`}
+        >
           {currentText}
         </h3>
       )}
