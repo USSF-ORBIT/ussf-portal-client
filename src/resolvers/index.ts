@@ -14,7 +14,7 @@ const resolvers: Resolvers = {
         )
       }
 
-      return CollectionModel.getAll(user.userId, db)
+      return CollectionModel.getAll({ userId: user.userId }, { db })
     },
   },
   Mutation: {
