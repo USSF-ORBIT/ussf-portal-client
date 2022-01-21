@@ -168,6 +168,7 @@ describe('Sites and Applications', () => {
 
     // Go back to My Space
     cy.contains('My Space').click()
+    cy.url().should('eq', Cypress.config().baseUrl + '/')
     cy.findByRole('heading', { name: 'My Space' })
     cy.contains('Example Collection')
       .parent()
