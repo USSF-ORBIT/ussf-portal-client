@@ -3,6 +3,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+const webpack = require('webpack')
+
 const { withKeystone } = require('@keystone-next/keystone/next')
 
 const securityHeaders = [
@@ -14,6 +17,17 @@ const securityHeaders = [
 
 module.exports = withKeystone(
   withBundleAnalyzer({
+    webpack: (config, { buildId }) => {
+      config.plugins.push(
+        new webpack.DefinePlugin({
+          __VERSION__: JSON.stringify(process.env.npm_package_version),
+          __BUILD_ID__: JSON.stringify(buildId),
+          __NODE_ENV__: JSON.stringify(process.env.NODE_ENV),
+        })
+      )
+
+      return config
+    },
     generateBuildId: async () => {
       return process.env.IMAGE_TAG
     },
@@ -22,9 +36,6 @@ module.exports = withKeystone(
       MATOMO_SITE_ID: process.env.MATOMO_SITE_ID,
     },
     reactStrictMode: true,
-    env: {
-      BUILD_ID: process.env.IMAGE_TAG,
-    },
     // swcMinify: true,
     async headers() {
       return [
