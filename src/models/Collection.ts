@@ -8,8 +8,40 @@ import type {
   CollectionRecords,
 } from 'types'
 
+// Types for CollectionModel
+type FindOneInput = {
+  _id: string
+  userId: string
+}
+
+type GetAllInput = {
+  userId: string
+}
+
+type AddOneInput = {
+  title: string
+  bookmarks: BookmarkInput[]
+  userId: string
+}
+
+type AddManyInput = {
+  collections: CollectionRecords
+  userId: string
+}
+
+type EditOneInput = {
+  _id: string
+  title: string
+  userId: string
+}
+
+type DeleteOneInput = {
+  _id: string
+  userId: string
+}
+
 export const CollectionModel = {
-  async findOne(_id: string, db: Context, userId: string) {
+  async findOne({ _id, userId }: FindOneInput, { db }: Context) {
     const query = {
       userId,
       'mySpace._id': new ObjectId(_id),
@@ -19,7 +51,7 @@ export const CollectionModel = {
     return found?.mySpace || []
   },
 
-  async getAll(userId: string, db: Context) {
+  async getAll({ userId }: GetAllInput, { db }: Context) {
     try {
       const foundUser = await db
         .collection('users')
@@ -30,25 +62,20 @@ export const CollectionModel = {
         return foundUser[0].mySpace
       }
     } catch (e) {
-      // TODO error logging
       // eslint-disable-next-line no-console
-      console.error('error in query collections', e)
+      console.error('CollectionModel Error: error in getAll', e)
       throw e
     }
   },
-  async addOne(
-    title: string,
-    bookmarks: BookmarkInput[],
-    db: Context,
-    userId: string
-  ) {
+  async addOne({ title, bookmarks, userId }: AddOneInput, { db }: Context) {
     try {
-      const existing = await CollectionModel.getAll(userId, db)
+      const existing = await CollectionModel.getAll({ userId }, { db })
       if (existing.length >= 25) {
         return new Error('You have reached the maximum number of collections')
       }
     } catch (e) {
-      console.error('Error in CollectionModel.addOne', e)
+      console.error('CollectionModel Error: error in addOne', e)
+      throw e
     }
 
     const newBookmarks: BookmarkInput[] = bookmarks.map(
@@ -80,20 +107,20 @@ export const CollectionModel = {
       await db.collection('users').updateOne(query, updateDocument)
       return newCollection
     } catch (e) {
-      // TODO error logging
       // eslint-disable-next-line no-console
-      console.error('error in add collection', e)
-      return e
+      console.error('CollectionModel Error: error in addOne', e)
+      throw e
     }
   },
-  async addMany(collections: CollectionRecords, db: Context, userId: string) {
+  async addMany({ collections, userId }: AddManyInput, { db }: Context) {
     try {
-      const existing = await CollectionModel.getAll(userId, db)
+      const existing = await CollectionModel.getAll({ userId }, { db })
       if (existing.length >= 25 || existing.length + collections.length > 25) {
         return new Error('You have reached the maximum number of collections')
       }
     } catch (e) {
-      console.error('Error in CollectionModel.addOne', e)
+      console.error('CollectionModel Error: error in addMany', e)
+      throw e
     }
 
     const newCollections = collections.map((collection: CollectionRecord) => ({
@@ -132,13 +159,12 @@ export const CollectionModel = {
 
       return updatedCollections[0].mySpace
     } catch (e) {
-      // TODO error logging
       // eslint-disable-next-line no-console
-      console.error('error in add collections', e)
-      return e
+      console.error('CollectionModel Error: error in addMany', e)
+      throw e
     }
   },
-  async editOne(_id: string, title: string, db: Context, userId: string) {
+  async editOne({ _id, title, userId }: EditOneInput, { db }: Context) {
     const query = {
       userId: userId,
       'mySpace._id': new ObjectId(_id),
@@ -161,13 +187,12 @@ export const CollectionModel = {
 
       return updatedCollection[0].mySpace[0]
     } catch (e) {
-      // TODO error logging
       // eslint-disable-next-line no-console
-      console.error('error in edit collection', e)
-      return e
+      console.error('CollectionModel Error: error in editOne', e)
+      throw e
     }
   },
-  async deleteOne(_id: string, db: Context, userId: string) {
+  async deleteOne({ _id, userId }: DeleteOneInput, { db }: Context) {
     const query = {
       userId: userId,
     }
@@ -189,10 +214,9 @@ export const CollectionModel = {
       // Return deleted collection id
       return { _id: _id }
     } catch (e) {
-      // TODO error logging
       // eslint-disable-next-line no-console
-      console.error('error in remove collection', e)
-      return e
+      console.error('CollectionModel Error: error in deleteOne', e)
+      throw e
     }
   },
 }
