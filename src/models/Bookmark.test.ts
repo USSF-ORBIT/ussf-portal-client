@@ -9,6 +9,9 @@ let db: typeof Db
 let exampleCollectionId: string
 
 describe('Bookmark Model', () => {
+  let newCMSBookmarkId: string
+  let newCustomBookmarkId: string
+
   beforeAll(async () => {
     // Create mongodb connection
     // Create Test User with 1 collection, 5 bookmarks
@@ -37,7 +40,7 @@ describe('Bookmark Model', () => {
     await connection.close()
   })
 
-  it('can create and find a bookmark', async () => {
+  it('can create and find a CMS bookmark', async () => {
     // Start Data: Test User, 1 collection, 5 bookmarks
     // End Data: Test User, 1 collection, 6 bookmarks
     const newBookmark = {
@@ -63,6 +66,8 @@ describe('Bookmark Model', () => {
     )
 
     expect(found).toEqual(created)
+
+    newCMSBookmarkId = created._id
 
     const all = await BookmarkModel.getAllInCollection(
       { collectionId: exampleCollectionId },
@@ -117,6 +122,33 @@ describe('Bookmark Model', () => {
     expect(found.isRemoved).toBe(true)
   })
 
+  it('cannot edit a bookmark with cmsId', async () => {
+    const existingBookmark = await BookmarkModel.findOne(
+      {
+        _id: newCMSBookmarkId,
+        collectionId: exampleCollectionId,
+      },
+      { db }
+    )
+
+    const changedValues = {
+      url: 'https://www.gmail.com',
+      label: 'Gmail',
+    }
+
+    expect(
+      BookmarkModel.editOne(
+        {
+          _id: existingBookmark._id,
+          collectionId: exampleCollectionId,
+          userId: 'testUserId',
+          ...changedValues,
+        },
+        { db }
+      )
+    ).rejects.toThrow('You cannot edit a bookmark copied from the CMS')
+  })
+
   it('can create and delete a new bookmark without a cmsId', async () => {
     // Start Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
     // End Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
@@ -138,6 +170,12 @@ describe('Bookmark Model', () => {
 
     expect(created.label).toEqual(newBookmark.label)
     expect(created.url).toEqual(newBookmark.url)
+
+    const allAdded = await BookmarkModel.getAllInCollection(
+      { collectionId: exampleCollectionId },
+      { db }
+    )
+    expect(allAdded.length).toEqual(8)
 
     await BookmarkModel.deleteOne(
       {
@@ -162,19 +200,131 @@ describe('Bookmark Model', () => {
     expect(all.length).toEqual(7)
   })
 
-  it('can get all bookmarks in a single collection', async () => {
+  it('can create and edit a new bookmark without a cmsId', async () => {
     // Start Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
-    // End Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
+    // End Data: Test User, 1 collection, 8 bookmarks (1 isRemoved)
+    const newBookmark = {
+      url: 'https://www.google.com',
+      label: 'Google',
+    }
+
+    const created = await BookmarkModel.addOne(
+      {
+        collectionId: exampleCollectionId,
+        url: newBookmark.url,
+        userId: 'testUserId',
+        label: newBookmark.label,
+      },
+
+      { db }
+    )
+
+    expect(created.label).toEqual(newBookmark.label)
+    expect(created.url).toEqual(newBookmark.url)
+
+    newCustomBookmarkId = created._id
+
+    const changedValues = {
+      url: 'https://www.gmail.com',
+      label: 'Gmail',
+    }
+
+    await BookmarkModel.editOne(
+      {
+        _id: created._id,
+        collectionId: exampleCollectionId,
+        userId: 'testUserId',
+        ...changedValues,
+      },
+      { db }
+    )
+
+    const edited = await BookmarkModel.findOne(
+      { _id: created._id, collectionId: exampleCollectionId },
+      { db }
+    )
+
+    expect(edited.label).toEqual(changedValues.label)
+    expect(edited.url).toEqual(changedValues.url)
+  })
+
+  it('can edit just the URL of a bookmark', async () => {
+    const existingBookmark = await BookmarkModel.findOne(
+      {
+        _id: newCustomBookmarkId,
+        collectionId: exampleCollectionId,
+      },
+      { db }
+    )
+
+    const changedValues = {
+      url: 'https://www.webmail.com',
+    }
+
+    await BookmarkModel.editOne(
+      {
+        _id: existingBookmark._id,
+        collectionId: exampleCollectionId,
+        userId: 'testUserId',
+        ...changedValues,
+      },
+      { db }
+    )
+
+    const edited = await BookmarkModel.findOne(
+      { _id: existingBookmark._id, collectionId: exampleCollectionId },
+      { db }
+    )
+
+    expect(edited.label).toEqual(existingBookmark.label)
+    expect(edited.url).toEqual(changedValues.url)
+  })
+
+  it('can edit just the label of a bookmark', async () => {
+    const existingBookmark = await BookmarkModel.findOne(
+      {
+        _id: newCustomBookmarkId,
+        collectionId: exampleCollectionId,
+      },
+      { db }
+    )
+
+    const changedValues = {
+      label: 'Webmail',
+    }
+
+    await BookmarkModel.editOne(
+      {
+        _id: existingBookmark._id,
+        collectionId: exampleCollectionId,
+        userId: 'testUserId',
+        ...changedValues,
+      },
+      { db }
+    )
+
+    const edited = await BookmarkModel.findOne(
+      { _id: existingBookmark._id, collectionId: exampleCollectionId },
+      { db }
+    )
+
+    expect(edited.label).toEqual(changedValues.label)
+    expect(edited.url).toEqual(existingBookmark.url)
+  })
+
+  it('can get all bookmarks in a single collection', async () => {
+    // Start Data: Test User, 1 collection, 8 bookmarks (1 isRemoved)
+    // End Data: Test User, 1 collection, 8 bookmarks (1 isRemoved)
     const bookmarks = await BookmarkModel.getAllInCollection(
       { collectionId: exampleCollectionId },
       { db }
     )
 
-    expect(bookmarks).toHaveLength(7)
+    expect(bookmarks).toHaveLength(8)
   })
 
   it('cannot add a bookmark if reached max limit of 10', async () => {
-    // Start Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
+    // Start Data: Test User, 1 collection, 8 bookmarks (1 isRemoved)
     // Create 1 new collection with 10 bookmarks
     // Add 1 new bookmark to that collection
     // End Data: Test User, 1 new collection with 10 bookmarks

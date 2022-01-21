@@ -31,6 +31,14 @@ type DeleteOrHideInput = {
   userId: string
 }
 
+type EditOneInput = {
+  _id: string
+  collectionId: string
+  userId: string
+  url?: string
+  label?: string
+}
+
 export const BookmarkModel = {
   async getAllInCollection({ collectionId }: GetAllInput, { db }: Context) {
     try {
@@ -68,6 +76,75 @@ export const BookmarkModel = {
       return found[0]?.mySpace.bookmarks || []
     } catch (e) {
       console.error('BookmarkModel Error: error in findOne', e)
+      throw e
+    }
+  },
+  async editOne(
+    { _id, collectionId, userId, url, label }: EditOneInput,
+    { db }: Context
+  ) {
+    try {
+      const bookmark = await BookmarkModel.findOne(
+        { _id, collectionId },
+        { db }
+      )
+
+      // Don't perform edits on a CMS bookmark
+      if (bookmark.cmsId) {
+        throw new Error('You cannot edit a bookmark copied from the CMS')
+      }
+
+      const query = {
+        userId: userId,
+        'mySpace.bookmarks._id': new ObjectId(_id),
+      }
+
+      const updateDocument = {
+        $set: {},
+      }
+
+      if (url) {
+        updateDocument.$set = {
+          ...updateDocument.$set,
+          'mySpace.$[outer].bookmarks.$[inner].url': url,
+        }
+      }
+
+      if (label) {
+        updateDocument.$set = {
+          ...updateDocument.$set,
+          'mySpace.$[outer].bookmarks.$[inner].label': label,
+        }
+      }
+
+      const filters = {
+        returnDocument: 'after',
+        arrayFilters: [
+          {
+            'outer._id': new ObjectId(collectionId),
+          },
+          {
+            'inner._id': new ObjectId(_id),
+          },
+        ],
+      }
+
+      const result = await db
+        .collection('users')
+        .findOneAndUpdate(query, updateDocument, filters)
+
+      const updatedBookmark = result.value.mySpace
+        .filter(
+          (collection: Collection) =>
+            collection._id.toString() === collectionId.toString()
+        )[0]
+        .bookmarks.filter(
+          (bookmark: Bookmark) => bookmark._id.toString() === _id.toString()
+        )[0]
+
+      return updatedBookmark
+    } catch (e) {
+      console.error('BookmarkModel Error: error in editOne', e)
       throw e
     }
   },

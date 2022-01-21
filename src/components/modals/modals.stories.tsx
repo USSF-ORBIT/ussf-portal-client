@@ -58,6 +58,12 @@ export const editCustomLinkModal = () => {
   const openModal = () => storybookModal.current?.toggleModal(undefined, true)
   const closeModal = () => storybookModal.current?.toggleModal(undefined, false)
 
+  const testBookmark = {
+    _id: 'testId',
+    label: 'My Custom Link',
+    url: 'http://www.example.com',
+  }
+
   return (
     <>
       <button type="button" onClick={openModal}>
@@ -67,6 +73,8 @@ export const editCustomLinkModal = () => {
         modalRef={storybookModal}
         onSave={closeModal}
         onCancel={closeModal}
+        onDelete={closeModal}
+        bookmark={testBookmark}
       />
     </>
   )
