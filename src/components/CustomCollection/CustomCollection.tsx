@@ -208,15 +208,35 @@ const CustomCollection = ({
   const handleCancelCollection = () => {
     deleteCollectionModal.current?.toggleModal(undefined, false)
   }
+
+  const handleEditCollectionTitle = () => {
+    console.log('edit collection title')
+  }
+
   // Items to populate dropdown menu
-  const editCustomCollectionItem = (
+  const deleteCustomCollection = (
+    <Button
+      type="button"
+      className={styles.collectionSettingsDropdown}
+      onClick={handleShowRemove}>
+      Delete this collection
+    </Button>
+  )
+
+  const editCustomCollectionTitle = (
+    <Button
+      type="button"
+      className={styles.collectionSettingsDropdown}
+      onClick={handleEditCollectionTitle}>
+      Edit collection title
+    </Button>
+  )
+  const customCollectionDropdownItems = (
     <>
-      <Button
-        type="button"
-        className={styles.collectionSettingsDropdown}
-        onClick={handleShowRemove}>
-        Delete Collection
-      </Button>
+      <ol>
+        <li>{editCustomCollectionTitle}</li>
+        <li>{deleteCustomCollection}</li>
+      </ol>
     </>
   )
 
@@ -242,7 +262,7 @@ const CustomCollection = ({
         dropdownRef={dropdownEl}
         align="right"
         isActive={isDropdownOpen}>
-        {editCustomCollectionItem}
+        {customCollectionDropdownItems}
       </DropdownMenu>
       <RemoveCustomCollectionModal
         modalRef={deleteCollectionModal}
