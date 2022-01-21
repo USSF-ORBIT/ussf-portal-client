@@ -3,11 +3,13 @@ describe('Sites and Applications', () => {
     // Reset the database
     cy.task('db:seed')
     cy.loginTestIDP()
+    cy.visit('/joinbeta')
   })
 
   beforeEach(() => {
     cy.preserveLoginCookies()
-    cy.visit('/joinbeta')
+    cy.preserveBetaCookie()
+    cy.visit('/')
   })
 
   it('can add a new custom collection', () => {
@@ -166,6 +168,7 @@ describe('Sites and Applications', () => {
 
     // Go back to My Space
     cy.contains('My Space').click()
+    cy.url().should('eq', Cypress.config().baseUrl + '/')
     cy.findByRole('heading', { name: 'My Space' })
     cy.contains('Example Collection')
       .parent()
@@ -303,6 +306,27 @@ describe('Sites and Applications', () => {
         cy.findByRole('button', {
           name: 'Edit Updated Title collection title',
         }).should('have.text', 'Updated Title')
+      })
+  })
+
+  it('can remove multiple links at once from an existing collection', () => {
+    cy.contains('My Space')
+
+    cy.contains('Updated Title')
+      .parent()
+      .next()
+      .within(() => {
+        // Inside of <ol>
+        // Start with 7 links, remove 2
+        cy.findAllByRole('listitem').should('have.length', 7)
+
+        cy.contains('LeaveWeb').next().click()
+        cy.contains('MyPay').next().click()
+
+        cy.contains('MyPay').should('not.exist')
+        cy.contains('LeaveWeb').should('not.exist')
+
+        cy.findAllByRole('listitem').should('have.length', 5)
       })
   })
 
