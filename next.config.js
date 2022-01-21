@@ -17,6 +17,10 @@ module.exports = withKeystone(
     generateBuildId: async () => {
       return process.env.IMAGE_TAG
     },
+    publicRuntimeConfig: {
+      MATOMO_URL: process.env.MATOMO_URL,
+      MATOMO_SITE_ID: process.env.MATOMO_SITE_ID,
+    },
     reactStrictMode: true,
     env: {
       BUILD_ID: process.env.IMAGE_TAG,

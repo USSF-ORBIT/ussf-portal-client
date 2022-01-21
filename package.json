@@ -3,7 +3,7 @@
   "version": "2.0.1",
   "private": true,
   "engines": {
-    "node": "14.18.2"
+    "node": "14.18.3"
   },
   "repository": {
     "type": "git",
@@ -35,7 +35,7 @@
     "@keystone-next/fields": "15.0.0",
     "@keystone-next/keystone": "27.0.1",
     "@next/bundle-analyzer": "12.0.7",
-    "@trussworks/react-uswds": "2.4.1",
+    "@trussworks/react-uswds": "2.7.0",
     "apollo-server-core": "3.5.0",
     "apollo-server-micro": "3.5.0",
     "axios": "0.24.0",
@@ -61,7 +61,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.16.5",
-    "@shelf/jest-mongodb": "2.1.1",
+    "@shelf/jest-mongodb": "2.2.0",
     "@storybook/addon-a11y": "6.4.9",
     "@storybook/addon-actions": "6.4.9",
     "@storybook/addon-essentials": "6.4.9",

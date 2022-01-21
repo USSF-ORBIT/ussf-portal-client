@@ -1,6 +1,6 @@
 ##--------- Stage: builder ---------##
 
-FROM node:14.18.2-slim AS builder
+FROM node:14.18.3-slim AS builder
 
 RUN apt-get update \
   && apt-get -y --no-install-recommends install openssl libc6
@@ -24,12 +24,14 @@ RUN yarn install --production --ignore-scripts --prefer-offline
 ##--------- Stage: e2e ---------##
 
 # E2E image for running tests (same as prod but without certs)
-FROM node:14.18.2-slim AS e2e
+FROM node:14.18.3-slim AS e2e
 
 RUN apt-get update \
   && apt-get -y --no-install-recommends install openssl libc6
 
 WORKDIR /app
+
+COPY ./server-preload.js ./server-preload.js
 
 ENV NODE_ENV production
 
@@ -41,12 +43,12 @@ COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
-CMD ["node_modules/.bin/next", "start"]
+CMD ["node","-r","./server-preload.js", "node_modules/.bin/next", "start"]
 
 ##--------- Stage: runner ---------##
 
 # Production image, copy all the files and run next
-FROM node:14.18.2-slim AS runner
+FROM node:14.18.3-slim AS runner
 
 WORKDIR /app
 
