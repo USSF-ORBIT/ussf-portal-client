@@ -2,14 +2,37 @@ import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
 import type {
   BookmarkInput,
-  AddBookmarkInput,
   Collection,
   Bookmark,
   RemovedBookmark,
 } from 'types'
 
+// Types for BookmarkModel
+type AddOneInput = {
+  url: string
+  collectionId: string
+  userId: string
+  label?: string
+  cmsId?: string
+}
+
+type GetAllInput = {
+  collectionId: string
+}
+
+type FindOneInput = {
+  _id: string
+  collectionId: string
+}
+
+type DeleteOrHideInput = {
+  _id: string
+  collectionId: string
+  userId: string
+}
+
 export const BookmarkModel = {
-  async getAllInCollection(collectionId: string, db: Context) {
+  async getAllInCollection({ collectionId }: GetAllInput, { db }: Context) {
     try {
       const found = await db
         .collection('users')
@@ -20,11 +43,12 @@ export const BookmarkModel = {
       const bookmarks = found[0]?.mySpace[0]?.bookmarks || []
 
       return bookmarks
-    } catch (error) {
-      console.error('Error in BookmarkModel.getAllInCollection', error)
+    } catch (e) {
+      console.error('BookmarkModel Error: error in getAllInCollection', e)
+      throw e
     }
   },
-  async findOne(_id: string, collectionId: string, db: Context) {
+  async findOne({ _id, collectionId }: FindOneInput, { db }: Context) {
     try {
       const found = await db
         .collection('users')
@@ -42,15 +66,14 @@ export const BookmarkModel = {
         .toArray()
 
       return found[0]?.mySpace.bookmarks || []
-    } catch (error) {
-      console.error('Error in BookmarkModel.findOne', error)
+    } catch (e) {
+      console.error('BookmarkModel Error: error in findOne', e)
+      throw e
     }
   },
   async deleteOne(
-    _id: string,
-    collectionId: string,
-    db: Context,
-    userId: string
+    { _id, collectionId, userId }: DeleteOrHideInput,
+    { db }: Context
   ) {
     const query = {
       userId,
@@ -71,15 +94,13 @@ export const BookmarkModel = {
         _id: _id,
       }
     } catch (e) {
-      console.error('Error in Bookmark.deleteOne', e)
-      return e
+      console.error('BookmarkModel Error: error in deleteOne', e)
+      throw e
     }
   },
   async hideOne(
-    _id: string,
-    collectionId: string,
-    db: Context,
-    userId: string
+    { _id, collectionId, userId }: DeleteOrHideInput,
+    { db }: Context
   ): Promise<RemovedBookmark> {
     const query = {
       userId,
@@ -108,18 +129,20 @@ export const BookmarkModel = {
       return {
         _id: _id,
       }
-    } catch (e: any) {
-      console.error('Error in Bookmark.hideOne', e)
-      return e
+    } catch (e) {
+      console.error('BookmarkModel Error: error in hideOne', e)
+      throw e
     }
   },
-  // #TODO check that this approach is correct
   async addOne(
-    { url, collectionId, userId, label, cmsId }: AddBookmarkInput,
+    { url, collectionId, userId, label, cmsId }: AddOneInput,
     { db }: Context
   ) {
     try {
-      const existing = await BookmarkModel.getAllInCollection(collectionId, db)
+      const existing = await BookmarkModel.getAllInCollection(
+        { collectionId },
+        { db }
+      )
       const visible = existing.filter((b: Bookmark) => !b.isRemoved)
 
       if (visible.length >= 10) {
@@ -128,7 +151,8 @@ export const BookmarkModel = {
         )
       }
     } catch (e) {
-      console.error('Error in CollectionModel.addOne', e)
+      console.error('BookmarkModel Error: error in addOne', e)
+      throw e
     }
 
     const newBookmark: BookmarkInput = {
@@ -166,10 +190,9 @@ export const BookmarkModel = {
 
       return createdBookmark
     } catch (e) {
-      // TODO error logging
       // eslint-disable-next-line no-console
-      console.error('error in Bookmark.addOne', e)
-      return e
+      console.error('BookmarkModel Error: error in addOne', e)
+      throw e
     }
   },
 }
