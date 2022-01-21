@@ -230,9 +230,10 @@ const CustomCollection = ({
               <CustomBookmark
                 key={`bookmark_${bookmark._id}`}
                 bookmark={bookmark}
-                handleEdit={() => {
+                onSave={() => {
                   /* TODO */
                 }}
+                onDelete={() => handleRemoveBookmark(`${bookmark._id}`)}
               />
             )
           )}

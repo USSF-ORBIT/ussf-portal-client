@@ -14,16 +14,21 @@ import {
 import styles from './modal.module.scss'
 
 import ModalPortal from 'components/util/ModalPortal'
+import type { Bookmark as BookmarkType } from 'types/index'
 
 type EditCustomLinkModalProps = {
+  bookmark: BookmarkType
   onSave: (url: string, label: string) => void
   onCancel: () => void
+  onDelete: () => void
   modalRef: React.RefObject<ModalRef>
 } & Omit<ModalProps, 'children' | 'id'>
 
 const EditCustomLinkModal = ({
+  bookmark,
   onSave,
   onCancel,
+  onDelete,
   modalRef,
   ...props
 }: EditCustomLinkModalProps) => {
@@ -35,8 +40,8 @@ const EditCustomLinkModal = ({
     // TODO - ideally we'd just reset the form but ReactUSWDS does not (yet) forward a ref to the form
     const nameInputEl = nameInputRef.current as HTMLInputElement
     const urlInputEl = urlInputRef.current as HTMLInputElement
-    nameInputEl.value = ''
-    urlInputEl.value = ''
+    nameInputEl.value = bookmark.label || ''
+    urlInputEl.value = bookmark.url || ''
   }
 
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
@@ -44,13 +49,16 @@ const EditCustomLinkModal = ({
     const data = new FormData(e.currentTarget)
     const label = `${data.get('bookmarkLabel')}`
     const url = `${data.get('bookmarkUrl')}`
-    resetForm()
     onSave(url, label)
   }
 
   const handleCancel = () => {
     resetForm()
     onCancel()
+  }
+
+  const handleDelete = () => {
+    onDelete()
   }
 
   return (
@@ -72,6 +80,7 @@ const EditCustomLinkModal = ({
             name="bookmarkLabel"
             required
             inputRef={nameInputRef}
+            defaultValue={bookmark.label}
           />
 
           <Label htmlFor="bookmarkUrl">URL</Label>
@@ -81,6 +90,7 @@ const EditCustomLinkModal = ({
             name="bookmarkUrl"
             required
             inputRef={urlInputRef}
+            defaultValue={bookmark.url}
           />
           <ButtonGroup className={styles.buttonGroupWithDelete}>
             <Button type="submit" data-close-modal>
@@ -100,7 +110,7 @@ const EditCustomLinkModal = ({
               data-close-modal
               unstyled
               className="padding-105 text-center text-error"
-              onClick={handleCancel}>
+              onClick={handleDelete}>
               Delete
             </Button>
           </ButtonGroup>
