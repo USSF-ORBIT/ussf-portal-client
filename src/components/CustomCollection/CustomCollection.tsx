@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
+import classnames from 'classnames'
 import {
   Button,
   Label,
@@ -6,6 +7,7 @@ import {
   ComboBox,
   ComboBoxOption,
   ComboBoxRef,
+  IconInfo,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { EditableCollectionTitle } from './EditableCollectionTitle'
@@ -13,6 +15,7 @@ import { RemovableBookmark } from './RemovableBookmark'
 import { CustomBookmark } from './CustomBookmark'
 import styles from './CustomCollection.module.scss'
 
+import Tooltip from 'components/Tooltip/Tooltip'
 import Collection from 'components/Collection/Collection'
 import type { Bookmark as BookmarkType, BookmarkRecords } from 'types/index'
 import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
@@ -32,6 +35,8 @@ type PropTypes = {
   handleEditBookmark: (id: string, url?: string, label?: string) => void
 }
 
+const MAXIMUM_BOOKMARKS_PER_COLLECTION = 10
+
 const CustomCollection = ({
   _id,
   title = '',
@@ -46,6 +51,8 @@ const CustomCollection = ({
   const [isAdding, setIsAdding] = useState<boolean>(false)
   const addCustomLinkModal = useRef<ModalRef>(null)
   const linkInput = useRef<ComboBoxRef>(null)
+
+  const visibleBookmarks = bookmarks.filter((b) => !b.isRemoved)
 
   useEffect(() => {
     // Auto-focus on ComboBox when clicking Add Link
@@ -101,26 +108,50 @@ const CustomCollection = ({
         } as ComboBoxOption)
     )
 
-  const addLinkForm = (
-    <div className={styles.addLink}>
+  const canAddLink = visibleBookmarks.length < MAXIMUM_BOOKMARKS_PER_COLLECTION
+  const showAddWarning =
+    visibleBookmarks.length === MAXIMUM_BOOKMARKS_PER_COLLECTION - 1
+
+  const addLinkFormClasses = classnames(styles.addLink, {
+    [styles.addLinkWarning]: showAddWarning,
+  })
+
+  const addLinkForm = canAddLink && (
+    <div className={addLinkFormClasses}>
       {isAdding ? (
         <>
-          <Label htmlFor="bookmarkId" className="usa-sr-only">
-            Select existing link
-          </Label>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <div>
+              <Label htmlFor="bookmarkId" className="usa-sr-only">
+                Select existing link
+              </Label>
+              <ComboBox
+                id="bookmarkId"
+                name="bookmarkId"
+                className={styles.addLinkComboBox}
+                options={urlOptions}
+                onChange={handleSelectChange}
+                ref={linkInput}
+                inputProps={{
+                  required: true,
+                  placeholder: 'Type or paste link...',
+                }}
+              />
+            </div>
+            {showAddWarning && (
+              <Tooltip
+                position="right"
+                label={`You can only add 10 links to a collection.\nTo add more links, please create a new collection.`}>
+                <IconInfo size={3} />
+              </Tooltip>
+            )}
+          </div>
 
-          <ComboBox
-            id="bookmarkId"
-            name="bookmarkId"
-            className={styles.addLinkComboBox}
-            options={urlOptions}
-            onChange={handleSelectChange}
-            ref={linkInput}
-            inputProps={{
-              required: true,
-              placeholder: 'Type or paste link...',
-            }}
-          />
           <p className="usa-form__note">
             Don’t see what you need?
             <br />
@@ -217,34 +248,33 @@ const CustomCollection = ({
   return (
     <>
       <Collection header={customCollectionHeader} footer={addLinkForm}>
-        {bookmarks
-          .filter((b: BookmarkType) => !b.isRemoved)
-          .map((bookmark: BookmarkType) =>
-            bookmark.cmsId ? (
-              <RemovableBookmark
-                key={`bookmark_${bookmark._id}`}
-                bookmark={bookmark}
-                handleRemove={() =>
-                  handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
-                }
-              />
-            ) : (
-              <CustomBookmark
-                key={`bookmark_${bookmark._id}`}
-                bookmark={bookmark}
-                onSave={(label, url) => {
-                  handleEditBookmark(bookmark._id, url, label)
-                }}
-                onDelete={() => handleRemoveBookmark(`${bookmark._id}`)}
-              />
-            )
-          )}
+        {visibleBookmarks.map((bookmark: BookmarkType) =>
+          bookmark.cmsId ? (
+            <RemovableBookmark
+              key={`bookmark_${bookmark._id}`}
+              bookmark={bookmark}
+              handleRemove={() =>
+                handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
+              }
+            />
+          ) : (
+            <CustomBookmark
+              key={`bookmark_${bookmark._id}`}
+              bookmark={bookmark}
+              onSave={(label, url) => {
+                handleEditBookmark(bookmark._id, url, label)
+              }}
+              onDelete={() => handleRemoveBookmark(`${bookmark._id}`)}
+            />
+          )
+        )}
       </Collection>
 
       <AddCustomLinkModal
         modalRef={addCustomLinkModal}
         onCancel={handleCancel}
         onSave={handleSaveCustomLink}
+        showAddWarning={showAddWarning}
       />
     </>
   )

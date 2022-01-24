@@ -9,6 +9,7 @@ import {
   Button,
   Label,
   TextInput,
+  Alert,
 } from '@trussworks/react-uswds'
 
 import ModalPortal from 'components/util/ModalPortal'
@@ -17,12 +18,14 @@ type AddCustomLinkModalProps = {
   onSave: (url: string, label: string) => void
   onCancel: () => void
   modalRef: React.RefObject<ModalRef>
+  showAddWarning?: boolean
 } & Omit<ModalProps, 'children' | 'id'>
 
 const AddCustomLinkModal = ({
   onSave,
   onCancel,
   modalRef,
+  showAddWarning,
   ...props
 }: AddCustomLinkModalProps) => {
   const modalId = 'addCustomLinkModal'
@@ -80,6 +83,15 @@ const AddCustomLinkModal = ({
             required
             inputRef={urlInputRef}
           />
+
+          {showAddWarning && (
+            <Alert type="error" heading="Link limit reached" slim>
+              You’ve almost reached the maximum number of links (10) for this
+              collection. To add additional links, please create a new
+              collection.
+            </Alert>
+          )}
+
           <ButtonGroup>
             <Button type="submit" data-close-modal>
               Save custom link

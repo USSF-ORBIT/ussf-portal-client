@@ -14,7 +14,11 @@
 
 .addLink {
   @include u-padding-x(2);
-  @include u-margin-top(2);
+  @include u-margin-top(1);
+
+  :global(.usa-tooltip) {
+    @include u-margin-top(1);
+  }
 
   :global(.usa-form__note) {
     float: none;
@@ -24,6 +28,14 @@
       margin: 0;
       font-size: inherit;
     }
+  }
+}
+
+.addLinkWarning {
+  :global(.usa-combo-box__input) {
+    border-width: 0.25rem;
+    border-style: solid;
+    border-color: $state-warning-dark;
   }
 }
 
