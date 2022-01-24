@@ -29,34 +29,6 @@ export const EditableCollectionTitle = ({
     }
   }, [isEditing, isActive])
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    const { key } = event
-    const keys = ['Escape', 'Enter', 'Tab']
-
-    if (keys.includes(key)) {
-      if (isEditing) {
-        inputRef?.current?.blur()
-      } else if (key === 'Enter') {
-        setEditing(true)
-      }
-    }
-  }
-
-  const handleOnBlur = () => {
-    if (currentText.length) {
-      onSave(currentText)
-
-      setEditing(false)
-    } else if (text.length) {
-      // Revert to previous value
-      setCurrentText(text)
-      setEditing(false)
-    } else {
-      // No value, delete the collection
-      onDelete()
-    }
-  }
-
   const inputId = `collectionTitle_${collectionId}`
 
   return (
@@ -69,7 +41,7 @@ export const EditableCollectionTitle = ({
           <Textarea
             inputRef={inputRef}
             id={inputId}
-            name="title"
+            name="collectionTitle"
             maxLength={200}
             className={styles.collectionTitle}
             value={currentText}

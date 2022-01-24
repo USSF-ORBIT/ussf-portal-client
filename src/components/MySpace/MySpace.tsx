@@ -74,6 +74,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                         _id: collection._id,
                         title,
                       },
+                      refetchQueries: [`getCollections`],
                     })
                   }}
                   handleRemoveBookmark={(_id, cmsId) => {

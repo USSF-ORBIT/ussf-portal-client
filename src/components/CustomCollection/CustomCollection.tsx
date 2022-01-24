@@ -1,15 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, FormEvent } from 'react'
 import {
   Button,
+  ButtonGroup,
   Form,
   Label,
   ModalRef,
   ComboBox,
   ComboBoxOption,
   ComboBoxRef,
+  TextInput,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { EditableCollectionTitle } from './EditableCollectionTitle'
+// import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
 import styles from './CustomCollection.module.scss'
 
@@ -34,6 +36,89 @@ type PropTypes = {
   handleEditCollection: (title: string) => void
 }
 
+// Workspace for edit collection title
+
+type TitlePropTypes = {
+  collectionId: string
+  text: string
+  onSave: (event: React.FormEvent<HTMLFormElement>) => void
+  onCancel: () => void
+  onDelete: () => void
+  isEditing: boolean
+}
+
+export const EditableCollectionTitle = ({
+  collectionId,
+  text,
+  isEditing,
+  onSave,
+  onCancel,
+}: TitlePropTypes) => {
+  // const [isEditing, setEditing] = useState(isActive)
+  const [currentText, setCurrentText] = useState(text)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleCancel = () => {
+    console.log('handleCancel')
+    const inputEl = inputRef.current as HTMLInputElement
+    inputEl.value = ''
+    onCancel()
+    // TODO reset form and set active to false, move this to parent
+  }
+  useEffect(() => {
+    if (isEditing) {
+      inputRef?.current?.focus()
+    }
+  }, [isEditing])
+
+  const inputId = `collectionTitle_${collectionId}`
+
+  return (
+    <>
+      {isEditing ? (
+        <Form onSubmit={onSave}>
+          <Label htmlFor={inputId} className="usa-sr-only">
+            Collection Title
+          </Label>
+          <TextInput
+            inputRef={inputRef}
+            id={inputId}
+            name="collectionTitle"
+            required
+            maxLength={200}
+            className={styles.collectionTitle}
+            type="text"
+            // value={currentText}
+            // placeholder="Add a title for this collection"
+          />
+          <ButtonGroup>
+            <Button type="submit" data-close-modal>
+              Save link name
+            </Button>
+            <Button
+              type="button"
+              data-close-modal
+              unstyled
+              className="padding-105 text-center"
+              onClick={handleCancel}>
+              Cancel
+            </Button>
+          </ButtonGroup>
+        </Form>
+      ) : (
+        <h3
+          // tabIndex={0}
+          role="button"
+          className={styles.collectionTitle}>
+          {currentText}
+        </h3>
+      )}
+    </>
+  )
+}
+
+// end workspace for edit collection title
+
 const CustomCollection = ({
   _id,
   title = '',
@@ -48,12 +133,20 @@ const CustomCollection = ({
   const urlInputValue = useRef<string>('')
   const addCustomLinkModal = useRef<ModalRef>(null)
   const linkInput = useRef<ComboBoxRef>(null)
-
+  const [isEditing, setEditing] = useState(false)
   useEffect(() => {
     if (isAdding && linkInput.current) {
       linkInput.current.focus()
     }
   }, [isAdding])
+
+  const handleSubmitEdit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const data = new FormData(e.currentTarget)
+    const label = `${data.get('collectionTitle')}`
+    // resetForm()
+    handleEditCollection(label)
+  }
 
   const handleShowAdding = () => setIsAdding(true)
 
@@ -209,10 +302,6 @@ const CustomCollection = ({
     deleteCollectionModal.current?.toggleModal(undefined, false)
   }
 
-  const handleEditCollectionTitle = () => {
-    console.log('edit collection title')
-  }
-
   // Items to populate dropdown menu
   const deleteCustomCollection = (
     <Button
@@ -223,16 +312,13 @@ const CustomCollection = ({
     </Button>
   )
 
-  const [isActive, setActive] = useState(false)
-
   const editCustomCollectionTitle = (
     <Button
       type="button"
       className={styles.collectionSettingsDropdown}
       onClick={() => {
-        console.log('clicked')
-        setActive(true)
-        console.log(isActive)
+        setEditing(true)
+        setIsDropdownOpen(false)
       }}>
       Edit collection title
     </Button>
@@ -251,9 +337,10 @@ const CustomCollection = ({
       <EditableCollectionTitle
         collectionId={_id}
         text={title}
-        onSave={handleEditCollection}
+        onSave={handleSubmitEdit}
         onDelete={handleRemoveCollection}
-        isActive={isActive}
+        onCancel={() => setEditing(false)}
+        isEditing={isEditing}
       />
 
       <DropdownMenu
