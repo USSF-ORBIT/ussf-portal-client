@@ -190,17 +190,13 @@ describe('Sites and Applications', () => {
         cy.contains('MyPay')
 
         // First undo
-        cy.findAllByRole('button', { name: 'Remove this bookmark' })
-          .first()
-          .click()
+        cy.findAllByRole('button', { name: 'Remove this link' }).first().click()
         cy.contains('MyPay').should('not.exist')
         cy.contains('Undo remove').click()
         cy.contains('MyPay')
 
         // Don't undo
-        cy.findAllByRole('button', { name: 'Remove this bookmark' })
-          .first()
-          .click()
+        cy.findAllByRole('button', { name: 'Remove this link' }).first().click()
         cy.contains('MyPay').should('not.exist')
         cy.findAllByRole('listitem').should('have.length', 5)
       })
@@ -281,6 +277,66 @@ describe('Sites and Applications', () => {
     }).should('exist')
   })
 
+  it('can edit custom links', () => {
+    cy.contains('Example Collection')
+      .parent()
+      .parent()
+      .within(() => {
+        // Edit a link
+        cy.findAllByRole('button', { name: 'Edit this link' }).first().click()
+      })
+
+    cy.findByRole('dialog', { name: 'Edit custom link' }).within(() => {
+      cy.findByRole('button', { name: 'Cancel' }).click()
+    })
+
+    cy.contains('Example Collection')
+      .parent()
+      .parent()
+      .within(() => {
+        // Edit a link
+        cy.findAllByRole('button', { name: 'Edit this link' }).first().click()
+      })
+
+    cy.findByRole('dialog', { name: 'Edit custom link' }).within(() => {
+      cy.findByLabelText('Name').should('have.value', 'Webmail')
+      cy.findByLabelText('Name').clear().type('Edited Custom Link')
+      cy.findByLabelText('URL').should('have.value', 'https://google.com')
+      cy.findByLabelText('URL').clear().type('https://example.com')
+      cy.findByRole('button', { name: 'Save custom link' }).click()
+    })
+
+    cy.findByRole('link', {
+      name: 'Edited Custom Link (opens in a new window)',
+    }).should('exist')
+  })
+
+  it('can delete custom links', () => {
+    cy.contains('Example Collection')
+      .parent()
+      .parent()
+      .within(() => {
+        cy.findAllByRole('listitem').should('have.length', 7)
+
+        // Edit a link
+        cy.findAllByRole('button', { name: 'Edit this link' }).first().click()
+      })
+
+    cy.findByRole('dialog', { name: 'Edit custom link' }).within(() => {
+      cy.findByRole('button', { name: 'Delete' }).click()
+    })
+
+    cy.findByRole('link', {
+      name: 'Edited Custom Link (opens in a new window)',
+    }).should('not.exist')
+    cy.contains('Example Collection')
+      .parent()
+      .parent()
+      .within(() => {
+        cy.findAllByRole('listitem').should('have.length', 6)
+      })
+  })
+
   it('can edit an existing collection title', () => {
     cy.contains('Example Collection').click()
     cy.findByRole('textbox').clear()
@@ -303,7 +359,7 @@ describe('Sites and Applications', () => {
       .within(() => {
         // Inside of <ol>
         // Start with 7 links, remove 2
-        cy.findAllByRole('listitem').should('have.length', 7)
+        cy.findAllByRole('listitem').should('have.length', 6)
 
         cy.contains('vMPF').next().click()
         cy.contains('LeaveWeb').next().click()
@@ -311,7 +367,7 @@ describe('Sites and Applications', () => {
         cy.contains('vMPF').should('not.exist')
         cy.contains('LeaveWeb').should('not.exist')
 
-        cy.findAllByRole('listitem').should('have.length', 5)
+        cy.findAllByRole('listitem').should('have.length', 4)
       })
   })
 
