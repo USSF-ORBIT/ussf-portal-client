@@ -73,20 +73,20 @@ const EditCustomLinkModal = ({
         modalRoot="#modal-root">
         <ModalHeading id={`${modalId}-heading`}>Edit custom link</ModalHeading>
         <Form onSubmit={handleSave}>
-          <Label htmlFor="bookmarkLabel">Name</Label>
+          <Label htmlFor={`bookmarkLabel-${bookmark._id}`}>Name</Label>
           <TextInput
             type="text"
-            id="bookmarkLabel"
+            id={`bookmarkLabel-${bookmark._id}`}
             name="bookmarkLabel"
             required
             inputRef={nameInputRef}
             defaultValue={bookmark.label}
           />
 
-          <Label htmlFor="bookmarkUrl">URL</Label>
+          <Label htmlFor={`bookmarkUrl-${bookmark._id}`}>URL</Label>
           <TextInput
             type="url"
-            id="bookmarkUrl"
+            id={`bookmarkUrl-${bookmark._id}`}
             name="bookmarkUrl"
             required
             inputRef={urlInputRef}

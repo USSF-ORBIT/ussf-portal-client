@@ -35,6 +35,11 @@ const exampleCollection = {
       description: 'Lorem ipsum',
       cmsId: 'cmsId3',
     },
+    {
+      _id: '4',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
   ],
 }
 
@@ -81,10 +86,11 @@ describe('CustomCollection component', () => {
   })
 
   beforeEach(() => {
+    jest.clearAllMocks()
     scrollSpy.mockReset()
   })
 
-  it('renders the collection with delete buttons', () => {
+  it('renders the collection with delete or edit buttons', () => {
     render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(
@@ -92,15 +98,20 @@ describe('CustomCollection component', () => {
         name: 'Edit Example Collection collection title',
       })
     ).toHaveTextContent(exampleCollection.title)
+
     expect(screen.getAllByRole('listitem')).toHaveLength(
       exampleCollection.bookmarks.length
     )
     expect(screen.getAllByRole('link')).toHaveLength(
       exampleCollection.bookmarks.length
     )
+
     expect(
       screen.getAllByRole('button', { name: 'Remove this link' })
-    ).toHaveLength(exampleCollection.bookmarks.length)
+    ).toHaveLength(3)
+    expect(
+      screen.getAllByRole('button', { name: 'Edit this link' })
+    ).toHaveLength(1)
   })
 
   it('renders an Add Link toggleable form', () => {
@@ -143,17 +154,21 @@ describe('CustomCollection component', () => {
     userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
 
     // Open modal
-    expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
+    const addLinkModal = screen.getByRole('dialog', addLinkDialog)
+    expect(addLinkModal).toHaveClass('is-visible')
 
-    const labelInput = screen.getByLabelText('Name')
+    const labelInput = within(addLinkModal).getByLabelText('Name')
     expect(labelInput).toBeInvalid()
     userEvent.type(labelInput, 'My Custom Link')
     expect(labelInput).toBeValid()
-    const urlInput = screen.getByLabelText('URL')
+
+    const urlInput = within(addLinkModal).getByLabelText('URL')
     userEvent.type(urlInput, 'http://www.example.com')
     expect(urlInput).toBeValid()
 
-    userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
+    userEvent.click(
+      within(addLinkModal).getByRole('button', { name: 'Save custom link' })
+    )
 
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com',
@@ -213,17 +228,21 @@ describe('CustomCollection component', () => {
     userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
 
     // Open modal
-    expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
+    const addLinkModal = screen.getByRole('dialog', addLinkDialog)
 
-    const labelInput = screen.getByLabelText('Name')
+    expect(addLinkModal).toHaveClass('is-visible')
+
+    const labelInput = within(addLinkModal).getByLabelText('Name')
     expect(labelInput).toBeInvalid()
     userEvent.type(labelInput, 'My Custom Link')
     expect(labelInput).toBeValid()
-    const urlInput = screen.getByLabelText('URL')
+    const urlInput = within(addLinkModal).getByLabelText('URL')
     userEvent.type(urlInput, 'http://www.example.com')
     expect(urlInput).toBeValid()
 
-    userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
+    userEvent.click(
+      within(addLinkModal).getByRole('button', { name: 'Save custom link' })
+    )
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com',
       'My Custom Link'
@@ -240,13 +259,21 @@ describe('CustomCollection component', () => {
     userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
     expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
 
-    expect(screen.getByLabelText('Name')).toBeInvalid()
-    userEvent.type(screen.getByLabelText('Name'), 'Another Custom Link')
-    expect(screen.getByLabelText('URL')).toBeInvalid()
-    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
-    expect(screen.getByLabelText('URL')).toBeValid()
+    expect(within(addLinkModal).getByLabelText('Name')).toBeInvalid()
+    userEvent.type(
+      within(addLinkModal).getByLabelText('Name'),
+      'Another Custom Link'
+    )
+    expect(within(addLinkModal).getByLabelText('URL')).toBeInvalid()
+    userEvent.type(
+      within(addLinkModal).getByLabelText('URL'),
+      'http://www.example.com'
+    )
+    expect(within(addLinkModal).getByLabelText('URL')).toBeValid()
 
-    userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
+    userEvent.click(
+      within(addLinkModal).getByRole('button', { name: 'Save custom link' })
+    )
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com',
       'Another Custom Link'
@@ -389,11 +416,15 @@ describe('CustomCollection component', () => {
     userEvent.click(deleteCollection)
 
     // Open modal
-    expect(screen.getByRole('dialog', removeCollectionDialog)).toHaveClass(
-      'is-visible'
+    const confirmDeleteModal = screen.getByRole(
+      'dialog',
+      removeCollectionDialog
     )
+    expect(confirmDeleteModal).toHaveClass('is-visible')
 
-    userEvent.click(screen.getByRole('button', { name: 'Delete' }))
+    userEvent.click(
+      within(confirmDeleteModal).getByRole('button', { name: 'Delete' })
+    )
     expect(mockRemoveCollection).toHaveBeenCalledTimes(1)
 
     expect(screen.queryByRole('dialog', removeCollectionDialog)).toHaveClass(

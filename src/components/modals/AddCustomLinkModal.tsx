@@ -63,19 +63,19 @@ const AddCustomLinkModal = ({
         modalRoot="#modal-root">
         <ModalHeading id={`${modalId}-heading`}>Add a custom link</ModalHeading>
         <Form onSubmit={handleSave}>
-          <Label htmlFor="bookmarkLabel">Name</Label>
+          <Label htmlFor="newBookmarkLabel">Name</Label>
           <TextInput
             type="text"
-            id="bookmarkLabel"
+            id="newBookmarkLabel"
             name="bookmarkLabel"
             required
             inputRef={nameInputRef}
           />
 
-          <Label htmlFor="bookmarkUrl">URL</Label>
+          <Label htmlFor="newBookmarkUrl">URL</Label>
           <TextInput
             type="url"
-            id="bookmarkUrl"
+            id="newBookmarkUrl"
             name="bookmarkUrl"
             required
             inputRef={urlInputRef}
