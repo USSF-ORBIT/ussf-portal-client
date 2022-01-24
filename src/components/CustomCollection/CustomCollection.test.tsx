@@ -65,6 +65,14 @@ describe('CustomCollection component', () => {
     name: 'Are you sure you’d like to delete this collection from My Space?',
   }
 
+  const mockHandlers = {
+    handleRemoveBookmark: jest.fn(),
+    handleAddBookmark: jest.fn(),
+    handleRemoveCollection: jest.fn(),
+    handleEditCollection: jest.fn(),
+    handleEditBookmark: jest.fn(),
+  }
+
   let scrollSpy: jest.Mock
 
   beforeAll(() => {
@@ -77,15 +85,7 @@ describe('CustomCollection component', () => {
   })
 
   it('renders the collection with delete buttons', () => {
-    render(
-      <CustomCollection
-        {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
-      />
-    )
+    render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(
       screen.getByRole('button', {
@@ -107,11 +107,8 @@ describe('CustomCollection component', () => {
     render(
       <CustomCollection
         {...exampleCollection}
+        {...mockHandlers}
         bookmarkOptions={mockLinks}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
       />
     )
 
@@ -136,10 +133,8 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
+        {...mockHandlers}
         handleAddBookmark={mockAddLink}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
       />
     )
 
@@ -172,10 +167,8 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
+        {...mockHandlers}
         handleAddBookmark={mockAddLink}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
       />
     )
 
@@ -211,10 +204,8 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
+        {...mockHandlers}
         handleAddBookmark={mockAddLink}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
       />
     )
 
@@ -270,11 +261,9 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
+        {...mockHandlers}
         bookmarkOptions={mockLinks}
-        handleRemoveBookmark={jest.fn()}
         handleAddBookmark={mockAddLink}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
       />
     )
 
@@ -292,15 +281,7 @@ describe('CustomCollection component', () => {
   })
 
   it('renders the settings dropdown menu', () => {
-    render(
-      <CustomCollection
-        {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
-      />
-    )
+    render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
     const menuToggleButton = screen.getByRole('button', {
       name: 'Collection Settings',
     })
@@ -317,10 +298,8 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
+        {...mockHandlers}
         handleRemoveCollection={mockRemoveCollection}
-        handleEditCollection={jest.fn()}
       />
     )
 
@@ -348,10 +327,8 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
+        {...mockHandlers}
         handleRemoveCollection={mockRemoveCollection}
-        handleEditCollection={jest.fn()}
       />
     )
 
@@ -393,10 +370,8 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
+        {...mockHandlers}
         handleRemoveCollection={mockRemoveCollection}
-        handleEditCollection={jest.fn()}
       />
     )
     expect(screen.queryByRole('dialog', removeCollectionDialog)).toHaveClass(
@@ -432,10 +407,8 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
+        {...mockHandlers}
         handleRemoveCollection={mockRemoveCollection}
-        handleEditCollection={jest.fn()}
       />
     )
 
@@ -468,10 +441,8 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
+        {...mockHandlers}
         handleRemoveCollection={mockRemoveCollection}
-        handleEditCollection={jest.fn()}
       />
     )
 
@@ -497,15 +468,7 @@ describe('CustomCollection component', () => {
 
   describe('an empty collection', () => {
     it('renders a focused input for the title', () => {
-      render(
-        <CustomCollection
-          _id="1"
-          handleRemoveBookmark={jest.fn()}
-          handleAddBookmark={jest.fn()}
-          handleRemoveCollection={jest.fn()}
-          handleEditCollection={jest.fn()}
-        />
-      )
+      render(<CustomCollection _id="1" {...mockHandlers} />)
 
       expect(screen.getByRole('textbox')).toHaveFocus()
     })
@@ -515,10 +478,8 @@ describe('CustomCollection component', () => {
 
       render(
         <CustomCollection
+          {...mockHandlers}
           _id="2"
-          handleRemoveBookmark={jest.fn()}
-          handleAddBookmark={jest.fn()}
-          handleRemoveCollection={jest.fn()}
           handleEditCollection={mockEditCollection}
         />
       )
@@ -532,11 +493,9 @@ describe('CustomCollection component', () => {
 
       render(
         <CustomCollection
+          {...mockHandlers}
           _id="3"
-          handleRemoveBookmark={jest.fn()}
-          handleAddBookmark={jest.fn()}
           handleRemoveCollection={mockDeleteCollection}
-          handleEditCollection={jest.fn()}
         />
       )
 
