@@ -100,21 +100,10 @@ export const BookmarkModel = {
       }
 
       const updateDocument = {
-        $set: {},
-      }
-
-      if (url) {
-        updateDocument.$set = {
-          ...updateDocument.$set,
-          'mySpace.$[outer].bookmarks.$[inner].url': url,
-        }
-      }
-
-      if (label) {
-        updateDocument.$set = {
-          ...updateDocument.$set,
-          'mySpace.$[outer].bookmarks.$[inner].label': label,
-        }
+        $set: {
+          'mySpace.$[outer].bookmarks.$[inner].url': url || bookmark.url,
+          'mySpace.$[outer].bookmarks.$[inner].label': label || bookmark.label,
+        },
       }
 
       const filters = {
