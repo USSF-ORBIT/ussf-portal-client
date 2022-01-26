@@ -1,67 +1,77 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Textarea } from '@trussworks/react-uswds'
+import React, { useRef, useEffect } from 'react'
+
+import {
+  Button,
+  ButtonGroup,
+  Form,
+  Label,
+  TextInput,
+} from '@trussworks/react-uswds'
 
 import styles from './CustomCollection.module.scss'
-/* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
+
 type PropTypes = {
   collectionId: string
   text: string
-  onSave: (s: string) => void
+  onSave: (event: React.FormEvent<HTMLFormElement>) => void
+  onCancel: () => void
   onDelete: () => void
-  isActive: boolean
+  isEditing: boolean
 }
+
 export const EditableCollectionTitle = ({
   collectionId,
   text,
+  isEditing,
   onSave,
-  onDelete,
-  isActive,
+  onCancel,
 }: PropTypes) => {
-  const [isEditing, setEditing] = useState(isActive)
-  const [currentText, setCurrentText] = useState(text)
-  const inputRef = useRef<HTMLTextAreaElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
+  const handleCancel = () => {
+    console.log('handleCancel')
+    const inputEl = inputRef.current as HTMLInputElement
+    inputEl.value = ''
+    onCancel()
+  }
   useEffect(() => {
-    console.log('what is isEditing', isEditing)
-
     if (isEditing) {
       inputRef?.current?.focus()
     }
-  }, [isEditing, isActive])
+  }, [isEditing])
 
   const inputId = `collectionTitle_${collectionId}`
 
   return (
     <>
       {isEditing ? (
-        <>
-          <label htmlFor={inputId} className="usa-sr-only">
+        <Form onSubmit={onSave}>
+          <Label htmlFor={inputId} className="usa-sr-only">
             Collection Title
-          </label>
-          <Textarea
+          </Label>
+          <TextInput
             inputRef={inputRef}
             id={inputId}
             name="collectionTitle"
+            required
             maxLength={200}
             className={styles.collectionTitle}
-            value={currentText}
-            placeholder="Add a title for this collection"
-            onKeyDown={(e) => handleKeyDown(e)}
-            onChange={(e) => setCurrentText(e.target.value)}
-            onBlur={handleOnBlur}
+            type="text"
+            placeholder="Name this collection"
           />
-        </>
+          <ButtonGroup>
+            <Button
+              type="button"
+              unstyled
+              className="padding-105 text-center"
+              onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button type="submit">Save name</Button>
+          </ButtonGroup>
+        </Form>
       ) : (
-        <h3
-          // tabIndex={0}
-          role="button"
-          className={styles.collectionTitle}
-          // onClick={() => setEditing(true)}
-          onKeyDown={(e) => handleKeyDown(e)}
-          // aria-label={`Edit ${currentText} collection title`}
-        >
-          {currentText}
-        </h3>
+        <h3 className={styles.collectionTitle}>{text}</h3>
       )}
     </>
   )
