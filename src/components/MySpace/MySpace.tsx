@@ -14,9 +14,11 @@ import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useRemoveCollectionMutation } from 'operations/mutations/removeCollection'
 import { useEditCollectionMutation } from 'operations/mutations/editCollection'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
+import { useAnalytics } from 'stores/analyticsContext'
 
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const router = useRouter()
+  const { push } = useAnalytics()
   const { loading, error, data } = useCollectionsQuery()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
@@ -27,6 +29,8 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   if (error) return <p>Error</p>
 
   const addNewCollection = () => {
+    push(['trackEvent', 'Add section', 'Create new collection'])
+
     const newBookmark: BookmarkInput[] = []
     handleAddCollection({
       variables: { title: '', bookmarks: newBookmark },
