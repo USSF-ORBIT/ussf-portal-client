@@ -9,12 +9,23 @@ type WindowWithAnalytics = typeof Window & {
 
 type PushFn = (args: PushArgs) => void
 
+type TrackFn = (
+  category: string,
+  action: string,
+  name?: string | undefined,
+  value?: number | undefined
+) => void
+
 export type AnalyticsContextType = {
   push: PushFn
+  trackEvent: TrackFn
 }
 
 export const AnalyticsContext = createContext<AnalyticsContextType>({
   push: () => {
+    return
+  },
+  trackEvent: () => {
     return
   },
 })
@@ -55,6 +66,24 @@ export const AnalyticsProvider = ({
     }
 
     windowWithAnalytics._paq.push(args)
+  }
+
+  // Shortcut for push(['trackEvent', ...])
+  const trackEvent = (
+    category: string,
+    action: string,
+    name?: string,
+    value?: number
+  ): void => {
+    const pushParams: PushArgs = ['trackEvent', category, action]
+    if (name !== undefined) {
+      pushParams.push(name)
+      if (value !== undefined) {
+        pushParams.push(value)
+      }
+    }
+
+    push(pushParams)
   }
 
   const handleRouteChange = (url: string) => {
@@ -115,6 +144,7 @@ export const AnalyticsProvider = ({
 
   const context = {
     push,
+    trackEvent,
   }
 
   return (

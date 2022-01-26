@@ -19,6 +19,7 @@ import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
+import { useAnalytics } from 'stores/analyticsContext'
 
 // Not an ideal way to validate URLs but this will work for now
 const VALID_URL_REGEX = /^(ftp|http|https):\/\/[^ "]+$/
@@ -48,6 +49,7 @@ const CustomCollection = ({
   const urlInputValue = useRef<string>('')
   const addCustomLinkModal = useRef<ModalRef>(null)
   const linkInput = useRef<ComboBoxRef>(null)
+  const { trackEvent } = useAnalytics()
 
   useEffect(() => {
     if (isAdding && linkInput.current) {
@@ -201,6 +203,7 @@ const CustomCollection = ({
   }
   // After confirming delete, trigger the mutation and close the modal
   const handleDeleteCollection = () => {
+    trackEvent('Collection settings', 'Delete collection', title)
     handleRemoveCollection()
     deleteCollectionModal.current?.toggleModal(undefined, false)
   }

@@ -18,7 +18,7 @@ import { useAnalytics } from 'stores/analyticsContext'
 
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const router = useRouter()
-  const { push } = useAnalytics()
+  const { trackEvent } = useAnalytics()
   const { loading, error, data } = useCollectionsQuery()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
@@ -29,12 +29,21 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   if (error) return <p>Error</p>
 
   const addNewCollection = () => {
-    push(['trackEvent', 'Add section', 'Create new collection'])
+    trackEvent('Add section', 'Create new collection')
 
     const newBookmark: BookmarkInput[] = []
     handleAddCollection({
       variables: { title: '', bookmarks: newBookmark },
       refetchQueries: [`getCollections`],
+    })
+  }
+
+  const selectCollections = () => {
+    trackEvent('Add section', 'Select collection from template')
+
+    router.push({
+      pathname: '/sites-and-applications',
+      query: { selectMode: 'true' },
     })
   }
 
@@ -112,12 +121,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
               desktop={{ col: 4 }}>
               <AddWidget
                 handleCreateCollection={addNewCollection}
-                handleSelectCollection={() =>
-                  router.push({
-                    pathname: '/sites-and-applications',
-                    query: { selectMode: 'true' },
-                  })
-                }
+                handleSelectCollection={selectCollections}
               />
             </Grid>
           )}
