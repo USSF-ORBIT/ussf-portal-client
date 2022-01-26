@@ -61,3 +61,7 @@ Cypress.Commands.add('preserveLoginCookies', () => {
 Cypress.Commands.add('joinBeta', () => {
   cy.setCookie('betaOptIn', 'true')
 })
+
+Cypress.Commands.add('preserveBetaCookie', () => {
+  Cypress.Cookies.preserveOnce('betaOptIn')
+})

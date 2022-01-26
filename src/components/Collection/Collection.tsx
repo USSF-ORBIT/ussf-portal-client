@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Children } from 'react'
 
 import styles from './Collection.module.scss'
 
@@ -18,11 +18,9 @@ const Collection = ({ title = '', children, header, footer }: PropTypes) => {
       </div>
 
       <ol>
-        {Array.isArray(children) ? (
-          children.map((child, i) => <li key={`bookmark_${i}`}>{child}</li>)
-        ) : (
-          <li key={`bookmark_0`}>{children}</li>
-        )}
+        {Children.map(children, (child) => (
+          <li>{child}</li>
+        ))}
       </ol>
 
       {footer}
