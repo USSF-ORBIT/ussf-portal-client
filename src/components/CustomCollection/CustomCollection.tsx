@@ -257,7 +257,7 @@ const CustomCollection = ({
         text={title}
         onSave={handleSubmitEdit}
         onDelete={handleRemoveCollection}
-        onCancel={() => setEditing(false)}
+        onCancel={() => setEditing(false)} //#TODO if cancelling and it's an empty collection, make sure the whole collection is removed
         isEditing={isEditing}
       />
 

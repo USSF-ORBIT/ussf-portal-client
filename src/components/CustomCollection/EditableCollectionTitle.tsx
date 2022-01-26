@@ -5,7 +5,6 @@ import {
   ButtonGroup,
   Form,
   Label,
-  TextInput,
   Textarea,
 } from '@trussworks/react-uswds'
 
@@ -46,7 +45,7 @@ export const EditableCollectionTitle = ({
   return (
     <div className={styles.editCollectionTitle}>
       {isEditing ? (
-        <Form onSubmit={onSave}>
+        <Form onSubmit={onSave} className={styles.editableCollectionTitle}>
           <Label htmlFor={inputId} className="usa-sr-only">
             Collection Title
           </Label>
@@ -62,7 +61,7 @@ export const EditableCollectionTitle = ({
           <ButtonGroup>
             <Button
               type="button"
-              className="padding-105 text-center"
+              className={`padding-105 text-center ${styles.cancelButton}`}
               onClick={handleCancel}>
               Cancel
             </Button>
