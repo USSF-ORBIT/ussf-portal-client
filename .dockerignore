@@ -1,6 +1,13 @@
-.next
-.keystone
+.next/*
+.keystone/*
 .dockerignore
-node_modules
+node_modules/*
 Dockerfile
 Dockerfile.dev
+.envrc*
+.git/*
+docs/*
+e2e/*
+docker-compose*
+.storybook/*
+.github/*
