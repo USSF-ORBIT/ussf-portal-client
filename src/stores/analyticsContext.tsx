@@ -46,7 +46,13 @@ export const AnalyticsProvider = ({
   config: AnalyticsConfig
 }) => {
   const router = useRouter()
-  const { url, siteId, jsTrackerFile, phpTrackerFile, debug } = config
+  const {
+    url,
+    siteId,
+    jsTrackerFile = 'matomo.js',
+    phpTrackerFile = 'matomo.php',
+    debug = false,
+  } = config
   let previousPath = ''
 
   const push: PushFn = (args): void => {
@@ -114,7 +120,7 @@ export const AnalyticsProvider = ({
 
     previousPath = location.href
 
-    push(['setDocumentTitle', document.domain + '/' + document.title])
+    push(['setDocumentTitle', document.title])
     push(['setDoNotTrack', true])
     push(['trackPageView'])
     push(['enableLinkTracking'])

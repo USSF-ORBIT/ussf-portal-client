@@ -264,9 +264,14 @@ const CustomCollection = ({
             <RemovableBookmark
               key={`bookmark_${bookmark._id}`}
               bookmark={bookmark}
-              handleRemove={() =>
+              handleRemove={() => {
+                trackEvent(
+                  'Remove link',
+                  'Delete link',
+                  bookmark.label || bookmark.url
+                )
                 handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
-              }
+              }}
             />
           ))}
       </Collection>
