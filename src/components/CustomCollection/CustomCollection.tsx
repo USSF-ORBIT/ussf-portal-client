@@ -267,8 +267,8 @@ const CustomCollection = ({
               handleRemove={() => {
                 trackEvent(
                   'Remove link',
-                  'Delete link',
-                  bookmark.label || bookmark.url
+                  'Hide CMS link',
+                  `${title} / ${bookmark.label || bookmark.url}`
                 )
                 handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
               }}
