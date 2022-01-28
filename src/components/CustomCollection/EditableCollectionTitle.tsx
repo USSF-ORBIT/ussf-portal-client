@@ -5,7 +5,7 @@ import {
   ButtonGroup,
   Form,
   Label,
-  Textarea,
+  TextInput,
 } from '@trussworks/react-uswds'
 
 import styles from './CustomCollection.module.scss'
@@ -26,11 +26,10 @@ export const EditableCollectionTitle = ({
   onSave,
   onCancel,
 }: PropTypes) => {
-  const inputRef = useRef<HTMLTextAreaElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const handleCancel = () => {
-    console.log('handleCancel')
-    const inputEl = inputRef.current as HTMLTextAreaElement
+    const inputEl = inputRef.current as HTMLInputElement
     inputEl.value = ''
     onCancel()
   }
@@ -49,7 +48,7 @@ export const EditableCollectionTitle = ({
           <Label htmlFor={inputId} className="usa-sr-only">
             Collection Title
           </Label>
-          <Textarea
+          <TextInput
             inputRef={inputRef}
             id={inputId}
             name="collectionTitle"
@@ -57,6 +56,7 @@ export const EditableCollectionTitle = ({
             maxLength={200}
             className={styles.collectionTitle}
             placeholder="Name this collection"
+            type="text"
           />
           <ButtonGroup>
             <Button

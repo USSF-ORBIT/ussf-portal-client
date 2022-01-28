@@ -52,11 +52,14 @@ const CustomCollection = ({
     if (isAdding && linkInput.current) {
       linkInput.current.focus()
     }
+  }, [isAdding])
+
+  useEffect(() => {
     // If there is no title, prompt user to enter one
     if (title === '') {
       setEditing(true)
     }
-  }, [isAdding])
+  }, [])
 
   const handleSubmitEdit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -250,6 +253,13 @@ const CustomCollection = ({
     </>
   )
 
+  const handleCancelEdit = () => {
+    if (bookmarks.length === 0) {
+      handleRemoveCollection()
+    }
+    setEditing(false)
+  }
+
   const customCollectionHeader = (
     <>
       <EditableCollectionTitle
@@ -257,25 +267,26 @@ const CustomCollection = ({
         text={title}
         onSave={handleSubmitEdit}
         onDelete={handleRemoveCollection}
-        onCancel={() => setEditing(false)} //#TODO if cancelling and it's an empty collection, make sure the whole collection is removed
+        onCancel={handleCancelEdit} //#TODO if cancelling and it's an empty collection, make sure the whole collection is removed
         isEditing={isEditing}
       />
-
-      <DropdownMenu
-        toggleEl={
-          <button
-            type="button"
-            className={styles.dropdownMenuToggle}
-            onClick={menuOnClick}
-            aria-label="Collection Settings">
-            <FontAwesomeIcon icon="cog" />
-          </button>
-        }
-        dropdownRef={dropdownEl}
-        align="right"
-        isActive={isDropdownOpen}>
-        {customCollectionDropdownItems}
-      </DropdownMenu>
+      {!isEditing && (
+        <DropdownMenu
+          toggleEl={
+            <button
+              type="button"
+              className={styles.dropdownMenuToggle}
+              onClick={menuOnClick}
+              aria-label="Collection Settings">
+              <FontAwesomeIcon icon="cog" />
+            </button>
+          }
+          dropdownRef={dropdownEl}
+          align="right"
+          isActive={isDropdownOpen}>
+          {customCollectionDropdownItems}
+        </DropdownMenu>
+      )}
       <RemoveCustomCollectionModal
         modalRef={deleteCollectionModal}
         onCancel={handleCancelCollection}
@@ -286,7 +297,9 @@ const CustomCollection = ({
 
   return (
     <>
-      <Collection header={customCollectionHeader} footer={addLinkForm}>
+      <Collection
+        header={customCollectionHeader}
+        footer={!isEditing ? addLinkForm : null}>
         {bookmarks
           .filter((b: BookmarkType) => !b.isRemoved)
           .map((bookmark: BookmarkType) => (
@@ -299,7 +312,6 @@ const CustomCollection = ({
             />
           ))}
       </Collection>
-
       <AddCustomLinkModal
         modalRef={addCustomLinkModal}
         onCancel={handleCancel}
