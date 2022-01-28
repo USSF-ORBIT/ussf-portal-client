@@ -61,14 +61,6 @@ const CustomCollection = ({
     }
   }, [])
 
-  const handleSubmitEdit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const data = new FormData(e.currentTarget)
-    const label = `${data.get('collectionTitle')}`
-    handleEditCollection(label)
-    setEditing(false)
-  }
-
   const handleShowAdding = () => setIsAddingLink(true)
 
   const handleCancel = () => {
