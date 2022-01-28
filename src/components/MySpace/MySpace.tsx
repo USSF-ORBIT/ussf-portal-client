@@ -53,7 +53,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
             data.collections.map((collection) => (
               <Grid
                 key={`collection_${collection._id}`}
-                tablet={{ col: 6 }}
+                tabletLg={{ col: 6 }}
                 desktop={{ col: 4 }}>
                 <CustomCollection
                   _id={collection._id}
