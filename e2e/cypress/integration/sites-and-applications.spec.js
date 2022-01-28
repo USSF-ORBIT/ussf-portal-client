@@ -297,15 +297,22 @@ describe('Sites and Applications', () => {
   })
 
   it('can edit an existing collection title', () => {
-    cy.contains('Example Collection').click()
-    cy.findByRole('textbox').clear()
-    cy.findByRole('textbox').type('Updated Title{enter}')
-    cy.contains('Updated Title')
+    cy.contains('Example Collection')
+      .parent()
       .parent()
       .within(() => {
-        cy.findByRole('button', {
-          name: 'Edit Updated Title collection title',
-        }).should('have.text', 'Updated Title')
+        cy.findByRole('button', { name: 'Collection Settings' }).click()
+        cy.findByRole('button', { name: 'Edit collection title' }).click()
+
+        cy.findByRole('textbox').clear()
+        cy.findByRole('textbox').type('Updated Title{enter}')
+        cy.contains('Updated Title')
+          .parent()
+          .within(() => {
+            cy.findByRole('heading', {
+              level: 3,
+            }).should('have.text', 'Updated Title')
+          })
       })
   })
 
