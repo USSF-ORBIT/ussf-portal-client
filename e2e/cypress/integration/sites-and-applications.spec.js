@@ -59,14 +59,14 @@ describe('Sites and Applications', () => {
 
   it('can add collections from the Sites & Applications page to My Space', () => {
     cy.contains('My Space')
-    cy.findByRole('button', { name: 'Edit Career collection title' }).should(
-      'not.exist'
-    )
-    cy.findByRole('button', {
-      name: 'Edit Medical & Dental collection title',
+    cy.findByRole('heading', { level: 3, name: 'Career' }).should('not.exist')
+    cy.findByRole('heading', {
+      level: 3,
+      name: 'Medical & Dental',
     }).should('not.exist')
-    cy.findByRole('button', {
-      name: 'Edit Life & Fitness collection title',
+    cy.findByRole('heading', {
+      level: 3,
+      name: 'Life & Fitness',
     }).should('not.exist')
 
     // Go to Sites & Applications
@@ -99,14 +99,14 @@ describe('Sites and Applications', () => {
     cy.url().should('eq', Cypress.config().baseUrl + '/')
 
     cy.contains('My Space')
-    cy.findByRole('button', { name: 'Edit Career collection title' }).should(
-      'exist'
-    )
-    cy.findByRole('button', {
-      name: 'Edit Life & Fitness collection title',
+    cy.findByRole('heading', { level: 3, name: 'Career' }).should('exist')
+    cy.findByRole('heading', {
+      name: 'Life & Fitness',
+      level: 3,
     }).should('exist')
-    cy.findByRole('button', {
-      name: 'Edit Medical & Dental collection title',
+    cy.findByRole('heading', {
+      name: 'Medical & Dental',
+      level: 3,
     }).should('not.exist')
   })
 
@@ -137,7 +137,8 @@ describe('Sites and Applications', () => {
     )
     cy.contains('My Second New Collection')
       .parent()
-      .next()
+      .parent()
+      .parent()
       .within(() => {
         cy.contains('Move.mil')
       })
@@ -172,6 +173,7 @@ describe('Sites and Applications', () => {
     cy.findByRole('heading', { name: 'My Space' })
     cy.contains('Example Collection')
       .parent()
+      .parent()
       .next()
       .within(() => {
         cy.contains('SURF')
@@ -182,6 +184,7 @@ describe('Sites and Applications', () => {
     cy.contains('My Space')
 
     cy.contains('Example Collection')
+      .parent()
       .parent()
       .next()
       .within(() => {
@@ -210,6 +213,8 @@ describe('Sites and Applications', () => {
     cy.contains('Example Collection')
       .parent()
       .parent()
+      .parent()
+      // .next()
       .within(() => {
         cy.findByRole('link', {
           name: 'ADP (opens in a new window)',
@@ -231,6 +236,7 @@ describe('Sites and Applications', () => {
 
   it('can add custom links to an existing collection', () => {
     cy.contains('Example Collection')
+      .parent()
       .parent()
       .parent()
       .within(() => {
@@ -265,6 +271,7 @@ describe('Sites and Applications', () => {
     )
 
     cy.contains('Example Collection')
+      .parent()
       .parent()
       .parent()
       .within(() => {
@@ -321,7 +328,8 @@ describe('Sites and Applications', () => {
 
     cy.contains('Updated Title')
       .parent()
-      .next()
+      .parent()
+      .parent()
       .within(() => {
         // Inside of <ol>
         // Start with 7 links, remove 2
@@ -340,10 +348,11 @@ describe('Sites and Applications', () => {
   it('can delete an existing collection', () => {
     cy.contains('Second Collection')
       .parent()
+      .parent()
       .within(() => {
         cy.findByRole('button', { name: 'Collection Settings' }).click()
 
-        cy.findByRole('button', { name: 'Delete Collection' }).click()
+        cy.findByRole('button', { name: 'Delete this collection' }).click()
       })
 
     // Cancel first to make sure it's possible
@@ -356,10 +365,11 @@ describe('Sites and Applications', () => {
     // Reopen the modal
     cy.contains('Second Collection')
       .parent()
+      .parent()
       .within(() => {
         cy.findByRole('button', { name: 'Collection Settings' }).click()
 
-        cy.findByRole('button', { name: 'Delete Collection' }).click()
+        cy.findByRole('button', { name: 'Delete this collection' }).click()
       })
 
     // Delete the collection
