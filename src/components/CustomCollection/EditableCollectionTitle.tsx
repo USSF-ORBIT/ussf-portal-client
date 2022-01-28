@@ -13,7 +13,7 @@ import styles from './CustomCollection.module.scss'
 type PropTypes = {
   collectionId: string
   text: string
-  onSave: (event: React.FormEvent<HTMLFormElement>) => void
+  onSave: (s: string) => void
   onCancel: () => void
   onDelete: () => void
   isEditing: boolean
@@ -41,10 +41,19 @@ export const EditableCollectionTitle = ({
 
   const inputId = `collectionTitle_${collectionId}`
 
+  const handleSubmitEdit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const data = new FormData(e.currentTarget)
+    const label = `${data.get('collectionTitle')}`
+    onSave(label)
+  }
+
   return (
     <div className={styles.editCollectionTitle}>
       {isEditing ? (
-        <Form onSubmit={onSave} className={styles.editableCollectionTitle}>
+        <Form
+          onSubmit={handleSubmitEdit}
+          className={styles.editableCollectionTitle}>
           <Label htmlFor={inputId} className="usa-sr-only">
             Collection Title
           </Label>
@@ -55,7 +64,8 @@ export const EditableCollectionTitle = ({
             required
             maxLength={200}
             className={styles.collectionTitle}
-            placeholder="Name this collection"
+            defaultValue={text}
+            placeholder={`Name this collection`}
             type="text"
           />
           <ButtonGroup>

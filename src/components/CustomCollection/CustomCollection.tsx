@@ -42,17 +42,17 @@ const CustomCollection = ({
   handleRemoveCollection,
   handleEditCollection,
 }: PropTypes) => {
-  const [isAdding, setIsAdding] = useState<boolean>(false)
+  const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
   const urlInputValue = useRef<string>('')
   const addCustomLinkModal = useRef<ModalRef>(null)
   const linkInput = useRef<ComboBoxRef>(null)
-  const [isEditing, setEditing] = useState(false)
+  const [isEditingTitle, setEditing] = useState(false)
 
   useEffect(() => {
-    if (isAdding && linkInput.current) {
+    if (isAddingLink && linkInput.current) {
       linkInput.current.focus()
     }
-  }, [isAdding])
+  }, [isAddingLink])
 
   useEffect(() => {
     // If there is no title, prompt user to enter one
@@ -69,10 +69,10 @@ const CustomCollection = ({
     setEditing(false)
   }
 
-  const handleShowAdding = () => setIsAdding(true)
+  const handleShowAdding = () => setIsAddingLink(true)
 
   const handleCancel = () => {
-    setIsAdding(false)
+    setIsAddingLink(false)
     addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
@@ -93,7 +93,7 @@ const CustomCollection = ({
         existingLink.id
       )
       urlInputValue.current = ''
-      setIsAdding(false)
+      setIsAddingLink(false)
     } else {
       // Adding a custom link
       addCustomLinkModal.current?.toggleModal(undefined, true)
@@ -105,7 +105,7 @@ const CustomCollection = ({
 
     handleAddBookmark(urlInputValue.current, label)
     urlInputValue.current = ''
-    setIsAdding(false)
+    setIsAddingLink(false)
     addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
@@ -161,7 +161,7 @@ const CustomCollection = ({
 
   const addLinkForm = (
     <div className={styles.addLink}>
-      {isAdding ? (
+      {isAddingLink ? (
         <Form onSubmit={handleSubmitAdd}>
           <Label htmlFor="bookmarkUrl" className="usa-sr-only">
             URL
@@ -254,7 +254,9 @@ const CustomCollection = ({
   )
 
   const handleCancelEdit = () => {
-    if (bookmarks.length === 0) {
+    // If the user cancels editing, reset the form and do not save changes
+    // If there is no previous input value, remove the collection
+    if (title === '') {
       handleRemoveCollection()
     }
     setEditing(false)
@@ -265,12 +267,15 @@ const CustomCollection = ({
       <EditableCollectionTitle
         collectionId={_id}
         text={title}
-        onSave={handleSubmitEdit}
+        onSave={(newTitle) => {
+          setEditing(false)
+          handleEditCollection(newTitle)
+        }}
         onDelete={handleRemoveCollection}
-        onCancel={handleCancelEdit} //#TODO if cancelling and it's an empty collection, make sure the whole collection is removed
-        isEditing={isEditing}
+        onCancel={handleCancelEdit}
+        isEditing={isEditingTitle}
       />
-      {!isEditing && (
+      {!isEditingTitle && (
         <DropdownMenu
           toggleEl={
             <button
@@ -299,7 +304,7 @@ const CustomCollection = ({
     <>
       <Collection
         header={customCollectionHeader}
-        footer={!isEditing ? addLinkForm : null}>
+        footer={!isEditingTitle ? addLinkForm : null}>
         {bookmarks
           .filter((b: BookmarkType) => !b.isRemoved)
           .map((bookmark: BookmarkType) => (
