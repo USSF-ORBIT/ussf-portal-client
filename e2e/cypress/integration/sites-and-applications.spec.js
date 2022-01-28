@@ -214,7 +214,6 @@ describe('Sites and Applications', () => {
       .parent()
       .parent()
       .parent()
-      // .next()
       .within(() => {
         cy.findByRole('link', {
           name: 'ADP (opens in a new window)',
