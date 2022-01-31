@@ -22,7 +22,7 @@ jobs:
         run: docker-compose -f docker-compose.e2e.yml up -d --build
 
       - name: Cypress run
-        uses: cypress-io/github-action@2113e5bc19c45979ba123df6e07256d2aaba9a33 # renovate: tag=v2.11.7
+        uses: cypress-io/github-action@f5bea478b80a774068179089247f13d60abc5010 # renovate: tag=v2.11.8
         env:
           CYPRESS_BASE_URL: http://localhost:3000
         with:
