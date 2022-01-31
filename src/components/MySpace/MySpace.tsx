@@ -66,8 +66,8 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
             data.collections.map((collection) => (
               <Grid
                 key={`collection_${collection._id}`}
-                tablet={{ col: 6 }}
-                desktop={{ col: 4 }}>
+                tabletLg={{ col: 6 }}
+                desktopLg={{ col: 4 }}>
                 <CustomCollection
                   _id={collection._id}
                   title={collection.title}
@@ -87,6 +87,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                         _id: collection._id,
                         title,
                       },
+                      refetchQueries: [`getCollections`],
                     })
                   }}
                   handleRemoveBookmark={(_id, cmsId) => {
