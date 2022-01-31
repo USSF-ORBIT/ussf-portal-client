@@ -94,8 +94,8 @@ describe('CustomCollection component', () => {
     render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(
-      screen.getByRole('button', {
-        name: 'Edit Example Collection collection title',
+      screen.getByRole('heading', {
+        level: 3,
       })
     ).toHaveTextContent(exampleCollection.title)
 
@@ -315,8 +315,15 @@ describe('CustomCollection component', () => {
     expect(menuToggleButton).toBeInTheDocument()
 
     userEvent.click(menuToggleButton)
-    const menuItem = screen.getByRole('button', { name: 'Delete Collection' })
-    expect(menuItem).toBeInTheDocument()
+    const deleteItem = screen.getByRole('button', {
+      name: 'Delete this collection',
+    })
+    expect(deleteItem).toBeInTheDocument()
+
+    const editItem = screen.getByRole('button', {
+      name: 'Edit collection title',
+    })
+    expect(editItem).toBeInTheDocument()
   })
 
   it('clicking the delete collection button opens the delete modal', () => {
@@ -337,7 +344,7 @@ describe('CustomCollection component', () => {
 
     userEvent.click(menuToggleButton)
     const deleteCollection = screen.getByRole('button', {
-      name: 'Delete Collection',
+      name: 'Delete this collection',
     })
     expect(deleteCollection).toBeInTheDocument()
     userEvent.click(deleteCollection)
@@ -366,7 +373,7 @@ describe('CustomCollection component', () => {
     userEvent.click(menuToggleButton)
 
     const deleteCollection = screen.getByRole('button', {
-      name: 'Delete Collection',
+      name: 'Delete this collection',
     })
     userEvent.click(deleteCollection)
 
@@ -411,7 +418,7 @@ describe('CustomCollection component', () => {
     userEvent.click(menuToggleButton)
 
     const deleteCollection = screen.getByRole('button', {
-      name: 'Delete Collection',
+      name: 'Delete this collection',
     })
     userEvent.click(deleteCollection)
 
@@ -450,7 +457,7 @@ describe('CustomCollection component', () => {
     userEvent.click(menuToggleButton)
 
     const deleteCollection = screen.getByRole('button', {
-      name: 'Delete Collection',
+      name: 'Delete this collection',
     })
 
     expect(deleteCollection).toBeInTheDocument()
@@ -458,7 +465,7 @@ describe('CustomCollection component', () => {
 
     // Click outside menu
     const outsideEl = screen.getByRole('button', {
-      name: 'Edit Example Collection collection title',
+      name: '+ Add link',
     })
     userEvent.click(outsideEl)
 
@@ -484,7 +491,7 @@ describe('CustomCollection component', () => {
     userEvent.click(menuToggleButton)
 
     const deleteCollection = screen.getByRole('button', {
-      name: 'Delete Collection',
+      name: 'Delete this collection',
     })
 
     expect(deleteCollection).toBeInTheDocument()
@@ -529,8 +536,9 @@ describe('CustomCollection component', () => {
           handleRemoveCollection={mockDeleteCollection}
         />
       )
+      const cancel = screen.getByRole('button', { name: 'Cancel' })
 
-      userEvent.keyboard('{enter}')
+      userEvent.click(cancel)
       expect(mockDeleteCollection).toHaveBeenCalled()
     })
   })

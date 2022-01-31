@@ -60,11 +60,11 @@ describe('My Space Component', () => {
     })
 
     it('should render the collection', async () => {
-      const collection = await screen.findByRole('button', {
-        name: 'Edit Example Collection collection title',
+      const collectionTitle = await screen.findByRole('heading', {
+        level: 3,
       })
 
-      expect(collection).toHaveTextContent(
+      expect(collectionTitle).toHaveTextContent(
         getCollectionsMock[0].result.data.collections[0].title
       )
 
@@ -262,11 +262,17 @@ describe('My Space Component', () => {
       </MockedProvider>
     )
 
-    const editTitleButton = await screen.findByRole('button', {
-      name: 'Edit Example Collection collection title',
+    const settings = await screen.findByRole('button', {
+      name: 'Collection Settings',
     })
-    userEvent.click(editTitleButton)
-    const input = screen.getByRole('textbox')
+    userEvent.click(settings)
+
+    const edit = await screen.findByRole('button', {
+      name: 'Edit collection title',
+    })
+    userEvent.click(edit)
+
+    const input = await screen.findByRole('textbox')
     userEvent.clear(input)
     userEvent.type(input, 'Updated Title{enter}')
 
@@ -310,7 +316,9 @@ describe('My Space Component', () => {
       name: 'Collection Settings',
     })
     userEvent.click(dropdownMenu)
-    userEvent.click(screen.getByRole('button', { name: 'Delete Collection' }))
+    userEvent.click(
+      screen.getByRole('button', { name: 'Delete this collection' })
+    )
 
     const confirmDelete = screen.getByRole('dialog', {
       name: 'Are you sure you’d like to delete this collection from My Space?',
