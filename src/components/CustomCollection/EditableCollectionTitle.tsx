@@ -15,7 +15,6 @@ type PropTypes = {
   text: string
   onSave: (s: string) => void
   onCancel: () => void
-  onDelete: () => void
   isEditing: boolean
 }
 
@@ -28,11 +27,6 @@ export const EditableCollectionTitle = ({
 }: PropTypes) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const handleCancel = () => {
-    const inputEl = inputRef.current as HTMLInputElement
-    inputEl.value = ''
-    onCancel()
-  }
   useEffect(() => {
     if (isEditing) {
       inputRef?.current?.focus()
@@ -72,7 +66,7 @@ export const EditableCollectionTitle = ({
             <Button
               type="button"
               className={`padding-105 text-center ${styles.cancelButton}`}
-              onClick={handleCancel}>
+              onClick={() => onCancel()}>
               Cancel
             </Button>
             <Button type="submit">Save name</Button>

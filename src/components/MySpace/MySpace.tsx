@@ -54,7 +54,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
               <Grid
                 key={`collection_${collection._id}`}
                 tabletLg={{ col: 6 }}
-                desktop={{ col: 4 }}>
+                desktopLg={{ col: 4 }}>
                 <CustomCollection
                   _id={collection._id}
                   title={collection.title}

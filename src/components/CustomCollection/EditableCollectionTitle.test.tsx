@@ -16,7 +16,6 @@ describe('EditableCollectionTitle component', () => {
         text="Test Collection"
         onSave={jest.fn()}
         onCancel={jest.fn()}
-        onDelete={jest.fn()}
         isEditing={false}
       />
     )
@@ -33,7 +32,6 @@ describe('EditableCollectionTitle component', () => {
         text="Test Collection"
         onSave={jest.fn()}
         onCancel={jest.fn()}
-        onDelete={jest.fn()}
         isEditing={true}
       />
     )
@@ -57,19 +55,16 @@ it('saves the form', async () => {
       text="Test Collection"
       onSave={mockHandleOnSave}
       onCancel={jest.fn()}
-      onDelete={jest.fn()}
       isEditing={true}
     />
   )
   const input = screen.getByRole('textbox', { name: 'Collection Title' })
+  userEvent.clear(input)
   userEvent.type(input, 'New Title')
 
   const saveNameButton = screen.getByRole('button', { name: 'Save name' })
   userEvent.click(saveNameButton)
-  // #TODO "errors" when clicking submit on form; expected behavior by jsdom
-  // <<Error: Not implemented: HTMLFormElement.prototype.submit>>
-  // Should I ignore the error?
-  expect(mockHandleOnSave).toBeCalledTimes(1)
+  expect(mockHandleOnSave).toBeCalledWith('New Title')
 })
 
 it('cancels the form', () => {
@@ -80,7 +75,6 @@ it('cancels the form', () => {
       text="Test Collection"
       onSave={jest.fn()}
       onCancel={mockHandleOnCancel}
-      onDelete={jest.fn()}
       isEditing={true}
     />
   )

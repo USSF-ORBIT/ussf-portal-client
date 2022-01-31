@@ -46,7 +46,7 @@ const CustomCollection = ({
   const urlInputValue = useRef<string>('')
   const addCustomLinkModal = useRef<ModalRef>(null)
   const linkInput = useRef<ComboBoxRef>(null)
-  const [isEditingTitle, setEditing] = useState(false)
+  const [isEditingTitle, setEditingTitle] = useState(false)
 
   useEffect(() => {
     if (isAddingLink && linkInput.current) {
@@ -57,7 +57,7 @@ const CustomCollection = ({
   useEffect(() => {
     // If there is no title, prompt user to enter one
     if (title === '') {
-      setEditing(true)
+      setEditingTitle(true)
     }
   }, [])
 
@@ -230,7 +230,7 @@ const CustomCollection = ({
       type="button"
       className={styles.collectionSettingsDropdown}
       onClick={() => {
-        setEditing(true)
+        setEditingTitle(true)
         setIsDropdownOpen(false)
       }}>
       Edit collection title
@@ -251,7 +251,7 @@ const CustomCollection = ({
     if (title === '') {
       handleRemoveCollection()
     }
-    setEditing(false)
+    setEditingTitle(false)
   }
 
   const customCollectionHeader = (
@@ -260,10 +260,9 @@ const CustomCollection = ({
         collectionId={_id}
         text={title}
         onSave={(newTitle) => {
-          setEditing(false)
+          setEditingTitle(false)
           handleEditCollection(newTitle)
         }}
-        onDelete={handleRemoveCollection}
         onCancel={handleCancelEdit}
         isEditing={isEditingTitle}
       />
