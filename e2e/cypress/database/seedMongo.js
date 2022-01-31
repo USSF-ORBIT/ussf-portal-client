@@ -2,7 +2,7 @@
 const { MongoClient } = require('mongodb')
 const { testUser1, testUser2 } = require('./users.js')
 
-const DB = 'dev'
+const DB = 'cypress-e2e'
 
 async function dropCollection(mongoClient, collectionName) {
   const collection = mongoClient.db(DB).collection(collectionName)
