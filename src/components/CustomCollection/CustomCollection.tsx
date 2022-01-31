@@ -42,10 +42,19 @@ const CustomCollection = ({
   handleEditCollection,
   handleEditBookmark,
 }: PropTypes) => {
-  const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
   const addCustomLinkModal = useRef<ModalRef>(null)
+  const deleteCollectionModal = useRef<ModalRef>(null)
   const linkInput = useRef<ComboBoxRef>(null)
+
+  const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
   const [isEditingTitle, setEditingTitle] = useState(false)
+
+  // Collection settings dropdown state
+  const dropdownEl = useRef<HTMLDivElement>(null)
+  const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
+    dropdownEl,
+    false
+  )
 
   useEffect(() => {
     // Auto-focus on ComboBox when clicking Add Link
@@ -60,6 +69,8 @@ const CustomCollection = ({
       setEditingTitle(true)
     }
   }, [])
+
+  /** Add Link handlers */
 
   // Show the Add Link form
   const handleShowAdding = () => setIsAddingLink(true)
@@ -148,66 +159,44 @@ const CustomCollection = ({
     </div>
   )
 
-  /* Custom Collection Settings Menu */
-
-  // Track whether the settings dropdown should be open or closed
-  const dropdownEl = useRef<HTMLDivElement>(null)
-  const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
-    dropdownEl,
-    false
-  )
-  // Initialize hook for delete confirmation modal
-  const deleteCollectionModal = useRef<ModalRef>(null)
-  // Menu button and its togglefunction
+  /* Collection settings handlers */
+  // Toggle the dropdown menu
   const menuOnClick = () => {
     setIsDropdownOpen(!isDropdownOpen)
   }
-  // Before deleting the collection, show confirmation modal
-  // and close the dropdown menu
-  const handleShowRemove = () => {
+
+  /** Delete collection */
+  // Show confirmation before deleting a collection
+  const handleConfirmDeleteCollection = () => {
     deleteCollectionModal.current?.toggleModal(undefined, true)
     setIsDropdownOpen(false)
   }
+
   // After confirming delete, trigger the mutation and close the modal
   const handleDeleteCollection = () => {
     handleRemoveCollection()
     deleteCollectionModal.current?.toggleModal(undefined, false)
   }
 
-  const handleCancelCollection = () => {
+  // Cancel deleting a collection
+  const handleCancelDeleteCollection = () => {
     deleteCollectionModal.current?.toggleModal(undefined, false)
   }
 
-  // Items to populate dropdown menu
-  const deleteCustomCollection = (
-    <Button
-      type="button"
-      className={styles.collectionSettingsDropdown}
-      onClick={handleShowRemove}>
-      Delete this collection
-    </Button>
-  )
+  /** Edit collection */
+  // Edit the collection title
+  const handleEditCollectionTitle = () => {
+    setEditingTitle(true)
+    setIsDropdownOpen(false)
+  }
 
-  const editCustomCollectionTitle = (
-    <Button
-      type="button"
-      className={styles.collectionSettingsDropdown}
-      onClick={() => {
-        setEditingTitle(true)
-        setIsDropdownOpen(false)
-      }}>
-      Edit collection title
-    </Button>
-  )
-  const customCollectionDropdownItems = (
-    <>
-      <ol>
-        <li>{editCustomCollectionTitle}</li>
-        <li>{deleteCustomCollection}</li>
-      </ol>
-    </>
-  )
+  // Save the collection title
+  const handleSaveCollectionTitle = (newTitle: string) => {
+    setEditingTitle(false)
+    handleEditCollection(newTitle)
+  }
 
+  // Cancel editing the collection title
   const handleCancelEdit = () => {
     // If the user cancels editing, reset the form and do not save changes
     // If there is no previous input value, remove the collection
@@ -222,10 +211,7 @@ const CustomCollection = ({
       <EditableCollectionTitle
         collectionId={_id}
         text={title}
-        onSave={(newTitle) => {
-          setEditingTitle(false)
-          handleEditCollection(newTitle)
-        }}
+        onSave={handleSaveCollectionTitle}
         onCancel={handleCancelEdit}
         isEditing={isEditingTitle}
       />
@@ -243,12 +229,29 @@ const CustomCollection = ({
           dropdownRef={dropdownEl}
           align="right"
           isActive={isDropdownOpen}>
-          {customCollectionDropdownItems}
+          <ol>
+            <li>
+              <Button
+                type="button"
+                className={styles.collectionSettingsDropdown}
+                onClick={handleEditCollectionTitle}>
+                Edit collection title
+              </Button>
+            </li>
+            <li>
+              <Button
+                type="button"
+                className={styles.collectionSettingsDropdown}
+                onClick={handleConfirmDeleteCollection}>
+                Delete this collection
+              </Button>
+            </li>
+          </ol>
         </DropdownMenu>
       )}
       <RemoveCustomCollectionModal
         modalRef={deleteCollectionModal}
-        onCancel={handleCancelCollection}
+        onCancel={handleCancelDeleteCollection}
         onDelete={handleDeleteCollection}
       />
     </>
