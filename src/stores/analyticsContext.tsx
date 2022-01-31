@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 type PushArgs = (number[] | string[] | number | string | boolean)[]
 
-type WindowWithAnalytics = typeof Window & {
+export type WindowWithAnalytics = typeof Window & {
   _paq?: PushArgs[]
 }
 
