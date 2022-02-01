@@ -101,6 +101,11 @@ const CustomCollection = ({
       value && bookmarkOptions.find((i) => `${i.id}` === value)
 
     if (existingLink) {
+      trackEvent(
+        'Add link',
+        'Save CMS link',
+        `${title} / ${existingLink.label || existingLink.url}`
+      )
       handleAddBookmark(
         existingLink.url || '',
         existingLink.label,
