@@ -18,6 +18,7 @@ import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
+import { useAnalytics } from 'stores/analyticsContext'
 
 type PropTypes = {
   _id: string
@@ -48,6 +49,7 @@ const CustomCollection = ({
 
   const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
   const [isEditingTitle, setEditingTitle] = useState(false)
+  const { trackEvent } = useAnalytics()
 
   // Collection settings dropdown state
   const dropdownEl = useRef<HTMLDivElement>(null)
@@ -174,6 +176,7 @@ const CustomCollection = ({
 
   // After confirming delete, trigger the mutation and close the modal
   const handleDeleteCollection = () => {
+    trackEvent('Collection settings', 'Delete collection', title)
     handleRemoveCollection()
     deleteCollectionModal.current?.toggleModal(undefined, false)
   }
@@ -193,6 +196,7 @@ const CustomCollection = ({
   // Save the collection title
   const handleSaveCollectionTitle = (newTitle: string) => {
     setEditingTitle(false)
+    trackEvent('Collection settings', 'Edit collection title')
     handleEditCollection(newTitle)
   }
 
@@ -269,9 +273,14 @@ const CustomCollection = ({
               <RemovableBookmark
                 key={`bookmark_${bookmark._id}`}
                 bookmark={bookmark}
-                handleRemove={() =>
+                handleRemove={() => {
+                  trackEvent(
+                    'Remove link',
+                    'Hide CMS link',
+                    `${title} / ${bookmark.label || bookmark.url}`
+                  )
                   handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
-                }
+                }}
               />
             ) : (
               <CustomBookmark
