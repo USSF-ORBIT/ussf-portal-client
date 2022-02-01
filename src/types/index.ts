@@ -57,6 +57,10 @@ export type BookmarkInput = {
   cmsId?: string
 }
 
+export type RemovedBookmark = {
+  _id: string
+}
+
 /* Collection refers to a user-created collection containing one or more bookmarks */
 
 export type Collection = {

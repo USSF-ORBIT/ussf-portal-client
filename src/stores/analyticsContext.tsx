@@ -1,9 +1,36 @@
-import { useEffect } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-// inspired by https://github.com/SocialGouv/matomo-next
+type PushArgs = (number[] | string[] | number | string | boolean)[]
 
-type AnalyticsSettings = {
+export type WindowWithAnalytics = typeof Window & {
+  _paq?: PushArgs[]
+}
+
+type PushFn = (args: PushArgs) => void
+
+type TrackFn = (
+  category: string,
+  action: string,
+  name?: string | undefined,
+  value?: number | undefined
+) => void
+
+export type AnalyticsContextType = {
+  push: PushFn
+  trackEvent: TrackFn
+}
+
+export const AnalyticsContext = createContext<AnalyticsContextType>({
+  push: () => {
+    return
+  },
+  trackEvent: () => {
+    return
+  },
+})
+
+type AnalyticsConfig = {
   url?: string
   siteId?: string
   jsTrackerFile?: string
@@ -11,24 +38,21 @@ type AnalyticsSettings = {
   debug?: boolean
 }
 
-type PushArgs = (number[] | string[] | number | string | boolean)[]
-
-type WindowWithAnalytics = typeof Window & {
-  _paq?: PushArgs[]
-}
-
-type PushFn = (args: PushArgs) => void
-
-const useAnalytics = ({
-  url,
-  siteId,
-  jsTrackerFile = 'matomo.js',
-  phpTrackerFile = 'matomo.php',
-  debug = false,
-}: AnalyticsSettings): {
-  push?: PushFn
-} => {
+export const AnalyticsProvider = ({
+  children,
+  config,
+}: {
+  children: React.ReactNode
+  config: AnalyticsConfig
+}) => {
   const router = useRouter()
+  const {
+    url,
+    siteId,
+    jsTrackerFile = 'matomo.js',
+    phpTrackerFile = 'matomo.php',
+    debug = false,
+  } = config
   let previousPath = ''
 
   const push: PushFn = (args): void => {
@@ -48,6 +72,24 @@ const useAnalytics = ({
     }
 
     windowWithAnalytics._paq.push(args)
+  }
+
+  // Shortcut for push(['trackEvent', ...])
+  const trackEvent = (
+    category: string,
+    action: string,
+    name?: string,
+    value?: number
+  ): void => {
+    const pushParams: PushArgs = ['trackEvent', category, action]
+    if (name !== undefined) {
+      pushParams.push(name)
+      if (value !== undefined) {
+        pushParams.push(value)
+      }
+    }
+
+    push(pushParams)
   }
 
   const handleRouteChange = (url: string) => {
@@ -78,7 +120,7 @@ const useAnalytics = ({
 
     previousPath = location.href
 
-    push(['setDocumentTitle', document.domain + '/' + document.title])
+    push(['setDocumentTitle', document.title])
     push(['setDoNotTrack', true])
     push(['trackPageView'])
     push(['enableLinkTracking'])
@@ -106,9 +148,26 @@ const useAnalytics = ({
     }
   }, [])
 
-  return {
+  const context = {
     push,
+    trackEvent,
   }
+
+  return (
+    <AnalyticsContext.Provider value={context}>
+      {children}
+    </AnalyticsContext.Provider>
+  )
 }
 
-export default useAnalytics
+export const useAnalytics = () => {
+  const context = useContext(AnalyticsContext)
+
+  if (context === undefined) {
+    throw new Error(
+      'useAnalytics must be used within an AnalyticsContextProvider'
+    )
+  }
+
+  return context
+}

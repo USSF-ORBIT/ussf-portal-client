@@ -28,6 +28,7 @@ import { useCollectionsQuery } from 'operations/queries/getCollections'
 import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
+import { useAnalytics } from 'stores/analyticsContext'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
@@ -40,6 +41,7 @@ const SitesAndApplications = ({
   const router = useRouter()
   const { user } = useUser()
   const { loading, error, data } = useCollectionsQuery()
+  const { trackEvent } = useAnalytics()
 
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
   const [selectMode, setSelectMode] = useState<boolean>(false)
@@ -61,7 +63,12 @@ const SitesAndApplications = ({
 
   const canAddSections = data && data.collections.length < 25
 
-  const handleSortClick = (sortType: SortBy) => setSort(sortType)
+  const handleSortClick = (sortType: SortBy) => {
+    const sortTypeAction =
+      sortType === 'SORT_TYPE' ? 'Sort by type' : 'Sort alphabetically'
+    trackEvent('S&A sort', sortTypeAction)
+    setSort(sortType)
+  }
 
   const handleToggleSelectMode = () => {
     setSelectMode((currentMode) => !currentMode)
@@ -92,6 +99,9 @@ const SitesAndApplications = ({
     const collectionObjs = selectedCollections.map((id) =>
       collections.find((i) => i.id === id)
     ) as CollectionRecords
+
+    const collectionTitles = collectionObjs.map((c) => c.title).join(',')
+    trackEvent('S&A add collection', 'Add selected', collectionTitles)
 
     handleAddCollections({
       variables: {
@@ -213,7 +223,10 @@ const SitesAndApplications = ({
                   type="button"
                   outline
                   inverse
-                  onClick={handleToggleSelectMode}>
+                  onClick={() => {
+                    trackEvent('S&A add collection', 'Cancel')
+                    handleToggleSelectMode()
+                  }}>
                   Cancel
                 </Button>
               </>
@@ -228,7 +241,13 @@ const SitesAndApplications = ({
                 )}
                 <Button
                   type="button"
-                  onClick={handleToggleSelectMode}
+                  onClick={() => {
+                    trackEvent(
+                      'S&A add collection',
+                      'Select multiple collections'
+                    )
+                    handleToggleSelectMode()
+                  }}
                   disabled={!canAddSections}>
                   Select multiple collections
                 </Button>

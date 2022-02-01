@@ -12,12 +12,19 @@ import styles from './Header.module.scss'
 import Logo from 'components/Logo/Logo'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { useAuthContext } from 'stores/authContext'
+import { useAnalytics } from 'stores/analyticsContext'
 
 const Header = () => {
   const { logout } = useAuthContext()
+  const { trackEvent } = useAnalytics()
   const [expanded, setExpanded] = useState(false)
   const handleNavButtonClick = (): void =>
     setExpanded((prevExpanded) => !prevExpanded)
+
+  const handleLogout = () => {
+    trackEvent('Top nav', 'Log out')
+    logout()
+  }
 
   const navItems = [
     <LinkTo
@@ -31,7 +38,7 @@ const Header = () => {
       secondary
       className={styles.logoutButton}
       type="button"
-      onClick={logout}
+      onClick={handleLogout}
       key="nav_logout">
       <span>Log out</span>
     </Button>,

@@ -11,7 +11,11 @@ COPY . .
 
 RUN yarn install --frozen-lockfile
 
+ARG BUILD
+
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV IMAGE_TAG=${BUILD}
+
 RUN yarn build
 
 # Install only production deps this time
@@ -54,7 +58,6 @@ COPY scripts/create-gcds-chain.sh .
 COPY dev-saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
 COPY test-saml.pem /usr/local/share/ca-certificates/federation.test.cce.af.mil.crt
 COPY prod-saml.pem /usr/local/share/ca-certificates/federation.prod.cce.af.mil.crt
-COPY ./rds-combined-ca-bundle.pem ./rds-combined-ca-bundle.pem
 COPY ./server-preload.js ./server-preload.js
 
 RUN apt-get update \

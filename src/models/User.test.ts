@@ -13,6 +13,8 @@ describe('User model', () => {
     })
 
     db = await connection.db()
+    // Clean db before running test suite
+    await db.collection('users').deleteMany({})
   })
 
   afterAll(async () => {
