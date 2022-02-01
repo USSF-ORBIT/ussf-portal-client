@@ -76,27 +76,18 @@ button.collectionSettingsDropdown {
   cursor: pointer;
 }
 
-h3.collectionTitle {
-  font-size: font-size('heading', 'lg');
-  line-height: lh('heading', 2);
-  flex-grow: 1;
-}
+.editableCollectionTitle {
+  h3.collectionTitle {
+    font-size: font-size('heading', 'lg');
+    line-height: lh('heading', 2);
+    flex-grow: 1;
+  }
 
-textarea.collectionTitle {
-  font-family: $sfds-heading-font;
-  font-size: font-size('heading', 'lg');
-  line-height: lh('heading', 2);
-  flex-grow: 1;
-  height: auto;
-  margin: 0;
-  border: 0;
-  padding: 0;
-  resize: none;
-  overflow: hidden;
-  overflow-wrap: break-word;
-
-  &::placeholder {
-    font-style: italic;
-    color: color('base-light');
+  button.cancelButton {
+    color: $theme-white;
+    background-color: $state-disabled-base;
+    &:hover {
+      background-color: $state-disabled-dark;
+    }
   }
 }

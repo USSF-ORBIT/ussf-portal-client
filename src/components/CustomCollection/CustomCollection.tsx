@@ -22,6 +22,7 @@ import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
+import { useAnalytics } from 'stores/analyticsContext'
 
 type PropTypes = {
   _id: string
@@ -48,21 +49,41 @@ const CustomCollection = ({
   handleEditCollection,
   handleEditBookmark,
 }: PropTypes) => {
-  const [isAdding, setIsAdding] = useState<boolean>(false)
   const addCustomLinkModal = useRef<ModalRef>(null)
+  const deleteCollectionModal = useRef<ModalRef>(null)
   const linkInput = useRef<ComboBoxRef>(null)
+
+  const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
+  const [isEditingTitle, setEditingTitle] = useState(false)
+  const { trackEvent } = useAnalytics()
+
+  // Collection settings dropdown state
+  const dropdownEl = useRef<HTMLDivElement>(null)
+  const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
+    dropdownEl,
+    false
+  )
 
   const visibleBookmarks = bookmarks.filter((b) => !b.isRemoved)
 
   useEffect(() => {
     // Auto-focus on ComboBox when clicking Add Link
-    if (isAdding && linkInput.current) {
+    if (isAddingLink && linkInput.current) {
       linkInput.current.focus()
     }
-  }, [isAdding])
+  }, [isAddingLink])
+
+  useEffect(() => {
+    // If there is no title, prompt user to enter one
+    if (title === '') {
+      setEditingTitle(true)
+    }
+  }, [])
+
+  /** Add Link handlers */
 
   // Show the Add Link form
-  const handleShowAdding = () => setIsAdding(true)
+  const handleShowAdding = () => setIsAddingLink(true)
 
   // Open Add Custom Link modal
   const openCustomLinkModal = () => {
@@ -71,14 +92,15 @@ const CustomCollection = ({
 
   // Cancel out of Add Custom Link modal
   const handleCancel = () => {
-    setIsAdding(false)
+    setIsAddingLink(false)
     addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
   // Save a custom link from the modal
   const handleSaveCustomLink = (url: string, label: string) => {
+    trackEvent('Add link', 'Save custom link', `${title} / ${label} / ${url}`)
     handleAddBookmark(url, label)
-    setIsAdding(false)
+    setIsAddingLink(false)
     addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
@@ -88,12 +110,17 @@ const CustomCollection = ({
       value && bookmarkOptions.find((i) => `${i.id}` === value)
 
     if (existingLink) {
+      trackEvent(
+        'Add link',
+        'Save CMS link',
+        `${title} / ${existingLink.label || existingLink.url}`
+      )
       handleAddBookmark(
         existingLink.url || '',
         existingLink.label,
         existingLink.id
       )
-      setIsAdding(false)
+      setIsAddingLink(false)
     }
   }
 
@@ -118,7 +145,7 @@ const CustomCollection = ({
 
   const addLinkForm = canAddLink && (
     <div className={addLinkFormClasses}>
-      {isAdding ? (
+      {isAddingLink ? (
         <>
           <div
             style={{
@@ -139,7 +166,7 @@ const CustomCollection = ({
                 ref={linkInput}
                 inputProps={{
                   required: true,
-                  placeholder: 'Type or paste link...',
+                  placeholder: 'Choose a link...',
                 }}
               />
             </div>
@@ -172,74 +199,101 @@ const CustomCollection = ({
     </div>
   )
 
-  /* Custom Collection Settings Menu */
-
-  // Track whether the settings dropdown should be open or closed
-  const dropdownEl = useRef<HTMLDivElement>(null)
-  const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
-    dropdownEl,
-    false
-  )
-  // Initialize hook for delete confirmation modal
-  const deleteCollectionModal = useRef<ModalRef>(null)
-  // Menu button and its togglefunction
+  /* Collection settings handlers */
+  // Toggle the dropdown menu
   const menuOnClick = () => {
     setIsDropdownOpen(!isDropdownOpen)
   }
-  // Before deleting the collection, show confirmation modal
-  // and close the dropdown menu
-  const handleShowRemove = () => {
+
+  /** Delete collection */
+  // Show confirmation before deleting a collection
+  const handleConfirmDeleteCollection = () => {
     deleteCollectionModal.current?.toggleModal(undefined, true)
     setIsDropdownOpen(false)
   }
+
   // After confirming delete, trigger the mutation and close the modal
   const handleDeleteCollection = () => {
+    trackEvent('Collection settings', 'Delete collection', title)
     handleRemoveCollection()
     deleteCollectionModal.current?.toggleModal(undefined, false)
   }
 
-  const handleCancelCollection = () => {
+  // Cancel deleting a collection
+  const handleCancelDeleteCollection = () => {
     deleteCollectionModal.current?.toggleModal(undefined, false)
   }
-  // Items to populate dropdown menu
-  const editCustomCollectionItem = (
-    <>
-      <Button
-        type="button"
-        className={styles.collectionSettingsDropdown}
-        onClick={handleShowRemove}>
-        Delete Collection
-      </Button>
-    </>
-  )
+
+  /** Edit collection */
+  // Edit the collection title
+  const handleEditCollectionTitle = () => {
+    setEditingTitle(true)
+    setIsDropdownOpen(false)
+  }
+
+  // Save the collection title
+  const handleSaveCollectionTitle = (newTitle: string) => {
+    setEditingTitle(false)
+    trackEvent('Collection settings', 'Edit collection title')
+    handleEditCollection(newTitle)
+  }
+
+  // Cancel editing the collection title
+  const handleCancelEdit = () => {
+    // If the user cancels editing, reset the form and do not save changes
+    // If there is no previous input value, remove the collection
+    if (title === '') {
+      handleRemoveCollection()
+    }
+    setEditingTitle(false)
+  }
 
   const customCollectionHeader = (
     <>
       <EditableCollectionTitle
         collectionId={_id}
         text={title}
-        onSave={handleEditCollection}
-        onDelete={handleRemoveCollection}
+        onSave={handleSaveCollectionTitle}
+        onCancel={handleCancelEdit}
+        isEditing={isEditingTitle}
       />
-
-      <DropdownMenu
-        toggleEl={
-          <button
-            type="button"
-            className={styles.dropdownMenuToggle}
-            onClick={menuOnClick}
-            aria-label="Collection Settings">
-            <FontAwesomeIcon icon="cog" />
-          </button>
-        }
-        dropdownRef={dropdownEl}
-        align="right"
-        isActive={isDropdownOpen}>
-        {editCustomCollectionItem}
-      </DropdownMenu>
+      {!isEditingTitle && (
+        <DropdownMenu
+          toggleEl={
+            <button
+              type="button"
+              className={styles.dropdownMenuToggle}
+              onClick={menuOnClick}
+              aria-label="Collection Settings">
+              <FontAwesomeIcon icon="cog" />
+            </button>
+          }
+          dropdownRef={dropdownEl}
+          align="right"
+          isActive={isDropdownOpen}>
+          <ol>
+            <li>
+              <Button
+                type="button"
+                className={styles.collectionSettingsDropdown}
+                onClick={handleEditCollectionTitle}>
+                Edit collection title
+              </Button>
+            </li>
+            <li>
+              <Button
+                type="button"
+                className={styles.collectionSettingsDropdown}
+                onClick={handleConfirmDeleteCollection}>
+                Delete this collection
+              </Button>
+            </li>
+          </ol>
+        </DropdownMenu>
+      )}
       <RemoveCustomCollectionModal
         modalRef={deleteCollectionModal}
-        onCancel={handleCancelCollection}
+        onCancel={handleCancelDeleteCollection}
         onDelete={handleDeleteCollection}
       />
     </>
@@ -247,15 +301,22 @@ const CustomCollection = ({
 
   return (
     <>
-      <Collection header={customCollectionHeader} footer={addLinkForm}>
+      <Collection
+        header={customCollectionHeader}
+        footer={!isEditingTitle ? addLinkForm : null}>
         {visibleBookmarks.map((bookmark: BookmarkType) =>
           bookmark.cmsId ? (
             <RemovableBookmark
               key={`bookmark_${bookmark._id}`}
               bookmark={bookmark}
-              handleRemove={() =>
+              handleRemove={() => {
+                trackEvent(
+                  'Remove link',
+                  'Hide CMS link',
+                  `${title} / ${bookmark.label || bookmark.url}`
+                )
                 handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
-              }
+              }}
             />
           ) : (
             <CustomBookmark
@@ -269,7 +330,6 @@ const CustomCollection = ({
           )
         )}
       </Collection>
-
       <AddCustomLinkModal
         modalRef={addCustomLinkModal}
         onCancel={handleCancel}
