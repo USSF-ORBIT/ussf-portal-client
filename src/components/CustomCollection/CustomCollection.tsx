@@ -18,6 +18,8 @@ import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
+import { useAnalytics } from 'stores/analyticsContext'
+
 // Not an ideal way to validate URLs but this will work for now
 const VALID_URL_REGEX = /^(ftp|http|https):\/\/[^ "]+$/
 
@@ -46,6 +48,7 @@ const CustomCollection = ({
   const urlInputValue = useRef<string>('')
   const addCustomLinkModal = useRef<ModalRef>(null)
   const linkInput = useRef<ComboBoxRef>(null)
+  const { trackEvent } = useAnalytics()
   const [isEditingTitle, setEditingTitle] = useState(false)
 
   useEffect(() => {
@@ -207,6 +210,7 @@ const CustomCollection = ({
   }
   // After confirming delete, trigger the mutation and close the modal
   const handleDeleteCollection = () => {
+    trackEvent('Collection settings', 'Delete collection', title)
     handleRemoveCollection()
     deleteCollectionModal.current?.toggleModal(undefined, false)
   }
@@ -261,6 +265,7 @@ const CustomCollection = ({
         text={title}
         onSave={(newTitle) => {
           setEditingTitle(false)
+          trackEvent('Collection settings', 'Edit collection title')
           handleEditCollection(newTitle)
         }}
         onCancel={handleCancelEdit}
@@ -302,9 +307,14 @@ const CustomCollection = ({
             <RemovableBookmark
               key={`bookmark_${bookmark._id}`}
               bookmark={bookmark}
-              handleRemove={() =>
+              handleRemove={() => {
+                trackEvent(
+                  'Remove link',
+                  'Hide CMS link',
+                  `${title} / ${bookmark.label || bookmark.url}`
+                )
                 handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
-              }
+              }}
             />
           ))}
       </Collection>
