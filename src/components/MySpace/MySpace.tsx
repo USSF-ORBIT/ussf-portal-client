@@ -14,9 +14,11 @@ import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useRemoveCollectionMutation } from 'operations/mutations/removeCollection'
 import { useEditCollectionMutation } from 'operations/mutations/editCollection'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
+import { useAnalytics } from 'stores/analyticsContext'
 
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const router = useRouter()
+  const { trackEvent } = useAnalytics()
   const { loading, error, data } = useCollectionsQuery()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
@@ -27,10 +29,21 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   if (error) return <p>Error</p>
 
   const addNewCollection = () => {
+    trackEvent('Add section', 'Create new collection')
+
     const newBookmark: BookmarkInput[] = []
     handleAddCollection({
       variables: { title: '', bookmarks: newBookmark },
       refetchQueries: [`getCollections`],
+    })
+  }
+
+  const selectCollections = () => {
+    trackEvent('Add section', 'Select collection from template')
+
+    router.push({
+      pathname: '/sites-and-applications',
+      query: { selectMode: 'true' },
     })
   }
 
@@ -53,8 +66,8 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
             data.collections.map((collection) => (
               <Grid
                 key={`collection_${collection._id}`}
-                tablet={{ col: 6 }}
-                desktop={{ col: 4 }}>
+                tabletLg={{ col: 6 }}
+                desktopLg={{ col: 4 }}>
                 <CustomCollection
                   _id={collection._id}
                   title={collection.title}
@@ -74,6 +87,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                         _id: collection._id,
                         title,
                       },
+                      refetchQueries: [`getCollections`],
                     })
                   }}
                   handleRemoveBookmark={(_id, cmsId) => {
@@ -108,12 +122,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
               desktop={{ col: 4 }}>
               <AddWidget
                 handleCreateCollection={addNewCollection}
-                handleSelectCollection={() =>
-                  router.push({
-                    pathname: '/sites-and-applications',
-                    query: { selectMode: 'true' },
-                  })
-                }
+                handleSelectCollection={selectCollections}
               />
             </Grid>
           )}

@@ -1,23 +1,31 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Textarea } from '@trussworks/react-uswds'
+import React, { useRef, useEffect } from 'react'
+
+import {
+  Button,
+  ButtonGroup,
+  Form,
+  Label,
+  TextInput,
+} from '@trussworks/react-uswds'
 
 import styles from './CustomCollection.module.scss'
-/* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
+
 type PropTypes = {
   collectionId: string
   text: string
   onSave: (s: string) => void
-  onDelete: () => void
+  onCancel: () => void
+  isEditing: boolean
 }
+
 export const EditableCollectionTitle = ({
   collectionId,
   text,
+  isEditing,
   onSave,
-  onDelete,
+  onCancel,
 }: PropTypes) => {
-  const [isEditing, setEditing] = useState(text === '')
-  const [currentText, setCurrentText] = useState(text)
-  const inputRef = useRef<HTMLTextAreaElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (isEditing) {
@@ -25,67 +33,48 @@ export const EditableCollectionTitle = ({
     }
   }, [isEditing])
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    const { key } = event
-    const keys = ['Escape', 'Enter', 'Tab']
-
-    if (keys.includes(key)) {
-      if (isEditing) {
-        inputRef?.current?.blur()
-      } else if (key === 'Enter') {
-        setEditing(true)
-      }
-    }
-  }
-
-  const handleOnBlur = () => {
-    if (currentText.length) {
-      onSave(currentText)
-
-      setEditing(false)
-    } else if (text.length) {
-      // Revert to previous value
-      setCurrentText(text)
-      setEditing(false)
-    } else {
-      // No value, delete the collection
-      onDelete()
-    }
-  }
-
   const inputId = `collectionTitle_${collectionId}`
 
+  const handleSubmitEdit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const data = new FormData(e.currentTarget)
+    const label = `${data.get('collectionTitle')}`
+    onSave(label)
+  }
+
   return (
-    <>
+    <div className={styles.editCollectionTitle}>
       {isEditing ? (
-        <>
-          <label htmlFor={inputId} className="usa-sr-only">
+        <Form
+          onSubmit={handleSubmitEdit}
+          className={styles.editableCollectionTitle}>
+          <Label htmlFor={inputId} className="usa-sr-only">
             Collection Title
-          </label>
-          <Textarea
+          </Label>
+          <TextInput
             inputRef={inputRef}
             id={inputId}
-            name="title"
+            name="collectionTitle"
+            required
             maxLength={200}
             className={styles.collectionTitle}
-            value={currentText}
-            placeholder="Add a title for this collection"
-            onKeyDown={(e) => handleKeyDown(e)}
-            onChange={(e) => setCurrentText(e.target.value)}
-            onBlur={handleOnBlur}
+            defaultValue={text}
+            placeholder={`Name this collection`}
+            type="text"
           />
-        </>
+          <ButtonGroup>
+            <Button
+              type="button"
+              className={`padding-105 text-center ${styles.cancelButton}`}
+              onClick={() => onCancel()}>
+              Cancel
+            </Button>
+            <Button type="submit">Save name</Button>
+          </ButtonGroup>
+        </Form>
       ) : (
-        <h3
-          tabIndex={0}
-          role="button"
-          className={styles.collectionTitle}
-          onClick={() => setEditing(true)}
-          onKeyDown={(e) => handleKeyDown(e)}
-          aria-label={`Edit ${currentText} collection title`}>
-          {currentText}
-        </h3>
+        <h3 className={styles.collectionTitle}>{text}</h3>
       )}
-    </>
+    </div>
   )
 }
