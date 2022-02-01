@@ -90,6 +90,7 @@ const CustomCollection = ({
 
   // Save a custom link from the modal
   const handleSaveCustomLink = (url: string, label: string) => {
+    trackEvent('Add link', 'Save custom link', `${title} / ${label} / ${url}`)
     handleAddBookmark(url, label)
     setIsAddingLink(false)
     addCustomLinkModal.current?.toggleModal(undefined, false)
