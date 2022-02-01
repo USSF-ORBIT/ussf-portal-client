@@ -34,19 +34,14 @@
 }
 
 .customLink {
+  display: flex;
+
   &::before {
-    content: 'C';
-    color: $theme-white;
-    background-color: $link-color;
-    border-radius: 50%;
-    font-size: 12px;
+    content: '';
+    background-image: url('/assets/images/icon_custom-link.svg');
     width: 18px;
     height: 18px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
     margin-right: units(1);
-    line-height: normal;
   }
 }
 
