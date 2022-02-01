@@ -144,7 +144,7 @@ const CustomCollection = ({
             ref={linkInput}
             inputProps={{
               required: true,
-              placeholder: 'Type or paste link...',
+              placeholder: 'Choose a link...',
             }}
           />
           <p className="usa-form__note">
