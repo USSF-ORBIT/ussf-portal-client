@@ -243,6 +243,7 @@ describe('Sites and Applications', () => {
     cy.contains('Example Collection')
       .parent()
       .parent()
+      .parent()
       .within(() => {
         // Add a link
         cy.findByRole('button', { name: '+ Add link' }).click()
@@ -299,6 +300,7 @@ describe('Sites and Applications', () => {
     cy.contains('Example Collection')
       .parent()
       .parent()
+      .parent()
       .within(() => {
         // Edit a link
         cy.findAllByRole('button', { name: 'Edit this link' }).first().click()
@@ -321,6 +323,7 @@ describe('Sites and Applications', () => {
     cy.contains('Example Collection')
       .parent()
       .parent()
+      .parent()
       .within(() => {
         cy.findAllByRole('listitem').should('have.length', 7)
 
@@ -335,7 +338,9 @@ describe('Sites and Applications', () => {
     cy.findByRole('link', {
       name: 'Edited Custom Link (opens in a new window)',
     }).should('not.exist')
+
     cy.contains('Example Collection')
+      .parent()
       .parent()
       .parent()
       .within(() => {
