@@ -70,6 +70,7 @@ const AddCustomLinkModal = ({
             name="bookmarkLabel"
             required
             inputRef={nameInputRef}
+            placeholder="Example link name"
           />
 
           <Label htmlFor="newBookmarkUrl">URL</Label>
@@ -79,6 +80,7 @@ const AddCustomLinkModal = ({
             name="bookmarkUrl"
             required
             inputRef={urlInputRef}
+            placeholder="https://www.copy-paste-your-url.com"
           />
           <ButtonGroup>
             <Button type="submit" data-close-modal>
