@@ -203,11 +203,20 @@ const SitesAndApplications = ({
       )}
 
       {!loading && sortBy === 'SORT_ALPHA' && (
-        <BookmarkList
-          bookmarks={bookmarks}
-          userCollectionOptions={data?.collections}
-          handleAddToCollection={handleAddToCollection}
-        />
+        <>
+          {!canAddSections && (
+            <Alert type="warning" role="alert">
+              You have reached the maximum number of collections allowed on your
+              My Space (25).
+            </Alert>
+          )}
+          <BookmarkList
+            bookmarks={bookmarks}
+            userCollectionOptions={data?.collections}
+            handleAddToCollection={handleAddToCollection}
+            canAddNewCollection={canAddSections}
+          />
+        </>
       )}
 
       {!loading && sortBy === 'SORT_TYPE' && (

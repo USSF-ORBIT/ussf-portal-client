@@ -17,12 +17,14 @@ type BookmarkListRowProps = {
   bookmark: BookmarkRecord
   userCollectionOptions?: Collection[]
   handleAddToCollection: (b: BookmarkRecord, c?: string) => void
+  canAddNewCollection?: boolean
 }
 
 const BookmarkListRow = ({
   bookmark,
   userCollectionOptions = [],
   handleAddToCollection,
+  canAddNewCollection = true,
 }: BookmarkListRowProps) => {
   const { id, url, label, description } = bookmark
   const dropdownEl = useRef<HTMLDivElement>(null)
@@ -61,7 +63,7 @@ const BookmarkListRow = ({
         </LinkTo>
       </th>
       <td>{description}</td>
-      <td className="text-right">
+      <td className={styles.bookmarkAction}>
         <DropdownMenu
           toggleEl={
             <Button unstyled type="button" onClick={menuOnClick}>
@@ -82,7 +84,8 @@ const BookmarkListRow = ({
             onClick={() => {
               handleAddToCollection(bookmark)
               setIsDropdownOpen(false)
-            }}>
+            }}
+            disabled={!canAddNewCollection}>
             Add to new collection
           </Button>
         </DropdownMenu>
@@ -95,12 +98,14 @@ type BookmarkListProps = {
   bookmarks: BookmarkRecords
   userCollectionOptions?: Collection[]
   handleAddToCollection: (b: BookmarkRecord, c?: string) => void
+  canAddNewCollection?: boolean
 }
 
 const BookmarkList = ({
   bookmarks,
   userCollectionOptions = [],
   handleAddToCollection,
+  canAddNewCollection = true,
 }: BookmarkListProps) => {
   const filterInvalidBookmarks = (
     b: Partial<BookmarkRecord>
@@ -122,6 +127,7 @@ const BookmarkList = ({
             bookmark={b}
             userCollectionOptions={userCollectionOptions}
             handleAddToCollection={handleAddToCollection}
+            canAddNewCollection={canAddNewCollection}
           />
         ))}
       </tbody>
