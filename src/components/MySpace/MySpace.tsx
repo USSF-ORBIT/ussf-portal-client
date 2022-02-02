@@ -16,6 +16,8 @@ import { useEditCollectionMutation } from 'operations/mutations/editCollection'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 import { useAnalytics } from 'stores/analyticsContext'
 
+const MAXIMUM_COLLECTIONS = 25
+
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const router = useRouter()
   const { trackEvent } = useAnalytics()
@@ -38,7 +40,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     })
   }
 
-  const canAddSections = data && data.collections.length < 25
+  const canAddSections = data && data.collections.length < MAXIMUM_COLLECTIONS
 
   const selectCollections = () => {
     trackEvent('Add section', 'Select collection from template')

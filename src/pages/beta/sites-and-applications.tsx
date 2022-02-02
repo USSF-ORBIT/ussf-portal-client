@@ -34,6 +34,8 @@ type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
 type SelectedCollections = string[]
 
+const MAXIMUM_COLLECTIONS = 25
+
 const SitesAndApplications = ({
   collections,
   bookmarks,
@@ -61,7 +63,12 @@ const SitesAndApplications = ({
 
   if (error) return <p>Error</p>
 
-  const canAddSections = data && data.collections.length < 25
+  const collectionsLength = (data && data.collections.length) || 0
+
+  const remainingSections =
+    MAXIMUM_COLLECTIONS - (collectionsLength + selectedCollections.length)
+
+  const canAddSections = collectionsLength < MAXIMUM_COLLECTIONS
 
   const handleSortClick = (sortType: SortBy) => {
     const sortTypeAction =
@@ -209,8 +216,20 @@ const SitesAndApplications = ({
             {selectMode ? (
               <>
                 <span>
-                  {selectedCollections.length} collection
-                  {selectedCollections.length !== 1 && 's'} selected
+                  {/* TODO */}
+                  {/* remainingSections < 3 && (
+                    <Tooltip
+                      position="top"
+                      label={`You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`}>
+                      <IconInfo size={3} />
+                    </Tooltip>
+                  ) */}
+                  <strong>
+                    {selectedCollections.length} collection
+                    {selectedCollections.length !== 1 && 's'} selected
+                  </strong>{' '}
+                  ({remainingSections} of {MAXIMUM_COLLECTIONS} possible
+                  remaining)
                 </span>
                 <Button
                   type="button"
@@ -269,6 +288,9 @@ const SitesAndApplications = ({
                       bookmarks={collection.bookmarks}
                       isSelected={isSelected(collection.id)}
                       onSelect={() => handleSelectCollection(collection.id)}
+                      disabled={
+                        !isSelected(collection.id) && remainingSections < 1
+                      }
                     />
                   ) : (
                     <Collection title={collection.title}>
