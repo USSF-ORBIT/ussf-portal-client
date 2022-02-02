@@ -204,12 +204,22 @@ const SitesAndApplications = ({
 
       {!loading && sortBy === 'SORT_ALPHA' && (
         <>
+          {data?.collections.some(
+            (c) => c.bookmarks.filter((b) => !b.isRemoved).length >= 10
+          ) && (
+            <Alert type="warning" role="alert">
+              At least one collection on your My Space has reached the maximum
+              number of links allowed (10).
+            </Alert>
+          )}
+
           {!canAddSections && (
             <Alert type="warning" role="alert">
               You have reached the maximum number of collections allowed on your
               My Space (25).
             </Alert>
           )}
+
           <BookmarkList
             bookmarks={bookmarks}
             userCollectionOptions={data?.collections}

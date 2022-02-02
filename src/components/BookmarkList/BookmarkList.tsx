@@ -44,7 +44,10 @@ const BookmarkListRow = ({
         onClick={() => {
           handleAddToCollection(bookmark, collection._id)
           setIsDropdownOpen(false)
-        }}>
+        }}
+        disabled={
+          collection.bookmarks.filter((b) => !b.isRemoved).length >= 10
+        }>
         {collection.title || 'Untitled Collection'}
       </Button>
     </li>
