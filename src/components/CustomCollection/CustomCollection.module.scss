@@ -42,6 +42,14 @@
     width: 18px;
     height: 18px;
     margin-right: units(1);
+    flex-shrink: 0;
+  }
+
+  .customLinkText {
+    // truncated text
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
