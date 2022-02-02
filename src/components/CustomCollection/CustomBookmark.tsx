@@ -41,7 +41,7 @@ export const CustomBookmark = ({
         href={url}
         onEdit={handleEditLink}
         className={styles.customLink}>
-        {label || url}
+        <span className={styles.customLinkText}>{label || url}</span>
       </Bookmark>
 
       <EditCustomLinkModal
