@@ -173,7 +173,7 @@ const CustomCollection = ({
             {showAddWarning && (
               <Tooltip
                 position="right"
-                label={`You can only add 10 links to a collection.\nTo add more links, please create a new collection.`}>
+                label={`You’re about to hit your link limit — each collection can only have 10 links.`}>
                 <IconInfo size={3} />
               </Tooltip>
             )}

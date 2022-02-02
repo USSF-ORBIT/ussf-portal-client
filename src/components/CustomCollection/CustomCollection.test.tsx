@@ -681,7 +681,7 @@ describe('CustomCollection component', () => {
       userEvent.click(toggleFormButton)
 
       expect(screen.queryByRole('tooltip', { hidden: true })).toHaveTextContent(
-        `You can only add 10 links to a collection. To add more links, please create a new collection.`
+        `You’re about to hit your link limit — each collection can only have 10 links.`
       )
 
       userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))

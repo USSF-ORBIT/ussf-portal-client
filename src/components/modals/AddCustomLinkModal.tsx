@@ -87,7 +87,11 @@ const AddCustomLinkModal = ({
           />
 
           {showAddWarning && (
-            <Alert type="error" heading="Link limit reached" slim>
+            <Alert
+              type="warning"
+              heading="Link limit reached"
+              slim
+              className="font-sans-3xs">
               You’ve almost reached the maximum number of links (10) for this
               collection. To add additional links, please create a new
               collection.
