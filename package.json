@@ -93,7 +93,7 @@
     "eslint-plugin-security": "1.4.0",
     "husky": "7.0.4",
     "identity-obj-proxy": "3.0.0",
-    "jest": "27.4.5",
+    "jest": "27.4.7",
     "jest-axe": "5.0.1",
     "lint-staged": "12.3.3",
     "next-test-api-route-handler": "3.0.2",
@@ -106,7 +106,7 @@
     "storybook-addon-next-router": "3.1.1",
     "storybook-css-modules-preset": "1.1.1",
     "style-loader": "2.0.0",
-    "typescript": "4.5.4"
+    "typescript": "4.5.5"
   },
   "resolutions": {
     "ansi-regex": "5.0.1",
