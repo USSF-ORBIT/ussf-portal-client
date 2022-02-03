@@ -1,17 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react'
+import classnames from 'classnames'
 import {
   Button,
-  Form,
   Label,
   ModalRef,
   ComboBox,
   ComboBoxOption,
   ComboBoxRef,
+  IconInfo,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
+import { CustomBookmark } from './CustomBookmark'
 import styles from './CustomCollection.module.scss'
+
+import Tooltip from 'components/Tooltip/Tooltip'
 import Collection from 'components/Collection/Collection'
 import type { Bookmark as BookmarkType, BookmarkRecords } from 'types/index'
 import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
@@ -19,9 +23,6 @@ import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 import { useAnalytics } from 'stores/analyticsContext'
-
-// Not an ideal way to validate URLs but this will work for now
-const VALID_URL_REGEX = /^(ftp|http|https):\/\/[^ "]+$/
 
 type PropTypes = {
   _id: string
@@ -32,7 +33,10 @@ type PropTypes = {
   handleAddBookmark: (url: string, label?: string, cmsId?: string) => void
   handleRemoveCollection: () => void
   handleEditCollection: (title: string) => void
+  handleEditBookmark: (id: string, url?: string, label?: string) => void
 }
+
+const MAXIMUM_BOOKMARKS_PER_COLLECTION = 10
 
 const CustomCollection = ({
   _id,
@@ -43,15 +47,27 @@ const CustomCollection = ({
   handleAddBookmark,
   handleRemoveCollection,
   handleEditCollection,
+  handleEditBookmark,
 }: PropTypes) => {
-  const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
-  const urlInputValue = useRef<string>('')
   const addCustomLinkModal = useRef<ModalRef>(null)
+  const deleteCollectionModal = useRef<ModalRef>(null)
   const linkInput = useRef<ComboBoxRef>(null)
-  const { trackEvent } = useAnalytics()
+
+  const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
   const [isEditingTitle, setEditingTitle] = useState(false)
+  const { trackEvent } = useAnalytics()
+
+  // Collection settings dropdown state
+  const dropdownEl = useRef<HTMLDivElement>(null)
+  const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
+    dropdownEl,
+    false
+  )
+
+  const visibleBookmarks = bookmarks.filter((b) => !b.isRemoved)
 
   useEffect(() => {
+    // Auto-focus on ComboBox when clicking Add Link
     if (isAddingLink && linkInput.current) {
       linkInput.current.focus()
     }
@@ -64,46 +80,51 @@ const CustomCollection = ({
     }
   }, [])
 
+  /** Add Link handlers */
+
+  // Show the Add Link form
   const handleShowAdding = () => setIsAddingLink(true)
 
+  // Open Add Custom Link modal
+  const openCustomLinkModal = () => {
+    addCustomLinkModal.current?.toggleModal(undefined, true)
+  }
+
+  // Cancel out of Add Custom Link modal
   const handleCancel = () => {
     setIsAddingLink(false)
     addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
-  const selectedExistingLink = (value: string) =>
-    bookmarkOptions.find((i) => `${i.id}` === value)
+  // Save a custom link from the modal
+  const handleSaveCustomLink = (url: string, label: string) => {
+    trackEvent('Add link', 'Save custom link', `${title} / ${label} / ${url}`)
+    handleAddBookmark(url, label)
+    setIsAddingLink(false)
+    addCustomLinkModal.current?.toggleModal(undefined, false)
+  }
 
-  const handleSubmitAdd = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    const existingLink = selectedExistingLink(urlInputValue.current)
+  // Save an existing link from the ComboBox
+  const handleSelectChange = (value: string | undefined) => {
+    const existingLink =
+      value && bookmarkOptions.find((i) => `${i.id}` === value)
 
     if (existingLink) {
-      // Adding an existing link
-      // TODO - ensure there is a URL value
+      trackEvent(
+        'Add link',
+        'Save CMS link',
+        `${title} / ${existingLink.label || existingLink.url}`
+      )
       handleAddBookmark(
         existingLink.url || '',
         existingLink.label,
         existingLink.id
       )
-      urlInputValue.current = ''
       setIsAddingLink(false)
-    } else {
-      // Adding a custom link
-      addCustomLinkModal.current?.toggleModal(undefined, true)
     }
   }
 
-  const handleSaveBookmark = (label: string) => {
-    // TODO - ensure there is a URL value
-
-    handleAddBookmark(urlInputValue.current, label)
-    urlInputValue.current = ''
-    setIsAddingLink(false)
-    addCustomLinkModal.current?.toggleModal(undefined, false)
-  }
-
+  // Map CMS link options to ComboBox options
   const urlOptions = bookmarkOptions
     .filter((b) => !!b.url)
     .map(
@@ -114,68 +135,58 @@ const CustomCollection = ({
         } as ComboBoxOption)
     )
 
-  const handleSelectChange = (value: string | undefined) => {
-    const existingLink = value && selectedExistingLink(value)
-    const enteredCustomLink = urlOptions.length !== bookmarkOptions.length
+  const canAddLink = visibleBookmarks.length < MAXIMUM_BOOKMARKS_PER_COLLECTION
+  const showAddWarning =
+    visibleBookmarks.length === MAXIMUM_BOOKMARKS_PER_COLLECTION - 1
 
-    if (existingLink && enteredCustomLink) {
-      // Remove entered custom link
-      urlOptions.pop()
-      // Reset input validation
-      const inputEl = document.getElementById('bookmarkUrl') as HTMLInputElement
-      inputEl?.setCustomValidity('')
-      inputEl?.reportValidity()
-    }
+  const addLinkFormClasses = classnames(styles.addLink, {
+    [styles.addLinkWarning]: showAddWarning,
+  })
 
-    urlInputValue.current = value || ''
-  }
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target
-
-    if (value) {
-      if (urlOptions.length === bookmarkOptions.length) {
-        // Add new option to end of list
-        urlOptions.push({ value, label: value })
-      } else {
-        // Rewrite the new option
-        urlOptions[urlOptions.length - 1] = { value, label: value }
-      }
-    }
-
-    if (VALID_URL_REGEX.test(value)) {
-      // valid
-      e.target.setCustomValidity('')
-    } else {
-      // invalid
-      e.target.setCustomValidity(
-        'Please enter a valid URL, starting with http:// or https://'
-      )
-    }
-  }
-
-  const addLinkForm = (
-    <div className={styles.addLink}>
+  const addLinkForm = canAddLink && (
+    <div className={addLinkFormClasses}>
       {isAddingLink ? (
-        <Form onSubmit={handleSubmitAdd}>
-          <Label htmlFor="bookmarkUrl" className="usa-sr-only">
-            URL
-          </Label>
+        <>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <div>
+              <Label htmlFor="bookmarkId" className="usa-sr-only">
+                Select existing link
+              </Label>
+              <ComboBox
+                id="bookmarkId"
+                name="bookmarkId"
+                className={styles.addLinkComboBox}
+                options={urlOptions}
+                onChange={handleSelectChange}
+                ref={linkInput}
+                inputProps={{
+                  required: true,
+                  placeholder: 'Choose a link...',
+                }}
+              />
+            </div>
+            {showAddWarning && (
+              <Tooltip
+                position="right"
+                label={`You’re about to hit your link limit — each collection can only have 10 links.`}>
+                <IconInfo size={3} />
+              </Tooltip>
+            )}
+          </div>
 
-          <ComboBox
-            id="bookmarkUrl"
-            name="bookmarkUrl"
-            options={urlOptions}
-            onChange={handleSelectChange}
-            ref={linkInput}
-            inputProps={{
-              required: true,
-              onChange: handleInputChange,
-              placeholder: 'Type or paste link...',
-            }}
-          />
-          <Button type="submit">Add site</Button>
-        </Form>
+          <p className="usa-form__note">
+            Don’t see what you need?
+            <br />
+            <Button type="button" unstyled onClick={openCustomLinkModal}>
+              Add a custom link
+            </Button>
+          </p>
+        </>
       ) : (
         <Button
           type="button"
@@ -188,26 +199,19 @@ const CustomCollection = ({
     </div>
   )
 
-  /* Custom Collection Settings Menu */
-
-  // Track whether the settings dropdown should be open or closed
-  const dropdownEl = useRef<HTMLDivElement>(null)
-  const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
-    dropdownEl,
-    false
-  )
-  // Initialize hook for delete confirmation modal
-  const deleteCollectionModal = useRef<ModalRef>(null)
-  // Menu button and its togglefunction
+  /* Collection settings handlers */
+  // Toggle the dropdown menu
   const menuOnClick = () => {
     setIsDropdownOpen(!isDropdownOpen)
   }
-  // Before deleting the collection, show confirmation modal
-  // and close the dropdown menu
-  const handleShowRemove = () => {
+
+  /** Delete collection */
+  // Show confirmation before deleting a collection
+  const handleConfirmDeleteCollection = () => {
     deleteCollectionModal.current?.toggleModal(undefined, true)
     setIsDropdownOpen(false)
   }
+
   // After confirming delete, trigger the mutation and close the modal
   const handleDeleteCollection = () => {
     trackEvent('Collection settings', 'Delete collection', title)
@@ -215,40 +219,26 @@ const CustomCollection = ({
     deleteCollectionModal.current?.toggleModal(undefined, false)
   }
 
-  const handleCancelCollection = () => {
+  // Cancel deleting a collection
+  const handleCancelDeleteCollection = () => {
     deleteCollectionModal.current?.toggleModal(undefined, false)
   }
 
-  // Items to populate dropdown menu
-  const deleteCustomCollection = (
-    <Button
-      type="button"
-      className={styles.collectionSettingsDropdown}
-      onClick={handleShowRemove}>
-      Delete this collection
-    </Button>
-  )
+  /** Edit collection */
+  // Edit the collection title
+  const handleEditCollectionTitle = () => {
+    setEditingTitle(true)
+    setIsDropdownOpen(false)
+  }
 
-  const editCustomCollectionTitle = (
-    <Button
-      type="button"
-      className={styles.collectionSettingsDropdown}
-      onClick={() => {
-        setEditingTitle(true)
-        setIsDropdownOpen(false)
-      }}>
-      Edit collection title
-    </Button>
-  )
-  const customCollectionDropdownItems = (
-    <>
-      <ol>
-        <li>{editCustomCollectionTitle}</li>
-        <li>{deleteCustomCollection}</li>
-      </ol>
-    </>
-  )
+  // Save the collection title
+  const handleSaveCollectionTitle = (newTitle: string) => {
+    setEditingTitle(false)
+    trackEvent('Collection settings', 'Edit collection title')
+    handleEditCollection(newTitle)
+  }
 
+  // Cancel editing the collection title
   const handleCancelEdit = () => {
     // If the user cancels editing, reset the form and do not save changes
     // If there is no previous input value, remove the collection
@@ -263,11 +253,7 @@ const CustomCollection = ({
       <EditableCollectionTitle
         collectionId={_id}
         text={title}
-        onSave={(newTitle) => {
-          setEditingTitle(false)
-          trackEvent('Collection settings', 'Edit collection title')
-          handleEditCollection(newTitle)
-        }}
+        onSave={handleSaveCollectionTitle}
         onCancel={handleCancelEdit}
         isEditing={isEditingTitle}
       />
@@ -285,12 +271,29 @@ const CustomCollection = ({
           dropdownRef={dropdownEl}
           align="right"
           isActive={isDropdownOpen}>
-          {customCollectionDropdownItems}
+          <ol>
+            <li>
+              <Button
+                type="button"
+                className={styles.collectionSettingsDropdown}
+                onClick={handleEditCollectionTitle}>
+                Edit collection title
+              </Button>
+            </li>
+            <li>
+              <Button
+                type="button"
+                className={styles.collectionSettingsDropdown}
+                onClick={handleConfirmDeleteCollection}>
+                Delete this collection
+              </Button>
+            </li>
+          </ol>
         </DropdownMenu>
       )}
       <RemoveCustomCollectionModal
         modalRef={deleteCollectionModal}
-        onCancel={handleCancelCollection}
+        onCancel={handleCancelDeleteCollection}
         onDelete={handleDeleteCollection}
       />
     </>
@@ -301,9 +304,8 @@ const CustomCollection = ({
       <Collection
         header={customCollectionHeader}
         footer={!isEditingTitle ? addLinkForm : null}>
-        {bookmarks
-          .filter((b: BookmarkType) => !b.isRemoved)
-          .map((bookmark: BookmarkType) => (
+        {visibleBookmarks.map((bookmark: BookmarkType) =>
+          bookmark.cmsId ? (
             <RemovableBookmark
               key={`bookmark_${bookmark._id}`}
               bookmark={bookmark}
@@ -316,12 +318,23 @@ const CustomCollection = ({
                 handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
               }}
             />
-          ))}
+          ) : (
+            <CustomBookmark
+              key={`bookmark_${bookmark._id}`}
+              bookmark={bookmark}
+              onSave={(label, url) => {
+                handleEditBookmark(bookmark._id, url, label)
+              }}
+              onDelete={() => handleRemoveBookmark(`${bookmark._id}`)}
+            />
+          )
+        )}
       </Collection>
       <AddCustomLinkModal
         modalRef={addCustomLinkModal}
         onCancel={handleCancel}
-        onSave={handleSaveBookmark}
+        onSave={handleSaveCustomLink}
+        showAddWarning={showAddWarning}
       />
     </>
   )

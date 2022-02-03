@@ -7,7 +7,7 @@ class USSFPortalDocument extends Document {
         <Head />
         <body>
           <Main />
-          <div id="modal-root" />
+          <div id="modal-root" className="sfds" />
           <NextScript />
         </body>
       </Html>

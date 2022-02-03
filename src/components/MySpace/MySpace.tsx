@@ -14,7 +14,10 @@ import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useRemoveCollectionMutation } from 'operations/mutations/removeCollection'
 import { useEditCollectionMutation } from 'operations/mutations/editCollection'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
+import { useEditBookmarkMutation } from 'operations/mutations/editBookmark'
 import { useAnalytics } from 'stores/analyticsContext'
+
+const MAXIMUM_COLLECTIONS = 25
 
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const router = useRouter()
@@ -25,6 +28,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const [handleRemoveCollection] = useRemoveCollectionMutation()
   const [handleEditCollection] = useEditCollectionMutation()
   const [handleAddCollection] = useAddCollectionMutation()
+  const [handleEditBookmark] = useEditBookmarkMutation()
 
   if (error) return <p>Error</p>
 
@@ -37,6 +41,8 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
       refetchQueries: [`getCollections`],
     })
   }
+
+  const canAddSections = data && data.collections.length < MAXIMUM_COLLECTIONS
 
   const selectCollections = () => {
     trackEvent('Add section', 'Select collection from template')
@@ -111,11 +117,22 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                       refetchQueries: [`getCollections`],
                     })
                   }}
+                  handleEditBookmark={(id, url, label) => {
+                    handleEditBookmark({
+                      variables: {
+                        _id: id,
+                        collectionId: collection._id,
+                        url,
+                        label,
+                      },
+                      refetchQueries: [`getCollections`],
+                    })
+                  }}
                 />
               </Grid>
             ))}
 
-          {!loading && (
+          {!loading && canAddSections && (
             <Grid
               key={`collection_addNew`}
               tablet={{ col: 6 }}

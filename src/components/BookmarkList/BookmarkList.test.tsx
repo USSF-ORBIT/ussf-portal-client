@@ -78,6 +78,18 @@ const exampleCollections = [
   },
 ]
 
+const exampleCollectionsWithLimit = [
+  {
+    _id: 'testCollectionId',
+    title: 'Example Collection',
+    bookmarks: Array.from({ length: 10 }, (x, i) => ({
+      _id: `${i}`,
+      label: `Bookmark ${i}`,
+      url: '#',
+    })),
+  },
+]
+
 const testProps = {
   bookmarks: exampleBookmarks,
   handleAddToCollection: jest.fn(),
@@ -147,6 +159,31 @@ describe('BookmarkList component', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('cannot add a bookmark to a new collection if not allowed', () => {
+    const mockAddToCollection = jest.fn()
+
+    render(
+      <BookmarkList
+        {...testProps}
+        handleAddToCollection={mockAddToCollection}
+        userCollectionOptions={exampleCollections}
+        canAddNewCollection={false}
+      />
+    )
+
+    userEvent.click(
+      screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+    )
+
+    expect(
+      screen.getByRole('button', { name: 'Add to My Space Open' })
+    ).toBeInTheDocument()
+
+    expect(
+      screen.getByRole('button', { name: 'Add to new collection' })
+    ).toBeDisabled()
+  })
+
   it('can add a bookmark to an existing collection', () => {
     const mockAddToCollection = jest.fn()
 
@@ -179,5 +216,29 @@ describe('BookmarkList component', () => {
     expect(
       screen.queryByRole('button', { name: 'Add to My Space Open' })
     ).not.toBeInTheDocument()
+  })
+
+  it('cannot add a bookmark to an existing collection that has 10 bookmarks', () => {
+    const mockAddToCollection = jest.fn()
+
+    render(
+      <BookmarkList
+        {...testProps}
+        handleAddToCollection={mockAddToCollection}
+        userCollectionOptions={exampleCollectionsWithLimit}
+      />
+    )
+
+    userEvent.click(
+      screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+    )
+
+    expect(
+      screen.getByRole('button', { name: 'Add to My Space Open' })
+    ).toBeInTheDocument()
+
+    expect(
+      screen.getByRole('button', { name: 'Example Collection' })
+    ).toBeDisabled()
   })
 })
