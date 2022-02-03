@@ -43,6 +43,127 @@ const exampleCollection = {
   ],
 }
 
+const exampleCollectionWithNine = {
+  _id: '1',
+  title: 'Example Collection',
+  bookmarks: [
+    {
+      _id: '1',
+      url: 'https://google.com',
+      label: 'Webmail',
+      description: 'Lorem ipsum',
+      cmsId: 'cmsId1',
+    },
+    {
+      _id: '2',
+      url: 'https://mypay.dfas.mil/#/',
+      label: 'MyPay',
+      description: 'Lorem ipsum',
+      cmsId: 'cmsId2',
+    },
+    {
+      _id: '3',
+      url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+      label: 'vMPF',
+      description: 'Lorem ipsum',
+      cmsId: 'cmsId3',
+    },
+    {
+      _id: '4',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '5',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '6',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '7',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '8',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '9',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+  ],
+}
+
+const exampleCollectionWithTen = {
+  _id: '1',
+  title: 'Example Collection',
+  bookmarks: [
+    {
+      _id: '1',
+      url: 'https://google.com',
+      label: 'Webmail',
+      description: 'Lorem ipsum',
+      cmsId: 'cmsId1',
+    },
+    {
+      _id: '2',
+      url: 'https://mypay.dfas.mil/#/',
+      label: 'MyPay',
+      description: 'Lorem ipsum',
+      cmsId: 'cmsId2',
+    },
+    {
+      _id: '3',
+      url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+      label: 'vMPF',
+      description: 'Lorem ipsum',
+      cmsId: 'cmsId3',
+    },
+    {
+      _id: '4',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '5',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '6',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '7',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '8',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '9',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '10',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+  ],
+}
+
 const mockLinks = [
   {
     id: 'testBookmark1',
@@ -540,6 +661,54 @@ describe('CustomCollection component', () => {
 
       userEvent.click(cancel)
       expect(mockDeleteCollection).toHaveBeenCalled()
+    })
+  })
+
+  describe('with 9 bookmarks', () => {
+    it('shows a warning when adding the tenth link', () => {
+      renderWithModalRoot(
+        <CustomCollection
+          {...exampleCollectionWithNine}
+          {...mockHandlers}
+          bookmarkOptions={mockLinks}
+        />
+      )
+
+      const toggleFormButton = screen.getByRole('button', {
+        name: '+ Add link',
+      })
+      expect(toggleFormButton).toBeInTheDocument()
+      userEvent.click(toggleFormButton)
+
+      expect(screen.queryByRole('tooltip', { hidden: true })).toHaveTextContent(
+        `You’re about to hit your link limit — each collection can only have 10 links.`
+      )
+
+      userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
+
+      const addLinkModal = screen.getByRole('dialog', addLinkDialog)
+      expect(addLinkModal).toHaveClass('is-visible')
+
+      expect(
+        within(addLinkModal).queryByRole('heading', { level: 4 })
+      ).toHaveTextContent('Link limit reached')
+    })
+  })
+
+  describe('with 10 bookmarks', () => {
+    it('does not allow adding anymore links', () => {
+      render(
+        <CustomCollection
+          {...exampleCollectionWithTen}
+          {...mockHandlers}
+          bookmarkOptions={mockLinks}
+        />
+      )
+
+      const toggleFormButton = screen.queryByRole('button', {
+        name: '+ Add link',
+      })
+      expect(toggleFormButton).not.toBeInTheDocument()
     })
   })
 })
