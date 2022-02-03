@@ -1,5 +1,16 @@
 {
-  "extends": ["config:base", "helpers:pinGitHubActionDigests"],
+  "extends": [
+    "config:base",
+    "helpers:pinGitHubActionDigests",
+    ":dependencyDashboard",
+    "group:allApollographql",
+    "group:fortawesome",
+    "group:reactMonorepo",
+    "group:storybookMonorepo",
+    "npm:unpublishSafe",
+    "packages:eslint",
+    "packages:jsUnitTest"
+  ],
   "packageRules": [
     {
       "rebaseWhen": "behind-base-branch",

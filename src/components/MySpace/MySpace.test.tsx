@@ -22,6 +22,7 @@ import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
 import { REMOVE_COLLECTION } from 'operations/mutations/removeCollection'
 import { ADD_COLLECTION } from 'operations/mutations/addCollection'
 import { EDIT_COLLECTION } from 'operations/mutations/editCollection'
+import { EDIT_BOOKMARK } from 'operations/mutations/editBookmark'
 
 const mockRouterPush = jest.fn()
 
@@ -158,10 +159,10 @@ describe('My Space Component', () => {
         request: {
           query: REMOVE_BOOKMARK,
           variables: {
-            _id: getCollectionsMock[0].result.data.collections[0].bookmarks[0]
+            _id: getCollectionsMock[0].result.data.collections[0].bookmarks[1]
               ._id,
             collectionId: getCollectionsMock[0].result.data.collections[0]._id,
-            cmsId: null,
+            cmsId: '1',
           },
           refetchQueries: [`getCollections`],
         },
@@ -187,7 +188,7 @@ describe('My Space Component', () => {
     )
 
     const buttons = await screen.findAllByRole('button', {
-      name: 'Remove this bookmark',
+      name: 'Remove this link',
     })
 
     userEvent.click(buttons[0])
@@ -208,8 +209,9 @@ describe('My Space Component', () => {
           query: ADD_BOOKMARK,
           variables: {
             collectionId: getCollectionsMock[0].result.data.collections[0]._id,
-            url: 'http://www.example.com',
-            label: 'My Custom Link',
+            url: 'https://mypay.dfas.mil/#/',
+            label: 'MyPay',
+            cmsId: '2',
           },
         },
         result: () => {
@@ -218,9 +220,9 @@ describe('My Space Component', () => {
             data: {
               addBookmark: {
                 _id: '100',
-                cmsId: null,
-                url: 'http://www.example.com',
-                label: 'My Custom Link',
+                cmsId: '2',
+                url: 'https://mypay.dfas.mil/#/',
+                label: 'MyPay',
               },
             },
           }
@@ -240,16 +242,10 @@ describe('My Space Component', () => {
     const addLinkButton = addLinkButtons[0]
     userEvent.click(addLinkButton)
 
-    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
     userEvent.click(
-      screen.getByRole('option', { name: 'http://www.example.com' })
+      screen.getByRole('button', { name: 'Toggle the dropdown list' })
     )
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
-    userEvent.type(screen.getByLabelText('Label'), 'My Custom Link')
-
-    userEvent.click(
-      screen.getAllByRole('button', { name: 'Save link name' })[0]
-    )
+    userEvent.click(screen.getByRole('option', { name: 'MyPay' }))
 
     await act(
       async () => await new Promise((resolve) => setTimeout(resolve, 0))
@@ -410,5 +406,71 @@ describe('My Space Component', () => {
     ) // wait for response
 
     expect(collectionAdded).toBe(true)
+  })
+
+  it('handles the edit bookmark operation', async () => {
+    let bookmarkEdited = false
+
+    const editBookmarkMock = [
+      ...getCollectionsMock,
+      {
+        request: {
+          query: EDIT_BOOKMARK,
+          variables: {
+            _id: getCollectionsMock[0].result.data.collections[0].bookmarks[0]
+              ._id,
+            collectionId: getCollectionsMock[0].result.data.collections[0]._id,
+            url: 'https://www.yahoo.com',
+            label: 'Yahoo',
+          },
+        },
+        result: () => {
+          bookmarkEdited = true
+          return {
+            data: {
+              editBookmark: {
+                _id: getCollectionsMock[0].result.data.collections[0]
+                  .bookmarks[0]._id,
+                url: 'https://www.yahoo.com',
+                label: 'Yahoo',
+              },
+            },
+          }
+        },
+      },
+    ]
+
+    renderWithModalRoot(
+      <MockedProvider mocks={editBookmarkMock} addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
+      </MockedProvider>
+    )
+
+    const editButton = await screen.findByRole('button', {
+      name: 'Edit this link',
+    })
+    userEvent.click(editButton)
+
+    const editModal = await screen.findByRole('dialog', {
+      name: 'Edit custom link',
+    })
+
+    expect(editModal).toBeVisible()
+    const nameInput = within(editModal).getByLabelText('Name')
+    const urlInput = within(editModal).getByLabelText('URL')
+
+    userEvent.clear(nameInput)
+    userEvent.clear(urlInput)
+    userEvent.type(nameInput, 'Yahoo')
+    userEvent.type(urlInput, '{clear}https://www.yahoo.com')
+    userEvent.click(
+      within(editModal).getByRole('button', { name: 'Save custom link' })
+    )
+
+    await act(
+      async () => await new Promise((resolve) => setTimeout(resolve, 0))
+    )
+
+    expect(bookmarkEdited).toBe(true)
   })
 })

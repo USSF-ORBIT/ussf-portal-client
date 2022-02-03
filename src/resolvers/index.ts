@@ -100,6 +100,28 @@ const resolvers: Resolvers = {
         )
       }
     },
+    editBookmark: async (
+      root,
+      { _id, collectionId, url, label },
+      { db, user }
+    ) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      return BookmarkModel.editOne(
+        {
+          _id,
+          collectionId,
+          url,
+          label,
+          userId: user.userId,
+        },
+        { db }
+      )
+    },
   },
 }
 

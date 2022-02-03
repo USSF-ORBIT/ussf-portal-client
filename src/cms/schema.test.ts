@@ -1,7 +1,18 @@
 import { setupTestRunner } from '@keystone-next/keystone/testing'
-import config from '../../keystone'
+import { config } from '@keystone-next/keystone'
 
-const runner = setupTestRunner({ config })
+import schema from './schema'
+
+const testConfig = config({
+  db: { provider: 'sqlite', url: 'file:./test-cms.db' },
+  experimental: {
+    generateNextGraphqlAPI: true,
+    generateNodeAPI: true,
+  },
+  lists: schema,
+})
+
+const runner = setupTestRunner({ config: testConfig })
 
 describe('CMS schema', () => {
   describe('Bookmarks', () => {
