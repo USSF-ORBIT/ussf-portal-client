@@ -14,6 +14,7 @@ type SelectableCollectionProps = {
   bookmarks?: BookmarkRecords
   onSelect: () => void
   isSelected: boolean
+  disabled?: boolean
 }
 
 const SelectableCollection = ({
@@ -22,6 +23,7 @@ const SelectableCollection = ({
   bookmarks = [],
   onSelect,
   isSelected,
+  disabled = false,
 }: SelectableCollectionProps) => {
   // TODO - what should happen if empty collection? throw error?
 
@@ -31,6 +33,7 @@ const SelectableCollection = ({
 
   const classes = classnames(styles.selectable, {
     [styles.selected]: isSelected,
+    [styles.disabled]: disabled,
   })
 
   const ariaLabel = isSelected
@@ -39,7 +42,7 @@ const SelectableCollection = ({
 
   return (
     <label htmlFor={`selectCollection_${id}`} className={classes}>
-      <div className={styles.disabled}>
+      <div className={styles.disabledCollection}>
         <Collection title={title}>
           {bookmarks.map((bookmark) => (
             <Bookmark
@@ -52,14 +55,16 @@ const SelectableCollection = ({
         </Collection>
       </div>
       <div className={styles.overlay}>
-        <Button
-          id={`selectCollection_${id}`}
-          type="button"
-          onClick={handleSelect}
-          aria-label={ariaLabel}
-          className="usa-button usa-button--outline">
-          {isSelected ? 'Unselect' : 'Select'}
-        </Button>
+        {!disabled && (
+          <Button
+            id={`selectCollection_${id}`}
+            type="button"
+            onClick={handleSelect}
+            aria-label={ariaLabel}
+            className="usa-button usa-button--outline">
+            {isSelected ? 'Unselect' : 'Select'}
+          </Button>
+        )}
       </div>
     </label>
   )

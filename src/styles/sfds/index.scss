@@ -147,8 +147,7 @@
     }
 
     &:disabled {
-      color: $theme-white;
-      background-color: $state-disabled-base;
+      opacity: 0.45;
     }
 
     // Reset modal close buton styles

@@ -7,10 +7,15 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
+
 import { renderWithModalRoot } from '../../testHelpers'
-import { getCollectionsMock } from '../../__fixtures__/operations/getCollection'
+import {
+  getCollectionsMock,
+  getMaximumCollectionsMock,
+} from '../../__fixtures__/operations/getCollection'
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import MySpace from './MySpace'
+
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
@@ -59,18 +64,24 @@ describe('My Space Component', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
-    it('should render the collection', async () => {
-      const collectionTitle = await screen.findByRole('heading', {
-        level: 3,
-      })
+    it('should render the collections', async () => {
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: getCollectionsMock[0].result.data.collections[0].title,
+        })
+      ).toBeInTheDocument()
 
-      expect(collectionTitle).toHaveTextContent(
-        getCollectionsMock[0].result.data.collections[0].title
-      )
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: getCollectionsMock[0].result.data.collections[1].title,
+        })
+      ).toBeInTheDocument()
 
-      expect(await screen.findByRole('list')).toBeInTheDocument()
-      expect(await screen.findAllByRole('listitem')).toHaveLength(3)
-      expect(await screen.findAllByRole('link')).toHaveLength(3)
+      expect(await screen.findAllByRole('list')).toHaveLength(22)
+      expect(await screen.findAllByRole('listitem')).toHaveLength(13)
+      expect(await screen.findAllByRole('link')).toHaveLength(13)
     })
 
     it('renders the add widget component', async () => {
@@ -105,6 +116,18 @@ describe('My Space Component', () => {
     )
 
     expect(await screen.findByText('Error')).toBeInTheDocument()
+  })
+
+  it('does not render the add widget component if there are 25 sections', async () => {
+    render(
+      <MockedProvider mocks={getMaximumCollectionsMock} addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
+      </MockedProvider>
+    )
+
+    expect(
+      screen.queryByRole('button', { name: 'Add section' })
+    ).not.toBeInTheDocument()
   })
 
   it('navigates to Sites & Applications when adding new existing collections', async () => {
@@ -212,10 +235,11 @@ describe('My Space Component', () => {
       </MockedProvider>
     )
 
-    const addLinkButton = await screen.findByRole('button', {
+    const addLinkButtons = await screen.findAllByRole('button', {
       name: '+ Add link',
     })
 
+    const addLinkButton = addLinkButtons[0]
     userEvent.click(addLinkButton)
 
     userEvent.click(
@@ -256,20 +280,23 @@ describe('My Space Component', () => {
         },
       },
     ]
+
     render(
       <MockedProvider mocks={editCollectionMock} addTypename={false}>
         <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
-    const settings = await screen.findByRole('button', {
+    const settings = await screen.findAllByRole('button', {
       name: 'Collection Settings',
     })
-    userEvent.click(settings)
 
-    const edit = await screen.findByRole('button', {
+    const settingsBtn = settings[0]
+    userEvent.click(settingsBtn)
+
+    const edit = await screen.getAllByRole('button', {
       name: 'Edit collection title',
-    })
+    })[0]
     userEvent.click(edit)
 
     const input = await screen.findByRole('textbox')
@@ -312,21 +339,22 @@ describe('My Space Component', () => {
       </MockedProvider>
     )
 
-    const dropdownMenu = await screen.findByRole('button', {
+    const dropdownMenu = await screen.findAllByRole('button', {
       name: 'Collection Settings',
     })
-    userEvent.click(dropdownMenu)
+
+    userEvent.click(dropdownMenu[0])
     userEvent.click(
       screen.getByRole('button', { name: 'Delete this collection' })
     )
-
-    const confirmDelete = screen.getByRole('dialog', {
+    const removeCollectionModals = screen.getAllByRole('dialog', {
       name: 'Are you sure you’d like to delete this collection from My Space?',
     })
 
-    expect(confirmDelete).toBeVisible()
+    const removeCollectionModal = removeCollectionModals[0]
+    expect(removeCollectionModal).toHaveClass('is-visible')
     userEvent.click(
-      within(confirmDelete).getByRole('button', { name: 'Delete' })
+      within(removeCollectionModal).getByRole('button', { name: 'Delete' })
     )
 
     await act(
