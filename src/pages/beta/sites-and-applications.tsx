@@ -234,15 +234,14 @@ const SitesAndApplications = ({
           <div className={styles.widgetToolbar}>
             {selectMode ? (
               <>
+                {remainingSections < 3 && (
+                  <Tooltip
+                    position="top"
+                    label={`You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`}>
+                    <IconInfo size={3} />
+                  </Tooltip>
+                )}
                 <span>
-                  {/* TODO */}
-                  {/* remainingSections < 3 && (
-                    <Tooltip
-                      position="top"
-                      label={`You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`}>
-                      <IconInfo size={3} />
-                    </Tooltip>
-                  ) */}
                   <strong>
                     {selectedCollections.length} collection
                     {selectedCollections.length !== 1 && 's'} selected
@@ -272,7 +271,7 @@ const SitesAndApplications = ({
               <>
                 {!canAddSections && (
                   <Tooltip
-                    position="left"
+                    position="top"
                     label={`You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`}>
                     <IconInfo size={3} />
                   </Tooltip>
