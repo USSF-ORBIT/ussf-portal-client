@@ -14,7 +14,7 @@
 
 .addLink {
   @include u-padding-x(2);
-  @include u-margin-top(1);
+  @include u-margin-top(2);
 
   :global(.usa-tooltip) {
     @include u-margin-left(1);
