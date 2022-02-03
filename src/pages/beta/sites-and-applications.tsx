@@ -237,7 +237,11 @@ const SitesAndApplications = ({
                 {remainingSections < 3 && (
                   <Tooltip
                     position="top"
-                    label={`You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`}>
+                    label={
+                      remainingSections > 0
+                        ? `You’re approaching the maximum number of collections (25) you can add to your My Space page.`
+                        : `You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`
+                    }>
                     <IconInfo size={3} />
                   </Tooltip>
                 )}

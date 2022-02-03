@@ -343,6 +343,14 @@ describe('Sites and Applications page', () => {
           expect(screen.getByText('2 collections selected')).toBeInTheDocument()
 
           expect(
+            screen.getByRole('tooltip', {
+              hidden: true,
+            })
+          ).toHaveTextContent(
+            `You’re approaching the maximum number of collections (25) you can add to your My Space page.`
+          )
+
+          expect(
             screen.getByRole('button', { name: 'Add selected' })
           ).toBeEnabled()
 
@@ -404,6 +412,14 @@ describe('Sites and Applications page', () => {
           expect(
             screen.getByText('(0 of 25 possible remaining)')
           ).toBeInTheDocument()
+
+          expect(
+            screen.getByRole('tooltip', {
+              hidden: true,
+            })
+          ).toHaveTextContent(
+            `You can only add up to 25 collections to your My Space page. To add a new collection, please remove an existing one.`
+          )
 
           expect(
             screen.queryByRole('button', {
