@@ -53,6 +53,26 @@ export const addCustomLinkModal = () => {
   )
 }
 
+export const addCustomLinkWithWarningModal = () => {
+  const storybookModal = useRef<ModalRef>(null)
+  const openModal = () => storybookModal.current?.toggleModal(undefined, true)
+  const closeModal = () => storybookModal.current?.toggleModal(undefined, false)
+
+  return (
+    <>
+      <button type="button" onClick={openModal}>
+        Open modal
+      </button>
+      <AddCustomLinkModal
+        modalRef={storybookModal}
+        onSave={closeModal}
+        onCancel={closeModal}
+        showAddWarning={true}
+      />
+    </>
+  )
+}
+
 export const editCustomLinkModal = () => {
   const storybookModal = useRef<ModalRef>(null)
   const openModal = () => storybookModal.current?.toggleModal(undefined, true)
