@@ -7,6 +7,7 @@ type StorybookArgTypes = {
   handleRemoveBookmark: () => void
   handleRemoveCollection: () => void
   handleEditCollection: () => void
+  handleEditBookmark: () => void
 }
 
 export default {
@@ -17,6 +18,7 @@ export default {
     handleRemoveBookmark: { action: 'Remove bookmark' },
     handleRemoveCollection: { action: 'Remove collection' },
     handleEditCollection: { action: 'Edit collection' },
+    handleEditBookmark: { action: 'Edit bookmark' },
   },
   decorators: [
     (Story) => (
@@ -31,11 +33,15 @@ export const ExampleCustomCollection = (argTypes: StorybookArgTypes) => (
   <CustomCollection
     _id="testCollection"
     title="Example collection"
-    bookmarks={[{ _id: 'link1', url: '#', label: 'Webmail' }]}
+    bookmarks={[
+      { _id: 'link1', url: '#', label: 'Webmail', cmsId: 'cmsLink1' },
+      { _id: 'link2', url: '#', label: 'Custom Link' },
+    ]}
     handleAddBookmark={argTypes.handleAddBookmark}
     handleRemoveBookmark={argTypes.handleRemoveBookmark}
     handleRemoveCollection={argTypes.handleRemoveCollection}
     handleEditCollection={argTypes.handleEditCollection}
+    handleEditBookmark={argTypes.handleEditBookmark}
   />
 )
 
@@ -46,5 +52,6 @@ export const BlankCustomCollection = (argTypes: StorybookArgTypes) => (
     handleRemoveBookmark={argTypes.handleRemoveBookmark}
     handleRemoveCollection={argTypes.handleRemoveCollection}
     handleEditCollection={argTypes.handleEditCollection}
+    handleEditBookmark={argTypes.handleEditBookmark}
   />
 )

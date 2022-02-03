@@ -292,4 +292,25 @@
       }
     }
   }
+
+  .text-error {
+    color: $state-error-base;
+  }
+
+  /** Modals **/
+  .usa-modal__main {
+    margin: 0; // Let content be full-width of the modal
+
+    .usa-form {
+      max-width: none;
+    }
+  }
+
+  /*
+  .usa-modal__heading {
+    font-size: 22px;
+    line-height: normal;
+    @include heading-book;
+  }
+  */
 }

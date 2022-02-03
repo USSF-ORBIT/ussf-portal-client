@@ -4,12 +4,13 @@ import Bookmark from './Bookmark'
 
 type StorybookArgTypes = {
   onDelete: () => void
+  onEdit: () => void
 }
 
 export default {
   title: 'Components/Bookmark',
   component: Bookmark,
-  argTypes: { onDelete: { action: 'Deleted' } },
+  argTypes: { onDelete: { action: 'Deleted' }, onEdit: { action: 'Edited' } },
   decorators: [
     (Story) => (
       <div className="sfds">
@@ -33,6 +34,12 @@ export const WithLongText = () => (
 export const WithDeleteHandler = (argTypes: StorybookArgTypes) => (
   <Bookmark href="#" onDelete={argTypes.onDelete}>
     Delete Me
+  </Bookmark>
+)
+
+export const WithEditHandler = (argTypes: StorybookArgTypes) => (
+  <Bookmark href="#" onEdit={argTypes.onEdit}>
+    Edit Me
   </Bookmark>
 )
 
