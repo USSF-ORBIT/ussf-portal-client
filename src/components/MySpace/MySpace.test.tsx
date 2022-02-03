@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { act, screen, render } from '@testing-library/react'
+import { act, screen, render, within } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
@@ -63,18 +63,24 @@ describe('My Space Component', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
-    it('should render the collection', async () => {
-      const collectionTitle = await screen.findByRole('heading', {
-        level: 3,
-      })
+    it('should render the collections', async () => {
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: getCollectionsMock[0].result.data.collections[0].title,
+        })
+      ).toBeInTheDocument()
 
-      expect(collectionTitle).toHaveTextContent(
-        getCollectionsMock[0].result.data.collections[0].title
-      )
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: getCollectionsMock[0].result.data.collections[1].title,
+        })
+      ).toBeInTheDocument()
 
-      expect(await screen.findByRole('list')).toBeInTheDocument()
-      expect(await screen.findAllByRole('listitem')).toHaveLength(3)
-      expect(await screen.findAllByRole('link')).toHaveLength(3)
+      expect(await screen.findAllByRole('list')).toHaveLength(22)
+      expect(await screen.findAllByRole('listitem')).toHaveLength(13)
+      expect(await screen.findAllByRole('link')).toHaveLength(13)
     })
 
     it('renders the add widget component', async () => {
@@ -227,11 +233,13 @@ describe('My Space Component', () => {
       </MockedProvider>
     )
 
-    const addLinkButton = await screen.findByRole('button', {
+    const addLinkButtons = await screen.findAllByRole('button', {
       name: '+ Add link',
     })
 
+    const addLinkButton = addLinkButtons[0]
     userEvent.click(addLinkButton)
+
     userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
     userEvent.click(
       screen.getByRole('option', { name: 'http://www.example.com' })
@@ -239,7 +247,9 @@ describe('My Space Component', () => {
     userEvent.click(screen.getByRole('button', { name: 'Add site' }))
     userEvent.type(screen.getByLabelText('Label'), 'My Custom Link')
 
-    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    userEvent.click(
+      screen.getAllByRole('button', { name: 'Save link name' })[0]
+    )
 
     await act(
       async () => await new Promise((resolve) => setTimeout(resolve, 0))
@@ -274,20 +284,23 @@ describe('My Space Component', () => {
         },
       },
     ]
+
     render(
       <MockedProvider mocks={editCollectionMock} addTypename={false}>
         <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
-    const settings = await screen.findByRole('button', {
+    const settings = await screen.findAllByRole('button', {
       name: 'Collection Settings',
     })
-    userEvent.click(settings)
 
-    const edit = await screen.findByRole('button', {
+    const settingsBtn = settings[0]
+    userEvent.click(settingsBtn)
+
+    const edit = await screen.getAllByRole('button', {
       name: 'Edit collection title',
-    })
+    })[0]
     userEvent.click(edit)
 
     const input = await screen.findByRole('textbox')
@@ -330,14 +343,23 @@ describe('My Space Component', () => {
       </MockedProvider>
     )
 
-    const dropdownMenu = await screen.findByRole('button', {
+    const dropdownMenu = await screen.findAllByRole('button', {
       name: 'Collection Settings',
     })
-    userEvent.click(dropdownMenu)
+
+    userEvent.click(dropdownMenu[0])
     userEvent.click(
       screen.getByRole('button', { name: 'Delete this collection' })
     )
-    userEvent.click(screen.getByRole('button', { name: 'Delete' }))
+    const removeCollectionModals = screen.getAllByRole('dialog', {
+      name: 'Are you sure you’d like to delete this collection from My Space?',
+    })
+
+    const removeCollectionModal = removeCollectionModals[0]
+    expect(removeCollectionModal).toHaveClass('is-visible')
+    userEvent.click(
+      within(removeCollectionModal).getByRole('button', { name: 'Delete' })
+    )
 
     await act(
       async () => await new Promise((resolve) => setTimeout(resolve, 0))

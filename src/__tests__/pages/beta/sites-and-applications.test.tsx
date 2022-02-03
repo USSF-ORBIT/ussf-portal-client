@@ -101,7 +101,7 @@ const sitesAndAppsMock = [
     request: {
       query: ADD_COLLECTIONS,
       variables: {
-        collections: cmsCollectionsMock,
+        collections: [cmsCollectionsMock[0], cmsCollectionsMock[1]],
       },
     },
     result: () => {
@@ -334,12 +334,14 @@ describe('Sites and Applications page', () => {
             })
           )
           expect(screen.getByText('1 collection selected')).toBeInTheDocument()
+
           userEvent.click(
             screen.getByRole('button', {
               name: 'Select collection Example Collection 2',
             })
           )
           expect(screen.getByText('2 collections selected')).toBeInTheDocument()
+
           expect(
             screen.getByRole('button', { name: 'Add selected' })
           ).toBeEnabled()
@@ -350,6 +352,64 @@ describe('Sites and Applications page', () => {
             jest.runAllTimers()
           })
           expect(collectionsAdded).toBe(true)
+        })
+
+        it('cannot select more than the max number of collections', () => {
+          userEvent.click(
+            screen.getByRole('button', {
+              name: 'Select multiple collections',
+            })
+          )
+
+          expect(
+            screen.getByRole('button', { name: 'Add selected' })
+          ).toBeDisabled()
+          expect(screen.getByText('0 collections selected')).toBeInTheDocument()
+          expect(
+            screen.getByText('(3 of 25 possible remaining)')
+          ).toBeInTheDocument()
+
+          userEvent.click(
+            screen.getByRole('button', {
+              name: 'Select collection Example Collection 1',
+            })
+          )
+          expect(screen.getByText('1 collection selected')).toBeInTheDocument()
+          expect(
+            screen.getByText('(2 of 25 possible remaining)')
+          ).toBeInTheDocument()
+
+          userEvent.click(
+            screen.getByRole('button', {
+              name: 'Select collection Example Collection 2',
+            })
+          )
+          expect(screen.getByText('2 collections selected')).toBeInTheDocument()
+          expect(
+            screen.getByText('(1 of 25 possible remaining)')
+          ).toBeInTheDocument()
+
+          expect(
+            screen.queryByRole('button', {
+              name: 'Select collection Example Collection 4',
+            })
+          ).toBeInTheDocument()
+
+          userEvent.click(
+            screen.getByRole('button', {
+              name: 'Select collection Example Collection 3',
+            })
+          )
+          expect(screen.getByText('3 collections selected')).toBeInTheDocument()
+          expect(
+            screen.getByText('(0 of 25 possible remaining)')
+          ).toBeInTheDocument()
+
+          expect(
+            screen.queryByRole('button', {
+              name: 'Select collection Example Collection 4',
+            })
+          ).not.toBeInTheDocument()
         })
 
         it('selecting the same collection twice removes it from the selection', () => {
@@ -412,7 +472,7 @@ describe('Sites and Applications page', () => {
             screen.getByRole('button', { name: 'Example Collection' })
           )
 
-          const flashMessage = screen.getByRole('alert')
+          const flashMessage = screen.getAllByRole('alert')[0]
 
           expect(flashMessage).toHaveTextContent(
             `You have successfully added “${cmsBookmarksMock[0].label}” to the “${getCollectionsMock[0].result.data.collections[0].title}” section.`
@@ -424,6 +484,20 @@ describe('Sites and Applications page', () => {
 
           expect(bookmarkAdded).toBe(true)
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+
+        it('cannot add a bookmark to an existing collection with 10 links', async () => {
+          expect(screen.getByRole('alert')).toHaveTextContent(
+            `At least one collection on your My Space has reached the maximum number of links allowed (10).`
+          )
+
+          userEvent.click(
+            screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+          )
+
+          expect(
+            screen.getByRole('button', { name: 'Maxed Out Collection' })
+          ).toBeDisabled()
         })
 
         it('can add a bookmark to a new collection', async () => {
@@ -493,6 +567,35 @@ describe('Sites and Applications page', () => {
         name: 'Select multiple collections',
       })
       expect(selectBtn).toBeDisabled()
+    })
+
+    it('prevents adding a bookmark to a new collection if the user already has 25', async () => {
+      renderWithAuth(
+        <MockedProvider mocks={getMaximumCollectionsMock}>
+          <SitesAndApplications
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
+          />
+        </MockedProvider>
+      )
+
+      userEvent.click(
+        await screen.findByRole('button', {
+          name: 'Sort alphabetically',
+        })
+      )
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        `You have reached the maximum number of collections allowed on your My Space (25).`
+      )
+
+      userEvent.click(
+        screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+      )
+
+      expect(
+        screen.getByRole('button', { name: 'Add to new collection' })
+      ).toBeDisabled()
     })
 
     it('shows an error state', async () => {

@@ -9,7 +9,7 @@ export const getCollectionsMock = [
       data: {
         collections: [
           {
-            _id: '34',
+            _id: '1',
             title: 'Example Collection',
             bookmarks: [
               {
@@ -38,6 +38,22 @@ export const getCollectionsMock = [
               },
             ],
           },
+          {
+            _id: '2',
+            title: 'Maxed Out Collection',
+            bookmarks: Array.from({ length: 10 }, (x, i) => ({
+              _id: `${i}`,
+              label: `Bookmark ${i}`,
+              url: '#',
+              isRemoved: null,
+              cmsId: `${i}`,
+            })),
+          },
+          ...Array.from({ length: 20 }, (x, i) => ({
+            _id: `${i + 3}`,
+            title: `Collection ${i + 3}`,
+            bookmarks: [],
+          })),
         ],
       },
     },
