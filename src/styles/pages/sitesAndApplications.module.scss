@@ -56,6 +56,14 @@
     margin-left: units('105');
     margin-right: (0);
   }
+
+  > :global(.usa-tooltip) {
+    line-height: 1;
+
+    + * {
+      margin-left: units(1);
+    }
+  }
 }
 
 .sortButton {

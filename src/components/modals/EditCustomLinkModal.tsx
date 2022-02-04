@@ -9,26 +9,30 @@ import {
   Button,
   Label,
   TextInput,
-  Alert,
 } from '@trussworks/react-uswds'
 
-import ModalPortal from 'components/util/ModalPortal'
+import styles from './modal.module.scss'
 
-type AddCustomLinkModalProps = {
-  onSave: (url: string, label: string) => void
+import ModalPortal from 'components/util/ModalPortal'
+import type { Bookmark as BookmarkType } from 'types/index'
+
+type EditCustomLinkModalProps = {
+  bookmark: BookmarkType
+  onSave: (label: string, url: string) => void
   onCancel: () => void
+  onDelete: () => void
   modalRef: React.RefObject<ModalRef>
-  showAddWarning?: boolean
 } & Omit<ModalProps, 'children' | 'id'>
 
-const AddCustomLinkModal = ({
+const EditCustomLinkModal = ({
+  bookmark,
   onSave,
   onCancel,
+  onDelete,
   modalRef,
-  showAddWarning,
   ...props
-}: AddCustomLinkModalProps) => {
-  const modalId = 'addCustomLinkModal'
+}: EditCustomLinkModalProps) => {
+  const modalId = 'editCustomLinkModal'
   const nameInputRef = useRef<HTMLInputElement>(null)
   const urlInputRef = useRef<HTMLInputElement>(null)
 
@@ -36,8 +40,8 @@ const AddCustomLinkModal = ({
     // TODO - ideally we'd just reset the form but ReactUSWDS does not (yet) forward a ref to the form
     const nameInputEl = nameInputRef.current as HTMLInputElement
     const urlInputEl = urlInputRef.current as HTMLInputElement
-    nameInputEl.value = ''
-    urlInputEl.value = ''
+    nameInputEl.value = bookmark.label || ''
+    urlInputEl.value = bookmark.url || ''
   }
 
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
@@ -45,13 +49,16 @@ const AddCustomLinkModal = ({
     const data = new FormData(e.currentTarget)
     const label = `${data.get('bookmarkLabel')}`
     const url = `${data.get('bookmarkUrl')}`
-    resetForm()
-    onSave(url, label)
+    onSave(label, url)
   }
 
   const handleCancel = () => {
     resetForm()
     onCancel()
+  }
+
+  const handleDelete = () => {
+    onDelete()
   }
 
   return (
@@ -64,41 +71,28 @@ const AddCustomLinkModal = ({
         aria-describedby={`${modalId}-description`}
         forceAction
         modalRoot="#modal-root">
-        <ModalHeading id={`${modalId}-heading`}>Add a custom link</ModalHeading>
+        <ModalHeading id={`${modalId}-heading`}>Edit custom link</ModalHeading>
         <Form onSubmit={handleSave}>
-          <Label htmlFor="newBookmarkLabel">Name</Label>
+          <Label htmlFor={`bookmarkLabel-${bookmark._id}`}>Name</Label>
           <TextInput
             type="text"
-            id="newBookmarkLabel"
+            id={`bookmarkLabel-${bookmark._id}`}
             name="bookmarkLabel"
             required
             inputRef={nameInputRef}
-            placeholder="Example link name"
+            defaultValue={bookmark.label}
           />
 
-          <Label htmlFor="newBookmarkUrl">URL</Label>
+          <Label htmlFor={`bookmarkUrl-${bookmark._id}`}>URL</Label>
           <TextInput
             type="url"
-            id="newBookmarkUrl"
+            id={`bookmarkUrl-${bookmark._id}`}
             name="bookmarkUrl"
             required
             inputRef={urlInputRef}
-            placeholder="https://www.copy-paste-your-url.com"
+            defaultValue={bookmark.url}
           />
-
-          {showAddWarning && (
-            <Alert
-              type="warning"
-              heading="Link limit reached"
-              slim
-              className="font-sans-3xs">
-              You’ve almost reached the maximum number of links (10) for this
-              collection. To add additional links, please create a new
-              collection.
-            </Alert>
-          )}
-
-          <ButtonGroup>
+          <ButtonGroup className={styles.buttonGroupWithDelete}>
             <Button type="submit" data-close-modal>
               Save custom link
             </Button>
@@ -110,6 +104,15 @@ const AddCustomLinkModal = ({
               onClick={handleCancel}>
               Cancel
             </Button>
+
+            <Button
+              type="button"
+              data-close-modal
+              unstyled
+              className="padding-105 text-center text-error"
+              onClick={handleDelete}>
+              Delete
+            </Button>
           </ButtonGroup>
         </Form>
       </Modal>
@@ -117,4 +120,4 @@ const AddCustomLinkModal = ({
   )
 }
 
-export default AddCustomLinkModal
+export default EditCustomLinkModal

@@ -14,6 +14,7 @@ import { REMOVE_COLLECTION } from 'operations/mutations/removeCollection'
 import { ADD_COLLECTIONS } from 'operations/mutations/addCollections'
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
 import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
+import { EDIT_BOOKMARK } from 'operations/mutations/editBookmark'
 
 let server: ApolloServer
 let connection: typeof MongoClient
@@ -150,6 +151,36 @@ describe('GraphQL resolvers', () => {
 
         expect(JSON.stringify(result.data)).toEqual(
           JSON.stringify({ collections: expectedData.mySpace })
+        )
+      })
+    })
+
+    describe('editBookmark', () => {
+      it('edits an existing bookmark', async () => {
+        const editBookmark = newPortalUser.mySpace[0].bookmarks.filter(
+          (b) => b.cmsId === null
+        )[0]
+
+        const result = await server.executeOperation({
+          query: EDIT_BOOKMARK,
+          variables: {
+            _id: `${editBookmark._id}`,
+            collectionId: `${newPortalUser.mySpace[0]._id}`,
+            label: 'New Label',
+            url: 'http://www.example.com/new',
+          },
+        })
+
+        const expectedData = {
+          _id: editBookmark._id,
+          label: 'New Label',
+          url: 'http://www.example.com/new',
+        }
+
+        expect(result.errors).toBeUndefined()
+
+        expect(JSON.stringify(result.data)).toEqual(
+          JSON.stringify({ editBookmark: expectedData })
         )
       })
     })

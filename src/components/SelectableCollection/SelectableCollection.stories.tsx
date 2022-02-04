@@ -63,3 +63,12 @@ export const Selected = (argTypes: StorybookArgTypes) => (
     onSelect={argTypes.handleSelect}
   />
 )
+
+export const Disabled = (argTypes: StorybookArgTypes) => (
+  <SelectableCollection
+    {...exampleCollection}
+    isSelected={false}
+    onSelect={argTypes.handleSelect}
+    disabled
+  />
+)
