@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { renderHook } from '@testing-library/react-hooks'
 import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/router'
@@ -29,6 +29,21 @@ mockedUseRouter.mockReturnValue({
   },
 })
 
+// Mock fetch
+window.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: async () => ({
+      version: 'Test app version',
+      buildId: 'Test build ID',
+      nodeEnv: 'test',
+      analyticsUrl: 'TEST_MATOMO_URL',
+      analyticsSiteId: 'TEST_MATOMO_SITE_ID',
+    }),
+  })
+) as jest.Mock
+
+const mockedFetch = fetch as jest.Mock
+
 describe('useAnalytics', () => {
   it('throws an error if AnalyticsContext is undefined', () => {
     jest.spyOn(React, 'useContext').mockReturnValueOnce(undefined)
@@ -50,7 +65,54 @@ describe('Analytics context', () => {
     document.body.appendChild(testScript)
   })
 
-  it('warns in the console if missing the analytics URL', () => {
+  beforeEach(() => {
+    mockedFetch.mockClear()
+  })
+
+  it('warns in the console if missing the analytics URL', async () => {
+    const consoleSpy = jest.spyOn(console, 'warn')
+
+    const TestComponent = () => {
+      const { push, trackEvent } = useAnalytics()
+      return (
+        <div>
+          <button
+            type="button"
+            onClick={() => push(['trackEvent', 'testEvent', 'test event 1'])}>
+            Test push
+          </button>
+          <button
+            type="button"
+            onClick={() => trackEvent('testEvent', 'test event 2')}>
+            Test track event
+          </button>
+        </div>
+      )
+    }
+
+    mockedFetch.mockResolvedValueOnce({
+      json: async () => ({
+        version: 'Test app version',
+        buildId: 'Test build ID',
+        nodeEnv: 'test',
+        analyticsSiteId: 'TEST_MATOMO_SITE_ID',
+      }),
+    })
+
+    render(
+      <AnalyticsProvider>
+        <TestComponent />
+      </AnalyticsProvider>
+    )
+
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'ANALYTICS: No Matomo URL provided'
+      )
+    })
+  })
+
+  it('warns in the console if missing the analytics site ID', async () => {
     const consoleSpy = jest.spyOn(console, 'warn')
     const TestComponent = () => {
       const { push, trackEvent } = useAnalytics()
@@ -70,53 +132,27 @@ describe('Analytics context', () => {
       )
     }
 
-    const analyticsConfig = {
-      siteId: 'test',
-    }
+    mockedFetch.mockResolvedValueOnce({
+      json: async () => ({
+        version: 'Test app version',
+        buildId: 'Test build ID',
+        nodeEnv: 'test',
+        analyticsUrl: 'TEST_MATOMO_URL',
+      }),
+    })
 
     render(
-      <AnalyticsProvider config={analyticsConfig}>
+      <AnalyticsProvider>
         <TestComponent />
       </AnalyticsProvider>
     )
 
-    expect(consoleSpy).toHaveBeenCalledWith('ANALYTICS: No Matomo URL provided')
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalledWith('ANALYTICS: No Site ID provided')
+    })
   })
 
-  it('warns in the console if missing the analytics site ID', () => {
-    const consoleSpy = jest.spyOn(console, 'warn')
-    const TestComponent = () => {
-      const { push, trackEvent } = useAnalytics()
-      return (
-        <div>
-          <button
-            type="button"
-            onClick={() => push(['trackEvent', 'testEvent', 'test event 1'])}>
-            Test push
-          </button>
-          <button
-            type="button"
-            onClick={() => trackEvent('testEvent', 'test event 2')}>
-            Test track event
-          </button>
-        </div>
-      )
-    }
-
-    const analyticsConfig = {
-      url: 'test',
-    }
-
-    render(
-      <AnalyticsProvider config={analyticsConfig}>
-        <TestComponent />
-      </AnalyticsProvider>
-    )
-
-    expect(consoleSpy).toHaveBeenCalledWith('ANALYTICS: No Site ID provided')
-  })
-
-  it('initializes the analytics queue on render', () => {
+  it('initializes the analytics queue on render', async () => {
     const windowWithAnalytics = window as unknown as WindowWithAnalytics
 
     expect(windowWithAnalytics._paq).toBeUndefined()
@@ -158,18 +194,15 @@ describe('Analytics context', () => {
       )
     }
 
-    const analyticsConfig = {
-      url: 'TEST_MATOMO_URL',
-      siteId: 'TEST_MATOMO_SITE_ID',
-    }
-
     render(
-      <AnalyticsProvider config={analyticsConfig}>
+      <AnalyticsProvider>
         <TestComponent />
       </AnalyticsProvider>
     )
 
-    expect(windowWithAnalytics._paq).toBeDefined()
+    await waitFor(() => {
+      expect(windowWithAnalytics._paq).toBeDefined()
+    })
   })
 
   describe('with config defined', () => {
@@ -177,7 +210,7 @@ describe('Analytics context', () => {
       _paq: (number[] | string[] | number | string | boolean)[]
     }
 
-    beforeEach(() => {
+    beforeEach(async () => {
       document.title = 'Test Doc Title'
       windowWithAnalytics._paq = []
 
@@ -222,16 +255,15 @@ describe('Analytics context', () => {
         )
       }
 
-      const analyticsConfig = {
-        url: 'TEST_MATOMO_URL',
-        siteId: 'TEST_MATOMO_SITE_ID',
-      }
-
       render(
-        <AnalyticsProvider config={analyticsConfig}>
+        <AnalyticsProvider>
           <TestComponent />
         </AnalyticsProvider>
       )
+
+      waitFor(() => {
+        expect(windowWithAnalytics._paq).toBeDefined()
+      })
     })
 
     it('initializes the analytics config on mount', () => {
@@ -259,7 +291,8 @@ describe('Analytics context', () => {
 
     it('provides the push handler', () => {
       userEvent.click(screen.getByRole('button', { name: 'Test push' }))
-      expect(windowWithAnalytics._paq[6]).toEqual([
+
+      expect(windowWithAnalytics._paq[0]).toEqual([
         'trackEvent',
         'testEvent',
         'push action',
@@ -268,7 +301,7 @@ describe('Analytics context', () => {
 
     it('provides the trackEvent handler', () => {
       userEvent.click(screen.getByRole('button', { name: 'Test track event' }))
-      expect(windowWithAnalytics._paq[6]).toEqual([
+      expect(windowWithAnalytics._paq[0]).toEqual([
         'trackEvent',
         'testEvent',
         'track event action',
@@ -279,7 +312,7 @@ describe('Analytics context', () => {
       userEvent.click(
         screen.getByRole('button', { name: 'Test track event with name' })
       )
-      expect(windowWithAnalytics._paq[6]).toEqual([
+      expect(windowWithAnalytics._paq[0]).toEqual([
         'trackEvent',
         'testEvent',
         'track event action',
@@ -291,7 +324,7 @@ describe('Analytics context', () => {
       userEvent.click(
         screen.getByRole('button', { name: 'Test track event with value' })
       )
-      expect(windowWithAnalytics._paq[6]).toEqual([
+      expect(windowWithAnalytics._paq[0]).toEqual([
         'trackEvent',
         'testEvent',
         'track event action',
