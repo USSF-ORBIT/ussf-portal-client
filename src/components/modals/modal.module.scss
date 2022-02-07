@@ -1,0 +1,7 @@
+.buttonGroupWithDelete {
+  // Right-align last child
+  > :last-child {
+    flex-grow: 1;
+    text-align: right;
+  }
+}

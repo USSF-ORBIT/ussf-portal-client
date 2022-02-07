@@ -3,11 +3,13 @@ describe('Sites and Applications', () => {
     // Reset the database
     cy.task('db:seed')
     cy.loginTestIDP()
+    cy.visit('/joinbeta')
   })
 
   beforeEach(() => {
     cy.preserveLoginCookies()
-    cy.visit('/joinbeta')
+    cy.preserveBetaCookie()
+    cy.visit('/')
   })
 
   it('can add a new custom collection', () => {
@@ -57,14 +59,14 @@ describe('Sites and Applications', () => {
 
   it('can add collections from the Sites & Applications page to My Space', () => {
     cy.contains('My Space')
-    cy.findByRole('button', { name: 'Edit Career collection title' }).should(
-      'not.exist'
-    )
-    cy.findByRole('button', {
-      name: 'Edit Medical & Dental collection title',
+    cy.findByRole('heading', { level: 3, name: 'Career' }).should('not.exist')
+    cy.findByRole('heading', {
+      level: 3,
+      name: 'Medical & Dental',
     }).should('not.exist')
-    cy.findByRole('button', {
-      name: 'Edit Life & Fitness collection title',
+    cy.findByRole('heading', {
+      level: 3,
+      name: 'Life & Fitness',
     }).should('not.exist')
 
     // Go to Sites & Applications
@@ -97,14 +99,14 @@ describe('Sites and Applications', () => {
     cy.url().should('eq', Cypress.config().baseUrl + '/')
 
     cy.contains('My Space')
-    cy.findByRole('button', { name: 'Edit Career collection title' }).should(
-      'exist'
-    )
-    cy.findByRole('button', {
-      name: 'Edit Life & Fitness collection title',
+    cy.findByRole('heading', { level: 3, name: 'Career' }).should('exist')
+    cy.findByRole('heading', {
+      name: 'Life & Fitness',
+      level: 3,
     }).should('exist')
-    cy.findByRole('button', {
-      name: 'Edit Medical & Dental collection title',
+    cy.findByRole('heading', {
+      name: 'Medical & Dental',
+      level: 3,
     }).should('not.exist')
   })
 
@@ -135,7 +137,8 @@ describe('Sites and Applications', () => {
     )
     cy.contains('My Second New Collection')
       .parent()
-      .next()
+      .parent()
+      .parent()
       .within(() => {
         cy.contains('Move.mil')
       })
@@ -166,8 +169,10 @@ describe('Sites and Applications', () => {
 
     // Go back to My Space
     cy.contains('My Space').click()
+    cy.url().should('eq', Cypress.config().baseUrl + '/')
     cy.findByRole('heading', { name: 'My Space' })
     cy.contains('Example Collection')
+      .parent()
       .parent()
       .next()
       .within(() => {
@@ -180,31 +185,29 @@ describe('Sites and Applications', () => {
 
     cy.contains('Example Collection')
       .parent()
+      .parent()
       .next()
       .within(() => {
         // Inside of <ol>
         cy.findAllByRole('listitem').should('have.length', 6)
-        cy.contains('Webmail')
+        cy.contains('MyPay')
 
         // First undo
-        cy.findAllByRole('button', { name: 'Remove this bookmark' })
-          .first()
-          .click()
-        cy.contains('Webmail').should('not.exist')
+        cy.findAllByRole('button', { name: 'Remove this link' }).first().click()
+        cy.contains('MyPay').should('not.exist')
         cy.contains('Undo remove').click()
-        cy.contains('Webmail')
+        cy.contains('MyPay')
 
         // Don't undo
-        cy.findAllByRole('button', { name: 'Remove this bookmark' })
-          .first()
-          .click()
-        cy.contains('Webmail').should('not.exist')
+        cy.findAllByRole('button', { name: 'Remove this link' }).first().click()
+        cy.contains('MyPay').should('not.exist')
         cy.findAllByRole('listitem').should('have.length', 5)
       })
   })
 
   it('can add existing links to an existing collection', () => {
     cy.contains('Example Collection')
+      .parent()
       .parent()
       .parent()
       .within(() => {
@@ -214,12 +217,8 @@ describe('Sites and Applications', () => {
 
         // Add a link
         cy.findByRole('button', { name: '+ Add link' }).click()
-        cy.findByLabelText('URL').click() // Open the select
+        cy.findByLabelText('Select existing link').click() // Open the select
         cy.findByRole('option', { name: 'ADP' }).click()
-        cy.findByLabelText('URL').should('have.value', 'ADP')
-
-        cy.findByRole('button', { name: 'Add site' }).click()
-
         cy.findByRole('link', {
           name: 'ADP (opens in a new window)',
         }).should('exist')
@@ -230,89 +229,175 @@ describe('Sites and Applications', () => {
     cy.contains('Example Collection')
       .parent()
       .parent()
+      .parent()
       .within(() => {
         // Add a link
         cy.findByRole('button', { name: '+ Add link' }).click()
-
-        cy.findByLabelText('URL')
-          .then(($el) => $el[0].checkValidity())
-          .should('be.false')
-
-        cy.findByLabelText('URL')
-          .type('not a URL')
-          .then(($el) => $el[0].checkValidity())
-          .should('be.false')
-
-        cy.findByLabelText('URL')
-          .clear()
-          .type('http://www.example.com{enter}')
-          .blur()
-          .then(($el) => $el[0].checkValidity())
-          .should('be.true')
-
-        cy.findByLabelText('URL').should('have.value', 'http://www.example.com')
-
-        cy.findByRole('button', { name: 'Add site' }).click()
+        cy.findByRole('button', { name: 'Add a custom link' }).click()
       })
 
-    cy.findByRole('dialog', { name: 'We don’t recognize that link' }).within(
-      () => {
-        cy.findByRole('button', { name: 'Cancel' }).click()
-      }
-    )
+    cy.findByRole('dialog', { name: 'Add a custom link' }).within(() => {
+      cy.findByRole('button', { name: 'Cancel' }).click()
+    })
 
     cy.contains('Example Collection')
       .parent()
       .parent()
+      .parent()
       .within(() => {
         // Add a link
         cy.findByRole('button', { name: '+ Add link' }).click()
-        cy.findByLabelText('URL').clear().type('http://www.example.com')
-        cy.findByRole('option', { name: 'http://www.example.com' }).click()
-        cy.findByLabelText('URL').should('have.value', 'http://www.example.com')
-        cy.findByRole('button', { name: 'Add site' }).click()
+        cy.findByRole('button', { name: 'Add a custom link' }).click()
       })
 
-    cy.findByRole('dialog', { name: 'We don’t recognize that link' }).within(
-      () => {
-        cy.findByLabelText('Label')
-          .then(($el) => $el[0].checkValidity())
-          .should('be.false')
+    cy.findByRole('dialog', { name: 'Add a custom link' }).within(() => {
+      cy.findByLabelText('Name')
+        .then(($el) => $el[0].checkValidity())
+        .should('be.false')
 
-        cy.findByLabelText('Label')
-          .type('My Custom Link')
-          .then(($el) => $el[0].checkValidity())
-          .should('be.true')
+      cy.findByLabelText('Name')
+        .type('My Custom Link')
+        .then(($el) => $el[0].checkValidity())
+        .should('be.true')
 
-        cy.findByRole('button', { name: 'Save link name' }).click()
-      }
-    )
+      cy.findByLabelText('URL')
+        .then(($el) => $el[0].checkValidity())
+        .should('be.false')
+
+      cy.findByLabelText('URL')
+        .type('not a URL')
+        .then(($el) => $el[0].checkValidity())
+        .should('be.false')
+
+      cy.findByLabelText('URL')
+        .clear()
+        .type('http://www.example.com')
+        .then(($el) => $el[0].checkValidity())
+        .should('be.true')
+
+      cy.findByRole('button', { name: 'Save custom link' }).click()
+    })
 
     cy.findByRole('link', {
       name: 'My Custom Link (opens in a new window)',
     }).should('exist')
   })
 
-  it('can edit an existing collection title', () => {
-    cy.contains('Example Collection').click()
-    cy.findByRole('textbox').clear()
-    cy.findByRole('textbox').type('Updated Title{enter}')
-    cy.contains('Updated Title')
+  it('can edit custom links', () => {
+    cy.contains('Example Collection')
+      .parent()
+      .parent()
       .parent()
       .within(() => {
-        cy.findByRole('button', {
-          name: 'Edit Updated Title collection title',
-        }).should('have.text', 'Updated Title')
+        // Edit a link
+        cy.findAllByRole('button', { name: 'Edit this link' }).first().click()
+      })
+
+    cy.findByRole('dialog', { name: 'Edit custom link' }).within(() => {
+      cy.findByRole('button', { name: 'Cancel' }).click()
+    })
+
+    cy.contains('Example Collection')
+      .parent()
+      .parent()
+      .parent()
+      .within(() => {
+        // Edit a link
+        cy.findAllByRole('button', { name: 'Edit this link' }).first().click()
+      })
+
+    cy.findByRole('dialog', { name: 'Edit custom link' }).within(() => {
+      cy.findByLabelText('Name').should('have.value', 'Webmail')
+      cy.findByLabelText('Name').clear().type('Edited Custom Link')
+      cy.findByLabelText('URL').should('have.value', 'https://google.com')
+      cy.findByLabelText('URL').clear().type('https://example.com')
+      cy.findByRole('button', { name: 'Save custom link' }).click()
+    })
+
+    cy.findByRole('link', {
+      name: 'Edited Custom Link (opens in a new window)',
+    }).should('exist')
+  })
+
+  it('can delete custom links', () => {
+    cy.contains('Example Collection')
+      .parent()
+      .parent()
+      .parent()
+      .within(() => {
+        cy.findAllByRole('listitem').should('have.length', 7)
+
+        // Edit a link
+        cy.findAllByRole('button', { name: 'Edit this link' }).first().click()
+      })
+
+    cy.findByRole('dialog', { name: 'Edit custom link' }).within(() => {
+      cy.findByRole('button', { name: 'Delete' }).click()
+    })
+
+    cy.findByRole('link', {
+      name: 'Edited Custom Link (opens in a new window)',
+    }).should('not.exist')
+
+    cy.contains('Example Collection')
+      .parent()
+      .parent()
+      .parent()
+      .within(() => {
+        cy.findAllByRole('listitem').should('have.length', 6)
+      })
+  })
+
+  it('can edit an existing collection title', () => {
+    cy.contains('Example Collection')
+      .parent()
+      .parent()
+      .within(() => {
+        cy.findByRole('button', { name: 'Collection Settings' }).click()
+        cy.findByRole('button', { name: 'Edit collection title' }).click()
+
+        cy.findByRole('textbox').clear()
+        cy.findByRole('textbox').type('Updated Title{enter}')
+        cy.contains('Updated Title')
+          .parent()
+          .within(() => {
+            cy.findByRole('heading', {
+              level: 3,
+            }).should('have.text', 'Updated Title')
+          })
+      })
+  })
+
+  it('can remove multiple links at once from an existing collection', () => {
+    cy.contains('My Space')
+
+    cy.contains('Updated Title')
+      .parent()
+      .parent()
+      .parent()
+      .within(() => {
+        // Inside of <ol>
+        // Start with 7 links, remove 2
+        cy.findAllByRole('listitem').should('have.length', 6)
+
+        cy.contains('vMPF').next().click()
+        cy.contains('LeaveWeb').next().click()
+
+        cy.contains('vMPF').should('not.exist')
+        cy.contains('LeaveWeb').should('not.exist')
+
+        cy.findAllByRole('listitem').should('have.length', 4)
       })
   })
 
   it('can delete an existing collection', () => {
     cy.contains('Second Collection')
       .parent()
+      .parent()
       .within(() => {
         cy.findByRole('button', { name: 'Collection Settings' }).click()
 
-        cy.findByRole('button', { name: 'Delete Collection' }).click()
+        cy.findByRole('button', { name: 'Delete this collection' }).click()
       })
 
     // Cancel first to make sure it's possible
@@ -325,10 +410,11 @@ describe('Sites and Applications', () => {
     // Reopen the modal
     cy.contains('Second Collection')
       .parent()
+      .parent()
       .within(() => {
         cy.findByRole('button', { name: 'Collection Settings' }).click()
 
-        cy.findByRole('button', { name: 'Delete Collection' }).click()
+        cy.findByRole('button', { name: 'Delete this collection' }).click()
       })
 
     // Delete the collection

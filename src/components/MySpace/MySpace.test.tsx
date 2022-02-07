@@ -1,29 +1,30 @@
 /**
  * @jest-environment jsdom
  */
-import { act, screen, render } from '@testing-library/react'
+import { act, screen, render, within } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
+
 import { renderWithModalRoot } from '../../testHelpers'
-import { getCollectionsMock } from '../../__fixtures__/operations/getCollection'
+import {
+  getCollectionsMock,
+  getMaximumCollectionsMock,
+} from '../../__fixtures__/operations/getCollection'
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import MySpace from './MySpace'
+
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
 import { REMOVE_COLLECTION } from 'operations/mutations/removeCollection'
 import { ADD_COLLECTION } from 'operations/mutations/addCollection'
 import { EDIT_COLLECTION } from 'operations/mutations/editCollection'
+import { EDIT_BOOKMARK } from 'operations/mutations/editBookmark'
 
 const mockRouterPush = jest.fn()
-// const mockAddBookmark = jest.fn()
-// const mockRemoveBookmark = jest.fn()
-// const mockEditCollection = jest.fn()
-// const mockRemoveCollection = jest.fn()
-// const mockAddCollection = jest.fn()
 
 jest.mock('next/router', () => ({
   useRouter: () => ({
@@ -63,18 +64,24 @@ describe('My Space Component', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
-    it('should render the collection', async () => {
-      const collection = await screen.findByRole('button', {
-        name: 'Edit Example Collection collection title',
-      })
+    it('should render the collections', async () => {
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: getCollectionsMock[0].result.data.collections[0].title,
+        })
+      ).toBeInTheDocument()
 
-      expect(collection).toHaveTextContent(
-        getCollectionsMock[0].result.data.collections[0].title
-      )
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: getCollectionsMock[0].result.data.collections[1].title,
+        })
+      ).toBeInTheDocument()
 
-      expect(await screen.findByRole('list')).toBeInTheDocument()
-      expect(await screen.findAllByRole('listitem')).toHaveLength(3)
-      expect(await screen.findAllByRole('link')).toHaveLength(3)
+      expect(await screen.findAllByRole('list')).toHaveLength(22)
+      expect(await screen.findAllByRole('listitem')).toHaveLength(13)
+      expect(await screen.findAllByRole('link')).toHaveLength(13)
     })
 
     it('renders the add widget component', async () => {
@@ -111,6 +118,18 @@ describe('My Space Component', () => {
     expect(await screen.findByText('Error')).toBeInTheDocument()
   })
 
+  it('does not render the add widget component if there are 25 sections', async () => {
+    render(
+      <MockedProvider mocks={getMaximumCollectionsMock} addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
+      </MockedProvider>
+    )
+
+    expect(
+      screen.queryByRole('button', { name: 'Add section' })
+    ).not.toBeInTheDocument()
+  })
+
   it('navigates to Sites & Applications when adding new existing collections', async () => {
     render(
       <MockedProvider mocks={getCollectionsMock} addTypename={false}>
@@ -140,10 +159,10 @@ describe('My Space Component', () => {
         request: {
           query: REMOVE_BOOKMARK,
           variables: {
-            _id: getCollectionsMock[0].result.data.collections[0].bookmarks[0]
+            _id: getCollectionsMock[0].result.data.collections[0].bookmarks[1]
               ._id,
             collectionId: getCollectionsMock[0].result.data.collections[0]._id,
-            cmsId: null,
+            cmsId: '1',
           },
           refetchQueries: [`getCollections`],
         },
@@ -169,7 +188,7 @@ describe('My Space Component', () => {
     )
 
     const buttons = await screen.findAllByRole('button', {
-      name: 'Remove this bookmark',
+      name: 'Remove this link',
     })
 
     userEvent.click(buttons[0])
@@ -190,8 +209,9 @@ describe('My Space Component', () => {
           query: ADD_BOOKMARK,
           variables: {
             collectionId: getCollectionsMock[0].result.data.collections[0]._id,
-            url: 'http://www.example.com',
-            label: 'My Custom Link',
+            url: 'https://mypay.dfas.mil/#/',
+            label: 'MyPay',
+            cmsId: '2',
           },
         },
         result: () => {
@@ -200,9 +220,9 @@ describe('My Space Component', () => {
             data: {
               addBookmark: {
                 _id: '100',
-                cmsId: null,
-                url: 'http://www.example.com',
-                label: 'My Custom Link',
+                cmsId: '2',
+                url: 'https://mypay.dfas.mil/#/',
+                label: 'MyPay',
               },
             },
           }
@@ -215,19 +235,17 @@ describe('My Space Component', () => {
       </MockedProvider>
     )
 
-    const addLinkButton = await screen.findByRole('button', {
+    const addLinkButtons = await screen.findAllByRole('button', {
       name: '+ Add link',
     })
 
+    const addLinkButton = addLinkButtons[0]
     userEvent.click(addLinkButton)
-    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
-    userEvent.click(
-      screen.getByRole('option', { name: 'http://www.example.com' })
-    )
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
-    userEvent.type(screen.getByLabelText('Label'), 'My Custom Link')
 
-    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    userEvent.click(
+      screen.getByRole('button', { name: 'Toggle the dropdown list' })
+    )
+    userEvent.click(screen.getByRole('option', { name: 'MyPay' }))
 
     await act(
       async () => await new Promise((resolve) => setTimeout(resolve, 0))
@@ -262,17 +280,26 @@ describe('My Space Component', () => {
         },
       },
     ]
+
     render(
       <MockedProvider mocks={editCollectionMock} addTypename={false}>
         <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
-    const editTitleButton = await screen.findByRole('button', {
-      name: 'Edit Example Collection collection title',
+    const settings = await screen.findAllByRole('button', {
+      name: 'Collection Settings',
     })
-    userEvent.click(editTitleButton)
-    const input = screen.getByRole('textbox')
+
+    const settingsBtn = settings[0]
+    userEvent.click(settingsBtn)
+
+    const edit = await screen.getAllByRole('button', {
+      name: 'Edit collection title',
+    })[0]
+    userEvent.click(edit)
+
+    const input = await screen.findByRole('textbox')
     userEvent.clear(input)
     userEvent.type(input, 'Updated Title{enter}')
 
@@ -312,12 +339,23 @@ describe('My Space Component', () => {
       </MockedProvider>
     )
 
-    const dropdownMenu = await screen.findByRole('button', {
+    const dropdownMenu = await screen.findAllByRole('button', {
       name: 'Collection Settings',
     })
-    userEvent.click(dropdownMenu)
-    userEvent.click(screen.getByRole('button', { name: 'Delete Collection' }))
-    userEvent.click(screen.getByRole('button', { name: 'Delete' }))
+
+    userEvent.click(dropdownMenu[0])
+    userEvent.click(
+      screen.getByRole('button', { name: 'Delete this collection' })
+    )
+    const removeCollectionModals = screen.getAllByRole('dialog', {
+      name: 'Are you sure you’d like to delete this collection from My Space?',
+    })
+
+    const removeCollectionModal = removeCollectionModals[0]
+    expect(removeCollectionModal).toHaveClass('is-visible')
+    userEvent.click(
+      within(removeCollectionModal).getByRole('button', { name: 'Delete' })
+    )
 
     await act(
       async () => await new Promise((resolve) => setTimeout(resolve, 0))
@@ -368,5 +406,71 @@ describe('My Space Component', () => {
     ) // wait for response
 
     expect(collectionAdded).toBe(true)
+  })
+
+  it('handles the edit bookmark operation', async () => {
+    let bookmarkEdited = false
+
+    const editBookmarkMock = [
+      ...getCollectionsMock,
+      {
+        request: {
+          query: EDIT_BOOKMARK,
+          variables: {
+            _id: getCollectionsMock[0].result.data.collections[0].bookmarks[0]
+              ._id,
+            collectionId: getCollectionsMock[0].result.data.collections[0]._id,
+            url: 'https://www.yahoo.com',
+            label: 'Yahoo',
+          },
+        },
+        result: () => {
+          bookmarkEdited = true
+          return {
+            data: {
+              editBookmark: {
+                _id: getCollectionsMock[0].result.data.collections[0]
+                  .bookmarks[0]._id,
+                url: 'https://www.yahoo.com',
+                label: 'Yahoo',
+              },
+            },
+          }
+        },
+      },
+    ]
+
+    renderWithModalRoot(
+      <MockedProvider mocks={editBookmarkMock} addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
+      </MockedProvider>
+    )
+
+    const editButton = await screen.findByRole('button', {
+      name: 'Edit this link',
+    })
+    userEvent.click(editButton)
+
+    const editModal = await screen.findByRole('dialog', {
+      name: 'Edit custom link',
+    })
+
+    expect(editModal).toBeVisible()
+    const nameInput = within(editModal).getByLabelText('Name')
+    const urlInput = within(editModal).getByLabelText('URL')
+
+    userEvent.clear(nameInput)
+    userEvent.clear(urlInput)
+    userEvent.type(nameInput, 'Yahoo')
+    userEvent.type(urlInput, '{clear}https://www.yahoo.com')
+    userEvent.click(
+      within(editModal).getByRole('button', { name: 'Save custom link' })
+    )
+
+    await act(
+      async () => await new Promise((resolve) => setTimeout(resolve, 0))
+    )
+
+    expect(bookmarkEdited).toBe(true)
   })
 })

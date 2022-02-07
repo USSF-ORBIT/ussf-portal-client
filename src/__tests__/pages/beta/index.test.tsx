@@ -76,10 +76,18 @@ describe('Beta Home page', () => {
         })
       ).toBeInTheDocument()
 
-      const collectionTitle = await screen.findByRole('button', {
-        name: 'Edit Example Collection collection title',
-      })
-      expect(collectionTitle).toHaveTextContent('Example Collection')
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: 'Example Collection',
+        })
+      ).toBeInTheDocument()
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: 'Maxed Out Collection',
+        })
+      ).toBeInTheDocument()
     })
   })
 })

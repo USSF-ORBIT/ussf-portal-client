@@ -19,29 +19,184 @@ const exampleCollection = {
       url: 'https://google.com',
       label: 'Webmail',
       description: 'Lorem ipsum',
+      cmsId: 'cmsId1',
     },
     {
       _id: '2',
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
       description: 'Lorem ipsum',
+      cmsId: 'cmsId2',
     },
     {
       _id: '3',
       url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
       label: 'vMPF',
       description: 'Lorem ipsum',
+      cmsId: 'cmsId3',
+    },
+    {
+      _id: '4',
+      url: 'https://example.com',
+      label: 'My Custom Link',
     },
   ],
 }
 
+const exampleCollectionWithNine = {
+  _id: '1',
+  title: 'Example Collection',
+  bookmarks: [
+    {
+      _id: '1',
+      url: 'https://google.com',
+      label: 'Webmail',
+      description: 'Lorem ipsum',
+      cmsId: 'cmsId1',
+    },
+    {
+      _id: '2',
+      url: 'https://mypay.dfas.mil/#/',
+      label: 'MyPay',
+      description: 'Lorem ipsum',
+      cmsId: 'cmsId2',
+    },
+    {
+      _id: '3',
+      url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+      label: 'vMPF',
+      description: 'Lorem ipsum',
+      cmsId: 'cmsId3',
+    },
+    {
+      _id: '4',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '5',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '6',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '7',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '8',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '9',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+  ],
+}
+
+const exampleCollectionWithTen = {
+  _id: '1',
+  title: 'Example Collection',
+  bookmarks: [
+    {
+      _id: '1',
+      url: 'https://google.com',
+      label: 'Webmail',
+      description: 'Lorem ipsum',
+      cmsId: 'cmsId1',
+    },
+    {
+      _id: '2',
+      url: 'https://mypay.dfas.mil/#/',
+      label: 'MyPay',
+      description: 'Lorem ipsum',
+      cmsId: 'cmsId2',
+    },
+    {
+      _id: '3',
+      url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+      label: 'vMPF',
+      description: 'Lorem ipsum',
+      cmsId: 'cmsId3',
+    },
+    {
+      _id: '4',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '5',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '6',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '7',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '8',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '9',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+    {
+      _id: '10',
+      url: 'https://example.com',
+      label: 'My Custom Link',
+    },
+  ],
+}
+
+const mockLinks = [
+  {
+    id: 'testBookmark1',
+    url: 'http://www.example.com/1',
+    label: 'Test Bookmark 1',
+  },
+  {
+    id: 'testBookmark2',
+    url: 'http://www.example.com/2',
+    label: 'Test Bookmark 2',
+  },
+  {
+    id: 'testBookmark3',
+    url: 'http://www.example.com/3',
+    label: 'Test Bookmark 3',
+  },
+]
+
 describe('CustomCollection component', () => {
   const addLinkDialog = {
-    name: 'We don’t recognize that link',
+    name: 'Add a custom link',
   }
 
   const removeCollectionDialog = {
     name: 'Are you sure you’d like to delete this collection from My Space?',
+  }
+
+  const mockHandlers = {
+    handleRemoveBookmark: jest.fn(),
+    handleAddBookmark: jest.fn(),
+    handleRemoveCollection: jest.fn(),
+    handleEditCollection: jest.fn(),
+    handleEditBookmark: jest.fn(),
   }
 
   let scrollSpy: jest.Mock
@@ -52,44 +207,40 @@ describe('CustomCollection component', () => {
   })
 
   beforeEach(() => {
+    jest.clearAllMocks()
     scrollSpy.mockReset()
   })
 
-  it('renders the collection with delete buttons', () => {
-    render(
-      <CustomCollection
-        {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
-      />
-    )
+  it('renders the collection with delete or edit buttons', () => {
+    render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(
-      screen.getByRole('button', {
-        name: 'Edit Example Collection collection title',
+      screen.getByRole('heading', {
+        level: 3,
       })
     ).toHaveTextContent(exampleCollection.title)
+
     expect(screen.getAllByRole('listitem')).toHaveLength(
       exampleCollection.bookmarks.length
     )
     expect(screen.getAllByRole('link')).toHaveLength(
       exampleCollection.bookmarks.length
     )
+
     expect(
-      screen.getAllByRole('button', { name: 'Remove this bookmark' })
-    ).toHaveLength(exampleCollection.bookmarks.length)
+      screen.getAllByRole('button', { name: 'Remove this link' })
+    ).toHaveLength(3)
+    expect(
+      screen.getAllByRole('button', { name: 'Edit this link' })
+    ).toHaveLength(1)
   })
 
   it('renders an Add Link toggleable form', () => {
     render(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
+        {...mockHandlers}
+        bookmarkOptions={mockLinks}
       />
     )
 
@@ -97,48 +248,48 @@ describe('CustomCollection component', () => {
     expect(toggleFormButton).toBeInTheDocument()
 
     userEvent.click(toggleFormButton)
-    const urlInput = screen.getByLabelText('URL')
-    expect(urlInput).toBeInTheDocument()
-    expect(urlInput).toBeInvalid()
+    const linkInput = screen.getByLabelText('Select existing link')
+    expect(linkInput).toBeInTheDocument()
+    expect(linkInput).toBeInvalid()
 
-    userEvent.type(urlInput, 'example')
-    expect(urlInput).toBeInvalid()
-    userEvent.clear(urlInput)
-    userEvent.type(urlInput, 'http://www.example.com')
-    expect(urlInput).toBeValid()
+    userEvent.click(
+      screen.getByRole('button', { name: 'Toggle the dropdown list' })
+    )
+    userEvent.click(screen.getByRole('option', { name: 'Test Bookmark 2' }))
+    expect(linkInput).toBeValid()
   })
 
-  it('entering a new custom URL opens the modal', () => {
+  it('can open the Add Custom Link modal', () => {
     const mockAddLink = jest.fn()
 
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
+        {...mockHandlers}
         handleAddBookmark={mockAddLink}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
       />
     )
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
     userEvent.click(toggleFormButton)
-    const urlInput = screen.getByLabelText('URL')
-    userEvent.type(urlInput, 'http://www.example.com')
-    userEvent.click(
-      screen.getByRole('option', { name: 'http://www.example.com' })
-    )
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+    userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
 
     // Open modal
-    expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
+    const addLinkModal = screen.getByRole('dialog', addLinkDialog)
+    expect(addLinkModal).toHaveClass('is-visible')
 
-    const labelInput = screen.getByLabelText('Label')
+    const labelInput = within(addLinkModal).getByLabelText('Name')
     expect(labelInput).toBeInvalid()
     userEvent.type(labelInput, 'My Custom Link')
     expect(labelInput).toBeValid()
 
-    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    const urlInput = within(addLinkModal).getByLabelText('URL')
+    userEvent.type(urlInput, 'http://www.example.com')
+    expect(urlInput).toBeValid()
+
+    userEvent.click(
+      within(addLinkModal).getByRole('button', { name: 'Save custom link' })
+    )
 
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com',
@@ -152,21 +303,14 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
+        {...mockHandlers}
         handleAddBookmark={mockAddLink}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
       />
     )
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
     userEvent.click(toggleFormButton)
-    const urlInput = screen.getByLabelText('URL')
-    userEvent.type(urlInput, 'http://www.example.com')
-    userEvent.click(
-      screen.getByRole('option', { name: 'http://www.example.com' })
-    )
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+    userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
 
     // Open modal
     const addLinkModal = screen.getByRole('dialog', addLinkDialog)
@@ -177,7 +321,6 @@ describe('CustomCollection component', () => {
     userEvent.click(cancelButton)
 
     expect(addLinkModal).not.toHaveClass('is-visible')
-
     expect(mockAddLink).not.toHaveBeenCalled()
 
     expect(
@@ -186,7 +329,9 @@ describe('CustomCollection component', () => {
       })
     ).toBeInTheDocument()
 
-    expect(screen.queryByLabelText('URL')).not.toBeInTheDocument()
+    expect(
+      screen.queryByLabelText('Select existing link')
+    ).not.toBeInTheDocument()
   })
 
   it('adding a link closes the modal and resets the form', () => {
@@ -195,29 +340,30 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
+        {...mockHandlers}
         handleAddBookmark={mockAddLink}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
       />
     )
 
     userEvent.click(screen.getByRole('button', { name: '+ Add link' }))
-    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
-    userEvent.click(
-      screen.getByRole('option', { name: 'http://www.example.com' })
-    )
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+    userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
 
     // Open modal
-    expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
+    const addLinkModal = screen.getByRole('dialog', addLinkDialog)
 
-    const labelInput = screen.getByLabelText('Label')
+    expect(addLinkModal).toHaveClass('is-visible')
+
+    const labelInput = within(addLinkModal).getByLabelText('Name')
     expect(labelInput).toBeInvalid()
     userEvent.type(labelInput, 'My Custom Link')
     expect(labelInput).toBeValid()
+    const urlInput = within(addLinkModal).getByLabelText('URL')
+    userEvent.type(urlInput, 'http://www.example.com')
+    expect(urlInput).toBeValid()
 
-    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    userEvent.click(
+      within(addLinkModal).getByRole('button', { name: 'Save custom link' })
+    )
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com',
       'My Custom Link'
@@ -231,17 +377,24 @@ describe('CustomCollection component', () => {
 
     // Modal is still closed, form is reset
     expect(screen.queryByRole('dialog', addLinkDialog)).toHaveClass('is-hidden')
-    expect(screen.getByLabelText('URL')).toBeInvalid()
-    userEvent.type(screen.getByLabelText('URL'), 'http://www.example.com')
-    userEvent.click(
-      screen.getByRole('option', { name: 'http://www.example.com' })
-    )
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
+    userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
     expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
 
-    expect(screen.getByLabelText('Label')).toBeInvalid()
-    userEvent.type(screen.getByLabelText('Label'), 'Another Custom Link')
-    userEvent.click(screen.getByRole('button', { name: 'Save link name' }))
+    expect(within(addLinkModal).getByLabelText('Name')).toBeInvalid()
+    userEvent.type(
+      within(addLinkModal).getByLabelText('Name'),
+      'Another Custom Link'
+    )
+    expect(within(addLinkModal).getByLabelText('URL')).toBeInvalid()
+    userEvent.type(
+      within(addLinkModal).getByLabelText('URL'),
+      'http://www.example.com'
+    )
+    expect(within(addLinkModal).getByLabelText('URL')).toBeValid()
+
+    userEvent.click(
+      within(addLinkModal).getByRole('button', { name: 'Save custom link' })
+    )
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com',
       'Another Custom Link'
@@ -253,98 +406,20 @@ describe('CustomCollection component', () => {
   it('can add an existing link', () => {
     const mockAddLink = jest.fn()
 
-    const mockLinks = [
-      {
-        id: 'testBookmark1',
-        url: 'http://www.example.com/1',
-        label: 'Test Bookmark 1',
-      },
-      {
-        id: 'testBookmark2',
-        url: 'http://www.example.com/2',
-        label: 'Test Bookmark 2',
-      },
-      {
-        id: 'testBookmark3',
-        url: 'http://www.example.com/3',
-        label: 'Test Bookmark 3',
-      },
-    ]
-
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
+        {...mockHandlers}
         bookmarkOptions={mockLinks}
-        handleRemoveBookmark={jest.fn()}
         handleAddBookmark={mockAddLink}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
       />
     )
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
     userEvent.click(toggleFormButton)
-    const urlInput = screen.getByLabelText('URL')
-    userEvent.click(urlInput)
+    const linkInput = screen.getByLabelText('Select existing link')
+    userEvent.click(linkInput)
     userEvent.click(screen.getByRole('option', { name: 'Test Bookmark 2' }))
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
-
-    expect(mockAddLink).toHaveBeenCalledWith(
-      'http://www.example.com/2',
-      'Test Bookmark 2',
-      'testBookmark2'
-    )
-  })
-
-  it('can enter an invalid link, and then select an existing link', () => {
-    const mockAddLink = jest.fn()
-
-    const mockLinks = [
-      {
-        id: 'testBookmark1',
-        url: 'http://www.example.com/1',
-        label: 'Test Bookmark 1',
-      },
-      {
-        id: 'testBookmark2',
-        url: 'http://www.example.com/2',
-        label: 'Test Bookmark 2',
-      },
-      {
-        id: 'testBookmark3',
-        url: 'http://www.example.com/3',
-        label: 'Test Bookmark 3',
-      },
-    ]
-
-    render(
-      <CustomCollection
-        {...exampleCollection}
-        bookmarkOptions={mockLinks}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={mockAddLink}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
-      />
-    )
-
-    userEvent.click(
-      screen.getByRole('button', {
-        name: '+ Add link',
-      })
-    )
-
-    const urlInput = screen.getByLabelText('URL')
-    userEvent.type(urlInput, 'example{enter}')
-    expect(urlInput).toBeInvalid()
-
-    userEvent.click(
-      screen.getByRole('button', { name: 'Toggle the dropdown list' })
-    )
-    userEvent.click(screen.getByRole('option', { name: 'Test Bookmark 2' }))
-    expect(urlInput).toBeValid()
-
-    userEvent.click(screen.getByRole('button', { name: 'Add site' }))
 
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com/2',
@@ -354,23 +429,22 @@ describe('CustomCollection component', () => {
   })
 
   it('renders the settings dropdown menu', () => {
-    render(
-      <CustomCollection
-        {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
-        handleRemoveCollection={jest.fn()}
-        handleEditCollection={jest.fn()}
-      />
-    )
+    render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
     const menuToggleButton = screen.getByRole('button', {
       name: 'Collection Settings',
     })
     expect(menuToggleButton).toBeInTheDocument()
 
     userEvent.click(menuToggleButton)
-    const menuItem = screen.getByRole('button', { name: 'Delete Collection' })
-    expect(menuItem).toBeInTheDocument()
+    const deleteItem = screen.getByRole('button', {
+      name: 'Delete this collection',
+    })
+    expect(deleteItem).toBeInTheDocument()
+
+    const editItem = screen.getByRole('button', {
+      name: 'Edit collection title',
+    })
+    expect(editItem).toBeInTheDocument()
   })
 
   it('clicking the delete collection button opens the delete modal', () => {
@@ -379,10 +453,8 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
+        {...mockHandlers}
         handleRemoveCollection={mockRemoveCollection}
-        handleEditCollection={jest.fn()}
       />
     )
 
@@ -393,7 +465,7 @@ describe('CustomCollection component', () => {
 
     userEvent.click(menuToggleButton)
     const deleteCollection = screen.getByRole('button', {
-      name: 'Delete Collection',
+      name: 'Delete this collection',
     })
     expect(deleteCollection).toBeInTheDocument()
     userEvent.click(deleteCollection)
@@ -410,10 +482,8 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
+        {...mockHandlers}
         handleRemoveCollection={mockRemoveCollection}
-        handleEditCollection={jest.fn()}
       />
     )
 
@@ -424,7 +494,7 @@ describe('CustomCollection component', () => {
     userEvent.click(menuToggleButton)
 
     const deleteCollection = screen.getByRole('button', {
-      name: 'Delete Collection',
+      name: 'Delete this collection',
     })
     userEvent.click(deleteCollection)
 
@@ -455,10 +525,8 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
+        {...mockHandlers}
         handleRemoveCollection={mockRemoveCollection}
-        handleEditCollection={jest.fn()}
       />
     )
     expect(screen.queryByRole('dialog', removeCollectionDialog)).toHaveClass(
@@ -471,16 +539,20 @@ describe('CustomCollection component', () => {
     userEvent.click(menuToggleButton)
 
     const deleteCollection = screen.getByRole('button', {
-      name: 'Delete Collection',
+      name: 'Delete this collection',
     })
     userEvent.click(deleteCollection)
 
     // Open modal
-    expect(screen.getByRole('dialog', removeCollectionDialog)).toHaveClass(
-      'is-visible'
+    const confirmDeleteModal = screen.getByRole(
+      'dialog',
+      removeCollectionDialog
     )
+    expect(confirmDeleteModal).toHaveClass('is-visible')
 
-    userEvent.click(screen.getByRole('button', { name: 'Delete' }))
+    userEvent.click(
+      within(confirmDeleteModal).getByRole('button', { name: 'Delete' })
+    )
     expect(mockRemoveCollection).toHaveBeenCalledTimes(1)
 
     expect(screen.queryByRole('dialog', removeCollectionDialog)).toHaveClass(
@@ -494,10 +566,8 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
+        {...mockHandlers}
         handleRemoveCollection={mockRemoveCollection}
-        handleEditCollection={jest.fn()}
       />
     )
 
@@ -508,7 +578,7 @@ describe('CustomCollection component', () => {
     userEvent.click(menuToggleButton)
 
     const deleteCollection = screen.getByRole('button', {
-      name: 'Delete Collection',
+      name: 'Delete this collection',
     })
 
     expect(deleteCollection).toBeInTheDocument()
@@ -516,7 +586,7 @@ describe('CustomCollection component', () => {
 
     // Click outside menu
     const outsideEl = screen.getByRole('button', {
-      name: 'Edit Example Collection collection title',
+      name: '+ Add link',
     })
     userEvent.click(outsideEl)
 
@@ -530,10 +600,8 @@ describe('CustomCollection component', () => {
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
-        handleRemoveBookmark={jest.fn()}
-        handleAddBookmark={jest.fn()}
+        {...mockHandlers}
         handleRemoveCollection={mockRemoveCollection}
-        handleEditCollection={jest.fn()}
       />
     )
 
@@ -544,7 +612,7 @@ describe('CustomCollection component', () => {
     userEvent.click(menuToggleButton)
 
     const deleteCollection = screen.getByRole('button', {
-      name: 'Delete Collection',
+      name: 'Delete this collection',
     })
 
     expect(deleteCollection).toBeInTheDocument()
@@ -559,15 +627,7 @@ describe('CustomCollection component', () => {
 
   describe('an empty collection', () => {
     it('renders a focused input for the title', () => {
-      render(
-        <CustomCollection
-          _id="1"
-          handleRemoveBookmark={jest.fn()}
-          handleAddBookmark={jest.fn()}
-          handleRemoveCollection={jest.fn()}
-          handleEditCollection={jest.fn()}
-        />
-      )
+      render(<CustomCollection _id="1" {...mockHandlers} />)
 
       expect(screen.getByRole('textbox')).toHaveFocus()
     })
@@ -577,10 +637,8 @@ describe('CustomCollection component', () => {
 
       render(
         <CustomCollection
+          {...mockHandlers}
           _id="2"
-          handleRemoveBookmark={jest.fn()}
-          handleAddBookmark={jest.fn()}
-          handleRemoveCollection={jest.fn()}
           handleEditCollection={mockEditCollection}
         />
       )
@@ -594,16 +652,63 @@ describe('CustomCollection component', () => {
 
       render(
         <CustomCollection
+          {...mockHandlers}
           _id="3"
-          handleRemoveBookmark={jest.fn()}
-          handleAddBookmark={jest.fn()}
           handleRemoveCollection={mockDeleteCollection}
-          handleEditCollection={jest.fn()}
+        />
+      )
+      const cancel = screen.getByRole('button', { name: 'Cancel' })
+
+      userEvent.click(cancel)
+      expect(mockDeleteCollection).toHaveBeenCalled()
+    })
+  })
+
+  describe('with 9 bookmarks', () => {
+    it('shows a warning when adding the tenth link', () => {
+      renderWithModalRoot(
+        <CustomCollection
+          {...exampleCollectionWithNine}
+          {...mockHandlers}
+          bookmarkOptions={mockLinks}
         />
       )
 
-      userEvent.keyboard('{enter}')
-      expect(mockDeleteCollection).toHaveBeenCalled()
+      const toggleFormButton = screen.getByRole('button', {
+        name: '+ Add link',
+      })
+      expect(toggleFormButton).toBeInTheDocument()
+      userEvent.click(toggleFormButton)
+
+      expect(screen.queryByRole('tooltip', { hidden: true })).toHaveTextContent(
+        `You’re about to hit your link limit — each collection can only have 10 links.`
+      )
+
+      userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
+
+      const addLinkModal = screen.getByRole('dialog', addLinkDialog)
+      expect(addLinkModal).toHaveClass('is-visible')
+
+      expect(
+        within(addLinkModal).queryByRole('heading', { level: 4 })
+      ).toHaveTextContent('Link limit reached')
+    })
+  })
+
+  describe('with 10 bookmarks', () => {
+    it('does not allow adding anymore links', () => {
+      render(
+        <CustomCollection
+          {...exampleCollectionWithTen}
+          {...mockHandlers}
+          bookmarkOptions={mockLinks}
+        />
+      )
+
+      const toggleFormButton = screen.queryByRole('button', {
+        name: '+ Add link',
+      })
+      expect(toggleFormButton).not.toBeInTheDocument()
     })
   })
 })
