@@ -1,4 +1,5 @@
 const path = require('path')
+
 module.exports = {
   stories: ['../**/*.stories.mdx', '../**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
@@ -9,6 +10,7 @@ module.exports = {
     'storybook-addon-next-router',
     'storybook-addon-apollo-client',
   ],
+  staticDirs: ['../public'],
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
     // You can change the configuration based on that.

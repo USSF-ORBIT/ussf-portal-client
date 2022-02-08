@@ -14,7 +14,7 @@
     "build": "next build",
     "build:analyze": "ANALYZE=true yarn build",
     "start": "node -r ./server-preload.js node_modules/.bin/next start",
-    "storybook": "start-storybook -p 6006 -s ./public",
+    "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
     "format": "prettier --write .",
     "lint": "tsc --noEmit && eslint .",
@@ -117,6 +117,12 @@
     "trim": "0.0.3",
     "graphql": "16.0.1"
   },
+  "browserslist": [
+    "> 2%",
+    "last 2 versions",
+    "IE 11",
+    "not dead"
+  ],
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json}": [
       "prettier --write",

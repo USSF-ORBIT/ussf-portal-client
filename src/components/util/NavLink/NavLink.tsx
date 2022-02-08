@@ -7,7 +7,7 @@ import { pathToRegexp } from 'path-to-regexp'
 import LinkTo from '../LinkTo/LinkTo'
 import type { PropTypes as LinkToProps } from '../LinkTo/LinkTo'
 
-type NavLinkProps = LinkToProps & {
+export type NavLinkProps = LinkToProps & {
   exact?: boolean
   activeClass?: string
 }
