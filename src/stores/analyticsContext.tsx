@@ -30,29 +30,17 @@ export const AnalyticsContext = createContext<AnalyticsContextType>({
   },
 })
 
-type AnalyticsConfig = {
-  url?: string
-  siteId?: string
-  jsTrackerFile?: string
-  phpTrackerFile?: string
-  debug?: boolean
-}
-
 export const AnalyticsProvider = ({
   children,
-  config,
+  debug = process.env.NODE_ENV === 'development',
 }: {
   children: React.ReactNode
-  config: AnalyticsConfig
+  debug?: boolean
 }) => {
   const router = useRouter()
-  const {
-    url,
-    siteId,
-    jsTrackerFile = 'matomo.js',
-    phpTrackerFile = 'matomo.php',
-    debug = false,
-  } = config
+  const jsTrackerFile = 'matomo.js'
+  const phpTrackerFile = 'matomo.php'
+
   let previousPath = ''
 
   const push: PushFn = (args): void => {
@@ -106,46 +94,54 @@ export const AnalyticsProvider = ({
 
   useEffect(() => {
     // Initialization - this happens once per page load
-    if (!url) {
-      // Error: No Matomo URL
-      console.warn('ANALYTICS: No Matomo URL provided')
-      return
+    const getAnalyticsConfig = async () => {
+      const { analyticsUrl, analyticsSiteId } = await fetch(
+        `/api/sysinfo`
+      ).then((resp) => resp.json())
+
+      if (!analyticsUrl) {
+        // Error: No Matomo URL
+        console.warn('ANALYTICS: No Matomo URL provided')
+        return
+      }
+
+      if (!analyticsSiteId) {
+        // Error: No Site ID
+        console.warn('ANALYTICS: No Site ID provided')
+        return
+      }
+
+      previousPath = location.href
+
+      push(['setDocumentTitle', document.title])
+      push(['setDoNotTrack', true])
+      push(['trackPageView'])
+      push(['enableLinkTracking'])
+
+      push(['setTrackerUrl', `${analyticsUrl}/${phpTrackerFile}`])
+      push(['setSiteId', analyticsSiteId])
+
+      // Init script tag
+      const scriptEl = document.createElement('script')
+      const refElement = document.getElementsByTagName('script')[0]
+      scriptEl.type = 'text/javascript'
+      scriptEl.async = true
+      scriptEl.defer = true
+      scriptEl.src = `${analyticsUrl}/${jsTrackerFile}`
+      if (refElement.parentNode) {
+        refElement.parentNode.insertBefore(scriptEl, refElement)
+      }
+
+      previousPath = location.pathname
+
+      // Listen to NextJS router events
+      router.events.on('routeChangeStart', handleRouteChange)
+      return () => {
+        router.events.off('routeChangeStart', handleRouteChange)
+      }
     }
 
-    if (!siteId) {
-      // Error: No Site ID
-      console.warn('ANALYTICS: No Site ID provided')
-      return
-    }
-
-    previousPath = location.href
-
-    push(['setDocumentTitle', document.title])
-    push(['setDoNotTrack', true])
-    push(['trackPageView'])
-    push(['enableLinkTracking'])
-
-    push(['setTrackerUrl', `${url}/${phpTrackerFile}`])
-    push(['setSiteId', siteId])
-
-    // Init script tag
-    const scriptEl = document.createElement('script')
-    const refElement = document.getElementsByTagName('script')[0]
-    scriptEl.type = 'text/javascript'
-    scriptEl.async = true
-    scriptEl.defer = true
-    scriptEl.src = `${url}/${jsTrackerFile}`
-    if (refElement.parentNode) {
-      refElement.parentNode.insertBefore(scriptEl, refElement)
-    }
-
-    previousPath = location.pathname
-
-    // Listen to NextJS router events
-    router.events.on('routeChangeStart', handleRouteChange)
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange)
-    }
+    getAnalyticsConfig()
   }, [])
 
   const context = {
