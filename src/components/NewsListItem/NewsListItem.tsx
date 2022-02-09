@@ -7,9 +7,10 @@ import styles from './NewsListItem.module.scss'
 import colors from 'styles/sfds/colors.module.scss'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
-type NewsListItem = {
+export type NewsListItemArticle = {
+  id: string
   thumbnailSrc?: string
-  publishDate: string
+  publishDate?: string
   title: string
   description: string
   source: string
@@ -17,14 +18,13 @@ type NewsListItem = {
   sourceLink: string
 }
 
-const NewsListItem = ({ article }: { article: NewsListItem }) => {
+const NewsListItem = ({ article }: { article: NewsListItemArticle }) => {
   const {
     title,
     sourceLink,
     description,
     publishDate,
     thumbnailSrc,
-    source,
     sourceName,
   } = article
 

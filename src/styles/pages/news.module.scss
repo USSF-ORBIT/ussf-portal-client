@@ -1,0 +1,9 @@
+@import 'styles/uswdsDependencies';
+
+.newsItemContainer {
+  > article {
+    padding-bottom: units(6);
+    border-bottom: 1px solid #c4c4c4;
+    margin-bottom: units(3);
+  }
+}

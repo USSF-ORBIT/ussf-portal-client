@@ -16,7 +16,7 @@ a.articleLink {
   }
 
   > * {
-    display: inline-block;
+    display: inline;
   }
 
   h4 {
@@ -32,6 +32,12 @@ a.articleLink {
   img {
     width: 100%;
     display: block;
+    height: 200px;
+    object-fit: cover;
+
+    @include at-media('tablet') {
+      height: 360px;
+    }
   }
 }
 
@@ -40,5 +46,7 @@ a.articleLink {
 }
 
 .articleExcerpt {
+  font-size: 18px;
+  line-height: 1.4;
   margin: units('105') 0 units(3);
 }
