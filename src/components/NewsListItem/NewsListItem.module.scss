@@ -1,0 +1,44 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.articleLink,
+a.articleLink {
+  display: block;
+  text-decoration: none;
+  color: $theme-black;
+
+  &:hover {
+    text-decoration: underline;
+
+    > * {
+      text-decoration: underline;
+    }
+  }
+
+  > * {
+    display: inline-block;
+  }
+
+  h4 {
+    margin: 0;
+  }
+}
+
+.articleImage {
+  border: 1px solid #c4c4c4;
+  border-radius: 6px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    display: block;
+  }
+}
+
+.articleImage + .articleLink {
+  margin-top: units(2);
+}
+
+.articleExcerpt {
+  margin: units('105') 0 units(3);
+}
