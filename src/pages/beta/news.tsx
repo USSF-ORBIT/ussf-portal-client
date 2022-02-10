@@ -9,6 +9,7 @@ import {
 import { withPageLayout } from 'layout/Beta/DefaultLayout/PageLayout'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
+import LinkTo from 'components/util/LinkTo/LinkTo'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import NewsListItem, {
   NewsListItemArticle,
@@ -68,6 +69,16 @@ const News = () => {
             </Grid>
           ))}
       </Grid>
+
+      <div style={{ textAlign: 'right' }}>
+        <LinkTo
+          href="https://www.spaceforce.mil/News"
+          target="_blank"
+          rel="noreferrer noopener"
+          className="usa-button">
+          Read more on SpaceForce.mil
+        </LinkTo>
+      </div>
     </div>
   )
 }
