@@ -77,7 +77,7 @@ describe('News page', () => {
 
       expect(
         await screen.findByRole('heading', { level: 2 })
-      ).toHaveTextContent('Latest News')
+      ).toHaveTextContent('Latest news')
       expect(await screen.findAllByRole('article')).toHaveLength(10)
     })
 

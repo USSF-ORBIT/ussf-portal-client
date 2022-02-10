@@ -51,7 +51,7 @@ const News = () => {
     <Loader />
   ) : (
     <div>
-      <h2>Latest News</h2>
+      <h2>Latest news</h2>
       <h3>The most recently publicly released Space Force news.</h3>
 
       <Grid row gap={2}>
@@ -76,14 +76,14 @@ export default News
 News.getLayout = (page: React.ReactNode) =>
   withPageLayout(
     <div>
-      <h1>News &amp; Announcements</h1>
+      <h1>News</h1>
       <BreadcrumbBar>
         <Breadcrumb>
           <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
             Service portal home
           </BreadcrumbLink>
         </Breadcrumb>
-        <Breadcrumb current>News & Announcements</Breadcrumb>
+        <Breadcrumb current>News</Breadcrumb>
       </BreadcrumbBar>
     </div>,
     page
