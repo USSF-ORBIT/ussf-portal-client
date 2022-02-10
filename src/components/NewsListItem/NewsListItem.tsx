@@ -29,7 +29,7 @@ const NewsListItem = ({ article }: { article: NewsListItemArticle }) => {
   } = article
 
   return (
-    <article>
+    <article className={styles.NewsListItem}>
       {thumbnailSrc && (
         <div className={styles.articleImage}>
           <LinkTo href={sourceLink} target="_blank" rel="noreferrer noopener">
@@ -46,12 +46,32 @@ const NewsListItem = ({ article }: { article: NewsListItemArticle }) => {
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <small>{publishDate} //</small>
         &nbsp;
-        <h4>{title}</h4>
+        <h3>
+          <strong>{title}</strong>
+        </h3>
       </LinkTo>
 
-      <p className={styles.articleExcerpt}>{description}</p>
+      <p className={styles.articleExcerpt}>
+        <span className={styles.articleExcerptTruncate}>
+          {description}&hellip;
+        </span>
+        (
+        <LinkTo
+          href={sourceLink}
+          className={classnames(
+            styles.articleExcerptLink,
+            'usa-link--external'
+          )}
+          target="_blank"
+          rel="noreferrer noopener">
+          continue reading on SpaceForce.mil
+        </LinkTo>
+        )
+      </p>
 
-      <Tag background={colors['theme-mars-base']}>{sourceName}</Tag>
+      <Tag className={styles.articleTag} background={colors['theme-mars-base']}>
+        {sourceName}
+      </Tag>
     </article>
   )
 }

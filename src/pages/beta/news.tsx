@@ -51,9 +51,10 @@ const News = () => {
     <Loader />
   ) : (
     <div>
-      <h2>Latest news</h2>
-      <h3>The most recently publicly released Space Force news.</h3>
-
+      <div className={styles.pageTitle}>
+        <h2>Latest news</h2>
+        <h3>The most recently publicly released Space Force news.</h3>
+      </div>
       <Grid row gap={2}>
         {items
           .filter(validateNewsItems)

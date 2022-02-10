@@ -1,9 +1,20 @@
 @import 'styles/uswdsDependencies';
 
-.newsItemContainer {
-  > article {
-    padding-bottom: units(6);
-    border-bottom: 1px solid #c4c4c4;
-    margin-bottom: units(3);
+.pageTitle {
+  margin-top: units(6);
+  margin-bottom: units(4);
+
+  h2 {
+    margin-bottom: 0;
   }
+
+  h2 + h3 {
+    margin-top: units('105');
+  }
+}
+
+.newsItemContainer {
+  padding-bottom: units(4);
+  border-bottom: 1px solid #c4c4c4;
+  margin-bottom: units(4);
 }
