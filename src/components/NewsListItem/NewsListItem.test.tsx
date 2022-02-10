@@ -29,7 +29,7 @@ describe('NewsListItem component', () => {
     })
 
     it('renders the article contents', () => {
-      expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent(
+      expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
         testArticle.title
       )
       expect(
@@ -53,7 +53,7 @@ describe('NewsListItem component', () => {
         })
       ).toHaveAttribute('href', testArticle.sourceLink)
 
-      expect(screen.getByText(testArticle.description)).toBeInTheDocument()
+      expect(screen.getByText(/This is a test article/i)).toBeInTheDocument()
       expect(screen.getByText(testArticle.sourceName)).toBeInTheDocument()
     })
   })
@@ -64,7 +64,7 @@ describe('NewsListItem component', () => {
     })
 
     it('renders the article contents with no image', () => {
-      expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent(
+      expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
         testArticle.title
       )
       expect(
@@ -85,7 +85,7 @@ describe('NewsListItem component', () => {
         })
       ).toHaveAttribute('href', testArticle.sourceLink)
 
-      expect(screen.getByText(testArticle.description)).toBeInTheDocument()
+      expect(screen.getByText(/This is a test article/i)).toBeInTheDocument()
       expect(screen.getByText(testArticle.sourceName)).toBeInTheDocument()
     })
   })
