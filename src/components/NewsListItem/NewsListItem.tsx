@@ -18,7 +18,13 @@ export type NewsListItemArticle = {
   sourceLink: string
 }
 
-const NewsListItem = ({ article }: { article: NewsListItemArticle }) => {
+const NewsListItem = ({
+  article,
+  widget = false,
+}: {
+  article: NewsListItemArticle
+  widget?: boolean
+}) => {
   const {
     title,
     sourceLink,
@@ -30,7 +36,7 @@ const NewsListItem = ({ article }: { article: NewsListItemArticle }) => {
 
   return (
     <article className={styles.NewsListItem}>
-      {thumbnailSrc && (
+      {!widget && thumbnailSrc && (
         <div className={styles.articleImage}>
           <LinkTo href={sourceLink} target="_blank" rel="noreferrer noopener">
             <img src={thumbnailSrc} alt={title} />
@@ -55,18 +61,22 @@ const NewsListItem = ({ article }: { article: NewsListItemArticle }) => {
         <span className={styles.articleExcerptTruncate}>
           {description}&hellip;
         </span>
-        (
-        <LinkTo
-          href={sourceLink}
-          className={classnames(
-            styles.articleExcerptLink,
-            'usa-link--external'
-          )}
-          target="_blank"
-          rel="noreferrer noopener">
-          continue reading on SpaceForce.mil
-        </LinkTo>
-        )
+        {!widget && (
+          <>
+            (
+            <LinkTo
+              href={sourceLink}
+              className={classnames(
+                styles.articleExcerptLink,
+                'usa-link--external'
+              )}
+              target="_blank"
+              rel="noreferrer noopener">
+              continue reading on SpaceForce.mil
+            </LinkTo>
+            )
+          </>
+        )}
       </p>
 
       <Tag className={styles.articleTag} background={colors['theme-mars-base']}>

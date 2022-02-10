@@ -33,3 +33,7 @@ export const RSSArticle = () => <NewsListItem article={mockRSSArticle} />
 export const RSSArticleNoImage = () => (
   <NewsListItem article={{ ...mockRSSArticle, thumbnailSrc: '' }} />
 )
+
+export const RSSArticleWidget = () => (
+  <NewsListItem article={mockRSSArticle} widget={true} />
+)
