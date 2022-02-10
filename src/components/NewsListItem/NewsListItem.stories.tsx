@@ -16,11 +16,12 @@ export default {
 } as Meta
 
 const mockRSSArticle = {
-  title: 'DAF COVID-19 Statistics - Feb. 8, 2022',
+  id: 'testArticle',
+  title: 'Newest missile warning satellite accepted for operations',
   sourceLink:
     'https://www.spaceforce.mil/News/Article/2903050/daf-covid-19-statistics-feb-8-2022/',
-  description: `Below are current Coronavirus Disease 2019 statistics for Department of the Air Force personnel:`,
-  publishDate: '08 Feb 2022',
+  description: `Space Operations Command has accepted Space Based Geosynchronous Infrared Satellite 5 as operationally capable and has presented it to United States Space Command for operational use.`,
+  publishDate: '04 Feb 2022',
   thumbnailSrc:
     'https://media.defense.gov/2021/Dec/07/2002921422/670/394/0/211207-F-GO452-0001.JPG',
   source: 'RSS',
@@ -28,3 +29,7 @@ const mockRSSArticle = {
 }
 
 export const RSSArticle = () => <NewsListItem article={mockRSSArticle} />
+
+export const RSSArticleNoImage = () => (
+  <NewsListItem article={{ ...mockRSSArticle, thumbnailSrc: '' }} />
+)

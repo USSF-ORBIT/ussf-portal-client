@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   BreadcrumbBar,
   Breadcrumb,
@@ -6,7 +6,9 @@ import {
   Grid,
 } from '@trussworks/react-uswds'
 
-import PageLayout from 'layout/Beta/DefaultLayout/PageLayout'
+import { withPageLayout } from 'layout/Beta/DefaultLayout/PageLayout'
+import Loader from 'components/Loader/Loader'
+import { useUser } from 'hooks/useUser'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import NewsListItem, {
   NewsListItemArticle,
@@ -36,15 +38,24 @@ const formatRssToArticle = (
 }
 
 const News = () => {
-  const newsItems = useRSSFeed(RSS_URL)
+  const { user } = useUser()
+  const { items, fetchItems } = useRSSFeed(RSS_URL)
 
-  return (
+  useEffect(() => {
+    if (user) {
+      fetchItems()
+    }
+  }, [user])
+
+  return !user ? (
+    <Loader />
+  ) : (
     <div>
       <h2>Latest News</h2>
       <h3>The most recently publicly released Space Force news.</h3>
 
       <Grid row gap={2}>
-        {newsItems
+        {items
           .filter(validateNewsItems)
           .map((item) => formatRssToArticle(item as Required<RSSNewsItem>))
           .map((item, i) => (
@@ -62,21 +73,18 @@ const News = () => {
 
 export default News
 
-News.getLayout = (page: React.ReactNode) => (
-  <PageLayout
-    header={
-      <div>
-        <h1>News &amp; Announcements</h1>
-        <BreadcrumbBar>
-          <Breadcrumb>
-            <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
-              Service portal home
-            </BreadcrumbLink>
-          </Breadcrumb>
-          <Breadcrumb current>News & Announcements</Breadcrumb>
-        </BreadcrumbBar>
-      </div>
-    }>
-    {page}
-  </PageLayout>
-)
+News.getLayout = (page: React.ReactNode) =>
+  withPageLayout(
+    <div>
+      <h1>News &amp; Announcements</h1>
+      <BreadcrumbBar>
+        <Breadcrumb>
+          <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
+            Service portal home
+          </BreadcrumbLink>
+        </Breadcrumb>
+        <Breadcrumb current>News & Announcements</Breadcrumb>
+      </BreadcrumbBar>
+    </div>,
+    page
+  )
