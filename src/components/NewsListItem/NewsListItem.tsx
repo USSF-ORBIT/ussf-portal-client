@@ -35,7 +35,10 @@ const NewsListItem = ({
   } = article
 
   return (
-    <article className={styles.NewsListItem}>
+    <article
+      className={classnames(styles.NewsListItem, {
+        [styles.newsWidgetItem]: widget,
+      })}>
       {!widget && thumbnailSrc && (
         <div className={styles.articleImage}>
           <LinkTo href={sourceLink} target="_blank" rel="noreferrer noopener">
@@ -52,9 +55,13 @@ const NewsListItem = ({
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <small>{publishDate} //</small>
         &nbsp;
-        <h3>
-          <strong>{title}</strong>
-        </h3>
+        {widget ? (
+          <h4>{title}</h4>
+        ) : (
+          <h3>
+            <strong>{title}</strong>
+          </h3>
+        )}
       </LinkTo>
 
       <p className={styles.articleExcerpt}>
