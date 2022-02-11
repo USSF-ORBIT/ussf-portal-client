@@ -70,13 +70,13 @@ const News = () => {
           ))}
       </Grid>
 
-      <div style={{ textAlign: 'right' }}>
+      <div style={{ textAlign: 'center' }}>
         <LinkTo
           href="https://www.spaceforce.mil/News"
           target="_blank"
           rel="noreferrer noopener"
           className="usa-button">
-          Read more on SpaceForce.mil
+          Read more news
         </LinkTo>
       </div>
     </div>
