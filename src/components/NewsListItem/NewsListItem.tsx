@@ -79,7 +79,7 @@ const NewsListItem = ({
               )}
               target="_blank"
               rel="noreferrer noopener">
-              continue reading on SpaceForce.mil
+              continue reading
             </LinkTo>
             )
           </>

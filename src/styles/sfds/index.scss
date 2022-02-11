@@ -1,5 +1,6 @@
 /** Space Force Design System **/
 /** ------------------------- **/
+@import 'styles/uswdsDependencies';
 
 // Sharp Sans
 @import '../fonts.scss';
@@ -333,5 +334,10 @@
 
   .usa-breadcrumb__link {
     text-decoration: underline;
+  }
+
+  /** Tags **/
+  .usa-tag {
+    padding: units('05') units(1);
   }
 }
