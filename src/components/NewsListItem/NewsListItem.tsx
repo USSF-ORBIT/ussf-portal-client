@@ -64,7 +64,7 @@ const NewsListItem = ({ article }: { article: NewsListItemArticle }) => {
           )}
           target="_blank"
           rel="noreferrer noopener">
-          continue reading on SpaceForce.mil
+          continue reading
         </LinkTo>
         )
       </p>
