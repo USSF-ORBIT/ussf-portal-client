@@ -23,6 +23,11 @@ $hero-image: url('/assets/images/hero.jpeg');
     background-color: $black;
   }
 
+  h1 {
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+
   a,
   :global(.usa-link) {
     color: $theme-aurora-base;

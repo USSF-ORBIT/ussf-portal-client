@@ -2,8 +2,6 @@ import logging from '../plugins/logging'
 describe('The MVP site', () => {
   describe('logged in pages', () => {
     before(() => {
-      Cypress.Cookies.debug(true)
-
       cy.loginTestIDP()
     })
 

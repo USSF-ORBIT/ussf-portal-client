@@ -29,7 +29,7 @@ describe('Header component', () => {
     expect(
       screen.getByRole('img', { name: 'United States Space Force Logo' })
     ).toHaveAttribute('alt', 'United States Space Force Logo')
-    expect(screen.getAllByRole('link')).toHaveLength(2)
+    expect(screen.getAllByRole('link')).toHaveLength(3)
   })
 
   it('can toggle navigation on smaller screen sizes', () => {

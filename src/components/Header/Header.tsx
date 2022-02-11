@@ -10,6 +10,7 @@ import {
 import styles from './Header.module.scss'
 
 import Logo from 'components/Logo/Logo'
+import NavLink from 'components/util/NavLink/NavLink'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { useAuthContext } from 'stores/authContext'
 import { useAnalytics } from 'stores/analyticsContext'
@@ -34,6 +35,9 @@ const Header = () => {
       rel="noreferrer noopener">
       <span>About this portal</span>
     </LinkTo>,
+    <NavLink key="nav_news" href="/news">
+      News
+    </NavLink>,
     <Button
       secondary
       className={styles.logoutButton}
