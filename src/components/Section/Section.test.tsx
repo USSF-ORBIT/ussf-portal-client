@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { act, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
@@ -31,11 +31,7 @@ describe('Section component', () => {
   })
 
   it('has no a11y violations', async () => {
-    // Bug with NextJS Link + axe :(
-    // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
-    await act(async () => {
-      expect(await axe(html.container)).toHaveNoViolations()
-    })
+    expect(await axe(html.container)).toHaveNoViolations()
   })
 })
 
