@@ -26,6 +26,10 @@
       color: color('base-darker');
     }
   }
+
+  .header + * {
+    margin-top: units('205');
+  }
 }
 
 .dropdownMenuToggle {

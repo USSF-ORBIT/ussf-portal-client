@@ -17,14 +17,14 @@ export default {
 } as Meta
 
 export const ExampleSection = () => (
-  <Section header="Example Section">
+  <Section header={<h3>Example Section</h3>}>
     <p>Example section contents</p>
   </Section>
 )
 
 export const ExampleSectionWithSettings = () => (
   <SectionWithSettings
-    header="Example Section"
+    header={<h3>Example Section</h3>}
     settingsItems={[
       <Button
         key="settingsMenu_item1"

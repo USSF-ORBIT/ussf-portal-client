@@ -1,4 +1,5 @@
 import React, { ReactNode, useRef } from 'react'
+import classnames from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import styles from './Section.module.scss'
@@ -6,15 +7,15 @@ import styles from './Section.module.scss'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
-const Section = ({
-  header,
-  children,
-}: {
+type SectionProps = {
   header: ReactNode
   children: ReactNode | ReactNode[]
-}) => {
+  className?: string
+}
+
+const Section = ({ header, children, className }: SectionProps) => {
   return (
-    <div className={styles.section}>
+    <div className={classnames(styles.section, className)}>
       <div className={styles.header}>{header}</div>
       {children}
     </div>
@@ -25,15 +26,13 @@ export default Section
 
 export const SectionWithSettings = ({
   header,
-  children,
   settingsItems,
   settingsMenuLabel = 'Section Settings',
+  ...props
 }: {
-  header: ReactNode
-  children: ReactNode | ReactNode[]
   settingsItems: ReactNode[]
   settingsMenuLabel?: string
-}) => {
+} & SectionProps) => {
   // Settings dropdown menu state
   const settingsDropdownEl = useRef<HTMLDivElement>(null)
   const [isSettingsOpen, setIsSettingsOpen] = useCloseWhenClickedOutside(
@@ -47,26 +46,28 @@ export const SectionWithSettings = ({
   }
 
   return (
-    <div className={styles.section}>
-      <div className={styles.header}>
-        {header}
-        <DropdownMenu
-          toggleEl={
-            <button
-              type="button"
-              className={styles.dropdownMenuToggle}
-              onClick={settingsMenuOnClick}
-              aria-label={settingsMenuLabel}>
-              <FontAwesomeIcon icon="cog" />
-            </button>
-          }
-          dropdownRef={settingsDropdownEl}
-          align="right"
-          isActive={isSettingsOpen}>
-          {settingsItems}
-        </DropdownMenu>
-      </div>
-      {children}
-    </div>
+    <Section
+      header={
+        <>
+          {header}
+          <DropdownMenu
+            toggleEl={
+              <button
+                type="button"
+                className={styles.dropdownMenuToggle}
+                onClick={settingsMenuOnClick}
+                aria-label={settingsMenuLabel}>
+                <FontAwesomeIcon icon="cog" />
+              </button>
+            }
+            dropdownRef={settingsDropdownEl}
+            align="right"
+            isActive={isSettingsOpen}>
+            {settingsItems}
+          </DropdownMenu>
+        </>
+      }
+      {...props}
+    />
   )
 }
