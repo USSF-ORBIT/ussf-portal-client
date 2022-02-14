@@ -5,31 +5,14 @@ import styles from './NewsSection.module.scss'
 
 import { SectionWithSettings } from 'components/Section/Section'
 import LinkTo from 'components/util/LinkTo/LinkTo'
-import { useRSSFeed, RSSNewsItem } from 'hooks/useRSSFeed'
-import NewsListItem, {
-  NewsListItemArticle,
-} from 'components/NewsListItem/NewsListItem'
+import { useRSSFeed } from 'hooks/useRSSFeed'
+import NewsListItem from 'components/NewsListItem/NewsListItem'
+import type { RSSNewsItem } from 'types'
+import { validateNewsItems, formatRssToArticle } from 'helpers/index'
+import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 
-const RSS_URL = `https://www.spaceforce.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=1060&max=2`
-
-const validateNewsItems = (item: RSSNewsItem): boolean => {
-  return !!(item.id && item.desc && item.date && item.link && item.title)
-}
-
-const formatRssToArticle = (
-  item: Required<RSSNewsItem>
-): NewsListItemArticle => {
-  return {
-    id: item.id,
-    title: item.title,
-    sourceLink: item.link,
-    description: item.desc,
-    publishDate: item.date,
-    thumbnailSrc: item.image,
-    source: 'RSS',
-    sourceName: 'SPACEFORCE.mil',
-  }
-}
+// Load 2 items
+const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
 
 const NewsSection = () => {
   const { items, fetchItems } = useRSSFeed(RSS_URL)

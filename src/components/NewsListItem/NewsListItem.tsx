@@ -6,17 +6,7 @@ import styles from './NewsListItem.module.scss'
 
 import colors from 'styles/sfds/colors.module.scss'
 import LinkTo from 'components/util/LinkTo/LinkTo'
-
-export type NewsListItemArticle = {
-  id: string
-  thumbnailSrc?: string
-  publishDate?: string
-  title: string
-  description: string
-  source: string
-  sourceName: string
-  sourceLink: string
-}
+import type { NewsListItemArticle } from 'types'
 
 const NewsListItem = ({
   article,
