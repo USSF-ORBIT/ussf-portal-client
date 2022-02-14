@@ -16,7 +16,7 @@ import { useEditCollectionMutation } from 'operations/mutations/editCollection'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 import { useEditBookmarkMutation } from 'operations/mutations/editBookmark'
 import { useAnalytics } from 'stores/analyticsContext'
-import NewsWidget from 'components/NewsWidget/NewsWidget'
+import NewsSection from 'components/NewsSection/NewsSection'
 
 const MAXIMUM_COLLECTIONS = 25
 
@@ -138,7 +138,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
               key={`collection_news`}
               tablet={{ col: 6 }}
               desktop={{ col: 4 }}>
-              <NewsWidget />
+              <NewsSection />
             </Grid>
           )}
 

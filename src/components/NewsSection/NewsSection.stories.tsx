@@ -1,11 +1,11 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
 
-import NewsWidget from './NewsWidget'
+import NewsSection from './NewsSection'
 
 export default {
-  title: 'Components/NewsWidget',
-  component: NewsWidget,
+  title: 'Components/NewsSection',
+  component: NewsSection,
   decorators: [
     (Story) => (
       <div className="sfds">
@@ -15,4 +15,4 @@ export default {
   ],
 } as Meta
 
-export const SpaceForceRSS = () => <NewsWidget />
+export const SpaceForceRSS = () => <NewsSection />

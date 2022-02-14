@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button } from '@trussworks/react-uswds'
 
-import styles from './NewsWidget.module.scss'
+import styles from './NewsSection.module.scss'
 
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
@@ -33,7 +33,7 @@ const formatRssToArticle = (
   }
 }
 
-const NewsWidget = () => {
+const NewsSection = () => {
   const { items, fetchItems } = useRSSFeed(RSS_URL)
 
   useEffect(() => {
@@ -73,16 +73,12 @@ const NewsWidget = () => {
           dropdownRef={dropdownEl}
           align="right"
           isActive={isDropdownOpen}>
-          <ol>
-            <li>
-              <Button
-                type="button"
-                className={styles.collectionSettingsDropdown}
-                onClick={handleRemoveWidget}>
-                Delete this collection
-              </Button>
-            </li>
-          </ol>
+          <Button
+            type="button"
+            className={styles.collectionSettingsDropdown}
+            onClick={handleRemoveWidget}>
+            Delete this collection
+          </Button>
         </DropdownMenu>
       </div>
 
@@ -106,4 +102,4 @@ const NewsWidget = () => {
   )
 }
 
-export default NewsWidget
+export default NewsSection
