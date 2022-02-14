@@ -1,6 +1,6 @@
 // Pure functions that can be executed anywhere (NodeJS, browser)
 
-import { RSSNewsItem, NewsListItemArticle } from 'types'
+import type { RSSNewsItem, NewsListItemArticle } from 'types'
 
 /** Validate items from an RSS feed by checking for required attributes */
 export const validateNewsItems = (item: RSSNewsItem): boolean => {

@@ -14,16 +14,12 @@ import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 // Load 2 items
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
 
-const NewsSection = () => {
+const NewsSection = ({ onRemoveSection }: { onRemoveSection: () => void }) => {
   const { items, fetchItems } = useRSSFeed(RSS_URL)
 
   useEffect(() => {
     fetchItems()
   }, [])
-
-  const handleRemoveSection = () => {
-    // TODO
-  }
 
   return (
     <SectionWithSettings
@@ -34,7 +30,7 @@ const NewsSection = () => {
           key="newsSectionSettingsMenu_remove"
           type="button"
           className={styles.collectionSettingsDropdown}
-          onClick={handleRemoveSection}>
+          onClick={onRemoveSection}>
           Remove this section
         </Button>,
       ]}>
