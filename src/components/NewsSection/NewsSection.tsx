@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Button } from '@trussworks/react-uswds'
 
-import styles from './NewsWidget.module.scss'
+import styles from './NewsSection.module.scss'
 
 import { WidgetWithSettings } from 'components/Widget/Widget'
 import LinkTo from 'components/util/LinkTo/LinkTo'
@@ -14,7 +14,7 @@ import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 // Load 2 items
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
 
-const NewsWidget = ({ onRemove }: { onRemove: () => void }) => {
+const NewsSection = ({ onRemove }: { onRemove: () => void }) => {
   const { items, fetchItems } = useRSSFeed(RSS_URL)
 
   useEffect(() => {
@@ -54,4 +54,4 @@ const NewsWidget = ({ onRemove }: { onRemove: () => void }) => {
   )
 }
 
-export default NewsWidget
+export default NewsSection

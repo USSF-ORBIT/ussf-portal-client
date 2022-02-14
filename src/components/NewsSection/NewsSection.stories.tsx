@@ -1,7 +1,7 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
 
-import NewsWidget from './NewsWidget'
+import NewsSection from './NewsSection'
 
 type StorybookArgTypes = {
   onRemove: () => void
@@ -9,7 +9,7 @@ type StorybookArgTypes = {
 
 export default {
   title: 'Components/Sections/News',
-  component: NewsWidget,
+  component: NewsSection,
   argTypes: {
     onRemove: { action: 'Remove this section' },
   },
@@ -23,5 +23,5 @@ export default {
 } as Meta
 
 export const SpaceForceRSS = (argTypes: StorybookArgTypes) => (
-  <NewsWidget onRemove={argTypes.onRemove} />
+  <NewsSection onRemove={argTypes.onRemove} />
 )
