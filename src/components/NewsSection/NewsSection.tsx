@@ -1,12 +1,10 @@
-import React, { useEffect, useRef } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { useEffect } from 'react'
 import { Button } from '@trussworks/react-uswds'
 
 import styles from './NewsSection.module.scss'
 
+import { SectionWithSettings } from 'components/Section/Section'
 import LinkTo from 'components/util/LinkTo/LinkTo'
-import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
-import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 import { useRSSFeed, RSSNewsItem } from 'hooks/useRSSFeed'
 import NewsListItem, {
   NewsListItemArticle,
@@ -40,48 +38,23 @@ const NewsSection = () => {
     fetchItems()
   }, [])
 
-  // Collection settings dropdown state
-  const dropdownEl = useRef<HTMLDivElement>(null)
-  const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
-    dropdownEl,
-    false
-  )
-
-  // Toggle the dropdown menu
-  const menuOnClick = () => {
-    setIsDropdownOpen(!isDropdownOpen)
-  }
-
-  const handleRemoveWidget = () => {
-    //
+  const handleRemoveSection = () => {
+    // TODO
   }
 
   return (
-    <div className={styles.collection}>
-      <div className={styles.header}>
-        <h3>Recent News</h3>
-        <DropdownMenu
-          toggleEl={
-            <button
-              type="button"
-              className={styles.dropdownMenuToggle}
-              onClick={menuOnClick}
-              aria-label="Collection Settings">
-              <FontAwesomeIcon icon="cog" />
-            </button>
-          }
-          dropdownRef={dropdownEl}
-          align="right"
-          isActive={isDropdownOpen}>
-          <Button
-            type="button"
-            className={styles.collectionSettingsDropdown}
-            onClick={handleRemoveWidget}>
-            Delete this collection
-          </Button>
-        </DropdownMenu>
-      </div>
-
+    <SectionWithSettings
+      className={styles.newsSection}
+      header={<h3>Recent News</h3>}
+      settingsItems={[
+        <Button
+          key="newsSectionSettingsMenu_remove"
+          type="button"
+          className={styles.collectionSettingsDropdown}
+          onClick={handleRemoveSection}>
+          Remove this section
+        </Button>,
+      ]}>
       {items
         .filter(validateNewsItems)
         .map((item) => formatRssToArticle(item as Required<RSSNewsItem>))
@@ -98,7 +71,7 @@ const NewsSection = () => {
           View all
         </LinkTo>
       </div>
-    </div>
+    </SectionWithSettings>
   )
 }
 

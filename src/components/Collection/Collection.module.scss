@@ -1,21 +1,13 @@
 @import 'styles/uswdsDependencies';
 
-$collectionHorizontalPadding: units(2);
-
-.collection {
-  padding: units(3) 0;
-
-  > :first-child {
-    // Header
-    padding: 0 $collectionHorizontalPadding;
-  }
-}
+$sectionHorizontalPadding: units(2);
 
 .collectionList {
   @include add-list-reset;
 
   > li {
-    @include u-padding-x($collectionHorizontalPadding);
+    @include u-margin-x(-$sectionHorizontalPadding);
+    @include u-padding-x($sectionHorizontalPadding);
     display: flex;
 
     > * {

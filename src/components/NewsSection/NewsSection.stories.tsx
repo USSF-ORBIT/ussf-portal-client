@@ -4,7 +4,7 @@ import { Meta } from '@storybook/react'
 import NewsSection from './NewsSection'
 
 export default {
-  title: 'Components/NewsSection',
+  title: 'Components/Sections/NewsSection',
   component: NewsSection,
   decorators: [
     (Story) => (
