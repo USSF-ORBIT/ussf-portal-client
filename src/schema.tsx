@@ -13,10 +13,22 @@ export const typeDefs = gql`
     title: String!
     bookmarks: [Bookmark]
   }
+  enum SectionType {
+    Collection
+    News
+  }
+  type Section {
+    _id: ID!
+    title: String!
+    type: SectionType!
+  }
   type Query {
     collections: [Collection]
+    sections: [Section]
   }
   type Mutation {
+    addSection(title: String!, type: SectionType!): Section
+    removeSection(_id: ID!): Section
     addCollection(title: String!, bookmarks: [BookmarkInput!]!): Collection
     editCollection(_id: ID!, title: String!): Collection
     removeCollection(_id: ID!): Collection
