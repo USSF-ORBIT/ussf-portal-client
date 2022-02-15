@@ -7,6 +7,7 @@ import { newPortalUser } from '../__fixtures__/newPortalUser'
 
 import resolvers from './index'
 
+import { GET_MY_SPACE } from 'operations/queries/getMySpace'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 import { ADD_COLLECTION } from 'operations/mutations/addCollection'
 import { EDIT_COLLECTION } from 'operations/mutations/editCollection'
@@ -48,6 +49,7 @@ describe('GraphQL resolvers', () => {
     })
 
     it.each([
+      ['getMySpace', GET_MY_SPACE],
       ['getCollections', GET_COLLECTIONS],
       [
         'addCollection',
@@ -130,6 +132,22 @@ describe('GraphQL resolvers', () => {
             userId: newPortalUser.userId,
           },
         }),
+      })
+    })
+
+    describe('getMySpace', () => {
+      it('returns all sections for the logged in user', async () => {
+        const result = await server.executeOperation({
+          query: GET_MY_SPACE,
+        })
+
+        const expectedData = { ...newPortalUser }
+
+        expect(result.errors).toBeUndefined()
+
+        expect(JSON.stringify(result.data)).toEqual(
+          JSON.stringify({ sections: expectedData.mySpace })
+        )
       })
     })
 

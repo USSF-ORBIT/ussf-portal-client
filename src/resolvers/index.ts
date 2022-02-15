@@ -7,6 +7,17 @@ import { CollectionModel } from '../models/Collection'
 import { SectionModel } from 'models/Section'
 
 const resolvers: Resolvers = {
+  // Interface resolvers
+  // https://www.apollographql.com/docs/apollo-server/schema/unions-interfaces/#resolving-an-interface
+  Section: {
+    __resolveType(section) {
+      if (section.bookmarks) return 'Collection'
+      if (section.type === 'News') return 'NewsSection'
+      return null // GraphQL Error
+    },
+  },
+
+  // Root resolvers
   Query: {
     sections: async (_, args, { db, user }) => {
       if (!user) {
