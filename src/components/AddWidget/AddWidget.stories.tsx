@@ -6,6 +6,7 @@ import AddWidget from './AddWidget'
 type StorybookArgTypes = {
   handleSelectCollection: () => void
   handleCreateCollection: () => void
+  handleAddNewsSection: () => void
 }
 
 export default {
@@ -14,6 +15,7 @@ export default {
   argTypes: {
     handleSelectCollection: { action: 'Select collection from template' },
     handleCreateCollection: { action: 'Create new collection' },
+    handleAddNewsSection: { action: 'Add news section' },
   },
   decorators: [
     (Story) => (
@@ -28,5 +30,6 @@ export const DefaultAddWidget = (argTypes: StorybookArgTypes) => (
   <AddWidget
     handleSelectCollection={argTypes.handleSelectCollection}
     handleCreateCollection={argTypes.handleCreateCollection}
+    handleAddNewsSection={argTypes.handleAddNewsSection}
   />
 )

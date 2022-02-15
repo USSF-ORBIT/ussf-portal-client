@@ -12,6 +12,7 @@ export const REMOVE_SECTION = gql`
   mutation removeSection($_id: ID!) {
     removeSection(_id: $_id) {
       _id
+      type
     }
   }
 `
