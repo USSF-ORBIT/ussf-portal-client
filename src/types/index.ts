@@ -32,8 +32,17 @@ export type CollectionRecords = readonly CollectionRecord[]
  * ***********************
  * */
 
-/* Bookmark refers to a user-created object containing a url */
+export type SectionType = 'Collection' | 'News'
 
+export type Section = {
+  _id: string
+  title: string
+  type: SectionType
+}
+
+export type MySpace = (Section | Collection)[]
+
+/* Bookmark refers to a user-created object containing a url */
 export type Bookmark = {
   _id: string
   url: string
@@ -62,10 +71,7 @@ export type RemovedBookmark = {
 }
 
 /* Collection refers to a user-created collection containing one or more bookmarks */
-
-export type Collection = {
-  _id: string
-  title: string
+export interface Collection extends Section {
   bookmarks: Bookmark[]
   cmsId?: string
   type: 'Collection'
