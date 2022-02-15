@@ -4,9 +4,19 @@ import type { Resolvers } from '@apollo/client'
 import { AuthenticationError } from 'apollo-server-micro'
 import { BookmarkModel } from '../models/Bookmark'
 import { CollectionModel } from '../models/Collection'
+import { SectionModel } from 'models/Section'
 
 const resolvers: Resolvers = {
   Query: {
+    sections: async (_, args, { db, user }) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      return SectionModel.getAll({ userId: user.userId }, { db })
+    },
     collections: async (_, args, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(
@@ -18,6 +28,24 @@ const resolvers: Resolvers = {
     },
   },
   Mutation: {
+    addSection: async (_, { title, type }, { db, user }) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      return SectionModel.addOne({ title, type, userId: user.userId }, { db })
+    },
+    removeSection: async (_, { _id }, { db, user }) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      return SectionModel.deleteOne({ _id, userId: user.userId }, { db })
+    },
     addCollection: async (_, { title, bookmarks }, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(
