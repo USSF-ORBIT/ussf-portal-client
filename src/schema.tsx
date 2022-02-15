@@ -9,29 +9,35 @@ export const typeDefs = gql`
     isRemoved: Boolean
   }
 
-  enum WidgetType {
-    Collection
-  }
-
-  type Collection {
-    _id: ID!
-    title: String!
-    type: WidgetType!
-    bookmarks: [Bookmark]
-  }
   enum SectionType {
     Collection
     News
   }
-  type Section {
+
+  interface Section {
+    _id: ID!
+    title: String!
+    type: SectionType
+  }
+
+  type Collection implements Section {
+    _id: ID!
+    title: String!
+    type: SectionType
+    bookmarks: [Bookmark]
+  }
+
+  type NewsSection implements Section {
     _id: ID!
     title: String!
     type: SectionType!
   }
+
   type Query {
     collections: [Collection]
     sections: [Section]
   }
+
   type Mutation {
     addSection(title: String!, type: SectionType!): Section
     removeSection(_id: ID!): Section
@@ -53,6 +59,7 @@ export const typeDefs = gql`
       label: String
     ): Bookmark
   }
+
   input BookmarkInput {
     url: String!
     label: String
@@ -69,6 +76,6 @@ export const typeDefs = gql`
     id: ID!
     url: String!
     label: String
-    description: String
+    cmsId: ID
   }
 `

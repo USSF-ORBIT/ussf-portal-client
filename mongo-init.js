@@ -1,10 +1,23 @@
-// eslint-disable-next-line
-const { ObjectId } = require('mongodb')
+/* eslint no-undef: "off" */
+
+/*
+This script will only run when using docker-compose.dev and 
+if there is no existing database.
+To trigger on subsequent Docker builds, make sure to run
+`docker volume rm ussf-portal-client-mongodb_data_container`
+
+The variable 'db' refers to the $MONGO_INITDB_DATABASE
+variable declared in the MongoDB Docker container in docker-compose.yml
+
+*/
+
+print('✅ Connected to database: ', db)
+
+db.createCollection('users')
 
 const exampleCollection1 = {
   title: 'Example Collection',
   _id: new ObjectId(),
-  type: 'Collection',
   bookmarks: [
     {
       _id: new ObjectId(),
@@ -41,7 +54,6 @@ const exampleCollection1 = {
 const exampleCollection2 = {
   title: 'Second Collection',
   _id: new ObjectId(),
-  type: 'Collection',
   bookmarks: [
     {
       _id: new ObjectId(),
@@ -51,38 +63,9 @@ const exampleCollection2 = {
   ],
 }
 
-const exampleCollection3 = {
-  title: 'Third Collection',
-  _id: new ObjectId(),
-  type: 'Collection',
-  bookmarks: [
-    {
-      _id: new ObjectId(),
-      url: 'https://google.com',
-      label: 'Search Engine',
-    },
-    {
-      _id: new ObjectId(),
-      url: 'https://google.com',
-      label: 'Webmail',
-    },
-    {
-      _id: new ObjectId(),
-      url: 'https://mypay.dfas.mil/#/',
-      label: 'MyPay',
-      cmsId: 'cktd7hjz30636w5977vu4la4c',
-    },
-  ],
-}
-
-// These users need to exist in the test IDP users.php file
-// because Cypress tests authenticate using the test IDP
-module.exports.testUser1 = {
-  userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
+const exampleUser = {
+  userId: 'HALL.MICHAEL.0123456789',
   mySpace: [exampleCollection1, exampleCollection2],
 }
 
-module.exports.testUser2 = {
-  userId: 'RONALD.BOYD.312969168@testusers.cce.af.mil',
-  mySpace: [exampleCollection3],
-}
+db.users.insertOne(exampleUser)
