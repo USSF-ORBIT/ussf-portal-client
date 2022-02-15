@@ -4,11 +4,21 @@ import { useRouter } from 'next/router'
 
 import styles from './MySpace.module.scss'
 
-import type { BookmarkRecords, BookmarkInput } from 'types/index'
+import type {
+  MySpaceSection,
+  BookmarkRecords,
+  BookmarkInput,
+  Collection,
+} from 'types/index'
+
+import NewsSection from 'components/NewsSection/NewsSection'
 import CustomCollection from 'components/CustomCollection/CustomCollection'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import AddWidget from 'components/AddWidget/AddWidget'
-import { useCollectionsQuery } from 'operations/queries/getCollections'
+
+import { useMySpaceQuery } from 'operations/queries/getMySpace'
+import { useAddSectionMutation } from 'operations/mutations/addSection'
+import { useRemoveSectionMutation } from 'operations/mutations/removeSection'
 import { useRemoveBookmarkMutation } from 'operations/mutations/removeBookmark'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useRemoveCollectionMutation } from 'operations/mutations/removeCollection'
@@ -19,10 +29,18 @@ import { useAnalytics } from 'stores/analyticsContext'
 
 const MAXIMUM_COLLECTIONS = 25
 
+/** Type guards */
+function isCollection(section: MySpaceSection): section is Collection {
+  return 'bookmarks' in section
+}
+
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const router = useRouter()
   const { trackEvent } = useAnalytics()
-  const { loading, error, data } = useCollectionsQuery()
+  const { loading, error, data } = useMySpaceQuery()
+
+  const [handleAddSection] = useAddSectionMutation()
+  const [handleRemoveSection] = useRemoveSectionMutation()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
   const [handleRemoveCollection] = useRemoveCollectionMutation()
@@ -32,17 +50,27 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
 
   if (error) return <p>Error</p>
 
+  const addNewsSection = () => {
+    trackEvent('Add section', 'Add News section')
+
+    handleAddSection({
+      variables: { title: 'Recent news', type: 'News' },
+      refetchQueries: ['getMySpace'],
+    })
+  }
+
   const addNewCollection = () => {
     trackEvent('Add section', 'Create new collection')
 
     const newBookmark: BookmarkInput[] = []
     handleAddCollection({
       variables: { title: '', bookmarks: newBookmark },
-      refetchQueries: [`getCollections`],
+      refetchQueries: [`getMySpace`],
     })
   }
 
-  const canAddSections = data && data.collections.length < MAXIMUM_COLLECTIONS
+  // TODO
+  const canAddSections = data && data.sections.length < MAXIMUM_COLLECTIONS
 
   const selectCollections = () => {
     trackEvent('Add section', 'Select collection from template')
@@ -68,67 +96,80 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
           )}
 
           {data &&
-            data.collections &&
-            data.collections.map((collection) => (
+            data.sections &&
+            data.sections.map((section) => (
               <Grid
-                key={`collection_${collection._id}`}
+                key={`section_${section._id}`}
                 tabletLg={{ col: 6 }}
                 desktopLg={{ col: 4 }}>
-                <CustomCollection
-                  _id={collection._id}
-                  title={collection.title}
-                  bookmarks={collection.bookmarks}
-                  bookmarkOptions={bookmarks}
-                  handleRemoveCollection={() => {
-                    handleRemoveCollection({
-                      variables: {
-                        _id: collection._id,
-                      },
-                      refetchQueries: [`getCollections`],
-                    })
-                  }}
-                  handleEditCollection={(title: string) => {
-                    handleEditCollection({
-                      variables: {
-                        _id: collection._id,
-                        title,
-                      },
-                      refetchQueries: [`getCollections`],
-                    })
-                  }}
-                  handleRemoveBookmark={(_id, cmsId) => {
-                    handleRemoveBookmark({
-                      variables: {
-                        _id,
-                        collectionId: collection._id,
-                        cmsId,
-                      },
-                      refetchQueries: [`getCollections`],
-                    })
-                  }}
-                  handleAddBookmark={(url, label, id) => {
-                    handleAddBookmark({
-                      variables: {
-                        collectionId: collection._id,
-                        url,
-                        label,
-                        cmsId: id,
-                      },
-                      refetchQueries: [`getCollections`],
-                    })
-                  }}
-                  handleEditBookmark={(id, url, label) => {
-                    handleEditBookmark({
-                      variables: {
-                        _id: id,
-                        collectionId: collection._id,
-                        url,
-                        label,
-                      },
-                      refetchQueries: [`getCollections`],
-                    })
-                  }}
-                />
+                {section.type === 'News' && (
+                  <NewsSection
+                    onRemoveSection={() => {
+                      handleRemoveSection({
+                        variables: { _id: section._id },
+                        refetchQueries: [`getMySpace`],
+                      })
+                    }}
+                  />
+                )}
+
+                {isCollection(section) && (
+                  <CustomCollection
+                    _id={section._id}
+                    title={section.title}
+                    bookmarks={section.bookmarks}
+                    bookmarkOptions={bookmarks}
+                    handleRemoveCollection={() => {
+                      handleRemoveCollection({
+                        variables: {
+                          _id: section._id,
+                        },
+                        refetchQueries: [`getMySpace`],
+                      })
+                    }}
+                    handleEditCollection={(title: string) => {
+                      handleEditCollection({
+                        variables: {
+                          _id: section._id,
+                          title,
+                        },
+                        refetchQueries: [`getMySpace`],
+                      })
+                    }}
+                    handleRemoveBookmark={(_id, cmsId) => {
+                      handleRemoveBookmark({
+                        variables: {
+                          _id,
+                          collectionId: section._id,
+                          cmsId,
+                        },
+                        refetchQueries: [`getMySpace`],
+                      })
+                    }}
+                    handleAddBookmark={(url, label, id) => {
+                      handleAddBookmark({
+                        variables: {
+                          collectionId: section._id,
+                          url,
+                          label,
+                          cmsId: id,
+                        },
+                        refetchQueries: [`getMySpace`],
+                      })
+                    }}
+                    handleEditBookmark={(id, url, label) => {
+                      handleEditBookmark({
+                        variables: {
+                          _id: id,
+                          collectionId: section._id,
+                          url,
+                          label,
+                        },
+                        refetchQueries: [`getMySpace`],
+                      })
+                    }}
+                  />
+                )}
               </Grid>
             ))}
 
@@ -140,6 +181,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
               <AddWidget
                 handleCreateCollection={addNewCollection}
                 handleSelectCollection={selectCollections}
+                handleAddNewsSection={addNewsSection}
               />
             </Grid>
           )}

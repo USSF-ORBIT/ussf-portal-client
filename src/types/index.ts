@@ -40,7 +40,9 @@ export type Section = {
   type: SectionType
 }
 
-export type MySpace = (Section | Collection)[]
+export type MySpaceSection = Section | Collection
+
+export type MySpace = MySpaceSection[]
 
 /* Bookmark refers to a user-created object containing a url */
 export type Bookmark = {

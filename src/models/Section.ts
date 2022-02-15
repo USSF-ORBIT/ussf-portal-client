@@ -86,7 +86,7 @@ export const SectionModel = {
   async deleteOne(
     { _id, userId }: DeleteOneInput,
     { db }: Context
-  ): Promise<{ _id: string }> {
+  ): Promise<{ _id: string; type: SectionType }> {
     try {
       await db
         .collection('users')
@@ -95,7 +95,7 @@ export const SectionModel = {
           { $pull: { mySpace: { _id: new ObjectId(_id) } } },
           { returnDocument: 'after' }
         )
-      return { _id }
+      return { _id, type: 'News' }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('SectionModel Error: error in deleteOne', e)
