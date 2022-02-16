@@ -24,7 +24,7 @@ import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectio
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 import { useAnalytics } from 'stores/analyticsContext'
 
-// TODO - refactor this component to use SectionWithSettings
+// TODO - refactor this component to use WidgetWithSettings
 
 type PropTypes = {
   _id: string

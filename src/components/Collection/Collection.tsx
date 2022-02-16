@@ -2,7 +2,7 @@ import React, { Children } from 'react'
 
 import styles from './Collection.module.scss'
 
-import Section from 'components/Section/Section'
+import Widget from 'components/Widget/Widget'
 
 type PropTypes = {
   title?: string
@@ -13,7 +13,7 @@ type PropTypes = {
 
 const Collection = ({ title = '', children, header, footer }: PropTypes) => {
   return (
-    <Section
+    <Widget
       className={styles.collection}
       header={
         <>
@@ -28,7 +28,7 @@ const Collection = ({ title = '', children, header, footer }: PropTypes) => {
       </ol>
 
       {footer}
-    </Section>
+    </Widget>
   )
 }
 

@@ -1,7 +1,7 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/sfds/sfdsDependencies';
 
-.newsSection {
+.newsWidget {
   article + article {
     margin-top: units(2);
     border-top: 1px solid #c4c4c4;

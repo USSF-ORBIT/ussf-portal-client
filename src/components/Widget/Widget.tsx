@@ -2,29 +2,29 @@ import React, { ReactNode, useRef } from 'react'
 import classnames from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import styles from './Section.module.scss'
+import styles from './Widget.module.scss'
 
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
-type SectionProps = {
+type WidgetProps = {
   header: ReactNode
   children: ReactNode | ReactNode[]
   className?: string
 }
 
-const Section = ({ header, children, className }: SectionProps) => {
+const Widget = ({ header, children, className }: WidgetProps) => {
   return (
-    <div className={classnames(styles.section, className)}>
+    <div className={classnames(styles.widget, className)}>
       <div className={styles.header}>{header}</div>
       {children}
     </div>
   )
 }
 
-export default Section
+export default Widget
 
-export const SectionWithSettings = ({
+export const WidgetWithSettings = ({
   header,
   settingsItems,
   settingsMenuLabel = 'Section Settings',
@@ -32,7 +32,7 @@ export const SectionWithSettings = ({
 }: {
   settingsItems: ReactNode[]
   settingsMenuLabel?: string
-} & SectionProps) => {
+} & WidgetProps) => {
   // Settings dropdown menu state
   const settingsDropdownEl = useRef<HTMLDivElement>(null)
   const [isSettingsOpen, setIsSettingsOpen] = useCloseWhenClickedOutside(
@@ -46,7 +46,7 @@ export const SectionWithSettings = ({
   }
 
   return (
-    <Section
+    <Widget
       header={
         <>
           {header}

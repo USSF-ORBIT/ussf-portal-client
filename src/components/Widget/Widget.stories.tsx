@@ -2,11 +2,11 @@ import React from 'react'
 import { Meta } from '@storybook/react'
 import { Button } from '@trussworks/react-uswds'
 
-import Section, { SectionWithSettings } from './Section'
+import Widget, { WidgetWithSettings } from './Widget'
 
 export default {
   title: 'Components/Sections/Section',
-  component: Section,
+  component: Widget,
   decorators: [
     (Story) => (
       <div className="sfds">
@@ -17,13 +17,13 @@ export default {
 } as Meta
 
 export const ExampleSection = () => (
-  <Section header={<h3>Example Section</h3>}>
+  <Widget header={<h3>Example Section</h3>}>
     <p>Example section contents</p>
-  </Section>
+  </Widget>
 )
 
 export const ExampleSectionWithSettings = () => (
-  <SectionWithSettings
+  <WidgetWithSettings
     header={<h3>Example Section</h3>}
     settingsItems={[
       <Button
@@ -36,5 +36,5 @@ export const ExampleSectionWithSettings = () => (
       </Button>,
     ]}>
     <p>Example section contents</p>
-  </SectionWithSettings>
+  </WidgetWithSettings>
 )

@@ -8,16 +8,16 @@ import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import React from 'react'
 
-import Section, { SectionWithSettings } from './Section'
+import Widget, { WidgetWithSettings } from './Widget'
 
-describe('Section component', () => {
+describe('Widget component', () => {
   let html: RenderResult
 
   beforeEach(() => {
     html = render(
-      <Section header={<h3>Example section</h3>}>
+      <Widget header={<h3>Example section</h3>}>
         Example section contents
-      </Section>
+      </Widget>
     )
   })
 
@@ -35,14 +35,14 @@ describe('Section component', () => {
   })
 })
 
-describe('SectionWithSettings component', () => {
+describe('WidgetWithSettings component', () => {
   let html: RenderResult
 
   const handleSettingsItemClick = jest.fn()
 
   beforeEach(() => {
     html = render(
-      <SectionWithSettings
+      <WidgetWithSettings
         header={<h3>Example section</h3>}
         settingsMenuLabel="Section Settings menu"
         settingsItems={[
@@ -54,7 +54,7 @@ describe('SectionWithSettings component', () => {
           </button>,
         ]}>
         Example section contents
-      </SectionWithSettings>
+      </WidgetWithSettings>
     )
   })
 

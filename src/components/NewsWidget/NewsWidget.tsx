@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { Button } from '@trussworks/react-uswds'
 
-import styles from './NewsSection.module.scss'
+import styles from './NewsWidget.module.scss'
 
-import { SectionWithSettings } from 'components/Section/Section'
+import { WidgetWithSettings } from 'components/Widget/Widget'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { useRSSFeed } from 'hooks/useRSSFeed'
 import NewsListItem from 'components/NewsListItem/NewsListItem'
@@ -14,7 +14,7 @@ import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 // Load 2 items
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
 
-const NewsSection = ({ onRemoveSection }: { onRemoveSection: () => void }) => {
+const NewsWidget = ({ onRemove }: { onRemove: () => void }) => {
   const { items, fetchItems } = useRSSFeed(RSS_URL)
 
   useEffect(() => {
@@ -22,15 +22,15 @@ const NewsSection = ({ onRemoveSection }: { onRemoveSection: () => void }) => {
   }, [])
 
   return (
-    <SectionWithSettings
-      className={styles.newsSection}
+    <WidgetWithSettings
+      className={styles.newsWidget}
       header={<h3>Recent News</h3>}
       settingsItems={[
         <Button
-          key="newsSectionSettingsMenu_remove"
+          key="newsWidgetSettingsMenu_remove"
           type="button"
           className={styles.collectionSettingsDropdown}
-          onClick={onRemoveSection}>
+          onClick={onRemove}>
           Remove this section
         </Button>,
       ]}>
@@ -50,8 +50,8 @@ const NewsSection = ({ onRemoveSection }: { onRemoveSection: () => void }) => {
           View all
         </LinkTo>
       </div>
-    </SectionWithSettings>
+    </WidgetWithSettings>
   )
 }
 
-export default NewsSection
+export default NewsWidget

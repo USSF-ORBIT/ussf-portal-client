@@ -6,7 +6,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 
-import NewsSection from './NewsSection'
+import NewsWidget from './NewsWidget'
 
 import mockRssFeed from '__mocks__/news-rss'
 
@@ -14,7 +14,7 @@ jest.mock('axios')
 
 const mockedAxios = axios as jest.Mocked<typeof axios>
 
-describe('News section component', () => {
+describe('NewsWidget component', () => {
   const mockHandleRemove = jest.fn()
 
   mockedAxios.get.mockImplementation(() => {
@@ -25,8 +25,8 @@ describe('News section component', () => {
     mockedAxios.get.mockClear()
   })
 
-  it('renders a section that displays RSS items and a link to the News page', async () => {
-    render(<NewsSection onRemoveSection={mockHandleRemove} />)
+  it('renders a widget that displays RSS items and a link to the News page', async () => {
+    render(<NewsWidget onRemove={mockHandleRemove} />)
 
     expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
       'Recent News'
@@ -40,7 +40,7 @@ describe('News section component', () => {
   })
 
   it('renders a settings menu', async () => {
-    render(<NewsSection onRemoveSection={mockHandleRemove} />)
+    render(<NewsWidget onRemove={mockHandleRemove} />)
 
     userEvent.click(
       screen.getByRole('button', {
