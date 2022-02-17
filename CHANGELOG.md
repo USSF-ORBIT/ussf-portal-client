@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.1.0...2.2.0) (2022-02-17)
+
+
+### Features
+
+* News page [sc-27] ([#512](https://github.com/USSF-ORBIT/ussf-portal-client/issues/512)) ([2458fac](https://github.com/USSF-ORBIT/ussf-portal-client/commit/2458fac975ddd0b2f30b56d670c17e55631f907e))
+
+
+### Bug Fixes
+
+* Init analytics context from API data ([#504](https://github.com/USSF-ORBIT/ussf-portal-client/issues/504)) ([d46185f](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d46185fce7aeac08cea5a2416f71f3e3b33f9796))
+* Modal body padding bug ([#515](https://github.com/USSF-ORBIT/ussf-portal-client/issues/515)) ([1cf60eb](https://github.com/USSF-ORBIT/ussf-portal-client/commit/1cf60ebc738bc52d6befa047c74ba684d3cc0fb4))
+
 ## [2.1.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.0.1...2.1.0) (2022-02-04)
 
 
