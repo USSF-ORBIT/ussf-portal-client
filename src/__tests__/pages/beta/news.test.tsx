@@ -80,19 +80,5 @@ describe('News page', () => {
       ).toHaveTextContent('Latest news')
       expect(await screen.findAllByRole('article')).toHaveLength(10)
     })
-
-    describe('if the RSS fetch fails', () => {
-      it('logs the error', async () => {
-        const consoleSpy = jest.spyOn(console, 'error')
-
-        mockedAxios.get.mockRejectedValueOnce(new Error('Error fetching RSS'))
-
-        renderWithAuth(<News />)
-
-        waitFor(() =>
-          expect(consoleSpy).toHaveBeenCalledWith('Error fetching RSS feed')
-        )
-      })
-    })
   })
 })

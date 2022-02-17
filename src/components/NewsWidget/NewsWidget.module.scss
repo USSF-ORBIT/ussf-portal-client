@@ -1,0 +1,14 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.newsWidget {
+  article + article {
+    margin-top: units(2);
+    border-top: 1px solid #c4c4c4;
+    padding-top: units(2);
+  }
+
+  article:last-of-type {
+    margin-bottom: units(2);
+  }
+}

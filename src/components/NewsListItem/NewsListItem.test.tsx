@@ -85,6 +85,38 @@ describe('NewsListItem component', () => {
         })
       ).toHaveAttribute('href', testArticle.sourceLink)
 
+      expect(
+        screen.getByRole('link', {
+          name: `continue reading`,
+        })
+      ).toHaveAttribute('href', testArticle.sourceLink)
+
+      expect(screen.getByText(/This is a test article/i)).toBeInTheDocument()
+      expect(screen.getByText(testArticle.sourceName)).toBeInTheDocument()
+    })
+  })
+
+  describe('displayed in a widget', () => {
+    beforeEach(() => {
+      render(<NewsListItem article={testArticle} widget={true} />)
+    })
+
+    it('renders the article contents', () => {
+      expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent(
+        testArticle.title
+      )
+      expect(
+        screen.getByText(`${testArticle.publishDate} //`)
+      ).toBeInTheDocument()
+
+      expect(screen.queryByRole('img')).not.toBeInTheDocument()
+
+      expect(
+        screen.getByRole('link', {
+          name: `${testArticle.publishDate} // ${testArticle.title}`,
+        })
+      ).toHaveAttribute('href', testArticle.sourceLink)
+
       expect(screen.getByText(/This is a test article/i)).toBeInTheDocument()
       expect(screen.getByText(testArticle.sourceName)).toBeInTheDocument()
     })

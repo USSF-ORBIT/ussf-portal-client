@@ -1,14 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 
-export type RSSNewsItem = {
-  id?: string
-  desc?: string
-  date?: string
-  link?: string
-  title?: string
-  image?: string
-}
+import type { RSSNewsItem } from 'types'
 
 export const useRSSFeed = (
   feedUrl: string

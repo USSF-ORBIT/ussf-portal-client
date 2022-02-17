@@ -73,3 +73,9 @@ a.articleLink {
 .articleTag {
   align-self: flex-start;
 }
+
+.newsWidgetItem {
+  .articleExcerptTruncate {
+    -webkit-line-clamp: 4;
+  }
+}

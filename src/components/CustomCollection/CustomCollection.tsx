@@ -24,6 +24,8 @@ import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectio
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 import { useAnalytics } from 'stores/analyticsContext'
 
+// TODO - refactor this component to use WidgetWithSettings
+
 type PropTypes = {
   _id: string
   title?: string
@@ -271,24 +273,18 @@ const CustomCollection = ({
           dropdownRef={dropdownEl}
           align="right"
           isActive={isDropdownOpen}>
-          <ol>
-            <li>
-              <Button
-                type="button"
-                className={styles.collectionSettingsDropdown}
-                onClick={handleEditCollectionTitle}>
-                Edit collection title
-              </Button>
-            </li>
-            <li>
-              <Button
-                type="button"
-                className={styles.collectionSettingsDropdown}
-                onClick={handleConfirmDeleteCollection}>
-                Delete this collection
-              </Button>
-            </li>
-          </ol>
+          <Button
+            type="button"
+            className={styles.collectionSettingsDropdown}
+            onClick={handleEditCollectionTitle}>
+            Edit collection title
+          </Button>
+          <Button
+            type="button"
+            className={styles.collectionSettingsDropdown}
+            onClick={handleConfirmDeleteCollection}>
+            Delete this collection
+          </Button>
         </DropdownMenu>
       )}
       <RemoveCustomCollectionModal

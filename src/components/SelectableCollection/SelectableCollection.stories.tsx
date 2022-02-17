@@ -9,7 +9,7 @@ type StorybookArgTypes = {
 }
 
 export default {
-  title: 'Components/Collections/SelectableCollection',
+  title: 'Components/Sections/Collections/SelectableCollection',
   component: SelectableCollection,
   argTypes: {
     handleSelect: { action: 'Select collection' },

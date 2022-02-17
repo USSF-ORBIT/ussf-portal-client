@@ -93,5 +93,19 @@ describe('useRSSFeed hook', () => {
     })
   })
 
-  // TODO - error?
+  it('logs the error if the RSS fetch fails', async () => {
+    const consoleSpy = jest.spyOn(console, 'error')
+
+    mockedAxios.get.mockRejectedValueOnce(new Error('Error fetching RSS'))
+
+    const { result } = renderHook(() => useRSSFeed(MOCK_RSS_URL))
+
+    await waitFor(() => {
+      result.current.fetchItems()
+    })
+
+    waitFor(() =>
+      expect(consoleSpy).toHaveBeenCalledWith('Error fetching RSS feed')
+    )
+  })
 })
