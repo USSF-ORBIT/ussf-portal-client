@@ -34,6 +34,6 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Deploy Storybook to Github page
-        run: yarn storybook:deploy --ci
+        run: yarn storybook:deploy --ci --source-branch=main
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
