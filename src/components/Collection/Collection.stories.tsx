@@ -26,10 +26,10 @@ export const ExampleCollection = () => (
     <Bookmark key="link3" href="#">
       vMPF
     </Bookmark>
-    <Bookmark key="link3" href="#">
+    <Bookmark key="link4" href="#">
       LeaveWeb
     </Bookmark>
-    <Bookmark key="link3" href="#">
+    <Bookmark key="link5" href="#">
       e-Publications
     </Bookmark>
   </Collection>

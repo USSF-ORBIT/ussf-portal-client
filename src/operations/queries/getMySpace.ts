@@ -10,7 +10,7 @@ export const GET_MY_SPACE = gql`
     mySpace {
       _id
       title
-      ... on NewsSection {
+      ... on NewsWidget {
         type
       }
       ... on Collection {
