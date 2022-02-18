@@ -10,13 +10,13 @@ import { MockedProvider } from '@apollo/client/testing'
 
 import { renderWithModalRoot } from '../../testHelpers'
 import {
-  getCollectionsMock,
-  getMaximumCollectionsMock,
-} from '../../__fixtures__/operations/getCollection'
+  getMySpaceMock,
+  getMySpaceMaximumCollectionsMock,
+} from '../../__fixtures__/operations/getMySpace'
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import MySpace from './MySpace'
 
-import { GET_COLLECTIONS } from 'operations/queries/getCollections'
+import { GET_MY_SPACE } from 'operations/queries/getMySpace'
 import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
 import { REMOVE_COLLECTION } from 'operations/mutations/removeCollection'
@@ -52,7 +52,7 @@ describe('My Space Component', () => {
     let html: RenderResult
     beforeEach(() => {
       html = render(
-        <MockedProvider mocks={getCollectionsMock} addTypename={false}>
+        <MockedProvider mocks={getMySpaceMock} addTypename={false}>
           <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
         </MockedProvider>
       )
@@ -68,14 +68,14 @@ describe('My Space Component', () => {
       expect(
         await screen.findByRole('heading', {
           level: 3,
-          name: getCollectionsMock[0].result.data.collections[0].title,
+          name: getMySpaceMock[0].result.data.mySpace[0].title,
         })
       ).toBeInTheDocument()
 
       expect(
         await screen.findByRole('heading', {
           level: 3,
-          name: getCollectionsMock[0].result.data.collections[1].title,
+          name: getMySpaceMock[0].result.data.mySpace[1].title,
         })
       ).toBeInTheDocument()
 
@@ -103,7 +103,7 @@ describe('My Space Component', () => {
     const errorMock = [
       {
         request: {
-          query: GET_COLLECTIONS,
+          query: GET_MY_SPACE,
         },
         error: new Error(),
       },
@@ -120,7 +120,9 @@ describe('My Space Component', () => {
 
   it('does not render the add widget component if there are 25 sections', async () => {
     render(
-      <MockedProvider mocks={getMaximumCollectionsMock} addTypename={false}>
+      <MockedProvider
+        mocks={getMySpaceMaximumCollectionsMock}
+        addTypename={false}>
         <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
@@ -132,7 +134,7 @@ describe('My Space Component', () => {
 
   it('navigates to Sites & Applications when adding new existing collections', async () => {
     render(
-      <MockedProvider mocks={getCollectionsMock} addTypename={false}>
+      <MockedProvider mocks={getMySpaceMock} addTypename={false}>
         <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
@@ -154,14 +156,13 @@ describe('My Space Component', () => {
     let bookmarkRemoved = false
 
     const mocksWithRemove = [
-      ...getCollectionsMock,
+      ...getMySpaceMock,
       {
         request: {
           query: REMOVE_BOOKMARK,
           variables: {
-            _id: getCollectionsMock[0].result.data.collections[0].bookmarks[1]
-              ._id,
-            collectionId: getCollectionsMock[0].result.data.collections[0]._id,
+            _id: getMySpaceMock[0].result.data.mySpace[0].bookmarks[1]._id,
+            collectionId: getMySpaceMock[0].result.data.mySpace[0]._id,
             cmsId: '1',
           },
           refetchQueries: [`getCollections`],
@@ -171,7 +172,7 @@ describe('My Space Component', () => {
           return {
             data: {
               removeBookmark: {
-                _id: getCollectionsMock[0].result.data.collections[0]._id,
+                _id: getMySpaceMock[0].result.data.mySpace[0]._id,
               },
             },
           }
@@ -203,12 +204,12 @@ describe('My Space Component', () => {
   it('handles the add bookmark operation', async () => {
     let bookmarkAdded = false
     const addBookmarkMock = [
-      ...getCollectionsMock,
+      ...getMySpaceMock,
       {
         request: {
           query: ADD_BOOKMARK,
           variables: {
-            collectionId: getCollectionsMock[0].result.data.collections[0]._id,
+            collectionId: getMySpaceMock[0].result.data.mySpace[0]._id,
             url: 'https://mypay.dfas.mil/#/',
             label: 'MyPay',
             cmsId: '2',
@@ -256,12 +257,12 @@ describe('My Space Component', () => {
   it('handles the edit collection title operation', async () => {
     let collectionEdited = false
     const editCollectionMock = [
-      ...getCollectionsMock,
+      ...getMySpaceMock,
       {
         request: {
           query: EDIT_COLLECTION,
           variables: {
-            _id: getCollectionsMock[0].result.data.collections[0]._id,
+            _id: getMySpaceMock[0].result.data.mySpace[0]._id,
             title: 'Updated Title',
           },
         },
@@ -270,10 +271,9 @@ describe('My Space Component', () => {
           return {
             data: {
               editCollection: {
-                _id: getCollectionsMock[0].result.data.collections[0]._id,
+                _id: getMySpaceMock[0].result.data.mySpace[0]._id,
                 title: 'Updated Title',
-                bookmarks:
-                  getCollectionsMock[0].result.data.collections[0].bookmarks,
+                bookmarks: getMySpaceMock[0].result.data.mySpace[0].bookmarks,
               },
             },
           }
@@ -313,12 +313,12 @@ describe('My Space Component', () => {
     let collectionRemoved = false
 
     const removeCollectionMock = [
-      ...getCollectionsMock,
+      ...getMySpaceMock,
       {
         request: {
           query: REMOVE_COLLECTION,
           variables: {
-            _id: getCollectionsMock[0].result.data.collections[0]._id,
+            _id: getMySpaceMock[0].result.data.mySpace[0]._id,
           },
         },
         result: () => {
@@ -326,7 +326,7 @@ describe('My Space Component', () => {
           return {
             data: {
               removeCollection: {
-                _id: getCollectionsMock[0].result.data.collections[0]._id,
+                _id: getMySpaceMock[0].result.data.mySpace[0]._id,
               },
             },
           }
@@ -367,7 +367,7 @@ describe('My Space Component', () => {
   it('handles the add collection operation', async () => {
     let collectionAdded = false
     const addCollectionMock = [
-      ...getCollectionsMock,
+      ...getMySpaceMock,
       {
         request: {
           query: ADD_COLLECTION,
@@ -412,14 +412,13 @@ describe('My Space Component', () => {
     let bookmarkEdited = false
 
     const editBookmarkMock = [
-      ...getCollectionsMock,
+      ...getMySpaceMock,
       {
         request: {
           query: EDIT_BOOKMARK,
           variables: {
-            _id: getCollectionsMock[0].result.data.collections[0].bookmarks[0]
-              ._id,
-            collectionId: getCollectionsMock[0].result.data.collections[0]._id,
+            _id: getMySpaceMock[0].result.data.mySpace[0].bookmarks[0]._id,
+            collectionId: getMySpaceMock[0].result.data.mySpace[0]._id,
             url: 'https://www.yahoo.com',
             label: 'Yahoo',
           },
@@ -429,8 +428,7 @@ describe('My Space Component', () => {
           return {
             data: {
               editBookmark: {
-                _id: getCollectionsMock[0].result.data.collections[0]
-                  .bookmarks[0]._id,
+                _id: getMySpaceMock[0].result.data.mySpace[0].bookmarks[0]._id,
                 url: 'https://www.yahoo.com',
                 label: 'Yahoo',
               },
