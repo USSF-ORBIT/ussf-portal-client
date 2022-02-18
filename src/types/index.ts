@@ -32,17 +32,16 @@ export type CollectionRecords = readonly CollectionRecord[]
  * ***********************
  * */
 
-export type SectionType = 'Collection' | 'News'
+export type WidgetType = 'Collection' | 'News'
 
-export type Section = {
+export type Widget = {
   _id: string
   title: string
-  type: SectionType
+  type: WidgetType
 }
 
-export type MySpaceSection = Section | Collection
-
-export type MySpace = MySpaceSection[]
+export type MySpaceWidget = Widget | Collection
+export type MySpace = MySpaceWidget[]
 
 /* Bookmark refers to a user-created object containing a url */
 export type Bookmark = {
@@ -73,7 +72,7 @@ export type RemovedBookmark = {
 }
 
 /* Collection refers to a user-created collection containing one or more bookmarks */
-export interface Collection extends Section {
+export interface Collection extends Widget {
   bookmarks: Bookmark[]
   cmsId?: string
   type: 'Collection'

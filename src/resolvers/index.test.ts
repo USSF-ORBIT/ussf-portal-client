@@ -16,8 +16,8 @@ import { ADD_COLLECTIONS } from 'operations/mutations/addCollections'
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
 import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
 import { EDIT_BOOKMARK } from 'operations/mutations/editBookmark'
-import { ADD_SECTION } from 'operations/mutations/addSection'
-import { REMOVE_SECTION } from 'operations/mutations/removeSection'
+import { ADD_WIDGET } from 'operations/mutations/addWidget'
+import { REMOVE_WIDGET } from 'operations/mutations/removeWidget'
 
 let server: ApolloServer
 let connection: typeof MongoClient
@@ -94,8 +94,8 @@ describe('GraphQL resolvers', () => {
           collectionId: 'testCollectionId',
         },
       ],
-      ['addSection', ADD_SECTION, { title: 'Recent news', type: 'News' }],
-      ['removeSection', REMOVE_SECTION, { _id: 'testSectionId' }],
+      ['addWidget', ADD_WIDGET, { title: 'Recent news', type: 'News' }],
+      ['removeWidget', REMOVE_WIDGET, { _id: 'testWidgetId' }],
     ])(
       'the %s operation returns an authentication error',
       async (name, op, variables: VariableValues = {}) => {
@@ -136,7 +136,7 @@ describe('GraphQL resolvers', () => {
     })
 
     describe('getMySpace', () => {
-      it('returns all sections for the logged in user', async () => {
+      it('returns all widgets for the logged in user', async () => {
         const result = await server.executeOperation({
           query: GET_MY_SPACE,
         })
@@ -146,7 +146,7 @@ describe('GraphQL resolvers', () => {
         expect(result.errors).toBeUndefined()
 
         expect(JSON.stringify(result.data)).toEqual(
-          JSON.stringify({ sections: expectedData.mySpace })
+          JSON.stringify({ mySpace: expectedData.mySpace })
         )
       })
     })
@@ -207,10 +207,10 @@ describe('GraphQL resolvers', () => {
       })
     })
 
-    describe('addSection', () => {
-      it('adds a new section', async () => {
+    describe('addWidget', () => {
+      it('adds a new widget to the user’s My Space', async () => {
         const result = await server.executeOperation({
-          query: ADD_SECTION,
+          query: ADD_WIDGET,
           variables: {
             title: 'Recent news',
             type: 'News',
@@ -224,7 +224,7 @@ describe('GraphQL resolvers', () => {
         }
 
         expect(result.errors).toBeUndefined()
-        expect(result.data).toMatchObject({ addSection: expectedData })
+        expect(result.data).toMatchObject({ addWidget: expectedData })
       })
     })
   })
