@@ -2,12 +2,12 @@ import { gql, useQuery } from '@apollo/client'
 import type { MySpace } from 'types'
 
 export interface MySpaceQueryResponse {
-  sections: MySpace
+  mySpace: MySpace
 }
 
 export const GET_MY_SPACE = gql`
   query getMySpace {
-    sections {
+    mySpace {
       _id
       title
       ... on NewsSection {

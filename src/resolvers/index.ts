@@ -4,29 +4,29 @@ import type { Resolvers } from '@apollo/client'
 import { AuthenticationError } from 'apollo-server-micro'
 import { BookmarkModel } from '../models/Bookmark'
 import { CollectionModel } from '../models/Collection'
-import { SectionModel } from 'models/Section'
+import { MySpaceModel } from 'models/MySpace'
 
 const resolvers: Resolvers = {
   // Interface resolvers
   // https://www.apollographql.com/docs/apollo-server/schema/unions-interfaces/#resolving-an-interface
-  Section: {
-    __resolveType(section) {
-      if (section.bookmarks) return 'Collection'
-      if (section.type === 'News') return 'NewsSection'
+  Widget: {
+    __resolveType(widget) {
+      if (widget.bookmarks) return 'Collection'
+      if (widget.type === 'News') return 'NewsWidget'
       return null // GraphQL Error
     },
   },
 
   // Root resolvers
   Query: {
-    sections: async (_, args, { db, user }) => {
+    mySpace: async (_, args, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
         )
       }
 
-      return SectionModel.getAll({ userId: user.userId }, { db })
+      return MySpaceModel.get({ userId: user.userId }, { db })
     },
     collections: async (_, args, { db, user }) => {
       if (!user) {
@@ -39,23 +39,26 @@ const resolvers: Resolvers = {
     },
   },
   Mutation: {
-    addSection: async (_, { title, type }, { db, user }) => {
+    addWidget: async (_, { title, type }, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
         )
       }
 
-      return SectionModel.addOne({ title, type, userId: user.userId }, { db })
+      return MySpaceModel.addWidget(
+        { title, type, userId: user.userId },
+        { db }
+      )
     },
-    removeSection: async (_, { _id }, { db, user }) => {
+    removeWidget: async (_, { _id }, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
         )
       }
 
-      return SectionModel.deleteOne({ _id, userId: user.userId }, { db })
+      return MySpaceModel.deleteWidget({ _id, userId: user.userId }, { db })
     },
     addCollection: async (_, { title, bookmarks }, { db, user }) => {
       if (!user) {

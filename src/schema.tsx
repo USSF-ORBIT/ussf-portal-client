@@ -9,38 +9,38 @@ export const typeDefs = gql`
     isRemoved: Boolean
   }
 
-  enum SectionType {
+  enum WidgetType {
     Collection
     News
   }
 
-  interface Section {
+  interface Widget {
     _id: ID!
     title: String!
-    type: SectionType
+    type: WidgetType
   }
 
-  type Collection implements Section {
+  type Collection implements Widget {
     _id: ID!
     title: String!
-    type: SectionType
+    type: WidgetType
     bookmarks: [Bookmark]
   }
 
-  type NewsSection implements Section {
+  type NewsWidget implements Widget {
     _id: ID!
     title: String!
-    type: SectionType!
+    type: WidgetType!
   }
 
   type Query {
     collections: [Collection]
-    sections: [Section]
+    mySpace: [Widget]
   }
 
   type Mutation {
-    addSection(title: String!, type: SectionType!): Section
-    removeSection(_id: ID!): Section
+    addWidget(title: String!, type: WidgetType!): Widget
+    removeWidget(_id: ID!): Widget
     addCollection(title: String!, bookmarks: [BookmarkInput!]!): Collection
     editCollection(_id: ID!, title: String!): Collection
     removeCollection(_id: ID!): Collection

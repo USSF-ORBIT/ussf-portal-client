@@ -5,20 +5,20 @@ import { useRouter } from 'next/router'
 import styles from './MySpace.module.scss'
 
 import type {
-  MySpaceSection,
+  MySpaceWidget,
   BookmarkRecords,
   BookmarkInput,
   Collection,
 } from 'types/index'
 
-import NewsSection from 'components/NewsSection/NewsSection'
+import NewsWidget from 'components/NewsWidget/NewsWidget'
 import CustomCollection from 'components/CustomCollection/CustomCollection'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import AddWidget from 'components/AddWidget/AddWidget'
 
 import { useMySpaceQuery } from 'operations/queries/getMySpace'
-import { useAddSectionMutation } from 'operations/mutations/addSection'
-import { useRemoveSectionMutation } from 'operations/mutations/removeSection'
+import { useAddWidgetMutation } from 'operations/mutations/addWidget'
+import { useRemoveWidgetMutation } from 'operations/mutations/removeWidget'
 import { useRemoveBookmarkMutation } from 'operations/mutations/removeBookmark'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useRemoveCollectionMutation } from 'operations/mutations/removeCollection'
@@ -30,8 +30,8 @@ import { useAnalytics } from 'stores/analyticsContext'
 const MAXIMUM_COLLECTIONS = 25
 
 /** Type guards */
-function isCollection(section: MySpaceSection): section is Collection {
-  return 'bookmarks' in section
+function isCollection(widget: MySpaceWidget): widget is Collection {
+  return 'bookmarks' in widget
 }
 
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
@@ -39,8 +39,8 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const { trackEvent } = useAnalytics()
   const { loading, error, data } = useMySpaceQuery()
 
-  const [handleAddSection] = useAddSectionMutation()
-  const [handleRemoveSection] = useRemoveSectionMutation()
+  const [handleAddWidget] = useAddWidgetMutation()
+  const [handleRemoveWidget] = useRemoveWidgetMutation()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
   const [handleRemoveCollection] = useRemoveCollectionMutation()
@@ -50,10 +50,10 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
 
   if (error) return <p>Error</p>
 
-  const addNewsSection = () => {
+  const addNewsWidget = () => {
     trackEvent('Add section', 'Add News section')
 
-    handleAddSection({
+    handleAddWidget({
       variables: { title: 'Recent news', type: 'News' },
       refetchQueries: ['getMySpace'],
     })
@@ -70,7 +70,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   }
 
   // TODO
-  const canAddSections = data && data.sections.length < MAXIMUM_COLLECTIONS
+  const canAddWidgets = data && data.widgets.length < MAXIMUM_COLLECTIONS
 
   const selectCollections = () => {
     trackEvent('Add section', 'Select collection from template')
@@ -96,33 +96,33 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
           )}
 
           {data &&
-            data.sections &&
-            data.sections.map((section) => (
+            data.mySpace &&
+            data.mySpace.map((widget) => (
               <Grid
-                key={`section_${section._id}`}
+                key={`widget_${widget._id}`}
                 tabletLg={{ col: 6 }}
                 desktopLg={{ col: 4 }}>
-                {section.type === 'News' && (
-                  <NewsSection
-                    onRemoveSection={() => {
-                      handleRemoveSection({
-                        variables: { _id: section._id },
+                {widget.type === 'News' && (
+                  <NewsWidget
+                    onRemove={() => {
+                      handleRemoveWidget({
+                        variables: { _id: widget._id },
                         refetchQueries: [`getMySpace`],
                       })
                     }}
                   />
                 )}
 
-                {isCollection(section) && (
+                {isCollection(widget) && (
                   <CustomCollection
-                    _id={section._id}
-                    title={section.title}
-                    bookmarks={section.bookmarks}
+                    _id={widget._id}
+                    title={widget.title}
+                    bookmarks={widget.bookmarks}
                     bookmarkOptions={bookmarks}
                     handleRemoveCollection={() => {
                       handleRemoveCollection({
                         variables: {
-                          _id: section._id,
+                          _id: widget._id,
                         },
                         refetchQueries: [`getMySpace`],
                       })
@@ -130,7 +130,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                     handleEditCollection={(title: string) => {
                       handleEditCollection({
                         variables: {
-                          _id: section._id,
+                          _id: widget._id,
                           title,
                         },
                         refetchQueries: [`getMySpace`],
@@ -140,7 +140,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                       handleRemoveBookmark({
                         variables: {
                           _id,
-                          collectionId: section._id,
+                          collectionId: widget._id,
                           cmsId,
                         },
                         refetchQueries: [`getMySpace`],
@@ -149,7 +149,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                     handleAddBookmark={(url, label, id) => {
                       handleAddBookmark({
                         variables: {
-                          collectionId: section._id,
+                          collectionId: widget._id,
                           url,
                           label,
                           cmsId: id,
@@ -161,7 +161,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                       handleEditBookmark({
                         variables: {
                           _id: id,
-                          collectionId: section._id,
+                          collectionId: widget._id,
                           url,
                           label,
                         },
@@ -173,7 +173,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
               </Grid>
             ))}
 
-          {!loading && canAddSections && (
+          {!loading && canAddWidgets && (
             <Grid
               key={`collection_addNew`}
               tablet={{ col: 6 }}
@@ -181,7 +181,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
               <AddWidget
                 handleCreateCollection={addNewCollection}
                 handleSelectCollection={selectCollections}
-                handleAddNewsSection={addNewsSection}
+                handleAddNews={addNewsWidget}
               />
             </Grid>
           )}
