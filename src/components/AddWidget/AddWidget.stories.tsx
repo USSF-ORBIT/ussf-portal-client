@@ -33,3 +33,12 @@ export const DefaultAddWidget = (argTypes: StorybookArgTypes) => (
     handleAddNews={argTypes.handleAddNews}
   />
 )
+
+export const NewsSectionDisabled = (argTypes: StorybookArgTypes) => (
+  <AddWidget
+    handleSelectCollection={argTypes.handleSelectCollection}
+    handleCreateCollection={argTypes.handleCreateCollection}
+    handleAddNews={argTypes.handleAddNews}
+    canAddNews={false}
+  />
+)

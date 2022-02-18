@@ -15,10 +15,12 @@ const AddWidget = ({
   handleSelectCollection,
   handleCreateCollection,
   handleAddNews,
+  canAddNews = true,
 }: {
   handleSelectCollection: () => void
   handleCreateCollection: () => void
   handleAddNews: () => void
+  canAddNews?: boolean
 }) => {
   const dropdownEl = useRef<HTMLDivElement>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
@@ -72,6 +74,7 @@ const AddWidget = ({
           Select collection from template
         </Button>
         <Button
+          disabled={!canAddNews}
           type="button"
           onClick={() => {
             handleAddNews()
