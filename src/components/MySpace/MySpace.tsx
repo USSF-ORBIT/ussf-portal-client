@@ -70,7 +70,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   }
 
   // TODO
-  const canAddWidgets = data && data.widgets.length < MAXIMUM_COLLECTIONS
+  const canAddWidgets = data && data.mySpace.length < MAXIMUM_COLLECTIONS
 
   const selectCollections = () => {
     trackEvent('Add section', 'Select collection from template')

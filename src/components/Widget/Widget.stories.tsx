@@ -32,7 +32,7 @@ export const ExampleSectionWithSettings = () => (
         onClick={() => {
           return
         }}>
-        Delete this collection
+        Delete this section
       </Button>,
     ]}>
     <p>Example section contents</p>
