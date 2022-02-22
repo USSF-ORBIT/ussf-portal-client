@@ -227,5 +227,23 @@ describe('GraphQL resolvers', () => {
         expect(result.data).toMatchObject({ addWidget: expectedData })
       })
     })
+
+    describe('removeWidget', () => {
+      it('removes an existing widget from the user’s My Space', async () => {
+        const result = await server.executeOperation({
+          query: REMOVE_WIDGET,
+          variables: {
+            _id: 'testWidgetId',
+          },
+        })
+
+        const expectedData = {
+          _id: 'testWidgetId',
+        }
+
+        expect(result.errors).toBeUndefined()
+        expect(result.data).toMatchObject({ removeWidget: expectedData })
+      })
+    })
   })
 })

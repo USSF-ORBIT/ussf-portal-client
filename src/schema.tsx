@@ -17,13 +17,13 @@ export const typeDefs = gql`
   interface Widget {
     _id: ID!
     title: String!
-    type: WidgetType
+    type: WidgetType!
   }
 
   type Collection implements Widget {
     _id: ID!
     title: String!
-    type: WidgetType
+    type: WidgetType!
     bookmarks: [Bookmark]
   }
 

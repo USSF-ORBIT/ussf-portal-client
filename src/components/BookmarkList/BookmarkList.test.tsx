@@ -8,6 +8,8 @@ import { axe } from 'jest-axe'
 import React from 'react'
 
 import BookmarkList from './BookmarkList'
+
+import { WIDGET_TYPES } from 'constants/index'
 import type { BookmarkRecord, BookmarkRecords } from 'types'
 
 const exampleBookmarks: BookmarkRecord[] = [
@@ -75,6 +77,7 @@ const exampleCollections = [
     _id: 'testCollectionId',
     title: 'Example Collection',
     bookmarks: [],
+    type: WIDGET_TYPES.COLLECTION,
   },
 ]
 
@@ -82,6 +85,7 @@ const exampleCollectionsWithLimit = [
   {
     _id: 'testCollectionId',
     title: 'Example Collection',
+    type: WIDGET_TYPES.COLLECTION,
     bookmarks: Array.from({ length: 10 }, (x, i) => ({
       _id: `${i}`,
       label: `Bookmark ${i}`,
