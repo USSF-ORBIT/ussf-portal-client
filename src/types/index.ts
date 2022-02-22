@@ -35,7 +35,7 @@ export type CollectionRecords = readonly CollectionRecord[]
 export type WidgetType = 'Collection' | 'News'
 
 export type Widget = {
-  _id: string
+  _id: string | ObjectId
   title: string
   type: WidgetType
 }
@@ -45,7 +45,7 @@ export type MySpace = MySpaceWidget[]
 
 /* Bookmark refers to a user-created object containing a url */
 export type Bookmark = {
-  _id: string
+  _id: string | ObjectId
   url: string
   label?: string
   cmsId?: string

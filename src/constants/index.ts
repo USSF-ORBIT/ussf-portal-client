@@ -2,6 +2,7 @@ export const SPACEFORCE_NEWS_RSS_URL = `https://www.spaceforce.mil/DesktopModule
 
 export const WIDGET_TYPES = {
   COLLECTION: 'Collection',
+  NEWS: 'News',
 } as const
 
 /**

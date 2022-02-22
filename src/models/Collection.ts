@@ -1,20 +1,16 @@
 import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
+
 import type {
+  Bookmark,
   BookmarkInput,
-  BookmarkRecord,
-  CollectionInput,
-  CollectionRecord,
+  Collection,
   CollectionRecords,
+  PortalUser,
 } from 'types'
 import { WIDGET_TYPES } from 'constants/index'
 
 // Types for CollectionModel
-type FindOneInput = {
-  _id: string
-  userId: string
-}
-
 type GetAllInput = {
   userId: string
 }
@@ -42,57 +38,49 @@ type DeleteOneInput = {
 }
 
 export const CollectionModel = {
-  async findOne({ _id, userId }: FindOneInput, { db }: Context) {
-    const query = {
-      userId,
-      'mySpace._id': new ObjectId(_id),
-    }
-    const found = await db.collection('users').findOne(query)
-
-    return found?.mySpace || []
-  },
-
-  async getAll({ userId }: GetAllInput, { db }: Context) {
+  async getAll(
+    { userId }: GetAllInput,
+    { db }: Context
+  ): Promise<Collection[]> {
     try {
-      const foundUser = await db
+      const foundUser = (await db
         .collection('users')
-        .find({ userId: userId })
-        .toArray()
+        .findOne({ userId: userId })) as PortalUser
 
-      if (foundUser.length > 0) {
-        return foundUser[0].mySpace
-      }
+      return foundUser.mySpace.filter((w) => w.type === WIDGET_TYPES.COLLECTION)
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('CollectionModel Error: error in getAll', e)
       throw e
     }
   },
-  async addOne({ title, bookmarks, userId }: AddOneInput, { db }: Context) {
+  async addOne(
+    { title, bookmarks, userId }: AddOneInput,
+    { db }: Context
+  ): Promise<Collection> {
     try {
       const existing = await CollectionModel.getAll({ userId }, { db })
       if (existing.length >= 25) {
-        return new Error('You have reached the maximum number of collections')
+        throw new Error('You have reached the maximum number of collections')
       }
     } catch (e) {
       console.error('CollectionModel Error: error in addOne', e)
       throw e
     }
 
-    const newBookmarks: BookmarkInput[] = bookmarks.map(
-      (input: BookmarkInput) => ({
-        _id: new ObjectId(),
-        url: input.url,
-        label: input.label,
-        cmsId: input.cmsId,
-      })
-    )
+    const newBookmarks: Bookmark[] = bookmarks.map((input) => ({
+      _id: new ObjectId(),
+      url: input.url,
+      label: input.label,
+      cmsId: input.cmsId,
+    }))
 
-    const newCollection: CollectionInput = {
+    const newCollection: Collection = {
       _id: new ObjectId(),
       title: title,
       type: WIDGET_TYPES.COLLECTION,
       bookmarks: newBookmarks,
+      type: WIDGET_TYPES.COLLECTION,
     }
 
     const query = {
@@ -114,18 +102,22 @@ export const CollectionModel = {
       throw e
     }
   },
-  async addMany({ collections, userId }: AddManyInput, { db }: Context) {
+  async addMany(
+    { collections, userId }: AddManyInput,
+    { db }: Context
+  ): Promise<Collection[]> {
     try {
       const existing = await CollectionModel.getAll({ userId }, { db })
       if (existing.length >= 25 || existing.length + collections.length > 25) {
-        return new Error('You have reached the maximum number of collections')
+        throw new Error('You have reached the maximum number of collections')
       }
     } catch (e) {
       console.error('CollectionModel Error: error in addMany', e)
       throw e
     }
 
-    const newCollections = collections.map((collection: CollectionRecord) => ({
+    // Add Many is currently only possible with CollectionRecords (from the CMS)
+    const newCollections = collections.map((collection) => ({
       _id: new ObjectId(),
       // #TODO Future data modeling to be done for canonical collections
       cmsId: collection.id,
@@ -167,7 +159,10 @@ export const CollectionModel = {
       throw e
     }
   },
-  async editOne({ _id, title, userId }: EditOneInput, { db }: Context) {
+  async editOne(
+    { _id, title, userId }: EditOneInput,
+    { db }: Context
+  ): Promise<Collection> {
     const query = {
       userId: userId,
       'mySpace._id': new ObjectId(_id),
@@ -195,7 +190,10 @@ export const CollectionModel = {
       throw e
     }
   },
-  async deleteOne({ _id, userId }: DeleteOneInput, { db }: Context) {
+  async deleteOne(
+    { _id, userId }: DeleteOneInput,
+    { db }: Context
+  ): Promise<{ _id: string }> {
     const query = {
       userId: userId,
     }

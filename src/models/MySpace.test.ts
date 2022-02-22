@@ -50,13 +50,12 @@ describe('My Space model', () => {
   })
 
   it('cannot add a News widget if there already is one', async () => {
-    const error = (await MySpaceModel.addWidget(
-      { userId: testUserId, title: 'Recent news', type: 'News' },
-      { db }
-    )) as Error
-
-    expect(error).toBeInstanceOf(Error)
-    expect(error.message).toEqual('You can only have one News section')
+    expect(
+      MySpaceModel.addWidget(
+        { userId: testUserId, title: 'Recent news', type: 'News' },
+        { db }
+      )
+    ).rejects.toEqual(new Error('You can only have one News section'))
   })
 
   it('can remove a News widget', async () => {
@@ -67,13 +66,13 @@ describe('My Space model', () => {
 
     if (newsWidget) {
       await MySpaceModel.deleteWidget(
-        { _id: newsWidget._id, userId: testUserId },
+        { _id: newsWidget._id.toString(), userId: testUserId },
         { db }
       )
 
       allSections = await MySpaceModel.get({ userId: testUserId }, { db })
       newsWidget = allSections.find((s) => s.type === 'News')
-      expect(newsWidget).toBe(null)
+      expect(newsWidget).toBe(undefined)
     }
   })
 })
