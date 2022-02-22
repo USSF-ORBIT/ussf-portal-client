@@ -3,6 +3,7 @@ import { ObjectId } from 'mongodb'
 export const exampleCollection1 = {
   _id: new ObjectId(),
   title: 'Example Collection',
+  type: 'Collection',
   bookmarks: [
     {
       _id: new ObjectId(),
@@ -45,6 +46,7 @@ export const exampleCollection1 = {
 export const exampleCollection2 = {
   _id: new ObjectId(),
   title: 'Second Collection',
+  type: 'Collection',
   bookmarks: [
     {
       _id: new ObjectId(),

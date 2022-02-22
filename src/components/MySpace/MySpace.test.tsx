@@ -16,6 +16,7 @@ import {
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import MySpace from './MySpace'
 
+import mockRssFeed from '__mocks__/news-rss'
 import { GET_MY_SPACE } from 'operations/queries/getMySpace'
 import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
@@ -30,6 +31,12 @@ jest.mock('next/router', () => ({
   useRouter: () => ({
     push: mockRouterPush,
   }),
+}))
+
+jest.mock('axios', () => ({
+  get: () => {
+    return Promise.resolve({ data: mockRssFeed })
+  },
 }))
 
 describe('My Space Component', () => {
@@ -64,24 +71,32 @@ describe('My Space Component', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
-    it('should render the collections', async () => {
+    it('should render all widgets', async () => {
       expect(
         await screen.findByRole('heading', {
           level: 3,
-          name: getMySpaceMock[0].result.data.mySpace[0].title,
+          name: 'Example Collection',
         })
       ).toBeInTheDocument()
 
       expect(
         await screen.findByRole('heading', {
           level: 3,
-          name: getMySpaceMock[0].result.data.mySpace[1].title,
+          name: 'Maxed Out Collection',
         })
       ).toBeInTheDocument()
 
-      expect(await screen.findAllByRole('list')).toHaveLength(22)
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: 'Recent News',
+        })
+      ).toBeInTheDocument()
+
+      // 21 Collection widgets
+      expect(await screen.findAllByRole('list')).toHaveLength(21)
+      // Total of 13 Bookmarks
       expect(await screen.findAllByRole('listitem')).toHaveLength(13)
-      expect(await screen.findAllByRole('link')).toHaveLength(13)
     })
 
     it('renders the add widget component', async () => {
@@ -161,18 +176,18 @@ describe('My Space Component', () => {
         request: {
           query: REMOVE_BOOKMARK,
           variables: {
-            _id: getMySpaceMock[0].result.data.mySpace[0].bookmarks[1]._id,
-            collectionId: getMySpaceMock[0].result.data.mySpace[0]._id,
+            _id: '4',
+            collectionId: '1',
             cmsId: '1',
           },
-          refetchQueries: [`getCollections`],
+          refetchQueries: [`getMySpace`],
         },
         result: () => {
           bookmarkRemoved = true
           return {
             data: {
               removeBookmark: {
-                _id: getMySpaceMock[0].result.data.mySpace[0]._id,
+                _id: '1',
               },
             },
           }
@@ -209,7 +224,7 @@ describe('My Space Component', () => {
         request: {
           query: ADD_BOOKMARK,
           variables: {
-            collectionId: getMySpaceMock[0].result.data.mySpace[0]._id,
+            collectionId: '1',
             url: 'https://mypay.dfas.mil/#/',
             label: 'MyPay',
             cmsId: '2',
@@ -256,13 +271,14 @@ describe('My Space Component', () => {
 
   it('handles the edit collection title operation', async () => {
     let collectionEdited = false
+
     const editCollectionMock = [
       ...getMySpaceMock,
       {
         request: {
           query: EDIT_COLLECTION,
           variables: {
-            _id: getMySpaceMock[0].result.data.mySpace[0]._id,
+            _id: '1',
             title: 'Updated Title',
           },
         },
@@ -271,7 +287,7 @@ describe('My Space Component', () => {
           return {
             data: {
               editCollection: {
-                _id: getMySpaceMock[0].result.data.mySpace[0]._id,
+                _id: '1',
                 title: 'Updated Title',
                 bookmarks: getMySpaceMock[0].result.data.mySpace[0].bookmarks,
               },
@@ -318,7 +334,7 @@ describe('My Space Component', () => {
         request: {
           query: REMOVE_COLLECTION,
           variables: {
-            _id: getMySpaceMock[0].result.data.mySpace[0]._id,
+            _id: '1',
           },
         },
         result: () => {
@@ -326,7 +342,7 @@ describe('My Space Component', () => {
           return {
             data: {
               removeCollection: {
-                _id: getMySpaceMock[0].result.data.mySpace[0]._id,
+                _id: '1',
               },
             },
           }
@@ -417,8 +433,8 @@ describe('My Space Component', () => {
         request: {
           query: EDIT_BOOKMARK,
           variables: {
-            _id: getMySpaceMock[0].result.data.mySpace[0].bookmarks[0]._id,
-            collectionId: getMySpaceMock[0].result.data.mySpace[0]._id,
+            _id: '3',
+            collectionId: '1',
             url: 'https://www.yahoo.com',
             label: 'Yahoo',
           },
@@ -428,7 +444,7 @@ describe('My Space Component', () => {
           return {
             data: {
               editBookmark: {
-                _id: getMySpaceMock[0].result.data.mySpace[0].bookmarks[0]._id,
+                _id: '3',
                 url: 'https://www.yahoo.com',
                 label: 'Yahoo',
               },
