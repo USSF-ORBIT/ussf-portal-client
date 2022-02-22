@@ -34,12 +34,12 @@ export const MySpaceModel = {
   async addWidget(
     { userId, title, type }: AddWidgetInput,
     { db }: Context
-  ): Promise<Widget | Error> {
+  ): Promise<Widget> {
     // For now, can only have one News widget
     if (type === 'News') {
       const allWidgets = await this.get({ userId }, { db })
       const newsWidget = allWidgets.find((s) => s.type === 'News')
-      if (newsWidget) return new Error('You can only have one News section')
+      if (newsWidget) throw new Error('You can only have one News section')
     }
 
     const created: Widget = {
