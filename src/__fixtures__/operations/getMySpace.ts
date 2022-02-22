@@ -9,8 +9,10 @@ export const getMySpaceMock = [
       data: {
         mySpace: [
           {
+            __typename: 'Collection',
             _id: '1',
             title: 'Example Collection',
+            type: 'Collection',
             bookmarks: [
               {
                 _id: '3',
@@ -36,8 +38,10 @@ export const getMySpaceMock = [
             ],
           },
           {
+            __typename: 'Collection',
             _id: '2',
             title: 'Maxed Out Collection',
+            type: 'Collection',
             bookmarks: Array.from({ length: 10 }, (x, i) => ({
               _id: `${i}`,
               label: `Bookmark ${i}`,
@@ -53,9 +57,11 @@ export const getMySpaceMock = [
             type: 'News',
           },
           ...Array.from({ length: 19 }, (x, i) => ({
+            __typename: 'Collection',
             _id: `${i + 4}`,
             title: `Collection ${i + 4}`,
             bookmarks: [],
+            type: 'Collection',
           })),
         ],
       },
@@ -64,7 +70,9 @@ export const getMySpaceMock = [
 ]
 
 const mockCollection = {
+  __typename: 'Collection',
   title: 'Example Collection',
+  type: 'Collection',
   bookmarks: [
     {
       _id: '3',
