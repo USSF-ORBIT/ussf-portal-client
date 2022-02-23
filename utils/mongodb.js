@@ -1,5 +1,5 @@
+// MongoClient used by scripts (i.e., migrations) (no babel, no TypeScript)
 /* eslint-disable @typescript-eslint/no-var-requires */
-// Connect to Mongo, but in JavaScript
 
 const { MongoClient } = require('mongodb')
 
