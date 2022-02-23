@@ -31,7 +31,7 @@ RUN apt-get update \
 
 WORKDIR /app
 
-COPY ./server-preload.js ./server-preload.js
+COPY ./startup ./startup
 
 ENV NODE_ENV production
 
@@ -43,7 +43,7 @@ COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
-CMD ["node","-r","./server-preload.js", "node_modules/.bin/next", "start"]
+CMD ["node","-r","./startup/index.js", "node_modules/.bin/next", "start"]
 
 ##--------- Stage: runner ---------##
 
@@ -58,7 +58,7 @@ COPY scripts/create-gcds-chain.sh .
 COPY dev-saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
 COPY test-saml.pem /usr/local/share/ca-certificates/federation.test.cce.af.mil.crt
 COPY prod-saml.pem /usr/local/share/ca-certificates/federation.prod.cce.af.mil.crt
-COPY ./server-preload.js ./server-preload.js
+COPY ./startup ./startup
 
 RUN apt-get update \
   && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip \
@@ -80,4 +80,4 @@ COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
-CMD ["node","-r","./server-preload.js", "node_modules/.bin/next", "start"]
+CMD ["node","-r","./startup/index.js", "node_modules/.bin/next", "start"]
