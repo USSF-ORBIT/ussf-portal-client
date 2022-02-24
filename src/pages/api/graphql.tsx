@@ -11,9 +11,9 @@ import type { PageConfig } from 'next'
 
 import { typeDefs } from '../../schema'
 import resolvers from '../../resolvers/index'
-import clientPromise from '../../utils/mongodb'
 
 import type { SessionUser } from 'types/index'
+import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
 import User from 'models/User'
 

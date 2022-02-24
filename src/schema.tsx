@@ -8,9 +8,15 @@ export const typeDefs = gql`
     cmsId: ID
     isRemoved: Boolean
   }
+
+  enum WidgetType {
+    Collection
+  }
+
   type Collection {
     _id: ID!
     title: String!
+    type: WidgetType!
     bookmarks: [Bookmark]
   }
   type Query {

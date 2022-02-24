@@ -11,6 +11,7 @@ export const getCollectionsMock = [
           {
             _id: '1',
             title: 'Example Collection',
+            type: 'Collection',
             bookmarks: [
               {
                 _id: '3',
@@ -41,6 +42,7 @@ export const getCollectionsMock = [
           {
             _id: '2',
             title: 'Maxed Out Collection',
+            type: 'Collection',
             bookmarks: Array.from({ length: 10 }, (x, i) => ({
               _id: `${i}`,
               label: `Bookmark ${i}`,
@@ -52,6 +54,7 @@ export const getCollectionsMock = [
           ...Array.from({ length: 20 }, (x, i) => ({
             _id: `${i + 3}`,
             title: `Collection ${i + 3}`,
+            type: 'Collection',
             bookmarks: [],
           })),
         ],
@@ -62,6 +65,7 @@ export const getCollectionsMock = [
 
 const mockCollection = {
   title: 'Example Collection',
+  type: 'Collection',
   bookmarks: [
     {
       _id: '3',

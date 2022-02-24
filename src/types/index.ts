@@ -67,12 +67,15 @@ export type Collection = {
   _id: string
   title: string
   bookmarks: Bookmark[]
+  cmsId?: string
+  type: 'Collection'
 }
 
 export type CollectionInput = {
   _id: ObjectId
   title: string
   bookmarks: BookmarkInput[]
+  type: 'Collection'
 }
 
 export type CollectionsInput = {

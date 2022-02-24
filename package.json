@@ -10,10 +10,10 @@
     "url": "github:USSF-ORBIT/ussf-portal-client"
   },
   "scripts": {
-    "dev": "node -r ./server-preload.js node_modules/.bin/next dev",
+    "dev": "node -r ./startup/index.js node_modules/.bin/next dev",
     "build": "next build",
     "build:analyze": "ANALYZE=true yarn build",
-    "start": "node -r ./server-preload.js node_modules/.bin/next start",
+    "start": "node -r ./startup/index.js node_modules/.bin/next start",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
     "storybook:deploy": "storybook-to-ghpages",
@@ -26,7 +26,8 @@
     "cypress:install": "yarn --cwd e2e/ install",
     "cypress:dev": "yarn --cwd e2e/ cypress open",
     "postinstall": "sh ./scripts/copy_uswds_assets.sh && keystone-next postinstall --fix",
-    "release": "standard-version -t ''"
+    "release": "standard-version -t ''",
+    "migrate:create": "migrate create --template-file ./migration-template.js"
   },
   "dependencies": {
     "@apollo/client": "3.5.9",
@@ -45,6 +46,7 @@
     "connect-redis": "6.1.1",
     "graphql": "16.3.0",
     "micro": "9.3.4",
+    "migrate": "1.7.0",
     "mongodb": "3.7.3",
     "next": "12.0.10",
     "next-connect": "0.11.1",
@@ -89,6 +91,7 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-cypress": "2.12.1",
     "eslint-plugin-import": "2.25.3",
+    "eslint-plugin-jest": "26.1.1",
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-react": "7.28.0",
     "eslint-plugin-react-hooks": "4.3.0",
