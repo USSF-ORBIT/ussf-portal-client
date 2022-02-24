@@ -53,6 +53,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   if (error) return <p>Error</p>
 
   const addNewsWidget = () => {
+    // TODO - event tracking
     trackEvent('Add section', 'Add News section')
 
     handleAddWidget({
