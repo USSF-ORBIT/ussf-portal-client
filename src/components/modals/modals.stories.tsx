@@ -6,6 +6,7 @@ import JoinBetaModal from './JoinBetaModal'
 import AddCustomLinkModal from './AddCustomLinkModal'
 import EditCustomLinkModal from './EditCustomLinkModal'
 import RemoveCustomCollectionModal from './RemoveCustomCollectionModal'
+import RemoveSectionModal from './RemoveSectionModal'
 
 export default {
   title: 'Components/Modals',
@@ -111,6 +112,25 @@ export const removeCustomCollectionModal = () => {
         Open modal
       </button>
       <RemoveCustomCollectionModal
+        modalRef={storybookModal}
+        onDelete={closeModal}
+        onCancel={closeModal}
+      />
+    </>
+  )
+}
+
+export const removeSectionModal = () => {
+  const storybookModal = useRef<ModalRef>(null)
+  const openModal = () => storybookModal.current?.toggleModal(undefined, true)
+  const closeModal = () => storybookModal.current?.toggleModal(undefined, false)
+
+  return (
+    <>
+      <button type="button" onClick={openModal}>
+        Open modal
+      </button>
+      <RemoveSectionModal
         modalRef={storybookModal}
         onDelete={closeModal}
         onCancel={closeModal}
