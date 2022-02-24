@@ -1,14 +1,16 @@
 import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
 
-import type { PortalUser } from 'types/index'
+import type { PortalUser, Collection } from 'types/index'
+import { WIDGET_TYPES } from 'constants/index'
 
 /** THIS IS BAD :( but easiest way for now while we use embedded Keystone */
 // TODO - change to use Keystone API on backend when we move to hosted Keystone
-export const EXAMPLE_COLLECTION = {
+export const EXAMPLE_COLLECTION: Collection = {
   _id: new ObjectId(),
   cmsId: 'ckwz3u58s1835ql974leo1yll',
   title: 'Example Collection',
+  type: WIDGET_TYPES.COLLECTION,
   bookmarks: [
     {
       _id: new ObjectId(),
