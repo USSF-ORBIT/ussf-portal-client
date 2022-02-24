@@ -82,12 +82,12 @@ const Home = () => {
     joinBetaModal.current?.toggleModal(undefined, true)
   }
 
-  const guardianIdealAnnouncement: AnnouncementCardProps = {
-    heading: <>Read it here – The Guardian Ideal</>,
+  const promotionListAnnouncement: AnnouncementCardProps = {
+    heading: <>USSF CY21A Promotion Lists now available!</>,
     tag: 'news',
     bgColor: 'gradient--orange bg-accent-warm-dark',
     cols: true,
-    path: '/uploads/Guardian Ideal - FINAL - 1600 17Sept21.pdf',
+    path: '/uploads/CY21A USSF Officer Selects.pdf',
   }
 
   const portalBetaAnnouncement: AnnouncementCardProps = {
@@ -111,7 +111,7 @@ const Home = () => {
             <div className="tablet:grid-col-8 usa-prose">
               <CardGroup>
                 <AnnouncementCard {...portalBetaAnnouncement} />
-                <AnnouncementCard {...guardianIdealAnnouncement} />
+                <AnnouncementCard {...promotionListAnnouncement} />
               </CardGroup>
             </div>
             <div className="tablet:grid-col-4">
