@@ -101,7 +101,7 @@ describe('AddWidget component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('handles the Add News section button', () => {
+  it('handles the Add news section button', () => {
     const mockAddNews = jest.fn()
 
     render(<AddWidget {...testProps} handleAddNews={mockAddNews} />)
@@ -112,17 +112,17 @@ describe('AddWidget component', () => {
     userEvent.click(menuButton)
 
     expect(
-      screen.getByRole('button', { name: 'Add News section' })
+      screen.getByRole('button', { name: 'Add news section' })
     ).toBeInTheDocument()
-    userEvent.click(screen.getByRole('button', { name: 'Add News section' }))
+    userEvent.click(screen.getByRole('button', { name: 'Add news section' }))
 
     expect(mockAddNews).toHaveBeenCalled()
     expect(
-      screen.queryByRole('button', { name: 'Add News section' })
+      screen.queryByRole('button', { name: 'Add news section' })
     ).not.toBeInTheDocument()
   })
 
-  it('the Add News section button is disabled if the user cannot add News', () => {
+  it('the Add news section button is disabled if the user cannot add News', () => {
     const mockAddNews = jest.fn()
 
     render(
@@ -139,13 +139,13 @@ describe('AddWidget component', () => {
     userEvent.click(menuButton)
 
     expect(
-      screen.getByRole('button', { name: 'Add News section' })
+      screen.getByRole('button', { name: 'Add news section' })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('button', { name: 'Add News section' })
+      screen.getByRole('button', { name: 'Add news section' })
     ).toBeDisabled()
 
-    userEvent.click(screen.getByRole('button', { name: 'Add News section' }))
+    userEvent.click(screen.getByRole('button', { name: 'Add news section' }))
     expect(mockAddNews).not.toHaveBeenCalled()
   })
 

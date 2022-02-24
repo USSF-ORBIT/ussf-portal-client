@@ -36,7 +36,7 @@ describe('News and Announcements', () => {
   it('can add the News Section to My Space', () => {
     cy.contains('My Space')
     cy.findByRole('button', { name: 'Add section' }).click()
-    cy.findByRole('button', { name: 'Add News section' }).click()
+    cy.findByRole('button', { name: 'Add news section' }).click()
 
     cy.wait('@getNewsWidgetRSS')
 
@@ -48,6 +48,9 @@ describe('News and Announcements', () => {
       .within(() => {
         cy.findAllByRole('article').should('have.length', 2)
       })
+
+    cy.findByRole('button', { name: 'Add section' }).click()
+    cy.findByRole('button', { name: 'Add news section' }).should('be.disabled')
   })
 
   it('can remove the News Section from My Space', () => {

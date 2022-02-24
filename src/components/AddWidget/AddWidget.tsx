@@ -80,7 +80,7 @@ const AddWidget = ({
             handleAddNews()
             setIsDropdownOpen(false)
           }}>
-          Add News section
+          Add news section
         </Button>
       </DropdownMenu>
     </div>
