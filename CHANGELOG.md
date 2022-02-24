@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.2.0...2.3.0) (2022-02-24)
+
+
+### Features
+
+* Promotion list announcement ([#527](https://github.com/USSF-ORBIT/ussf-portal-client/issues/527)) ([a02206e](https://github.com/USSF-ORBIT/ussf-portal-client/commit/a02206e9f53bccb190eab1076460e2ae4b1866b8))
+
 ## [2.2.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.1.0...2.2.0) (2022-02-17)
 
 
