@@ -8245,7 +8245,7 @@ eslint-plugin-import@2.25.3, eslint-plugin-import@^2.25.2:
     resolve "^1.20.0"
     tsconfig-paths "^3.11.0"
 
-eslint-plugin-jest@^26.1.1:
+eslint-plugin-jest@26.1.1:
   version "26.1.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-26.1.1.tgz#7176dd745ef8bca3070263f62cdf112f2dfc9aa1"
   integrity sha512-HRKOuPi5ADhza4ZBK5ufyNXy28bXXkib87w+pQqdvBhSTsamndh6sIAKPAUl8y0/n9jSWBdTPslrwtKWqkp8dA==
@@ -11829,7 +11829,7 @@ micromatch@^4.0.2, micromatch@^4.0.4:
     braces "^3.0.1"
     picomatch "^2.2.3"
 
-migrate@^1.7.0:
+migrate@1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/migrate/-/migrate-1.7.0.tgz#23fb97aa33145788030a1a91187a0ee32a49acbf"
   integrity sha512-I63YykITgWyI+ET4KO8xGePYkR9U7CtSe/RrR13vLbZSpUcAh4/ry2GswNv7Lywcsp3BaDHj7YdjC7ihVYCFmw==

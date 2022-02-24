@@ -1,18 +1,14 @@
 'use strict'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { connectDb } = require('../utils/mongodb')
+const { runMigration } = require('../utils/mongodb')
 
-module.exports.up = async () => {
-  const db = await connectDb()
-
+module.exports.up = runMigration(async (db) => {
   // Up migration code here
   // await db...
-}
+})
 
-module.exports.down = async () => {
-  const db = await connectDb()
-
+module.exports.down = runMigration(async (db) => {
   // Down migration code here
   // await db...
-}
+})
