@@ -11,8 +11,7 @@ import type { RSSNewsItem } from 'types'
 import { validateNewsItems, formatRssToArticle } from 'helpers/index'
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 import RemoveSectionModal from 'components/modals/RemoveSectionModal'
-// TODO - tracking
-// import { useAnalytics } from 'stores/analyticsContext'
+import { useAnalytics } from 'stores/analyticsContext'
 
 // Load 2 items
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
@@ -20,7 +19,7 @@ const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
 const NewsSection = ({ onRemove }: { onRemove: () => void }) => {
   const { items, fetchItems } = useRSSFeed(RSS_URL)
   const removeSectionModal = useRef<ModalRef>(null)
-  // const { trackEvent } = useAnalytics()
+  const { trackEvent } = useAnalytics()
 
   useEffect(() => {
     fetchItems()
@@ -34,7 +33,7 @@ const NewsSection = ({ onRemove }: { onRemove: () => void }) => {
 
   // After confirming remove, trigger the mutation and close the modal
   const handleRemoveSection = () => {
-    // trackEvent('') // TODO
+    trackEvent('Section settings', 'Remove this section', 'News')
     onRemove()
     removeSectionModal.current?.toggleModal(undefined, false)
   }

@@ -75,6 +75,9 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     data &&
     data.mySpace.filter((w) => isCollection(w)).length < MAXIMUM_COLLECTIONS
 
+  const canAddNews =
+    data && data.mySpace.filter((w) => w.type === WIDGET_TYPES.NEWS).length < 1
+
   const selectCollections = () => {
     trackEvent('Add section', 'Select collection from template')
 
@@ -185,6 +188,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                 handleCreateCollection={addNewCollection}
                 handleSelectCollection={selectCollections}
                 handleAddNews={addNewsWidget}
+                canAddNews={canAddNews}
               />
             </Grid>
           )}
