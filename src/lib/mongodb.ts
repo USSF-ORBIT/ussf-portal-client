@@ -1,3 +1,4 @@
+// MongoClient used by the portal application
 // Source: Official Next.js MongoDB example
 // https://github.com/vercel/next.js/blob/master/examples/with-mongodb/util/mongodb.js
 

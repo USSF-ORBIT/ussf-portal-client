@@ -5,6 +5,8 @@ module.exports = {
       skipMD5: true,
     },
     autostart: false,
-    instance: {},
+    instance: {
+      dbName: 'jest',
+    },
   },
 }
