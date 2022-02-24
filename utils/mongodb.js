@@ -14,17 +14,29 @@ const connectionString =
   process.env.MONGO_URL ||
   `mongodb://${user}:${password}@${host}/?tls=true&tlsCAFile=${RDS_TLS_CERT}&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false`
 
-module.exports.connectDb = async () => {
-  const client = MongoClient(connectionString, {
+// Use the jest database if testing
+const dbName = process.env.NODE_ENV === 'test' ? 'jest' : process.env.MONGODB_DB
+
+const connectDb = async () => {
+  const connection = await MongoClient.connect(connectionString, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
 
-  // Use the jest database if testing
-  const dbName =
-    process.env.NODE_ENV === 'test' ? 'jest' : process.env.MONGODB_DB
+  const db = connection.db(dbName)
 
-  await client.connect()
-  const db = client.db(dbName)
-  return db
+  return { db, connection }
 }
+
+module.exports.runMigration = (migration) => async () => {
+  try {
+    const { connection, db } = await connectDb()
+    await migration(db)
+    await connection.close()
+  } catch (e) {
+    console.log('[MIGRATION] Error with db connection', e)
+    throw e
+  }
+}
+
+module.exports.connectDb = connectDb

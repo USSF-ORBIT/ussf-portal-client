@@ -11,6 +11,8 @@ function runMigrations() {
         throw err
       }
 
+      console.log('[MIGRATION] Run migrations')
+
       set.on('migration', function (migration, direction) {
         console.log(`[MIGRATION - ${direction}] ${migration.title}`)
       })
@@ -20,9 +22,7 @@ function runMigrations() {
           throw err
         }
 
-        console.log('migrations successfully ran')
-
-        process.exit()
+        console.log('[MIGRATION] Migrations successful')
       })
     }
   )

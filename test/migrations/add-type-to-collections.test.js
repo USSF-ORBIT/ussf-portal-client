@@ -1,4 +1,6 @@
-import { MongoClient, ObjectId } from 'mongodb'
+import { ObjectId } from 'mongodb'
+
+import { connectDb } from '../../utils/mongodb'
 
 import {
   up,
@@ -27,12 +29,9 @@ describe('[Migration: Add type to collection]', () => {
   beforeAll(async () => {
     // This is NOT the connection used in the migration itself
     // Just use to seed data for the test
-    connection = await MongoClient.connect(process.env.MONGO_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
-
-    db = await connection.db('jest')
+    const mongoConnection = await connectDb()
+    connection = mongoConnection.connection
+    db = mongoConnection.db
 
     // Reset db
     await db.collection('users').deleteMany({})

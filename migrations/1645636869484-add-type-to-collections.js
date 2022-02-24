@@ -1,11 +1,9 @@
 'use strict'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { connectDb } = require('../utils/mongodb')
+const { runMigration } = require('../utils/mongodb')
 
-module.exports.up = async () => {
-  const db = await connectDb()
-
+module.exports.up = runMigration(async (db) => {
   await db
     .collection('users')
     .updateMany(
@@ -13,11 +11,9 @@ module.exports.up = async () => {
       { $set: { 'mySpace.$[widget].type': 'Collection' } },
       { arrayFilters: [{ 'widget.type': { $exists: false } }] }
     )
-}
+})
 
-module.exports.down = async () => {
-  const db = await connectDb()
-
+module.exports.down = runMigration(async (db) => {
   await db
     .collection('users')
     .updateMany(
@@ -25,4 +21,4 @@ module.exports.down = async () => {
       { $unset: { 'mySpace.$[widget].type': '' } },
       { arrayFilters: [{ 'widget.type': 'Collection' }] }
     )
-}
+})

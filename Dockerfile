@@ -31,7 +31,10 @@ RUN apt-get update \
 
 WORKDIR /app
 
+# Copy files needed for startup
 COPY ./startup ./startup
+COPY ./migrations ./migrations
+COPY ./utils ./utils
 
 ENV NODE_ENV production
 
@@ -58,7 +61,11 @@ COPY scripts/create-gcds-chain.sh .
 COPY dev-saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
 COPY test-saml.pem /usr/local/share/ca-certificates/federation.test.cce.af.mil.crt
 COPY prod-saml.pem /usr/local/share/ca-certificates/federation.prod.cce.af.mil.crt
+
+# Copy files needed for startup
 COPY ./startup ./startup
+COPY ./migrations ./migrations
+COPY ./utils ./utils
 
 RUN apt-get update \
   && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip \
