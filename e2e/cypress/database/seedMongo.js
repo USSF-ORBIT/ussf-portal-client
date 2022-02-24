@@ -1,3 +1,4 @@
+// MongoClient used by Cypress tests
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { MongoClient } = require('mongodb')
 const { testUser1, testUser2 } = require('./users.js')

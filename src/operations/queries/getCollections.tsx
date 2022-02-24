@@ -9,6 +9,7 @@ export const GET_COLLECTIONS = gql`
     collections {
       _id
       title
+      type
       bookmarks {
         _id
         url
