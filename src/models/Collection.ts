@@ -145,14 +145,7 @@ export const CollectionModel = {
 
     try {
       await db.collection('users').updateOne(query, updateDocument)
-      const updatedCollections = await db
-        .collection('users')
-        .find({
-          userId: userId,
-        })
-        .toArray()
-
-      return updatedCollections[0].mySpace
+      return newCollections
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('CollectionModel Error: error in addMany', e)

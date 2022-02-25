@@ -119,10 +119,6 @@ describe('GraphQL resolvers', () => {
 
   describe('while logged in', () => {
     beforeAll(async () => {
-      // Init database
-      const users = db.collection('users')
-      await users.insertOne(newPortalUser)
-
       server = new ApolloServer({
         typeDefs,
         resolvers,
@@ -133,6 +129,12 @@ describe('GraphQL resolvers', () => {
           },
         }),
       })
+    })
+
+    beforeEach(async () => {
+      // Reset db before each test
+      await db.collection('users').deleteMany({})
+      await db.collection('users').insertOne(newPortalUser)
     })
 
     describe('getMySpace', () => {
@@ -177,36 +179,6 @@ describe('GraphQL resolvers', () => {
       })
     })
 
-    describe('editBookmark', () => {
-      it('edits an existing bookmark', async () => {
-        const editBookmark = newPortalUser.mySpace[0].bookmarks.filter(
-          (b) => b.cmsId === null
-        )[0]
-
-        const result = await server.executeOperation({
-          query: EDIT_BOOKMARK,
-          variables: {
-            _id: `${editBookmark._id}`,
-            collectionId: `${newPortalUser.mySpace[0]._id}`,
-            label: 'New Label',
-            url: 'http://www.example.com/new',
-          },
-        })
-
-        const expectedData = {
-          _id: editBookmark._id,
-          label: 'New Label',
-          url: 'http://www.example.com/new',
-        }
-
-        expect(result.errors).toBeUndefined()
-
-        expect(JSON.stringify(result.data)).toEqual(
-          JSON.stringify({ editBookmark: expectedData })
-        )
-      })
-    })
-
     describe('addWidget', () => {
       it('adds a new widget to the user’s My Space', async () => {
         const result = await server.executeOperation({
@@ -243,6 +215,264 @@ describe('GraphQL resolvers', () => {
 
         expect(result.errors).toBeUndefined()
         expect(result.data).toMatchObject({ removeWidget: expectedData })
+      })
+    })
+
+    describe('addCollection', () => {
+      it('adds a new collection to the user’s My Space', async () => {
+        const result = await server.executeOperation({
+          query: ADD_COLLECTION,
+          variables: {
+            title: '',
+            bookmarks: [],
+          },
+        })
+
+        const expectedData = {
+          _id: expect.any(String),
+          title: '',
+          bookmarks: [],
+        }
+
+        expect(result.errors).toBeUndefined()
+        expect(result.data).toMatchObject({ addCollection: expectedData })
+      })
+    })
+
+    describe('editCollection', () => {
+      it('edits an existing collection', async () => {
+        const editCollection = newPortalUser.mySpace.find(
+          (w) => w.type === 'Collection'
+        )
+
+        const result = await server.executeOperation({
+          query: EDIT_COLLECTION,
+          variables: {
+            _id: `${editCollection?._id}`,
+            title: 'Edited Collection Title',
+          },
+        })
+
+        const expectedData = {
+          _id: `${editCollection?._id}`,
+          title: 'Edited Collection Title',
+        }
+
+        expect(result.errors).toBeUndefined()
+        expect(result.data).toMatchObject({ editCollection: expectedData })
+      })
+    })
+
+    describe('removeCollection', () => {
+      it('deletes an existing collection', async () => {
+        const removeCollection = newPortalUser.mySpace.find(
+          (w) => w.type === 'Collection'
+        )
+
+        const result = await server.executeOperation({
+          query: REMOVE_COLLECTION,
+          variables: {
+            _id: `${removeCollection?._id}`,
+          },
+        })
+
+        const expectedData = {
+          _id: `${removeCollection?._id}`,
+        }
+
+        expect(result.errors).toBeUndefined()
+        expect(result.data).toMatchObject({ removeCollection: expectedData })
+      })
+    })
+
+    describe('addCollections', () => {
+      it('adds multiple new collections to the user’s My Space', async () => {
+        const result = await server.executeOperation({
+          query: ADD_COLLECTIONS,
+          variables: {
+            collections: [
+              {
+                id: 'cmsCollectionId1',
+                title: 'CMS Collection 1',
+                bookmarks: [
+                  {
+                    id: 'cmsBookmarkId1',
+                    url: 'https://google.com',
+                    label: 'Webmail',
+                  },
+                  {
+                    id: 'cmsBookmarkId2',
+                    url: 'https://mypay.dfas.mil/#/',
+                    label: 'MyPay',
+                  },
+                  {
+                    id: 'cmsBookmarkId3',
+                    url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+                    label: 'vMPF',
+                  },
+                  {
+                    id: 'cmsBookmarkId4',
+                    url: 'https://leave.af.mil/profile',
+                    label: 'LeaveWeb',
+                  },
+                  {
+                    id: 'cmsBookmarkId5',
+                    url: 'https://www.e-publishing.af.mil/',
+                    label: 'e-Publications',
+                  },
+                ],
+              },
+              {
+                id: 'cmsCollectionId2',
+                title: 'CMS Collection 2',
+                bookmarks: [
+                  {
+                    id: 'cmsBookmarkId6',
+                    url: 'https://google.com',
+                    label: 'Search Engine',
+                  },
+                ],
+              },
+            ],
+          },
+        })
+
+        const expectedData = [
+          {
+            _id: expect.any(String),
+            cmsId: 'cmsCollectionId1',
+            title: 'CMS Collection 1',
+            type: 'Collection',
+            bookmarks: [
+              {
+                _id: expect.any(String),
+                cmsId: 'cmsBookmarkId1',
+                url: 'https://google.com',
+                label: 'Webmail',
+              },
+              {
+                _id: expect.any(String),
+                cmsId: 'cmsBookmarkId2',
+                url: 'https://mypay.dfas.mil/#/',
+                label: 'MyPay',
+              },
+              {
+                _id: expect.any(String),
+                cmsId: 'cmsBookmarkId3',
+                url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+                label: 'vMPF',
+              },
+              {
+                _id: expect.any(String),
+                cmsId: 'cmsBookmarkId4',
+                url: 'https://leave.af.mil/profile',
+                label: 'LeaveWeb',
+              },
+              {
+                _id: expect.any(String),
+                cmsId: 'cmsBookmarkId5',
+                url: 'https://www.e-publishing.af.mil/',
+                label: 'e-Publications',
+              },
+            ],
+          },
+          {
+            _id: expect.any(String),
+            cmsId: 'cmsCollectionId2',
+            title: 'CMS Collection 2',
+            type: 'Collection',
+            bookmarks: [
+              {
+                _id: expect.any(String),
+                cmsId: 'cmsBookmarkId6',
+                url: 'https://google.com',
+                label: 'Search Engine',
+              },
+            ],
+          },
+        ]
+
+        expect(result.errors).toBeUndefined()
+        expect(result.data).toMatchObject({ addCollections: expectedData })
+      })
+    })
+
+    describe('addBookmark', () => {
+      it('adds a bookmark to an existing collection', async () => {
+        const collection = newPortalUser.mySpace[0]
+
+        const result = await server.executeOperation({
+          query: ADD_BOOKMARK,
+          variables: {
+            collectionId: `${collection._id}`,
+            label: 'New Label',
+            url: 'http://www.example.com/new',
+            cmsId: 'testBookmarkCmsId',
+          },
+        })
+
+        const expectedData = {
+          _id: expect.any(String),
+          label: 'New Label',
+          url: 'http://www.example.com/new',
+          cmsId: 'testBookmarkCmsId',
+        }
+
+        expect(result.errors).toBeUndefined()
+
+        expect(result.data).toMatchObject({ addBookmark: expectedData })
+      })
+    })
+
+    describe('editBookmark', () => {
+      it('edits an existing bookmark', async () => {
+        const editBookmark = newPortalUser.mySpace[0].bookmarks.filter(
+          (b) => b.cmsId === null
+        )[0]
+
+        const result = await server.executeOperation({
+          query: EDIT_BOOKMARK,
+          variables: {
+            _id: `${editBookmark._id}`,
+            collectionId: `${newPortalUser.mySpace[0]._id}`,
+            label: 'New Label',
+            url: 'http://www.example.com/new',
+          },
+        })
+
+        const expectedData = {
+          _id: editBookmark._id,
+          label: 'New Label',
+          url: 'http://www.example.com/new',
+        }
+
+        expect(result.errors).toBeUndefined()
+
+        expect(JSON.stringify(result.data)).toEqual(
+          JSON.stringify({ editBookmark: expectedData })
+        )
+      })
+    })
+
+    describe('removeBookmark', () => {
+      it('deletes an existing bookmark', async () => {
+        const collection = newPortalUser.mySpace[0]
+        const bookmark = collection.bookmarks[0]
+
+        const result = await server.executeOperation({
+          query: REMOVE_BOOKMARK,
+          variables: {
+            _id: `${bookmark?._id}`,
+            collectionId: `${collection?._id}`,
+          },
+        })
+
+        const expectedData = {
+          _id: `${bookmark._id}`,
+        }
+
+        expect(result.errors).toBeUndefined()
+        expect(result.data).toMatchObject({ removeBookmark: expectedData })
       })
     })
   })

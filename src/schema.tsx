@@ -25,6 +25,7 @@ export const typeDefs = gql`
     title: String!
     type: WidgetType!
     bookmarks: [Bookmark]
+    cmsId: ID
   }
 
   type NewsWidget implements Widget {

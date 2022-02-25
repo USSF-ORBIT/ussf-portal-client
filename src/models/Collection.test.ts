@@ -245,7 +245,6 @@ describe('Collection Model', () => {
     // Start Data: Test user, 24 collections
     // Action: Add 2 more collections
     // End Data: Return error, Test user, 24 collections
-    // #TODO: Should addMany add *up to* 25 collections and error only on those after?
     let all = await CollectionModel.getAll({ userId: testUserId }, { db })
     expect(all.length).toBe(24)
 

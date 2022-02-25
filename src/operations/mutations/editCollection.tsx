@@ -17,11 +17,6 @@ export const EDIT_COLLECTION = gql`
     editCollection(_id: $_id, title: $title) {
       _id
       title
-      bookmarks {
-        _id
-        label
-        url
-      }
     }
   }
 `
