@@ -1,0 +1,20 @@
+services:  
+  cms:
+    container_name: keystone-cms
+    # image: keystone-cms
+    build:
+      context: https://github.com/USSF-ORBIT/ussf-portal-cms.git#main
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '3001:3001'
+    environment:
+      - PORT=3001
+      - SESSION_SECRET='bHkJ6Js~=E~1(yw@a!hB`zFgA.QcaHbHkJ6Js~=E~1(yw@a!hB`zFgA.QcaH'
+      - DATABASE_URL=postgres://keystone:keystonecms@keystone-db:5432/keystone
+      - TEST_USERNAME='Admin'
+      - TEST_PASSWORD='adminpassword'
+      - TEST_EMAIL='admin@example.com'
+    depends_on:
+      - keystone-db
+      - app     

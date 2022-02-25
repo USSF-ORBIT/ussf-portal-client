@@ -10,6 +10,12 @@
     "url": "github:USSF-ORBIT/ussf-portal-client"
   },
   "scripts": {
+    "services:up": "docker compose -f docker-compose.services.yml up -d",
+    "services:down": "docker compose -f docker-compose.services.yml down",
+    "cms:up": "docker compose -f docker-compose.services.yml -f docker-compose.cms.yml up -d",
+    "cms:down": "docker compose -f docker-compose.services.yml -f docker-compose.cms.yml down",
+    "e2e:up": "docker compose -f docker-compose.services.yml -f docker-compose.e2e.dev.yml up -d",
+    "e2e:down": "docker compose -f docker-compose.services.yml -f docker-compose.e2e.dev.yml down",
     "dev": "node -r ./server-preload.js node_modules/.bin/next dev",
     "build": "next build",
     "build:analyze": "ANALYZE=true yarn build",
