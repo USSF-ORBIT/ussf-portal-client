@@ -1,20 +1,6 @@
-version: '3.8'
 
+# Overrides for e2e on local
 services:
-  idp:
-    container_name: test-saml-idp
-    image: kristophjunge/test-saml-idp
-    restart: always
-    ports:
-      - '8080:8080'
-      - '8443:8443'
-    environment:
-      SIMPLESAMLPHP_SP_ENTITY_ID: ussf-portal-client
-      SIMPLESAMLPHP_SP_ASSERTION_CONSUMER_SERVICE: http://localhost:3000/api/auth/login
-      SIMPLESAMLPHP_SP_SINGLE_LOGOUT_SERVICE: http://localhost:3000/api/auth/logout/callback
-    volumes:
-      - ./users.php:/var/www/simplesamlphp/config/authsources.php
-
   mongo:
     container_name: mongo
     image: mongo:4.0.0
@@ -23,9 +9,3 @@ services:
       MONGO_INITDB_DATABASE: cypress-e2e
     ports:
       - '27017:27017'
-      
-  redis:
-    container_name: portal_redis
-    image: redis:6.0
-    ports:
-      - '6379:6379'

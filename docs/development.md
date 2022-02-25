@@ -51,8 +51,8 @@ This application uses SAML for its authentication mechanism. SAML relies on the 
   - Ask another team member for the certificates required and save this file to `./certs/DoD_CAs.pem`
   - Set this local environment variable also:
     - `NODE_EXTRA_CA_CERTS='./certs/DoD_CAs.pem'`
-  - Start other services (Redis & Mongo) in Docker:
-    - `docker-compose -f docker-compose.services.yml up -d`
+  - Start other services (Redis & Mongo, etc.) in Docker:
+    - `yarn services:up`
   - Run the app locally, either in dev or production modes:
     - `yarn dev` OR
     - `yarn build && yarn start`
@@ -62,9 +62,15 @@ This application uses SAML for its authentication mechanism. SAML relies on the 
 
 Most commonly used during development:
 
+- `yarn services:up`: Starts all required services in Docker
+  - Stop containers with `yarn services:down`
+- `yarn cms:up`: Starts all required services _and_ Keystone CMS in Docker
+  - Stop containers with `yarn cms:down`
 - `yarn dev`: Starts NextJS server in development mode and watches for changed files
 - `yarn storybook`: Starts the Storybook component library on port 6006
 - `yarn test:watch`: Run Jest tests in watch mode
+- `yarn e2e:up`: Starts all required services to run Cypress tests
+  - Stop containers with `yarn e2e:down`
 - `yarn cypress:dev`: Start the Cypress test runner UI (make sure to run `yarn cypress:install` first)
 
 To start the app server as it will run in production:
@@ -101,27 +107,23 @@ There are two separate Dockerfiles: `Dockerfile.dev`, which is used for running 
 
 ### Local Development with Docker
 
-You can spin up your Docker environment using Docker Compose. By running `docker compose up`, it will use `docker-compose.yml` to create and run the services required for development.
+You can spin up your Docker environment using Docker Compose. By running `yarn services:up`, it will use `docker-compose.services.yml` to create and run the services required for development.
 
 Services include:
 
-1. Next.js App
-
-- Uses image built in `Dockerfile.dev`
-- access on `localhost:3000`
-
-2. MongoDB
+1. MongoDB
 
 - Uses official MongoDB image v4.0.0
 - exposed on port `:27017`
 - initalizes `dev` database
+- persists volume `portal_data`
 
-3. Mongo Express
+2. Mongo Express
 
 - In-browser GUI for MongoDB
 - access on `localhost:8888`
 
-4. Test SAML Identity Provider
+3. Test SAML Identity Provider
 
 - Service for testing auth flow
 - Access on `localhost:8080`, `localhost:8443`
@@ -130,12 +132,34 @@ Services include:
   - password: user1pass
 - Additional users can be configured in the `users.php` file
 
+4. Redis
+
+- Uses official Redis v6.0.0
+- Used to store session information
+
+5. Matomo & MariaDB
+
+- Manages platform analytics
+
+6. Postgres
+
+- Stores Keystone CMS data
+- Persists volume `cms_data`
+
 To run the app in detached development mode (with hot reloading):
 
 ```
 docker compose up -d
 
 ```
+
+Once services are running, start the NextJS app with `yarn dev`.
+
+### Local Development with Keystone CMS
+
+You can also use Docker Compose to spin up all services plus the external Keystone CMS by running `yarn cms:up`. This will start all above services plus Keystone.
+
+Read more about the Keystone app at the [ussf-portal-cms repo](https://github.com/USSF-ORBIT/ussf-portal-cms), and access the local instance at `localhost:3001`.
 
 ### MongoDB in Docker
 
@@ -154,12 +178,14 @@ It will also run `mongo-init.js`, which sets up a `users` collection and adds a 
 To **reset the database** and re-initialize with test user:
 
 ```
-docker compose down
+yarn services:down
+# Or yarn cms:down
+# Depending on how you started the instance
 
 # Remove mounted volume for db
-docker volume rm ussf-portal-client_mongodb_data_container
+docker volume rm ussf-portal-client_portal_data
 
-docker compose up
+yarn services:up
 ```
 
 ### Known limitations

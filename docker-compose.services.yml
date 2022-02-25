@@ -1,12 +1,13 @@
 version: '3.8'
 
 services:
+# Shared between CMS and Portal
   redis:
     container_name: portal_redis
     image: redis:6.0
     ports:
       - '6379:6379'
-
+# Portal-specific services
   mongo:
     container_name: mongo
     image: mongo:4.0.0
@@ -14,8 +15,7 @@ services:
     environment:
       MONGO_INITDB_DATABASE: dev
     volumes:
-      - mongodb_data_container:/data/db
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - portal_data:/data/db
     ports:
       - '27017:27017'
 
@@ -74,9 +74,23 @@ services:
       - 'matomo_data:/bitnami/matomo'
     depends_on:
       - mariadb
+# CMS-specific services      
+  keystone-db:
+    container_name: keystone-db
+    image: postgres:14
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - cms_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_PASSWORD=keystonecms
+      - POSTGRES_USER=keystone
+      - POSTGRES_DB=keystone
 
 volumes:
-  mongodb_data_container:
+  portal_data:
+  cms_data:
   mariadb_data:
     driver: local
   matomo_data:
