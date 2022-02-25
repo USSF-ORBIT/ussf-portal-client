@@ -4,7 +4,7 @@ import Collection from './Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 
 export default {
-  title: 'Components/Collections/Collection',
+  title: 'Components/Sections/Collections/Collection',
   component: Collection,
   decorators: [
     (Story) => (

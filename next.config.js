@@ -31,10 +31,6 @@ module.exports = withKeystone(
     generateBuildId: async () => {
       return process.env.IMAGE_TAG
     },
-    publicRuntimeConfig: {
-      MATOMO_URL: process.env.MATOMO_URL,
-      MATOMO_SITE_ID: process.env.MATOMO_SITE_ID,
-    },
     reactStrictMode: true,
     // swcMinify: true,
     async headers() {
@@ -70,6 +66,17 @@ module.exports = withKeystone(
               },
             ],
             destination: '/beta/leavebeta',
+          },
+          {
+            source: '/news',
+            has: [
+              {
+                type: 'cookie',
+                key: 'betaOptIn',
+                value: 'true',
+              },
+            ],
+            destination: '/beta/news',
           },
           {
             source: '/',

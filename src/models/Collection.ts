@@ -7,6 +7,7 @@ import type {
   CollectionRecord,
   CollectionRecords,
 } from 'types'
+import { WIDGET_TYPES } from 'constants/index'
 
 // Types for CollectionModel
 type FindOneInput = {
@@ -90,6 +91,7 @@ export const CollectionModel = {
     const newCollection: CollectionInput = {
       _id: new ObjectId(),
       title: title,
+      type: WIDGET_TYPES.COLLECTION,
       bookmarks: newBookmarks,
     }
 
@@ -128,6 +130,7 @@ export const CollectionModel = {
       // #TODO Future data modeling to be done for canonical collections
       cmsId: collection.id,
       title: collection.title,
+      type: WIDGET_TYPES.COLLECTION,
       bookmarks: collection.bookmarks.map((bookmark: BookmarkRecord) => ({
         _id: new ObjectId(),
         cmsId: bookmark.id,

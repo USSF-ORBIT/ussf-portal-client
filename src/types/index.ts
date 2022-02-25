@@ -67,12 +67,15 @@ export type Collection = {
   _id: string
   title: string
   bookmarks: Bookmark[]
+  cmsId?: string
+  type: 'Collection'
 }
 
 export type CollectionInput = {
   _id: ObjectId
   title: string
   bookmarks: BookmarkInput[]
+  type: 'Collection'
 }
 
 export type CollectionsInput = {
@@ -81,6 +84,11 @@ export type CollectionsInput = {
   bookmarks: BookmarkInput[]
 }
 
+/**
+ * ***********************
+ * Types for User / Auth
+ * ***********************
+ * */
 export interface SAMLUser {
   issuer: string
   nameID: string
@@ -104,4 +112,30 @@ export type PortalUser = {
 
 export type SessionUser = SAMLUser & {
   userId: string
+}
+
+/**
+ * ***********************
+ * Types for News articles
+ * ***********************
+ * */
+
+export type RSSNewsItem = {
+  id?: string
+  desc?: string
+  date?: string
+  link?: string
+  title?: string
+  image?: string
+}
+
+export type NewsListItemArticle = {
+  id: string
+  thumbnailSrc?: string
+  publishDate?: string
+  title: string
+  description: string
+  source: string
+  sourceName: string
+  sourceLink: string
 }

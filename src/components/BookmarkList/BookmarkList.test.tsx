@@ -8,7 +8,8 @@ import { axe } from 'jest-axe'
 import React from 'react'
 
 import BookmarkList from './BookmarkList'
-import type { BookmarkRecord, BookmarkRecords } from 'types'
+import type { Collection, BookmarkRecord, BookmarkRecords } from 'types'
+import { WIDGET_TYPES } from 'constants/index'
 
 const exampleBookmarks: BookmarkRecord[] = [
   { id: '1', label: 'Webmail', url: '#' },
@@ -70,11 +71,25 @@ const exampleInvalidBookmarks = [
   },
 ]
 
-const exampleCollections = [
+const exampleCollections: Collection[] = [
   {
     _id: 'testCollectionId',
     title: 'Example Collection',
+    type: WIDGET_TYPES.COLLECTION,
     bookmarks: [],
+  },
+]
+
+const exampleCollectionsWithLimit: Collection[] = [
+  {
+    _id: 'testCollectionId',
+    title: 'Example Collection',
+    type: WIDGET_TYPES.COLLECTION,
+    bookmarks: Array.from({ length: 10 }, (x, i) => ({
+      _id: `${i}`,
+      label: `Bookmark ${i}`,
+      url: '#',
+    })),
   },
 ]
 
@@ -147,6 +162,31 @@ describe('BookmarkList component', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('cannot add a bookmark to a new collection if not allowed', () => {
+    const mockAddToCollection = jest.fn()
+
+    render(
+      <BookmarkList
+        {...testProps}
+        handleAddToCollection={mockAddToCollection}
+        userCollectionOptions={exampleCollections}
+        canAddNewCollection={false}
+      />
+    )
+
+    userEvent.click(
+      screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+    )
+
+    expect(
+      screen.getByRole('button', { name: 'Add to My Space Open' })
+    ).toBeInTheDocument()
+
+    expect(
+      screen.getByRole('button', { name: 'Add to new collection' })
+    ).toBeDisabled()
+  })
+
   it('can add a bookmark to an existing collection', () => {
     const mockAddToCollection = jest.fn()
 
@@ -179,5 +219,29 @@ describe('BookmarkList component', () => {
     expect(
       screen.queryByRole('button', { name: 'Add to My Space Open' })
     ).not.toBeInTheDocument()
+  })
+
+  it('cannot add a bookmark to an existing collection that has 10 bookmarks', () => {
+    const mockAddToCollection = jest.fn()
+
+    render(
+      <BookmarkList
+        {...testProps}
+        handleAddToCollection={mockAddToCollection}
+        userCollectionOptions={exampleCollectionsWithLimit}
+      />
+    )
+
+    userEvent.click(
+      screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+    )
+
+    expect(
+      screen.getByRole('button', { name: 'Add to My Space Open' })
+    ).toBeInTheDocument()
+
+    expect(
+      screen.getByRole('button', { name: 'Example Collection' })
+    ).toBeDisabled()
   })
 })

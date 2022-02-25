@@ -77,7 +77,7 @@ describe('Home page', () => {
       expect(
         screen.getByRole('heading', {
           level: 3,
-          name: 'Read it here – The Guardian Ideal',
+          name: 'USSF CY21A Promotion Lists now available!',
         })
       ).toBeInTheDocument()
 

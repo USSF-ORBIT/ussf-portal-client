@@ -4,6 +4,7 @@ const { ObjectId } = require('mongodb')
 const exampleCollection1 = {
   title: 'Example Collection',
   _id: new ObjectId(),
+  type: 'Collection',
   bookmarks: [
     {
       _id: new ObjectId(),
@@ -45,6 +46,7 @@ const exampleCollection1 = {
 const exampleCollection2 = {
   title: 'Second Collection',
   _id: new ObjectId(),
+  type: 'Collection',
   bookmarks: [
     {
       _id: new ObjectId(),
@@ -58,6 +60,7 @@ const exampleCollection2 = {
 const exampleCollection3 = {
   title: 'Third Collection',
   _id: new ObjectId(),
+  type: 'Collection',
   bookmarks: [
     {
       _id: new ObjectId(),

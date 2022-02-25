@@ -9,7 +9,7 @@ type StorybookArgTypes = {
 }
 
 export default {
-  title: 'Components/Collections/SelectableCollection',
+  title: 'Components/Sections/Collections/SelectableCollection',
   component: SelectableCollection,
   argTypes: {
     handleSelect: { action: 'Select collection' },
@@ -61,5 +61,14 @@ export const Selected = (argTypes: StorybookArgTypes) => (
     {...exampleCollection}
     isSelected={true}
     onSelect={argTypes.handleSelect}
+  />
+)
+
+export const Disabled = (argTypes: StorybookArgTypes) => (
+  <SelectableCollection
+    {...exampleCollection}
+    isSelected={false}
+    onSelect={argTypes.handleSelect}
+    disabled
   />
 )

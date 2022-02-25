@@ -1,8 +1,5 @@
-name: Netlify Branch Deploy
-env:
-  NETLIFY_BRANCH_DEPLOY: ${{ secrets.NETLIFY_BRANCH_DEPLOY }}
-  PROTOTYPE_DEPLOY: ${{ secrets.PROTOTYPE_DEPLOY }}
-  BRANCH_NAME: ${{github.head_ref}}
+name: Netlify Storybook Branch Deploy
+
 on:
   pull_request:
     types:
@@ -17,27 +14,19 @@ jobs:
         uses: actions/checkout@230611dbd0eb52da1e1f4f7bc8bb0c3a339fc8b7
 
       - name: Trigger Netlify build
-        run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/$NETLIFY_BRANCH_DEPLOY\?trigger_branch\=$BRANCH_NAME\&trigger_title\=triggered+by+github+workflow
+        id: deploy-storybook-to-netlify
+        uses: jsmrcaga/action-netlify-deploy@v1.7.2
+        with:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_DEPLOY_TO_PROD: false
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          build_directory: 'storybook-static'
+          build_command: 'yarn storybook:build'
+          node_version: 14.18.3
         continue-on-error: false
 
       - name: Post Storybook URL
         uses: thollander/actions-comment-pull-request@675cdfe1695d33e816e060460a72feafee079d3f # renovate: tag=v1.0.4
         with:
           GITHUB_TOKEN: '${{github.token}}'
-          message: '🎉 View your component in Storybook - [https://${{github.head_ref}}--ussf-storybook.netlify.app]( https://${{github.head_ref}}--ussf-storybook.netlify.app)'
-  nextjs-branch-deploy:
-    runs-on: ubuntu-latest
-    if: github.event.label.name == 'prototype'
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@230611dbd0eb52da1e1f4f7bc8bb0c3a339fc8b7
-
-      - name: Trigger Netlify build
-        run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/$PROTOTYPE_DEPLOY\?trigger_branch\=$BRANCH_NAME\&trigger_title\=triggered+by+github+workflow
-        continue-on-error: false
-
-      - name: Post Prototype URL
-        uses: thollander/actions-comment-pull-request@675cdfe1695d33e816e060460a72feafee079d3f # renovate: tag=v1.0.4
-        with:
-          GITHUB_TOKEN: '${{github.token}}'
-          message: '🎉 View the deployed prototype - [https://${{github.head_ref}}--ussf-portal-client.netlify.app]( https://${{github.head_ref}}--ussf-portal-client.netlify.app)'
+          message: '🎉 View this branch in Storybook - [${{ steps.deploy-storybook-to-netlify.outputs.NETLIFY_PREVIEW_URL }}](${{ steps.deploy-storybook-to-netlify.outputs.NETLIFY_PREVIEW_URL }})'

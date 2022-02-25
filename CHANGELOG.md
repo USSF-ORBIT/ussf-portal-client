@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.2.0...2.3.0) (2022-02-24)
+
+
+### Features
+
+* Promotion list announcement ([#527](https://github.com/USSF-ORBIT/ussf-portal-client/issues/527)) ([a02206e](https://github.com/USSF-ORBIT/ussf-portal-client/commit/a02206e9f53bccb190eab1076460e2ae4b1866b8))
+
+## [2.2.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.1.0...2.2.0) (2022-02-17)
+
+
+### Features
+
+* News page [sc-27] ([#512](https://github.com/USSF-ORBIT/ussf-portal-client/issues/512)) ([2458fac](https://github.com/USSF-ORBIT/ussf-portal-client/commit/2458fac975ddd0b2f30b56d670c17e55631f907e))
+
+
+### Bug Fixes
+
+* Init analytics context from API data ([#504](https://github.com/USSF-ORBIT/ussf-portal-client/issues/504)) ([d46185f](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d46185fce7aeac08cea5a2416f71f3e3b33f9796))
+* Modal body padding bug ([#515](https://github.com/USSF-ORBIT/ussf-portal-client/issues/515)) ([1cf60eb](https://github.com/USSF-ORBIT/ussf-portal-client/commit/1cf60ebc738bc52d6befa047c74ba684d3cc0fb4))
+
+## [2.1.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.0.1...2.1.0) (2022-02-04)
+
+
+### Features
+
+* Add event tracking to existing features ([#495](https://github.com/USSF-ORBIT/ussf-portal-client/issues/495)) ([ae2aed3](https://github.com/USSF-ORBIT/ussf-portal-client/commit/ae2aed3c092f9f5d929018c23aa607add2515423))
+* Add Link UX/UI improvements ([#487](https://github.com/USSF-ORBIT/ussf-portal-client/issues/487)) ([d83610a](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d83610adc21a3259cd811fbd4e6df663aebfe214))
+* Edit collection title ux improvements ([#492](https://github.com/USSF-ORBIT/ussf-portal-client/issues/492)) ([95e3806](https://github.com/USSF-ORBIT/ussf-portal-client/commit/95e3806c2fec0fd3f10ea787a99f522c14510abf))
+* Focus on Add Link input automatically ([#478](https://github.com/USSF-ORBIT/ussf-portal-client/issues/478)) ([058840e](https://github.com/USSF-ORBIT/ussf-portal-client/commit/058840eaf7309e861c29844667954a8a8cc5f377))
+* Maximum collections UX ([#486](https://github.com/USSF-ORBIT/ussf-portal-client/issues/486)) ([e3449c8](https://github.com/USSF-ORBIT/ussf-portal-client/commit/e3449c8dadcc365d4d3793c9539274e9f140c0bc))
+* Maximum links UI ([#490](https://github.com/USSF-ORBIT/ussf-portal-client/issues/490)) ([b13d220](https://github.com/USSF-ORBIT/ussf-portal-client/commit/b13d22011a987ee029d3d910727b687f4dc0fe7d))
+* Set up Matomo tracking on portal client ([#458](https://github.com/USSF-ORBIT/ussf-portal-client/issues/458)) ([0f113b2](https://github.com/USSF-ORBIT/ussf-portal-client/commit/0f113b22ccee5584dc0a0a2b6150dae21c94662a))
+* USSF Tooltip component ([#480](https://github.com/USSF-ORBIT/ussf-portal-client/issues/480)) ([215cc17](https://github.com/USSF-ORBIT/ussf-portal-client/commit/215cc17074718576864ab53d82a8b00fc6b21bcb))
+
+
+### Bug Fixes
+
+* Fix bug for multiple bookmark removes  ([#482](https://github.com/USSF-ORBIT/ussf-portal-client/issues/482)) ([18446d1](https://github.com/USSF-ORBIT/ussf-portal-client/commit/18446d1aa60554840071bef7c0de32bf1171a23d))
+
 ### [2.0.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.0.0...2.0.1) (2022-01-03)
 
 

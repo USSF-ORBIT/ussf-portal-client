@@ -154,4 +154,38 @@ describe('SelectableCollection component', () => {
       expect(await axe(container)).toHaveNoViolations()
     })
   })
+
+  describe('when disabled', () => {
+    it('does not render a button', () => {
+      const mockOnSelect = jest.fn()
+
+      render(
+        <SelectableCollection
+          {...exampleCollection}
+          isSelected={true}
+          onSelect={mockOnSelect}
+          disabled={true}
+        />
+      )
+
+      expect(
+        screen.queryByRole('button', {
+          name: 'Select collection Example Collection',
+        })
+      ).not.toBeInTheDocument()
+    })
+
+    it('has no a11y violations', async () => {
+      const { container } = render(
+        <SelectableCollection
+          {...exampleCollection}
+          isSelected={true}
+          onSelect={jest.fn()}
+          disabled={true}
+        />
+      )
+
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })

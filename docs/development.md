@@ -4,11 +4,14 @@
 1. [yarn scripts](#yarn-scripts)
 1. [Running the application](#running-the-application)
 1. [Working on an issue](#working-on-an-issue)
+1. [Database migrations](#database-migrations)
 1. [PR linting](#pr-linting)
 1. [Testing](#testing)
 1. [Releasing](#releasing)
 
 ## Environment Setup
+
+### Pre-requisites
 
 1. **Set up [direnv](https://direnv.net/docs/hook.html)**
 
@@ -95,8 +98,8 @@ _Not to be confused with the production environment!_
 
 You can start the NextJS server in "production mode" (i.e., the server will run in the same way it will on a deployed environment with no recompilation or hot reloading) by running both:
 
-- `yarn build` builds static assets that will be served by NextJS. This command must be used before `yarn serve`.
-- `yarn serve` starts the NextJS server running at `localhost:3000` (the same port used by the dev server).
+- `yarn build` builds static assets that will be served by NextJS. This command must be used before `yarn start`.
+- `yarn start` starts the NextJS server running at `localhost:3000` (the same port used by the dev server).
 
 ### Running in Docker
 
@@ -187,8 +190,6 @@ yarn services:up
 
 ### Known limitations
 
-- Currently Docker is not set up to run the static site.
-
 - If a change is made to package.json, you'll need to shut down the environment and rebuild the app image using `docker compose up --build`
 
 ## Working on an issue
@@ -204,6 +205,35 @@ For example: `112-logo-component`
 We have a pre-commit hook set up using Husky to run on staged files only. This will run [Prettier](https://prettier.io/), [TypeScript compilation](https://www.typescriptlang.org/) and [eslint](https://eslint.org/) and fail on errors. For an optimal developer experience, it's recommended that you configure your editor to run linting & formatting inline.
 
 When your branch is ready, open a PR against `main`, fill out the description and request code reviews. The code must pass the same linting and formatting checks mentioned above, as well as [Jest tests](https://jestjs.io/) in order to merge.
+
+## Database migrations
+
+The portal application uses MongoDB (AWS DocDB in deployed environments) as a data store for _non-sensitive_ user data. If you need to make a change that requires a database migration, follow these steps:
+
+- As much as possible, consider how to scope the migration to its own branch / PR so it can be deployed independently of application code changes, and reinforce backwards compatibility to minimize the risk of errors in production.
+  - This may require making code changes so the application can handle both the existing & changed data model _before_ running migrations.
+  - Resource: [The pedantic checklist for changing your data model in a web application](https://rtpg.co/2021/06/07/changes-checklist.html)
+- On your migration branch, run the following command to create a new migration:
+  - `yarn migrate:create <migration name here>`
+  - Example: `yarn migrate:create add-type-to-collections`
+  - This will generate a new migration file with a timestamp under the `./migrations` directory
+  - Give your migration an explicit & descriptive name
+- Create a corresponding test file for migration under `./test/migrations`
+  - Example: `./test/migrations/add-type-to-collections.test.js`
+- Write your migration `up` and `down` code, and corresponding tests
+  - The `up, down` functions are passed into the `runMigration` utility function, which will handle connecting to MongoDB, pass the `db` context into the migration, and close the connection afterwards.
+- Test your migration in Jest
+  - We use the [jest-mongodb preset](https://github.com/shelfio/jest-mongodb) so unit tests will run against a shared in-memory MongoDB instance
+- Test your migration in MongoDB
+  - If you connect to your local MongoDB instance (for example, using [mongo-express](http://localhost:8888/)) you can verify the data changes as expected when you run & rollback migrations
+  - To run new migrations: `yarn migrate` or `yarn migrate up <migration name>`
+  - To rollback: `yarn migrate down` or `yarn migrate down <migration name>`
+  - To view the status of all migrations: `yarn migrate list`
+  - Resources: [Documentation for node-migrate](https://github.com/tj/node-migrate)
+- Test your migration in the application
+  - The migrate script is run automatically when the application server starts (in all environments: development, production, and in Docker) as part of the startup script.
+  - Start up the application in these environments to make sure the migration runs successfully and does not cause an error.
+  - This will also be tested in the Cypress CI workflow, which builds & starts the application in Docker.
 
 ## PR linting
 

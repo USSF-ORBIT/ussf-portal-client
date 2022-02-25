@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { InferGetStaticPropsType } from 'next'
-import { Button, Grid, Alert } from '@trussworks/react-uswds'
+import { Button, Grid, Alert, IconInfo } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
@@ -20,6 +20,7 @@ import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 import BookmarkList from 'components/BookmarkList/BookmarkList'
 import SelectableCollection from 'components/SelectableCollection/SelectableCollection'
+import Tooltip from 'components/Tooltip/Tooltip'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useUser } from 'hooks/useUser'
@@ -33,6 +34,8 @@ type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
 type SelectedCollections = string[]
 
+const MAXIMUM_COLLECTIONS = 25
+
 const SitesAndApplications = ({
   collections,
   bookmarks,
@@ -43,9 +46,7 @@ const SitesAndApplications = ({
   const { trackEvent } = useAnalytics()
 
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
-  const [selectMode, setSelectMode] = useState<boolean>(
-    router.query.selectMode == 'true' || false
-  )
+  const [selectMode, setSelectMode] = useState<boolean>(false)
   const [selectedCollections, setSelectedCollections] =
     useState<SelectedCollections>([])
   const [flash, setFlash] = useState<React.ReactNode>(null)
@@ -61,6 +62,13 @@ const SitesAndApplications = ({
   }, [router.query])
 
   if (error) return <p>Error</p>
+
+  const collectionsLength = (data && data.collections.length) || 0
+
+  const remainingSections =
+    MAXIMUM_COLLECTIONS - (collectionsLength + selectedCollections.length)
+
+  const canAddSections = collectionsLength < MAXIMUM_COLLECTIONS
 
   const handleSortClick = (sortType: SortBy) => {
     const sortTypeAction =
@@ -195,11 +203,30 @@ const SitesAndApplications = ({
       )}
 
       {!loading && sortBy === 'SORT_ALPHA' && (
-        <BookmarkList
-          bookmarks={bookmarks}
-          userCollectionOptions={data?.collections}
-          handleAddToCollection={handleAddToCollection}
-        />
+        <>
+          {data?.collections.some(
+            (c) => c.bookmarks.filter((b) => !b.isRemoved).length >= 10
+          ) && (
+            <Alert type="warning" role="alert">
+              At least one collection on your My Space has reached the maximum
+              number of links allowed (10).
+            </Alert>
+          )}
+
+          {!canAddSections && (
+            <Alert type="warning" role="alert">
+              You have reached the maximum number of collections allowed on your
+              My Space (25).
+            </Alert>
+          )}
+
+          <BookmarkList
+            bookmarks={bookmarks}
+            userCollectionOptions={data?.collections}
+            handleAddToCollection={handleAddToCollection}
+            canAddNewCollection={canAddSections}
+          />
+        </>
       )}
 
       {!loading && sortBy === 'SORT_TYPE' && (
@@ -207,9 +234,24 @@ const SitesAndApplications = ({
           <div className={styles.widgetToolbar}>
             {selectMode ? (
               <>
+                {remainingSections < 3 && (
+                  <Tooltip
+                    position="top"
+                    label={
+                      remainingSections > 0
+                        ? `You’re approaching the maximum number of collections (25) you can add to your My Space page.`
+                        : `You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`
+                    }>
+                    <IconInfo size={3} />
+                  </Tooltip>
+                )}
                 <span>
-                  {selectedCollections.length} collection
-                  {selectedCollections.length !== 1 && 's'} selected
+                  <strong>
+                    {selectedCollections.length} collection
+                    {selectedCollections.length !== 1 && 's'} selected
+                  </strong>{' '}
+                  ({remainingSections} of {MAXIMUM_COLLECTIONS} possible
+                  remaining)
                 </span>
                 <Button
                   type="button"
@@ -230,17 +272,27 @@ const SitesAndApplications = ({
                 </Button>
               </>
             ) : (
-              <Button
-                type="button"
-                onClick={() => {
-                  trackEvent(
-                    'S&A add collection',
-                    'Select multiple collections'
-                  )
-                  handleToggleSelectMode()
-                }}>
-                Select multiple collections
-              </Button>
+              <>
+                {!canAddSections && (
+                  <Tooltip
+                    position="top"
+                    label={`You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`}>
+                    <IconInfo size={3} />
+                  </Tooltip>
+                )}
+                <Button
+                  type="button"
+                  onClick={() => {
+                    trackEvent(
+                      'S&A add collection',
+                      'Select multiple collections'
+                    )
+                    handleToggleSelectMode()
+                  }}
+                  disabled={!canAddSections}>
+                  Select multiple collections
+                </Button>
+              </>
             )}
           </div>
 
@@ -258,6 +310,9 @@ const SitesAndApplications = ({
                       bookmarks={collection.bookmarks}
                       isSelected={isSelected(collection.id)}
                       onSelect={() => handleSelectCollection(collection.id)}
+                      disabled={
+                        !isSelected(collection.id) && remainingSections < 1
+                      }
                     />
                   ) : (
                     <Collection title={collection.title}>

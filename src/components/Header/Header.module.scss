@@ -41,6 +41,10 @@
       border-radius: 6px;
     }
 
+    .usa-nav__primary > .usa-nav__primary-item + .usa-nav__primary-item {
+      margin-left: units(2);
+    }
+
     .usa-nav__primary > .usa-nav__primary-item > a {
       color: $theme-white;
       font-weight: normal;
@@ -51,10 +55,20 @@
         color: $theme-black;
         border-radius: 6px;
       }
+
+      &.usa-current {
+        background: $theme-aurora-lightest;
+        color: $theme-black;
+        border-radius: 6px;
+
+        &:after {
+          content: none;
+        }
+      }
     }
   }
 
   :global(.usa-nav__primary) .logoutButton {
-    margin-left: units(4);
+    margin-left: units(2);
   }
 }

@@ -116,4 +116,4 @@ function cleanObjectForSerialization(value) {
   return value
 }
 
-setUpLogging()
+module.exports.initLogger = setUpLogging

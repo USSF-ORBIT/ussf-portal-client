@@ -15,11 +15,54 @@
 .addLink {
   @include u-padding-x(2);
   @include u-margin-top(2);
+
+  :global(.usa-tooltip) {
+    @include u-margin-left(1);
+    @include u-margin-top(1);
+  }
+
+  :global(.usa-form__note) {
+    float: none;
+    @include u-margin-top('105');
+
+    :global(.usa-button--unstyled) {
+      margin: 0;
+      font-size: inherit;
+    }
+  }
+}
+
+.addLinkWarning {
+  :global(.usa-combo-box__input) {
+    border-width: 0.25rem;
+    border-style: solid;
+    border-color: $state-warning-dark;
+  }
 }
 
 .addLinkButton {
   &:hover {
     background-color: #f0f0f0;
+  }
+}
+
+.customLink {
+  display: flex;
+
+  &::before {
+    content: '';
+    background-image: url('/assets/images/icon_custom-link.svg');
+    width: 18px;
+    height: 18px;
+    margin-right: units(1);
+    flex-shrink: 0;
+  }
+
+  .customLinkText {
+    // truncated text
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 

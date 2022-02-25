@@ -9,36 +9,44 @@ import {
   Button,
   Label,
   TextInput,
+  Alert,
 } from '@trussworks/react-uswds'
 
 import ModalPortal from 'components/util/ModalPortal'
 
 type AddCustomLinkModalProps = {
-  onSave: (label: string) => void
+  onSave: (url: string, label: string) => void
   onCancel: () => void
   modalRef: React.RefObject<ModalRef>
+  showAddWarning?: boolean
 } & Omit<ModalProps, 'children' | 'id'>
 
 const AddCustomLinkModal = ({
   onSave,
   onCancel,
   modalRef,
+  showAddWarning,
   ...props
 }: AddCustomLinkModalProps) => {
   const modalId = 'addCustomLinkModal'
-  const inputRef = useRef<HTMLInputElement>(null)
+  const nameInputRef = useRef<HTMLInputElement>(null)
+  const urlInputRef = useRef<HTMLInputElement>(null)
 
   const resetForm = () => {
-    const inputEl = inputRef.current as HTMLInputElement
-    inputEl.value = ''
+    // TODO - ideally we'd just reset the form but ReactUSWDS does not (yet) forward a ref to the form
+    const nameInputEl = nameInputRef.current as HTMLInputElement
+    const urlInputEl = urlInputRef.current as HTMLInputElement
+    nameInputEl.value = ''
+    urlInputEl.value = ''
   }
 
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
     const label = `${data.get('bookmarkLabel')}`
+    const url = `${data.get('bookmarkUrl')}`
     resetForm()
-    onSave(label)
+    onSave(url, label)
   }
 
   const handleCancel = () => {
@@ -56,29 +64,43 @@ const AddCustomLinkModal = ({
         aria-describedby={`${modalId}-description`}
         forceAction
         modalRoot="#modal-root">
-        <ModalHeading id={`${modalId}-heading`}>
-          We don’t recognize that link
-        </ModalHeading>
-        <div className="usa-prose">
-          <p id={`${modalId}-description`}>
-            Please provide a title for the custom link you’d like to save.
-          </p>
-        </div>
-
+        <ModalHeading id={`${modalId}-heading`}>Add a custom link</ModalHeading>
         <Form onSubmit={handleSave}>
-          <Label htmlFor="bookmarkLabel" className="usa-sr-only">
-            Label
-          </Label>
+          <Label htmlFor="newBookmarkLabel">Name</Label>
           <TextInput
             type="text"
-            id="bookmarkLabel"
+            id="newBookmarkLabel"
             name="bookmarkLabel"
             required
-            inputRef={inputRef}
+            inputRef={nameInputRef}
+            placeholder="Example link name"
           />
+
+          <Label htmlFor="newBookmarkUrl">URL</Label>
+          <TextInput
+            type="url"
+            id="newBookmarkUrl"
+            name="bookmarkUrl"
+            required
+            inputRef={urlInputRef}
+            placeholder="https://www.copy-paste-your-url.com"
+          />
+
+          {showAddWarning && (
+            <Alert
+              type="warning"
+              heading="Link limit reached"
+              slim
+              className="font-sans-3xs">
+              You’ve almost reached the maximum number of links (10) for this
+              collection. To add additional links, please create a new
+              collection.
+            </Alert>
+          )}
+
           <ButtonGroup>
             <Button type="submit" data-close-modal>
-              Save link name
+              Save custom link
             </Button>
             <Button
               type="button"

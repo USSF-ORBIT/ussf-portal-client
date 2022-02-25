@@ -13,10 +13,3 @@
     color: $state-warning-dark;
   }
 }
-
-:global {
-  .sfds .usa-tooltip__body {
-    background-color: $theme-spacebase-dark;
-    padding: units(2);
-  }
-}

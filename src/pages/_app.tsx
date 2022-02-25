@@ -7,7 +7,6 @@ import type { ReactNode } from 'react'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { ApolloProvider } from '@apollo/client'
-import getConfig from 'next/config'
 
 import 'styles/index.scss'
 import 'styles/sfds/index.scss'
@@ -35,24 +34,13 @@ const USSFPortalApp = ({
   Component,
   pageProps,
   hostname,
-  appConfig,
 }: Props & {
   hostname: {
     origin: string
   }
-  appConfig: {
-    MATOMO_URL?: string
-    MATOMO_SITE_ID?: string
-  }
 }) => {
   const canonicalUrl = hostname.origin
   const { asPath } = useRouter()
-
-  const analyticsConfig = {
-    url: appConfig.MATOMO_URL,
-    siteId: appConfig.MATOMO_SITE_ID,
-    debug: process.env.NODE_ENV === 'development',
-  }
 
   const getLayout =
     Component.getLayout ||
@@ -60,7 +48,7 @@ const USSFPortalApp = ({
 
   return (
     <ApolloProvider client={client}>
-      <AnalyticsProvider config={analyticsConfig}>
+      <AnalyticsProvider>
         <AuthProvider>
           <BetaContextProvider>
             <Head>
@@ -186,11 +174,9 @@ const USSFPortalApp = ({
 
 USSFPortalApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext)
-
-  const { publicRuntimeConfig } = getConfig()
   const hostname = getAbsoluteUrl(appContext.ctx.req)
 
-  return { ...appProps, hostname, appConfig: publicRuntimeConfig || {} }
+  return { ...appProps, hostname }
 }
 
 export default USSFPortalApp
