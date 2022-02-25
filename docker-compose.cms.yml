@@ -1,7 +1,6 @@
 services:  
   cms:
     container_name: keystone-cms
-    # image: keystone-cms
     build:
       context: https://github.com/USSF-ORBIT/ussf-portal-cms.git#main
       dockerfile: Dockerfile
