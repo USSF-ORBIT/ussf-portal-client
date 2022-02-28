@@ -2,7 +2,7 @@ name: Deploy Storybook to Github Pages
 
 on:
   push:
-    branches: [main, sr-fix-storybook-deploy]
+    branches: [main]
 
 jobs:
   deploy-storybook:
