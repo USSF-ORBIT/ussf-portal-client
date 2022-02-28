@@ -92,9 +92,9 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
         <Grid row gap={2}>
           {loading && (
             <Grid
-              key={`collection_loading`}
-              tablet={{ col: 6 }}
-              desktop={{ col: 4 }}>
+              key={`widget_loading`}
+              tabletLg={{ col: 6 }}
+              desktopLg={{ col: 4 }}>
               <LoadingWidget />
             </Grid>
           )}
@@ -179,9 +179,9 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
 
           {!loading && canAddCollections && (
             <Grid
-              key={`collection_addNew`}
-              tablet={{ col: 6 }}
-              desktop={{ col: 4 }}>
+              key={`widget_addNew`}
+              tabletLg={{ col: 6 }}
+              desktopLg={{ col: 4 }}>
               <AddWidget
                 handleCreateCollection={addNewCollection}
                 handleSelectCollection={selectCollections}
