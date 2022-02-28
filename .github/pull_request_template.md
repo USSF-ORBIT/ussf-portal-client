@@ -38,7 +38,8 @@
 
 ### As the original developer, I have
 
-- [ ] Met the acceptance criteria, or will meet them in a subsequent PR
+- [ ] Met the acceptance criteria, or will meet them in subsequent PRs or stories
+  - ... <!-- link follow-up PRs/stories here -->
 - [ ] Created new stories in Storybook if applicable
   - [ ] Checked that all Storybook accessibility checks are passing
 - [ ] Created/modified automated unit tests in Jest
