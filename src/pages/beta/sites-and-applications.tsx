@@ -11,7 +11,10 @@ import type {
   CollectionRecords,
   BookmarkRecord,
   NewBookmarkInput,
+  MySpaceWidget,
+  Collection as CollectionType,
 } from 'types/index'
+import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
 import Loader from 'components/Loader/Loader'
 import Flash from 'components/util/Flash/Flash'
@@ -24,7 +27,7 @@ import Tooltip from 'components/Tooltip/Tooltip'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useUser } from 'hooks/useUser'
-import { useCollectionsQuery } from 'operations/queries/getCollections'
+import { useMySpaceQuery } from 'operations/queries/getMySpace'
 import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
@@ -34,7 +37,10 @@ type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
 type SelectedCollections = string[]
 
-const MAXIMUM_COLLECTIONS = 25
+/** Type guards */
+function isCollection(widget: MySpaceWidget): widget is CollectionType {
+  return widget.type === WIDGET_TYPES.COLLECTION
+}
 
 const SitesAndApplications = ({
   collections,
@@ -42,7 +48,7 @@ const SitesAndApplications = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter()
   const { user } = useUser()
-  const { loading, error, data } = useCollectionsQuery()
+  const { loading, error, data } = useMySpaceQuery()
   const { trackEvent } = useAnalytics()
 
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
@@ -63,7 +69,11 @@ const SitesAndApplications = ({
 
   if (error) return <p>Error</p>
 
-  const collectionsLength = (data && data.collections.length) || 0
+  const userCollections: CollectionType[] =
+    (data &&
+      data.mySpace.filter((w): w is CollectionType => isCollection(w))) ||
+    []
+  const collectionsLength = userCollections.length || 0
 
   const remainingSections =
     MAXIMUM_COLLECTIONS - (collectionsLength + selectedCollections.length)
@@ -114,7 +124,7 @@ const SitesAndApplications = ({
       variables: {
         collections: collectionObjs,
       },
-      refetchQueries: [`getCollections`],
+      refetchQueries: [`getMySpace`],
     })
     setSelectMode(false)
     setSelectedCollections([])
@@ -132,10 +142,10 @@ const SitesAndApplications = ({
           cmsId: bookmark.id,
           ...bookmark,
         },
-        refetchQueries: [`getCollections`],
+        refetchQueries: [`getMySpace`],
       })
 
-      const collection = data?.collections.find((c) => c._id === collectionId)
+      const collection = userCollections.find((c) => c._id === collectionId)
 
       setFlash(
         <Alert type="success" slim role="alert">
@@ -153,7 +163,7 @@ const SitesAndApplications = ({
 
       handleAddCollection({
         variables: { title: '', bookmarks: [bookmarkInput] },
-        refetchQueries: [`getCollections`],
+        refetchQueries: [`getMySpace`],
       })
       router.push('/')
     }
@@ -204,7 +214,7 @@ const SitesAndApplications = ({
 
       {!loading && sortBy === 'SORT_ALPHA' && (
         <>
-          {data?.collections.some(
+          {userCollections.some(
             (c) => c.bookmarks.filter((b) => !b.isRemoved).length >= 10
           ) && (
             <Alert type="warning" role="alert">
@@ -222,7 +232,7 @@ const SitesAndApplications = ({
 
           <BookmarkList
             bookmarks={bookmarks}
-            userCollectionOptions={data?.collections}
+            userCollectionOptions={userCollections}
             handleAddToCollection={handleAddToCollection}
             canAddNewCollection={canAddSections}
           />

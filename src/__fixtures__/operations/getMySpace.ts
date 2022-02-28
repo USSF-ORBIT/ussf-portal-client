@@ -56,10 +56,10 @@ export const getMySpaceMock = [
             title: 'Recent News',
             type: 'News',
           },
-          ...Array.from({ length: 19 }, (x, i) => ({
+          ...Array.from({ length: 20 }, (x, i) => ({
             __typename: 'Collection',
             _id: `${i + 4}`,
-            title: `Collection ${i + 4}`,
+            title: `Collection ${i + 3}`,
             bookmarks: [],
             type: 'Collection',
           })),

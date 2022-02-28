@@ -12,7 +12,7 @@ import type {
   Widget,
 } from 'types/index'
 
-import { WIDGET_TYPES } from 'constants/index'
+import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import NewsWidget from 'components/NewsWidget/NewsWidget'
 import CustomCollection from 'components/CustomCollection/CustomCollection'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
@@ -28,8 +28,6 @@ import { useEditCollectionMutation } from 'operations/mutations/editCollection'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 import { useEditBookmarkMutation } from 'operations/mutations/editBookmark'
 import { useAnalytics } from 'stores/analyticsContext'
-
-const MAXIMUM_COLLECTIONS = 25
 
 /** Type guards */
 function isCollection(widget: MySpaceWidget): widget is Collection {

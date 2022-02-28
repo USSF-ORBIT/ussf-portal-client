@@ -5,6 +5,8 @@ export const WIDGET_TYPES = {
   NEWS: 'News',
 } as const
 
+export const MAXIMUM_COLLECTIONS = 25
+
 /**
  * (for later, this is the last digit of fascn number)
  * 
