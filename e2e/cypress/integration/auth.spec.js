@@ -117,7 +117,7 @@ describe('The Authentication flow', () => {
     })
   })
 
-  describe.only('showing user-specific data', () => {
+  describe('showing user-specific data', () => {
     before(() => {
       // Reset the database
       cy.task('db:seed')
@@ -128,7 +128,7 @@ describe('The Authentication flow', () => {
       cy.visit('/joinbeta')
 
       cy.contains('My Space')
-      cy.contains('Welcome, Test User')
+      cy.contains('Welcome, BERNADETTE CAMPBELL')
 
       cy.contains('Example Collection')
       cy.contains('Second Collection')
@@ -139,7 +139,7 @@ describe('The Authentication flow', () => {
       cy.visit('/joinbeta')
 
       cy.contains('My Space')
-      cy.contains('Welcome, Second Tester')
+      cy.contains('Welcome, RONALD BOYD')
       cy.contains('Third Collection')
     })
   })
