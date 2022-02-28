@@ -39,8 +39,13 @@
 ### As the original developer, I have
 
 - [ ] Met the acceptance criteria, or will meet them in a subsequent PR
-- [ ] Created/modified automated tests
-- User-facing changes ([detailed instructions)](https://github.com/trussworks/accessibility/blob/master/sample_a11y_testing_process.md):
+- [ ] Created new stories in Storybook if applicable
+  - [ ] Checked that all Storybook accessibility checks are passing
+- [ ] Created/modified automated unit tests in Jest
+  - [ ] Including jest-axe checks when UI changes
+- [ ] Created/modified automated E2E tests in Cypress
+  - [ ] Including cypress-axe checks when UI changes
+- Performed [a11y testing](https://github.com/trussworks/accessibility/blob/master/sample_a11y_testing_process.md):
   - [ ] Checked responsiveness in mobile, tablet, and desktop
   - [ ] Checked keyboard navigability
   - [ ] Tested with [VoiceOver](https://dequeuniversity.com/screenreaders/voiceover-keyboard-shortcuts) in Safari
@@ -57,7 +62,7 @@
 - [ ] Checked that all code is adequately covered by tests
 - [ ] Made it clear which comments need to be addressed before this work is merged
 - [ ] Considered marking this as accepted even if there are small changes needed
-- User-facing changes ([detailed instructions)](https://github.com/trussworks/accessibility/blob/master/sample_a11y_testing_process.md):
+- Performed [a11y testing](https://github.com/trussworks/accessibility/blob/master/sample_a11y_testing_process.md):
   - [ ] Checked responsiveness in mobile, tablet, and desktop
   - [ ] Checked keyboard navigability
   - [ ] Tested with [VoiceOver](https://dequeuniversity.com/screenreaders/voiceover-keyboard-shortcuts) in Safari
@@ -71,7 +76,7 @@
 - [ ] Checked different states (empty, one, some, error)
 - [ ] Checked for landmarks, page heading structure, and links
 - [ ] Tried to break the intended flow
-- a11y checks ([detailed instructions)](https://github.com/trussworks/accessibility/blob/master/sample_a11y_testing_process.md):
+- Performed [a11y testing](https://github.com/trussworks/accessibility/blob/master/sample_a11y_testing_process.md):
   - [ ] Checked responsiveness in mobile, tablet, and desktop
   - [ ] Checked keyboard navigability
   - [ ] Tested with [VoiceOver](https://dequeuniversity.com/screenreaders/voiceover-keyboard-shortcuts) in Safari
