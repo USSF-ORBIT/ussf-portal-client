@@ -98,10 +98,12 @@ export interface SAMLUser {
   attributes: {
     subject: string
     edipi: string
+    common_name: string
+    fascn: string
     givenname: string
     surname: string
     userprincipalname: string
-    ivgroups: string
+    userGroups: string[]
   }
 }
 
