@@ -121,12 +121,7 @@
   },
   "resolutions": {
     "ansi-regex": "5.0.1",
-    "follow-redirects": "1.14.8",
     "graphql": "16.0.1",
-    "nth-check": "2.0.1",
-    "object-path": "0.11.8",
-    "tar": "6.1.11",
-    "tmpl": "1.0.5",
     "trim": "0.0.3"
   },
   "browserslist": [
