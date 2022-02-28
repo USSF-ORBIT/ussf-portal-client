@@ -79,7 +79,7 @@ describe('Auth context', () => {
     userEvent.click(screen.getByRole('button', { name: 'Set mock user data' }))
 
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'User: TEST.USER.1234567890'
+      'User: BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil'
     )
   })
 
@@ -92,7 +92,7 @@ describe('Auth context', () => {
         'User:'
       )
       expect(screen.getByRole('heading', { level: 1 })).not.toHaveTextContent(
-        'User: TEST.USER.1234567890'
+        'User: BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil'
       )
 
       expect(window.location.href).toEqual('/login')

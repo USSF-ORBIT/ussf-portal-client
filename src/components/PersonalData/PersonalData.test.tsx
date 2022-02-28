@@ -11,7 +11,7 @@ import { renderWithAuth } from '../../testHelpers'
 
 import PersonalData from './PersonalData'
 
-describe('Personal Data Placeholder', () => {
+describe('Personal Data component', () => {
   let html: RenderResult
 
   it('renders the greeting without a name', () => {
@@ -27,7 +27,7 @@ describe('Personal Data Placeholder', () => {
 
     it('renders the greeting with a name', () => {
       const greeting = screen.getByRole('heading', { level: 2 })
-      expect(greeting).toHaveTextContent('Welcome, Test User')
+      expect(greeting).toHaveTextContent('Welcome, BERNADETTE CAMPBELL')
     })
 
     it('renders the list of key/value pairs', () => {
