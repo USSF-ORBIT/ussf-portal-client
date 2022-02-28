@@ -69,7 +69,7 @@
     "uswds": "2.11.2"
   },
   "devDependencies": {
-    "@babel/core": "7.17.4",
+    "@babel/core": "7.17.5",
     "@shelf/jest-mongodb": "2.2.0",
     "@storybook/addon-a11y": "6.4.19",
     "@storybook/addon-actions": "6.4.19",
@@ -88,8 +88,8 @@
     "@types/react": "17.0.39",
     "@types/react-fontawesome": "1.6.5",
     "@types/uuid": "8.3.4",
-    "@typescript-eslint/eslint-plugin": "5.12.0",
-    "@typescript-eslint/parser": "5.12.0",
+    "@typescript-eslint/eslint-plugin": "5.12.1",
+    "@typescript-eslint/parser": "5.12.1",
     "babel-loader": "8.2.3",
     "css-loader": "5.2.7",
     "eslint": "8.9.0",
@@ -107,7 +107,7 @@
     "jest": "27.5.1",
     "jest-axe": "5.0.1",
     "lint-staged": "12.3.4",
-    "next-test-api-route-handler": "3.1.0",
+    "next-test-api-route-handler": "3.1.1",
     "passport-custom": "1.1.1",
     "prettier": "2.5.1",
     "sass": "1.43.4",
