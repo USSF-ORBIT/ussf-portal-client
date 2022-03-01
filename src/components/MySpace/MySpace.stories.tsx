@@ -21,6 +21,7 @@ const exampleCollection = [
     __typename: 'Collection',
     _id: '1',
     title: 'Example Collection',
+    type: 'Collection',
     bookmarks: [
       {
         _id: '1',

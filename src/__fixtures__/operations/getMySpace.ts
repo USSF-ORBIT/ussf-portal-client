@@ -1,5 +1,12 @@
 import { GET_MY_SPACE } from 'operations/queries/getMySpace'
 
+const mockNews = {
+  __typename: 'NewsWidget',
+  _id: '3',
+  title: 'Recent News',
+  type: 'News',
+}
+
 export const getMySpaceMock = [
   {
     request: {
@@ -50,12 +57,7 @@ export const getMySpaceMock = [
               cmsId: `${i}`,
             })),
           },
-          {
-            __typename: 'NewsWidget',
-            _id: '3',
-            title: 'Recent News',
-            type: 'News',
-          },
+          { ...mockNews },
           ...Array.from({ length: 20 }, (x, i) => ({
             __typename: 'Collection',
             _id: `${i + 4}`,
@@ -99,6 +101,19 @@ export const getMySpaceMaximumCollectionsMock = [
     result: {
       data: {
         mySpace: maxCollections,
+      },
+    },
+  },
+]
+
+export const getMySpaceMaximumCollectionsWithNewsMock = [
+  {
+    request: {
+      query: GET_MY_SPACE,
+    },
+    result: {
+      data: {
+        mySpace: [...maxCollections, mockNews],
       },
     },
   },

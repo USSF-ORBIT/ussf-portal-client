@@ -177,7 +177,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
               </Grid>
             ))}
 
-          {!loading && canAddCollections && (
+          {!loading && (canAddCollections || canAddNews) && (
             <Grid
               key={`widget_addNew`}
               tabletLg={{ col: 6 }}
@@ -187,6 +187,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                 handleSelectCollection={selectCollections}
                 handleAddNews={addNewsWidget}
                 canAddNews={canAddNews}
+                canAddCollection={canAddCollections}
               />
             </Grid>
           )}

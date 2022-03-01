@@ -101,6 +101,44 @@ describe('AddWidget component', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('the add collection buttons are disabled if the user cannot add collections', () => {
+    const mockHandleCreate = jest.fn()
+    const mockHandleSelect = jest.fn()
+
+    render(
+      <AddWidget
+        {...testProps}
+        handleCreateCollection={mockHandleCreate}
+        handleSelectCollection={mockHandleSelect}
+        canAddCollection={false}
+      />
+    )
+
+    const menuButton = screen.getByRole('button', { name: 'Add section' })
+    expect(menuButton).toBeInTheDocument()
+
+    userEvent.click(menuButton)
+
+    expect(
+      screen.getByRole('button', { name: 'Select collection from template' })
+    ).toBeDisabled()
+    expect(
+      screen.getByRole('button', { name: 'Create new collection' })
+    ).toBeDisabled()
+
+    userEvent.click(
+      screen.getByRole('button', { name: 'Select collection from template' })
+    )
+    expect(mockHandleSelect).not.toHaveBeenCalled()
+
+    userEvent.click(
+      screen.getByRole('button', {
+        name: 'Create new collection',
+      })
+    )
+    expect(mockHandleCreate).not.toHaveBeenCalled()
+  })
+
   it('handles the Add news section button', () => {
     const mockAddNews = jest.fn()
 

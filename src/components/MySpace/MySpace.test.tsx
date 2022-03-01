@@ -12,6 +12,7 @@ import { renderWithModalRoot } from '../../testHelpers'
 import {
   getMySpaceMock,
   getMySpaceMaximumCollectionsMock,
+  getMySpaceMaximumCollectionsWithNewsMock,
 } from '../../__fixtures__/operations/getMySpace'
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import MySpace from './MySpace'
@@ -105,6 +106,31 @@ describe('My Space Component', () => {
       ).toBeInTheDocument()
     })
 
+    it('disables adding a news section if there is already a news section', async () => {
+      expect(
+        await screen.findByRole('button', { name: 'Add section' })
+      ).toBeInTheDocument()
+
+      userEvent.click(
+        await screen.findByRole('button', { name: 'Add section' })
+      )
+      expect(
+        screen.queryByRole('button', {
+          name: 'Add news section',
+        })
+      ).toBeDisabled()
+      expect(
+        screen.queryByRole('button', {
+          name: 'Select collection from template',
+        })
+      ).toBeEnabled()
+      expect(
+        screen.queryByRole('button', {
+          name: 'Create new collection',
+        })
+      ).toBeEnabled()
+    })
+
     it('has no a11y violations', async () => {
       // Bug with NextJS Link + axe :(
       // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
@@ -133,10 +159,41 @@ describe('My Space Component', () => {
     expect(await screen.findByText('Error')).toBeInTheDocument()
   })
 
-  it('does not render the add widget component if there are 25 sections', async () => {
+  it('disables adding more collections if there are 25 collections', async () => {
     render(
       <MockedProvider
         mocks={getMySpaceMaximumCollectionsMock}
+        addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
+      </MockedProvider>
+    )
+
+    expect(
+      await screen.findByRole('button', { name: 'Add section' })
+    ).toBeInTheDocument()
+
+    userEvent.click(await screen.findByRole('button', { name: 'Add section' }))
+    expect(
+      screen.queryByRole('button', {
+        name: 'Add news section',
+      })
+    ).toBeEnabled()
+    expect(
+      screen.queryByRole('button', {
+        name: 'Select collection from template',
+      })
+    ).toBeDisabled()
+    expect(
+      screen.queryByRole('button', {
+        name: 'Create new collection',
+      })
+    ).toBeDisabled()
+  })
+
+  it('does not render the add widget component if there are 25 collections and news', async () => {
+    render(
+      <MockedProvider
+        mocks={getMySpaceMaximumCollectionsWithNewsMock}
         addTypename={false}>
         <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
