@@ -16,7 +16,7 @@ export default {
   ],
 } as Meta
 
-const exampleCollection = [
+const exampleMySpaceData = [
   {
     __typename: 'Collection',
     _id: '1',
@@ -65,7 +65,7 @@ ExampleMySpace.parameters = {
         },
         result: {
           data: {
-            mySpace: exampleCollection,
+            mySpace: exampleMySpaceData,
           },
         },
       },

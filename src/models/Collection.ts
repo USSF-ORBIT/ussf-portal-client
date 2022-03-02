@@ -80,7 +80,6 @@ export const CollectionModel = {
       title: title,
       type: WIDGET_TYPES.COLLECTION,
       bookmarks: newBookmarks,
-      type: WIDGET_TYPES.COLLECTION,
     }
 
     const query = {
@@ -123,7 +122,7 @@ export const CollectionModel = {
       cmsId: collection.id,
       title: collection.title,
       type: WIDGET_TYPES.COLLECTION,
-      bookmarks: collection.bookmarks.map((bookmark: BookmarkRecord) => ({
+      bookmarks: collection.bookmarks.map((bookmark) => ({
         _id: new ObjectId(),
         cmsId: bookmark.id,
         url: bookmark.url,

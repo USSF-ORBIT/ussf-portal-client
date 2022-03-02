@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Button, ModalRef } from '@trussworks/react-uswds'
 
-import styles from './NewsSection.module.scss'
+import styles from './NewsWidget.module.scss'
 
 import { WidgetWithSettings } from 'components/Widget/Widget'
 import LinkTo from 'components/util/LinkTo/LinkTo'
@@ -16,7 +16,7 @@ import { useAnalytics } from 'stores/analyticsContext'
 // Load 2 items
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
 
-const NewsSection = ({ onRemove }: { onRemove: () => void }) => {
+const NewsWidget = ({ onRemove }: { onRemove: () => void }) => {
   const { items, fetchItems } = useRSSFeed(RSS_URL)
   const removeSectionModal = useRef<ModalRef>(null)
   const { trackEvent } = useAnalytics()
@@ -83,4 +83,4 @@ const NewsSection = ({ onRemove }: { onRemove: () => void }) => {
   )
 }
 
-export default NewsSection
+export default NewsWidget
