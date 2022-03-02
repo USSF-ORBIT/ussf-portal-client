@@ -11,18 +11,37 @@ export const typeDefs = gql`
 
   enum WidgetType {
     Collection
+    News
   }
 
-  type Collection {
+  interface Widget {
+    _id: ID!
+    title: String!
+    type: WidgetType!
+  }
+
+  type Collection implements Widget {
     _id: ID!
     title: String!
     type: WidgetType!
     bookmarks: [Bookmark]
+    cmsId: ID
   }
+
+  type NewsWidget implements Widget {
+    _id: ID!
+    title: String!
+    type: WidgetType!
+  }
+
   type Query {
     collections: [Collection]
+    mySpace: [Widget]
   }
+
   type Mutation {
+    addWidget(title: String!, type: WidgetType!): Widget
+    removeWidget(_id: ID!): Widget
     addCollection(title: String!, bookmarks: [BookmarkInput!]!): Collection
     editCollection(_id: ID!, title: String!): Collection
     removeCollection(_id: ID!): Collection
@@ -41,6 +60,7 @@ export const typeDefs = gql`
       label: String
     ): Bookmark
   }
+
   input BookmarkInput {
     url: String!
     label: String
@@ -57,6 +77,6 @@ export const typeDefs = gql`
     id: ID!
     url: String!
     label: String
-    description: String
+    cmsId: ID
   }
 `

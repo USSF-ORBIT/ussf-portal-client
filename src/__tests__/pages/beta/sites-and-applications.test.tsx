@@ -10,12 +10,13 @@ import axios from 'axios'
 import { renderWithAuth } from '../../../testHelpers'
 
 import {
-  getCollectionsMock,
-  getMaximumCollectionsMock,
-} from '../../../__fixtures__/operations/getCollection'
+  getMySpaceMock,
+  getMySpaceMaximumCollectionsMock,
+} from '../../../__fixtures__/operations/getMySpace'
+
 import { cmsBookmarksMock } from '../../../__fixtures__/data/cmsBookmarks'
 import { cmsCollectionsMock } from '../../../__fixtures__/data/cmsCollections'
-import { GET_COLLECTIONS } from 'operations/queries/getCollections'
+import { GET_MY_SPACE } from 'operations/queries/getMySpace'
 import { ADD_COLLECTION } from 'operations/mutations/addCollection'
 import { ADD_COLLECTIONS } from 'operations/mutations/addCollections'
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
@@ -61,7 +62,7 @@ let bookmarkAdded = false
 let collectionsAdded = false
 
 const sitesAndAppsMock = [
-  ...getCollectionsMock,
+  ...getMySpaceMock,
   {
     request: {
       query: ADD_COLLECTION,
@@ -111,6 +112,8 @@ const sitesAndAppsMock = [
           addCollections: cmsCollectionsMock.map((c) => ({
             _id: '100' + c.id,
             title: c.title,
+            cmsId: c.id,
+            type: 'Collection',
             bookmarks: c.bookmarks.map((b) => ({
               _id: '101' + b.id,
               cmsId: b.id,
@@ -126,7 +129,7 @@ const sitesAndAppsMock = [
     request: {
       query: ADD_BOOKMARK,
       variables: {
-        collectionId: getCollectionsMock[0].result.data.collections[0]._id,
+        collectionId: '1',
         cmsId: cmsBookmarksMock[0].id,
         url: cmsBookmarksMock[0].url,
         label: cmsBookmarksMock[0].label,
@@ -491,7 +494,7 @@ describe('Sites and Applications page', () => {
           const flashMessage = screen.getAllByRole('alert')[0]
 
           expect(flashMessage).toHaveTextContent(
-            `You have successfully added “${cmsBookmarksMock[0].label}” to the “${getCollectionsMock[0].result.data.collections[0].title}” section.`
+            `You have successfully added “${cmsBookmarksMock[0].label}” to the “Example Collection” section.`
           )
 
           await act(async () => {
@@ -571,7 +574,7 @@ describe('Sites and Applications page', () => {
 
     it('prevents adding more collections if the user already has 25', async () => {
       renderWithAuth(
-        <MockedProvider mocks={getMaximumCollectionsMock}>
+        <MockedProvider mocks={getMySpaceMaximumCollectionsMock}>
           <SitesAndApplications
             collections={cmsCollectionsMock}
             bookmarks={cmsBookmarksMock}
@@ -587,7 +590,7 @@ describe('Sites and Applications page', () => {
 
     it('prevents adding a bookmark to a new collection if the user already has 25', async () => {
       renderWithAuth(
-        <MockedProvider mocks={getMaximumCollectionsMock}>
+        <MockedProvider mocks={getMySpaceMaximumCollectionsMock}>
           <SitesAndApplications
             collections={cmsCollectionsMock}
             bookmarks={cmsBookmarksMock}
@@ -618,7 +621,7 @@ describe('Sites and Applications page', () => {
       const errorMock = [
         {
           request: {
-            query: GET_COLLECTIONS,
+            query: GET_MY_SPACE,
           },
           error: new Error(),
         },

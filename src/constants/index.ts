@@ -2,7 +2,10 @@ export const SPACEFORCE_NEWS_RSS_URL = `https://www.spaceforce.mil/DesktopModule
 
 export const WIDGET_TYPES = {
   COLLECTION: 'Collection',
+  NEWS: 'News',
 } as const
+
+export const MAXIMUM_COLLECTIONS = 25
 
 /**
  * (for later, this is the last digit of fascn number)

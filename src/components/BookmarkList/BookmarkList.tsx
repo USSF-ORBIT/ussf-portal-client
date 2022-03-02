@@ -42,7 +42,7 @@ const BookmarkListRow = ({
       <Button
         type="button"
         onClick={() => {
-          handleAddToCollection(bookmark, collection._id)
+          handleAddToCollection(bookmark, `${collection._id}`)
           setIsDropdownOpen(false)
         }}
         disabled={

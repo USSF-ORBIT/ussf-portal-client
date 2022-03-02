@@ -2,7 +2,7 @@ import React from 'react'
 import { Meta } from '@storybook/react'
 
 import MySpace from './MySpace'
-import { GET_COLLECTIONS } from 'operations/queries/getCollections'
+import { GET_MY_SPACE } from 'operations/queries/getMySpace'
 
 export default {
   title: 'Components/My Space',
@@ -16,30 +16,41 @@ export default {
   ],
 } as Meta
 
-const exampleCollection = [
+const exampleMySpaceData = [
   {
+    __typename: 'Collection',
     _id: '1',
     title: 'Example Collection',
+    type: 'Collection',
     bookmarks: [
       {
         _id: '1',
         url: 'https://google.com',
         label: 'Webmail',
-        description: 'Lorem ipsum',
+        cmsId: 'a',
+        isRemoved: false,
       },
       {
         _id: '2',
         url: 'https://mypay.dfas.mil/#/',
         label: 'MyPay',
-        description: 'Lorem ipsum',
+        cmsId: 'b',
+        isRemoved: false,
       },
       {
         _id: '3',
         url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
         label: 'vMPF',
-        description: 'Lorem ipsum',
+        cmsId: null,
+        isRemoved: false,
       },
     ],
+  },
+  {
+    __typename: 'NewsWidget',
+    _id: '2',
+    title: 'Recent News',
+    type: 'News',
   },
 ]
 
@@ -50,11 +61,11 @@ ExampleMySpace.parameters = {
     mocks: [
       {
         request: {
-          query: GET_COLLECTIONS,
+          query: GET_MY_SPACE,
         },
         result: {
           data: {
-            collections: exampleCollection,
+            mySpace: exampleMySpaceData,
           },
         },
       },
@@ -70,7 +81,7 @@ Loading.parameters = {
       {
         delay: 100000000000000,
         request: {
-          query: GET_COLLECTIONS,
+          query: GET_MY_SPACE,
         },
         result: {
           data: {},
