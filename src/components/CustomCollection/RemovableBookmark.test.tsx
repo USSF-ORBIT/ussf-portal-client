@@ -12,7 +12,6 @@ const testBookmark = {
   _id: '1',
   url: 'https://google.com',
   label: 'Webmail',
-  description: 'Lorem ipsum',
 }
 
 describe('RemovableBookmark component', () => {

@@ -319,7 +319,7 @@ const CustomCollection = ({
               key={`bookmark_${bookmark._id}`}
               bookmark={bookmark}
               onSave={(label, url) => {
-                handleEditBookmark(bookmark._id, url, label)
+                handleEditBookmark(`${bookmark._id}`, url, label)
               }}
               onDelete={() => handleRemoveBookmark(`${bookmark._id}`)}
             />

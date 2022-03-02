@@ -13,9 +13,12 @@ export const ADD_COLLECTIONS = gql`
   mutation addCollections($collections: [CollectionRecord!]!) {
     addCollections(collections: $collections) {
       _id
+      cmsId
       title
+      type
       bookmarks {
         _id
+        cmsId
         url
         label
       }

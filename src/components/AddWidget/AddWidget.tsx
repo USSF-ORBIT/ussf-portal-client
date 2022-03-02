@@ -14,9 +14,15 @@ import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 const AddWidget = ({
   handleSelectCollection,
   handleCreateCollection,
+  handleAddNews,
+  canAddNews = true,
+  canAddCollection = true,
 }: {
   handleSelectCollection: () => void
   handleCreateCollection: () => void
+  handleAddNews: () => void
+  canAddNews?: boolean
+  canAddCollection?: boolean
 }) => {
   const dropdownEl = useRef<HTMLDivElement>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
@@ -55,6 +61,7 @@ const AddWidget = ({
         isActive={isDropdownOpen}>
         <Button
           type="button"
+          disabled={!canAddCollection}
           onClick={() => {
             handleCreateCollection()
             setIsDropdownOpen(false)
@@ -63,11 +70,21 @@ const AddWidget = ({
         </Button>
         <Button
           type="button"
+          disabled={!canAddCollection}
           onClick={() => {
             handleSelectCollection()
             setIsDropdownOpen(false)
           }}>
           Select collection from template
+        </Button>
+        <Button
+          disabled={!canAddNews}
+          type="button"
+          onClick={() => {
+            handleAddNews()
+            setIsDropdownOpen(false)
+          }}>
+          Add news section
         </Button>
       </DropdownMenu>
     </div>
