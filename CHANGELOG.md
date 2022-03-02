@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.3.0...2.4.0) (2022-03-02)
+
+
+### Features
+
+* Add/Remove News section on My Space ([#522](https://github.com/USSF-ORBIT/ussf-portal-client/issues/522)) ([d927a1b](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d927a1bad50969c3f302bc18881bd46dd0ae5c31))
+
+
+### Bug Fixes
+
+* Fix login success redirect status ([#542](https://github.com/USSF-ORBIT/ussf-portal-client/issues/542)) ([17b31ee](https://github.com/USSF-ORBIT/ussf-portal-client/commit/17b31eec6668233977ff728435e67a35b5434577))
+
 ## [2.3.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.2.0...2.3.0) (2022-02-24)
 
 
