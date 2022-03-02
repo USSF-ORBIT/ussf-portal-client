@@ -48,10 +48,13 @@ handler.get('/api/auth/login', passport.authenticate('saml'))
 handler.post(
   '/api/auth/login',
   passport.authenticate('saml', {
-    successRedirect: '/',
     failureRedirect: '/login',
     failureMessage: true,
-  })
+  }),
+  function (req, res) {
+    // Login was successful, redirect back home
+    res.redirect(302, '/')
+  }
 )
 
 //  GET /api/auth/logout - initiate a SLO (logout) request
