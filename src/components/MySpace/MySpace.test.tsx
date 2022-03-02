@@ -10,13 +10,15 @@ import { MockedProvider } from '@apollo/client/testing'
 
 import { renderWithModalRoot } from '../../testHelpers'
 import {
-  getCollectionsMock,
-  getMaximumCollectionsMock,
-} from '../../__fixtures__/operations/getCollection'
+  getMySpaceMock,
+  getMySpaceMaximumCollectionsMock,
+  getMySpaceMaximumCollectionsWithNewsMock,
+} from '../../__fixtures__/operations/getMySpace'
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import MySpace from './MySpace'
 
-import { GET_COLLECTIONS } from 'operations/queries/getCollections'
+import mockRssFeed from '__mocks__/news-rss'
+import { GET_MY_SPACE } from 'operations/queries/getMySpace'
 import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
 import { REMOVE_COLLECTION } from 'operations/mutations/removeCollection'
@@ -30,6 +32,12 @@ jest.mock('next/router', () => ({
   useRouter: () => ({
     push: mockRouterPush,
   }),
+}))
+
+jest.mock('axios', () => ({
+  get: () => {
+    return Promise.resolve({ data: mockRssFeed })
+  },
 }))
 
 describe('My Space Component', () => {
@@ -52,7 +60,7 @@ describe('My Space Component', () => {
     let html: RenderResult
     beforeEach(() => {
       html = render(
-        <MockedProvider mocks={getCollectionsMock} addTypename={false}>
+        <MockedProvider mocks={getMySpaceMock} addTypename={false}>
           <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
         </MockedProvider>
       )
@@ -64,30 +72,63 @@ describe('My Space Component', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
-    it('should render the collections', async () => {
+    it('should render all widgets', async () => {
       expect(
         await screen.findByRole('heading', {
           level: 3,
-          name: getCollectionsMock[0].result.data.collections[0].title,
+          name: 'Example Collection',
         })
       ).toBeInTheDocument()
 
       expect(
         await screen.findByRole('heading', {
           level: 3,
-          name: getCollectionsMock[0].result.data.collections[1].title,
+          name: 'Maxed Out Collection',
         })
       ).toBeInTheDocument()
 
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: 'Recent News',
+        })
+      ).toBeInTheDocument()
+
+      // 21 Collection widgets
       expect(await screen.findAllByRole('list')).toHaveLength(22)
+      // Total of 13 Bookmarks
       expect(await screen.findAllByRole('listitem')).toHaveLength(13)
-      expect(await screen.findAllByRole('link')).toHaveLength(13)
     })
 
     it('renders the add widget component', async () => {
       expect(
         await screen.findByRole('button', { name: 'Add section' })
       ).toBeInTheDocument()
+    })
+
+    it('disables adding a news section if there is already a news section', async () => {
+      expect(
+        await screen.findByRole('button', { name: 'Add section' })
+      ).toBeInTheDocument()
+
+      userEvent.click(
+        await screen.findByRole('button', { name: 'Add section' })
+      )
+      expect(
+        screen.queryByRole('button', {
+          name: 'Add news section',
+        })
+      ).toBeDisabled()
+      expect(
+        screen.queryByRole('button', {
+          name: 'Select collection from template',
+        })
+      ).toBeEnabled()
+      expect(
+        screen.queryByRole('button', {
+          name: 'Create new collection',
+        })
+      ).toBeEnabled()
     })
 
     it('has no a11y violations', async () => {
@@ -103,7 +144,7 @@ describe('My Space Component', () => {
     const errorMock = [
       {
         request: {
-          query: GET_COLLECTIONS,
+          query: GET_MY_SPACE,
         },
         error: new Error(),
       },
@@ -118,9 +159,42 @@ describe('My Space Component', () => {
     expect(await screen.findByText('Error')).toBeInTheDocument()
   })
 
-  it('does not render the add widget component if there are 25 sections', async () => {
+  it('disables adding more collections if there are 25 collections', async () => {
     render(
-      <MockedProvider mocks={getMaximumCollectionsMock} addTypename={false}>
+      <MockedProvider
+        mocks={getMySpaceMaximumCollectionsMock}
+        addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
+      </MockedProvider>
+    )
+
+    expect(
+      await screen.findByRole('button', { name: 'Add section' })
+    ).toBeInTheDocument()
+
+    userEvent.click(await screen.findByRole('button', { name: 'Add section' }))
+    expect(
+      screen.queryByRole('button', {
+        name: 'Add news section',
+      })
+    ).toBeEnabled()
+    expect(
+      screen.queryByRole('button', {
+        name: 'Select collection from template',
+      })
+    ).toBeDisabled()
+    expect(
+      screen.queryByRole('button', {
+        name: 'Create new collection',
+      })
+    ).toBeDisabled()
+  })
+
+  it('does not render the add widget component if there are 25 collections and news', async () => {
+    render(
+      <MockedProvider
+        mocks={getMySpaceMaximumCollectionsWithNewsMock}
+        addTypename={false}>
         <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
@@ -132,7 +206,7 @@ describe('My Space Component', () => {
 
   it('navigates to Sites & Applications when adding new existing collections', async () => {
     render(
-      <MockedProvider mocks={getCollectionsMock} addTypename={false}>
+      <MockedProvider mocks={getMySpaceMock} addTypename={false}>
         <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
@@ -154,24 +228,23 @@ describe('My Space Component', () => {
     let bookmarkRemoved = false
 
     const mocksWithRemove = [
-      ...getCollectionsMock,
+      ...getMySpaceMock,
       {
         request: {
           query: REMOVE_BOOKMARK,
           variables: {
-            _id: getCollectionsMock[0].result.data.collections[0].bookmarks[1]
-              ._id,
-            collectionId: getCollectionsMock[0].result.data.collections[0]._id,
+            _id: '4',
+            collectionId: '1',
             cmsId: '1',
           },
-          refetchQueries: [`getCollections`],
+          refetchQueries: [`getMySpace`],
         },
         result: () => {
           bookmarkRemoved = true
           return {
             data: {
               removeBookmark: {
-                _id: getCollectionsMock[0].result.data.collections[0]._id,
+                _id: '1',
               },
             },
           }
@@ -203,12 +276,12 @@ describe('My Space Component', () => {
   it('handles the add bookmark operation', async () => {
     let bookmarkAdded = false
     const addBookmarkMock = [
-      ...getCollectionsMock,
+      ...getMySpaceMock,
       {
         request: {
           query: ADD_BOOKMARK,
           variables: {
-            collectionId: getCollectionsMock[0].result.data.collections[0]._id,
+            collectionId: '1',
             url: 'https://mypay.dfas.mil/#/',
             label: 'MyPay',
             cmsId: '2',
@@ -255,13 +328,14 @@ describe('My Space Component', () => {
 
   it('handles the edit collection title operation', async () => {
     let collectionEdited = false
+
     const editCollectionMock = [
-      ...getCollectionsMock,
+      ...getMySpaceMock,
       {
         request: {
           query: EDIT_COLLECTION,
           variables: {
-            _id: getCollectionsMock[0].result.data.collections[0]._id,
+            _id: '1',
             title: 'Updated Title',
           },
         },
@@ -270,10 +344,9 @@ describe('My Space Component', () => {
           return {
             data: {
               editCollection: {
-                _id: getCollectionsMock[0].result.data.collections[0]._id,
+                _id: '1',
                 title: 'Updated Title',
-                bookmarks:
-                  getCollectionsMock[0].result.data.collections[0].bookmarks,
+                bookmarks: getMySpaceMock[0].result.data.mySpace[0].bookmarks,
               },
             },
           }
@@ -313,12 +386,12 @@ describe('My Space Component', () => {
     let collectionRemoved = false
 
     const removeCollectionMock = [
-      ...getCollectionsMock,
+      ...getMySpaceMock,
       {
         request: {
           query: REMOVE_COLLECTION,
           variables: {
-            _id: getCollectionsMock[0].result.data.collections[0]._id,
+            _id: '1',
           },
         },
         result: () => {
@@ -326,7 +399,7 @@ describe('My Space Component', () => {
           return {
             data: {
               removeCollection: {
-                _id: getCollectionsMock[0].result.data.collections[0]._id,
+                _id: '1',
               },
             },
           }
@@ -367,7 +440,7 @@ describe('My Space Component', () => {
   it('handles the add collection operation', async () => {
     let collectionAdded = false
     const addCollectionMock = [
-      ...getCollectionsMock,
+      ...getMySpaceMock,
       {
         request: {
           query: ADD_COLLECTION,
@@ -412,14 +485,13 @@ describe('My Space Component', () => {
     let bookmarkEdited = false
 
     const editBookmarkMock = [
-      ...getCollectionsMock,
+      ...getMySpaceMock,
       {
         request: {
           query: EDIT_BOOKMARK,
           variables: {
-            _id: getCollectionsMock[0].result.data.collections[0].bookmarks[0]
-              ._id,
-            collectionId: getCollectionsMock[0].result.data.collections[0]._id,
+            _id: '3',
+            collectionId: '1',
             url: 'https://www.yahoo.com',
             label: 'Yahoo',
           },
@@ -429,8 +501,7 @@ describe('My Space Component', () => {
           return {
             data: {
               editBookmark: {
-                _id: getCollectionsMock[0].result.data.collections[0]
-                  .bookmarks[0]._id,
+                _id: '3',
                 url: 'https://www.yahoo.com',
                 label: 'Yahoo',
               },

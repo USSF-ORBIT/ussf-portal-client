@@ -1,14 +1,22 @@
-import { GET_COLLECTIONS } from 'operations/queries/getCollections'
+import { GET_MY_SPACE } from 'operations/queries/getMySpace'
 
-export const getCollectionsMock = [
+const mockNews = {
+  __typename: 'NewsWidget',
+  _id: '3',
+  title: 'Recent News',
+  type: 'News',
+}
+
+export const getMySpaceMock = [
   {
     request: {
-      query: GET_COLLECTIONS,
+      query: GET_MY_SPACE,
     },
     result: {
       data: {
-        collections: [
+        mySpace: [
           {
+            __typename: 'Collection',
             _id: '1',
             title: 'Example Collection',
             type: 'Collection',
@@ -37,6 +45,7 @@ export const getCollectionsMock = [
             ],
           },
           {
+            __typename: 'Collection',
             _id: '2',
             title: 'Maxed Out Collection',
             type: 'Collection',
@@ -48,11 +57,13 @@ export const getCollectionsMock = [
               cmsId: `${i}`,
             })),
           },
+          { ...mockNews },
           ...Array.from({ length: 20 }, (x, i) => ({
-            _id: `${i + 3}`,
+            __typename: 'Collection',
+            _id: `${i + 4}`,
             title: `Collection ${i + 3}`,
-            type: 'Collection',
             bookmarks: [],
+            type: 'Collection',
           })),
         ],
       },
@@ -61,6 +72,7 @@ export const getCollectionsMock = [
 ]
 
 const mockCollection = {
+  __typename: 'Collection',
   title: 'Example Collection',
   type: 'Collection',
   bookmarks: [
@@ -81,14 +93,27 @@ const maxCollections = Array.from({ length: 25 }, (x, i) => {
   }
 })
 
-export const getMaximumCollectionsMock = [
+export const getMySpaceMaximumCollectionsMock = [
   {
     request: {
-      query: GET_COLLECTIONS,
+      query: GET_MY_SPACE,
     },
     result: {
       data: {
-        collections: maxCollections,
+        mySpace: maxCollections,
+      },
+    },
+  },
+]
+
+export const getMySpaceMaximumCollectionsWithNewsMock = [
+  {
+    request: {
+      query: GET_MY_SPACE,
+    },
+    result: {
+      data: {
+        mySpace: [...maxCollections, mockNews],
       },
     },
   },

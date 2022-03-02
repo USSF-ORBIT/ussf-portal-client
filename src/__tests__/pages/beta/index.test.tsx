@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 
 import { renderWithAuth } from '../../../testHelpers'
 
-import { getCollectionsMock } from '../../../__fixtures__/operations/getCollection'
+import { getMySpaceMock } from '../../../__fixtures__/operations/getMySpace'
 import { cmsBookmarksMock } from '../../../__fixtures__/data/cmsBookmarks'
 import Home from 'pages/beta/index'
 
@@ -58,7 +58,7 @@ describe('Beta Home page', () => {
   describe('when logged in', () => {
     beforeEach(() => {
       renderWithAuth(
-        <MockedProvider mocks={getCollectionsMock} addTypename={false}>
+        <MockedProvider mocks={getMySpaceMock} addTypename={false}>
           <Home bookmarks={cmsBookmarksMock} />
         </MockedProvider>
       )
@@ -86,6 +86,13 @@ describe('Beta Home page', () => {
         await screen.findByRole('heading', {
           level: 3,
           name: 'Maxed Out Collection',
+        })
+      ).toBeInTheDocument()
+
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: 'Recent News',
         })
       ).toBeInTheDocument()
     })

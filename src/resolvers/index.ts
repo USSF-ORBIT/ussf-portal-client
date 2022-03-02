@@ -1,12 +1,31 @@
-/* istanbul ignore file */
-
 import type { Resolvers } from '@apollo/client'
 import { AuthenticationError } from 'apollo-server-micro'
 import { BookmarkModel } from '../models/Bookmark'
 import { CollectionModel } from '../models/Collection'
+import { MySpaceModel } from 'models/MySpace'
 
 const resolvers: Resolvers = {
+  // Interface resolvers
+  // https://www.apollographql.com/docs/apollo-server/schema/unions-interfaces/#resolving-an-interface
+  Widget: {
+    __resolveType(widget) {
+      if (widget.bookmarks) return 'Collection'
+      if (widget.type === 'News') return 'NewsWidget'
+      return null // GraphQL Error
+    },
+  },
+
+  // Root resolvers
   Query: {
+    mySpace: async (_, args, { db, user }) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      return MySpaceModel.get({ userId: user.userId }, { db })
+    },
     collections: async (_, args, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(
@@ -18,6 +37,27 @@ const resolvers: Resolvers = {
     },
   },
   Mutation: {
+    addWidget: async (_, { title, type }, { db, user }) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      return MySpaceModel.addWidget(
+        { title, type, userId: user.userId },
+        { db }
+      )
+    },
+    removeWidget: async (_, { _id }, { db, user }) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      return MySpaceModel.deleteWidget({ _id, userId: user.userId }, { db })
+    },
     addCollection: async (_, { title, bookmarks }, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(

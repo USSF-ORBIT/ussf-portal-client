@@ -1,6 +1,8 @@
 import { MongoClient, Db } from 'mongodb'
+
 import User from './User'
 import { CollectionModel } from './Collection'
+import { MySpaceModel } from './MySpace'
 import { CollectionInput, CollectionRecords } from 'types'
 
 let connection: typeof MongoClient
@@ -125,6 +127,7 @@ const manyCollections: CollectionRecords = [
     bookmarks: [],
   },
 ]
+
 describe('Collection Model', () => {
   beforeAll(async () => {
     connection = await MongoClient.connect(process.env.MONGO_URL, {
@@ -135,6 +138,7 @@ describe('Collection Model', () => {
     db = await connection.db()
     // Clean db before running test suite
     await db.collection('users').deleteMany({})
+
     // Create test user
     testUserId = 'testUserId'
     await User.createOne(testUserId, { db })
@@ -146,15 +150,19 @@ describe('Collection Model', () => {
     await connection.close()
   })
 
-  it('can find a collection', async () => {
-    // Start Data: Test user, 1 collection, 5 bookmarks
-    const found = await CollectionModel.findOne(
-      { _id: exampleCollectionId, userId: testUserId },
+  it('can get all collections', async () => {
+    const all = await CollectionModel.getAll({ userId: testUserId }, { db })
+    expect(all).toHaveLength(1)
+  })
+
+  it('does not return widgets that are not collections', async () => {
+    await MySpaceModel.addWidget(
+      { userId: testUserId, title: 'Recent News', type: 'News' },
       { db }
     )
 
-    expect(found.length).toEqual(1)
-    expect(found[0]._id).toEqual(exampleCollectionId)
+    const all = await CollectionModel.getAll({ userId: testUserId }, { db })
+    expect(all).toHaveLength(1)
   })
 
   it('can add a collection', async () => {
@@ -223,36 +231,33 @@ describe('Collection Model', () => {
     // End Data: Test user, 24 collections
     let all = await CollectionModel.getAll({ userId: testUserId }, { db })
     expect(all.length).toBe(25)
+
     await CollectionModel.deleteOne(
       { _id: exampleCollectionId, userId: testUserId },
       { db }
     )
-    const found = await CollectionModel.findOne(
-      { _id: exampleCollectionId, userId: testUserId },
-      { db }
-    )
 
-    expect(found.length).toBe(0)
     all = await CollectionModel.getAll({ userId: testUserId }, { db })
     expect(all.length).toBe(24)
   })
+
   it('cannot add more than 25 collections using addMany', async () => {
     // Start Data: Test user, 24 collections
     // Action: Add 2 more collections
     // End Data: Return error, Test user, 24 collections
-    // #TODO: Should addMany add *up to* 25 collections and error only on those after?
     let all = await CollectionModel.getAll({ userId: testUserId }, { db })
     expect(all.length).toBe(24)
 
-    const error = await CollectionModel.addMany(
-      { collections: manyCollections, userId: testUserId },
-      { db }
+    expect(
+      CollectionModel.addMany(
+        { collections: manyCollections, userId: testUserId },
+        { db }
+      )
+    ).rejects.toEqual(
+      new Error('You have reached the maximum number of collections')
     )
 
     all = await CollectionModel.getAll({ userId: testUserId }, { db })
-
-    expect(error).toBeInstanceOf(Error)
-
     expect(all.length).toBe(24)
   })
 
@@ -278,19 +283,20 @@ describe('Collection Model', () => {
 
     expect(all.length).toEqual(25)
 
-    const error = await CollectionModel.addOne(
-      {
-        title: 'CMS Collection 27',
-        bookmarks: [],
-        userId: testUserId,
-      },
-      { db }
+    expect(
+      CollectionModel.addOne(
+        {
+          title: 'CMS Collection 27',
+          bookmarks: [],
+          userId: testUserId,
+        },
+        { db }
+      )
+    ).rejects.toEqual(
+      new Error('You have reached the maximum number of collections')
     )
 
-    expect(error).toBeInstanceOf(Error)
-
     all = await CollectionModel.getAll({ userId: testUserId }, { db })
-
     expect(all.length).toEqual(25)
   })
 })
