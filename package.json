@@ -3,7 +3,7 @@
   "version": "2.4.0",
   "private": true,
   "engines": {
-    "node": "14.18.3"
+    "node": "14.19.0"
   },
   "repository": {
     "type": "git",

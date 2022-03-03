@@ -13,7 +13,7 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561 # renovate: tag=v2
         with:
-          node-version: '14.18.1'
+          node-version: '14.19.0'
 
       - name: Check out repository
         uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
