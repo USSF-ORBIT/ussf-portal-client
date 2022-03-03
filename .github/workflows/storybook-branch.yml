@@ -11,7 +11,7 @@ jobs:
     if: github.event.label.name == format('type{0} storybook component', ':')
     steps:
       - name: Check out repository
-        uses: actions/checkout@230611dbd0eb52da1e1f4f7bc8bb0c3a339fc8b7
+        uses: actions/checkout@2d1c1198e79c30cca5c3957b1e3b65ce95b5356e
 
       - name: Trigger Netlify build
         id: deploy-storybook-to-netlify
