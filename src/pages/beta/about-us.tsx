@@ -48,10 +48,14 @@ const AboutUs = () => {
               </li>
 
               <li>
-                <LinkTo href="#todo">Guardian Ideal</LinkTo>
+                <LinkTo href="/uploads/Guardian Ideal - FINAL - 1600 17Sept21.pdf">
+                  Guardian Ideal
+                </LinkTo>
               </li>
               <li>
-                <LinkTo href="#todo">USSF Enlisted Rank and Insignia</LinkTo>
+                <LinkTo href="/uploads/US Space Force Enlisted Rank Insig Info Sheet (1).pdf">
+                  USSF Enlisted Rank and Insignia
+                </LinkTo>
               </li>
             </ul>
           </div>
