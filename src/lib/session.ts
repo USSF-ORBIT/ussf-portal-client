@@ -10,8 +10,8 @@ import redis from './redis'
 const RedisStore = RedisStoreFactory(expressSession)
 
 const SESSION_SECRET = process.env.SESSION_SECRET || ''
+const SESSION_DOMAIN = process.env.SESSION_DOMAIN || 'localhost'
 const SESSION_EXPIRATION = 60 * 60 * 4 // 4 hours
-const SESSION_DOMAIN = 'localhost' // TODO env var
 
 export const getSession = nextSession({
   store: promisifyStore(new RedisStore({ client: redis })),
