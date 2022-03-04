@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Children } from 'react'
 import classnames from 'classnames'
 import styles from 'components/DropdownMenu/DropdownMenu.module.scss'
 
@@ -34,11 +34,9 @@ const DropdownMenu = ({
       {isActive && (
         <div className={menuClasses}>
           <ol>
-            {Array.isArray(children) ? (
-              children.map((child, i) => <li key={`dropdown${i}`}>{child}</li>)
-            ) : (
-              <li key={`dropdown_0`}>{children}</li>
-            )}
+            {Children.map(children, (child) => (
+              <li>{child}</li>
+            ))}
           </ol>
         </div>
       )}

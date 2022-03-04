@@ -3,6 +3,7 @@
  */
 import { screen, waitFor } from '@testing-library/react'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 
 import { renderWithAuth } from '../../../testHelpers'
 
@@ -14,6 +15,23 @@ const mockedAxios = axios as jest.Mocked<typeof axios>
 
 mockedAxios.get.mockImplementationOnce(() => {
   return Promise.reject()
+})
+
+const mockReplace = jest.fn()
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}))
+
+const mockedUseRouter = useRouter as jest.Mock
+
+mockedUseRouter.mockReturnValue({
+  route: '',
+  pathname: '',
+  query: '',
+  asPath: '',
+  push: jest.fn(),
+  replace: mockReplace,
 })
 
 describe('Training and Education page', () => {
@@ -40,12 +58,12 @@ describe('Training and Education page', () => {
     })
 
     it('renders the loader while fetching the user', () => {
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
+      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
     it('redirects to the login page if not logged in', async () => {
       await waitFor(() => {
-        expect(window.location.href).toEqual('/login')
+        expect(mockReplace).toHaveBeenCalledWith('/login')
       })
     })
   })

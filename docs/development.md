@@ -4,11 +4,14 @@
 1. [yarn scripts](#yarn-scripts)
 1. [Running the application](#running-the-application)
 1. [Working on an issue](#working-on-an-issue)
+1. [Database migrations](#database-migrations)
 1. [PR linting](#pr-linting)
 1. [Testing](#testing)
 1. [Releasing](#releasing)
 
 ## Environment Setup
+
+### Pre-requisites
 
 1. **Set up [direnv](https://direnv.net/docs/hook.html)**
 
@@ -30,38 +33,50 @@
    - [Install yarn](https://classic.yarnpkg.com/en/docs/install) if you do not already have it.
    - Type `yarn` or `yarn install` inside the project directory to install dependencies. You will need to do this once after cloning the project, and continuously if the dependencies in `package.json` change.
 
-### Authentication with SAML
+### Logging in
 
 This application uses SAML for its authentication mechanism. SAML relies on the existance of an Identity Provider (IdP). When running the app locally, there are two IdP options:
 
-- Test SAML IdP: this is a service that is included in our docker compose development stack, and will work automatically when running `docker compose up`. There are two test users you can log in as, and more can be added to the `users.php` file. These test users have been set up with attributes that mirror the data we should get back from the real-life IdP.
+**1. Test SAML IdP:** this is a service that is included in our docker compose development stack, and will work automatically when running `yarn services:up`. There are several test users of various types that you can log in as, and more can be added to the `users.php` file. These test users have been set up with attributes that mirror the data we should get back from the real-life IdP. All names/IDs/etc. are randomly generated fake data.
 
-  - username: user1, password: user1pass
-  - username: user2, password: user2pass
+| username         | password             | name                | category          | groups          |
+| :--------------- | :------------------- | :------------------ | :---------------- | :-------------- |
+| `user1`          | `user1pass`          | Bernadette Campbell | uniformed service | n/a             |
+| `user2`          | `user2pass`          | Ronald Boyd         | civil             | n/a             |
+| `portaladmin`    | `portaladminpass`    | Lindsey Wilson      | employee          | superadmin      |
+| `cmsadmin`       | `cmsadminpass`       | Floyd King          | contractor        | CMS admin       |
+| `cmsuser`        | `cmsuserpass`        | John Henke          | civil             | CMS user        |
+| `analyticsadmin` | `analyticsadminpass` | Margaret Stivers    | contractor        | analytics admin |
+| `analyticsuser`  | `analyticsuserpass`  | Holly Okane         | employee          | analytics user  |
 
-- Production SSO IdP: if you want to log in to the actual IdP we will use in all deployed environments (dev, test, and production) you can also do that. You will need to do some additional configuration:
+**2. Production SSO IdP:** if you want to log in to the actual IdP we will use in all deployed environments (dev, test, and production) you can also do that. You will only be able to log in as your actual user with your CAC (so you won’t be able to test different user types this way). You will need to do some additional configuration:
 
-  - Set the following environment variables locally (ask another team member for the values):
-    - `SAML_IDP_METADATA_URL`
-    - `SAML_ISSUER`
-    - `SAML_SSO_CALLBACK_URL=http://localhost:3000/api/auth/login`
-  - Ask another team member for the certificates required and save this file to `./certs/DoD_CAs.pem`
-  - Set this local environment variable also:
-    - `NODE_EXTRA_CA_CERTS='./certs/DoD_CAs.pem'`
-  - Start other services (Redis & Mongo) in Docker:
-    - `docker-compose -f docker-compose.services.yml up -d`
-  - Run the app locally, either in dev or production modes:
-    - `yarn dev` OR
-    - `yarn build && yarn start`
-  - Once the app has started, navigate to `/api/auth/login` to test the login flow
+- Set the following environment variables locally (ask another team member for the values):
+  - `SAML_IDP_METADATA_URL`
+  - `SAML_ISSUER`
+  - `SAML_SSO_CALLBACK_URL=http://localhost:3000/api/auth/login`
+- Ask another team member for the certificates required and save this file to `./certs/DoD_CAs.pem`
+- Set this local environment variable also:
+  - `NODE_EXTRA_CA_CERTS='./certs/DoD_CAs.pem'`
+- Start other services (Redis & Mongo, etc.) in Docker:
+  - `yarn services:up`
+- Run the app locally, either in dev or production modes:
+  - `yarn dev` OR
+  - `yarn build && yarn start`
 
 ## yarn scripts
 
 Most commonly used during development:
 
+- `yarn services:up`: Starts all required services in Docker
+  - Stop containers with `yarn services:down`
+- `yarn cms:up`: Starts all required services _and_ Keystone CMS in Docker
+  - Stop containers with `yarn cms:down`
 - `yarn dev`: Starts NextJS server in development mode and watches for changed files
 - `yarn storybook`: Starts the Storybook component library on port 6006
 - `yarn test:watch`: Run Jest tests in watch mode
+- `yarn e2e:up`: Starts all required services to run Cypress tests
+  - Stop containers with `yarn e2e:down`
 - `yarn cypress:dev`: Start the Cypress test runner UI (make sure to run `yarn cypress:install` first)
 
 To start the app server as it will run in production:
@@ -89,8 +104,8 @@ _Not to be confused with the production environment!_
 
 You can start the NextJS server in "production mode" (i.e., the server will run in the same way it will on a deployed environment with no recompilation or hot reloading) by running both:
 
-- `yarn build` builds static assets that will be served by NextJS. This command must be used before `yarn serve`.
-- `yarn serve` starts the NextJS server running at `localhost:3000` (the same port used by the dev server).
+- `yarn build` builds static assets that will be served by NextJS. This command must be used before `yarn start`.
+- `yarn start` starts the NextJS server running at `localhost:3000` (the same port used by the dev server).
 
 ### Running in Docker
 
@@ -98,27 +113,23 @@ There are two separate Dockerfiles: `Dockerfile.dev`, which is used for running 
 
 ### Local Development with Docker
 
-You can spin up your Docker environment using Docker Compose. By running `docker compose up`, it will use `docker-compose.yml` to create and run the services required for development.
+You can spin up your Docker environment using Docker Compose. By running `yarn services:up`, it will use `docker-compose.services.yml` to create and run the services required for development.
 
 Services include:
 
-1. Next.js App
-
-- Uses image built in `Dockerfile.dev`
-- access on `localhost:3000`
-
-2. MongoDB
+1. MongoDB
 
 - Uses official MongoDB image v4.0.0
 - exposed on port `:27017`
 - initalizes `dev` database
+- persists volume `portal_data`
 
-3. Mongo Express
+2. Mongo Express
 
 - In-browser GUI for MongoDB
 - access on `localhost:8888`
 
-4. Test SAML Identity Provider
+3. Test SAML Identity Provider
 
 - Service for testing auth flow
 - Access on `localhost:8080`, `localhost:8443`
@@ -127,12 +138,34 @@ Services include:
   - password: user1pass
 - Additional users can be configured in the `users.php` file
 
+4. Redis
+
+- Uses official Redis v6.0.0
+- Used to store session information
+
+5. Matomo & MariaDB
+
+- Manages platform analytics
+
+6. Postgres
+
+- Stores Keystone CMS data
+- Persists volume `cms_data`
+
 To run the app in detached development mode (with hot reloading):
 
 ```
 docker compose up -d
 
 ```
+
+Once services are running, start the NextJS app with `yarn dev`.
+
+### Local Development with Keystone CMS
+
+You can also use Docker Compose to spin up all services plus the external Keystone CMS by running `yarn cms:up`. This will start all above services plus Keystone.
+
+Read more about the Keystone app at the [ussf-portal-cms repo](https://github.com/USSF-ORBIT/ussf-portal-cms), and access the local instance at `localhost:3001`.
 
 ### MongoDB in Docker
 
@@ -144,24 +177,20 @@ On first creation of the MongoDB container, it will initialize a database as spe
       - MONGODB_DB=dev
 ```
 
-It will also run `mongo-init.js`, which sets up a `users` collection and adds a user with test data to the database.
-
-**Note**: This script only runs if the `dev` database does not already exist.
-
-To **reset the database** and re-initialize with test user:
+To **reset the database**:
 
 ```
-docker compose down
+yarn services:down
+# Or yarn cms:down
+# Depending on how you started the instance
 
 # Remove mounted volume for db
-docker volume rm ussf-portal-client_mongodb_data_container
+docker volume rm ussf-portal-client_portal_data
 
-docker compose up
+yarn services:up
 ```
 
 ### Known limitations
-
-- Currently Docker is not set up to run the static site.
 
 - If a change is made to package.json, you'll need to shut down the environment and rebuild the app image using `docker compose up --build`
 
@@ -178,6 +207,35 @@ For example: `112-logo-component`
 We have a pre-commit hook set up using Husky to run on staged files only. This will run [Prettier](https://prettier.io/), [TypeScript compilation](https://www.typescriptlang.org/) and [eslint](https://eslint.org/) and fail on errors. For an optimal developer experience, it's recommended that you configure your editor to run linting & formatting inline.
 
 When your branch is ready, open a PR against `main`, fill out the description and request code reviews. The code must pass the same linting and formatting checks mentioned above, as well as [Jest tests](https://jestjs.io/) in order to merge.
+
+## Database migrations
+
+The portal application uses MongoDB (AWS DocDB in deployed environments) as a data store for _non-sensitive_ user data. If you need to make a change that requires a database migration, follow these steps:
+
+- As much as possible, consider how to scope the migration to its own branch / PR so it can be deployed independently of application code changes, and reinforce backwards compatibility to minimize the risk of errors in production.
+  - This may require making code changes so the application can handle both the existing & changed data model _before_ running migrations.
+  - Resource: [The pedantic checklist for changing your data model in a web application](https://rtpg.co/2021/06/07/changes-checklist.html)
+- On your migration branch, run the following command to create a new migration:
+  - `yarn migrate:create <migration name here>`
+  - Example: `yarn migrate:create add-type-to-collections`
+  - This will generate a new migration file with a timestamp under the `./migrations` directory
+  - Give your migration an explicit & descriptive name
+- Create a corresponding test file for migration under `./test/migrations`
+  - Example: `./test/migrations/add-type-to-collections.test.js`
+- Write your migration `up` and `down` code, and corresponding tests
+  - The `up, down` functions are passed into the `runMigration` utility function, which will handle connecting to MongoDB, pass the `db` context into the migration, and close the connection afterwards.
+- Test your migration in Jest
+  - We use the [jest-mongodb preset](https://github.com/shelfio/jest-mongodb) so unit tests will run against a shared in-memory MongoDB instance
+- Test your migration in MongoDB
+  - If you connect to your local MongoDB instance (for example, using [mongo-express](http://localhost:8888/)) you can verify the data changes as expected when you run & rollback migrations
+  - To run new migrations: `yarn migrate` or `yarn migrate up <migration name>`
+  - To rollback: `yarn migrate down` or `yarn migrate down <migration name>`
+  - To view the status of all migrations: `yarn migrate list`
+  - Resources: [Documentation for node-migrate](https://github.com/tj/node-migrate)
+- Test your migration in the application
+  - The migrate script is run automatically when the application server starts (in all environments: development, production, and in Docker) as part of the startup script.
+  - Start up the application in these environments to make sure the migration runs successfully and does not cause an error.
+  - This will also be tested in the Cypress CI workflow, which builds & starts the application in Docker.
 
 ## PR linting
 

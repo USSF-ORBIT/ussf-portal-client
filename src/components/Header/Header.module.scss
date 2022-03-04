@@ -5,7 +5,7 @@
   background: $black;
 
   @include at-media('desktop') {
-    padding: units('105') 0;
+    padding: units('105') 0 0;
   }
 
   :global {
@@ -22,7 +22,7 @@
         margin: 0;
 
         img {
-          width: 114px;
+          width: 200px;
         }
       }
     }
@@ -41,6 +41,10 @@
       border-radius: 6px;
     }
 
+    .usa-nav__primary > .usa-nav__primary-item + .usa-nav__primary-item {
+      margin-left: units(2);
+    }
+
     .usa-nav__primary > .usa-nav__primary-item > a {
       color: $theme-white;
       font-weight: normal;
@@ -51,10 +55,20 @@
         color: $theme-black;
         border-radius: 6px;
       }
+
+      &.usa-current {
+        background: $theme-aurora-lightest;
+        color: $theme-black;
+        border-radius: 6px;
+
+        &:after {
+          content: none;
+        }
+      }
     }
   }
-}
 
-.logoutButton {
-  margin-left: units(4);
+  :global(.usa-nav__primary) .logoutButton {
+    margin-left: units(2);
+  }
 }

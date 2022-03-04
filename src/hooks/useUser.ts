@@ -1,11 +1,13 @@
 import { useEffect } from 'react'
 import axios, { AxiosResponse } from 'axios'
+import { useRouter } from 'next/router'
 
 import { SessionUser } from 'types'
 import { useAuthContext } from 'stores/authContext'
 
 export const useUser = (ssrUser?: SessionUser) => {
   const authContext = useAuthContext()
+  const router = useRouter()
 
   useEffect(() => {
     if (ssrUser) {
@@ -21,7 +23,7 @@ export const useUser = (ssrUser?: SessionUser) => {
           authContext.setUser(response.data.user)
         } catch (e) {
           // This (probably) means they aren't logged in
-          window.location.href = '/login'
+          router.replace('/login')
         }
       }
 

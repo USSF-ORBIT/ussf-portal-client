@@ -32,10 +32,20 @@ export type CollectionRecords = readonly CollectionRecord[]
  * ***********************
  * */
 
-/* Bookmark refers to a user-created object containing a url */
+export type WidgetType = 'Collection' | 'News'
 
+export type Widget = {
+  _id: string | ObjectId
+  title: string
+  type: WidgetType
+}
+
+export type MySpaceWidget = Widget | Collection
+export type MySpace = MySpaceWidget[]
+
+/* Bookmark refers to a user-created object containing a url */
 export type Bookmark = {
-  _id: string
+  _id: string | ObjectId
   url: string
   label?: string
   cmsId?: string
@@ -57,18 +67,22 @@ export type BookmarkInput = {
   cmsId?: string
 }
 
-/* Collection refers to a user-created collection containing one or more bookmarks */
-
-export type Collection = {
+export type RemovedBookmark = {
   _id: string
-  title: string
+}
+
+/* Collection refers to a user-created collection containing one or more bookmarks */
+export interface Collection extends Widget {
   bookmarks: Bookmark[]
+  cmsId?: string
+  type: 'Collection'
 }
 
 export type CollectionInput = {
   _id: ObjectId
   title: string
   bookmarks: BookmarkInput[]
+  type: 'Collection'
 }
 
 export type CollectionsInput = {
@@ -77,6 +91,11 @@ export type CollectionsInput = {
   bookmarks: BookmarkInput[]
 }
 
+/**
+ * ***********************
+ * Types for User / Auth
+ * ***********************
+ * */
 export interface SAMLUser {
   issuer: string
   nameID: string
@@ -86,10 +105,12 @@ export interface SAMLUser {
   attributes: {
     subject: string
     edipi: string
+    common_name: string
+    fascn: string
     givenname: string
     surname: string
     userprincipalname: string
-    ivgroups: string
+    userGroups: string[]
   }
 }
 
@@ -100,4 +121,30 @@ export type PortalUser = {
 
 export type SessionUser = SAMLUser & {
   userId: string
+}
+
+/**
+ * ***********************
+ * Types for News articles
+ * ***********************
+ * */
+
+export type RSSNewsItem = {
+  id?: string
+  desc?: string
+  date?: string
+  link?: string
+  title?: string
+  image?: string
+}
+
+export type NewsListItemArticle = {
+  id: string
+  thumbnailSrc?: string
+  publishDate?: string
+  title: string
+  description: string
+  source: string
+  sourceName: string
+  sourceLink: string
 }

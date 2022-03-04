@@ -1,5 +1,6 @@
 /** Space Force Design System **/
 /** ------------------------- **/
+@import 'styles/uswdsDependencies';
 
 // Sharp Sans
 @import '../fonts.scss';
@@ -115,7 +116,8 @@
     }
 
     p,
-    span {
+    span,
+    .usa-breadcrumb {
       color: $theme-cosmiclatte-lightest;
     }
 
@@ -124,6 +126,12 @@
       &:hover {
         color: $theme-aurora-lighter;
       }
+    }
+
+    .usa-breadcrumb__list-item:not(:last-child)::after {
+      background-color: $theme-cosmiclatte-lightest;
+      -webkit-mask: url('/vendor/img/usa-icons/navigate_next.svg') no-repeat
+        center/2ex 2ex;
     }
   }
 
@@ -147,8 +155,17 @@
     }
 
     &:disabled {
-      color: $theme-white;
-      background-color: $state-disabled-base;
+      opacity: 0.45;
+    }
+
+    // Reset modal close buton styles
+    &.usa-modal__close {
+      color: #71767a;
+      background-color: transparent;
+      &:hover,
+      &:active {
+        color: #000;
+      }
     }
   }
 
@@ -281,5 +298,46 @@
         }
       }
     }
+  }
+
+  .text-error {
+    color: $state-error-base;
+  }
+
+  /** Modals **/
+  .usa-modal__main {
+    margin: 0; // Let content be full-width of the modal
+
+    .usa-form {
+      max-width: none;
+    }
+  }
+
+  /*
+  .usa-modal__heading {
+    font-size: 22px;
+    line-height: normal;
+    @include heading-book;
+  }
+  */
+
+  /** Tooltip **/
+  .usa-tooltip__body {
+    background-color: $theme-spacebase-dark;
+    padding: units(2);
+  }
+
+  /** Breadcrumbs **/
+  .usa-breadcrumb {
+    background-color: transparent;
+  }
+
+  .usa-breadcrumb__link {
+    text-decoration: underline;
+  }
+
+  /** Tags **/
+  .usa-tag {
+    padding: units('05') units(1);
   }
 }

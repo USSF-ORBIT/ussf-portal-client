@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: app
+    restart: always
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: development
+      SAML_ISSUER: ussf-portal-client
+      SAML_IDP_METADATA_URL: http://idp:8080/simplesaml/saml2/idp/metadata.php
+      REDIS_URL: redis://portal_redis:6379
+      MONGO_URL: mongodb://mongo:27017
+      MONGODB_DB: dev
+    stdin_open: true
+    depends_on:
+      - mongo
+      - redis
+      - idp

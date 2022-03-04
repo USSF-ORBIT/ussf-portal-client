@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import classnames from 'classnames'
 import {
@@ -10,11 +10,13 @@ import {
   NavDropDownButton,
   NavList,
   Button,
+  ModalRef,
 } from '@trussworks/react-uswds'
 
 import styles from './Header.module.scss'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import NavLink from 'components/util/NavLink/NavLink'
+import JoinBetaModal from 'components/modals/JoinBetaModal'
 import { useAuthContext } from 'stores/authContext'
 
 const Header = () => {
@@ -22,6 +24,7 @@ const Header = () => {
   const router = useRouter()
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [servicePortalNavOpen, setServicePortalNavOpen] = useState(false)
+  const joinBetaModal = useRef<ModalRef>(null)
 
   const isHomePage = router.pathname === '/'
 
@@ -91,6 +94,10 @@ const Header = () => {
 
   navItems.push(servicePortalMenu)
 
+  const handleJoinBeta = () => {
+    joinBetaModal.current?.toggleModal(undefined, true)
+  }
+
   navItems.push(
     <Button secondary type="button" onClick={logout} key="nav_logout">
       <span>Log out</span>
@@ -103,6 +110,8 @@ const Header = () => {
         className={`usa-overlay ${mobileNavOpen ? 'is-visible' : ''}`}
         data-testid="overlay"
       />
+
+      <JoinBetaModal modalRef={joinBetaModal} />
 
       <USWDSHeader basic className={styles.Header}>
         <div className="usa-nav-container">
@@ -139,6 +148,12 @@ const Header = () => {
                 <NavList items={homeNavItems} type="primary" />
               </div>
             )}
+
+            <div className={`sfds ${styles.joinBeta}`}>
+              <Button type="button" secondary onClick={handleJoinBeta}>
+                Join beta
+              </Button>
+            </div>
           </PrimaryNav>
         </div>
       </USWDSHeader>

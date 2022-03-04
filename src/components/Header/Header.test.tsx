@@ -26,11 +26,10 @@ describe('Header component', () => {
   it('renders the USSF portal header', () => {
     render(<Header />)
 
-    expect(screen.getByRole('img', { name: 'USSF Logo' })).toHaveAttribute(
-      'alt',
-      'USSF Logo'
-    )
-    expect(screen.getAllByRole('link')).toHaveLength(4)
+    expect(
+      screen.getByRole('img', { name: 'United States Space Force Logo' })
+    ).toHaveAttribute('alt', 'United States Space Force Logo')
+    expect(screen.getAllByRole('link')).toHaveLength(3)
   })
 
   it('can toggle navigation on smaller screen sizes', () => {

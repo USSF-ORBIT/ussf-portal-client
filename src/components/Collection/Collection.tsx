@@ -1,32 +1,34 @@
-import React from 'react'
+import React, { Children } from 'react'
 
 import styles from './Collection.module.scss'
 
+import Widget from 'components/Widget/Widget'
+
 type PropTypes = {
   title?: string
+  header?: React.ReactNode
   children: React.ReactNode | React.ReactNode[]
   footer?: React.ReactNode
-  header?: React.ReactNode
 }
 
 const Collection = ({ title = '', children, header, footer }: PropTypes) => {
   return (
-    <div className={styles.collection}>
-      <div className={styles.header}>
-        {title && <h3>{title}</h3>}
-        {header}
-      </div>
-
-      <ol>
-        {Array.isArray(children) ? (
-          children.map((child, i) => <li key={`bookmark_${i}`}>{child}</li>)
-        ) : (
-          <li key={`bookmark_0`}>{children}</li>
-        )}
+    <Widget
+      className={styles.collection}
+      header={
+        <>
+          {title && <h3>{title}</h3>}
+          {header}
+        </>
+      }>
+      <ol className={styles.collectionList}>
+        {Children.map(children, (child) => (
+          <li>{child}</li>
+        ))}
       </ol>
 
       {footer}
-    </div>
+    </Widget>
   )
 }
 

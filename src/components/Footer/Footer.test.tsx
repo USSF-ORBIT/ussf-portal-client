@@ -11,10 +11,9 @@ describe('Footer component', () => {
   it('renders the USSF portal header', () => {
     render(<Footer />)
 
-    expect(screen.getByRole('img', { name: 'USSF Logo' })).toHaveAttribute(
-      'alt',
-      'USSF Logo'
-    )
+    expect(
+      screen.getByRole('img', { name: 'United States Space Force Logo' })
+    ).toHaveAttribute('alt', 'United States Space Force Logo')
     expect(screen.getAllByRole('link')).toHaveLength(9)
   })
 

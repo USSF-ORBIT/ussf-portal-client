@@ -3,6 +3,7 @@
  */
 import { screen, waitFor } from '@testing-library/react'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 
 import { renderWithAuth } from '../../../testHelpers'
 import Home from 'pages/index'
@@ -15,36 +16,36 @@ mockedAxios.get.mockImplementationOnce(() => {
   return Promise.reject()
 })
 
+const mockReplace = jest.fn()
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}))
+
+const mockedUseRouter = useRouter as jest.Mock
+
+mockedUseRouter.mockReturnValue({
+  route: '',
+  pathname: '',
+  query: '',
+  asPath: '',
+  push: jest.fn(),
+  replace: mockReplace,
+})
+
 describe('Home page', () => {
   describe('without a user', () => {
-    const { location } = window
-
-    beforeAll((): void => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      delete window.location
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      window.location = {
-        href: '',
-      }
-    })
-
-    afterAll((): void => {
-      window.location = location
-    })
-
     beforeEach(() => {
       renderWithAuth(<Home />, { user: null })
     })
 
     it('renders the loader while fetching the user', () => {
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
+      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
     it('redirects to the login page if not logged in', async () => {
       await waitFor(() => {
-        expect(window.location.href).toEqual('/login')
+        expect(mockReplace).toHaveBeenCalledWith('/login')
       })
     })
   })
@@ -76,14 +77,14 @@ describe('Home page', () => {
       expect(
         screen.getByRole('heading', {
           level: 3,
-          name: 'Read it here – The Guardian Ideal',
+          name: 'USSF CY21A Promotion Lists now available!',
         })
       ).toBeInTheDocument()
 
       expect(
         screen.getByRole('heading', {
           level: 3,
-          name: 'View the new Guardian Enlisted Rank insignia',
+          name: 'Preview the new Space Force portal',
         })
       ).toBeInTheDocument()
     })

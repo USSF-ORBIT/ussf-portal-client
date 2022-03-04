@@ -5,10 +5,11 @@
 import { screen, waitFor } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 
 import { renderWithAuth } from '../../../testHelpers'
 
-import { getCollectionsMock } from '../../../__fixtures__/operations/getCollection'
+import { getMySpaceMock } from '../../../__fixtures__/operations/getMySpace'
 import { cmsBookmarksMock } from '../../../__fixtures__/data/cmsBookmarks'
 import Home from 'pages/beta/index'
 
@@ -20,36 +21,36 @@ mockedAxios.get.mockImplementationOnce(() => {
   return Promise.reject()
 })
 
+const mockReplace = jest.fn()
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}))
+
+const mockedUseRouter = useRouter as jest.Mock
+
+mockedUseRouter.mockReturnValue({
+  route: '',
+  pathname: '',
+  query: '',
+  asPath: '',
+  push: jest.fn(),
+  replace: mockReplace,
+})
+
 describe('Beta Home page', () => {
   describe('without a user', () => {
-    const { location } = window
-
-    beforeAll((): void => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      delete window.location
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      window.location = {
-        href: '',
-      }
-    })
-
-    afterAll((): void => {
-      window.location = location
-    })
-
     beforeEach(() => {
       renderWithAuth(<Home bookmarks={cmsBookmarksMock} />, { user: null })
     })
 
     it('renders the loader while fetching the user', () => {
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
+      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
     it('redirects to the login page if not logged in', async () => {
       await waitFor(() => {
-        expect(window.location.href).toEqual('/login')
+        expect(mockReplace).toHaveBeenCalledWith('/login')
       })
     })
   })
@@ -57,14 +58,14 @@ describe('Beta Home page', () => {
   describe('when logged in', () => {
     beforeEach(() => {
       renderWithAuth(
-        <MockedProvider mocks={getCollectionsMock} addTypename={false}>
+        <MockedProvider mocks={getMySpaceMock} addTypename={false}>
           <Home bookmarks={cmsBookmarksMock} />
         </MockedProvider>
       )
     })
 
     it('renders the loading page,', () => {
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
+      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
     it('renders the home page', async () => {
@@ -75,10 +76,25 @@ describe('Beta Home page', () => {
         })
       ).toBeInTheDocument()
 
-      const collectionTitle = await screen.findByRole('button', {
-        name: 'Edit Example Collection collection title',
-      })
-      expect(collectionTitle).toHaveTextContent('Example Collection')
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: 'Example Collection',
+        })
+      ).toBeInTheDocument()
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: 'Maxed Out Collection',
+        })
+      ).toBeInTheDocument()
+
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: 'Recent News',
+        })
+      ).toBeInTheDocument()
     })
   })
 })

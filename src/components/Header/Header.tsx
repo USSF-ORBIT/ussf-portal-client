@@ -13,28 +13,36 @@ import Logo from 'components/Logo/Logo'
 import NavLink from 'components/util/NavLink/NavLink'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { useAuthContext } from 'stores/authContext'
+import { useAnalytics } from 'stores/analyticsContext'
 
 const Header = () => {
   const { logout } = useAuthContext()
+  const { trackEvent } = useAnalytics()
   const [expanded, setExpanded] = useState(false)
   const handleNavButtonClick = (): void =>
     setExpanded((prevExpanded) => !prevExpanded)
 
+  const handleLogout = () => {
+    trackEvent('Top nav', 'Log out')
+    logout()
+  }
+
   const navItems = [
-    <NavLink href="#" key="nav_about">
-      <span>About Space Force</span>
-    </NavLink>,
-    <NavLink href="#" key="nav_news">
-      <span>News, Announcements &amp; Events</span>
-    </NavLink>,
-    <NavLink href="#" key="nav_support">
-      <span>Help &amp; Support</span>
+    <LinkTo
+      href="https://ussf-orbit.github.io/ussf-portal/"
+      key="nav_microsite"
+      target="_blank"
+      rel="noreferrer noopener">
+      <span>About this portal</span>
+    </LinkTo>,
+    <NavLink key="nav_news" href="/news">
+      News
     </NavLink>,
     <Button
       secondary
       className={styles.logoutButton}
       type="button"
-      onClick={logout}
+      onClick={handleLogout}
       key="nav_logout">
       <span>Log out</span>
     </Button>,
@@ -53,7 +61,7 @@ const Header = () => {
           <div className="usa-navbar">
             <Title>
               <LinkTo href="/" title="USSF Portal Home">
-                <Logo abbreviated />
+                <Logo darkBg />
               </LinkTo>
             </Title>
             <NavMenuButton onClick={handleNavButtonClick} label="Menu" />

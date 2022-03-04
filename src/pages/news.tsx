@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { GridContainer, Grid, CardGroup } from '@trussworks/react-uswds'
 import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
 import LinkTo from 'components/util/LinkTo/LinkTo'
-import Loader from 'components/Loader'
+import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 
 const RSS_URL = `https://www.spaceforce.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=1060&max=10`

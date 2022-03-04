@@ -1,7 +1,7 @@
 import { GridContainer, Grid } from '@trussworks/react-uswds'
 
 import LinkTo from 'components/util/LinkTo/LinkTo'
-import Loader from 'components/Loader'
+import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 
 const ForceMultiplierProgram = () => {

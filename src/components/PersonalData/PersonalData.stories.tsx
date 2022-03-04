@@ -24,13 +24,33 @@ export default {
   title: 'Components/PersonalData',
   decorators: [
     (Story) => (
-      <AuthContext.Provider value={mockContext}>
-        <div className="sfds">
-          <Story />
-        </div>
-      </AuthContext.Provider>
+      <div className="sfds">
+        <Story />
+      </div>
     ),
   ],
 } as Meta
 
-export const PersonalDataPlaceholder = () => <PersonalData />
+export const WithUser = () => <PersonalData />
+
+WithUser.decorators = [
+  (Story: any) => (
+    <AuthContext.Provider value={mockContext}>
+      <div className="sfds">
+        <Story />
+      </div>
+    </AuthContext.Provider>
+  ),
+]
+
+export const NoUser = () => <PersonalData />
+
+NoUser.decorators = [
+  (Story: any) => (
+    <AuthContext.Provider value={{ ...mockContext, user: null }}>
+      <div className="sfds">
+        <Story />
+      </div>
+    </AuthContext.Provider>
+  ),
+]

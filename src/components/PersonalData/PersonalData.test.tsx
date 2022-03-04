@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { screen } from '@testing-library/react'
+import { screen, render } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import React from 'react'
 import { axe } from 'jest-axe'
@@ -11,23 +11,31 @@ import { renderWithAuth } from '../../testHelpers'
 
 import PersonalData from './PersonalData'
 
-describe('Personal Data Placeholder', () => {
+describe('Personal Data component', () => {
   let html: RenderResult
 
-  beforeEach(() => {
-    html = renderWithAuth(<PersonalData />)
-  })
-
-  it('renders the greeting with the name prop', () => {
+  it('renders the greeting without a name', () => {
+    html = render(<PersonalData />)
     const greeting = screen.getByRole('heading', { level: 2 })
-    expect(greeting).toHaveTextContent('Welcome, Test User')
+    expect(greeting).toHaveTextContent('Welcome!')
   })
 
-  it('renders the list of key/value pairs', () => {
-    expect(screen.getAllByRole('definition')).toHaveLength(4)
-  })
+  describe('when logged in', () => {
+    beforeEach(() => {
+      html = renderWithAuth(<PersonalData />)
+    })
 
-  it('has no a11y violations', async () => {
-    expect(await axe(html.container)).toHaveNoViolations()
+    it('renders the greeting with a name', () => {
+      const greeting = screen.getByRole('heading', { level: 2 })
+      expect(greeting).toHaveTextContent('Welcome, BERNADETTE CAMPBELL')
+    })
+
+    it('renders the list of key/value pairs', () => {
+      expect(screen.getAllByRole('definition')).toHaveLength(4)
+    })
+
+    it('has no a11y violations', async () => {
+      expect(await axe(html.container)).toHaveNoViolations()
+    })
   })
 })

@@ -1,5 +1,6 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/deps';
+@import 'styles/sfds/sfdsDependencies';
 
 .bookmark {
   border: 1px solid color('base-light');
@@ -29,5 +30,10 @@
 
 .delete {
   @extend %button-reset;
+  color: $theme-spacebase-light;
   padding: 0 units('105');
+
+  &:hover {
+    color: $theme-spacebase-base;
+  }
 }

@@ -4,7 +4,7 @@ import Collection from './Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 
 export default {
-  title: 'Components/Collections/Collection',
+  title: 'Components/Sections/Collections/Collection',
   component: Collection,
   decorators: [
     (Story) => (
@@ -26,10 +26,10 @@ export const ExampleCollection = () => (
     <Bookmark key="link3" href="#">
       vMPF
     </Bookmark>
-    <Bookmark key="link3" href="#">
+    <Bookmark key="link4" href="#">
       LeaveWeb
     </Bookmark>
-    <Bookmark key="link3" href="#">
+    <Bookmark key="link5" href="#">
       e-Publications
     </Bookmark>
   </Collection>

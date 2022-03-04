@@ -20,7 +20,8 @@ const Footer = () => {
       secondary={
         <div className="grid-row grid-gap">
           <div className="grid-col-auto">
-            <USWDSFooterLogo image={<Logo abbreviated />} />
+            <USWDSFooterLogo image={<Logo darkBg />} />
+            <br />
             <small>©2021 All rights reserved, ORBIT Space Force</small>
           </div>
 

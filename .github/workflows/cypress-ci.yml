@@ -11,18 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up node
-        uses: actions/setup-node@04c56d2f954f1e4c69436aa54cfef261a018f458 # renovate: tag=v2
+        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # tag=v3
         with:
-          node-version: '14.18.1'
+          node-version: '14.19.0'
 
       - name: Check out repository
-        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
+        uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # tag=v3
 
       - name: Docker compose
-        run: docker-compose -f docker-compose.e2e.yml up -d --build
+        run: docker-compose -f docker-compose.services.yml -f docker-compose.e2e.yml up -d --build
 
       - name: Cypress run
-        uses: cypress-io/github-action@2113e5bc19c45979ba123df6e07256d2aaba9a33 # renovate: tag=v2.11.7
+        uses: cypress-io/github-action@90f0f494f47dd0a22ac4759978de892d3e3fd340 # tag=v3.0.2
         env:
           CYPRESS_BASE_URL: http://localhost:3000
         with:
@@ -30,21 +30,21 @@ jobs:
           working-directory: e2e
 
       - name: Upload screenshots
-        uses: actions/upload-artifact@da838ae9595ac94171fa2d4de5a2f117b3e7ac32 # renovate: tag=v2
+        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # tag=v3
         if: failure()
         with:
           name: cypress-screenshots
           path: e2e/cypress/screenshots
 
       - name: Upload videos
-        uses: actions/upload-artifact@da838ae9595ac94171fa2d4de5a2f117b3e7ac32 # renovate: tag=v2
+        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # tag=v3
         if: always()
         with:
           name: cypress-videos
           path: e2e/cypress/videos
 
       - name: Upload reports
-        uses: actions/upload-artifact@da838ae9595ac94171fa2d4de5a2f117b3e7ac32 # renovate: tag=v2
+        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # tag=v3
         if: always()
         with:
           name: cypress-reports
