@@ -48,12 +48,18 @@ const AboutUs = () => {
               </li>
 
               <li>
-                <LinkTo href="/uploads/Guardian Ideal - FINAL - 1600 17Sept21.pdf">
+                <LinkTo
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  href="/uploads/Guardian Ideal - FINAL - 1600 17Sept21.pdf">
                   Guardian Ideal
                 </LinkTo>
               </li>
               <li>
-                <LinkTo href="/uploads/US Space Force Enlisted Rank Insig Info Sheet (1).pdf">
+                <LinkTo
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  href="/uploads/US Space Force Enlisted Rank Insig Info Sheet (1).pdf">
                   USSF Enlisted Rank and Insignia
                 </LinkTo>
               </li>
@@ -76,22 +82,34 @@ const AboutUs = () => {
             <h2 id="leadership">Leadership</h2>
             <ul>
               <li>
-                <LinkTo href="https://www.spaceforce.mil/About-Us/Leadership/">
+                <LinkTo
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  href="https://www.spaceforce.mil/About-Us/Leadership/">
                   Space Force Leadership
                 </LinkTo>
               </li>
               <li>
-                <LinkTo href="https://www.spoc.spaceforce.mil/About-Us/Leadership">
+                <LinkTo
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  href="https://www.spoc.spaceforce.mil/About-Us/Leadership">
                   SpOC Leadership
                 </LinkTo>
               </li>
               <li>
-                <LinkTo href="https://www.losangeles.spaceforce.mil/About-Us/Biographies/">
+                <LinkTo
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  href="https://www.losangeles.spaceforce.mil/About-Us/Biographies/">
                   SMC Center Leadership
                 </LinkTo>
               </li>
               <li>
-                <LinkTo href="https://www.peterson.spaceforce.mil/About/Biographies/">
+                <LinkTo
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  href="https://www.peterson.spaceforce.mil/About-Us/Biographies/">
                   Space Training and Readiness (STAR) Delta Leadership
                 </LinkTo>
               </li>
@@ -122,6 +140,8 @@ const AboutUs = () => {
             <ul>
               <li>
                 <LinkTo
+                  target="_blank"
+                  rel="noreferrer noopener"
                   href="https://twitter.com/SpaceForceDoD?ref_src=twsrc%5Etfw"
                   data-height="500">
                   Tweets by SpaceForceDoD
