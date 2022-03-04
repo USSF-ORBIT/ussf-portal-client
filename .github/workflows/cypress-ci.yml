@@ -30,21 +30,21 @@ jobs:
           working-directory: e2e
 
       - name: Upload screenshots
-        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2 # renovate: tag=v2
+        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # tag=v3
         if: failure()
         with:
           name: cypress-screenshots
           path: e2e/cypress/screenshots
 
       - name: Upload videos
-        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2 # renovate: tag=v2
+        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # tag=v3
         if: always()
         with:
           name: cypress-videos
           path: e2e/cypress/videos
 
       - name: Upload reports
-        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2 # renovate: tag=v2
+        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # tag=v3
         if: always()
         with:
           name: cypress-reports
