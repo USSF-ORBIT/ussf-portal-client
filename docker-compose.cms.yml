@@ -16,4 +16,4 @@ services:
       - TEST_EMAIL=admin@example.com
     depends_on:
       - keystone-db
-      - app     
+      - app
