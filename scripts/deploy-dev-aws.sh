@@ -17,7 +17,7 @@ TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition portal-clie
                 memory: taskDefinition.memory
             }'> tmp-td.json)
 
-NEW_TASK_DEFINTION=$(jq -r --arg NEWIMAGE "$IMAGE" '.containerDefinitions[].image |= $NEWIMAGE' tmp-td.json > tmp-ntd.json)
+NEW_TASK_DEFINTION=$(jq -r --arg NEWIMAGE "$IMAGE" '.containerDefinitions[0].image |= $NEWIMAGE' tmp-td.json > tmp-ntd.json)
 NEW_TASK_INFO=$(aws ecs register-task-definition --cli-input-json file://tmp-ntd.json)
 NEW_REVISION=$(echo $NEW_TASK_INFO | jq '.taskDefinition.revision')
 aws ecs update-service --cluster app-portal-client-dev \
