@@ -9,6 +9,7 @@ import redis from './redis'
 
 const RedisStore = RedisStoreFactory(expressSession)
 
+// TODO - require session secret & domain on startup
 const SESSION_SECRET = process.env.SESSION_SECRET || ''
 const SESSION_DOMAIN = process.env.SESSION_DOMAIN || 'localhost'
 const SESSION_EXPIRATION = 60 * 60 * 4 // 4 hours

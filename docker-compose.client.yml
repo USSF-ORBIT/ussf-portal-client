@@ -20,7 +20,7 @@ services:
       REDIS_URL: redis://portal_redis:6379
       MONGO_URL: mongodb://mongo:27017
       MONGODB_DB: dev
-      SESSION_SECRET: 'thisvaluecanbeanythingitisonlyforlocaldevelopment'
+      SESSION_SECRET: thisvaluecanbeanythingitisonlyforlocaldevelopment
     stdin_open: true
     depends_on:
       - mongo

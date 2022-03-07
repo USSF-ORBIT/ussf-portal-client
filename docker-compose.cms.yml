@@ -8,12 +8,12 @@ services:
     ports:
       - '3001:3001'
     environment:
-      - PORT=3001
-      - SESSION_SECRET='thisvaluecanbeanythingitisonlyforlocaldevelopment'
-      - DATABASE_URL=postgres://keystone:keystonecms@keystone-db:5432/keystone
-      - TEST_USERNAME=Admin
-      - TEST_PASSWORD=adminpassword
-      - TEST_EMAIL=admin@example.com
+      PORT: 3001
+      SESSION_SECRET: thisvaluecanbeanythingitisonlyforlocaldevelopment
+      DATABASE_URL: postgres://keystone:keystonecms@keystone-db:5432/keystone
+      TEST_USERNAME: Admin
+      TEST_PASSWORD: adminpassword
+      TEST_EMAIL: admin@example.com
     depends_on:
       - keystone-db
       - app
