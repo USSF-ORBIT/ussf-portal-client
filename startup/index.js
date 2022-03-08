@@ -7,7 +7,7 @@ const { initTracing } = require('./tracing')
 function startup() {
   initLogger()
   runMigrations()
-  initTracing('ussf-portal-client')
+  initTracing('AWSObservability')
 }
 
 startup()
