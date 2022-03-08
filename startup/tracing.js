@@ -8,7 +8,9 @@ const { AWSXRayIdGenerator } = require('@opentelemetry/id-generator-aws-xray')
 const { trace } = require('@opentelemetry/api')
 const { AwsInstrumentation } = require('@opentelemetry/instrumentation-aws-sdk')
 // const { registerInstrumentations } = require('@opentelemetry/instrumentation')
-
+const {
+  getNodeAutoInstrumentations,
+} = require('@opentelemetry/auto-instrumentations-node')
 const { detectResources } = require('@opentelemetry/resources')
 const {
   awsEcsDetector,
@@ -25,11 +27,7 @@ module.exports.initTracing = async (serviceName) => {
   const tracerConfig = {
     idGenerator: new AWSXRayIdGenerator(),
     // Instrumentations can go here if needed
-    instrumentations: [
-      new AwsInstrumentation({
-        // see the upstream documentation for available configuration
-      }),
-    ],
+    instrumentations: [getNodeAutoInstrumentations()],
     // Resources can go here if needed
     resources: { resource },
   }
