@@ -24,7 +24,7 @@ const AboutUs = () => {
       <Grid row gap>
         <Grid tablet={{ col: 8 }}>
           <div>
-            <h2 id="essential-reading">Essential Reading</h2>
+            <h3 id="essential-reading">Essential Reading</h3>
 
             <ul>
               <li>
@@ -66,7 +66,7 @@ const AboutUs = () => {
             </ul>
           </div>
           <div>
-            <h2 id="mission">Mission</h2>
+            <h3 id="mission">Mission</h3>
             <p>
               The USSF is a military service that organizes, trains, and equips
               space forces in order to protect U.S. and allied interests in
@@ -79,7 +79,7 @@ const AboutUs = () => {
           </div>
 
           <div>
-            <h2 id="leadership">Leadership</h2>
+            <h3 id="leadership">Leadership</h3>
             <ul>
               <li>
                 <LinkTo
@@ -136,7 +136,7 @@ const AboutUs = () => {
             </figure>
           </div>
           <div>
-            <h2>Social media</h2>
+            <h3>Social media</h3>
             <ul>
               <li>
                 <LinkTo

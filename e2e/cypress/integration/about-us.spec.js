@@ -2,8 +2,6 @@ import logging from '../plugins/logging'
 
 describe('About Us', () => {
   before(() => {
-    // Reset the database
-    cy.task('db:seed')
     cy.loginTestIDP()
     cy.visit('/joinbeta')
   })
