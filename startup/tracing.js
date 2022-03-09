@@ -10,6 +10,9 @@ const { trace } = require('@opentelemetry/api')
 const {
   getNodeAutoInstrumentations,
 } = require('@opentelemetry/auto-instrumentations-node')
+const {
+  getWebAutoInstrumentations,
+} = require('@opentelemetry/auto-instrumentations-web')
 const { detectResources } = require('@opentelemetry/resources')
 const {
   awsEcsDetector,
@@ -25,9 +28,12 @@ module.exports.initTracing = async (serviceName) => {
   // Create a provider using the AWS ID Generator
   const tracerConfig = {
     idGenerator: new AWSXRayIdGenerator(),
-    // Use Node auto-instrumentation
-    // https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/metapackages/auto-instrumentations-node
-    instrumentations: [getNodeAutoInstrumentations()],
+    // Use Node and Web auto-instrumentations
+    // https://github.com/open-telemetry/opentelemetry-js-contrib
+    instrumentations: [
+      getNodeAutoInstrumentations(),
+      getWebAutoInstrumentations(),
+    ],
     // Resources can go here if needed
     resources: { resource },
   }

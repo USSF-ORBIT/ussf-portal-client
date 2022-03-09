@@ -2841,6 +2841,17 @@
     "@opentelemetry/instrumentation-restify" "^0.27.2"
     "@opentelemetry/instrumentation-winston" "^0.27.2"
 
+"@opentelemetry/auto-instrumentations-web@^0.27.2":
+  version "0.27.2"
+  resolved "https://registry.yarnpkg.com/@opentelemetry/auto-instrumentations-web/-/auto-instrumentations-web-0.27.2.tgz#bc00ff5b06c090f8af0b4a545bc930add54bb862"
+  integrity sha512-L/dY2L0MPx9ewNaaxbsuqKTWZlNFuSaU8OgONbcMzQqHS+hZhzd1aKMQUO+RsEeKWOQDmtvgCMEXahT8PlsYkA==
+  dependencies:
+    "@opentelemetry/instrumentation" "^0.27.0"
+    "@opentelemetry/instrumentation-document-load" "^0.27.1"
+    "@opentelemetry/instrumentation-fetch" "^0.27.0"
+    "@opentelemetry/instrumentation-user-interaction" "^0.28.1"
+    "@opentelemetry/instrumentation-xml-http-request" "^0.27.0"
+
 "@opentelemetry/context-async-hooks@0.24.0":
   version "0.24.0"
   resolved "https://registry.yarnpkg.com/@opentelemetry/context-async-hooks/-/context-async-hooks-0.24.0.tgz#d726cda794f8057c63631d111c7375744ed1cc75"
@@ -2950,6 +2961,17 @@
     "@opentelemetry/semantic-conventions" "^1.0.0"
     semver "^7.3.2"
 
+"@opentelemetry/instrumentation-document-load@^0.27.1":
+  version "0.27.1"
+  resolved "https://registry.yarnpkg.com/@opentelemetry/instrumentation-document-load/-/instrumentation-document-load-0.27.1.tgz#3248364b6a08df758552e169e848fe883ac73070"
+  integrity sha512-C51Ia0CYi9LCE3vTzycO4bCgnxKWll04c3q9KaG6pj6j70c+3JdJGydn0wtByRTs+ax3zk4JacvadtDcWi9ylQ==
+  dependencies:
+    "@opentelemetry/core" "^1.0.0"
+    "@opentelemetry/instrumentation" "^0.27.0"
+    "@opentelemetry/sdk-trace-base" "^1.0.0"
+    "@opentelemetry/sdk-trace-web" "^1.0.0"
+    "@opentelemetry/semantic-conventions" "^1.0.0"
+
 "@opentelemetry/instrumentation-express@^0.28.0":
   version "0.28.0"
   resolved "https://registry.yarnpkg.com/@opentelemetry/instrumentation-express/-/instrumentation-express-0.28.0.tgz#2087593a75252e5884398150bdcc8cda2e663b61"
@@ -2969,6 +2991,16 @@
     "@opentelemetry/instrumentation" "^0.27.0"
     "@opentelemetry/semantic-conventions" "^1.0.0"
     fastify "^3.19.2"
+
+"@opentelemetry/instrumentation-fetch@^0.27.0":
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/@opentelemetry/instrumentation-fetch/-/instrumentation-fetch-0.27.0.tgz#44f98867573f98dd42486a6b9480056317c61ae8"
+  integrity sha512-gBbX0quqQ2UAxnvCA9e1/ubNvBjou2iDBYRAzlCEr0I4FfeQnSsSm7bzhbZpwgQVR/d4eMYf7xfHy0rnS1hMHA==
+  dependencies:
+    "@opentelemetry/core" "1.0.1"
+    "@opentelemetry/instrumentation" "0.27.0"
+    "@opentelemetry/sdk-trace-web" "1.0.1"
+    "@opentelemetry/semantic-conventions" "1.0.1"
 
 "@opentelemetry/instrumentation-generic-pool@^0.27.2":
   version "0.27.2"
@@ -3133,12 +3165,31 @@
     "@opentelemetry/semantic-conventions" "^1.0.0"
     "@types/restify" "4.3.8"
 
+"@opentelemetry/instrumentation-user-interaction@^0.28.1":
+  version "0.28.1"
+  resolved "https://registry.yarnpkg.com/@opentelemetry/instrumentation-user-interaction/-/instrumentation-user-interaction-0.28.1.tgz#f796b57aba80a52a41ed78d78eb7ed9a68a06ca0"
+  integrity sha512-HmaUeppDmsd14n7iYGISYiaGT4zl+gcpUXKUaTtNizcdBmlvukp0kehWY+5dgvwiGQms7mJpPdIPpVgAwhMymw==
+  dependencies:
+    "@opentelemetry/core" "^1.0.0"
+    "@opentelemetry/instrumentation" "^0.27.0"
+    "@opentelemetry/sdk-trace-web" "^1.0.0"
+
 "@opentelemetry/instrumentation-winston@^0.27.2":
   version "0.27.2"
   resolved "https://registry.yarnpkg.com/@opentelemetry/instrumentation-winston/-/instrumentation-winston-0.27.2.tgz#6d25624184a3247a68998ae9486ad677b8dc384d"
   integrity sha512-lu1OB+9OSte9z46q4qVrgMr1PU1QS0qtKQ2N+umZV/wiUckdJVsU81OFfBdQU8hkidQ32qPWhaa/t1cZJXr+Zw==
   dependencies:
     "@opentelemetry/instrumentation" "^0.27.0"
+
+"@opentelemetry/instrumentation-xml-http-request@^0.27.0":
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/@opentelemetry/instrumentation-xml-http-request/-/instrumentation-xml-http-request-0.27.0.tgz#87ecb7b427f228312b57e5016de69d2548c70577"
+  integrity sha512-JdIHcylasMXW9ZPpOzglruYljhSQI2pyq8x7+DMGPwPy64JL3WsxfclfnOjM1EMQBFuuQuZp4VzSfV9BAv7adA==
+  dependencies:
+    "@opentelemetry/core" "1.0.1"
+    "@opentelemetry/instrumentation" "0.27.0"
+    "@opentelemetry/sdk-trace-web" "1.0.1"
+    "@opentelemetry/semantic-conventions" "1.0.1"
 
 "@opentelemetry/instrumentation@0.27.0", "@opentelemetry/instrumentation@^0.27.0":
   version "0.27.0"
@@ -3227,7 +3278,7 @@
     "@opentelemetry/core" "1.0.1"
     "@opentelemetry/semantic-conventions" "1.0.1"
 
-"@opentelemetry/sdk-trace-base@1.0.1":
+"@opentelemetry/sdk-trace-base@1.0.1", "@opentelemetry/sdk-trace-base@^1.0.0":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@opentelemetry/sdk-trace-base/-/sdk-trace-base-1.0.1.tgz#b88c72ac768eed58baab41552ce9070c57d5b7bf"
   integrity sha512-JVSAepTpW7dnqfV7XFN0zHj1jXGNd5OcvIGQl76buogqffdgJdgJWQNrOuUJaus56zrOtlzqFH+YtMA9RGEg8w==
@@ -3247,6 +3298,15 @@
     "@opentelemetry/propagator-jaeger" "1.0.1"
     "@opentelemetry/sdk-trace-base" "1.0.1"
     semver "^7.3.5"
+
+"@opentelemetry/sdk-trace-web@1.0.1", "@opentelemetry/sdk-trace-web@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@opentelemetry/sdk-trace-web/-/sdk-trace-web-1.0.1.tgz#69ca605eed8eb56962dceb8a36819c7c80975ff7"
+  integrity sha512-oxEWzdT9Mhb/X1fgnnt5XieOtyjldyCORPs7aBm44oUGNunI2bpooEPiCbfRSm12WJvxsno6zPaNlKzJv/04pw==
+  dependencies:
+    "@opentelemetry/core" "1.0.1"
+    "@opentelemetry/sdk-trace-base" "1.0.1"
+    "@opentelemetry/semantic-conventions" "1.0.1"
 
 "@opentelemetry/semantic-conventions@0.24.0":
   version "0.24.0"
