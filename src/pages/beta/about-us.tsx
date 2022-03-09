@@ -24,6 +24,56 @@ const AboutUs = () => {
       <Grid row gap>
         <Grid tablet={{ col: 8 }}>
           <div>
+            <div>
+              <h3 id="mission">Mission</h3>
+              <p>
+                The USSF is a military service that organizes, trains, and
+                equips space forces in order to protect U.S. and allied
+                interests in space and to provide space capabilities to the
+                joint force. USSF responsibilities include developing military
+                space professionals, acquiring military space systems, maturing
+                the military doctrine for space power, and organizing space
+                forces to present to our Combatant Commands.
+              </p>
+            </div>
+
+            <div>
+              <h3 id="leadership">Leadership</h3>
+              <ul>
+                <li>
+                  <LinkTo
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    href="https://www.spaceforce.mil/About-Us/Leadership/">
+                    Space Force Leadership
+                  </LinkTo>
+                </li>
+                <li>
+                  <LinkTo
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    href="https://www.spoc.spaceforce.mil/About-Us/Leadership">
+                    SpOC Leadership
+                  </LinkTo>
+                </li>
+                <li>
+                  <LinkTo
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    href="https://www.losangeles.spaceforce.mil/About-Us/Biographies/">
+                    SMC Center Leadership
+                  </LinkTo>
+                </li>
+                <li>
+                  <LinkTo
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    href="https://www.peterson.spaceforce.mil/About-Us/Biographies/">
+                    Space Training and Readiness (STAR) Delta Leadership
+                  </LinkTo>
+                </li>
+              </ul>
+            </div>
             <h3 id="essential-reading">Essential Reading</h3>
 
             <ul>
@@ -61,56 +111,6 @@ const AboutUs = () => {
                   rel="noreferrer noopener"
                   href="/uploads/US Space Force Enlisted Rank Insig Info Sheet (1).pdf">
                   USSF Enlisted Rank and Insignia
-                </LinkTo>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 id="mission">Mission</h3>
-            <p>
-              The USSF is a military service that organizes, trains, and equips
-              space forces in order to protect U.S. and allied interests in
-              space and to provide space capabilities to the joint force. USSF
-              responsibilities include developing military space professionals,
-              acquiring military space systems, maturing the military doctrine
-              for space power, and organizing space forces to present to our
-              Combatant Commands.
-            </p>
-          </div>
-
-          <div>
-            <h3 id="leadership">Leadership</h3>
-            <ul>
-              <li>
-                <LinkTo
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  href="https://www.spaceforce.mil/About-Us/Leadership/">
-                  Space Force Leadership
-                </LinkTo>
-              </li>
-              <li>
-                <LinkTo
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  href="https://www.spoc.spaceforce.mil/About-Us/Leadership">
-                  SpOC Leadership
-                </LinkTo>
-              </li>
-              <li>
-                <LinkTo
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  href="https://www.losangeles.spaceforce.mil/About-Us/Biographies/">
-                  SMC Center Leadership
-                </LinkTo>
-              </li>
-              <li>
-                <LinkTo
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  href="https://www.peterson.spaceforce.mil/About-Us/Biographies/">
-                  Space Training and Readiness (STAR) Delta Leadership
                 </LinkTo>
               </li>
             </ul>
