@@ -25,7 +25,8 @@ module.exports.initTracing = async (serviceName) => {
   // Create a provider using the AWS ID Generator
   const tracerConfig = {
     idGenerator: new AWSXRayIdGenerator(),
-    // Instrumentations can go here if needed
+    // Use Node auto-instrumentation
+    // https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/metapackages/auto-instrumentations-node
     instrumentations: [getNodeAutoInstrumentations()],
     // Resources can go here if needed
     resources: { resource },
