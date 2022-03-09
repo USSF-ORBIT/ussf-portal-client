@@ -28,13 +28,9 @@ const Header = () => {
   }
 
   const navItems = [
-    <LinkTo
-      href="https://ussf-orbit.github.io/ussf-portal/"
-      key="nav_microsite"
-      target="_blank"
-      rel="noreferrer noopener">
-      <span>About this portal</span>
-    </LinkTo>,
+    <NavLink key="nav_about" href="/about-us">
+      About us
+    </NavLink>,
     <NavLink key="nav_news" href="/news">
       News
     </NavLink>,
