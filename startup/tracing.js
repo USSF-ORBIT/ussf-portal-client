@@ -54,5 +54,5 @@ module.exports.initTracing = async (serviceName) => {
   })
 
   // Return a tracer instance
-  return trace.getTracer('portal-tracing-test')
+  return trace.getTracer('ussf-portal-tracing')
 }
