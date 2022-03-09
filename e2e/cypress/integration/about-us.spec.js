@@ -18,11 +18,11 @@ describe('About Us', () => {
     cy.findByRole('link', { name: 'About us' }).click()
     cy.url().should('eq', Cypress.config().baseUrl + '/about-us')
     cy.findByRole('heading', { level: 1 }).contains('About us')
-    cy.findAllByRole('heading', { level: 2, name: 'Essential Reading' }).should(
+    cy.findAllByRole('heading', { level: 3, name: 'Essential Reading' }).should(
       'exist'
     )
-    cy.findAllByRole('heading', { level: 2, name: 'Mission' }).should('exist')
-    cy.findAllByRole('heading', { level: 2, name: 'Leadership' }).should(
+    cy.findAllByRole('heading', { level: 3, name: 'Mission' }).should('exist')
+    cy.findAllByRole('heading', { level: 3, name: 'Leadership' }).should(
       'exist'
     )
     cy.checkA11y(null, null, logging, { skipFailures: true })
