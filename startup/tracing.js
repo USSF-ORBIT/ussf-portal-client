@@ -6,8 +6,7 @@ const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-grpc')
 const { AWSXRayPropagator } = require('@opentelemetry/propagator-aws-xray')
 const { AWSXRayIdGenerator } = require('@opentelemetry/id-generator-aws-xray')
 const { trace } = require('@opentelemetry/api')
-const { AwsInstrumentation } = require('@opentelemetry/instrumentation-aws-sdk')
-// const { registerInstrumentations } = require('@opentelemetry/instrumentation')
+
 const {
   getNodeAutoInstrumentations,
 } = require('@opentelemetry/auto-instrumentations-node')
@@ -38,12 +37,6 @@ module.exports.initTracing = async (serviceName) => {
   const otlpExporter = new OTLPTraceExporter({
     serviceName,
     url: '127.0.0.1:4317',
-    // credentials only required if tls setup on Collector instance,
-    // credentials: grpc.credentials.createSsl(
-    //   fs.readFileSync("./ca.crt"),
-    //   fs.readFileSync("./client.key"),
-    //   fs.readFileSync("./client.crt")
-    // )
   })
 
   tracerProvider.addSpanProcessor(new BatchSpanProcessor(otlpExporter))
@@ -53,6 +46,6 @@ module.exports.initTracing = async (serviceName) => {
     propagator: new AWSXRayPropagator(),
   })
 
-  // Return an tracer instance
+  // Return a tracer instance
   return trace.getTracer('portal-tracing-test')
 }
