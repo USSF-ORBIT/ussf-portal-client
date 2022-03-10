@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import UpdateBrowser from 'pages/update-browser'
 
@@ -31,5 +32,14 @@ describe('Update browser page', () => {
     expect(
       screen.getByRole('link', { name: 'Download Firefox' })
     ).toHaveAttribute('href', FIREFOX_DOWNLOAD)
+  })
+
+  it('has no a11y violations', async () => {
+    // Bug with NextJS Link + axe :(
+    // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
+    await act(async () => {
+      const { container } = render(<UpdateBrowser />)
+      expect(await axe(container)).toHaveNoViolations()
+    })
   })
 })
