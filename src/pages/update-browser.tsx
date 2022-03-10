@@ -24,3 +24,10 @@ export default function UpdateBrowser() {
 }
 
 UpdateBrowser.getLayout = (page: React.ReactNode) => withErrorLayout(page, true)
+
+export async function getStaticProps() {
+  // no op, forces the page to be static generated
+  return {
+    props: {},
+  }
+}
