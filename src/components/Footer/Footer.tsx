@@ -34,6 +34,14 @@ const Footer = () => {
                   <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
                       <LinkTo
+                        href="https://ussf-orbit.github.io/ussf-portal/"
+                        target="_blank"
+                        rel="noreferrer noopener">
+                        About this portal
+                      </LinkTo>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo
                         href="https://www.my.af.mil/afp/netstorage/faq/privacy_advisory.html"
                         target="_blank"
                         rel="noreferrer noopener">
@@ -64,6 +72,12 @@ const Footer = () => {
                         Orders &amp; Directives
                       </LinkTo>
                     </li>
+                  </ul>
+                </section>
+              </div>
+              <div className="grid-col">
+                <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
+                  <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
                       <LinkTo
                         href="https://www.dodig.mil/"
@@ -72,12 +86,6 @@ const Footer = () => {
                         Office of the Inspector General
                       </LinkTo>
                     </li>
-                  </ul>
-                </section>
-              </div>
-              <div className="grid-col">
-                <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
-                  <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
                       <LinkTo
                         href="https://www.foia.af.mil/"

@@ -79,6 +79,17 @@ module.exports = withKeystone(
             destination: '/beta/news',
           },
           {
+            source: '/about-us',
+            has: [
+              {
+                type: 'cookie',
+                key: 'betaOptIn',
+                value: 'true',
+              },
+            ],
+            destination: '/beta/about-us',
+          },
+          {
             source: '/',
             has: [
               {
