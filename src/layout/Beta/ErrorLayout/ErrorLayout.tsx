@@ -4,9 +4,16 @@ import { GovBanner } from '@trussworks/react-uswds'
 import styles from './ErrorLayout.module.scss'
 
 import Header from 'components/Header/Header'
+import HeaderWithoutNav from 'components/Header/HeaderWithoutNav'
 import Footer from 'components/Footer/Footer'
 
-const ErrorLayout = ({ children }: { children: React.ReactNode }) => {
+const ErrorLayout = ({
+  hideNav = false,
+  children,
+}: {
+  hideNav?: boolean
+  children: React.ReactNode
+}) => {
   return (
     <>
       <a className="usa-skipnav" href="#main-content">
@@ -14,7 +21,8 @@ const ErrorLayout = ({ children }: { children: React.ReactNode }) => {
       </a>
       <div className={`${styles.errorContainer} sfds`}>
         <GovBanner tld=".mil" />
-        <Header />
+        {hideNav ? <HeaderWithoutNav /> : <Header />}
+
         <main id="main-content">
           {/* PAGE CONTENT */}
           {children}
@@ -27,6 +35,6 @@ const ErrorLayout = ({ children }: { children: React.ReactNode }) => {
 
 export default ErrorLayout
 
-export const withErrorLayout = (page: React.ReactNode) => (
-  <ErrorLayout>{page}</ErrorLayout>
+export const withErrorLayout = (page: React.ReactNode, hideNav?: boolean) => (
+  <ErrorLayout hideNav={hideNav}>{page}</ErrorLayout>
 )
