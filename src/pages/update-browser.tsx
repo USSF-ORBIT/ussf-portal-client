@@ -8,7 +8,7 @@ import LinkTo from 'components/util/LinkTo/LinkTo'
 import styles from 'styles/pages/updateBrowser.module.scss'
 
 export default function UpdateBrowser() {
-  const MS_EDGE_DOWNLOAD = 'microsoft-edge:https://www.microsoft.com/edge'
+  const MS_EDGE_DOWNLOAD = 'https://www.microsoft.com/edge'
   const GOOGLE_CHROME_DOWNLOAD = 'https://www.google.com/chrome'
   const FIREFOX_DOWNLOAD = 'https://www.mozilla.org/firefox'
 
