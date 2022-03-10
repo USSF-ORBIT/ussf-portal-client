@@ -14,7 +14,7 @@ describe('Footer component', () => {
     expect(
       screen.getByRole('img', { name: 'United States Space Force Logo' })
     ).toHaveAttribute('alt', 'United States Space Force Logo')
-    expect(screen.getAllByRole('link')).toHaveLength(9)
+    expect(screen.getAllByRole('link')).toHaveLength(10)
   })
 
   it('has no a11y violations', async () => {
