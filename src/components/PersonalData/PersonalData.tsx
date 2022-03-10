@@ -1,5 +1,4 @@
 import React from 'react'
-import { Grid } from '@trussworks/react-uswds'
 
 import styles from './PersonalData.module.scss'
 
