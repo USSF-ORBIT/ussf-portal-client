@@ -45,7 +45,7 @@ module.exports = withKeystone(
     async redirects() {
       return [
         {
-          source: '/:path((?!update-browser|redirect_ie11$).*)',
+          source: '/',
           has: [
             {
               type: 'header',
