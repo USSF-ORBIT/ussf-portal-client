@@ -8,10 +8,10 @@ import {
 } from 'apollo-server-micro'
 import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core'
 import type { PageConfig } from 'next'
-
+import { NetworkError } from '@apollo/client/errors'
+import { MongoNetworkError } from 'mongodb'
 import { typeDefs } from '../../schema'
 import resolvers from '../../resolvers/index'
-
 import type { SessionUser } from 'types/index'
 import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
@@ -19,6 +19,16 @@ import User from 'models/User'
 
 export const config: PageConfig = {
   api: { bodyParser: false },
+}
+
+const clientConnection = async () => {
+  try {
+    const client = await clientPromise
+    return client
+  } catch (e) {
+    console.error('Error connecting to database', e)
+    return e
+  }
 }
 
 export const apolloServer = new ApolloServer({
@@ -34,7 +44,17 @@ export const apolloServer = new ApolloServer({
 
     try {
       const session = await getSession(req, res)
-      const client = await clientPromise
+      const client = await clientConnection()
+
+      if (client instanceof MongoNetworkError) {
+        const error: NetworkError = {
+          name: 'NetworkError',
+          message: 'INTERNAL_SERVER_ERROR',
+          statusCode: 500,
+        }
+        throw error
+      }
+
       const db = client.db(process.env.MONGODB_DB)
 
       const loggedInUser = session.passport.user as SessionUser
@@ -66,6 +86,7 @@ const startServer = apolloServer.start()
 
 export default async function handler(req: MicroRequest, res: ServerResponse) {
   await startServer
+
   await apolloServer.createHandler({
     path: '/api/graphql',
   })(req, res)

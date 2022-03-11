@@ -25,6 +25,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     // TODO - log error
     // eslint-disable-next-line no-console
     console.error(`[Network error]: ${networkError}`)
+    window.location.href = '/500'
   }
 })
 
