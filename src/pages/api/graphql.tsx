@@ -8,8 +8,6 @@ import {
 } from 'apollo-server-micro'
 import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core'
 import type { PageConfig } from 'next'
-import { NetworkError } from '@apollo/client/errors'
-import { MongoNetworkError } from 'mongodb'
 import { typeDefs } from '../../schema'
 import resolvers from '../../resolvers/index'
 import type { SessionUser } from 'types/index'
@@ -26,8 +24,9 @@ const clientConnection = async () => {
     const client = await clientPromise
     return client
   } catch (e) {
+    // TODO add alert/logging for failure to connect to mongo
     console.error('Error connecting to database', e)
-    return e
+    throw e
   }
 }
 
@@ -45,15 +44,6 @@ export const apolloServer = new ApolloServer({
     try {
       const session = await getSession(req, res)
       const client = await clientConnection()
-
-      if (client instanceof MongoNetworkError) {
-        const error: NetworkError = {
-          name: 'NetworkError',
-          message: 'INTERNAL_SERVER_ERROR',
-          statusCode: 500,
-        }
-        throw error
-      }
 
       const db = client.db(process.env.MONGODB_DB)
 
@@ -75,8 +65,8 @@ export const apolloServer = new ApolloServer({
       // Set db connection and user in context
       return { db, user: loggedInUser }
     } catch (e) {
-      // TODO log error
-      // console.error('error in creating context', e)
+      console.error('Error creating GraphQL context', e)
+
       throw new ApolloError('Error creating GraphQL context')
     }
   },
