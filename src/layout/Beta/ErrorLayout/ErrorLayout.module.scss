@@ -86,4 +86,16 @@ $hero-image: url('/assets/images/hero.jpeg');
       margin: 21px 0;
     }
   }
+
+  &.errorContainerIECompat {
+    display: block;
+
+    main {
+      display: block;
+    }
+
+    footer :global(.grid-row .grid-row) {
+      display: block;
+    }
+  }
 }

@@ -1,0 +1,19 @@
+.browserList {
+  list-style: none;
+  padding: 0;
+  margin-top: 68px;
+
+  > li {
+    display: inline-block;
+
+    img {
+      display: block;
+      margin: 0 auto 20px;
+      width: 150px;
+    }
+  }
+
+  > li + li {
+    margin-left: 4rem;
+  }
+}
