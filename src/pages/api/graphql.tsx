@@ -67,7 +67,7 @@ export const apolloServer = new ApolloServer({
     } catch (e) {
       console.error('Error creating GraphQL context', e)
 
-      throw new ApolloError('Error creating GraphQL context')
+      throw new ApolloError('Error creating GraphQL context', 'SERVER_ERROR')
     }
   },
 })
