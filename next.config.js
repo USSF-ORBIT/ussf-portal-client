@@ -42,6 +42,22 @@ module.exports = withKeystone(
         },
       ]
     },
+    async redirects() {
+      return [
+        {
+          source: '/',
+          has: [
+            {
+              type: 'header',
+              key: 'User-Agent',
+              value: '(.*Trident.*)',
+            },
+          ],
+          permanent: false,
+          destination: '/update-browser',
+        },
+      ]
+    },
     async rewrites() {
       return {
         beforeFiles: [

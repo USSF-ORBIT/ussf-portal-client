@@ -30,10 +30,6 @@ describe('Personal Data component', () => {
       expect(greeting).toHaveTextContent('Welcome, BERNADETTE CAMPBELL')
     })
 
-    it('renders the list of key/value pairs', () => {
-      expect(screen.getAllByRole('definition')).toHaveLength(4)
-    })
-
     it('has no a11y violations', async () => {
       expect(await axe(html.container)).toHaveNoViolations()
     })
