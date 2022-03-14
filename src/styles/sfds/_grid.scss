@@ -1,0 +1,96 @@
+$sfds-grid-breakpoints: (
+  'tablet': spacing-multiple(96),
+  // 768px
+  'laptop': spacing-multiple(150),
+  // 1200px
+  'desktop': spacing-multiple(180),
+  // 1440px
+  'widescreen': spacing-multiple(320),
+  // 2560px
+);
+
+$sfds-grid-margin-mobile: units(2); // 16px
+$sfds-grid-margin-tablet: units(3); // 24px
+
+$sfds-grid-margin-mobile-spacious: units(3); // 24px
+$sfds-grid-margin-tablet-spacious: units(5); // 40px
+$sfds-grid-margin-laptop-spacious: units(6); // 48px
+$sfds-grid-margin-desktop-spacious: units(8); // 64px
+
+$sfds-grid-maxw-laptop: 1312px;
+$sfds-grid-maxw-desktop: 2316px;
+
+@mixin sfds-grid-container($spacious: false) {
+  @if $spacious == true {
+    @include u-padding-x($sfds-grid-margin-mobile-spacious);
+
+    @include sfds-at-media('tablet') {
+      @include u-padding-x($sfds-grid-margin-tablet-spacious);
+    }
+
+    @include sfds-at-media('laptop') {
+      @include u-padding-x($sfds-grid-margin-laptop-spacious);
+    }
+
+    @include sfds-at-media('desktop') {
+      @include u-padding-x($sfds-grid-margin-desktop-spacious);
+    }
+  } @else {
+    @include u-padding-x($sfds-grid-margin-mobile);
+    @include sfds-at-media('tablet') {
+      @include u-padding-x($sfds-grid-margin-tablet);
+    }
+  }
+
+  @include u-margin-x(auto);
+  max-width: none;
+
+  @include sfds-at-media('laptop') {
+    max-width: $sfds-grid-maxw-laptop;
+  }
+
+  @include sfds-at-media('desktop') {
+    max-width: $sfds-grid-maxw-desktop;
+  }
+}
+
+@mixin sfds-at-media($bp) {
+  $quoted-bp: smart-quote($bp);
+  @if $quoted-bp == 'none' {
+    @content;
+  } @else if map-has-key($sfds-grid-breakpoints, $quoted-bp) {
+    @if $theme-respect-user-font-size {
+      $bp: rem-to-user-em(map-get($sfds-grid-breakpoints, $quoted-bp));
+    } @else {
+      $bp: rem-to-px(map-get($sfds-grid-breakpoints, $quoted-bp));
+    }
+    @media all and (min-width: #{$bp}) {
+      @content;
+    }
+  } @else {
+    @warn '`#{$bp}` is not a valid USSFDS breakpoint. Valid values: #{map-keys($sfds-grid-breakpoints)}';
+  }
+}
+
+// Overwrite grid-container in SFDS
+.sfds {
+  .grid-container {
+    @include sfds-grid-container();
+
+    &.grid-container--spacious {
+      @include sfds-grid-container(true);
+
+      @include sfds-at-media('tablet') {
+        .grid-row.grid-gap {
+          @include grid-gap(4);
+        }
+      }
+
+      @include sfds-at-media('laptop') {
+        .grid-row.grid-gap {
+          @include grid-gap(6);
+        }
+      }
+    }
+  }
+}
