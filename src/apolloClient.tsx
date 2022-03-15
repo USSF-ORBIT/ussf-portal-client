@@ -13,11 +13,15 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       console.error(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       )
-
-      // Check for auth
-      if (extensions.code === 'UNAUTHENTICATED') {
-        // Redirect
-        window.location.href = '/login'
+      switch (extensions.code) {
+        case 'UNAUTHENTICATED':
+          window.location.href = '/login'
+          break
+        case 'SERVER_ERROR':
+          window.location.href = '/500'
+          break
+        default:
+          break
       }
     })
 
