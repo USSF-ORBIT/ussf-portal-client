@@ -10,9 +10,6 @@ import Logo from 'components/Logo/Logo'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const Footer = () => {
-  // PROTOTYPE: Disabling this rule while this component is used for prototyping only!
-  /* eslint-disable jsx-a11y/anchor-is-valid */
-
   return (
     <USWDSFooter
       className={styles.footer}
@@ -23,6 +20,16 @@ const Footer = () => {
             <USWDSFooterLogo image={<Logo darkBg />} />
             <br />
             <small>©2021 All rights reserved, ORBIT Space Force</small>
+            <br />
+            <br />
+            <LinkTo
+              href="https://ussf-orbit.github.io/ussf-portal/"
+              target="_blank"
+              rel="noreferrer noopener"
+              className={styles.madeByLink}>
+              Made with ❤️ &nbsp; and{' '}
+              <span className="font-body-lg">&lsaquo;&rsaquo;</span> by ORBIT
+            </LinkTo>
           </div>
 
           <div className="grid-col-fill" />
@@ -32,14 +39,6 @@ const Footer = () => {
               <div className="grid-col">
                 <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
                   <ul className="usa-list usa-list--unstyled">
-                    <li className="usa-footer__secondary-link">
-                      <LinkTo
-                        href="https://ussf-orbit.github.io/ussf-portal/"
-                        target="_blank"
-                        rel="noreferrer noopener">
-                        About this portal
-                      </LinkTo>
-                    </li>
                     <li className="usa-footer__secondary-link">
                       <LinkTo
                         href="https://www.my.af.mil/afp/netstorage/faq/privacy_advisory.html"
