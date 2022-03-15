@@ -56,6 +56,33 @@ module.exports = withKeystone(
           permanent: false,
           destination: '/update-browser',
         },
+        // Beta URLs - deprecate
+        {
+          source: '/joinbeta',
+          destination: '/',
+          permanent: true,
+        },
+        {
+          source: '/leavebeta',
+          destination: '/',
+          permanent: true,
+        },
+        // MVP pages - marked for deletion
+        {
+          source: '/about-us/accomplishments',
+          destination: '/404',
+          permanent: false,
+        },
+        {
+          source: '/training-and-education',
+          destination: '/404',
+          permanent: false,
+        },
+        {
+          source: '/training-and-education/force-multiplier-program',
+          destination: '/404',
+          permanent: false,
+        },
       ]
     },
     async rewrites() {
@@ -76,19 +103,6 @@ module.exports = withKeystone(
           {
             source: '/',
             destination: '/beta',
-          },
-          // MVP pages - marked for deletion
-          {
-            source: '/about-us/accomplishments',
-            destination: '/404',
-          },
-          {
-            source: '/training-and-education',
-            destination: '/404',
-          },
-          {
-            source: '/training-and-education/force-multiplier-program',
-            destination: '/404',
           },
         ],
       }
