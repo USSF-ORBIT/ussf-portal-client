@@ -11,7 +11,7 @@ $rocketLeftOffset: 58px;
   padding: units('205');
   padding-top: units(10);
 
-  @include at-media('tablet') {
+  @include sfds-at-media('desktop') {
     margin-left: $rocketLeftOffset;
     padding-top: units('205');
     padding-left: 170px;
@@ -53,7 +53,7 @@ $rocketLeftOffset: 58px;
   width: 92px;
   height: auto;
 
-  @include at-media('tablet') {
+  @include sfds-at-media('desktop') {
     left: 0;
     width: 182px;
     margin-left: -$rocketLeftOffset;

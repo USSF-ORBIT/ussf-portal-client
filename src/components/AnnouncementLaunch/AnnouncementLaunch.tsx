@@ -18,7 +18,6 @@ const AnnouncementLaunch = () => (
     <p>
       Use this portal to connect all your needed websites &amp; applications and
       customize your My Space with your top applications and Space Force news.
-      <br />
       Share your feedback, too &mdash; we’re always looking for ways to make the
       portal more useful for you!
     </p>
