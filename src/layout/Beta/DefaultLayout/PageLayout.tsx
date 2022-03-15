@@ -3,7 +3,6 @@ import { GovBanner, GridContainer } from '@trussworks/react-uswds'
 
 import styles from './DefaultLayout.module.scss'
 
-import BetaBanner from 'components/BetaBanner/BetaBanner'
 import Header from 'components/Header/Header'
 import PageHeader from 'components/PageHeader/PageHeader'
 import Footer from 'components/Footer/Footer'
@@ -22,7 +21,6 @@ const PageLayout = ({
       </a>
       <div className={`${styles.siteContainer} sfds`}>
         <GovBanner tld=".mil" />
-        <BetaBanner />
         <Header />
         <main id="main-content">
           <PageHeader disableSearch>{header}</PageHeader>
