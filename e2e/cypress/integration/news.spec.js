@@ -5,12 +5,10 @@ describe('News and Announcements', () => {
     // Reset the database
     cy.task('db:seed')
     cy.loginTestIDP()
-    cy.visit('/joinbeta')
   })
 
   beforeEach(() => {
     cy.preserveLoginCookies()
-    cy.preserveBetaCookie()
 
     cy.intercept(
       'https://www.spaceforce.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=1060&max=12'

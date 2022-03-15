@@ -3,13 +3,10 @@ import logging from '../plugins/logging'
 describe('About Us', () => {
   before(() => {
     cy.loginTestIDP()
-    cy.visit('/joinbeta')
   })
 
   beforeEach(() => {
     cy.preserveLoginCookies()
-    cy.preserveBetaCookie()
-
     cy.visit('/')
     cy.injectAxe()
   })
