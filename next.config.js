@@ -63,58 +63,32 @@ module.exports = withKeystone(
         beforeFiles: [
           {
             source: '/sites-and-applications',
-            has: [
-              {
-                type: 'cookie',
-                key: 'betaOptIn',
-                value: 'true',
-              },
-            ],
             destination: '/beta/sites-and-applications',
           },
           {
-            source: '/leavebeta',
-            has: [
-              {
-                type: 'cookie',
-                key: 'betaOptIn',
-                value: 'true',
-              },
-            ],
-            destination: '/beta/leavebeta',
-          },
-          {
             source: '/news',
-            has: [
-              {
-                type: 'cookie',
-                key: 'betaOptIn',
-                value: 'true',
-              },
-            ],
             destination: '/beta/news',
           },
           {
             source: '/about-us',
-            has: [
-              {
-                type: 'cookie',
-                key: 'betaOptIn',
-                value: 'true',
-              },
-            ],
             destination: '/beta/about-us',
           },
           {
             source: '/',
-            has: [
-              {
-                type: 'cookie',
-                key: 'betaOptIn',
-                value: 'true',
-              },
-            ],
             destination: '/beta',
+          },
+          // MVP pages - marked for deletion
+          {
+            source: '/about-us/accomplishments',
+            destination: '/404',
+          },
+          {
+            source: '/training-and-education',
+            destination: '/404',
+          },
+          {
+            source: '/training-and-education/force-multiplier-program',
+            destination: '/404',
           },
         ],
       }
