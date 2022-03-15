@@ -18,16 +18,22 @@ const exampleStyles = {
 
 const testContent = <div style={exampleStyles}>&nbsp;</div>
 
-export const sfdsGrid = (): React.ReactElement => (
+export const USSFDSGrid = (): React.ReactElement => (
   <div className="sfds">
     <GridContainer>
       <h1>Condensed</h1>
 
       <Grid row gap>
-        <Grid col>{testContent}</Grid>
-        <Grid col>{testContent}</Grid>
-        <Grid col>{testContent}</Grid>
-        <Grid col>{testContent}</Grid>
+        {Array.from({ length: 12 }, (x, i) => (
+          <Grid
+            key={`gridCol_${i}`}
+            col={3}
+            mobile={{ col: 3 }}
+            tabletLg={{ col: 2 }}
+            desktopLg={{ col: 1 }}>
+            {testContent}
+          </Grid>
+        ))}
       </Grid>
     </GridContainer>
 
@@ -35,22 +41,34 @@ export const sfdsGrid = (): React.ReactElement => (
       <h1>Spacious</h1>
 
       <Grid row gap>
-        <Grid col>{testContent}</Grid>
-        <Grid col>{testContent}</Grid>
-        <Grid col>{testContent}</Grid>
-        <Grid col>{testContent}</Grid>
+        {Array.from({ length: 12 }, (x, i) => (
+          <Grid
+            key={`gridCol_${i}`}
+            col={3}
+            mobile={{ col: 3 }}
+            tabletLg={{ col: 2 }}
+            desktopLg={{ col: 1 }}>
+            {testContent}
+          </Grid>
+        ))}
       </Grid>
     </GridContainer>
   </div>
 )
 
-export const uswdsGrid = (): React.ReactElement => (
+export const USWDSGrid = (): React.ReactElement => (
   <GridContainer>
     <Grid row gap>
-      <Grid col>{testContent}</Grid>
-      <Grid col>{testContent}</Grid>
-      <Grid col>{testContent}</Grid>
-      <Grid col>{testContent}</Grid>
+      {Array.from({ length: 12 }, (x, i) => (
+        <Grid
+          key={`gridCol_${i}`}
+          col={3}
+          mobile={{ col: 3 }}
+          tabletLg={{ col: 2 }}
+          desktopLg={{ col: 1 }}>
+          {testContent}
+        </Grid>
+      ))}
     </Grid>
   </GridContainer>
 )
