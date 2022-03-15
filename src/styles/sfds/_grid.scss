@@ -11,11 +11,13 @@ $sfds-grid-breakpoints: (
 
 $sfds-grid-margin-mobile: units(2); // 16px
 $sfds-grid-margin-tablet: units(3); // 24px
+$sfds-grid-margin-laptop: calc(units(1) * 11); // 88px
+$sfds-grid-margin-desktop: calc(units(1) * 18); // 144px
 
 $sfds-grid-margin-mobile-spacious: units(3); // 24px
 $sfds-grid-margin-tablet-spacious: units(5); // 40px
-$sfds-grid-margin-laptop-spacious: units(6); // 48px
-$sfds-grid-margin-desktop-spacious: units(8); // 64px
+$sfds-grid-margin-laptop-spacious: calc(units(1) * 14); // 112px
+$sfds-grid-margin-desktop-spacious: calc(units(1) * 23); // 184px
 
 $sfds-grid-maxw-laptop: 1312px;
 $sfds-grid-maxw-desktop: 2316px;
@@ -40,9 +42,18 @@ $sfds-grid-maxw-desktop: 2316px;
     @include sfds-at-media('tablet') {
       @include u-padding-x($sfds-grid-margin-tablet);
     }
+
+    @include sfds-at-media('laptop') {
+      @include u-padding-x($sfds-grid-margin-laptop);
+    }
+
+    @include sfds-at-media('desktop') {
+      @include u-padding-x($sfds-grid-margin-desktop);
+    }
   }
 
   @include u-margin-x(auto);
+
   max-width: none;
 
   @include sfds-at-media('laptop') {
