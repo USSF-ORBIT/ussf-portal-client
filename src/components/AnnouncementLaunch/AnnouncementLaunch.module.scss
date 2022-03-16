@@ -1,0 +1,62 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+$rocketTopOffset: 37px;
+$rocketLeftOffset: 58px;
+
+.launchAnnouncement {
+  position: relative;
+  margin-top: $rocketTopOffset;
+  margin-bottom: units(5);
+  padding: units('205');
+  padding-top: units(10);
+
+  @include sfds-at-media('desktop') {
+    margin-left: $rocketLeftOffset;
+    padding-top: units('205');
+    padding-left: 170px;
+  }
+
+  border: 1px solid $theme-spacebase-lightest;
+  border-radius: units(1);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
+
+  background: $theme-spacebase-darkest
+    linear-gradient(
+      180deg,
+      $theme-spacebase-darkest 7.28%,
+      $theme-spacebase-base 67.92%,
+      $theme-ultraviolet-light 128.09%
+    );
+  color: $theme-white;
+
+  img + * {
+    margin-top: 0;
+  }
+
+  > * + * {
+    margin: 3px 0 0;
+  }
+
+  p {
+    color: $theme-white;
+  }
+}
+
+.launchRocket {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%);
+
+  margin-top: -$rocketTopOffset;
+  width: 92px;
+  height: auto;
+
+  @include sfds-at-media('desktop') {
+    left: 0;
+    width: 182px;
+    margin-left: -$rocketLeftOffset;
+    transform: none;
+  }
+}
