@@ -2,8 +2,6 @@ import logging from '../plugins/logging'
 
 describe('News and Announcements', () => {
   before(() => {
-    // Reset the database
-    cy.task('db:seed')
     cy.loginTestIDP()
   })
 
