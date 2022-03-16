@@ -14,7 +14,7 @@ const PageHeader = ({
 }) => {
   return (
     <div className={`usa-dark-background ${styles.PageHeader}`}>
-      <GridContainer containerSize="widescreen">
+      <GridContainer>
         <Grid row gap>
           <Grid col="auto" desktop={{ col: 6 }}>
             {children}

@@ -2,10 +2,12 @@
  * @jest-environment jsdom
  */
 
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, act } from '@testing-library/react'
+import type { RenderResult } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { axe } from 'jest-axe'
 
 import { renderWithAuth } from '../../../testHelpers'
 
@@ -56,8 +58,10 @@ describe('Beta Home page', () => {
   })
 
   describe('when logged in', () => {
+    let html: RenderResult
+
     beforeEach(() => {
-      renderWithAuth(
+      html = renderWithAuth(
         <MockedProvider mocks={getMySpaceMock} addTypename={false}>
           <Home bookmarks={cmsBookmarksMock} />
         </MockedProvider>
@@ -69,6 +73,13 @@ describe('Beta Home page', () => {
     })
 
     it('renders the home page', async () => {
+      expect(
+        await screen.findByRole('heading', {
+          level: 2,
+          name: 'Welcome to the new Space Force Service Portal!',
+        })
+      ).toBeInTheDocument()
+
       expect(
         await screen.findByRole('heading', {
           level: 2,
@@ -95,6 +106,14 @@ describe('Beta Home page', () => {
           name: 'Recent News',
         })
       ).toBeInTheDocument()
+    })
+
+    it('has no a11y violations', async () => {
+      // Bug with NextJS Link + axe :(
+      // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
+      await act(async () => {
+        expect(await axe(html.container)).toHaveNoViolations()
+      })
     })
   })
 })

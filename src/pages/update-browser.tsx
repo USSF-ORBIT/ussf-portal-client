@@ -14,7 +14,7 @@ export default function UpdateBrowser() {
 
   return (
     <>
-      <GridContainer containerSize="widescreen">
+      <GridContainer>
         <section className={styles.updateBrowser}>
           <Logo noText />
 

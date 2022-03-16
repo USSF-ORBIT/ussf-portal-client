@@ -32,7 +32,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
             <PersonalData />
           </PageHeader>
 
-          <GridContainer containerSize="widescreen">
+          <GridContainer>
             <Grid row gap>
               <Grid tablet={{ col: 3 }}>
                 <PageNav navItems={navItems} />

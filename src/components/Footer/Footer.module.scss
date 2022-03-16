@@ -27,10 +27,6 @@
           text-decoration: underline;
         }
       }
-
-      > .grid-container {
-        @include grid-container('widescreen');
-      }
     }
 
     .usa-footer__nav {

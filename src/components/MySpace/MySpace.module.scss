@@ -2,13 +2,13 @@
 @import 'styles/mvp/mixins';
 @import 'styles/mvp/settings';
 
-.pageTitle {
-  margin-top: 0;
-  font-weight: 700;
-  font-size: units(4);
-}
-
 .mySpace {
+  .pageTitle {
+    margin-top: 0;
+    font-weight: 700;
+    font-size: units(4);
+  }
+
   .widgetContainer {
     border: 1px solid #929292;
     border-radius: 8px;
