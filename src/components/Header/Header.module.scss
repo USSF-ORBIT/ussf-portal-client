@@ -10,7 +10,7 @@
 
   :global {
     .usa-nav-container {
-      @include grid-container('widescreen');
+      @include sfds-grid-container();
     }
 
     .usa-logo {

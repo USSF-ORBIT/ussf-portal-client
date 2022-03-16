@@ -87,8 +87,8 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
 
   return (
     <div className={styles.mySpace}>
-      <h2 className={styles.pageTitle}>My Space</h2>
       <div className={styles.widgetContainer}>
+        <h2 className={styles.pageTitle}>My Space</h2>
         <Grid row gap={2}>
           {loading && (
             <Grid

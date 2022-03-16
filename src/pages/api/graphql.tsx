@@ -8,10 +8,8 @@ import {
 } from 'apollo-server-micro'
 import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core'
 import type { PageConfig } from 'next'
-
 import { typeDefs } from '../../schema'
 import resolvers from '../../resolvers/index'
-
 import type { SessionUser } from 'types/index'
 import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
@@ -19,6 +17,17 @@ import User from 'models/User'
 
 export const config: PageConfig = {
   api: { bodyParser: false },
+}
+
+const clientConnection = async () => {
+  try {
+    const client = await clientPromise
+    return client
+  } catch (e) {
+    // TODO add alert/logging for failure to connect to mongo
+    console.error('Error connecting to database', e)
+    throw e
+  }
 }
 
 export const apolloServer = new ApolloServer({
@@ -34,7 +43,8 @@ export const apolloServer = new ApolloServer({
 
     try {
       const session = await getSession(req, res)
-      const client = await clientPromise
+      const client = await clientConnection()
+
       const db = client.db(process.env.MONGODB_DB)
 
       const loggedInUser = session.passport.user as SessionUser
@@ -55,9 +65,9 @@ export const apolloServer = new ApolloServer({
       // Set db connection and user in context
       return { db, user: loggedInUser }
     } catch (e) {
-      // TODO log error
-      // console.error('error in creating context', e)
-      throw new ApolloError('Error creating GraphQL context')
+      console.error('Error creating GraphQL context', e)
+
+      throw new ApolloError('Error creating GraphQL context', 'SERVER_ERROR')
     }
   },
 })
@@ -66,6 +76,7 @@ const startServer = apolloServer.start()
 
 export default async function handler(req: MicroRequest, res: ServerResponse) {
   await startServer
+
   await apolloServer.createHandler({
     path: '/api/graphql',
   })(req, res)

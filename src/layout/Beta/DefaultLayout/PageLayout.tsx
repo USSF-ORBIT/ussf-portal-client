@@ -27,7 +27,7 @@ const PageLayout = ({
         <main id="main-content">
           <PageHeader disableSearch>{header}</PageHeader>
 
-          <GridContainer containerSize="widescreen">
+          <GridContainer>
             {/* PAGE CONTENT */}
             {children}
           </GridContainer>
