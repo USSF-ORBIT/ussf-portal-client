@@ -10,7 +10,6 @@ import { ApolloProvider } from '@apollo/client'
 
 import 'styles/index.scss'
 import 'styles/sfds/index.scss'
-import '../../public/vendor/fontawesome-pro-5.15.1-web/css/all.min.css'
 import '../initIcons'
 
 import { client } from 'apolloClient'
