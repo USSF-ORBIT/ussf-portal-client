@@ -3,7 +3,7 @@ import { GridContainer } from '@trussworks/react-uswds'
 import { useUser } from 'hooks/useUser'
 
 import Loader from 'components/Loader/Loader'
-import { withErrorLayout } from 'layout/Beta/ErrorLayout/ErrorLayout'
+import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import Logo from 'components/Logo/Logo'
 

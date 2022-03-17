@@ -6,7 +6,7 @@ import {
   Grid,
 } from '@trussworks/react-uswds'
 
-import { withPageLayout } from 'layout/Beta/DefaultLayout/PageLayout'
+import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 import LinkTo from 'components/util/LinkTo/LinkTo'

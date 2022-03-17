@@ -4,7 +4,7 @@ import {
   BreadcrumbLink,
   Grid,
 } from '@trussworks/react-uswds'
-import { withPageLayout } from 'layout/Beta/DefaultLayout/PageLayout'
+import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'

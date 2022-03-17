@@ -1,7 +1,7 @@
 import { Button, GridContainer } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
 
-import { withErrorLayout } from 'layout/Beta/ErrorLayout/ErrorLayout'
+import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
 import Logo from 'components/Logo/Logo'
 
 export default function Custom500() {

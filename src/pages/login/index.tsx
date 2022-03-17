@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { GridContainer, Accordion, Button } from '@trussworks/react-uswds'
 import styles from './login.module.scss'
-import Layout from 'layout/MVP/LoginLayout/LoginLayout'
+import Layout from 'layout/LoginLayout/LoginLayout'
 import { useAuthContext } from 'stores/authContext'
 
 const Login = () => {

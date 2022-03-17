@@ -7,7 +7,7 @@ import MySpace from 'components/MySpace/MySpace'
 import AnnouncementLaunch from 'components/AnnouncementLaunch/AnnouncementLaunch'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
-import { withBetaLayout } from 'layout/Beta/DefaultLayout/DefaultLayout'
+import { withBetaLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/home.module.scss'
 
 const Home = ({

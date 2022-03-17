@@ -8,7 +8,7 @@ import userEvent from '@testing-library/user-event'
 import { renderWithAuth } from '../../../testHelpers'
 
 import Login from 'pages/login/index'
-import LoginLayout from 'layout/MVP/LoginLayout/LoginLayout'
+import LoginLayout from 'layout/LoginLayout/LoginLayout'
 
 const mockLogin = jest.fn()
 
