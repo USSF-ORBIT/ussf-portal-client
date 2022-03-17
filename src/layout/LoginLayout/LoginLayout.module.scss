@@ -1,6 +1,5 @@
 @import 'styles/uswdsDependencies';
-@import 'styles/mvp/mixins';
-@import 'styles/mvp/settings';
+@import 'styles/govBanner';
 
 .siteContainer {
   @include at-media('desktop') {
