@@ -23,12 +23,6 @@ describe('Routes & navigation', () => {
       // Check meta data
       cy.document()
       cy.get('head title').should('contain', 'Space Force Portal')
-
-      cy.get('head link[rel="canonical"]').should(
-        'have.attr',
-        'href',
-        Cypress.config().baseUrl + '/'
-      )
     })
 
     it('can navigate to the News page', () => {
