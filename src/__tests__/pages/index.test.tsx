@@ -9,11 +9,11 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
 
-import { renderWithAuth } from '../../../testHelpers'
+import { renderWithAuth } from '../../testHelpers'
 
-import { getMySpaceMock } from '../../../__fixtures__/operations/getMySpace'
-import { cmsBookmarksMock } from '../../../__fixtures__/data/cmsBookmarks'
-import Home from 'pages/beta/index'
+import { getMySpaceMock } from '../../__fixtures__/operations/getMySpace'
+import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
+import Home from 'pages/index'
 
 jest.mock('axios')
 

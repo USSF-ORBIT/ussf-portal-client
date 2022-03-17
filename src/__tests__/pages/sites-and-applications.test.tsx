@@ -7,22 +7,22 @@ import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 
-import { renderWithAuth } from '../../../testHelpers'
+import { renderWithAuth } from '../../testHelpers'
 
 import {
   getMySpaceMock,
   getMySpaceMaximumCollectionsMock,
-} from '../../../__fixtures__/operations/getMySpace'
+} from '../../__fixtures__/operations/getMySpace'
 
-import { cmsBookmarksMock } from '../../../__fixtures__/data/cmsBookmarks'
-import { cmsCollectionsMock } from '../../../__fixtures__/data/cmsCollections'
+import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
+import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import { GET_MY_SPACE } from 'operations/queries/getMySpace'
 import { ADD_COLLECTION } from 'operations/mutations/addCollection'
 import { ADD_COLLECTIONS } from 'operations/mutations/addCollections'
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
 import SitesAndApplications, {
   getStaticProps,
-} from 'pages/beta/sites-and-applications'
+} from 'pages/sites-and-applications'
 
 jest.mock('axios')
 
