@@ -1,7 +1,7 @@
 #Overrides for e2e testing
 services:
   app:
-    image: "{$IMAGE_TAG}"
+    image: "${IMAGE_TAG}"
     build:
       context: .
       dockerfile: Dockerfile
