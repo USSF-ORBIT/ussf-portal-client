@@ -1,0 +1,7 @@
+@import 'styles/uswdsDependencies';
+
+.home {
+  section + section {
+    margin-top: units('205');
+  }
+}

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.4.0...2.5.0) (2022-03-11)
+
+
+### Features
+
+* Migrate 'About us' static content ([#548](https://github.com/USSF-ORBIT/ussf-portal-client/issues/548)) ([979aed5](https://github.com/USSF-ORBIT/ussf-portal-client/commit/979aed5e87d82150f02403a5ac3292c4a4e1f409))
+* Remove hardcoded personal info links ([#554](https://github.com/USSF-ORBIT/ussf-portal-client/issues/554)) ([d6ba832](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d6ba832f3527c241bc7ca1e75cceee1067a907ae))
+
+
+### Bug Fixes
+
+* added IE11 redirect ([#558](https://github.com/USSF-ORBIT/ussf-portal-client/issues/558)) ([2afe71d](https://github.com/USSF-ORBIT/ussf-portal-client/commit/2afe71d34a1b3cb2ee10fec299bb6d4fc66c833c))
+* Force embed keystone to use the same version of NextJS as the app ([#557](https://github.com/USSF-ORBIT/ussf-portal-client/issues/557)) ([485afdd](https://github.com/USSF-ORBIT/ussf-portal-client/commit/485afdd70b516116ffff98c3a2718bcc897fb238))
+
 ## [2.4.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.3.0...2.4.0) (2022-03-02)
 
 
