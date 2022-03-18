@@ -18,8 +18,13 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # tag=v3
 
+      - name: Build image for testing
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: docker build -t $IMAGE_TAG --target e2e
+
       - name: Docker compose
-        run: docker-compose -f docker-compose.e2e.yml up -d
+        run: docker compose -f docker-compose.e2e.yml up -d
 
       - name: Cypress run
         uses: cypress-io/github-action@90f0f494f47dd0a22ac4759978de892d3e3fd340 # tag=v3.0.2
