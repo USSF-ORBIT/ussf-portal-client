@@ -14,7 +14,7 @@ export default function Custom404() {
     <Loader />
   ) : (
     <>
-      <GridContainer containerSize="widescreen">
+      <GridContainer>
         <section>
           <Logo noText />
 

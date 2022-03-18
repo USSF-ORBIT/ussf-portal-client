@@ -22,7 +22,13 @@ $theme-h3-font-size: 'md';
 
 /* COMPONENTS */
 $theme-hero-image: '#{$theme-image-path}/hero.png';
+
 /* GRID */
+$theme-site-margins-mobile-width: 2; // 16px
+$theme-site-margins-width: 3; // 24px
+
+$theme-column-gap-mobile: 3; // 24px
+$theme-column-gap-desktop: 3; // 24px
 
 $theme-utility-breakpoints: (
   'card': false,

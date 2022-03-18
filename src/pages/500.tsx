@@ -11,7 +11,7 @@ export default function Custom500() {
 
   return (
     <>
-      <GridContainer containerSize="widescreen">
+      <GridContainer>
         <section>
           <Logo noText />
 
