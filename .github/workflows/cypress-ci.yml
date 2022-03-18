@@ -21,7 +21,7 @@ jobs:
       - name: Build image for testing
         env:
           IMAGE_TAG: ${{ github.sha }}
-        run: docker build -t $IMAGE_TAG --target e2e
+        run: docker build -t $IMAGE_TAG --target e2e .
 
       - name: Docker compose
         run: docker compose -f docker-compose.e2e.yml up -d
