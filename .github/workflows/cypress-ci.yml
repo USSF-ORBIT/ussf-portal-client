@@ -25,6 +25,8 @@ jobs:
 
       - name: Docker compose
         run: docker compose -f docker-compose.e2e.yml up -d
+        env:
+          IMAGE_TAG: ${{ github.sha }}
 
       - name: Cypress run
         uses: cypress-io/github-action@90f0f494f47dd0a22ac4759978de892d3e3fd340 # tag=v3.0.2
