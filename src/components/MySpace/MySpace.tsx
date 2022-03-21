@@ -119,14 +119,14 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
 
                 {isCollection(widget) && (
                   <CustomCollection
-                    _id={`${widget._id}`}
+                    _id={widget._id}
                     title={widget.title}
                     bookmarks={widget.bookmarks}
                     bookmarkOptions={bookmarks}
                     handleRemoveCollection={() => {
                       handleRemoveCollection({
                         variables: {
-                          _id: `${widget._id}`,
+                          _id: widget._id,
                         },
                         refetchQueries: [`getMySpace`],
                       })
@@ -134,7 +134,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                     handleEditCollection={(title: string) => {
                       handleEditCollection({
                         variables: {
-                          _id: `${widget._id}`,
+                          _id: widget._id,
                           title,
                         },
                         refetchQueries: [`getMySpace`],
@@ -144,7 +144,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                       handleRemoveBookmark({
                         variables: {
                           _id,
-                          collectionId: `${widget._id}`,
+                          collectionId: widget._id,
                           cmsId,
                         },
                         refetchQueries: [`getMySpace`],
@@ -153,7 +153,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                     handleAddBookmark={(url, label, id) => {
                       handleAddBookmark({
                         variables: {
-                          collectionId: `${widget._id}`,
+                          collectionId: widget._id,
                           url,
                           label,
                           cmsId: id,
@@ -165,7 +165,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                       handleEditBookmark({
                         variables: {
                           _id: id,
-                          collectionId: `${widget._id}`,
+                          collectionId: widget._id,
                           url,
                           label,
                         },

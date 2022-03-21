@@ -4,6 +4,7 @@ import { Button, Grid, Alert, IconInfo } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
+import { ObjectId } from 'bson'
 import { query } from '.keystone/api'
 
 import type {
@@ -133,7 +134,7 @@ const SitesAndApplications = ({
 
   const handleAddToCollection = (
     bookmark: BookmarkRecord,
-    collectionId?: string
+    collectionId?: ObjectId
   ) => {
     if (collectionId) {
       handleAddBookmark({
@@ -145,7 +146,9 @@ const SitesAndApplications = ({
         refetchQueries: [`getMySpace`],
       })
 
-      const collection = userCollections.find((c) => c._id === collectionId)
+      const collection = userCollections.find(
+        (c) => c._id === new ObjectId(collectionId)
+      )
 
       setFlash(
         <Alert type="success" slim role="alert">

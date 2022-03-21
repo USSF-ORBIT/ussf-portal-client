@@ -7,11 +7,11 @@ import {
   Label,
   TextInput,
 } from '@trussworks/react-uswds'
-
+import { ObjectId } from 'bson'
 import styles from './CustomCollection.module.scss'
 
 type PropTypes = {
-  collectionId: string
+  collectionId: ObjectId
   text: string
   onSave: (s: string) => void
   onCancel: () => void

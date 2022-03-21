@@ -1,14 +1,15 @@
 import { gql, useMutation } from '@apollo/client'
+import { ObjectId } from 'bson'
 
 interface RemoveBookmarkResponse {
-  _id: string
+  _id: ObjectId
   cmsId?: string
   isRemoved?: boolean
 }
 
 interface RemoveBookmarkInput {
-  collectionId: string
-  _id: string
+  collectionId: ObjectId
+  _id: ObjectId
   cmsId?: string
 }
 

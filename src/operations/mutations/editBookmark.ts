@@ -1,14 +1,15 @@
 import { gql, useMutation } from '@apollo/client'
+import { ObjectId } from 'bson'
 
 interface EditBookmarkResponse {
-  _id: string
+  _id: ObjectId
   label: string
   url: string
 }
 
 interface EditBookmarkInput {
-  _id: string
-  collectionId: string
+  _id: ObjectId
+  collectionId: ObjectId
   url?: string
   label?: string
 }

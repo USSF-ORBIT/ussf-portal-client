@@ -1,5 +1,6 @@
 import { Context } from '@apollo/client'
-import { ObjectId } from 'mongodb'
+import { ObjectId } from 'bson'
+
 import type {
   BookmarkInput,
   Collection,
@@ -21,18 +22,18 @@ type GetAllInput = {
 }
 
 type FindOneInput = {
-  _id: string
+  _id: ObjectId
   collectionId: string
 }
 
 type DeleteOrHideInput = {
-  _id: string
+  _id: ObjectId
   collectionId: string
   userId: string
 }
 
 type EditOneInput = {
-  _id: string
+  _id: ObjectId
   collectionId: string
   userId: string
   url?: string

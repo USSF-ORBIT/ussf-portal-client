@@ -7,6 +7,7 @@ import AddCustomLinkModal from './AddCustomLinkModal'
 import EditCustomLinkModal from './EditCustomLinkModal'
 import RemoveCustomCollectionModal from './RemoveCustomCollectionModal'
 import RemoveSectionModal from './RemoveSectionModal'
+import { ObjectId } from 'bson'
 
 export default {
   title: 'Components/Modals',
@@ -80,7 +81,7 @@ export const editCustomLinkModal = () => {
   const closeModal = () => storybookModal.current?.toggleModal(undefined, false)
 
   const testBookmark = {
-    _id: 'testId',
+    _id: new ObjectId('testId'),
     label: 'My Custom Link',
     url: 'http://www.example.com',
   }

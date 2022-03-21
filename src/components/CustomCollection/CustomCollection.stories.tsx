@@ -1,5 +1,6 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
+import { ObjectId } from 'bson'
 import CustomCollection from './CustomCollection'
 
 type StorybookArgTypes = {
@@ -31,11 +32,16 @@ export default {
 
 export const ExampleCustomCollection = (argTypes: StorybookArgTypes) => (
   <CustomCollection
-    _id="testCollection"
+    _id={new ObjectId('testCollection')}
     title="Example collection"
     bookmarks={[
-      { _id: 'link1', url: '#', label: 'Webmail', cmsId: 'cmsLink1' },
-      { _id: 'link2', url: '#', label: 'Custom Link' },
+      {
+        _id: new ObjectId('link1'),
+        url: '#',
+        label: 'Webmail',
+        cmsId: 'cmsLink1',
+      },
+      { _id: new ObjectId('link2'), url: '#', label: 'Custom Link' },
     ]}
     handleAddBookmark={argTypes.handleAddBookmark}
     handleRemoveBookmark={argTypes.handleRemoveBookmark}
@@ -47,54 +53,54 @@ export const ExampleCustomCollection = (argTypes: StorybookArgTypes) => (
 
 export const WithNineLinks = (argTypes: StorybookArgTypes) => (
   <CustomCollection
-    _id="testCollection"
+    _id={new ObjectId('testCollection')}
     title="Example collection"
     bookmarks={[
       {
-        _id: '1',
+        _id: new ObjectId('1'),
         url: 'https://google.com',
         label: 'Webmail',
         cmsId: 'cmsId1',
       },
       {
-        _id: '2',
+        _id: new ObjectId('2'),
         url: 'https://mypay.dfas.mil/#/',
         label: 'MyPay',
         cmsId: 'cmsId2',
       },
       {
-        _id: '3',
+        _id: new ObjectId('3'),
         url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
         label: 'vMPF',
         cmsId: 'cmsId3',
       },
       {
-        _id: '4',
+        _id: new ObjectId('4'),
         url: 'https://example.com',
         label: 'My Custom Link',
       },
       {
-        _id: '5',
+        _id: new ObjectId('5'),
         url: 'https://example.com',
         label: 'My Custom Link',
       },
       {
-        _id: '6',
+        _id: new ObjectId('6'),
         url: 'https://example.com',
         label: 'My Custom Link',
       },
       {
-        _id: '7',
+        _id: new ObjectId('7'),
         url: 'https://example.com',
         label: 'My Custom Link',
       },
       {
-        _id: '8',
+        _id: new ObjectId('8'),
         url: 'https://example.com',
         label: 'My Custom Link',
       },
       {
-        _id: '9',
+        _id: new ObjectId('9'),
         url: 'https://example.com',
         label: 'My Custom Link',
       },
@@ -109,59 +115,59 @@ export const WithNineLinks = (argTypes: StorybookArgTypes) => (
 
 export const WithTenLinks = (argTypes: StorybookArgTypes) => (
   <CustomCollection
-    _id="testCollection"
+    _id={new ObjectId('testCollection')}
     title="Example collection"
     bookmarks={[
       {
-        _id: '1',
+        _id: new ObjectId('1'),
         url: 'https://google.com',
         label: 'Webmail',
         cmsId: 'cmsId1',
       },
       {
-        _id: '2',
+        _id: new ObjectId('2'),
         url: 'https://mypay.dfas.mil/#/',
         label: 'MyPay',
         cmsId: 'cmsId2',
       },
       {
-        _id: '3',
+        _id: new ObjectId('3'),
         url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
         label: 'vMPF',
         cmsId: 'cmsId3',
       },
       {
-        _id: '4',
+        _id: new ObjectId('4'),
         url: 'https://example.com',
         label: 'My Custom Link',
       },
       {
-        _id: '5',
+        _id: new ObjectId('5'),
         url: 'https://example.com',
         label: 'My Custom Link',
       },
       {
-        _id: '6',
+        _id: new ObjectId('6'),
         url: 'https://example.com',
         label: 'My Custom Link',
       },
       {
-        _id: '7',
+        _id: new ObjectId('7'),
         url: 'https://example.com',
         label: 'My Custom Link',
       },
       {
-        _id: '8',
+        _id: new ObjectId('8'),
         url: 'https://example.com',
         label: 'My Custom Link',
       },
       {
-        _id: '9',
+        _id: new ObjectId('9'),
         url: 'https://example.com',
         label: 'My Custom Link',
       },
       {
-        _id: '10',
+        _id: new ObjectId('10'),
         url: 'https://example.com',
         label: 'My Custom Link',
       },
@@ -176,7 +182,7 @@ export const WithTenLinks = (argTypes: StorybookArgTypes) => (
 
 export const BlankCustomCollection = (argTypes: StorybookArgTypes) => (
   <CustomCollection
-    _id="testCollection"
+    _id={new ObjectId('testCollection')}
     handleAddBookmark={argTypes.handleAddBookmark}
     handleRemoveBookmark={argTypes.handleRemoveBookmark}
     handleRemoveCollection={argTypes.handleRemoveCollection}

@@ -1,10 +1,11 @@
 import { gql, useMutation } from '@apollo/client'
+import { ObjectId } from 'bson'
 
 interface RemoveCollectionResponse {
-  _id: string
+  _id: ObjectId
 }
 interface RemoveCollectionInput {
-  _id: string
+  _id: ObjectId
 }
 export const REMOVE_COLLECTION = gql`
   mutation removeCollection($_id: ID!) {

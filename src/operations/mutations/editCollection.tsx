@@ -1,15 +1,16 @@
 import { gql, useMutation } from '@apollo/client'
+import { ObjectId } from 'bson'
 import type { Bookmark } from '../../types/index'
 
 interface EditCollectionResponse {
-  _id: string
+  _id: ObjectId
   title: string
   bookmarks: Bookmark[]
 }
 
 interface EditCollectionInput {
   title: string
-  _id: string
+  _id: ObjectId
 }
 
 export const EDIT_COLLECTION = gql`
