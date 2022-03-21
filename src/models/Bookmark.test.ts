@@ -6,11 +6,11 @@ import User from './User'
 import type { BookmarkInput, CollectionInput, RemovedBookmark } from 'types'
 let connection: typeof MongoClient
 let db: typeof Db
-let exampleCollectionId: string
+let exampleCollectionId: ObjectId
 
 describe('Bookmark Model', () => {
-  let newCMSBookmarkId: string
-  let newCustomBookmarkId: string
+  let newCMSBookmarkId: ObjectId
+  let newCustomBookmarkId: ObjectId
 
   beforeAll(async () => {
     // Create mongodb connection
@@ -397,7 +397,7 @@ describe('Bookmark Model', () => {
 
     const error = await BookmarkModel.addOne(
       {
-        collectionId: `${newCollection._id}`,
+        collectionId: newCollection._id,
         url: 'https://www.example11.com',
         userId: 'testUserId',
         label: 'Label 11',
@@ -406,7 +406,7 @@ describe('Bookmark Model', () => {
     )
 
     const all = await BookmarkModel.getAllInCollection(
-      { collectionId: `${newCollection._id}` },
+      { collectionId: newCollection._id },
       { db }
     )
 

@@ -11,30 +11,30 @@ import type {
 // Types for BookmarkModel
 type AddOneInput = {
   url: string
-  collectionId: string
+  collectionId: ObjectId
   userId: string
   label?: string
   cmsId?: string
 }
 
 type GetAllInput = {
-  collectionId: string
+  collectionId: ObjectId //should these all be obejct id too?
 }
 
 type FindOneInput = {
   _id: ObjectId
-  collectionId: string
+  collectionId: ObjectId
 }
 
 type DeleteOrHideInput = {
   _id: ObjectId
-  collectionId: string
+  collectionId: ObjectId
   userId: string
 }
 
 type EditOneInput = {
   _id: ObjectId
-  collectionId: string
+  collectionId: ObjectId
   userId: string
   url?: string
   label?: string
