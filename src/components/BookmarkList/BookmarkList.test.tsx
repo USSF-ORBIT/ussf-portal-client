@@ -10,6 +10,7 @@ import React from 'react'
 import BookmarkList from './BookmarkList'
 import type { Collection, BookmarkRecord, BookmarkRecords } from 'types'
 import { WIDGET_TYPES } from 'constants/index'
+import { ObjectId } from 'bson'
 
 const exampleBookmarks: BookmarkRecord[] = [
   { id: '1', label: 'Webmail', url: '#' },
@@ -73,7 +74,7 @@ const exampleInvalidBookmarks = [
 
 const exampleCollections: Collection[] = [
   {
-    _id: 'testCollectionId',
+    _id: new ObjectId('testCollectionId'),
     title: 'Example Collection',
     type: WIDGET_TYPES.COLLECTION,
     bookmarks: [],
@@ -82,11 +83,11 @@ const exampleCollections: Collection[] = [
 
 const exampleCollectionsWithLimit: Collection[] = [
   {
-    _id: 'testCollectionId',
+    _id: new ObjectId('testCollectionId'),
     title: 'Example Collection',
     type: WIDGET_TYPES.COLLECTION,
     bookmarks: Array.from({ length: 10 }, (x, i) => ({
-      _id: `${i}`,
+      _id: new ObjectId(i),
       label: `Bookmark ${i}`,
       url: '#',
     })),
