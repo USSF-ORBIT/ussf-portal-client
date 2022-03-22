@@ -30,4 +30,3 @@ services:
       MONGO_INITDB_DATABASE: cypress-e2e
     ports:
       - '27017:27017'
-    

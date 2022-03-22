@@ -86,7 +86,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         uses: aquasecurity/trivy-action@0.2.2
         with:
-          image-ref: "${{ steps.login-ecr.outputs.registry }}/portal-client:${{ github.sha }}"
+          image-ref: '${{ steps.login-ecr.outputs.registry }}/portal-client:${{ github.sha }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
           ignore-unfixed: true
