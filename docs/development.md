@@ -113,7 +113,7 @@ There are two separate Dockerfiles: `Dockerfile.dev`, which is used for running 
 
 ### Local Development with Docker
 
-You can spin up your Docker environment using Docker Compose. By running `yarn services:up`, it will use `docker-compose.services.yml` to create and run the services required for development.
+You can spin up your Docker environment using Docker Compose. By running `yarn services:up`, it will use `docker-compose.services.yml` to create and run the services required for development. This does _not_ include Matomo (our analytics platform) since the portal does not require it to run.
 
 Services include:
 
@@ -143,11 +143,7 @@ Services include:
 - Uses official Redis v6.0.0
 - Used to store session information
 
-5. Matomo & MariaDB
-
-- Manages platform analytics
-
-6. Postgres
+5. Postgres
 
 - Stores Keystone CMS data
 - Persists volume `cms_data`
