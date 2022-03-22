@@ -4,6 +4,8 @@ import { Button, Grid, Alert, IconInfo } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
+
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { query } from '.keystone/api'
 
 import type {

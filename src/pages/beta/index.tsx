@@ -1,5 +1,6 @@
 import { InferGetStaticPropsType } from 'next'
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { query } from '.keystone/api'
 
 import type { BookmarkRecords } from 'types/index'
