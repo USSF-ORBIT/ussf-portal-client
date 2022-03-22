@@ -22,7 +22,7 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           build_directory: 'storybook-static'
           build_command: 'yarn storybook:build'
-          node_version: 14.19.0
+          node_version: 14.19.1
         continue-on-error: false
 
       - name: Post Storybook URL
