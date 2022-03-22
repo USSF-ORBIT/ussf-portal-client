@@ -42,39 +42,7 @@ services:
     volumes:
       - ./users.php:/var/www/simplesamlphp/config/authsources.php
 
-  mariadb:
-    image: docker.io/bitnami/mariadb:10.6
-    environment:
-      # ALLOW_EMPTY_PASSWORD is recommended only for development.
-      - ALLOW_EMPTY_PASSWORD=yes
-      - MARIADB_USER=bn_matomo
-      - MARIADB_DATABASE=bitnami_matomo
-      # Flag necessary for the database max allowed packet check
-      # https://matomo.org/faq/troubleshooting/faq_183/
-      - MARIADB_EXTRA_FLAGS=--max_allowed_packet=64MB
-    volumes:
-      - 'mariadb_data:/bitnami/mariadb'
-
-  matomo:
-    # https://github.com/bitnami/bitnami-docker-matomo
-    image: docker.io/bitnami/matomo:4
-    ports:
-      - '80:8080'
-      - '443:8443'
-    environment:
-      - MATOMO_DATABASE_HOST=mariadb
-      - MATOMO_DATABASE_PORT_NUMBER=3306
-      - MATOMO_DATABASE_USER=bn_matomo
-      - MATOMO_DATABASE_NAME=bitnami_matomo
-      # ALLOW_EMPTY_PASSWORD is recommended only for development.
-      - ALLOW_EMPTY_PASSWORD=yes
-      - MATOMO_WEBSITE_NAME=ussf-portal
-      - MATOMO_WEBSITE_HOST=http://localhost:3000
-    volumes:
-      - 'matomo_data:/bitnami/matomo'
-    depends_on:
-      - mariadb
-  # CMS-specific services
+  # CMS-specific services      
   keystone-db:
     container_name: keystone-db
     image: postgres:14
@@ -91,7 +59,3 @@ services:
 volumes:
   portal_data:
   cms_data:
-  mariadb_data:
-    driver: local
-  matomo_data:
-    driver: local
