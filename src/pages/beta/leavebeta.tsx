@@ -1,13 +1,7 @@
-import { useEffect, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import Layout from 'layout/Beta/DefaultLayout/DefaultLayout'
-import { useBetaContext } from 'stores/betaContext'
 
 const BetaExit = () => {
-  const { leaveBeta } = useBetaContext()
-
-  useEffect(() => {
-    leaveBeta()
-  })
   return <></>
 }
 

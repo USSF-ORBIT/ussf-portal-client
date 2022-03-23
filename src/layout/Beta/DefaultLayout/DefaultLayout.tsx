@@ -3,7 +3,6 @@ import { GovBanner, GridContainer, Grid } from '@trussworks/react-uswds'
 
 import styles from './DefaultLayout.module.scss'
 
-import BetaBanner from 'components/BetaBanner/BetaBanner'
 import Header from 'components/Header/Header'
 import PersonalData from 'components/PersonalData/PersonalData'
 import PageHeader from 'components/PageHeader/PageHeader'
@@ -27,7 +26,6 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
       </a>
       <div className={`${styles.siteContainer} sfds`}>
         <GovBanner tld=".mil" />
-        <BetaBanner />
         <Header />
         <main id="main-content">
           <PageHeader disableSearch>

@@ -1,29 +1,10 @@
 describe('The Authentication flow', () => {
   describe('access without being logged in', () => {
-    it('requires a user to be logged in to view MVP pages', () => {
+    it('requires a user to be logged in to view the portal routes', () => {
       cy.clearCookies()
-      const mvpRoutes = [
-        '/',
-        '/about-us',
-        '/about-us/accomplishments',
-        '/news',
-        '/training-and-education',
-        'training-and-education/force-multiplier-program',
-      ]
+      const routes = ['/', '/sites-and-applications', '/about-us', '/news']
 
-      mvpRoutes.forEach((url) => {
-        cy.visit(url)
-        cy.url().should('match', /login/)
-      })
-    })
-
-    it('requires a user to be logged in to view beta pages', () => {
-      cy.clearCookies()
-      cy.visit('/joinbeta')
-
-      const betaRoutes = ['/', '/sites-and-applications']
-
-      betaRoutes.forEach((url) => {
+      routes.forEach((url) => {
         cy.visit(url)
         cy.url().should('match', /login/)
       })
@@ -46,23 +27,8 @@ describe('The Authentication flow', () => {
       ).as('testIDPLogout')
     })
 
-    it('a user can log into and out of the MVP site', () => {
+    it('a user can log into and out of the portal', () => {
       cy.loginTestIDP()
-      cy.visit('/')
-      cy.contains('Manage your life')
-      cy.url().should('eq', Cypress.config().baseUrl + '/')
-
-      cy.contains('Log out').click()
-      cy.wait('@logout')
-
-      cy.visit('/')
-      cy.url().should('match', /login/)
-    })
-
-    it('a user can log into and out of the beta site', () => {
-      cy.loginTestIDP()
-      cy.visit('/joinbeta')
-
       cy.visit('/')
       cy.contains('My Space')
       cy.url().should('eq', Cypress.config().baseUrl + '/')
@@ -85,30 +51,12 @@ describe('The Authentication flow', () => {
       cy.preserveLoginCookies()
     })
 
-    it('can load the user on MVP pages', () => {
-      const mvpRoutes = [
-        '/',
-        '/about-us',
-        '/about-us/accomplishments',
-        '/news',
-        '/training-and-education',
-        'training-and-education/force-multiplier-program',
-      ]
-
-      mvpRoutes.forEach((url) => {
-        cy.visit(url)
-        cy.wait('@getUser')
-          .its('response.statusCode')
-          .should('be.oneOf', [200, 304])
-      })
-    })
-
-    it('can load the user on beta pages', () => {
+    it('loads the user on each route', () => {
       cy.visit('/joinbeta')
 
-      const betaRoutes = ['/', '/sites-and-applications']
+      const routes = ['/', '/sites-and-applications', '/about-us', '/news']
 
-      betaRoutes.forEach((url) => {
+      routes.forEach((url) => {
         cy.visit(url)
         cy.wait('@getUser')
           .its('response.statusCode')
@@ -125,19 +73,14 @@ describe('The Authentication flow', () => {
 
     it('logging in as Test User 1 loads their My Space data', () => {
       cy.loginTestIDP()
-      cy.visit('/joinbeta')
-
       cy.contains('My Space')
       cy.contains('Welcome, BERNADETTE CAMPBELL')
-
       cy.contains('Example Collection')
       cy.contains('Second Collection')
     })
 
     it('logging in as Test User 2 loads their My Space data', () => {
       cy.loginTestIDP({ username: 'user2', password: 'user2pass' })
-      cy.visit('/joinbeta')
-
       cy.contains('My Space')
       cy.contains('Welcome, RONALD BOYD')
       cy.contains('Third Collection')
