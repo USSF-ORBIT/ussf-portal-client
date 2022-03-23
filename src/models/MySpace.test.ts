@@ -58,7 +58,7 @@ describe('My Space model', () => {
     ).rejects.toEqual(new Error('You can only have one News section'))
   })
 
-  it('can remove a News widget', async () => {
+  fit('can remove a News widget', async () => {
     let allSections = await MySpaceModel.get({ userId: testUserId }, { db })
 
     let newsWidget = allSections.find((s) => s.type === 'News')
@@ -66,7 +66,7 @@ describe('My Space model', () => {
 
     if (newsWidget) {
       await MySpaceModel.deleteWidget(
-        { _id: newsWidget._id.toString(), userId: testUserId },
+        { _id: newsWidget._id, userId: testUserId },
         { db }
       )
 

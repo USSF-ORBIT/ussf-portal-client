@@ -12,7 +12,6 @@ export const REMOVE_WIDGET = gql`
   mutation removeWidget($_id: ID!) {
     removeWidget(_id: $_id) {
       _id
-      type
     }
   }
 `
