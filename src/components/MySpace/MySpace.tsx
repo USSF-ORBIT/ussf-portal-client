@@ -110,7 +110,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                   <NewsWidget
                     onRemove={() => {
                       handleRemoveWidget({
-                        variables: { _id: `${widget._id}` },
+                        variables: { _id: widget._id },
                         refetchQueries: [`getMySpace`],
                       })
                     }}

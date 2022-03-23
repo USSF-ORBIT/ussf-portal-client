@@ -18,7 +18,7 @@ type AddOneInput = {
 }
 
 type GetAllInput = {
-  collectionId: ObjectId //should these all be obejct id too?
+  collectionId: ObjectId
 }
 
 type FindOneInput = {
@@ -45,7 +45,7 @@ export const BookmarkModel = {
     try {
       const found = await db
         .collection('users')
-        .find({ 'mySpace._id': new ObjectId(collectionId) })
+        .find({ 'mySpace._id': collectionId })
         .project({ 'mySpace.$': 1 })
         .toArray()
 
@@ -63,9 +63,9 @@ export const BookmarkModel = {
         .collection('users')
         .aggregate([
           { $unwind: '$mySpace' },
-          { $match: { 'mySpace._id': new ObjectId(collectionId) } },
+          { $match: { 'mySpace._id': collectionId } },
           { $unwind: '$mySpace.bookmarks' },
-          { $match: { 'mySpace.bookmarks._id': new ObjectId(_id) } },
+          { $match: { 'mySpace.bookmarks._id': _id } },
           {
             $project: {
               'mySpace.bookmarks': 1,
@@ -97,7 +97,7 @@ export const BookmarkModel = {
 
       const query = {
         userId: userId,
-        'mySpace.bookmarks._id': new ObjectId(_id),
+        'mySpace.bookmarks._id': _id,
       }
 
       const updateDocument = {
@@ -111,10 +111,10 @@ export const BookmarkModel = {
         returnDocument: 'after',
         arrayFilters: [
           {
-            'outer._id': new ObjectId(collectionId),
+            'outer._id': collectionId,
           },
           {
-            'inner._id': new ObjectId(_id),
+            'inner._id': _id,
           },
         ],
       }
@@ -144,13 +144,13 @@ export const BookmarkModel = {
   ) {
     const query = {
       userId,
-      'mySpace._id': new ObjectId(collectionId),
+      'mySpace._id': collectionId,
     }
 
     const updateDocument = {
       $pull: {
         'mySpace.$.bookmarks': {
-          _id: new ObjectId(_id),
+          _id: _id,
         },
       },
     }
@@ -171,7 +171,7 @@ export const BookmarkModel = {
   ): Promise<RemovedBookmark> {
     const query = {
       userId,
-      'mySpace.bookmarks._id': new ObjectId(_id),
+      'mySpace.bookmarks._id': _id,
     }
 
     const updateDocument = {
@@ -183,10 +183,10 @@ export const BookmarkModel = {
     const filters = {
       arrayFilters: [
         {
-          'outer._id': new ObjectId(collectionId),
+          'outer._id': collectionId,
         },
         {
-          'inner._id': new ObjectId(_id),
+          'inner._id': _id,
         },
       ],
     }
@@ -231,7 +231,7 @@ export const BookmarkModel = {
 
     const query = {
       userId,
-      'mySpace._id': new ObjectId(collectionId),
+      'mySpace._id': collectionId,
     }
 
     const updateDocument = {

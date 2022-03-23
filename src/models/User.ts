@@ -1,5 +1,5 @@
 import { Context } from '@apollo/client'
-import { ObjectId } from 'mongodb'
+import { ObjectId } from 'bson'
 
 import type { PortalUser, Collection } from 'types/index'
 import { WIDGET_TYPES } from 'constants/index'

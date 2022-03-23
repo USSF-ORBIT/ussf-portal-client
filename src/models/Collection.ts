@@ -1,5 +1,5 @@
 import { Context } from '@apollo/client'
-import { ObjectId } from 'mongodb'
+import { ObjectId } from 'bson'
 
 import type {
   Bookmark,
@@ -27,13 +27,13 @@ type AddManyInput = {
 }
 
 type EditOneInput = {
-  _id: string
+  _id: ObjectId
   title: string
   userId: string
 }
 
 type DeleteOneInput = {
-  _id: string
+  _id: ObjectId
   userId: string
 }
 
@@ -157,7 +157,7 @@ export const CollectionModel = {
   ): Promise<Collection> {
     const query = {
       userId: userId,
-      'mySpace._id': new ObjectId(_id),
+      'mySpace._id': _id,
     }
 
     const updateDocument = {
@@ -171,7 +171,7 @@ export const CollectionModel = {
 
       const updatedCollection = await db
         .collection('users')
-        .find({ 'mySpace._id': new ObjectId(_id) })
+        .find({ 'mySpace._id': _id })
         .project({ 'mySpace.$': 1, _id: 0 })
         .toArray()
 
@@ -185,7 +185,7 @@ export const CollectionModel = {
   async deleteOne(
     { _id, userId }: DeleteOneInput,
     { db }: Context
-  ): Promise<{ _id: string }> {
+  ): Promise<{ _id: ObjectId }> {
     const query = {
       userId: userId,
     }
@@ -193,7 +193,7 @@ export const CollectionModel = {
     const updateDocument = {
       $pull: {
         mySpace: {
-          _id: new ObjectId(_id),
+          _id: _id,
         },
       },
     }

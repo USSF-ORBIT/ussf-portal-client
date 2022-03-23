@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import { ObjectId } from 'bson'
+import { ObjectId } from 'mongodb'
 import { renderWithAuth } from '../../../testHelpers'
 
 import {
@@ -83,11 +83,11 @@ const sitesAndAppsMock = [
       return {
         data: {
           addCollection: {
-            _id: new ObjectId(),
+            _id: ObjectId(),
             title: '',
             bookmarks: [
               {
-                _id: new ObjectId(),
+                _id: ObjectId(),
                 cmsId: cmsBookmarksMock[0].id,
                 url: cmsBookmarksMock[0].url,
                 label: cmsBookmarksMock[0].label,
@@ -110,12 +110,12 @@ const sitesAndAppsMock = [
       return {
         data: {
           addCollections: cmsCollectionsMock.map((c) => ({
-            _id: new ObjectId(),
+            _id: ObjectId(),
             title: c.title,
             cmsId: c.id,
             type: 'Collection',
             bookmarks: c.bookmarks.map((b) => ({
-              _id: new ObjectId(),
+              _id: ObjectId(),
               cmsId: b.id,
               url: b.url,
               label: b.label,
@@ -129,7 +129,7 @@ const sitesAndAppsMock = [
     request: {
       query: ADD_BOOKMARK,
       variables: {
-        collectionId: new ObjectId(),
+        collectionId: getMySpaceMock[0].result.data.mySpace[0]._id,
         cmsId: cmsBookmarksMock[0].id,
         url: cmsBookmarksMock[0].url,
         label: cmsBookmarksMock[0].label,
@@ -141,17 +141,16 @@ const sitesAndAppsMock = [
       return {
         data: {
           addBookmark: {
-            _id: new ObjectId(),
-            cmsId: cmsBookmarksMock[0].id,
+            _id: ObjectId(),
             url: cmsBookmarksMock[0].url,
             label: cmsBookmarksMock[0].label,
+            cmsId: cmsBookmarksMock[0].id,
           },
         },
       }
     },
   },
 ]
-
 describe('Sites and Applications page', () => {
   describe('without a user', () => {
     beforeEach(() => {
@@ -487,6 +486,7 @@ describe('Sites and Applications page', () => {
           userEvent.click(
             screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
           )
+
           userEvent.click(
             screen.getByRole('button', { name: 'Example Collection' })
           )

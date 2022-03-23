@@ -18,11 +18,14 @@ import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
 import { EDIT_BOOKMARK } from 'operations/mutations/editBookmark'
 import { ADD_WIDGET } from 'operations/mutations/addWidget'
 import { REMOVE_WIDGET } from 'operations/mutations/removeWidget'
+import { ObjectId } from 'bson'
 
 let server: ApolloServer
 let connection: typeof MongoClient
 let db: typeof Db
-
+const testCollectionId = new ObjectId()
+const testBookmarkId = new ObjectId()
+const testWidgetId = new ObjectId()
 describe('GraphQL resolvers', () => {
   beforeAll(async () => {
     connection = await MongoClient.connect(process.env.MONGO_URL, {
@@ -63,7 +66,7 @@ describe('GraphQL resolvers', () => {
         'editCollection',
         EDIT_COLLECTION,
         {
-          _id: 'testCollectionId',
+          _id: testCollectionId,
           title: 'New Test Collection',
         },
       ],
@@ -71,7 +74,7 @@ describe('GraphQL resolvers', () => {
         'removeCollection',
         REMOVE_COLLECTION,
         {
-          _id: 'testCollectionId',
+          _id: testCollectionId,
         },
       ],
       [
@@ -84,18 +87,18 @@ describe('GraphQL resolvers', () => {
       [
         'addBookmark',
         ADD_BOOKMARK,
-        { url: 'test', label: 'Test', collectionId: 'testCollectionId' },
+        { url: 'test', label: 'Test', collectionId: testCollectionId },
       ],
       [
         'removeBookmark',
         REMOVE_BOOKMARK,
         {
-          _id: 'testBookmarkId',
-          collectionId: 'testCollectionId',
+          _id: testBookmarkId,
+          collectionId: testCollectionId,
         },
       ],
       ['addWidget', ADD_WIDGET, { title: 'Recent news', type: 'News' }],
-      ['removeWidget', REMOVE_WIDGET, { _id: 'testWidgetId' }],
+      ['removeWidget', REMOVE_WIDGET, { _id: testWidgetId }],
     ])(
       'the %s operation returns an authentication error',
       async (name, op, variables: VariableValues = {}) => {
@@ -205,12 +208,12 @@ describe('GraphQL resolvers', () => {
         const result = await server.executeOperation({
           query: REMOVE_WIDGET,
           variables: {
-            _id: 'testWidgetId',
+            _id: testWidgetId,
           },
         })
 
         const expectedData = {
-          _id: 'testWidgetId',
+          _id: testWidgetId,
         }
 
         expect(result.errors).toBeUndefined()
@@ -229,7 +232,7 @@ describe('GraphQL resolvers', () => {
         })
 
         const expectedData = {
-          _id: expect.any(String),
+          _id: expect.any(ObjectId),
           title: '',
           bookmarks: [],
         }
@@ -248,13 +251,13 @@ describe('GraphQL resolvers', () => {
         const result = await server.executeOperation({
           query: EDIT_COLLECTION,
           variables: {
-            _id: `${editCollection?._id}`,
+            _id: editCollection?._id,
             title: 'Edited Collection Title',
           },
         })
 
         const expectedData = {
-          _id: `${editCollection?._id}`,
+          _id: editCollection?._id,
           title: 'Edited Collection Title',
         }
 
@@ -272,12 +275,12 @@ describe('GraphQL resolvers', () => {
         const result = await server.executeOperation({
           query: REMOVE_COLLECTION,
           variables: {
-            _id: `${removeCollection?._id}`,
+            _id: removeCollection?._id,
           },
         })
 
         const expectedData = {
-          _id: `${removeCollection?._id}`,
+          _id: removeCollection?._id,
         }
 
         expect(result.errors).toBeUndefined()
@@ -339,37 +342,37 @@ describe('GraphQL resolvers', () => {
 
         const expectedData = [
           {
-            _id: expect.any(String),
+            _id: expect.any(ObjectId),
             cmsId: 'cmsCollectionId1',
             title: 'CMS Collection 1',
             type: 'Collection',
             bookmarks: [
               {
-                _id: expect.any(String),
+                _id: expect.any(ObjectId),
                 cmsId: 'cmsBookmarkId1',
                 url: 'https://google.com',
                 label: 'Webmail',
               },
               {
-                _id: expect.any(String),
+                _id: expect.any(ObjectId),
                 cmsId: 'cmsBookmarkId2',
                 url: 'https://mypay.dfas.mil/#/',
                 label: 'MyPay',
               },
               {
-                _id: expect.any(String),
+                _id: expect.any(ObjectId),
                 cmsId: 'cmsBookmarkId3',
                 url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
                 label: 'vMPF',
               },
               {
-                _id: expect.any(String),
+                _id: expect.any(ObjectId),
                 cmsId: 'cmsBookmarkId4',
                 url: 'https://leave.af.mil/profile',
                 label: 'LeaveWeb',
               },
               {
-                _id: expect.any(String),
+                _id: expect.any(ObjectId),
                 cmsId: 'cmsBookmarkId5',
                 url: 'https://www.e-publishing.af.mil/',
                 label: 'e-Publications',
@@ -377,13 +380,13 @@ describe('GraphQL resolvers', () => {
             ],
           },
           {
-            _id: expect.any(String),
+            _id: expect.any(ObjectId),
             cmsId: 'cmsCollectionId2',
             title: 'CMS Collection 2',
             type: 'Collection',
             bookmarks: [
               {
-                _id: expect.any(String),
+                _id: expect.any(ObjectId),
                 cmsId: 'cmsBookmarkId6',
                 url: 'https://google.com',
                 label: 'Search Engine',
@@ -404,7 +407,7 @@ describe('GraphQL resolvers', () => {
         const result = await server.executeOperation({
           query: ADD_BOOKMARK,
           variables: {
-            collectionId: `${collection._id}`,
+            collectionId: collection._id,
             label: 'New Label',
             url: 'http://www.example.com/new',
             cmsId: 'testBookmarkCmsId',
@@ -412,7 +415,7 @@ describe('GraphQL resolvers', () => {
         })
 
         const expectedData = {
-          _id: expect.any(String),
+          _id: expect.any(ObjectId),
           label: 'New Label',
           url: 'http://www.example.com/new',
           cmsId: 'testBookmarkCmsId',
@@ -433,8 +436,8 @@ describe('GraphQL resolvers', () => {
         const result = await server.executeOperation({
           query: EDIT_BOOKMARK,
           variables: {
-            _id: `${editBookmark._id}`,
-            collectionId: `${newPortalUser.mySpace[0]._id}`,
+            _id: editBookmark._id,
+            collectionId: newPortalUser.mySpace[0]._id,
             label: 'New Label',
             url: 'http://www.example.com/new',
           },
@@ -462,13 +465,13 @@ describe('GraphQL resolvers', () => {
         const result = await server.executeOperation({
           query: REMOVE_BOOKMARK,
           variables: {
-            _id: `${bookmark?._id}`,
-            collectionId: `${collection?._id}`,
+            _id: bookmark?._id,
+            collectionId: collection?._id,
           },
         })
 
         const expectedData = {
-          _id: `${bookmark._id}`,
+          _id: bookmark._id,
         }
 
         expect(result.errors).toBeUndefined()

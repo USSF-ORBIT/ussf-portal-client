@@ -1,8 +1,9 @@
 import { gql, useMutation } from '@apollo/client'
+import { ObjectId } from 'bson'
 import type { WidgetType } from 'types'
 
 interface AddWidgetResponse {
-  _id: string
+  _id: ObjectId
   title: string
   type: WidgetType
 }

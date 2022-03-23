@@ -81,7 +81,7 @@ export const editCustomLinkModal = () => {
   const closeModal = () => storybookModal.current?.toggleModal(undefined, false)
 
   const testBookmark = {
-    _id: new ObjectId('testId'),
+    _id: new ObjectId(),
     label: 'My Custom Link',
     url: 'http://www.example.com',
   }

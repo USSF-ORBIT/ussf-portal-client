@@ -136,7 +136,7 @@ const SitesAndApplications = ({
     bookmark: BookmarkRecord,
     collectionId?: ObjectId
   ) => {
-    if (collectionId) {
+    if (collectionId && collectionId != undefined) {
       handleAddBookmark({
         variables: {
           collectionId,
@@ -146,9 +146,7 @@ const SitesAndApplications = ({
         refetchQueries: [`getMySpace`],
       })
 
-      const collection = userCollections.find(
-        (c) => c._id === new ObjectId(collectionId)
-      )
+      const collection = userCollections.find((c) => c._id === collectionId)
 
       setFlash(
         <Alert type="success" slim role="alert">
