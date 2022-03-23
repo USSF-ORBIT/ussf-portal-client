@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.5.0...3.0.0) (2022-03-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* Remove beta gate, deprecate MVP site (#565)
+
+### Features
+
+* Portal launch announcement & new grid ([#564](https://github.com/USSF-ORBIT/ussf-portal-client/issues/564)) ([f99d600](https://github.com/USSF-ORBIT/ussf-portal-client/commit/f99d600a7365d464a71babc17287cf2dca1c6eea))
+* Remove beta gate, deprecate MVP site ([#565](https://github.com/USSF-ORBIT/ussf-portal-client/issues/565)) ([d0f180f](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d0f180fa84eb30c254c2a49ab99bde4efe42e31f))
+* Styling the Made By link ([#563](https://github.com/USSF-ORBIT/ussf-portal-client/issues/563)) ([27c8685](https://github.com/USSF-ORBIT/ussf-portal-client/commit/27c8685f2718214cc9f4f5fb8207d285f710375e))
+
 ## [2.5.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.4.0...2.5.0) (2022-03-11)
 
 
