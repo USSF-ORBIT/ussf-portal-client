@@ -8,6 +8,7 @@ import {
 
 import { withPageLayout } from 'layout/Beta/DefaultLayout/PageLayout'
 import Loader from 'components/Loader/Loader'
+import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import { useUser } from 'hooks/useUser'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
@@ -39,6 +40,17 @@ const News = () => {
         <h3>The most recently publicly released Space Force news.</h3>
       </div>
       <Grid row gap={2}>
+        {!items && (
+          <>
+            <Grid desktop={{ col: 6 }}>
+              <LoadingWidget />
+            </Grid>
+            <Grid desktop={{ col: 6 }}>
+              <LoadingWidget />
+            </Grid>
+          </>
+        )}
+
         {items
           .filter(validateNewsItems)
           .map((item) => formatRssToArticle(item as Required<RSSNewsItem>))
