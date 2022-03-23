@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-
+import { ObjectId } from 'bson'
 import { renderWithAuth } from '../../../testHelpers'
 
 import {
@@ -83,11 +83,11 @@ const sitesAndAppsMock = [
       return {
         data: {
           addCollection: {
-            _id: '100',
+            _id: new ObjectId(),
             title: '',
             bookmarks: [
               {
-                _id: '101',
+                _id: new ObjectId(),
                 cmsId: cmsBookmarksMock[0].id,
                 url: cmsBookmarksMock[0].url,
                 label: cmsBookmarksMock[0].label,
@@ -110,12 +110,12 @@ const sitesAndAppsMock = [
       return {
         data: {
           addCollections: cmsCollectionsMock.map((c) => ({
-            _id: '100' + c.id,
+            _id: new ObjectId(),
             title: c.title,
             cmsId: c.id,
             type: 'Collection',
             bookmarks: c.bookmarks.map((b) => ({
-              _id: '101' + b.id,
+              _id: new ObjectId(),
               cmsId: b.id,
               url: b.url,
               label: b.label,
@@ -129,7 +129,7 @@ const sitesAndAppsMock = [
     request: {
       query: ADD_BOOKMARK,
       variables: {
-        collectionId: '1',
+        collectionId: new ObjectId(),
         cmsId: cmsBookmarksMock[0].id,
         url: cmsBookmarksMock[0].url,
         label: cmsBookmarksMock[0].label,
@@ -141,7 +141,7 @@ const sitesAndAppsMock = [
       return {
         data: {
           addBookmark: {
-            _id: '101',
+            _id: new ObjectId(),
             cmsId: cmsBookmarksMock[0].id,
             url: cmsBookmarksMock[0].url,
             label: cmsBookmarksMock[0].label,

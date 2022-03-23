@@ -12,7 +12,7 @@ import { renderWithModalRoot } from '../../testHelpers'
 import { CustomBookmark } from './CustomBookmark'
 
 const testBookmark = {
-  _id: new ObjectId('1'),
+  _id: new ObjectId(),
   url: 'https://google.com',
   label: 'Webmail',
 }
@@ -40,7 +40,7 @@ describe('CustomBookmark component', () => {
 
   it('renders the bookmark URL if there is no label', () => {
     const testBookmarkNoLabel = {
-      _id: new ObjectId('1'),
+      _id: new ObjectId(),
       url: 'https://example.com',
     }
 

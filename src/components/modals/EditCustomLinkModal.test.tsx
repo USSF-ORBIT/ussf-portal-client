@@ -13,7 +13,7 @@ import EditCustomLinkModal from './EditCustomLinkModal'
 
 describe('EditCustomLinkModal', () => {
   const mockBookmark = {
-    _id: new ObjectId('testId'),
+    _id: new ObjectId(),
     label: 'My Custom Link',
     url: 'http://www.example.com',
   }

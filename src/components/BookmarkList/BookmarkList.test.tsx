@@ -71,10 +71,10 @@ const exampleInvalidBookmarks = [
     description: 'Air Force Installation and Mission Support',
   },
 ]
-
+const collectionId = new ObjectId()
 const exampleCollections: Collection[] = [
   {
-    _id: new ObjectId('testCollectionId'),
+    _id: collectionId,
     title: 'Example Collection',
     type: WIDGET_TYPES.COLLECTION,
     bookmarks: [],
@@ -83,11 +83,11 @@ const exampleCollections: Collection[] = [
 
 const exampleCollectionsWithLimit: Collection[] = [
   {
-    _id: new ObjectId('testCollectionId'),
+    _id: collectionId,
     title: 'Example Collection',
     type: WIDGET_TYPES.COLLECTION,
     bookmarks: Array.from({ length: 10 }, (x, i) => ({
-      _id: new ObjectId(i),
+      _id: new ObjectId(),
       label: `Bookmark ${i}`,
       url: '#',
     })),
@@ -214,7 +214,7 @@ describe('BookmarkList component', () => {
 
     expect(mockAddToCollection).toHaveBeenCalledWith(
       exampleBookmarks[0],
-      'testCollectionId'
+      collectionId
     )
 
     expect(
