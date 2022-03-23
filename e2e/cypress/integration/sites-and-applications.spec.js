@@ -3,12 +3,10 @@ describe('Sites and Applications', () => {
     // Reset the database
     cy.task('db:seed')
     cy.loginTestIDP()
-    cy.visit('/joinbeta')
   })
 
   beforeEach(() => {
     cy.preserveLoginCookies()
-    cy.preserveBetaCookie()
     cy.visit('/')
   })
 
