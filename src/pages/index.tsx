@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { InferGetStaticPropsType } from 'next'
+import { useRouter } from 'next/router'
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { query } from '.keystone/api'
@@ -14,7 +16,19 @@ import styles from 'styles/pages/home.module.scss'
 const Home = ({
   bookmarks,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const router = useRouter()
   const { user } = useUser()
+
+  useEffect(() => {
+    const redirectAfterLogin =
+      window.sessionStorage.getItem('redirectAfterLogin')
+
+    if (redirectAfterLogin) {
+      window.sessionStorage.removeItem('redirectAfterLogin')
+      router.push(redirectAfterLogin)
+    }
+  }, [])
+
   return !user ? (
     <Loader />
   ) : (

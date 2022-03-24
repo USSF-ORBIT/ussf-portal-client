@@ -1,11 +1,24 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { GridContainer, Accordion, Button } from '@trussworks/react-uswds'
+
 import styles from './login.module.scss'
 import Layout from 'layout/LoginLayout/LoginLayout'
 import { useAuthContext } from 'stores/authContext'
 
 const Login = () => {
+  const router = useRouter()
   const { login } = useAuthContext()
+
+  // Persist redirect value if there is one
+  useEffect(() => {
+    if (router.query.redirectTo) {
+      window.sessionStorage.setItem(
+        'redirectAfterLogin',
+        decodeURIComponent(`${router.query.redirectTo}`)
+      )
+    }
+  }, [])
 
   const contactAccordion = [
     {
@@ -31,6 +44,7 @@ const Login = () => {
       id: 'a1',
     },
   ]
+
   return (
     <div className={styles.loginPage}>
       <section className="usa-section padding-top-3">
