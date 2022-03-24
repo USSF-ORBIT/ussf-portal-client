@@ -1,5 +1,5 @@
 import { MongoClient, Db } from 'mongodb'
-
+import { ObjectId } from 'bson'
 import User from './User'
 import { CollectionModel } from './Collection'
 import { MySpaceModel } from './MySpace'
@@ -7,7 +7,7 @@ import { CollectionInput, CollectionRecords } from 'types'
 
 let connection: typeof MongoClient
 let db: typeof Db
-let exampleCollectionId: string
+let exampleCollectionId: ObjectId
 let testUserId: string
 
 const manyCollections: CollectionRecords = [
