@@ -52,8 +52,6 @@ describe('The Authentication flow', () => {
     })
 
     it('loads the user on each route', () => {
-      cy.visit('/joinbeta')
-
       const routes = ['/', '/sites-and-applications', '/about-us', '/news']
 
       routes.forEach((url) => {

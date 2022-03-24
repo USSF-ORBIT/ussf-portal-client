@@ -10,13 +10,12 @@ import { ApolloProvider } from '@apollo/client'
 
 import 'styles/index.scss'
 import 'styles/sfds/index.scss'
-import '../../public/vendor/fontawesome-pro-5.15.1-web/css/all.min.css'
 import '../initIcons'
 
 import { client } from 'apolloClient'
 import { AnalyticsProvider } from 'stores/analyticsContext'
 import { AuthProvider } from 'stores/authContext'
-import DefaultLayout from 'layout/MVP/DefaultLayout/DefaultLayout'
+import DefaultLayout from 'layout/DefaultLayout/DefaultLayout'
 import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
 
 config.autoAddCss = false

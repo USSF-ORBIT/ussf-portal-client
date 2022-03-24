@@ -1,136 +1,84 @@
-import { useEffect, useState } from 'react'
-import { GridContainer, Grid, CardGroup } from '@trussworks/react-uswds'
-import AnnouncementCard from 'components/MVP/AnnouncementCard/AnnouncementCard'
-import LinkTo from 'components/util/LinkTo/LinkTo'
+import React, { useEffect } from 'react'
+import {
+  BreadcrumbBar,
+  Breadcrumb,
+  BreadcrumbLink,
+  Grid,
+} from '@trussworks/react-uswds'
+
+import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
+import LinkTo from 'components/util/LinkTo/LinkTo'
+import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
+import NewsListItem from 'components/NewsListItem/NewsListItem'
+import { useRSSFeed } from 'hooks/useRSSFeed'
+import styles from 'styles/pages/news.module.scss'
+import type { RSSNewsItem } from 'types'
+import { validateNewsItems, formatRssToArticle } from 'helpers/index'
+import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 
-const RSS_URL = `https://www.spaceforce.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=1060&max=10`
-
-type NewsItem = {
-  desc?: string
-  date?: string
-  link?: string
-  title?: string
-}
-
-export const NewsArticle = ({ date, link, title, desc }: NewsItem) => (
-  <article>
-    <p className="heading--small margin-top-3">{date}</p>
-    <LinkTo
-      className="usa-link usa-prose display-inline-block margin-top-1 text-no-underline hover:text-underline"
-      href={link || ''}>
-      <h3 className="font-heading-lg text-bold">{title}</h3>
-    </LinkTo>
-    <p>{desc}</p>
-  </article>
-)
+const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=12`
 
 const News = () => {
   const { user } = useUser()
+  const { items, fetchItems } = useRSSFeed(RSS_URL)
 
-  const [newsItems, setNewsItems] = useState<NewsItem[]>([])
-
-  // Fetch RSS items on load if logged in
   useEffect(() => {
     if (user) {
-      fetch(RSS_URL)
-        .then((resp) => resp.text())
-        .then((str) => new window.DOMParser().parseFromString(str, 'text/xml'))
-        .then((data) => {
-          const items = data.querySelectorAll('item')
-          const newsObjects: NewsItem[] = []
-          items.forEach((el) => {
-            const desc = el
-              .querySelector('description')
-              ?.innerHTML.split('&lt;br')[0]
-
-            const date = el.querySelector('pubDate')?.textContent || ''
-            const formattedDate =
-              date &&
-              new Date(date)
-                .toLocaleString('en-US', {
-                  day: '2-digit',
-                  month: 'short',
-                  year: 'numeric',
-                })
-                .toUpperCase()
-            const link = el.querySelector('link')?.textContent || ''
-            const title = el.querySelector('title')?.textContent || ''
-
-            newsObjects.push({
-              desc,
-              date: formattedDate,
-              link,
-              title,
-            })
-          })
-
-          setNewsItems(newsObjects)
-        })
-        .catch(() => {
-          // Error displaying RSS articles
-          console.error('Error displaying RSS feed')
-        })
+      fetchItems()
     }
-  }, [RSS_URL, user])
+  }, [user])
 
   return !user ? (
     <Loader />
   ) : (
-    <>
-      <section className="usa-section bg-news text-white">
-        <div className="usa-prose grid-container">
-          <span className="text-uppercase text-ls-3 text-orange-warm-30v text-bold">
-            News
-          </span>
-          <h1 className="page-header">What’s New</h1>
-        </div>
-      </section>
-
-      <section className="usa-section">
-        <GridContainer>
-          <Grid row gap>
-            <Grid desktop={{ col: 10 }}>
-              <div className="page-news-feed usa-prose">
-                <h2 className="section-header">Announcements</h2>
-                <CardGroup className="card-group--feature margin-top-4">
-                  <AnnouncementCard
-                    heading="Space Force rank names"
-                    tag="news"
-                    cols={true}
-                    bgColor="gradient--orange bg-accent-warm-dark"
-                    path="https://www.spaceforce.mil/News/Article/2487814/space-force-releases-service-specific-rank-names/"
-                  />
-                  <AnnouncementCard
-                    heading="Officer stratification guidance changed"
-                    tag="news"
-                    cols={true}
-                    bgColor="gradient--orange bg-accent-warm-dark"
-                    path="https://www.spaceforce.mil/News/Article/2519922/air-force-announces-officer-stratification-guidance/"
-                  />
-                  <AnnouncementCard
-                    heading="Chief of Space Operations’ Planning Guidance"
-                    tag="news"
-                    cols={true}
-                    bgColor="gradient--orange bg-accent-warm-dark"
-                    path="https://media.defense.gov/2020/Nov/09/2002531998/-1/-1/0/CSO%20PLANNING%20GUIDANCE.PDF"
-                  />
-                </CardGroup>
-
-                <h2 className="section-header">News</h2>
-                <Grid tablet={{ col: 9 }} className="margin-top-4">
-                  {newsItems.map((newsItem, i) => (
-                    <NewsArticle key={`newsItem_${i}`} {...newsItem} />
-                  ))}
-                </Grid>
-              </div>
+    <div>
+      <div className={styles.pageTitle}>
+        <h2>Latest news</h2>
+        <h3>The most recently publicly released Space Force news.</h3>
+      </div>
+      <Grid row gap={2}>
+        {items
+          .filter(validateNewsItems)
+          .map((item) => formatRssToArticle(item as Required<RSSNewsItem>))
+          .map((item, i) => (
+            <Grid
+              key={`newsItem_${i}_${item.id}`}
+              tablet={{ col: 6 }}
+              className={styles.newsItemContainer}>
+              <NewsListItem article={item} />
             </Grid>
-          </Grid>
-        </GridContainer>
-      </section>
-    </>
+          ))}
+      </Grid>
+
+      <div style={{ textAlign: 'center' }}>
+        <LinkTo
+          href="https://www.spaceforce.mil/News"
+          target="_blank"
+          rel="noreferrer noopener"
+          className="usa-button">
+          Read more news
+        </LinkTo>
+      </div>
+    </div>
   )
 }
 
 export default News
+
+News.getLayout = (page: React.ReactNode) =>
+  withPageLayout(
+    <div>
+      <h1>News</h1>
+      <BreadcrumbBar>
+        <Breadcrumb>
+          <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
+            Service portal home
+          </BreadcrumbLink>
+        </Breadcrumb>
+        <Breadcrumb current>News</Breadcrumb>
+      </BreadcrumbBar>
+    </div>,
+    page
+  )

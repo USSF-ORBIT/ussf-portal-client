@@ -25,13 +25,10 @@ const NavLink = ({
   const linkPath =
     typeof pathProp === 'string' ? pathProp : pathProp?.pathname || ''
 
-  const asPathWithoutBeta =
-    asPath === '/beta' ? '/' : asPath.replace('/beta', '')
-
   const isActive = pathToRegexp(linkPath, [], {
     sensitive: true,
     end: !!exact,
-  }).test(asPathWithoutBeta)
+  }).test(asPath)
 
   const classes = classnames(className, {
     [activeClass]: isActive,

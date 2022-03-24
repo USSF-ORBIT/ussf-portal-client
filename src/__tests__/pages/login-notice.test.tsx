@@ -4,7 +4,7 @@
 
 import { render, screen } from '@testing-library/react'
 import LoginNotice from 'pages/login-notice'
-import LoginLayout from 'layout/MVP/LoginLayout/LoginLayout'
+import LoginLayout from 'layout/LoginLayout/LoginLayout'
 
 describe('LoginNotice page', () => {
   beforeEach(() => {
