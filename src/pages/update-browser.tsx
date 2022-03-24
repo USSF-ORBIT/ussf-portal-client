@@ -1,7 +1,7 @@
 import React from 'react'
 import { GridContainer } from '@trussworks/react-uswds'
 
-import { withErrorLayout } from 'layout/Beta/ErrorLayout/ErrorLayout'
+import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
 import Logo from 'components/Logo/Logo'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 

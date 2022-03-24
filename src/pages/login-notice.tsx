@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { GridContainer } from '@trussworks/react-uswds'
 import styles from './login/login.module.scss'
 import LinkTo from 'components/util/LinkTo/LinkTo'
-import Layout from 'layout/MVP/LoginLayout/LoginLayout'
+import Layout from 'layout/LoginLayout/LoginLayout'
 
 const LoginNotice = () => {
   return (

@@ -57,11 +57,3 @@ Cypress.Commands.add('preserveLoginCookies', () => {
   Cypress.Cookies.preserveOnce('SimpleSAMLAuthTokenIdp')
   Cypress.Cookies.preserveOnce('PHPSESSIDIDP')
 })
-
-Cypress.Commands.add('joinBeta', () => {
-  cy.setCookie('betaOptIn', 'true')
-})
-
-Cypress.Commands.add('preserveBetaCookie', () => {
-  Cypress.Cookies.preserveOnce('betaOptIn')
-})

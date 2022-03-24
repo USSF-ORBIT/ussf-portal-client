@@ -1,9 +1,37 @@
 @import 'styles/uswdsDependencies';
-@import 'styles/mvp/mixins';
-@import 'styles/mvp/settings';
+
+@mixin heading-small {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: normal;
+  letter-spacing: 0.15em;
+}
 
 .loginPage {
   :global {
+    .usa-intro {
+      font-weight: 300;
+    }
+
+    .button-pill {
+      background-color: color('blue-warm-60v');
+      @include heading-small;
+      border-radius: 99em;
+    }
+
+    .button-pill,
+    .usa-prose > a.button-pill {
+      background-color: color('blue-warm-60v');
+      color: color('white');
+      text-decoration: none;
+      @include heading-small;
+      border-radius: 99em;
+      &:hover {
+        background-color: color('primary-dark');
+        border-bottom: 0;
+      }
+    }
+
     .usa-section {
       background: color('gray-cool-3');
     }

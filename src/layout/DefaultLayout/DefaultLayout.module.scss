@@ -1,0 +1,21 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/govBanner';
+@import 'styles/sfds/sfdsDependencies';
+
+.siteContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  :global {
+    // Dark theme gov banner
+    @include gov-banner;
+  }
+
+  main {
+    background-color: $theme-white;
+    color: $theme-black;
+    flex: 1;
+    margin-bottom: units(7);
+  }
+}
