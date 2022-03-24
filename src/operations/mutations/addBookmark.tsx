@@ -18,7 +18,7 @@ export const ADD_BOOKMARK = gql`
   mutation addBookmark(
     $url: String!
     $label: String
-    $collectionId: ID!
+    $collectionId: OID!
     $cmsId: ID
   ) {
     addBookmark(

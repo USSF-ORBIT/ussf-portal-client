@@ -210,6 +210,7 @@ export const BookmarkModel = {
         { collectionId },
         { db }
       )
+
       const visible = existing.filter((b: Bookmark) => !b.isRemoved)
 
       if (visible.length >= 10) {

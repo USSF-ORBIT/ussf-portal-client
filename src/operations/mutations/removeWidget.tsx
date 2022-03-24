@@ -9,7 +9,7 @@ interface RemoveWidgetInput {
 }
 
 export const REMOVE_WIDGET = gql`
-  mutation removeWidget($_id: ID!) {
+  mutation removeWidget($_id: OID!) {
     removeWidget(_id: $_id) {
       _id
     }

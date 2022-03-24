@@ -14,7 +14,7 @@ interface RemoveBookmarkInput {
 }
 
 export const REMOVE_BOOKMARK = gql`
-  mutation removeBookmark($_id: ID!, $collectionId: ID!, $cmsId: ID) {
+  mutation removeBookmark($_id: OID!, $collectionId: OID!, $cmsId: ID) {
     removeBookmark(_id: $_id, collectionId: $collectionId, cmsId: $cmsId) {
       _id
     }

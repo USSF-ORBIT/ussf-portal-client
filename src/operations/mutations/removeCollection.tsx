@@ -8,7 +8,7 @@ interface RemoveCollectionInput {
   _id: ObjectId
 }
 export const REMOVE_COLLECTION = gql`
-  mutation removeCollection($_id: ID!) {
+  mutation removeCollection($_id: OID!) {
     removeCollection(_id: $_id) {
       _id
     }

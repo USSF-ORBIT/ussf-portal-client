@@ -1,8 +1,9 @@
 import { gql } from '@apollo/client'
 
 export const typeDefs = gql`
+  scalar OID
   type Bookmark {
-    _id: ID!
+    _id: OID!
     url: String!
     label: String
     cmsId: ID
@@ -15,13 +16,13 @@ export const typeDefs = gql`
   }
 
   interface Widget {
-    _id: ID!
+    _id: OID!
     title: String!
     type: WidgetType!
   }
 
   type Collection implements Widget {
-    _id: ID!
+    _id: OID!
     title: String!
     type: WidgetType!
     bookmarks: [Bookmark]
@@ -29,7 +30,7 @@ export const typeDefs = gql`
   }
 
   type NewsWidget implements Widget {
-    _id: ID!
+    _id: OID!
     title: String!
     type: WidgetType!
   }
@@ -41,21 +42,21 @@ export const typeDefs = gql`
 
   type Mutation {
     addWidget(title: String!, type: WidgetType!): Widget
-    removeWidget(_id: ID!): Widget
+    removeWidget(_id: OID!): Widget
     addCollection(title: String!, bookmarks: [BookmarkInput!]!): Collection
-    editCollection(_id: ID!, title: String!): Collection
-    removeCollection(_id: ID!): Collection
+    editCollection(_id: OID!, title: String!): Collection
+    removeCollection(_id: OID!): Collection
     addBookmark(
-      collectionId: ID!
+      collectionId: OID!
       url: String!
       label: String
       cmsId: ID
     ): Bookmark
     addCollections(collections: [CollectionRecord!]): [Collection]
-    removeBookmark(_id: ID!, collectionId: ID!, cmsId: ID): Bookmark
+    removeBookmark(_id: OID!, collectionId: OID!, cmsId: ID): Bookmark
     editBookmark(
-      _id: ID!
-      collectionId: ID!
+      _id: OID!
+      collectionId: OID!
       url: String
       label: String
     ): Bookmark

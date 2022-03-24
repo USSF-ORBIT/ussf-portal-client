@@ -14,7 +14,7 @@ interface EditCollectionInput {
 }
 
 export const EDIT_COLLECTION = gql`
-  mutation editCollection($title: String!, $_id: ID!) {
+  mutation editCollection($title: String!, $_id: OID!) {
     editCollection(_id: $_id, title: $title) {
       _id
       title

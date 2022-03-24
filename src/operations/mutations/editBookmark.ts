@@ -16,8 +16,8 @@ interface EditBookmarkInput {
 
 export const EDIT_BOOKMARK = gql`
   mutation editBookmark(
-    $_id: ID!
-    $collectionId: ID!
+    $_id: OID!
+    $collectionId: OID!
     $label: String
     $url: String
   ) {
