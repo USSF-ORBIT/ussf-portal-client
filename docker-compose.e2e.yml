@@ -1,4 +1,4 @@
-#Overrides for e2e testing
+# Overrides for e2e testing
 services:
   app:
     build:
@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile
       target: e2e
     container_name: app
+    image: "${IMAGE_TAG}"
     restart: always
     ports:
       - '3000:3000'
@@ -19,6 +20,28 @@ services:
     stdin_open: true
     depends_on:
       - mongo
+      - redis
+      - idp
+
+  # CMS app
+  cms:
+    build:
+      context: ../ussf-portal-cms/
+      dockerfile: Dockerfile
+      target: e2e
+    container_name: cms
+    restart: always
+    ports:
+      - '3001:3001'
+    environment:
+      PORT: 3001
+      DATABASE_URL: postgres://keystone:keystonecms@keystone-db:5432/keystone
+      REDIS_URL: redis://portal_redis:6379
+      SESSION_SECRET: thisvaluecanbeanythingitisonlyforlocaldevelopment
+      SESSION_DOMAIN: localhost
+    stdin_open: true
+    depends_on:
+      - keystone-db
       - redis
       - idp
 
