@@ -58,10 +58,11 @@ describe('My Space model', () => {
     ).rejects.toEqual(new Error('You can only have one News section'))
   })
 
-  fit('can remove a News widget', async () => {
+  it('can remove a News widget', async () => {
     let allSections = await MySpaceModel.get({ userId: testUserId }, { db })
 
     let newsWidget = allSections.find((s) => s.type === 'News')
+
     expect(newsWidget).toBeTruthy()
 
     if (newsWidget) {

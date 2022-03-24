@@ -1,5 +1,5 @@
 import { Context } from '@apollo/client'
-import { ObjectId } from 'bson'
+import { ObjectId } from 'mongodb'
 
 import type { PortalUser, Collection } from 'types/index'
 import { WIDGET_TYPES } from 'constants/index'
@@ -7,37 +7,37 @@ import { WIDGET_TYPES } from 'constants/index'
 /** THIS IS BAD :( but easiest way for now while we use embedded Keystone */
 // TODO - change to use Keystone API on backend when we move to hosted Keystone
 export const EXAMPLE_COLLECTION: Collection = {
-  _id: new ObjectId(),
+  _id: ObjectId(),
   cmsId: 'ckwz3u58s1835ql974leo1yll',
   title: 'Example Collection',
   type: WIDGET_TYPES.COLLECTION,
   bookmarks: [
     {
-      _id: new ObjectId(),
+      _id: ObjectId(),
       cmsId: 'cktd7c0d30190w597qoftevq1',
       url: 'https://afpcsecure.us.af.mil/',
       label: 'vMPF',
     },
     {
-      _id: new ObjectId(),
+      _id: ObjectId(),
       cmsId: 'cktd7ettn0457w597p7ja4uye',
       url: 'https://leave.af.mil/profile',
       label: 'LeaveWeb',
     },
     {
-      _id: new ObjectId(),
+      _id: ObjectId(),
       cmsId: 'cktd7hjz30636w5977vu4la4c',
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
     },
     {
-      _id: new ObjectId(),
+      _id: ObjectId(),
       cmsId: 'ckwz3tphw1763ql97pia1zkvc',
       url: 'https://webmail.apps.mil/',
       label: 'Webmail',
     },
     {
-      _id: new ObjectId(),
+      _id: ObjectId(),
       cmsId: 'ckwz3u4461813ql970wkd254m',
       url: 'https://www.e-publishing.af.mil/',
       label: 'e-Publications',
