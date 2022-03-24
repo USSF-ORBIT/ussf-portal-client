@@ -45,30 +45,6 @@ describe('Routes & navigation', () => {
       cy.contains('Sites & Applications')
       cy.checkA11y(null, null, logging, { skipFailures: true })
     })
-
-    describe('redirects', () => {
-      it('redirects deprecated MVP routes to the 404 page', () => {
-        const routes = [
-          '/about-us/accomplishments',
-          '/training-and-education',
-          '/training-and-education/force-multiplier-program',
-        ]
-
-        routes.forEach((url) => {
-          cy.visit(url, { failOnStatusCode: false })
-          cy.url().should('eq', Cypress.config().baseUrl + '/404')
-        })
-      })
-
-      it('redirects deprecated beta routes to the home page', () => {
-        const routes = ['/joinbeta', '/leavebeta']
-
-        routes.forEach((url) => {
-          cy.visit(url)
-          cy.url().should('eq', Cypress.config().baseUrl + '/')
-        })
-      })
-    })
   })
 
   describe('logged out pages', () => {

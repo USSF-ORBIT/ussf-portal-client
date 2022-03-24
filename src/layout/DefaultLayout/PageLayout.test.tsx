@@ -19,7 +19,7 @@ describe('PageLayout component', () => {
   beforeEach(() => {
     render(
       <PageLayout header={<h1>Test Page</h1>}>
-        <h2>Beta Test Page</h2>
+        <h2>Test Page</h2>
       </PageLayout>
     )
   })

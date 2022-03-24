@@ -40,7 +40,7 @@ mockedUseRouter.mockReturnValue({
   replace: mockReplace,
 })
 
-describe('Beta Home page', () => {
+describe('Home page', () => {
   describe('without a user', () => {
     beforeEach(() => {
       renderWithAuth(<Home bookmarks={cmsBookmarksMock} />, { user: null })

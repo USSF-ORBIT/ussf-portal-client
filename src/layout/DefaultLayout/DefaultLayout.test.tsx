@@ -4,7 +4,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 
-import DefaultLayout, { withBetaLayout } from './DefaultLayout'
+import DefaultLayout, { withDefaultLayout } from './DefaultLayout'
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -19,7 +19,7 @@ describe('DefaultLayout component', () => {
   beforeEach(() => {
     render(
       <DefaultLayout>
-        <h1>Beta Test Page</h1>
+        <h1>Test Page</h1>
       </DefaultLayout>
     )
   })
@@ -51,10 +51,10 @@ describe('DefaultLayout component', () => {
   })
 })
 
-describe('withBetaLayout HOC', () => {
-  it('renders children inside of the beta layout', () => {
+describe('withDefaultLayout HOC', () => {
+  it('renders children inside of the default layout', () => {
     const TestPage = () => <div>My page</div>
-    render(withBetaLayout(<TestPage />))
+    render(withDefaultLayout(<TestPage />))
     expect(screen.getByText('My page')).toBeInTheDocument()
   })
 })

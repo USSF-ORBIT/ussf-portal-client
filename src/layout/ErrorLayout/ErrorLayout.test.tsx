@@ -20,7 +20,7 @@ describe('ErrorLayout component', () => {
     beforeEach(() => {
       render(
         <ErrorLayout>
-          <h2>Beta Test Page</h2>
+          <h2>Test Page</h2>
         </ErrorLayout>
       )
     })
@@ -47,7 +47,7 @@ describe('ErrorLayout component', () => {
     beforeEach(() => {
       render(
         <ErrorLayout hideNav={true}>
-          <h2>Beta Test Page</h2>
+          <h2>Test Page</h2>
         </ErrorLayout>
       )
     })

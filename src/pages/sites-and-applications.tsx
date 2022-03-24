@@ -17,7 +17,7 @@ import type {
   Collection as CollectionType,
 } from 'types/index'
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
-import { withBetaLayout } from 'layout/DefaultLayout/DefaultLayout'
+import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import Loader from 'components/Loader/Loader'
 import Flash from 'components/util/Flash/Flash'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
@@ -349,7 +349,7 @@ const SitesAndApplications = ({
 
 export default SitesAndApplications
 
-SitesAndApplications.getLayout = withBetaLayout
+SitesAndApplications.getLayout = withDefaultLayout
 
 export async function getStaticProps() {
   const collections: CollectionRecords = (await query.Collection.findMany({
