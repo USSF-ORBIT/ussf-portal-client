@@ -138,7 +138,7 @@ const SitesAndApplications = ({
     bookmark: BookmarkRecord,
     collectionId?: ObjectId
   ) => {
-    if (collectionId && collectionId != undefined) {
+    if (collectionId) {
       handleAddBookmark({
         variables: {
           collectionId,
