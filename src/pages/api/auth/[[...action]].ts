@@ -1,7 +1,6 @@
 import NextConnect from 'next-connect'
 import { NextApiResponse } from 'next'
 import axios from 'axios'
-import Cors from 'cors'
 
 import passport from '../../../lib/passport'
 import session from '../../../lib/session'
@@ -58,27 +57,8 @@ handler.post(
   }
 )
 
-const cors = Cors({
-  methods: ['GET', 'HEAD'],
-  // origin: process.env.KEYSTONE_URL,
-})
-
-function runCors(req, res, fn) {
-  return new Promise((resolve, reject) => {
-    fn(req, res, (result) => {
-      if (result instanceof Error) {
-        return reject(result)
-      }
-
-      return resolve(result)
-    })
-  })
-}
-
 //  GET /api/auth/logout - initiate a SLO (logout) request
 handler.get('/api/auth/logout', async (req, res) => {
-  await runCors(req, res, cors)
-
   if (!req.user) {
     // Not logged in
     await req.session.destroy()
