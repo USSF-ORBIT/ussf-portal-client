@@ -12,6 +12,11 @@ const Login = () => {
 
   // Persist redirect value if there is one
   useEffect(() => {
+    // Clear stale redirect value
+    if (window.sessionStorage.getItem('redirectAfterLogin')) {
+      window.sessionStorage.removeItem('redirectAfterLogin')
+    }
+
     if (router.query.redirectTo) {
       window.sessionStorage.setItem(
         'redirectAfterLogin',
