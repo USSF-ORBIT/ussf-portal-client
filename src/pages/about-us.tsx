@@ -113,6 +113,14 @@ const AboutUs = () => {
                   USSF Enlisted Rank and Insignia
                 </LinkTo>
               </li>
+              <li>
+                <LinkTo
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  href="/uploads/USSF Health Wellness and Fitness Memo dated 16Mar22.pdf">
+                  USSF/S1 Health, Wellness and Fitness Memo (16 MAR 2022)
+                </LinkTo>
+              </li>
             </ul>
           </div>
         </Grid>
