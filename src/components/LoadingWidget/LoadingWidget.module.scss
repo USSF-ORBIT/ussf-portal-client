@@ -21,11 +21,11 @@
   background-repeat: no-repeat;
   background-size: contain, cover;
   background-position: -500px 0, 0 0;
-  animation: loading 1.5s infinite;
+  animation: loading 2s infinite;
 }
 
 @keyframes loading {
   to {
-    background-position: calc(100% + 500px) 0, 0 0;
+    background-position: calc(100% + 100vw) 0, 0 0;
   }
 }
