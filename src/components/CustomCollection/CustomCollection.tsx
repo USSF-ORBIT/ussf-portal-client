@@ -184,9 +184,22 @@ const CustomCollection = ({
           <p className="usa-form__note">
             Don’t see what you need?
             <br />
-            <Button type="button" unstyled onClick={openCustomLinkModal}>
-              Add a custom link
-            </Button>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <Button type="button" unstyled onClick={openCustomLinkModal}>
+                Add a custom link
+              </Button>
+              <Button
+                type="button"
+                unstyled
+                onClick={() => setIsAddingLink(false)}>
+                Cancel
+              </Button>
+            </div>
           </p>
         </>
       ) : (
