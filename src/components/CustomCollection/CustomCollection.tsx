@@ -181,7 +181,7 @@ const CustomCollection = ({
             )}
           </div>
 
-          <p className="usa-form__note">
+          <div className="usa-form__note">
             Don’t see what you need?
             <br />
             <div
@@ -200,7 +200,7 @@ const CustomCollection = ({
                 Cancel
               </Button>
             </div>
-          </p>
+          </div>
         </>
       ) : (
         <Button
