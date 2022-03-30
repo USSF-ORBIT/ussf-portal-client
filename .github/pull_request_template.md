@@ -84,6 +84,22 @@
   - [ ] Checked VO's [rotor menu](https://github.com/trussworks/accessibility/blob/master/README.md#how-to-use-the-rotor-menu) for landmarks, page heading structure and links
   - [ ] Used a browser a11y tool to check for issues (WAVE, axe, ANDI or Accessibility addon tab for Storybook)
 
+### As a test user, I have
+
+- Run through the [Test Script](hhttps://docs.google.com/spreadsheets/d/1eV8UK0aJZ0qrzjnXf5SJ_uRiV7bpsj3yrhRFEkjOvV4/edit?usp=sharing):
+  - [ ] On commercial internet in IE11
+  - [ ] On commercial internet in Firefox
+  - [ ] On commercial internet in Chrome
+  - [ ] On commercial internet in Safari
+  - [ ] On NIPR in IE11
+  - [ ] On NIPR in Firefox
+  - [ ] On NIPR in Chrome
+  - [ ] On NIPR in Safari
+  - [ ] On a mobile device in Firefox
+  - [ ] On a mobile device in Chrome
+  - [ ] On a mobile device in Safari
+- [ ] Added any anomalous behavior to this PR
+
 ---
 
 ## Screenshots
