@@ -155,7 +155,7 @@ const CustomCollection = ({
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <div>
+            <div style={{ width: '100%' }}>
               <Label htmlFor="bookmarkId" className="usa-sr-only">
                 Select existing link
               </Label>

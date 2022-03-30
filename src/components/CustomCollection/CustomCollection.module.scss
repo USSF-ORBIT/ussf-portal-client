@@ -13,7 +13,7 @@
 }
 
 .addLink {
-  @include u-padding-x(2);
+  // @include u-padding-x(2);
   @include u-margin-top(2);
 
   :global(.usa-tooltip) {
@@ -29,6 +29,16 @@
       margin: 0;
       font-size: inherit;
     }
+  }
+}
+
+.addLinkComboBox {
+  input {
+    border: 1px solid #707c91;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin-top: 0;
+    font-family: 'Trebuchet MS';
   }
 }
 
