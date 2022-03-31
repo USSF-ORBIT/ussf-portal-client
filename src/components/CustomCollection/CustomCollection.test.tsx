@@ -250,6 +250,24 @@ describe('CustomCollection component', () => {
     expect(linkInput).toBeValid()
   })
 
+  it('cancels Add Link action and resets form', () => {
+    render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
+
+    userEvent.click(screen.getByRole('button', { name: '+ Add link' }))
+    expect(screen.queryByLabelText('Select existing link')).toBeInTheDocument()
+
+    userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    expect(
+      screen.getByRole('button', {
+        name: '+ Add link',
+      })
+    ).toBeInTheDocument()
+
+    expect(
+      screen.queryByLabelText('Select existing link')
+    ).not.toBeInTheDocument()
+  })
+
   it('can open the Add Custom Link modal', () => {
     const mockAddLink = jest.fn()
 
