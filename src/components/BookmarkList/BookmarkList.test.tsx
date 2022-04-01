@@ -6,11 +6,10 @@ import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import React from 'react'
-
+import { ObjectId } from 'mongodb'
 import BookmarkList from './BookmarkList'
 import type { Collection, BookmarkRecord, BookmarkRecords } from 'types'
 import { WIDGET_TYPES } from 'constants/index'
-import { ObjectId } from 'bson'
 
 const exampleBookmarks: BookmarkRecord[] = [
   { id: '1', label: 'Webmail', url: '#' },
@@ -71,7 +70,7 @@ const exampleInvalidBookmarks = [
     description: 'Air Force Installation and Mission Support',
   },
 ]
-const collectionId = new ObjectId()
+const collectionId = ObjectId()
 const exampleCollections: Collection[] = [
   {
     _id: collectionId,
@@ -87,7 +86,7 @@ const exampleCollectionsWithLimit: Collection[] = [
     title: 'Example Collection',
     type: WIDGET_TYPES.COLLECTION,
     bookmarks: Array.from({ length: 10 }, (x, i) => ({
-      _id: new ObjectId(),
+      _id: ObjectId(),
       label: `Bookmark ${i}`,
       url: '#',
     })),

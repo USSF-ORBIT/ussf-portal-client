@@ -1,7 +1,7 @@
-import { MongoClient, Db } from 'mongodb'
+import { MongoClient, Db, ObjectId } from 'mongodb'
 import { ApolloServer } from 'apollo-server-micro'
 import type { VariableValues } from 'apollo-server-types'
-import { ObjectId } from 'bson'
+import type { ObjectId as typeObjectId } from 'bson'
 import { typeDefs } from '../schema'
 
 import { newPortalUser } from '../__fixtures__/newPortalUser'
@@ -23,9 +23,9 @@ import { REMOVE_WIDGET } from 'operations/mutations/removeWidget'
 let server: ApolloServer
 let connection: typeof MongoClient
 let db: typeof Db
-const testCollectionId = new ObjectId()
-const testBookmarkId = new ObjectId()
-const testWidgetId = new ObjectId()
+const testCollectionId = ObjectId()
+const testBookmarkId = ObjectId()
+const testWidgetId = ObjectId()
 
 describe('GraphQL resolvers', () => {
   beforeAll(async () => {
@@ -111,7 +111,6 @@ describe('GraphQL resolvers', () => {
         expect(result.errors).toHaveLength(1)
 
         if (result.errors?.length) {
-          // console.log(result.errors[0].message)
           expect(result.errors[0].extensions?.code).toEqual('UNAUTHENTICATED')
           expect(result.errors[0].message).toEqual(
             'You must be logged in to perform this operation'
@@ -194,7 +193,7 @@ describe('GraphQL resolvers', () => {
         })
 
         const expectedData = {
-          _id: expect.any(ObjectId),
+          _id: expect.any(String),
           title: 'Recent news',
           type: 'News',
         }
@@ -206,7 +205,8 @@ describe('GraphQL resolvers', () => {
 
     describe('removeWidget', () => {
       it('removes an existing widget from the user’s My Space', async () => {
-        const testWidgetId = new ObjectId()
+        const testWidgetId = ObjectId()
+
         const result = await server.executeOperation({
           query: REMOVE_WIDGET,
           variables: {
@@ -234,7 +234,7 @@ describe('GraphQL resolvers', () => {
         })
 
         const expectedData = {
-          _id: expect.any(ObjectId),
+          _id: expect.any(String),
           title: '',
           bookmarks: [],
         }
@@ -344,37 +344,37 @@ describe('GraphQL resolvers', () => {
 
         const expectedData = [
           {
-            _id: expect.any(ObjectId),
+            _id: expect.any(String),
             cmsId: 'cmsCollectionId1',
             title: 'CMS Collection 1',
             type: 'Collection',
             bookmarks: [
               {
-                _id: expect.any(ObjectId),
+                _id: expect.any(String),
                 cmsId: 'cmsBookmarkId1',
                 url: 'https://google.com',
                 label: 'Webmail',
               },
               {
-                _id: expect.any(ObjectId),
+                _id: expect.any(String),
                 cmsId: 'cmsBookmarkId2',
                 url: 'https://mypay.dfas.mil/#/',
                 label: 'MyPay',
               },
               {
-                _id: expect.any(ObjectId),
+                _id: expect.any(String),
                 cmsId: 'cmsBookmarkId3',
                 url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
                 label: 'vMPF',
               },
               {
-                _id: expect.any(ObjectId),
+                _id: expect.any(String),
                 cmsId: 'cmsBookmarkId4',
                 url: 'https://leave.af.mil/profile',
                 label: 'LeaveWeb',
               },
               {
-                _id: expect.any(ObjectId),
+                _id: expect.any(String),
                 cmsId: 'cmsBookmarkId5',
                 url: 'https://www.e-publishing.af.mil/',
                 label: 'e-Publications',
@@ -382,13 +382,13 @@ describe('GraphQL resolvers', () => {
             ],
           },
           {
-            _id: expect.any(ObjectId),
+            _id: expect.any(String),
             cmsId: 'cmsCollectionId2',
             title: 'CMS Collection 2',
             type: 'Collection',
             bookmarks: [
               {
-                _id: expect.any(ObjectId),
+                _id: expect.any(String),
                 cmsId: 'cmsBookmarkId6',
                 url: 'https://google.com',
                 label: 'Search Engine',
@@ -418,7 +418,7 @@ describe('GraphQL resolvers', () => {
         })
 
         const expectedData = {
-          _id: expect.any(ObjectId),
+          _id: expect.any(String),
           label: 'New Label',
           url: 'http://www.example.com/new',
           cmsId: 'testBookmarkCmsId',
@@ -451,7 +451,8 @@ describe('GraphQL resolvers', () => {
           label: 'New Label',
           url: 'http://www.example.com/new',
         }
-
+        console.log('results data, ', JSON.stringify(result.data))
+        console.log('expected data, ', JSON.stringify(expectedData))
         expect(result.errors).toBeUndefined()
 
         expect(JSON.stringify(result.data)).toEqual(
@@ -468,13 +469,13 @@ describe('GraphQL resolvers', () => {
         const result = await server.executeOperation({
           query: REMOVE_BOOKMARK,
           variables: {
-            _id: bookmark?._id,
-            collectionId: collection?._id,
+            _id: `${bookmark?._id}`,
+            collectionId: `${collection?._id}`,
           },
         })
 
         const expectedData = {
-          _id: bookmark._id,
+          _id: `${bookmark._id}`,
         }
 
         expect(result.errors).toBeUndefined()

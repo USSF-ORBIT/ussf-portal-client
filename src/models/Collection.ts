@@ -1,5 +1,6 @@
 import { Context } from '@apollo/client'
-import { ObjectId } from 'bson'
+import { ObjectId } from 'mongodb'
+import type { ObjectId as typeObjectId } from 'bson'
 
 import type {
   Bookmark,
@@ -27,13 +28,13 @@ type AddManyInput = {
 }
 
 type EditOneInput = {
-  _id: ObjectId
+  _id: typeObjectId
   title: string
   userId: string
 }
 
 type DeleteOneInput = {
-  _id: ObjectId
+  _id: typeObjectId
   userId: string
 }
 
@@ -69,14 +70,14 @@ export const CollectionModel = {
     }
 
     const newBookmarks: Bookmark[] = bookmarks.map((input) => ({
-      _id: new ObjectId(),
+      _id: ObjectId(),
       url: input.url,
       label: input.label,
       cmsId: input.cmsId,
     }))
 
     const newCollection: Collection = {
-      _id: new ObjectId(),
+      _id: ObjectId(),
       title: title,
       type: WIDGET_TYPES.COLLECTION,
       bookmarks: newBookmarks,
@@ -117,13 +118,13 @@ export const CollectionModel = {
 
     // Add Many is currently only possible with CollectionRecords (from the CMS)
     const newCollections = collections.map((collection) => ({
-      _id: new ObjectId(),
+      _id: ObjectId(),
       // #TODO Future data modeling to be done for canonical collections
       cmsId: collection.id,
       title: collection.title,
       type: WIDGET_TYPES.COLLECTION,
       bookmarks: collection.bookmarks.map((bookmark) => ({
-        _id: new ObjectId(),
+        _id: ObjectId(),
         cmsId: bookmark.id,
         url: bookmark.url,
         label: bookmark.label,
@@ -185,7 +186,7 @@ export const CollectionModel = {
   async deleteOne(
     { _id, userId }: DeleteOneInput,
     { db }: Context
-  ): Promise<{ _id: ObjectId }> {
+  ): Promise<{ _id: typeObjectId }> {
     const query = {
       userId: userId,
     }

@@ -1,4 +1,4 @@
-import { ObjectId } from 'bson'
+import { ObjectId } from 'mongodb'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
 
 export const getCollectionsMock = [
@@ -10,26 +10,26 @@ export const getCollectionsMock = [
       data: {
         collections: [
           {
-            _id: new ObjectId(),
+            _id: ObjectId(),
             title: 'Example Collection',
             type: 'Collection',
             bookmarks: [
               {
-                _id: new ObjectId(),
+                _id: ObjectId(),
                 url: 'https://google.com',
                 label: 'Webmail',
                 cmsId: null,
                 isRemoved: null,
               },
               {
-                _id: new ObjectId(),
+                _id: ObjectId(),
                 url: 'https://mypay.dfas.mil/#/',
                 label: 'MyPay',
                 cmsId: '1',
                 isRemoved: null,
               },
               {
-                _id: new ObjectId(),
+                _id: ObjectId(),
                 url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
                 label: 'vMPF',
                 cmsId: '2',
@@ -38,11 +38,11 @@ export const getCollectionsMock = [
             ],
           },
           {
-            _id: new ObjectId(),
+            _id: ObjectId(),
             title: 'Maxed Out Collection',
             type: 'Collection',
             bookmarks: Array.from({ length: 10 }, (x, i) => ({
-              _id: new ObjectId(),
+              _id: ObjectId(),
               label: `Bookmark ${i}`,
               url: '#',
               isRemoved: null,
@@ -50,7 +50,7 @@ export const getCollectionsMock = [
             })),
           },
           ...Array.from({ length: 20 }, (x, i) => ({
-            _id: new ObjectId(),
+            _id: ObjectId(),
             title: `Collection ${i + 3}`,
             type: 'Collection',
             bookmarks: [],
@@ -66,7 +66,7 @@ const mockCollection = {
   type: 'Collection',
   bookmarks: [
     {
-      _id: new ObjectId(),
+      _id: ObjectId(),
       url: 'https://google.com',
       label: 'Webmail',
       cmsId: null,
@@ -78,7 +78,7 @@ const mockCollection = {
 const maxCollections = Array.from({ length: 25 }, (x, i) => {
   return {
     ...mockCollection,
-    _id: new ObjectId(),
+    _id: ObjectId(),
   }
 })
 

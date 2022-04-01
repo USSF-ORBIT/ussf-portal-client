@@ -1,6 +1,6 @@
 import type { Context } from '@apollo/client'
-import { ObjectId } from 'bson'
-
+import { ObjectId } from 'mongodb'
+import { ObjectId as typeObjectId } from 'bson'
 import type { MySpace, Widget, WidgetType } from 'types'
 
 type GetInput = {
@@ -15,7 +15,7 @@ type AddWidgetInput = {
 
 type DeleteWidgetInput = {
   userId: string
-  _id: ObjectId
+  _id: typeObjectId
 }
 
 /** My Space */
@@ -43,7 +43,7 @@ export const MySpaceModel = {
     }
 
     const created: Widget = {
-      _id: new ObjectId(),
+      _id: ObjectId(),
       title,
       type,
     }
@@ -64,7 +64,7 @@ export const MySpaceModel = {
   async deleteWidget(
     { _id, userId }: DeleteWidgetInput,
     { db }: Context
-  ): Promise<{ _id: ObjectId; type: WidgetType }> {
+  ): Promise<{ _id: typeObjectId; type: WidgetType }> {
     try {
       await db
         .collection('users')

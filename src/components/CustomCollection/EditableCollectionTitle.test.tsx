@@ -5,7 +5,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { ObjectId } from 'bson'
+import { ObjectId } from 'mongodb'
 
 import { EditableCollectionTitle } from './EditableCollectionTitle'
 
@@ -13,7 +13,7 @@ describe('EditableCollectionTitle component', () => {
   it('renders an editable collection title', () => {
     render(
       <EditableCollectionTitle
-        collectionId={new ObjectId()}
+        collectionId={ObjectId()}
         text="Test Collection"
         onSave={jest.fn()}
         onCancel={jest.fn()}
@@ -29,7 +29,7 @@ describe('EditableCollectionTitle component', () => {
   it('renders a form to edit title if isEditing is true', () => {
     render(
       <EditableCollectionTitle
-        collectionId={new ObjectId()}
+        collectionId={ObjectId()}
         text="Test Collection"
         onSave={jest.fn()}
         onCancel={jest.fn()}
@@ -52,7 +52,7 @@ it('saves the form', async () => {
   const mockHandleOnSave = jest.fn()
   render(
     <EditableCollectionTitle
-      collectionId={new ObjectId()}
+      collectionId={ObjectId()}
       text="Test Collection"
       onSave={mockHandleOnSave}
       onCancel={jest.fn()}
@@ -72,7 +72,7 @@ it('cancels the form', () => {
   const mockHandleOnCancel = jest.fn()
   render(
     <EditableCollectionTitle
-      collectionId={new ObjectId()}
+      collectionId={ObjectId()}
       text="Test Collection"
       onSave={jest.fn()}
       onCancel={mockHandleOnCancel}

@@ -1,5 +1,6 @@
 import { Context } from '@apollo/client'
-import { ObjectId } from 'bson'
+import { ObjectId } from 'mongodb'
+import type { ObjectId as typeObjectId } from 'bson'
 
 import type {
   BookmarkInput,
@@ -11,30 +12,30 @@ import type {
 // Types for BookmarkModel
 type AddOneInput = {
   url: string
-  collectionId: ObjectId
+  collectionId: typeObjectId
   userId: string
   label?: string
   cmsId?: string
 }
 
 type GetAllInput = {
-  collectionId: ObjectId
+  collectionId: typeObjectId
 }
 
 type FindOneInput = {
-  _id: ObjectId
-  collectionId: ObjectId
+  _id: typeObjectId
+  collectionId: typeObjectId
 }
 
 type DeleteOrHideInput = {
-  _id: ObjectId
-  collectionId: ObjectId
+  _id: typeObjectId
+  collectionId: typeObjectId
   userId: string
 }
 
 type EditOneInput = {
-  _id: ObjectId
-  collectionId: ObjectId
+  _id: typeObjectId
+  collectionId: typeObjectId
   userId: string
   url?: string
   label?: string
@@ -85,6 +86,13 @@ export const BookmarkModel = {
     { db }: Context
   ) {
     try {
+      console.log('BookmarkModel: editOne', {
+        _id,
+        collectionId,
+        userId,
+        url,
+        label,
+      })
       const bookmark = await BookmarkModel.findOne(
         { _id, collectionId },
         { db }
@@ -122,7 +130,7 @@ export const BookmarkModel = {
       const result = await db
         .collection('users')
         .findOneAndUpdate(query, updateDocument, filters)
-
+      console.log('result? ', result)
       const updatedBookmark = result.value.mySpace
         .filter(
           (collection: Collection) =>
@@ -132,6 +140,7 @@ export const BookmarkModel = {
           (bookmark: Bookmark) => bookmark._id.toString() === _id.toString()
         )[0]
 
+      console.log('updated bookmark ', updatedBookmark)
       return updatedBookmark
     } catch (e) {
       console.error('BookmarkModel Error: error in editOne', e)
@@ -224,7 +233,7 @@ export const BookmarkModel = {
     }
 
     const newBookmark: BookmarkInput = {
-      _id: new ObjectId(),
+      _id: ObjectId(),
       url,
       label,
       cmsId,

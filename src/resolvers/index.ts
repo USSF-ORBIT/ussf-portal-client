@@ -1,56 +1,100 @@
 import { GraphQLScalarType, Kind } from 'graphql'
-import type { Resolvers } from '@apollo/client'
-import { ObjectId } from 'bson'
 import { AuthenticationError } from 'apollo-server-micro'
+import { ObjectId, ObjectID, MongoClient } from 'mongodb'
+import type { ObjectId as typeObjectId } from 'bson'
 import { BookmarkModel } from '../models/Bookmark'
-
 import { CollectionModel } from '../models/Collection'
 
 import { MySpaceModel } from 'models/MySpace'
+import { Widget, PortalUser, WidgetType, Bookmark } from 'types'
 
 export const ObjectIdScalar = new GraphQLScalarType({
   name: 'OID',
   description: 'Mongo object id scalar type',
-  // serialize(value: unknown): string {
-  //   // check the type of received value
-
-  //   if (!(value instanceof ObjectId || value instanceof ObjectID)) {
-  //     throw new Error('ObjectIdScalar can only serialize ObjectId values')
-  //   }
-
-  //   return value.toHexString() // value sent to the client
-  // },
-  parseValue(value: unknown): ObjectId {
+  serialize(value: unknown): string {
     // check the type of received value
+    if (!(value instanceof ObjectId || value instanceof ObjectID)) {
+      throw new Error('ObjectIdScalar can only serialize ObjectId values')
+    }
+    const _id = value as typeObjectId
+    return _id.toHexString() // value sent to the client
+  },
+  parseValue(value: unknown): typeObjectId {
+    // check the type of received value
+    // if (typeof value === 'object') return value
     if (typeof value !== 'string') {
       throw new Error('ObjectIdScalar can only parse string values')
     }
-    return new ObjectId(value) // value from the client input variables
+    return ObjectId(value) // value from the client input variables
   },
-  parseLiteral(ast): ObjectId {
+  parseLiteral(ast): typeObjectId {
     // check the type of received value
     if (ast.kind !== Kind.STRING) {
       throw new Error('ObjectIdScalar can only parse string values')
     }
-    return new ObjectId(ast.value) // value from the client query
+    return ObjectId(ast.value) // value from the client query
   },
 })
 
-const resolvers: Resolvers = {
-  //# TODO find correct resolver type for server
+// Resolver Types
+
+type PortalUserContext = {
+  db: typeof MongoClient
+  user: PortalUser
+}
+
+type AddWidgetInput = {
+  title: string
+  type: WidgetType
+}
+
+type AddCollectionInput = {
+  title: string
+  bookmarks: Bookmark[]
+}
+
+type EditCollectionInput = {
+  _id: typeObjectId
+  title: string
+}
+
+type AddBookmarkInput = {
+  collectionId: typeObjectId
+  url: string
+  label: string
+  cmsId: string
+}
+
+type RemoveBookmarkInput = {
+  _id: typeObjectId
+  collectionId: typeObjectId
+  cmsId: string
+}
+
+type EditBookmarkInput = {
+  _id: typeObjectId
+  collectionId: typeObjectId
+  url: string
+  label: string
+}
+const resolvers = {
   OID: ObjectIdScalar,
   // Interface resolvers
   // https://www.apollographql.com/docs/apollo-server/schema/unions-interfaces/#resolving-an-interface
   Widget: {
-    __resolveType(widget) {
-      if (widget.bookmarks) return 'Collection'
+    __resolveType(widget: Widget) {
+      if (widget.type === 'Collection') return 'Collection'
       if (widget.type === 'News') return 'NewsWidget'
       return null // GraphQL Error
     },
   },
   // Root resolvers
   Query: {
-    mySpace: async (_, args, { db, user }) => {
+    mySpace: async (
+      _: undefined,
+      args: undefined,
+      { db, user }: PortalUserContext
+    ) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -59,7 +103,11 @@ const resolvers: Resolvers = {
 
       return MySpaceModel.get({ userId: user.userId }, { db })
     },
-    collections: async (_, args, { db, user }) => {
+    collections: async (
+      _: undefined,
+      args: undefined,
+      { db, user }: PortalUserContext
+    ) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -70,7 +118,11 @@ const resolvers: Resolvers = {
     },
   },
   Mutation: {
-    addWidget: async (_, { title, type }, { db, user }) => {
+    addWidget: async (
+      _: undefined,
+      { title, type }: AddWidgetInput,
+      { db, user }: PortalUserContext
+    ) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -82,7 +134,11 @@ const resolvers: Resolvers = {
         { db }
       )
     },
-    removeWidget: async (_, { _id }, { db, user }) => {
+    removeWidget: async (
+      _: undefined,
+      { _id }: { _id: typeObjectId },
+      { db, user }: PortalUserContext
+    ) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -91,7 +147,11 @@ const resolvers: Resolvers = {
 
       return MySpaceModel.deleteWidget({ _id, userId: user.userId }, { db })
     },
-    addCollection: async (_, { title, bookmarks }, { db, user }) => {
+    addCollection: async (
+      _: undefined,
+      { title, bookmarks }: AddCollectionInput,
+      { db, user }: PortalUserContext
+    ) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -103,7 +163,11 @@ const resolvers: Resolvers = {
         { db }
       )
     },
-    editCollection: async (_, { _id, title }, { db, user }) => {
+    editCollection: async (
+      _: undefined,
+      { _id, title }: EditCollectionInput,
+      { db, user }: PortalUserContext
+    ) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -115,7 +179,11 @@ const resolvers: Resolvers = {
         { db }
       )
     },
-    removeCollection: async (root, { _id }, { db, user }) => {
+    removeCollection: async (
+      _: undefined,
+      { _id }: { _id: typeObjectId },
+      { db, user }: PortalUserContext
+    ) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -123,7 +191,11 @@ const resolvers: Resolvers = {
       }
       return CollectionModel.deleteOne({ _id, userId: user.userId }, { db })
     },
-    addCollections: async (_, args, { db, user }) => {
+    addCollections: async (
+      _: undefined,
+      args: any, //#TODO fix type
+      { db, user }: PortalUserContext
+    ) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -136,9 +208,9 @@ const resolvers: Resolvers = {
       )
     },
     addBookmark: async (
-      root,
-      { collectionId, url, label, cmsId },
-      { db, user }
+      _: undefined,
+      { collectionId, url, label, cmsId }: AddBookmarkInput,
+      { db, user }: PortalUserContext
     ) => {
       if (!user) {
         throw new AuthenticationError(
@@ -151,9 +223,9 @@ const resolvers: Resolvers = {
       )
     },
     removeBookmark: async (
-      root,
-      { _id, collectionId, cmsId },
-      { db, user }
+      _: undefined,
+      { _id, collectionId, cmsId }: RemoveBookmarkInput,
+      { db, user }: PortalUserContext
     ) => {
       if (!user) {
         throw new AuthenticationError(
@@ -174,9 +246,9 @@ const resolvers: Resolvers = {
       }
     },
     editBookmark: async (
-      root,
-      { _id, collectionId, url, label },
-      { db, user }
+      _: undefined,
+      { _id, collectionId, url, label }: EditBookmarkInput,
+      { db, user }: PortalUserContext
     ) => {
       if (!user) {
         throw new AuthenticationError(

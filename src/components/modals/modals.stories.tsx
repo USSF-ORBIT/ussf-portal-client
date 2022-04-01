@@ -1,13 +1,12 @@
 import React, { useRef } from 'react'
 import type { Meta } from '@storybook/react'
 import type { ModalRef } from '@trussworks/react-uswds'
-
+import { ObjectId } from 'mongodb'
 import JoinBetaModal from './JoinBetaModal'
 import AddCustomLinkModal from './AddCustomLinkModal'
 import EditCustomLinkModal from './EditCustomLinkModal'
 import RemoveCustomCollectionModal from './RemoveCustomCollectionModal'
 import RemoveSectionModal from './RemoveSectionModal'
-import { ObjectId } from 'bson'
 
 export default {
   title: 'Components/Modals',
@@ -81,7 +80,7 @@ export const editCustomLinkModal = () => {
   const closeModal = () => storybookModal.current?.toggleModal(undefined, false)
 
   const testBookmark = {
-    _id: new ObjectId(),
+    _id: ObjectId(),
     label: 'My Custom Link',
     url: 'http://www.example.com',
   }

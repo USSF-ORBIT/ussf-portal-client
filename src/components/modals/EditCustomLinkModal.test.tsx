@@ -6,14 +6,14 @@ import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { createRef } from 'react'
 import { ModalRef } from '@trussworks/react-uswds'
-import { ObjectId } from 'bson'
+import { ObjectId } from 'mongodb'
 import { renderWithModalRoot } from '../../testHelpers'
 
 import EditCustomLinkModal from './EditCustomLinkModal'
 
 describe('EditCustomLinkModal', () => {
   const mockBookmark = {
-    _id: new ObjectId(),
+    _id: ObjectId(),
     label: 'My Custom Link',
     url: 'http://www.example.com',
   }

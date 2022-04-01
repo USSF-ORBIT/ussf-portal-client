@@ -1,16 +1,16 @@
-import { ObjectId } from 'bson'
-import { MongoClient, Db } from 'mongodb'
+import { MongoClient, Db, ObjectId } from 'mongodb'
+import { ObjectId as typeObjectId } from 'bson'
 import { BookmarkModel } from './Bookmark'
 import { CollectionModel } from './Collection'
 import User from './User'
 import type { BookmarkInput, CollectionInput, RemovedBookmark } from 'types'
 let connection: typeof MongoClient
 let db: typeof Db
-let exampleCollectionId: ObjectId
+let exampleCollectionId: typeObjectId
 
 describe('Bookmark Model', () => {
-  let newCMSBookmarkId: ObjectId
-  let newCustomBookmarkId: ObjectId
+  let newCMSBookmarkId: typeObjectId
+  let newCustomBookmarkId: typeObjectId
 
   beforeAll(async () => {
     // Create mongodb connection
@@ -332,52 +332,52 @@ describe('Bookmark Model', () => {
     // Create full collection
     const maxBookmarks: BookmarkInput[] = [
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example1.com',
         label: 'Label 1',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example2.com',
         label: 'Label 2',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example3.com',
         label: 'Label 3',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example4.com',
         label: 'Label 4',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example5.com',
         label: 'Label 5',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example6.com',
         label: 'Label 6',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example7.com',
         label: 'Label 7',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example8.com',
         label: 'Label 8',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example9.com',
         label: 'Label 9',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example10.com',
         label: 'Label 10',
       },

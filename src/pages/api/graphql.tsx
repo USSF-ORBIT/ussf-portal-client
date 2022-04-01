@@ -46,7 +46,7 @@ export const apolloServer = new ApolloServer({
       const client = await clientConnection()
 
       const db = client.db(process.env.MONGODB_DB)
-
+      console.log('WHAT is the tYPE of the db', typeof db)
       const loggedInUser = session.passport.user as SessionUser
       const { userId } = loggedInUser
 
