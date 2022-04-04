@@ -3,7 +3,13 @@ import { ObjectId as typeObjectId } from 'bson'
 import { BookmarkModel } from './Bookmark'
 import { CollectionModel } from './Collection'
 import User from './User'
-import type { BookmarkInput, CollectionInput, RemovedBookmark } from 'types'
+import type {
+  Bookmark,
+  BookmarkInput,
+  BookmarkRecord,
+  CollectionInput,
+  RemovedBookmark,
+} from 'types'
 let connection: typeof MongoClient
 let db: typeof Db
 let exampleCollectionId: typeObjectId
@@ -126,7 +132,7 @@ describe('Bookmark Model', () => {
     )
     expect(all.length).toEqual(7)
 
-    const found = all.find((b: any) => `${b._id}` === `${hidden._id}`)
+    const found = all.find((b: Bookmark) => `${b._id}` === `${hidden._id}`)
 
     expect(found.isRemoved).toBe(true)
   })

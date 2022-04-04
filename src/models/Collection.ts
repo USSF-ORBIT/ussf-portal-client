@@ -193,9 +193,7 @@ export const CollectionModel = {
 
     const updateDocument = {
       $pull: {
-        mySpace: {
-          _id: _id,
-        },
+        mySpace: { _id },
       },
     }
 
@@ -208,7 +206,7 @@ export const CollectionModel = {
       if (result.value === null)
         throw new Error('CollectionModel Error: Document not updated')
       // Return deleted collection id
-      return { _id: _id }
+      return { _id }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('CollectionModel Error: error in deleteOne', e)

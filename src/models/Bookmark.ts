@@ -158,17 +158,13 @@ export const BookmarkModel = {
 
     const updateDocument = {
       $pull: {
-        'mySpace.$.bookmarks': {
-          _id: _id,
-        },
+        'mySpace.$.bookmarks': { _id },
       },
     }
     try {
       await db.collection('users').findOneAndUpdate(query, updateDocument)
 
-      return {
-        _id: _id,
-      }
+      return { _id }
     } catch (e) {
       console.error('BookmarkModel Error: error in deleteOne', e)
       throw e
@@ -202,9 +198,7 @@ export const BookmarkModel = {
     try {
       await db.collection('users').updateOne(query, updateDocument, filters)
 
-      return {
-        _id: _id,
-      }
+      return { _id }
     } catch (e) {
       console.error('BookmarkModel Error: error in hideOne', e)
       throw e
