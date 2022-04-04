@@ -204,6 +204,21 @@ describe('GraphQL resolvers', () => {
     })
 
     describe('removeWidget', () => {
+      it('returns an error if a non-string id is passed', async () => {
+        const testWidgetId = ObjectId()
+
+        const result = await server.executeOperation({
+          query: REMOVE_WIDGET,
+          variables: {
+            _id: testWidgetId,
+          },
+        })
+
+        expect(result.errors).toHaveLength(1)
+        expect(result?.errors?.[0].message).toContain(
+          'ObjectIdScalar can only parse string values'
+        )
+      })
       it('removes an existing widget from the user’s My Space', async () => {
         const testWidgetId = ObjectId()
 
@@ -432,8 +447,8 @@ describe('GraphQL resolvers', () => {
 
     describe('editBookmark', () => {
       it('edits an existing bookmark', async () => {
-        const editBookmark = newPortalUser.mySpace[0].bookmarks.filter(
-          (b) => b.cmsId === null
+        const editBookmark = newPortalUser.mySpace[0].bookmarks?.filter(
+          (b: any) => b.cmsId === null
         )[0]
 
         const result = await server.executeOperation({
@@ -451,8 +466,7 @@ describe('GraphQL resolvers', () => {
           label: 'New Label',
           url: 'http://www.example.com/new',
         }
-        console.log('results data, ', JSON.stringify(result.data))
-        console.log('expected data, ', JSON.stringify(expectedData))
+
         expect(result.errors).toBeUndefined()
 
         expect(JSON.stringify(result.data)).toEqual(
@@ -462,7 +476,7 @@ describe('GraphQL resolvers', () => {
     })
 
     describe('removeBookmark', () => {
-      it('deletes an existing bookmark', async () => {
+      it('deletes an existing custom bookmark', async () => {
         const collection = newPortalUser.mySpace[0]
         const bookmark = collection.bookmarks[0]
 
@@ -480,6 +494,30 @@ describe('GraphQL resolvers', () => {
 
         expect(result.errors).toBeUndefined()
         expect(result.data).toMatchObject({ removeBookmark: expectedData })
+      })
+
+      it('hides an existing cms bookmark', async () => {
+        const collection = newPortalUser.mySpace[0]
+        const bookmark = collection.bookmarks[0]
+
+        await server.executeOperation({
+          query: REMOVE_BOOKMARK,
+          variables: {
+            _id: `${bookmark?._id}`,
+            cmsId: `${bookmark?.cmsId}`,
+            collectionId: `${collection?._id}`,
+          },
+        })
+
+        const updated = await server.executeOperation({
+          query: GET_MY_SPACE,
+          variables: {
+            userId: newPortalUser.userId,
+          },
+        })
+
+        expect(updated.data?.mySpace[0].bookmarks[0].cmsId).toBe(bookmark.cmsId)
+        expect(updated.data?.mySpace[0].bookmarks[0].isRemoved).toBe(true)
       })
     })
   })

@@ -201,10 +201,12 @@ export const CollectionModel = {
 
     try {
       // Update and save modified document
-      await db
+      const result = await db
         .collection('users')
         .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
 
+      if (result.value === null)
+        throw new Error('CollectionModel Error: Document not updated')
       // Return deleted collection id
       return { _id: _id }
     } catch (e) {

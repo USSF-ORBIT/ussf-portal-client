@@ -66,13 +66,16 @@ export const MySpaceModel = {
     { db }: Context
   ): Promise<{ _id: typeObjectId; type: WidgetType }> {
     try {
-      await db
+      const result = await db
         .collection('users')
         .findOneAndUpdate(
           { userId },
           { $pull: { mySpace: { _id: _id } } },
           { returnDocument: 'after' }
         )
+
+      if (result.value === null)
+        throw new Error('MySpaceModel Error: Document not updated')
       return { _id, type: 'News' }
     } catch (e) {
       // eslint-disable-next-line no-console

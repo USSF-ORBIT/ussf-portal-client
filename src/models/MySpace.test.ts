@@ -1,4 +1,4 @@
-import { MongoClient, Db } from 'mongodb'
+import { MongoClient, Db, ObjectId } from 'mongodb'
 
 import User from './User'
 import { MySpaceModel } from './MySpace'
@@ -35,6 +35,12 @@ describe('My Space model', () => {
     expect(all).toHaveLength(1)
   })
 
+  it('throws an error if user is not found', async () => {
+    await expect(
+      MySpaceModel.get({ userId: 'not a user' }, { db })
+    ).rejects.toThrow()
+  })
+
   it('can add a News widget', async () => {
     const created = (await MySpaceModel.addWidget(
       { userId: testUserId, title: 'Recent news', type: 'News' },
@@ -55,9 +61,17 @@ describe('My Space model', () => {
         { userId: testUserId, title: 'Recent news', type: 'News' },
         { db }
       )
-    ).rejects.toEqual(new Error('You can only have one News section'))
+    ).rejects.toThrow(new Error('You can only have one News section'))
   })
 
+  it('throws an error if widget cannot be added', async () => {
+    await expect(
+      MySpaceModel.addWidget(
+        { userId: 'wrong user id', title: 'Recent news', type: 'News' },
+        { db }
+      )
+    ).rejects.toThrow()
+  })
   it('can remove a News widget', async () => {
     let allSections = await MySpaceModel.get({ userId: testUserId }, { db })
 
@@ -75,5 +89,11 @@ describe('My Space model', () => {
       newsWidget = allSections.find((s) => s.type === 'News')
       expect(newsWidget).toBe(undefined)
     }
+  })
+
+  it('throws an error if cannot find user or widget to remove', async () => {
+    await expect(
+      MySpaceModel.deleteWidget({ _id: ObjectId(), userId: 'cat' }, { db })
+    ).rejects.toThrow()
   })
 })
