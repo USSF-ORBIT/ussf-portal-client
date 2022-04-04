@@ -156,7 +156,7 @@ const CustomCollection = ({
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <div>
+            <div style={{ width: '100%' }}>
               <Label htmlFor="bookmarkId" className="usa-sr-only">
                 Select existing link
               </Label>
@@ -182,13 +182,26 @@ const CustomCollection = ({
             )}
           </div>
 
-          <p className="usa-form__note">
+          <div className="usa-form__note">
             Don’t see what you need?
             <br />
-            <Button type="button" unstyled onClick={openCustomLinkModal}>
-              Add a custom link
-            </Button>
-          </p>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <Button type="button" unstyled onClick={openCustomLinkModal}>
+                Add a custom link
+              </Button>
+              <Button
+                type="button"
+                unstyled
+                onClick={() => setIsAddingLink(false)}>
+                Cancel
+              </Button>
+            </div>
+          </div>
         </>
       ) : (
         <Button
