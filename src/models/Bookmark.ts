@@ -1,6 +1,6 @@
 import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
-import type { ObjectId as typeObjectId } from 'bson'
+import type { ObjectId as ObjectIdType } from 'bson'
 
 import type {
   BookmarkInput,
@@ -12,30 +12,30 @@ import type {
 // Types for BookmarkModel
 type AddOneInput = {
   url: string
-  collectionId: typeObjectId
+  collectionId: ObjectIdType
   userId: string
   label?: string
   cmsId?: string
 }
 
 type GetAllInput = {
-  collectionId: typeObjectId
+  collectionId: ObjectIdType
 }
 
 type FindOneInput = {
-  _id: typeObjectId
-  collectionId: typeObjectId
+  _id: ObjectIdType
+  collectionId: ObjectIdType
 }
 
 type DeleteOrHideInput = {
-  _id: typeObjectId
-  collectionId: typeObjectId
+  _id: ObjectIdType
+  collectionId: ObjectIdType
   userId: string
 }
 
 type EditOneInput = {
-  _id: typeObjectId
-  collectionId: typeObjectId
+  _id: ObjectIdType
+  collectionId: ObjectIdType
   userId: string
   url?: string
   label?: string
@@ -86,13 +86,6 @@ export const BookmarkModel = {
     { db }: Context
   ) {
     try {
-      console.log('BookmarkModel: editOne', {
-        _id,
-        collectionId,
-        userId,
-        url,
-        label,
-      })
       const bookmark = await BookmarkModel.findOne(
         { _id, collectionId },
         { db }
@@ -130,7 +123,7 @@ export const BookmarkModel = {
       const result = await db
         .collection('users')
         .findOneAndUpdate(query, updateDocument, filters)
-      console.log('result? ', result)
+
       const updatedBookmark = result.value.mySpace
         .filter(
           (collection: Collection) =>
@@ -140,7 +133,6 @@ export const BookmarkModel = {
           (bookmark: Bookmark) => bookmark._id.toString() === _id.toString()
         )[0]
 
-      console.log('updated bookmark ', updatedBookmark)
       return updatedBookmark
     } catch (e) {
       console.error('BookmarkModel Error: error in editOne', e)

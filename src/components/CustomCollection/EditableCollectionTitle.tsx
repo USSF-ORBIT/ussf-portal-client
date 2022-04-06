@@ -7,7 +7,7 @@ import {
   Label,
   TextInput,
 } from '@trussworks/react-uswds'
-import { ObjectId } from 'bson'
+import type { ObjectId } from 'bson'
 import styles from './CustomCollection.module.scss'
 
 type PropTypes = {

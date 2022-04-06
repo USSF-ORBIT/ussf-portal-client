@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client'
-import { ObjectId } from 'bson'
+import type { ObjectId } from 'bson'
 
 interface RemoveCollectionResponse {
   _id: ObjectId

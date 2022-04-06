@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import classnames from 'classnames'
-import { ObjectId } from 'bson'
+import type { ObjectId } from 'bson'
 import {
   Button,
   Label,

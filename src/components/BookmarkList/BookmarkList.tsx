@@ -5,7 +5,7 @@ import {
   IconExpandLess,
   IconExpandMore,
 } from '@trussworks/react-uswds'
-import { ObjectId } from 'bson'
+import type { ObjectId } from 'bson'
 import styles from './BookmarkList.module.scss'
 
 import type { BookmarkRecord, BookmarkRecords, Collection } from 'types'

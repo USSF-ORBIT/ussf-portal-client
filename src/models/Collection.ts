@@ -1,6 +1,6 @@
 import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
-import type { ObjectId as typeObjectId } from 'bson'
+import type { ObjectId as ObjectIdType } from 'bson'
 
 import type {
   Bookmark,
@@ -28,13 +28,13 @@ type AddManyInput = {
 }
 
 type EditOneInput = {
-  _id: typeObjectId
+  _id: ObjectIdType
   title: string
   userId: string
 }
 
 type DeleteOneInput = {
-  _id: typeObjectId
+  _id: ObjectIdType
   userId: string
 }
 
@@ -186,7 +186,7 @@ export const CollectionModel = {
   async deleteOne(
     { _id, userId }: DeleteOneInput,
     { db }: Context
-  ): Promise<{ _id: typeObjectId }> {
+  ): Promise<{ _id: ObjectIdType }> {
     const query = {
       userId: userId,
     }

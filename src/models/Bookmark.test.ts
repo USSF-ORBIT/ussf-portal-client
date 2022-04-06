@@ -1,5 +1,5 @@
 import { MongoClient, Db, ObjectId } from 'mongodb'
-import { ObjectId as typeObjectId } from 'bson'
+import { ObjectId as ObjectIdType } from 'bson'
 import { BookmarkModel } from './Bookmark'
 import { CollectionModel } from './Collection'
 import User from './User'
@@ -12,11 +12,11 @@ import type {
 } from 'types'
 let connection: typeof MongoClient
 let db: typeof Db
-let exampleCollectionId: typeObjectId
+let exampleCollectionId: ObjectIdType
 
 describe('Bookmark Model', () => {
-  let newCMSBookmarkId: typeObjectId
-  let newCustomBookmarkId: typeObjectId
+  let newCMSBookmarkId: ObjectIdType
+  let newCustomBookmarkId: ObjectIdType
 
   beforeAll(async () => {
     // Create mongodb connection

@@ -1,7 +1,7 @@
 import { GraphQLScalarType, Kind } from 'graphql'
 import { AuthenticationError } from 'apollo-server-micro'
 import { ObjectId, ObjectID, MongoClient } from 'mongodb'
-import type { ObjectId as typeObjectId } from 'bson'
+import type { ObjectId as ObjectIdType } from 'bson'
 import { BookmarkModel } from '../models/Bookmark'
 import { CollectionModel } from '../models/Collection'
 
@@ -16,10 +16,10 @@ export const ObjectIdScalar = new GraphQLScalarType({
     if (!(value instanceof ObjectId || value instanceof ObjectID)) {
       throw new Error('ObjectIdScalar can only serialize ObjectId values')
     }
-    const _id = value as typeObjectId
+    const _id = value as ObjectIdType
     return _id.toHexString() // value sent to the client
   },
-  parseValue(value: unknown): typeObjectId {
+  parseValue(value: unknown): ObjectIdType {
     // check the type of received value
     // if (typeof value === 'object') return value
     if (typeof value !== 'string') {
@@ -27,7 +27,7 @@ export const ObjectIdScalar = new GraphQLScalarType({
     }
     return ObjectId(value) // value from the client input variables
   },
-  parseLiteral(ast): typeObjectId {
+  parseLiteral(ast): ObjectIdType {
     // check the type of received value
     if (ast.kind !== Kind.STRING) {
       throw new Error('ObjectIdScalar can only parse string values')
@@ -54,26 +54,26 @@ type AddCollectionInput = {
 }
 
 type EditCollectionInput = {
-  _id: typeObjectId
+  _id: ObjectIdType
   title: string
 }
 
 type AddBookmarkInput = {
-  collectionId: typeObjectId
+  collectionId: ObjectIdType
   url: string
   label: string
   cmsId: string
 }
 
 type RemoveBookmarkInput = {
-  _id: typeObjectId
-  collectionId: typeObjectId
+  _id: ObjectIdType
+  collectionId: ObjectIdType
   cmsId: string
 }
 
 type EditBookmarkInput = {
-  _id: typeObjectId
-  collectionId: typeObjectId
+  _id: ObjectIdType
+  collectionId: ObjectIdType
   url: string
   label: string
 }
@@ -136,7 +136,7 @@ const resolvers = {
     },
     removeWidget: async (
       _: undefined,
-      { _id }: { _id: typeObjectId },
+      { _id }: { _id: ObjectIdType },
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
@@ -181,7 +181,7 @@ const resolvers = {
     },
     removeCollection: async (
       _: undefined,
-      { _id }: { _id: typeObjectId },
+      { _id }: { _id: ObjectIdType },
       { db, user }: PortalUserContext
     ) => {
       if (!user) {

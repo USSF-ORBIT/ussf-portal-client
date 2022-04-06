@@ -1,4 +1,3 @@
-// import { ObjectId } from 'bson'
 import { MongoClient, Db } from 'mongodb'
 
 import User, { EXAMPLE_COLLECTION } from './User'

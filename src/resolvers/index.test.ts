@@ -1,7 +1,7 @@
 import { MongoClient, Db, ObjectId } from 'mongodb'
 import { ApolloServer } from 'apollo-server-micro'
 import type { VariableValues } from 'apollo-server-types'
-import type { ObjectId as typeObjectId } from 'bson'
+import type { ObjectId as ObjectIdType } from 'bson'
 import { typeDefs } from '../schema'
 
 import { newPortalUser } from '../__fixtures__/newPortalUser'
