@@ -5,11 +5,14 @@
 .undo {
   @extend %button-reset;
   background: $theme-mars-base;
+  border-radius: 5px;
   color: $theme-white;
   flex: auto;
-  text-align: left;
-  @include u-padding('205' 4);
-  @include u-margin-x(-2);
+  text-align: center;
+  margin-bottom: 8px;
+  line-height: 1.15;
+  border: 1px solid transparent;
+  @include u-padding('105' 4);
 }
 
 .addLink {
