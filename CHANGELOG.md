@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/3.0.0...3.1.0) (2022-04-07)
+
+
+### Features
+
+* Add cancel button to Add Link flow ([#585](https://github.com/USSF-ORBIT/ussf-portal-client/issues/585)) ([9ae2baa](https://github.com/USSF-ORBIT/ussf-portal-client/commit/9ae2baa61b4683c1b98e7c1daaeb03b9dead6a6e))
+* Add PT doc to Essential Reading section ([#583](https://github.com/USSF-ORBIT/ussf-portal-client/issues/583)) ([9b2bc24](https://github.com/USSF-ORBIT/ussf-portal-client/commit/9b2bc24872b37bb941f1a7da3dfc094dab7837a6))
+* Implement loading state for News page ([#581](https://github.com/USSF-ORBIT/ussf-portal-client/issues/581)) ([f270f22](https://github.com/USSF-ORBIT/ussf-portal-client/commit/f270f22755c7a6857ac70c6b9f9e077a3d654162))
+* Update undo button style ([#593](https://github.com/USSF-ORBIT/ussf-portal-client/issues/593)) ([a7a4426](https://github.com/USSF-ORBIT/ussf-portal-client/commit/a7a44269d4b9de3bbc20b43feee46c6bcde60864))
+
+
+### Documentation
+
+* Adding test script walkthrough to the PR template. ([#588](https://github.com/USSF-ORBIT/ussf-portal-client/issues/588)) ([6f53692](https://github.com/USSF-ORBIT/ussf-portal-client/commit/6f53692a7a00a5d30a5c715b59848e31d759e3e2))
+
 ## [3.0.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/2.5.0...3.0.0) (2022-03-23)
 
 
