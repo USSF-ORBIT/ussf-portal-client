@@ -1,19 +1,20 @@
 import { gql, useMutation } from '@apollo/client'
+import type { ObjectId } from 'bson'
 
 interface RemoveBookmarkResponse {
-  _id: string
+  _id: ObjectId
   cmsId?: string
   isRemoved?: boolean
 }
 
 interface RemoveBookmarkInput {
-  collectionId: string
-  _id: string
+  collectionId: ObjectId
+  _id: ObjectId
   cmsId?: string
 }
 
 export const REMOVE_BOOKMARK = gql`
-  mutation removeBookmark($_id: ID!, $collectionId: ID!, $cmsId: ID) {
+  mutation removeBookmark($_id: OID!, $collectionId: OID!, $cmsId: ID) {
     removeBookmark(_id: $_id, collectionId: $collectionId, cmsId: $cmsId) {
       _id
     }

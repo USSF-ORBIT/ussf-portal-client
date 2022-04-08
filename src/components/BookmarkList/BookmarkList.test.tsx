@@ -6,7 +6,7 @@ import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import React from 'react'
-
+import { ObjectId } from 'mongodb'
 import BookmarkList from './BookmarkList'
 import type { Collection, BookmarkRecord, BookmarkRecords } from 'types'
 import { WIDGET_TYPES } from 'constants/index'
@@ -70,10 +70,10 @@ const exampleInvalidBookmarks = [
     description: 'Air Force Installation and Mission Support',
   },
 ]
-
+const collectionId = ObjectId()
 const exampleCollections: Collection[] = [
   {
-    _id: 'testCollectionId',
+    _id: collectionId,
     title: 'Example Collection',
     type: WIDGET_TYPES.COLLECTION,
     bookmarks: [],
@@ -82,11 +82,11 @@ const exampleCollections: Collection[] = [
 
 const exampleCollectionsWithLimit: Collection[] = [
   {
-    _id: 'testCollectionId',
+    _id: collectionId,
     title: 'Example Collection',
     type: WIDGET_TYPES.COLLECTION,
     bookmarks: Array.from({ length: 10 }, (x, i) => ({
-      _id: `${i}`,
+      _id: ObjectId(),
       label: `Bookmark ${i}`,
       url: '#',
     })),
@@ -213,7 +213,7 @@ describe('BookmarkList component', () => {
 
     expect(mockAddToCollection).toHaveBeenCalledWith(
       exampleBookmarks[0],
-      'testCollectionId'
+      collectionId
     )
 
     expect(

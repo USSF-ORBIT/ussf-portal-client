@@ -1,22 +1,23 @@
 import { gql, useMutation } from '@apollo/client'
+import type { ObjectId } from 'bson'
 
 interface EditBookmarkResponse {
-  _id: string
+  _id: ObjectId
   label: string
   url: string
 }
 
 interface EditBookmarkInput {
-  _id: string
-  collectionId: string
+  _id: ObjectId
+  collectionId: ObjectId
   url?: string
   label?: string
 }
 
 export const EDIT_BOOKMARK = gql`
   mutation editBookmark(
-    $_id: ID!
-    $collectionId: ID!
+    $_id: OID!
+    $collectionId: OID!
     $label: String
     $url: String
   ) {

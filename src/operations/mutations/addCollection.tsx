@@ -1,8 +1,9 @@
 import { gql, useMutation } from '@apollo/client'
+import type { ObjectId } from 'bson'
 import type { Bookmark, NewBookmarkInput } from 'types'
 
 interface AddCollectionResponse {
-  _id: string
+  _id: ObjectId
   title: string
   bookmarks: Bookmark[]
 }

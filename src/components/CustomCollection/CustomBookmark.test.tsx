@@ -4,6 +4,7 @@
 
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { ObjectId } from 'mongodb'
 import React from 'react'
 
 import { renderWithModalRoot } from '../../testHelpers'
@@ -11,7 +12,7 @@ import { renderWithModalRoot } from '../../testHelpers'
 import { CustomBookmark } from './CustomBookmark'
 
 const testBookmark = {
-  _id: '1',
+  _id: ObjectId(),
   url: 'https://google.com',
   label: 'Webmail',
 }
@@ -39,7 +40,7 @@ describe('CustomBookmark component', () => {
 
   it('renders the bookmark URL if there is no label', () => {
     const testBookmarkNoLabel = {
-      _id: '1',
+      _id: ObjectId(),
       url: 'https://example.com',
     }
 

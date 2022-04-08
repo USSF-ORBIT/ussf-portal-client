@@ -8,12 +8,12 @@ import {
 } from '../../migrations/1645636869484-add-type-to-collections'
 
 const TEST_COLLECTION_NO_TYPE = {
-  _id: new ObjectId(),
+  _id: ObjectId(),
   cmsId: 'ckwz3u58s1835ql974leo1yll',
   title: 'Example Collection',
   bookmarks: [
     {
-      _id: new ObjectId(),
+      _id: ObjectId(),
       cmsId: 'cktd7c0d30190w597qoftevq1',
       url: 'https://afpcsecure.us.af.mil/',
       label: 'vMPF',

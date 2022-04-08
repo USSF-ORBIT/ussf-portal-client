@@ -1,5 +1,6 @@
 import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
+import type { ObjectId as ObjectIdType } from 'bson'
 
 import type {
   Bookmark,
@@ -27,13 +28,13 @@ type AddManyInput = {
 }
 
 type EditOneInput = {
-  _id: string
+  _id: ObjectIdType
   title: string
   userId: string
 }
 
 type DeleteOneInput = {
-  _id: string
+  _id: ObjectIdType
   userId: string
 }
 
@@ -69,14 +70,14 @@ export const CollectionModel = {
     }
 
     const newBookmarks: Bookmark[] = bookmarks.map((input) => ({
-      _id: new ObjectId(),
+      _id: ObjectId(),
       url: input.url,
       label: input.label,
       cmsId: input.cmsId,
     }))
 
     const newCollection: Collection = {
-      _id: new ObjectId(),
+      _id: ObjectId(),
       title: title,
       type: WIDGET_TYPES.COLLECTION,
       bookmarks: newBookmarks,
@@ -117,13 +118,13 @@ export const CollectionModel = {
 
     // Add Many is currently only possible with CollectionRecords (from the CMS)
     const newCollections = collections.map((collection) => ({
-      _id: new ObjectId(),
+      _id: ObjectId(),
       // #TODO Future data modeling to be done for canonical collections
       cmsId: collection.id,
       title: collection.title,
       type: WIDGET_TYPES.COLLECTION,
       bookmarks: collection.bookmarks.map((bookmark) => ({
-        _id: new ObjectId(),
+        _id: ObjectId(),
         cmsId: bookmark.id,
         url: bookmark.url,
         label: bookmark.label,
@@ -157,7 +158,7 @@ export const CollectionModel = {
   ): Promise<Collection> {
     const query = {
       userId: userId,
-      'mySpace._id': new ObjectId(_id),
+      'mySpace._id': _id,
     }
 
     const updateDocument = {
@@ -171,7 +172,7 @@ export const CollectionModel = {
 
       const updatedCollection = await db
         .collection('users')
-        .find({ 'mySpace._id': new ObjectId(_id) })
+        .find({ 'mySpace._id': _id })
         .project({ 'mySpace.$': 1, _id: 0 })
         .toArray()
 
@@ -185,27 +186,27 @@ export const CollectionModel = {
   async deleteOne(
     { _id, userId }: DeleteOneInput,
     { db }: Context
-  ): Promise<{ _id: string }> {
+  ): Promise<{ _id: ObjectIdType }> {
     const query = {
       userId: userId,
     }
 
     const updateDocument = {
       $pull: {
-        mySpace: {
-          _id: new ObjectId(_id),
-        },
+        mySpace: { _id },
       },
     }
 
     try {
       // Update and save modified document
-      await db
+      const result = await db
         .collection('users')
         .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
 
+      if (result.value === null)
+        throw new Error('CollectionModel Error: Document not updated')
       // Return deleted collection id
-      return { _id: _id }
+      return { _id }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('CollectionModel Error: error in deleteOne', e)

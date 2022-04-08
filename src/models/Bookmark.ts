@@ -1,5 +1,7 @@
 import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
+import type { ObjectId as ObjectIdType } from 'bson'
+
 import type {
   BookmarkInput,
   Collection,
@@ -10,30 +12,30 @@ import type {
 // Types for BookmarkModel
 type AddOneInput = {
   url: string
-  collectionId: string
+  collectionId: ObjectIdType
   userId: string
   label?: string
   cmsId?: string
 }
 
 type GetAllInput = {
-  collectionId: string
+  collectionId: ObjectIdType
 }
 
 type FindOneInput = {
-  _id: string
-  collectionId: string
+  _id: ObjectIdType
+  collectionId: ObjectIdType
 }
 
 type DeleteOrHideInput = {
-  _id: string
-  collectionId: string
+  _id: ObjectIdType
+  collectionId: ObjectIdType
   userId: string
 }
 
 type EditOneInput = {
-  _id: string
-  collectionId: string
+  _id: ObjectIdType
+  collectionId: ObjectIdType
   userId: string
   url?: string
   label?: string
@@ -44,7 +46,7 @@ export const BookmarkModel = {
     try {
       const found = await db
         .collection('users')
-        .find({ 'mySpace._id': new ObjectId(collectionId) })
+        .find({ 'mySpace._id': collectionId })
         .project({ 'mySpace.$': 1 })
         .toArray()
 
@@ -62,9 +64,9 @@ export const BookmarkModel = {
         .collection('users')
         .aggregate([
           { $unwind: '$mySpace' },
-          { $match: { 'mySpace._id': new ObjectId(collectionId) } },
+          { $match: { 'mySpace._id': collectionId } },
           { $unwind: '$mySpace.bookmarks' },
-          { $match: { 'mySpace.bookmarks._id': new ObjectId(_id) } },
+          { $match: { 'mySpace.bookmarks._id': _id } },
           {
             $project: {
               'mySpace.bookmarks': 1,
@@ -96,7 +98,7 @@ export const BookmarkModel = {
 
       const query = {
         userId: userId,
-        'mySpace.bookmarks._id': new ObjectId(_id),
+        'mySpace.bookmarks._id': _id,
       }
 
       const updateDocument = {
@@ -110,10 +112,10 @@ export const BookmarkModel = {
         returnDocument: 'after',
         arrayFilters: [
           {
-            'outer._id': new ObjectId(collectionId),
+            'outer._id': collectionId,
           },
           {
-            'inner._id': new ObjectId(_id),
+            'inner._id': _id,
           },
         ],
       }
@@ -143,22 +145,18 @@ export const BookmarkModel = {
   ) {
     const query = {
       userId,
-      'mySpace._id': new ObjectId(collectionId),
+      'mySpace._id': collectionId,
     }
 
     const updateDocument = {
       $pull: {
-        'mySpace.$.bookmarks': {
-          _id: new ObjectId(_id),
-        },
+        'mySpace.$.bookmarks': { _id },
       },
     }
     try {
       await db.collection('users').findOneAndUpdate(query, updateDocument)
 
-      return {
-        _id: _id,
-      }
+      return { _id }
     } catch (e) {
       console.error('BookmarkModel Error: error in deleteOne', e)
       throw e
@@ -170,7 +168,7 @@ export const BookmarkModel = {
   ): Promise<RemovedBookmark> {
     const query = {
       userId,
-      'mySpace.bookmarks._id': new ObjectId(_id),
+      'mySpace.bookmarks._id': _id,
     }
 
     const updateDocument = {
@@ -182,19 +180,17 @@ export const BookmarkModel = {
     const filters = {
       arrayFilters: [
         {
-          'outer._id': new ObjectId(collectionId),
+          'outer._id': collectionId,
         },
         {
-          'inner._id': new ObjectId(_id),
+          'inner._id': _id,
         },
       ],
     }
     try {
       await db.collection('users').updateOne(query, updateDocument, filters)
 
-      return {
-        _id: _id,
-      }
+      return { _id }
     } catch (e) {
       console.error('BookmarkModel Error: error in hideOne', e)
       throw e
@@ -209,6 +205,7 @@ export const BookmarkModel = {
         { collectionId },
         { db }
       )
+
       const visible = existing.filter((b: Bookmark) => !b.isRemoved)
 
       if (visible.length >= 10) {
@@ -222,7 +219,7 @@ export const BookmarkModel = {
     }
 
     const newBookmark: BookmarkInput = {
-      _id: new ObjectId(),
+      _id: ObjectId(),
       url,
       label,
       cmsId,
@@ -230,7 +227,7 @@ export const BookmarkModel = {
 
     const query = {
       userId,
-      'mySpace._id': new ObjectId(collectionId),
+      'mySpace._id': collectionId,
     }
 
     const updateDocument = {

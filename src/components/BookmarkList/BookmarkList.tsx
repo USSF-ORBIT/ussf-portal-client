@@ -5,7 +5,7 @@ import {
   IconExpandLess,
   IconExpandMore,
 } from '@trussworks/react-uswds'
-
+import type { ObjectId } from 'bson'
 import styles from './BookmarkList.module.scss'
 
 import type { BookmarkRecord, BookmarkRecords, Collection } from 'types'
@@ -16,7 +16,7 @@ import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 type BookmarkListRowProps = {
   bookmark: BookmarkRecord
   userCollectionOptions?: Collection[]
-  handleAddToCollection: (b: BookmarkRecord, c?: string) => void
+  handleAddToCollection: (b: BookmarkRecord, c?: ObjectId) => void
   canAddNewCollection?: boolean
 }
 
@@ -42,7 +42,7 @@ const BookmarkListRow = ({
       <Button
         type="button"
         onClick={() => {
-          handleAddToCollection(bookmark, `${collection._id}`)
+          handleAddToCollection(bookmark, collection._id)
           setIsDropdownOpen(false)
         }}
         disabled={
@@ -100,7 +100,7 @@ const BookmarkListRow = ({
 type BookmarkListProps = {
   bookmarks: BookmarkRecords
   userCollectionOptions?: Collection[]
-  handleAddToCollection: (b: BookmarkRecord, c?: string) => void
+  handleAddToCollection: (b: BookmarkRecord, c?: ObjectId) => void
   canAddNewCollection?: boolean
 }
 

@@ -1,13 +1,14 @@
 import { gql, useMutation } from '@apollo/client'
+import type { ObjectId } from 'bson'
 
 interface AddBookmarkResponse {
-  _id: string
+  _id: ObjectId
   url: string
   label?: string
   cmsId?: string
 }
 interface AddBookmarkInput {
-  collectionId: string
+  collectionId: ObjectId
   url: string
   label?: string
   cmsId?: string
@@ -17,7 +18,7 @@ export const ADD_BOOKMARK = gql`
   mutation addBookmark(
     $url: String!
     $label: String
-    $collectionId: ID!
+    $collectionId: OID!
     $cmsId: ID
   ) {
     addBookmark(

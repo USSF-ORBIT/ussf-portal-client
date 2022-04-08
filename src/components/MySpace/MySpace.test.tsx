@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
-
+import { ObjectId } from 'mongodb'
 import { renderWithModalRoot } from '../../testHelpers'
 import {
   getMySpaceMock,
@@ -227,14 +227,18 @@ describe('My Space Component', () => {
   it('handles the remove bookmark operation', async () => {
     let bookmarkRemoved = false
 
+    const bookmarkId =
+      getMySpaceMock[0].result.data.mySpace[0].bookmarks?.[1]._id
+
+    const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
     const mocksWithRemove = [
       ...getMySpaceMock,
       {
         request: {
           query: REMOVE_BOOKMARK,
           variables: {
-            _id: '4',
-            collectionId: '1',
+            _id: bookmarkId,
+            collectionId: collectionId,
             cmsId: '1',
           },
           refetchQueries: [`getMySpace`],
@@ -244,7 +248,7 @@ describe('My Space Component', () => {
           return {
             data: {
               removeBookmark: {
-                _id: '1',
+                _id: bookmarkId,
               },
             },
           }
@@ -281,7 +285,7 @@ describe('My Space Component', () => {
         request: {
           query: ADD_BOOKMARK,
           variables: {
-            collectionId: '1',
+            collectionId: getMySpaceMock[0].result.data.mySpace[0]._id,
             url: 'https://mypay.dfas.mil/#/',
             label: 'MyPay',
             cmsId: '2',
@@ -292,7 +296,7 @@ describe('My Space Component', () => {
           return {
             data: {
               addBookmark: {
-                _id: '100',
+                _id: ObjectId(),
                 cmsId: '2',
                 url: 'https://mypay.dfas.mil/#/',
                 label: 'MyPay',
@@ -328,14 +332,14 @@ describe('My Space Component', () => {
 
   it('handles the edit collection title operation', async () => {
     let collectionEdited = false
-
+    const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
     const editCollectionMock = [
       ...getMySpaceMock,
       {
         request: {
           query: EDIT_COLLECTION,
           variables: {
-            _id: '1',
+            _id: collectionId,
             title: 'Updated Title',
           },
         },
@@ -344,7 +348,7 @@ describe('My Space Component', () => {
           return {
             data: {
               editCollection: {
-                _id: '1',
+                _id: collectionId,
                 title: 'Updated Title',
                 bookmarks: getMySpaceMock[0].result.data.mySpace[0].bookmarks,
               },
@@ -384,14 +388,14 @@ describe('My Space Component', () => {
 
   it('handles the remove collection operation', async () => {
     let collectionRemoved = false
-
+    const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
     const removeCollectionMock = [
       ...getMySpaceMock,
       {
         request: {
           query: REMOVE_COLLECTION,
           variables: {
-            _id: '1',
+            _id: collectionId,
           },
         },
         result: () => {
@@ -399,7 +403,7 @@ describe('My Space Component', () => {
           return {
             data: {
               removeCollection: {
-                _id: '1',
+                _id: collectionId,
               },
             },
           }
@@ -454,7 +458,7 @@ describe('My Space Component', () => {
           return {
             data: {
               addCollection: {
-                _id: '100',
+                _id: ObjectId(),
                 title: '',
                 bookmarks: [],
               },
@@ -483,15 +487,17 @@ describe('My Space Component', () => {
 
   it('handles the edit bookmark operation', async () => {
     let bookmarkEdited = false
-
+    const bookmarkId =
+      getMySpaceMock[0].result.data.mySpace[0].bookmarks?.[0]._id
+    const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
     const editBookmarkMock = [
       ...getMySpaceMock,
       {
         request: {
           query: EDIT_BOOKMARK,
           variables: {
-            _id: '3',
-            collectionId: '1',
+            _id: bookmarkId,
+            collectionId: collectionId,
             url: 'https://www.yahoo.com',
             label: 'Yahoo',
           },
@@ -501,7 +507,7 @@ describe('My Space Component', () => {
           return {
             data: {
               editBookmark: {
-                _id: '3',
+                _id: bookmarkId,
                 url: 'https://www.yahoo.com',
                 label: 'Yahoo',
               },

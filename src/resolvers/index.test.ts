@@ -1,8 +1,9 @@
-import { MongoClient, Db } from 'mongodb'
+import { MongoClient, Db, ObjectId } from 'mongodb'
 import { ApolloServer } from 'apollo-server-micro'
 import type { VariableValues } from 'apollo-server-types'
-
+import type { ObjectId as ObjectIdType } from 'bson'
 import { typeDefs } from '../schema'
+
 import { newPortalUser } from '../__fixtures__/newPortalUser'
 
 import resolvers from './index'
@@ -22,6 +23,9 @@ import { REMOVE_WIDGET } from 'operations/mutations/removeWidget'
 let server: ApolloServer
 let connection: typeof MongoClient
 let db: typeof Db
+const testCollectionId = ObjectId()
+const testBookmarkId = ObjectId()
+const testWidgetId = ObjectId()
 
 describe('GraphQL resolvers', () => {
   beforeAll(async () => {
@@ -63,7 +67,7 @@ describe('GraphQL resolvers', () => {
         'editCollection',
         EDIT_COLLECTION,
         {
-          _id: 'testCollectionId',
+          _id: `${testCollectionId}`,
           title: 'New Test Collection',
         },
       ],
@@ -71,7 +75,7 @@ describe('GraphQL resolvers', () => {
         'removeCollection',
         REMOVE_COLLECTION,
         {
-          _id: 'testCollectionId',
+          _id: `${testCollectionId}`,
         },
       ],
       [
@@ -84,18 +88,18 @@ describe('GraphQL resolvers', () => {
       [
         'addBookmark',
         ADD_BOOKMARK,
-        { url: 'test', label: 'Test', collectionId: 'testCollectionId' },
+        { url: 'test', label: 'Test', collectionId: `${testCollectionId}` },
       ],
       [
         'removeBookmark',
         REMOVE_BOOKMARK,
         {
-          _id: 'testBookmarkId',
-          collectionId: 'testCollectionId',
+          _id: `${testBookmarkId}`,
+          collectionId: `${testCollectionId}`,
         },
       ],
       ['addWidget', ADD_WIDGET, { title: 'Recent news', type: 'News' }],
-      ['removeWidget', REMOVE_WIDGET, { _id: 'testWidgetId' }],
+      ['removeWidget', REMOVE_WIDGET, { _id: `${testWidgetId}` }],
     ])(
       'the %s operation returns an authentication error',
       async (name, op, variables: VariableValues = {}) => {
@@ -107,7 +111,6 @@ describe('GraphQL resolvers', () => {
         expect(result.errors).toHaveLength(1)
 
         if (result.errors?.length) {
-          // console.log(result.errors[0].message)
           expect(result.errors[0].extensions?.code).toEqual('UNAUTHENTICATED')
           expect(result.errors[0].message).toEqual(
             'You must be logged in to perform this operation'
@@ -201,16 +204,33 @@ describe('GraphQL resolvers', () => {
     })
 
     describe('removeWidget', () => {
-      it('removes an existing widget from the user’s My Space', async () => {
+      it('returns an error if a non-string id is passed', async () => {
+        const testWidgetId = ObjectId()
+
         const result = await server.executeOperation({
           query: REMOVE_WIDGET,
           variables: {
-            _id: 'testWidgetId',
+            _id: testWidgetId,
+          },
+        })
+
+        expect(result.errors).toHaveLength(1)
+        expect(result?.errors?.[0].message).toContain(
+          'ObjectIdScalar can only parse string values'
+        )
+      })
+      it('removes an existing widget from the user’s My Space', async () => {
+        const testWidgetId = ObjectId()
+
+        const result = await server.executeOperation({
+          query: REMOVE_WIDGET,
+          variables: {
+            _id: `${testWidgetId}`,
           },
         })
 
         const expectedData = {
-          _id: 'testWidgetId',
+          _id: `${testWidgetId}`,
         }
 
         expect(result.errors).toBeUndefined()
@@ -393,6 +413,7 @@ describe('GraphQL resolvers', () => {
         ]
 
         expect(result.errors).toBeUndefined()
+
         expect(result.data).toMatchObject({ addCollections: expectedData })
       })
     })
@@ -426,8 +447,8 @@ describe('GraphQL resolvers', () => {
 
     describe('editBookmark', () => {
       it('edits an existing bookmark', async () => {
-        const editBookmark = newPortalUser.mySpace[0].bookmarks.filter(
-          (b) => b.cmsId === null
+        const editBookmark = newPortalUser.mySpace[0].bookmarks?.filter(
+          (b: any) => b.cmsId === null
         )[0]
 
         const result = await server.executeOperation({
@@ -441,7 +462,7 @@ describe('GraphQL resolvers', () => {
         })
 
         const expectedData = {
-          _id: editBookmark._id,
+          _id: `${editBookmark._id}`,
           label: 'New Label',
           url: 'http://www.example.com/new',
         }
@@ -455,7 +476,7 @@ describe('GraphQL resolvers', () => {
     })
 
     describe('removeBookmark', () => {
-      it('deletes an existing bookmark', async () => {
+      it('deletes an existing custom bookmark', async () => {
         const collection = newPortalUser.mySpace[0]
         const bookmark = collection.bookmarks[0]
 
@@ -473,6 +494,30 @@ describe('GraphQL resolvers', () => {
 
         expect(result.errors).toBeUndefined()
         expect(result.data).toMatchObject({ removeBookmark: expectedData })
+      })
+
+      it('hides an existing cms bookmark', async () => {
+        const collection = newPortalUser.mySpace[0]
+        const bookmark = collection.bookmarks[0]
+
+        await server.executeOperation({
+          query: REMOVE_BOOKMARK,
+          variables: {
+            _id: `${bookmark?._id}`,
+            cmsId: `${bookmark?.cmsId}`,
+            collectionId: `${collection?._id}`,
+          },
+        })
+
+        const updated = await server.executeOperation({
+          query: GET_MY_SPACE,
+          variables: {
+            userId: newPortalUser.userId,
+          },
+        })
+
+        expect(updated.data?.mySpace[0].bookmarks[0].cmsId).toBe(bookmark.cmsId)
+        expect(updated.data?.mySpace[0].bookmarks[0].isRemoved).toBe(true)
       })
     })
   })

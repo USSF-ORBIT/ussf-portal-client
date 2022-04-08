@@ -4,6 +4,7 @@
 
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { ObjectId } from 'mongodb'
 import React from 'react'
 
 import { renderWithModalRoot } from '../../testHelpers'
@@ -11,29 +12,29 @@ import { renderWithModalRoot } from '../../testHelpers'
 import CustomCollection from './CustomCollection'
 
 const exampleCollection = {
-  _id: '1',
+  _id: ObjectId(),
   title: 'Example Collection',
   bookmarks: [
     {
-      _id: '1',
+      _id: ObjectId(),
       url: 'https://google.com',
       label: 'Webmail',
       cmsId: 'cmsId1',
     },
     {
-      _id: '2',
+      _id: ObjectId(),
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
       cmsId: 'cmsId2',
     },
     {
-      _id: '3',
+      _id: ObjectId(),
       url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
       label: 'vMPF',
       cmsId: 'cmsId3',
     },
     {
-      _id: '4',
+      _id: ObjectId(),
       url: 'https://example.com',
       label: 'My Custom Link',
     },
@@ -41,54 +42,54 @@ const exampleCollection = {
 }
 
 const exampleCollectionWithNine = {
-  _id: '1',
+  _id: ObjectId(),
   title: 'Example Collection',
   bookmarks: [
     {
-      _id: '1',
+      _id: ObjectId(),
       url: 'https://google.com',
       label: 'Webmail',
       cmsId: 'cmsId1',
     },
     {
-      _id: '2',
+      _id: ObjectId(),
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
       cmsId: 'cmsId2',
     },
     {
-      _id: '3',
+      _id: ObjectId(),
       url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
       label: 'vMPF',
       cmsId: 'cmsId3',
     },
     {
-      _id: '4',
+      _id: ObjectId(),
       url: 'https://example.com',
       label: 'My Custom Link',
     },
     {
-      _id: '5',
+      _id: ObjectId(),
       url: 'https://example.com',
       label: 'My Custom Link',
     },
     {
-      _id: '6',
+      _id: ObjectId(),
       url: 'https://example.com',
       label: 'My Custom Link',
     },
     {
-      _id: '7',
+      _id: ObjectId(),
       url: 'https://example.com',
       label: 'My Custom Link',
     },
     {
-      _id: '8',
+      _id: ObjectId(),
       url: 'https://example.com',
       label: 'My Custom Link',
     },
     {
-      _id: '9',
+      _id: ObjectId(),
       url: 'https://example.com',
       label: 'My Custom Link',
     },
@@ -96,59 +97,59 @@ const exampleCollectionWithNine = {
 }
 
 const exampleCollectionWithTen = {
-  _id: '1',
+  _id: ObjectId(),
   title: 'Example Collection',
   bookmarks: [
     {
-      _id: '1',
+      _id: ObjectId(),
       url: 'https://google.com',
       label: 'Webmail',
       cmsId: 'cmsId1',
     },
     {
-      _id: '2',
+      _id: ObjectId(),
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
       cmsId: 'cmsId2',
     },
     {
-      _id: '3',
+      _id: ObjectId(),
       url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
       label: 'vMPF',
       cmsId: 'cmsId3',
     },
     {
-      _id: '4',
+      _id: ObjectId(),
       url: 'https://example.com',
       label: 'My Custom Link',
     },
     {
-      _id: '5',
+      _id: ObjectId(),
       url: 'https://example.com',
       label: 'My Custom Link',
     },
     {
-      _id: '6',
+      _id: ObjectId(),
       url: 'https://example.com',
       label: 'My Custom Link',
     },
     {
-      _id: '7',
+      _id: ObjectId(),
       url: 'https://example.com',
       label: 'My Custom Link',
     },
     {
-      _id: '8',
+      _id: ObjectId(),
       url: 'https://example.com',
       label: 'My Custom Link',
     },
     {
-      _id: '9',
+      _id: ObjectId(),
       url: 'https://example.com',
       label: 'My Custom Link',
     },
     {
-      _id: '10',
+      _id: ObjectId(),
       url: 'https://example.com',
       label: 'My Custom Link',
     },
@@ -636,7 +637,7 @@ describe('CustomCollection component', () => {
 
   describe('an empty collection', () => {
     it('renders a focused input for the title', () => {
-      render(<CustomCollection _id="1" {...mockHandlers} />)
+      render(<CustomCollection _id={ObjectId()} {...mockHandlers} />)
 
       expect(screen.getByRole('textbox')).toHaveFocus()
     })
@@ -647,7 +648,7 @@ describe('CustomCollection component', () => {
       render(
         <CustomCollection
           {...mockHandlers}
-          _id="2"
+          _id={ObjectId()}
           handleEditCollection={mockEditCollection}
         />
       )
@@ -662,7 +663,7 @@ describe('CustomCollection component', () => {
       render(
         <CustomCollection
           {...mockHandlers}
-          _id="3"
+          _id={ObjectId()}
           handleRemoveCollection={mockDeleteCollection}
         />
       )

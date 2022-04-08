@@ -4,12 +4,13 @@
 
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { ObjectId } from 'mongodb'
 import React from 'react'
 
 import { RemovableBookmark } from './RemovableBookmark'
 
 const testBookmark = {
-  _id: '1',
+  _id: ObjectId(),
   url: 'https://google.com',
   label: 'Webmail',
 }
@@ -32,7 +33,7 @@ describe('RemovableBookmark component', () => {
 
   it('renders the bookmark URL if there is no label', () => {
     const testBookmarkNoLabel = {
-      _id: '1',
+      _id: ObjectId(),
       url: 'https://example.com',
     }
 

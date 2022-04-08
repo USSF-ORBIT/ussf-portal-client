@@ -22,17 +22,16 @@ describe('User model', () => {
   })
 
   it('can create and find a new user', async () => {
-    const testUserId = 'testUserId'
-
     const expectedUser = {
       _id: expect.anything(),
-      userId: testUserId,
+      userId: 'testUserId',
       mySpace: [EXAMPLE_COLLECTION],
     }
 
-    await User.createOne(testUserId, { db })
+    await User.createOne('testUserId', { db })
 
-    const insertedUser = await User.findOne(testUserId, { db })
+    const insertedUser = await User.findOne('testUserId', { db })
+
     expect(insertedUser).toEqual(expectedUser)
   })
 

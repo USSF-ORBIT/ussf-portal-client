@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import classnames from 'classnames'
+import type { ObjectId } from 'bson'
 import {
   Button,
   Label,
@@ -27,15 +28,15 @@ import { useAnalytics } from 'stores/analyticsContext'
 // TODO - refactor this component to use WidgetWithSettings
 
 type PropTypes = {
-  _id: string
+  _id: ObjectId
   title?: string
   bookmarks?: BookmarkType[]
   bookmarkOptions?: BookmarkRecords
-  handleRemoveBookmark: (id: string, cmsId?: string) => void
+  handleRemoveBookmark: (_id: ObjectId, cmsId?: string) => void
   handleAddBookmark: (url: string, label?: string, cmsId?: string) => void
   handleRemoveCollection: () => void
   handleEditCollection: (title: string) => void
-  handleEditBookmark: (id: string, url?: string, label?: string) => void
+  handleEditBookmark: (_id: ObjectId, url?: string, label?: string) => void
 }
 
 const MAXIMUM_BOOKMARKS_PER_COLLECTION = 10
@@ -324,7 +325,7 @@ const CustomCollection = ({
                   'Hide CMS link',
                   `${title} / ${bookmark.label || bookmark.url}`
                 )
-                handleRemoveBookmark(`${bookmark._id}`, bookmark.cmsId)
+                handleRemoveBookmark(bookmark._id, bookmark.cmsId)
               }}
             />
           ) : (
@@ -332,9 +333,9 @@ const CustomCollection = ({
               key={`bookmark_${bookmark._id}`}
               bookmark={bookmark}
               onSave={(label, url) => {
-                handleEditBookmark(`${bookmark._id}`, url, label)
+                handleEditBookmark(bookmark._id, url, label)
               }}
-              onDelete={() => handleRemoveBookmark(`${bookmark._id}`)}
+              onDelete={() => handleRemoveBookmark(bookmark._id)}
             />
           )
         )}

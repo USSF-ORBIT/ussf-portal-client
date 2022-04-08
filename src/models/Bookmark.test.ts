@@ -1,16 +1,22 @@
-import { ObjectId } from 'bson'
-import { MongoClient, Db } from 'mongodb'
+import { MongoClient, Db, ObjectId } from 'mongodb'
+import { ObjectId as ObjectIdType } from 'bson'
 import { BookmarkModel } from './Bookmark'
 import { CollectionModel } from './Collection'
 import User from './User'
-import type { BookmarkInput, CollectionInput, RemovedBookmark } from 'types'
+import type {
+  Bookmark,
+  BookmarkInput,
+  BookmarkRecord,
+  CollectionInput,
+  RemovedBookmark,
+} from 'types'
 let connection: typeof MongoClient
 let db: typeof Db
-let exampleCollectionId: string
+let exampleCollectionId: ObjectIdType
 
 describe('Bookmark Model', () => {
-  let newCMSBookmarkId: string
-  let newCustomBookmarkId: string
+  let newCMSBookmarkId: ObjectIdType
+  let newCustomBookmarkId: ObjectIdType
 
   beforeAll(async () => {
     // Create mongodb connection
@@ -76,6 +82,15 @@ describe('Bookmark Model', () => {
     expect(all.length).toEqual(6)
   })
 
+  it('throws an error if it encounters an error when finding a bookmark', async () => {
+    await expect(
+      BookmarkModel.findOne(
+        { _id: ObjectId(), collectionId: exampleCollectionId },
+        { db: null }
+      )
+    ).rejects.toThrow()
+  })
+
   it('can create and hide a new bookmark with cmsId', async () => {
     // Start Data: Test User, 1 collection, 6 bookmarks
     // End Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
@@ -117,9 +132,22 @@ describe('Bookmark Model', () => {
     )
     expect(all.length).toEqual(7)
 
-    const found = all.find((b: any) => `${b._id}` === `${hidden._id}`)
+    const found = all.find((b: Bookmark) => `${b._id}` === `${hidden._id}`)
 
     expect(found.isRemoved).toBe(true)
+  })
+
+  it('throws an error if it encounters an error when hiding a bookmark', async () => {
+    await expect(
+      BookmarkModel.hideOne(
+        {
+          _id: ObjectId(),
+          collectionId: exampleCollectionId,
+          userId: 'testUserId',
+        },
+        { db: null }
+      )
+    ).rejects.toThrow()
   })
 
   it('cannot edit a bookmark with cmsId', async () => {
@@ -200,6 +228,18 @@ describe('Bookmark Model', () => {
     expect(all.length).toEqual(7)
   })
 
+  it('throws an error if it encounters an error when deleting a bookmark', async () => {
+    await expect(
+      BookmarkModel.deleteOne(
+        {
+          _id: ObjectId(),
+          collectionId: exampleCollectionId,
+          userId: 'testUserId',
+        },
+        { db: null }
+      )
+    ).rejects.toThrow()
+  })
   it('can create and edit a new bookmark without a cmsId', async () => {
     // Start Data: Test User, 1 collection, 7 bookmarks (1 isRemoved)
     // End Data: Test User, 1 collection, 8 bookmarks (1 isRemoved)
@@ -323,6 +363,23 @@ describe('Bookmark Model', () => {
     expect(bookmarks).toHaveLength(8)
   })
 
+  it('returns an empty array if no bookmarks are found', async () => {
+    const bookmarks = await BookmarkModel.getAllInCollection(
+      { collectionId: ObjectId() },
+      { db }
+    )
+    expect(bookmarks).toHaveLength(0)
+  })
+
+  it('throws an error if it encounters an error', async () => {
+    await expect(
+      BookmarkModel.getAllInCollection(
+        { collectionId: ObjectId() },
+        { db: null }
+      )
+    ).rejects.toThrow()
+  })
+
   it('cannot add a bookmark if reached max limit of 10', async () => {
     // Start Data: Test User, 1 collection, 8 bookmarks (1 isRemoved)
     // Create 1 new collection with 10 bookmarks
@@ -332,52 +389,52 @@ describe('Bookmark Model', () => {
     // Create full collection
     const maxBookmarks: BookmarkInput[] = [
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example1.com',
         label: 'Label 1',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example2.com',
         label: 'Label 2',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example3.com',
         label: 'Label 3',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example4.com',
         label: 'Label 4',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example5.com',
         label: 'Label 5',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example6.com',
         label: 'Label 6',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example7.com',
         label: 'Label 7',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example8.com',
         label: 'Label 8',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example9.com',
         label: 'Label 9',
       },
       {
-        _id: new ObjectId(),
+        _id: ObjectId(),
         url: 'https://www.example10.com',
         label: 'Label 10',
       },
@@ -397,7 +454,7 @@ describe('Bookmark Model', () => {
 
     const error = await BookmarkModel.addOne(
       {
-        collectionId: `${newCollection._id}`,
+        collectionId: newCollection._id,
         url: 'https://www.example11.com',
         userId: 'testUserId',
         label: 'Label 11',
@@ -406,11 +463,25 @@ describe('Bookmark Model', () => {
     )
 
     const all = await BookmarkModel.getAllInCollection(
-      { collectionId: `${newCollection._id}` },
+      { collectionId: newCollection._id },
       { db }
     )
 
     expect(error).toBeInstanceOf(Error)
     expect(all.length).toBe(10)
+  })
+
+  it('throws an error if it encounters an error when adding a bookmark', async () => {
+    await expect(
+      BookmarkModel.addOne(
+        {
+          collectionId: exampleCollectionId,
+          userId: 'testUserId',
+          url: 'https://www.example11.com',
+          label: 'Label 11',
+        },
+        { db: null }
+      )
+    ).rejects.toThrow()
   })
 })

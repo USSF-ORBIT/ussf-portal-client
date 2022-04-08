@@ -1,6 +1,6 @@
 import type { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
-
+import { ObjectId as ObjectIdType } from 'bson'
 import type { MySpace, Widget, WidgetType } from 'types'
 
 type GetInput = {
@@ -15,7 +15,7 @@ type AddWidgetInput = {
 
 type DeleteWidgetInput = {
   userId: string
-  _id: string
+  _id: ObjectIdType
 }
 
 /** My Space */
@@ -43,7 +43,7 @@ export const MySpaceModel = {
     }
 
     const created: Widget = {
-      _id: new ObjectId(),
+      _id: ObjectId(),
       title,
       type,
     }
@@ -64,15 +64,18 @@ export const MySpaceModel = {
   async deleteWidget(
     { _id, userId }: DeleteWidgetInput,
     { db }: Context
-  ): Promise<{ _id: string; type: WidgetType }> {
+  ): Promise<{ _id: ObjectIdType; type: WidgetType }> {
     try {
-      await db
+      const result = await db
         .collection('users')
         .findOneAndUpdate(
           { userId },
-          { $pull: { mySpace: { _id: new ObjectId(_id) } } },
+          { $pull: { mySpace: { _id: _id } } },
           { returnDocument: 'after' }
         )
+
+      if (result.value === null)
+        throw new Error('MySpaceModel Error: Document not updated')
       return { _id, type: 'News' }
     } catch (e) {
       // eslint-disable-next-line no-console

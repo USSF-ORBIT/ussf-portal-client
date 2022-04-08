@@ -1,5 +1,5 @@
-import { MongoClient, Db } from 'mongodb'
-
+import { MongoClient, Db, ObjectId } from 'mongodb'
+import { ObjectId as ObjectIdType } from 'bson'
 import User from './User'
 import { CollectionModel } from './Collection'
 import { MySpaceModel } from './MySpace'
@@ -7,7 +7,7 @@ import { CollectionInput, CollectionRecords } from 'types'
 
 let connection: typeof MongoClient
 let db: typeof Db
-let exampleCollectionId: string
+let exampleCollectionId: ObjectIdType
 let testUserId: string
 
 const manyCollections: CollectionRecords = [
@@ -155,6 +155,12 @@ describe('Collection Model', () => {
     expect(all).toHaveLength(1)
   })
 
+  it('throws an error if cannot get all collections', async () => {
+    await expect(
+      CollectionModel.getAll({ userId: 'fakeUserId' }, { db })
+    ).rejects.toThrow()
+  })
+
   it('does not return widgets that are not collections', async () => {
     await MySpaceModel.addWidget(
       { userId: testUserId, title: 'Recent News', type: 'News' },
@@ -180,6 +186,15 @@ describe('Collection Model', () => {
 
     const found = await CollectionModel.getAll({ userId: testUserId }, { db })
     expect(found.length).toBe(2)
+  })
+
+  it('throws an error if cannot add a collection', async () => {
+    await expect(
+      CollectionModel.addOne(
+        { title: 'title', bookmarks: [], userId: 'fakeUserId' },
+        { db }
+      )
+    ).rejects.toThrow()
   })
 
   it('can add many collections', async () => {
@@ -210,6 +225,12 @@ describe('Collection Model', () => {
     expect(all.length).toBe(25)
   })
 
+  it('throws an error if cannot add many collections', async () => {
+    await expect(
+      CollectionModel.addMany({ collections: [], userId: 'fakeUserId' }, { db })
+    ).rejects.toThrow()
+  })
+
   it('can edit a collection title', async () => {
     // Start Data: Test user, 1 collection, 'Example Collection'
     // End Data: Test user, 1 collection, 'New Title'
@@ -224,6 +245,15 @@ describe('Collection Model', () => {
     )
 
     expect(updated.title).toBe(title)
+  })
+
+  it('throws an error if cannot edit a collection title', async () => {
+    await expect(
+      CollectionModel.editOne(
+        { _id: ObjectId(), title: 'New Title', userId: 'fakeUserId' },
+        { db }
+      )
+    ).rejects.toThrow()
   })
 
   it('can delete a collection', async () => {
@@ -241,6 +271,14 @@ describe('Collection Model', () => {
     expect(all.length).toBe(24)
   })
 
+  it('throws an error if cannot delete a collection title', async () => {
+    await expect(
+      CollectionModel.deleteOne(
+        { _id: ObjectId(), userId: 'fakeUserId' },
+        { db }
+      )
+    ).rejects.toThrow()
+  })
   it('cannot add more than 25 collections using addMany', async () => {
     // Start Data: Test user, 24 collections
     // Action: Add 2 more collections

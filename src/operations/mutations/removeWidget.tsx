@@ -1,18 +1,17 @@
 import { gql, useMutation } from '@apollo/client'
-
+import type { ObjectId } from 'bson'
 interface RemoveWidgetResponse {
-  _id: string
+  _id: ObjectId
 }
 
 interface RemoveWidgetInput {
-  _id: string
+  _id: ObjectId
 }
 
 export const REMOVE_WIDGET = gql`
-  mutation removeWidget($_id: ID!) {
+  mutation removeWidget($_id: OID!) {
     removeWidget(_id: $_id) {
       _id
-      type
     }
   }
 `
