@@ -1,8 +1,18 @@
-import { ApolloClient, InMemoryCache, HttpLink, from } from '@apollo/client'
+import {
+  ApolloClient,
+  ApolloLink,
+  InMemoryCache,
+  HttpLink,
+  from,
+} from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 
-const httpLink = new HttpLink({
-  uri: `/api/graphql`,
+const portalLink = new HttpLink({
+  uri: `http://localhost:3000/api/graphql`,
+})
+
+const cmsLink = new HttpLink({
+  uri: `${process.env.NEXT_PUBLIC_KEYSTONE_URL}/api/graphql`,
 })
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -33,6 +43,13 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 })
 
 export const client = new ApolloClient({
-  link: from([errorLink, httpLink]),
+  link: from([
+    errorLink,
+    ApolloLink.split(
+      (operation) => operation.getContext().clientName === 'cms',
+      cmsLink,
+      portalLink
+    ),
+  ]),
   cache: new InMemoryCache(),
 })
