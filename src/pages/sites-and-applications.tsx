@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react'
-import { InferGetStaticPropsType } from 'next'
 import { Button, Grid, Alert, IconInfo } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import type { ObjectId } from 'bson'
+import { gql, useQuery } from '@apollo/client'
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { query } from '.keystone/api'
 
 import type {
   BookmarkRecords,
@@ -45,10 +44,7 @@ function isCollection(widget: MySpaceWidget): widget is CollectionType {
   return widget.type === WIDGET_TYPES.COLLECTION
 }
 
-const SitesAndApplications = ({
-  collections,
-  bookmarks,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+const SitesAndApplications = () => {
   const router = useRouter()
   const { user } = useUser()
   const { loading, error, data } = useMySpaceQuery()
@@ -63,6 +59,30 @@ const SitesAndApplications = ({
   const [handleAddCollections] = useAddCollectionsMutation()
   const [handleAddCollection] = useAddCollectionMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
+
+  const {
+    loading: cmsCollectionsLoading,
+    error: cmsCollectionsError,
+    data: cmsCollections,
+  } = useQuery(GET_KEYSTONE_COLLECTIONS, {
+    context: {
+      clientName: 'cms',
+    },
+  })
+
+  const collections = cmsCollections?.collections as CollectionRecords
+
+  const {
+    loading: cmsBookmarksLoading,
+    error: cmsBookmarksError,
+    data: cmsBookmarks,
+  } = useQuery(GET_KEYSTONE_BOOKMARKS, {
+    context: {
+      clientName: 'cms',
+    },
+  })
+
+  const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
 
   useEffect(() => {
     if (router.query.selectMode == 'true') {
@@ -215,7 +235,7 @@ const SitesAndApplications = ({
         </Grid>
       )}
 
-      {!loading && sortBy === 'SORT_ALPHA' && (
+      {!loading && !cmsBookmarksLoading && sortBy === 'SORT_ALPHA' && (
         <>
           {userCollections.some(
             (c) => c.bookmarks.filter((b) => !b.isRemoved).length >= 10
@@ -242,7 +262,7 @@ const SitesAndApplications = ({
         </>
       )}
 
-      {!loading && sortBy === 'SORT_TYPE' && (
+      {!loading && !cmsCollectionsLoading && sortBy === 'SORT_TYPE' && (
         <div className={widgetClasses}>
           <div className={styles.widgetToolbar}>
             {selectMode ? (
@@ -352,20 +372,26 @@ export default SitesAndApplications
 
 SitesAndApplications.getLayout = withDefaultLayout
 
-export async function getStaticProps() {
-  const collections: CollectionRecords = (await query.Collection.findMany({
-    query: 'id title bookmarks { id url label }',
-    where: {
-      showInSitesApps: {
-        equals: true,
-      },
-    },
-  })) as CollectionRecords
+const GET_KEYSTONE_COLLECTIONS = gql`
+  query GetKeystoneCollections {
+    collections {
+      id
+      title
+      bookmarks {
+        id
+        url
+        label
+      }
+    }
+  }
+`
 
-  const bookmarks: BookmarkRecords = (await query.Bookmark.findMany({
-    query: 'id url label description',
-    orderBy: [{ label: 'asc' }],
-  })) as BookmarkRecords
-
-  return { props: { collections, bookmarks } }
-}
+const GET_KEYSTONE_BOOKMARKS = gql`
+  query GetKeystoneBookmarks {
+    bookmarks {
+      id
+      url
+      label
+    }
+  }
+`
