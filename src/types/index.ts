@@ -65,6 +65,7 @@ export type BookmarkInput = {
   url: string
   label?: string
   cmsId?: string
+  id?: string
 }
 
 export type RemovedBookmark = {

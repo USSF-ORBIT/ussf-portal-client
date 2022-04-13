@@ -1,62 +1,61 @@
-import { Context } from '@apollo/client'
-import { ObjectId } from 'mongodb'
-
+import { Context, gql } from '@apollo/client'
+import { client, cmsLink } from '../apolloClient'
+import { CollectionModel } from './Collection'
 import type { PortalUser, Collection } from 'types/index'
-import { WIDGET_TYPES } from 'constants/index'
 
-/** THIS IS BAD :( but easiest way for now while we use embedded Keystone */
-// TODO - change to use Keystone API on backend when we move to hosted Keystone
-export const EXAMPLE_COLLECTION: Collection = {
-  _id: ObjectId(),
-  cmsId: 'ckwz3u58s1835ql974leo1yll',
-  title: 'Example Collection',
-  type: WIDGET_TYPES.COLLECTION,
-  bookmarks: [
-    {
-      _id: ObjectId(),
-      cmsId: 'cktd7c0d30190w597qoftevq1',
-      url: 'https://afpcsecure.us.af.mil/',
-      label: 'vMPF',
+const getExampleCollection = async () => {
+  // Tell Apollo to use the CMS GraphQL endpoint
+  client.setLink(cmsLink)
+  // Request the example collection based on ID
+  const res = await client.query({
+    query: gql`
+      query getCollection($where: CollectionWhereUniqueInput!) {
+        collection(where: $where) {
+          id
+          title
+          bookmarks {
+            id
+            url
+            label
+          }
+        }
+      }
+    `,
+    variables: {
+      where: {
+        id: 'ckwz3u58s1835ql974leo1yll',
+      },
     },
-    {
-      _id: ObjectId(),
-      cmsId: 'cktd7ettn0457w597p7ja4uye',
-      url: 'https://leave.af.mil/profile',
-      label: 'LeaveWeb',
-    },
-    {
-      _id: ObjectId(),
-      cmsId: 'cktd7hjz30636w5977vu4la4c',
-      url: 'https://mypay.dfas.mil/#/',
-      label: 'MyPay',
-    },
-    {
-      _id: ObjectId(),
-      cmsId: 'ckwz3tphw1763ql97pia1zkvc',
-      url: 'https://webmail.apps.mil/',
-      label: 'Webmail',
-    },
-    {
-      _id: ObjectId(),
-      cmsId: 'ckwz3u4461813ql970wkd254m',
-      url: 'https://www.e-publishing.af.mil/',
-      label: 'e-Publications',
-    },
-  ],
+  })
+
+  return res.data.collection as Collection
 }
 
 const UserModel = {
   async findOne(userId: string, { db }: Context) {
+    getExampleCollection()
     const foundUser = await db.collection('users').findOne({ userId })
     return foundUser
   },
   async createOne(userId: string, { db }: Context) {
+    // Fetch example collection from Keystone
+    const exampleCollection = await getExampleCollection()
+
     const newUser: PortalUser = {
       userId,
-      mySpace: [EXAMPLE_COLLECTION],
+      mySpace: [],
     }
-
+    // Create user
     await db.collection('users').insertOne(newUser)
+    // Add example collection to user's My Space
+    await CollectionModel.addOne(
+      {
+        title: exampleCollection.title,
+        bookmarks: exampleCollection.bookmarks,
+        userId: newUser.userId,
+      },
+      { db }
+    )
 
     return true
   },
