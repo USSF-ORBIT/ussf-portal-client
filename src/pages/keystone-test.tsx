@@ -79,7 +79,7 @@ const KeystoneTest = () => {
     },
   })
 
-  const bookmarks = cmsCollections?.bookmarks as BookmarkRecords
+  const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
 
   useEffect(() => {
     if (router.query.selectMode == 'true') {
