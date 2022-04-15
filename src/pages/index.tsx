@@ -4,7 +4,8 @@ import AnnouncementLaunch from 'components/AnnouncementLaunch/AnnouncementLaunch
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
+import { GET_KEYSTONE_BOOKMARKS } from 'operations/queries/getKeystoneBookmarks'
 import styles from 'styles/pages/home.module.scss'
 
 const Home = () => {
@@ -39,13 +40,3 @@ const Home = () => {
 export default Home
 
 Home.getLayout = withDefaultLayout
-
-const GET_KEYSTONE_BOOKMARKS = gql`
-  query GetKeystoneBookmarks {
-    bookmarks {
-      id
-      url
-      label
-    }
-  }
-`
