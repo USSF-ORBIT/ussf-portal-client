@@ -1,16 +1,16 @@
 import { gql, useMutation } from '@apollo/client'
-import type { Collection, CollectionRecords } from 'types'
+import type { Collection, CollectionRecordInput } from 'types'
 
 interface AddCollectionsResponse {
   collections: Collection[]
 }
 
 interface AddCollectionsInput {
-  collections: CollectionRecords
+  collections: CollectionRecordInput[]
 }
 
 export const ADD_COLLECTIONS = gql`
-  mutation addCollections($collections: [CollectionRecord!]!) {
+  mutation addCollections($collections: [CollectionRecordInput!]!) {
     addCollections(collections: $collections) {
       _id
       cmsId

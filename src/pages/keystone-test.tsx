@@ -12,6 +12,8 @@ import type {
   NewBookmarkInput,
   MySpaceWidget,
   Collection as CollectionType,
+  CollectionRecordInput,
+  BookmarkRecordInput,
 } from 'types/index'
 
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
@@ -43,6 +45,7 @@ function isCollection(widget: MySpaceWidget): widget is CollectionType {
 }
 
 const KeystoneTest = () => {
+  let collections: CollectionRecords = []
   const router = useRouter()
   const { user } = useUser()
   const { loading, error, data } = useMySpaceQuery()
@@ -67,7 +70,9 @@ const KeystoneTest = () => {
     },
   })
 
-  const collections = cmsCollections?.collections as CollectionRecords
+  if (!cmsCollectionsLoading) {
+    collections = cmsCollections?.collections as CollectionRecords
+  }
 
   const {
     loading: cmsBookmarksLoading,
@@ -79,8 +84,10 @@ const KeystoneTest = () => {
     },
   })
 
-  const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
-
+  let bookmarks: BookmarkRecords = []
+  if (!cmsBookmarksLoading) {
+    bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
+  }
   useEffect(() => {
     if (router.query.selectMode == 'true') {
       setSelectMode(true)
@@ -133,17 +140,30 @@ const KeystoneTest = () => {
     selectedCollections.indexOf(id) > -1
 
   const handleAddSelected = () => {
+    // Find selected collections in the array of all CMS collections
     const collectionObjs = selectedCollections.map((id) =>
       collections.find((i) => i.id === id)
-    ) as CollectionRecords
+    ) as CollectionRecordInput[]
+
+    // Clean up the collection objects to match the
+    // CollectionRecordInput type
+    const collectionInputs = collectionObjs.map(
+      ({ id, title, bookmarks }: CollectionRecordInput) => {
+        bookmarks = bookmarks.map(({ id, url, label }: BookmarkRecordInput) => {
+          return { id, url, label }
+        })
+        return { id, title, bookmarks }
+      }
+    )
 
     const collectionTitles = collectionObjs.map((c) => c.title).join(',')
     trackEvent('S&A add collection', 'Add selected', collectionTitles)
 
     handleAddCollections({
       variables: {
-        collections: collectionObjs,
+        collections: collectionInputs,
       },
+
       refetchQueries: [`getMySpace`],
     })
     setSelectMode(false)

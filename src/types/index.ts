@@ -9,7 +9,6 @@ import type { ObjectId } from 'bson'
 /* BookmarkRecord refers to canonical bookmarks created and managed in CMS */
 
 export type BookmarkRecord = {
-  __typename: string
   id: string
   url: string
   label?: string
@@ -21,7 +20,6 @@ export type BookmarkRecords = readonly BookmarkRecord[]
 /* CollectionRecord refers to canonical collections created and managed in CMS */
 
 export type CollectionRecord = {
-  __typename: string
   id: string
   title: string
   bookmarks: BookmarkRecords
@@ -93,6 +91,18 @@ export type CollectionsInput = {
   bookmarks: BookmarkInput[]
 }
 
+export type CollectionRecordInput = {
+  id: string
+  title: string
+  bookmarks: BookmarkRecordInput[]
+}
+
+export type BookmarkRecordInput = {
+  id: string
+  url: string
+  label?: string
+  description?: string
+}
 /**
  * ***********************
  * Types for User / Auth

@@ -52,7 +52,7 @@ export const typeDefs = gql`
       label: String
       cmsId: ID
     ): Bookmark
-    addCollections(collections: [CollectionRecord!]): [Collection]
+    addCollections(collections: [CollectionRecordInput!]): [Collection]
     removeBookmark(_id: OID!, collectionId: OID!, cmsId: ID): Bookmark
     editBookmark(
       _id: OID!
@@ -79,5 +79,17 @@ export const typeDefs = gql`
     url: String!
     label: String
     cmsId: ID
+  }
+
+  input CollectionRecordInput {
+    id: ID!
+    title: String!
+    bookmarks: [BookmarkRecordInput]
+  }
+
+  input BookmarkRecordInput {
+    id: ID!
+    url: String!
+    label: String
   }
 `

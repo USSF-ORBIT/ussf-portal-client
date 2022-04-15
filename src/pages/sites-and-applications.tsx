@@ -11,7 +11,9 @@ import { query } from '.keystone/api'
 
 import type {
   BookmarkRecords,
+  BookmarkRecordInput,
   CollectionRecords,
+  CollectionRecordInput,
   BookmarkRecord,
   NewBookmarkInput,
   MySpaceWidget,
@@ -118,14 +120,24 @@ const SitesAndApplications = ({
   const handleAddSelected = () => {
     const collectionObjs = selectedCollections.map((id) =>
       collections.find((i) => i.id === id)
-    ) as CollectionRecords
+    ) as CollectionRecordInput[]
 
+    // Clean up the collection objects to match the
+    // CollectionRecordInput type
+    const collectionInputs = collectionObjs.map(
+      ({ id, title, bookmarks }: CollectionRecordInput) => {
+        bookmarks = bookmarks.map(({ id, url, label }: BookmarkRecordInput) => {
+          return { id, url, label }
+        })
+        return { id, title, bookmarks }
+      }
+    )
     const collectionTitles = collectionObjs.map((c) => c.title).join(',')
     trackEvent('S&A add collection', 'Add selected', collectionTitles)
 
     handleAddCollections({
       variables: {
-        collections: collectionObjs,
+        collections: collectionInputs,
       },
       refetchQueries: [`getMySpace`],
     })
