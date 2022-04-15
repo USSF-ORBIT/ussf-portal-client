@@ -7,7 +7,7 @@ export interface CollectionsQueryResponse {
 
 export const GET_KEYSTONE_COLLECTIONS = gql`
   query GetKeystoneCollections {
-    collections {
+    collections(where: { showInSitesApps: { equals: true } }) {
       id
       title
       bookmarks {
