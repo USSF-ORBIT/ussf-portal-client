@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import type { ObjectId } from 'bson'
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 
@@ -34,6 +34,9 @@ import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 import { useAnalytics } from 'stores/analyticsContext'
+
+import { GET_KEYSTONE_BOOKMARKS } from 'operations/queries/getKeystoneBookmarks'
+import { GET_KEYSTONE_COLLECTIONS } from 'operations/queries/getKeystoneCollections'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
@@ -371,27 +374,3 @@ const SitesAndApplications = () => {
 export default SitesAndApplications
 
 SitesAndApplications.getLayout = withDefaultLayout
-
-const GET_KEYSTONE_COLLECTIONS = gql`
-  query GetKeystoneCollections {
-    collections {
-      id
-      title
-      bookmarks {
-        id
-        url
-        label
-      }
-    }
-  }
-`
-
-const GET_KEYSTONE_BOOKMARKS = gql`
-  query GetKeystoneBookmarks {
-    bookmarks {
-      id
-      url
-      label
-    }
-  }
-`
