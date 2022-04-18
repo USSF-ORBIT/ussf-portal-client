@@ -85,6 +85,7 @@ export const typeDefs = gql`
     id: ID!
     title: String!
     bookmarks: [BookmarkRecordInput]
+    type: String
   }
 
   input BookmarkRecordInput {

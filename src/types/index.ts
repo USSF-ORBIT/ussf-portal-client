@@ -95,6 +95,7 @@ export type CollectionRecordInput = {
   id: string
   title: string
   bookmarks: BookmarkRecordInput[]
+  type?: string
 }
 
 export type BookmarkRecordInput = {

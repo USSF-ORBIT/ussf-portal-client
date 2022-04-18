@@ -1,5 +1,10 @@
 import { gql, useMutation } from '@apollo/client'
-import type { Collection, CollectionRecordInput } from 'types'
+import { WIDGET_TYPES } from 'constants/index'
+import type {
+  BookmarkRecordInput,
+  Collection,
+  CollectionRecordInput,
+} from 'types'
 
 interface AddCollectionsResponse {
   collections: Collection[]
@@ -7,6 +12,15 @@ interface AddCollectionsResponse {
 
 interface AddCollectionsInput {
   collections: CollectionRecordInput[]
+}
+
+export const addCollectionsInput = (c: CollectionRecordInput[]) => {
+  return c.map(({ id, title, bookmarks }: CollectionRecordInput) => {
+    bookmarks = bookmarks.map(({ id, url, label }: BookmarkRecordInput) => {
+      return { id, url, label }
+    })
+    return { id, title, bookmarks, type: WIDGET_TYPES.COLLECTION }
+  })
 }
 
 export const ADD_COLLECTIONS = gql`

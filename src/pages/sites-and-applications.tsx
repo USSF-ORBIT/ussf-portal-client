@@ -33,7 +33,10 @@ import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useUser } from 'hooks/useUser'
 import { useMySpaceQuery } from 'operations/queries/getMySpace'
-import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
+import {
+  useAddCollectionsMutation,
+  addCollectionsInput,
+} from 'operations/mutations/addCollections'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 import { useAnalytics } from 'stores/analyticsContext'
@@ -122,22 +125,12 @@ const SitesAndApplications = ({
       collections.find((i) => i.id === id)
     ) as CollectionRecordInput[]
 
-    // Clean up the collection objects to match the
-    // CollectionRecordInput type
-    const collectionInputs = collectionObjs.map(
-      ({ id, title, bookmarks }: CollectionRecordInput) => {
-        bookmarks = bookmarks.map(({ id, url, label }: BookmarkRecordInput) => {
-          return { id, url, label }
-        })
-        return { id, title, bookmarks }
-      }
-    )
     const collectionTitles = collectionObjs.map((c) => c.title).join(',')
     trackEvent('S&A add collection', 'Add selected', collectionTitles)
 
     handleAddCollections({
       variables: {
-        collections: collectionInputs,
+        collections: addCollectionsInput(collectionObjs),
       },
       refetchQueries: [`getMySpace`],
     })
