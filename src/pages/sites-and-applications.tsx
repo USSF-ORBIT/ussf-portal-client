@@ -166,7 +166,7 @@ const SitesAndApplications = ({
       const bookmarkInput: NewBookmarkInput = {
         url: bookmark.url,
         label: bookmark.label,
-        cmsId: bookmark.id,
+        id: bookmark.id,
       }
 
       handleAddCollection({

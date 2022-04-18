@@ -73,7 +73,7 @@ export const CollectionModel = {
       _id: ObjectId(),
       url: input.url,
       label: input.label,
-      cmsId: input.cmsId || input.id, // If collection is imported directly from CMS, we need to use id
+      cmsId: input.cmsId,
     }))
 
     const newCollection: Collection = {

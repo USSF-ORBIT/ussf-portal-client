@@ -34,7 +34,6 @@ const getExampleCollection = async () => {
 
 const UserModel = {
   async findOne(userId: string, { db }: Context) {
-    getExampleCollection()
     const foundUser = await db.collection('users').findOne({ userId })
     return foundUser
   },

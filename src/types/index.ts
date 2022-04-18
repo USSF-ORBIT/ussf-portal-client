@@ -56,7 +56,7 @@ export type Bookmark = {
 export type NewBookmarkInput = {
   url: string
   label?: string
-  cmsId?: string
+  id?: string
 }
 
 // When creating a new Bookmark, the _id must be type ObjectId
@@ -65,7 +65,6 @@ export type BookmarkInput = {
   url: string
   label?: string
   cmsId?: string
-  id?: string
 }
 
 export type RemovedBookmark = {
