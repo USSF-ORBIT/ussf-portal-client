@@ -1,11 +1,12 @@
 #Overrides for e2e testing
 services:
   app:
+    container_name: app
+    image: "${IMAGE_TAG}"
     build:
       context: .
       dockerfile: Dockerfile
       target: e2e
-    container_name: app
     restart: always
     ports:
       - '3000:3000'
@@ -51,3 +52,36 @@ services:
     depends_on:
       - keystone-db
       - redis
+
+# Shared between CMS and Portal
+  redis:
+    container_name: portal_redis
+    image: redis:6.2
+    ports:
+      - '6379:6379'
+
+  idp:
+    container_name: test-saml-idp
+    image: kristophjunge/test-saml-idp
+    restart: always
+    ports:
+      - '8080:8080'
+      - '8443:8443'
+    environment:
+      SIMPLESAMLPHP_SP_ENTITY_ID: ussf-portal-client
+      SIMPLESAMLPHP_SP_ASSERTION_CONSUMER_SERVICE: http://localhost:3000/api/auth/login
+      SIMPLESAMLPHP_SP_SINGLE_LOGOUT_SERVICE: http://localhost:3000/api/auth/logout/callback
+    volumes:
+      - ./users.php:/var/www/simplesamlphp/config/authsources.php
+
+# CMS-specific services
+  keystone-db:
+    container_name: keystone-db
+    image: postgres:14
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_PASSWORD=keystonecms
+      - POSTGRES_USER=keystone
+      - POSTGRES_DB=test

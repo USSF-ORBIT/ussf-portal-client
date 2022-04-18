@@ -26,8 +26,16 @@ jobs:
           repository: USSF-ORBIT/ussf-portal-cms
           path: ./ussf-portal-cms
 
+      - name: Build image for testing
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: docker build -t $IMAGE_TAG --target e2e .
+        working-directory: ./ussf-portal-client
+
       - name: Docker compose
-        run: docker-compose -f docker-compose.services.yml -f docker-compose.e2e.yml up -d --build
+        run: docker-compose -f docker-compose.e2e.yml up -d
+        env:
+          IMAGE_TAG: ${{ github.sha }}
 
       - name: Cypress run
         uses: cypress-io/github-action@16aacf8ea6a67e5e5d907d34bc3be8ad0e6e979f # tag=v3.0.3
