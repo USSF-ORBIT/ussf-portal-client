@@ -17,6 +17,7 @@ services:
       MONGO_URL: mongodb://mongo:27017
       MONGODB_DB: cypress-e2e
       SESSION_SECRET: thisvaluecanbeanythingitisonlyforlocaldevelopment
+      SESSION_DOMAIN: localhost
     stdin_open: true
     depends_on:
       - mongo
@@ -38,17 +39,18 @@ services:
     build:
       context: ../ussf-portal-cms
       dockerfile: Dockerfile
+      target: e2e
     restart: always
     ports:
       - '3001:3001'
     environment:
       PORT: 3001
       SESSION_SECRET: thisvaluecanbeanythingitisonlyforlocaldevelopment
-      DATABASE_URL: postgres://keystone:keystonecms@keystone-db:5432/keystone
-      TEST_USERNAME: Admin
-      TEST_PASSWORD: adminpassword
-      TEST_EMAIL: admin@example.com
-      PORTAL_URL: app:3000
+      SESSION_DOMAIN: localhost
+      DATABASE_URL: postgres://keystone:keystonecms@keystone-db:5432/test
+      REDIS_URL: redis://portal_redis:6379
+      PORTAL_URL: http://localhost:3000
+    stdin_open: true
     depends_on:
       - keystone-db
       - redis
