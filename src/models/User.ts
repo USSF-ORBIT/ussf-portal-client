@@ -1,8 +1,8 @@
 import { Context, gql } from '@apollo/client'
 import { client, cmsLink } from '../apolloClient'
+import { EXAMPLE_COLLECTION_ID } from '../constants/index'
 import { CollectionModel } from './Collection'
 import type { PortalUser, Collection } from 'types/index'
-import { EXAMPLE_COLLECTION_ID } from '../constants/index'
 
 const getExampleCollection = async () => {
   // Tell Apollo to use the CMS GraphQL endpoint
@@ -15,7 +15,7 @@ const getExampleCollection = async () => {
           id
           title
           bookmarks {
-            id
+            cmsId: id
             url
             label
           }
