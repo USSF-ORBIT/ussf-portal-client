@@ -23,6 +23,13 @@ import { ADD_COLLECTIONS } from 'operations/mutations/addCollections'
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
 import SitesAndApplications from 'pages/sites-and-applications'
 
+jest.mock('../../apolloClient', () => ({
+  client: {
+    query: () => {
+      return
+    },
+  },
+}))
 jest.mock('axios')
 
 const mockedAxios = axios as jest.Mocked<typeof axios>
@@ -157,7 +164,10 @@ describe('Sites and Applications page', () => {
 
       renderWithAuth(
         <MockedProvider mocks={sitesAndAppsMock}>
-          <SitesAndApplications />
+          <SitesAndApplications
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
+          />
         </MockedProvider>,
         { user: null }
       )
@@ -180,7 +190,10 @@ describe('Sites and Applications page', () => {
         jest.useFakeTimers()
         renderWithAuth(
           <MockedProvider mocks={sitesAndAppsMock}>
-            <SitesAndApplications />
+            <SitesAndApplications
+              collections={cmsCollectionsMock}
+              bookmarks={cmsBookmarksMock}
+            />
           </MockedProvider>
         )
       })
@@ -542,7 +555,10 @@ describe('Sites and Applications page', () => {
 
       renderWithAuth(
         <MockedProvider mocks={sitesAndAppsMock}>
-          <SitesAndApplications />
+          <SitesAndApplications
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
+          />
         </MockedProvider>
       )
 
@@ -565,7 +581,10 @@ describe('Sites and Applications page', () => {
     it('prevents adding more collections if the user already has 25', async () => {
       renderWithAuth(
         <MockedProvider mocks={getMySpaceMaximumCollectionsMock}>
-          <SitesAndApplications />
+          <SitesAndApplications
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
+          />
         </MockedProvider>
       )
 
@@ -578,7 +597,10 @@ describe('Sites and Applications page', () => {
     it('prevents adding a bookmark to a new collection if the user already has 25', async () => {
       renderWithAuth(
         <MockedProvider mocks={getMySpaceMaximumCollectionsMock}>
-          <SitesAndApplications />
+          <SitesAndApplications
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
+          />
         </MockedProvider>
       )
 
@@ -613,7 +635,10 @@ describe('Sites and Applications page', () => {
 
       renderWithAuth(
         <MockedProvider mocks={errorMock} addTypename={false}>
-          <SitesAndApplications />
+          <SitesAndApplications
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
+          />
         </MockedProvider>
       )
 
