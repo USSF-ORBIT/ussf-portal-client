@@ -7,6 +7,7 @@ export const WIDGET_TYPES = {
 
 export const MAXIMUM_COLLECTIONS = 25
 
+export const EXAMPLE_COLLECTION_ID = 'ckwz3u58s1835ql974leo1yll'
 /**
  * (for later, this is the last digit of fascn number)
  * 
