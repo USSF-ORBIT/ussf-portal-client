@@ -66,7 +66,6 @@ export const typeDefs = gql`
     url: String!
     label: String
     cmsId: ID
-    id: ID
   }
 
   input CollectionRecord {
