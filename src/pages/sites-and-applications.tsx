@@ -11,7 +11,6 @@ import { query } from '.keystone/api'
 
 import type {
   BookmarkRecords,
-  BookmarkRecordInput,
   CollectionRecords,
   CollectionRecordInput,
   BookmarkRecord,
@@ -166,7 +165,7 @@ const SitesAndApplications = ({
       const bookmarkInput: NewBookmarkInput = {
         url: bookmark.url,
         label: bookmark.label,
-        id: bookmark.id,
+        cmsId: bookmark.id,
       }
 
       handleAddCollection({
