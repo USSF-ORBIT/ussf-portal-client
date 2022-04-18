@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import type { ObjectId } from 'bson'
-import { gql, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
+import type { InferGetServerSidePropsType } from 'next'
 import type {
   BookmarkRecords,
   CollectionRecords,
@@ -36,6 +37,7 @@ import {
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 import { useAnalytics } from 'stores/analyticsContext'
+import { client } from 'apolloClient'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
@@ -46,8 +48,10 @@ function isCollection(widget: MySpaceWidget): widget is CollectionType {
   return widget.type === WIDGET_TYPES.COLLECTION
 }
 
-const KeystoneTest = () => {
-  let collections: CollectionRecords = []
+const KeystoneTest = ({
+  collections,
+  bookmarks,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
   const { user } = useUser()
   const { loading, error, data } = useMySpaceQuery()
@@ -62,41 +66,14 @@ const KeystoneTest = () => {
   const [handleAddCollections] = useAddCollectionsMutation()
   const [handleAddCollection] = useAddCollectionMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
-  const {
-    loading: cmsCollectionsLoading,
-    error: cmsCollectionsError,
-    data: cmsCollections,
-  } = useQuery(GET_KEYSTONE_COLLECTIONS, {
-    context: {
-      clientName: 'cms',
-    },
-  })
 
-  if (!cmsCollectionsLoading) {
-    collections = cmsCollections?.collections as CollectionRecords
-  }
-
-  const {
-    loading: cmsBookmarksLoading,
-    error: cmsBookmarksError,
-    data: cmsBookmarks,
-  } = useQuery(GET_KEYSTONE_BOOKMARKS, {
-    context: {
-      clientName: 'cms',
-    },
-  })
-
-  let bookmarks: BookmarkRecords = []
-  if (!cmsBookmarksLoading) {
-    bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
-  }
   useEffect(() => {
     if (router.query.selectMode == 'true') {
       setSelectMode(true)
     }
   }, [router.query])
 
-  if (error || cmsCollectionsError || cmsBookmarksError) return <p>Error</p>
+  if (error) return <p>Error</p>
 
   const userCollections: CollectionType[] =
     (data &&
@@ -243,7 +220,7 @@ const KeystoneTest = () => {
         </Grid>
       )}
 
-      {!loading && !cmsBookmarksLoading && sortBy === 'SORT_ALPHA' && (
+      {!loading && sortBy === 'SORT_ALPHA' && (
         <>
           {userCollections.some(
             (c) => c.bookmarks.filter((b) => !b.isRemoved).length >= 10
@@ -270,7 +247,7 @@ const KeystoneTest = () => {
         </>
       )}
 
-      {!loading && !cmsCollectionsLoading && sortBy === 'SORT_TYPE' && (
+      {!loading && sortBy === 'SORT_TYPE' && (
         <div className={widgetClasses}>
           <div className={styles.widgetToolbar}>
             {selectMode ? (
@@ -379,6 +356,41 @@ const KeystoneTest = () => {
 export default KeystoneTest
 
 KeystoneTest.getLayout = withDefaultLayout
+
+export async function getServerSideProps() {
+  const {
+    loading: cmsCollectionsLoading,
+    error: cmsCollectionsError,
+    data: cmsCollections,
+  } = await client.query({
+    query: GET_KEYSTONE_COLLECTIONS,
+    context: {
+      clientName: 'cms',
+    },
+  })
+
+  const collections = cmsCollections?.collections as CollectionRecords
+
+  const {
+    loading: cmsBookmarksLoading,
+    error: cmsBookmarksError,
+    data: cmsBookmarks,
+  } = await client.query({
+    query: GET_KEYSTONE_BOOKMARKS,
+    context: {
+      clientName: 'cms',
+    },
+  })
+
+  const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
+
+  return {
+    props: {
+      collections,
+      bookmarks,
+    },
+  }
+}
 
 const GET_KEYSTONE_COLLECTIONS = gql`
   query GetKeystoneCollections {
