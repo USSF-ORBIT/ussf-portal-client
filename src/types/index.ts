@@ -52,7 +52,8 @@ export type Bookmark = {
   isRemoved?: boolean
 }
 
-// When creating a new collection, we need to initialize an empty bookmark with no ID
+// When creating a new empty collection, we need to initialize an empty bookmark with no _id
+// When creating a new collection from a single bookmark, we need to initialize with no_id *and* a cmsId
 export type NewBookmarkInput = {
   url: string
   label?: string
