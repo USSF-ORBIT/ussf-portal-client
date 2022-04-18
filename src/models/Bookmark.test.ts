@@ -6,7 +6,6 @@ import User from './User'
 import type {
   Bookmark,
   BookmarkInput,
-  BookmarkRecord,
   CollectionInput,
   RemovedBookmark,
 } from 'types'
