@@ -49,6 +49,11 @@ describe('Keystone Migration Test', () => {
   })
 
   it('can add collections from the Keystone Test page to My Space', () => {
+    // Client-side navigate to the page
+    cy.visit('/keystone-test')
+    cy.url().should('eq', Cypress.config().baseUrl + '/keystone-test')
+    cy.contains('Keystone CMS Test Page')
+
     cy.contains('My Space')
     cy.findByRole('heading', { level: 3, name: 'Career' }).should('not.exist')
     cy.findByRole('heading', {
