@@ -44,7 +44,7 @@ jobs:
           CYPRESS_BASE_URL: http://localhost:3000
         with:
           install-command: yarn install --frozen-lockfile
-          working-directory: e2e
+          working-directory: ./ussf-portal-client/e2e
 
       - name: Upload screenshots
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # tag=v3
