@@ -21,6 +21,7 @@ services:
       - mongo
       - redis
       - idp
+      - cms
 
   mongo:
     container_name: mongo
@@ -30,3 +31,23 @@ services:
       MONGO_INITDB_DATABASE: cypress-e2e
     ports:
       - '27017:27017'
+
+  cms:
+    container_name: keystone-cms
+    build:
+      context: ../ussf-portal-cms
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '3001:3001'
+    environment:
+      PORT: 3001
+      SESSION_SECRET: thisvaluecanbeanythingitisonlyforlocaldevelopment
+      DATABASE_URL: postgres://keystone:keystonecms@keystone-db:5432/keystone
+      TEST_USERNAME: Admin
+      TEST_PASSWORD: adminpassword
+      TEST_EMAIL: admin@example.com
+      PORTAL_URL: app:3000
+    depends_on:
+      - keystone-db
+      - redis
