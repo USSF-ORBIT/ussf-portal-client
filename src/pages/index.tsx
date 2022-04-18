@@ -3,6 +3,7 @@ import MySpace from 'components/MySpace/MySpace'
 import AnnouncementLaunch from 'components/AnnouncementLaunch/AnnouncementLaunch'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
+import type { BookmarkRecords } from 'types/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/queries/getKeystoneBookmarks'
 import styles from 'styles/pages/home.module.scss'
@@ -32,16 +33,18 @@ export default Home
 Home.getLayout = withDefaultLayout
 
 export async function getServerSideProps() {
-  const { data } = await client.query({
+  const { error: cmsBookmarksError, data: cmsBookmarks } = await client.query({
     query: GET_KEYSTONE_BOOKMARKS,
     context: {
       clientName: 'cms',
     },
   })
 
+  const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
+
   return {
     props: {
-      bookmarks: data.bookmarks,
+      bookmarks,
     },
   }
 }
