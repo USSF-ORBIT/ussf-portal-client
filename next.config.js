@@ -23,6 +23,9 @@ module.exports = withKeystone(
           __VERSION__: JSON.stringify(process.env.npm_package_version),
           __BUILD_ID__: JSON.stringify(buildId),
           __NODE_ENV__: JSON.stringify(process.env.NODE_ENV),
+          __KEYSTONE_URL__: JSON.stringify(
+            process.env.NEXT_PUBLIC_KEYSTONE_URL
+          ),
         })
       )
 

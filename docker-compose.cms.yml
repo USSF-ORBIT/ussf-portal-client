@@ -2,7 +2,7 @@ services:
   cms:
     container_name: keystone-cms
     build:
-      context: https://github.com/USSF-ORBIT/ussf-portal-cms.git#sc-292-connect-to-portal
+      context: https://github.com/USSF-ORBIT/ussf-portal-cms.git#main
       dockerfile: Dockerfile
     restart: always
     ports:
@@ -14,7 +14,7 @@ services:
       TEST_USERNAME: Admin
       TEST_PASSWORD: adminpassword
       TEST_EMAIL: admin@example.com
-      PORTAL_CORS_ORIGIN: http://localhost:3000
+      PORTAL_URL: http://localhost:3000
     depends_on:
       - keystone-db
       - redis
