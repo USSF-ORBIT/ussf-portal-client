@@ -362,6 +362,7 @@ export async function getServerSideProps() {
       context: {
         clientName: 'cms',
       },
+      fetchPolicy: 'no-cache',
     })
 
   const collections = cmsCollections?.collections as CollectionRecords
