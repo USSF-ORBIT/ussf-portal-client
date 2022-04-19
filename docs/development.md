@@ -33,6 +33,28 @@
    - [Install yarn](https://classic.yarnpkg.com/en/docs/install) if you do not already have it.
    - Type `yarn` or `yarn install` inside the project directory to install dependencies. You will need to do this once after cloning the project, and continuously if the dependencies in `package.json` change.
 
+### Environment variables
+
+These env variables are already set in `.envrc` and only need to be added to your local file if you want to override the defaults:
+
+- `SESSION_SECRET` - must be a string at least 32 chars, must be the same value set in the CMS application
+- `SESSION_DOMAIN` - the domain used for both the Portal app & CMS apps, must be the same value set in the CMS application
+- `MONGO_URL` - URL to the running MongoDB instance used for the Portal database
+- `MONGODB_DB` - Name of the MongoDB database used for the Portal database
+- `REDIS_URL` - URL to the running Redis instance, used by both CMS & Portal applications for storing sessions
+- `SAML_SSO_CALLBACK_URL` - URL to the Portal app login callback endpoint (`/api/auth/login`)
+- `SAML_IDP_METADATA_URL` - URL to the SAML IdP metadata
+- `SAML_ISSUER` - String identifying the Portal app SAML service provider
+- `MATOMO_URL` - URL to Matomo instance (this is not required for the app to run)
+- `MATOMO_SITE_ID` - ID of the Portal app in Matomo (this is not required for the app to run)
+
+#### Adding new environment variables
+
+> If you need to add a new environment variable used in the application, make sure to add it in the following places:
+> `.envrc` - Use this to document what the variable is, and set a default value for local development
+> `docs/development.md` (this file) - Add to the list above & document what the variable is
+> `startup/index.js` - Add to the `requireVars` array in this file in order to require this variable is set on startup of the app.
+
 ### Logging in
 
 This application uses SAML for its authentication mechanism. SAML relies on the existance of an Identity Provider (IdP). When running the app locally, there are two IdP options:
