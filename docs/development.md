@@ -42,7 +42,7 @@ These env variables are already set in `.envrc` and only need to be added to you
 - `MONGO_URL` - URL to the running MongoDB instance used for the Portal database
 - `MONGODB_DB` - Name of the MongoDB database used for the Portal database
 - `REDIS_URL` - URL to the running Redis instance, used by both CMS & Portal applications for storing sessions
-- `SAML_SSO_CALLBACK_URL` - URL to the Portal app login callback endpoint (`/api/auth/login`)
+- `SAML_SSO_CALLBACK_URL` - (_local dev only_) URL to the Portal app login callback endpoint
 - `SAML_IDP_METADATA_URL` - URL to the SAML IdP metadata
 - `SAML_ISSUER` - String identifying the Portal app SAML service provider
 - `MATOMO_URL` - URL to Matomo instance (this is not required for the app to run)
