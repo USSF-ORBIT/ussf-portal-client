@@ -1,25 +1,21 @@
 import { useState, useEffect } from 'react'
-import { InferGetStaticPropsType } from 'next'
 import { Button, Grid, Alert, IconInfo } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import type { ObjectId } from 'bson'
-
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { query } from '.keystone/api'
-
+import { gql } from '@apollo/client'
+import type { InferGetServerSidePropsType } from 'next'
 import type {
   BookmarkRecords,
-  BookmarkRecordInput,
-  CollectionRecord,
   CollectionRecords,
-  CollectionRecordInput,
   BookmarkRecord,
   NewBookmarkInput,
   MySpaceWidget,
   Collection as CollectionType,
+  CollectionRecord,
 } from 'types/index'
+
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import Loader from 'components/Loader/Loader'
@@ -41,6 +37,7 @@ import {
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 import { useAnalytics } from 'stores/analyticsContext'
+import { client } from 'apolloClient'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
@@ -51,10 +48,10 @@ function isCollection(widget: MySpaceWidget): widget is CollectionType {
   return widget.type === WIDGET_TYPES.COLLECTION
 }
 
-const SitesAndApplications = ({
+const KeystoneTest = ({
   collections,
   bookmarks,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
   const { user } = useUser()
   const { loading, error, data } = useMySpaceQuery()
@@ -122,6 +119,7 @@ const SitesAndApplications = ({
     selectedCollections.indexOf(id) > -1
 
   const handleAddSelected = () => {
+    // Find selected collections in the array of all CMS collections
     const collectionObjs: CollectionRecord[] =
       selectedCollections
         .map((id) => collections.find((i) => i.id === id))
@@ -134,6 +132,7 @@ const SitesAndApplications = ({
       variables: {
         collections: addCollectionsInput(collectionObjs),
       },
+
       refetchQueries: [`getMySpace`],
     })
     setSelectMode(false)
@@ -183,7 +182,7 @@ const SitesAndApplications = ({
     <Loader />
   ) : (
     <>
-      <h2 className={styles.pageTitle}>Sites &amp; Applications</h2>
+      <h2 className={styles.pageTitle}>Keystone CMS Test Page</h2>
 
       {!loading && (
         <div className={styles.toolbar}>
@@ -355,24 +354,67 @@ const SitesAndApplications = ({
   )
 }
 
-export default SitesAndApplications
+export default KeystoneTest
 
-SitesAndApplications.getLayout = withDefaultLayout
+KeystoneTest.getLayout = withDefaultLayout
 
-export async function getStaticProps() {
-  const collections: CollectionRecords = (await query.Collection.findMany({
-    query: 'id title bookmarks { id url label }',
-    where: {
-      showInSitesApps: {
-        equals: true,
-      },
+export async function getServerSideProps() {
+  const {
+    loading: cmsCollectionsLoading,
+    error: cmsCollectionsError,
+    data: cmsCollections,
+  } = await client.query({
+    query: GET_KEYSTONE_COLLECTIONS,
+    context: {
+      clientName: 'cms',
     },
-  })) as CollectionRecords
+    fetchPolicy: 'no-cache',
+  })
 
-  const bookmarks: BookmarkRecords = (await query.Bookmark.findMany({
-    query: 'id url label description',
-    orderBy: [{ label: 'asc' }],
-  })) as BookmarkRecords
+  const collections = cmsCollections?.collections as CollectionRecords
 
-  return { props: { collections, bookmarks } }
+  const {
+    loading: cmsBookmarksLoading,
+    error: cmsBookmarksError,
+    data: cmsBookmarks,
+  } = await client.query({
+    query: GET_KEYSTONE_BOOKMARKS,
+    context: {
+      clientName: 'cms',
+    },
+    fetchPolicy: 'no-cache',
+  })
+
+  const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
+
+  return {
+    props: {
+      collections,
+      bookmarks,
+    },
+  }
 }
+
+const GET_KEYSTONE_COLLECTIONS = gql`
+  query GetKeystoneCollections {
+    collections {
+      id
+      title
+      bookmarks {
+        id
+        url
+        label
+      }
+    }
+  }
+`
+
+const GET_KEYSTONE_BOOKMARKS = gql`
+  query GetKeystoneBookmarks {
+    bookmarks {
+      id
+      url
+      label
+    }
+  }
+`
