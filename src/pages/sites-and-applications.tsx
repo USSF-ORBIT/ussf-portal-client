@@ -12,6 +12,7 @@ import { query } from '.keystone/api'
 import type {
   BookmarkRecords,
   BookmarkRecordInput,
+  CollectionRecord,
   CollectionRecords,
   CollectionRecordInput,
   BookmarkRecord,
@@ -121,9 +122,10 @@ const SitesAndApplications = ({
     selectedCollections.indexOf(id) > -1
 
   const handleAddSelected = () => {
-    const collectionObjs = selectedCollections.map((id) =>
-      collections.find((i) => i.id === id)
-    ) as CollectionRecordInput[]
+    const collectionObjs: CollectionRecord[] =
+      selectedCollections
+        .map((id) => collections.find((i) => i.id === id))
+        .filter((c): c is CollectionRecord => c !== undefined) || []
 
     const collectionTitles = collectionObjs.map((c) => c.title).join(',')
     trackEvent('S&A add collection', 'Add selected', collectionTitles)

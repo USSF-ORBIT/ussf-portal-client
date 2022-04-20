@@ -91,19 +91,13 @@ export type CollectionsInput = {
   bookmarks: BookmarkInput[]
 }
 
-export type CollectionRecordInput = {
-  id: string
-  title: string
-  bookmarks: BookmarkRecordInput[]
-  type?: string
-}
+export type CollectionRecordInput = Pick<
+  CollectionRecord,
+  'id' | 'title' | 'bookmarks'
+>
 
-export type BookmarkRecordInput = {
-  id: string
-  url: string
-  label?: string
-  description?: string
-}
+export type BookmarkRecordInput = Pick<BookmarkRecord, 'id' | 'url' | 'label'>
+
 /**
  * ***********************
  * Types for User / Auth

@@ -21,7 +21,7 @@ services:
       MONGO_URL: mongodb://mongo:27017
       MONGODB_DB: dev
       SESSION_SECRET: thisvaluecanbeanythingitisonlyforlocaldevelopment
-      NEXT_PUBLIC_KEYSTONE_URL: http://localhost:3001
+      KEYSTONE_URL: http://localhost:3001
     stdin_open: true
     depends_on:
       - mongo
