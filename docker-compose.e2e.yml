@@ -16,6 +16,7 @@ services:
       MONGO_URL: mongodb://mongo:27017
       MONGODB_DB: cypress-e2e
       SESSION_SECRET: thisvaluecanbeanythingitisonlyforlocaldevelopment
+      SESSION_DOMAIN: localhost
     stdin_open: true
     depends_on:
       - mongo
