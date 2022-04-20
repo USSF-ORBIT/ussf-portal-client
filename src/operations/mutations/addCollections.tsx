@@ -1,8 +1,8 @@
 import { gql, useMutation } from '@apollo/client'
-import { WIDGET_TYPES } from 'constants/index'
 import type {
   BookmarkRecordInput,
   Collection,
+  CollectionRecord,
   CollectionRecordInput,
 } from 'types'
 
@@ -14,12 +14,18 @@ interface AddCollectionsInput {
   collections: CollectionRecordInput[]
 }
 
-export const addCollectionsInput = (c: CollectionRecordInput[]) => {
-  return c.map(({ id, title, bookmarks }: CollectionRecordInput) => {
-    bookmarks = bookmarks.map(({ id, url, label }: BookmarkRecordInput) => {
-      return { id, url, label }
-    })
-    return { id, title, bookmarks, type: WIDGET_TYPES.COLLECTION }
+// Map Keystone Collection Record to Portal Collection
+export const addCollectionsInput = (
+  c: CollectionRecord[]
+): CollectionRecordInput[] => {
+  return c.map(({ id, title, bookmarks }) => {
+    return {
+      id,
+      title,
+      bookmarks: bookmarks.map(({ id, url, label }): BookmarkRecordInput => {
+        return { id, url, label }
+      }),
+    }
   })
 }
 

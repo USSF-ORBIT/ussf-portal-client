@@ -13,6 +13,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     nodeEnv: __NODE_ENV__,
     analyticsUrl: process.env.MATOMO_URL,
     analyticsSiteId: process.env.MATOMO_SITE_ID,
-    keystoneUrl: __KEYSTONE_URL__,
+    keystoneUrl: process.env.KEYSTONE_URL,
   })
 }

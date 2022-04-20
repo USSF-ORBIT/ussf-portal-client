@@ -11,8 +11,8 @@ const portalLink = new HttpLink({
   uri: `/api/graphql`,
 })
 
-export const cmsLink = new HttpLink({
-  uri: `${process.env.NEXT_PUBLIC_KEYSTONE_URL}/api/graphql`,
+const cmsLink = new HttpLink({
+  uri: `${process.env.KEYSTONE_URL}/api/graphql`,
 })
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {

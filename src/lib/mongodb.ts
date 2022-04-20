@@ -27,9 +27,6 @@ const connectionString =
 
 let client
 let clientPromise: Promise<typeof MongoClient>
-// if mongo_url is defined, use that for connection string instead
-// because it will only be defined locally
-// use check for connection string only
 
 if (process.env.NODE_ENV === 'development') {
   // In development mode, use a global variable so that the value

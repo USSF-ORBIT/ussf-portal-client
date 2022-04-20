@@ -75,7 +75,7 @@ const mockCollection = {
   ],
 }
 
-const maxCollections = Array.from({ length: 25 }, (x, i) => {
+const maxCollections = Array.from({ length: 25 }, () => {
   return {
     ...mockCollection,
     _id: ObjectId(),
