@@ -11,7 +11,7 @@ const portalLink = new HttpLink({
   uri: `/api/graphql`,
 })
 
-const cmsLink = new HttpLink({
+export const cmsLink = new HttpLink({
   uri: `${process.env.KEYSTONE_URL}/api/graphql`,
 })
 
