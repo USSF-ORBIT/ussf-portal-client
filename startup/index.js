@@ -7,8 +7,9 @@ const { initTracing } = require('./tracing')
 require('dotenv').config()
 
 const requireVars = [
-  'MONGO_URL',
-  'MONGODB_DB',
+  'MONGO_HOST',
+  'MONGO_USER',
+  'MONGO_PASSWORD',
   'REDIS_URL',
   'SAML_ISSUER',
   'SAML_IDP_METADATA_URL',
