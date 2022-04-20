@@ -47,6 +47,7 @@ These env variables are already set in `.envrc` and only need to be added to you
 - `SAML_ISSUER` - String identifying the Portal app SAML service provider
 - `MATOMO_URL` - URL to Matomo instance (this is not required for the app to run)
 - `MATOMO_SITE_ID` - ID of the Portal app in Matomo (this is not required for the app to run)
+- `KEYSTONE_URL` - URL to Keystone instance
 
 #### Adding new environment variables
 

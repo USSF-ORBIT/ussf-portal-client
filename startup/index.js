@@ -14,6 +14,7 @@ const requireVars = [
   'SAML_IDP_METADATA_URL',
   'SESSION_SECRET',
   'SESSION_DOMAIN',
+  'KEYSTONE_URL',
 ]
 
 function startup() {
