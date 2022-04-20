@@ -4,7 +4,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 declare const __VERSION__: string
 declare const __BUILD_ID__: string
 declare const __NODE_ENV__: string
-declare const __KEYSTONE_URL__: string
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   res.status(200).json({
@@ -13,6 +12,5 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     nodeEnv: __NODE_ENV__,
     analyticsUrl: process.env.MATOMO_URL,
     analyticsSiteId: process.env.MATOMO_SITE_ID,
-    keystoneUrl: __KEYSTONE_URL__,
   })
 }
