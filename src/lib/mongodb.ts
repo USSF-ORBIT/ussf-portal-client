@@ -14,22 +14,11 @@ declare global {
   }
 }
 
-const host = process.env.MONGO_HOST || ''
-const user = process.env.MONGO_USER || ''
-const password = process.env.MONGO_PASSWORD || ''
-
-const RDS_TLS_CERT = process.env.RDS_TLS_CERT || 'rds-combined-ca-bundle.pem'
-
 // Connection string for DocumentDB
-const connectionString =
-  process.env.MONGO_URL ||
-  `mongodb://${user}:${password}@${host}/?tls=true&tlsCAFile=${RDS_TLS_CERT}&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false`
+const connectionString = process.env.MONGO_URL
 
 let client
 let clientPromise: Promise<typeof MongoClient>
-// if mongo_url is defined, use that for connection string instead
-// because it will only be defined locally
-// use check for connection string only
 
 if (process.env.NODE_ENV === 'development') {
   // In development mode, use a global variable so that the value
