@@ -39,7 +39,8 @@ These env variables are already set in `.envrc` and only need to be added to you
 
 - `SESSION_SECRET` - must be a string at least 32 chars, must be the same value set in the CMS application
 - `SESSION_DOMAIN` - the domain used for both the Portal app & CMS apps, must be the same value set in the CMS application
-- `MONGO_URL` - URL to the running MongoDB instance used for the Portal database
+- `MONGO_URL` - URL to the running MongoDB instance used for the Portal database (only used in local dev)
+- `MONGO_HOST, MONGO_USER, MONGO_PASSWORD` - Only used in deployed environments for constructing the DocDB connection string. Need to be defined in other environments to start the app, but will be overridden by `MONGO_URL`.
 - `MONGODB_DB` - Name of the MongoDB database used for the Portal database
 - `REDIS_URL` - URL to the running Redis instance, used by both CMS & Portal applications for storing sessions
 - `SAML_SSO_CALLBACK_URL` - (_local dev only_) URL to the Portal app login callback endpoint
@@ -47,6 +48,7 @@ These env variables are already set in `.envrc` and only need to be added to you
 - `SAML_ISSUER` - String identifying the Portal app SAML service provider
 - `MATOMO_URL` - URL to Matomo instance (this is not required for the app to run)
 - `MATOMO_SITE_ID` - ID of the Portal app in Matomo (this is not required for the app to run)
+- `KEYSTONE_URL` - URL to Keystone instance
 
 #### Adding new environment variables
 

@@ -1,16 +1,36 @@
 import { gql, useMutation } from '@apollo/client'
-import type { Collection, CollectionRecords } from 'types'
+import type {
+  BookmarkRecordInput,
+  Collection,
+  CollectionRecord,
+  CollectionRecordInput,
+} from 'types'
 
 interface AddCollectionsResponse {
   collections: Collection[]
 }
 
 interface AddCollectionsInput {
-  collections: CollectionRecords
+  collections: CollectionRecordInput[]
+}
+
+// Map Keystone Collection Record to Portal Collection
+export const addCollectionsInput = (
+  c: CollectionRecord[]
+): CollectionRecordInput[] => {
+  return c.map(({ id, title, bookmarks }) => {
+    return {
+      id,
+      title,
+      bookmarks: bookmarks.map(({ id, url, label }): BookmarkRecordInput => {
+        return { id, url, label }
+      }),
+    }
+  })
 }
 
 export const ADD_COLLECTIONS = gql`
-  mutation addCollections($collections: [CollectionRecord!]!) {
+  mutation addCollections($collections: [CollectionRecordInput!]!) {
     addCollections(collections: $collections) {
       _id
       cmsId

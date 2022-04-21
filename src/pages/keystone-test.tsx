@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import type { ObjectId } from 'bson'
-import { gql, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
+import type { InferGetServerSidePropsType } from 'next'
 import type {
   BookmarkRecords,
   CollectionRecords,
@@ -12,6 +13,7 @@ import type {
   NewBookmarkInput,
   MySpaceWidget,
   Collection as CollectionType,
+  CollectionRecord,
 } from 'types/index'
 
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
@@ -28,10 +30,14 @@ import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useUser } from 'hooks/useUser'
 import { useMySpaceQuery } from 'operations/queries/getMySpace'
-import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
+import {
+  useAddCollectionsMutation,
+  addCollectionsInput,
+} from 'operations/mutations/addCollections'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 import { useAnalytics } from 'stores/analyticsContext'
+import { client } from 'apolloClient'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
@@ -42,7 +48,10 @@ function isCollection(widget: MySpaceWidget): widget is CollectionType {
   return widget.type === WIDGET_TYPES.COLLECTION
 }
 
-const KeystoneTest = () => {
+const KeystoneTest = ({
+  collections,
+  bookmarks,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
   const { user } = useUser()
   const { loading, error, data } = useMySpaceQuery()
@@ -57,29 +66,6 @@ const KeystoneTest = () => {
   const [handleAddCollections] = useAddCollectionsMutation()
   const [handleAddCollection] = useAddCollectionMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
-  const {
-    loading: cmsCollectionsLoading,
-    error: cmsCollectionsError,
-    data: cmsCollections,
-  } = useQuery(GET_KEYSTONE_COLLECTIONS, {
-    context: {
-      clientName: 'cms',
-    },
-  })
-
-  const collections = cmsCollections?.collections as CollectionRecords
-
-  const {
-    loading: cmsBookmarksLoading,
-    error: cmsBookmarksError,
-    data: cmsBookmarks,
-  } = useQuery(GET_KEYSTONE_BOOKMARKS, {
-    context: {
-      clientName: 'cms',
-    },
-  })
-
-  const bookmarks = cmsCollections?.bookmarks as BookmarkRecords
 
   useEffect(() => {
     if (router.query.selectMode == 'true') {
@@ -133,17 +119,20 @@ const KeystoneTest = () => {
     selectedCollections.indexOf(id) > -1
 
   const handleAddSelected = () => {
-    const collectionObjs = selectedCollections.map((id) =>
-      collections.find((i) => i.id === id)
-    ) as CollectionRecords
+    // Find selected collections in the array of all CMS collections
+    const collectionObjs: CollectionRecord[] =
+      selectedCollections
+        .map((id) => collections.find((i) => i.id === id))
+        .filter((c): c is CollectionRecord => c !== undefined) || []
 
     const collectionTitles = collectionObjs.map((c) => c.title).join(',')
     trackEvent('S&A add collection', 'Add selected', collectionTitles)
 
     handleAddCollections({
       variables: {
-        collections: collectionObjs,
+        collections: addCollectionsInput(collectionObjs),
       },
+      
       refetchQueries: [`getMySpace`],
     })
     setSelectMode(false)
@@ -232,7 +221,7 @@ const KeystoneTest = () => {
         </Grid>
       )}
 
-      {!loading && !cmsBookmarksLoading && sortBy === 'SORT_ALPHA' && (
+      {!loading && sortBy === 'SORT_ALPHA' && (
         <>
           {userCollections.some(
             (c) => c.bookmarks.filter((b) => !b.isRemoved).length >= 10
@@ -259,7 +248,7 @@ const KeystoneTest = () => {
         </>
       )}
 
-      {!loading && !cmsCollectionsLoading && sortBy === 'SORT_TYPE' && (
+      {!loading && sortBy === 'SORT_TYPE' && (
         <div className={widgetClasses}>
           <div className={styles.widgetToolbar}>
             {selectMode ? (
@@ -369,6 +358,42 @@ export default KeystoneTest
 
 KeystoneTest.getLayout = withDefaultLayout
 
+export async function getServerSideProps() {
+  const {
+    loading: cmsCollectionsLoading,
+    error: cmsCollectionsError,
+    data: cmsCollections,
+  } = await client.query({
+    query: GET_KEYSTONE_COLLECTIONS,
+    context: {
+      clientName: 'cms',
+    },
+    fetchPolicy: 'no-cache',
+  })
+
+  const collections = cmsCollections?.collections as CollectionRecords
+
+  const {
+    loading: cmsBookmarksLoading,
+    error: cmsBookmarksError,
+    data: cmsBookmarks,
+  } = await client.query({
+    query: GET_KEYSTONE_BOOKMARKS,
+    context: {
+      clientName: 'cms',
+    },
+    fetchPolicy: 'no-cache',
+  })
+
+  const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
+
+  return {
+    props: {
+      collections,
+      bookmarks,
+    },
+  }
+}
 const GET_KEYSTONE_COLLECTIONS = gql`
   query GetKeystoneCollections {
     collections {

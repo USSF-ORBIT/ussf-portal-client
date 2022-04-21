@@ -1,11 +1,12 @@
 #Overrides for e2e testing
 services:
   app:
+    container_name: app
+    image: "${IMAGE_TAG}"
     build:
       context: .
       dockerfile: Dockerfile
       target: e2e
-    container_name: app
     restart: always
     ports:
       - '3000:3000'
@@ -17,11 +18,16 @@ services:
       MONGODB_DB: cypress-e2e
       SESSION_SECRET: thisvaluecanbeanythingitisonlyforlocaldevelopment
       SESSION_DOMAIN: localhost
+      MONGO_HOST: ''
+      MONGO_USER: ''
+      MONGO_PASSWORD: ''
+      KEYSTONE_URL: http://cms:3001
     stdin_open: true
     depends_on:
       - mongo
       - redis
       - idp
+      - cms
 
   mongo:
     container_name: mongo
@@ -31,3 +37,57 @@ services:
       MONGO_INITDB_DATABASE: cypress-e2e
     ports:
       - '27017:27017'
+
+  cms:
+    container_name: keystone-cms
+    build:
+      context: ../ussf-portal-cms
+      dockerfile: Dockerfile
+      target: e2e
+    restart: always
+    ports:
+      - '3001:3001'
+    environment:
+      PORT: 3001
+      SESSION_SECRET: thisvaluecanbeanythingitisonlyforlocaldevelopment
+      SESSION_DOMAIN: localhost
+      DATABASE_URL: postgres://keystone:keystonecms@keystone-db:5432/test
+      REDIS_URL: redis://portal_redis:6379
+      PORTAL_URL: http://localhost:3000
+    stdin_open: true
+    depends_on:
+      - keystone-db
+      - redis
+
+# Shared between CMS and Portal
+  redis:
+    container_name: portal_redis
+    image: redis:6.2
+    ports:
+      - '6379:6379'
+
+  idp:
+    container_name: test-saml-idp
+    image: kristophjunge/test-saml-idp
+    restart: always
+    ports:
+      - '8080:8080'
+      - '8443:8443'
+    environment:
+      SIMPLESAMLPHP_SP_ENTITY_ID: ussf-portal-client
+      SIMPLESAMLPHP_SP_ASSERTION_CONSUMER_SERVICE: http://localhost:3000/api/auth/login
+      SIMPLESAMLPHP_SP_SINGLE_LOGOUT_SERVICE: http://localhost:3000/api/auth/logout/callback
+    volumes:
+      - ./users.php:/var/www/simplesamlphp/config/authsources.php
+
+# CMS-specific services
+  keystone-db:
+    container_name: keystone-db
+    image: postgres:14
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_PASSWORD=keystonecms
+      - POSTGRES_USER=keystone
+      - POSTGRES_DB=test

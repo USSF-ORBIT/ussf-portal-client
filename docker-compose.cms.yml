@@ -14,6 +14,7 @@ services:
       TEST_USERNAME: Admin
       TEST_PASSWORD: adminpassword
       TEST_EMAIL: admin@example.com
+      PORTAL_URL: http://localhost:3000
     depends_on:
       - keystone-db
-      - app
+      - redis

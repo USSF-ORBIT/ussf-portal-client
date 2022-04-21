@@ -10,7 +10,10 @@ import type { ObjectId } from 'bson'
 
 import type {
   BookmarkRecords,
+  BookmarkRecordInput,
+  CollectionRecord,
   CollectionRecords,
+  CollectionRecordInput,
   BookmarkRecord,
   NewBookmarkInput,
   MySpaceWidget,
@@ -30,7 +33,10 @@ import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useUser } from 'hooks/useUser'
 import { useMySpaceQuery } from 'operations/queries/getMySpace'
-import { useAddCollectionsMutation } from 'operations/mutations/addCollections'
+import {
+  useAddCollectionsMutation,
+  addCollectionsInput,
+} from 'operations/mutations/addCollections'
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 import { useAnalytics } from 'stores/analyticsContext'
@@ -119,16 +125,17 @@ const SitesAndApplications = ({
     selectedCollections.indexOf(id) > -1
 
   const handleAddSelected = () => {
-    const collectionObjs = selectedCollections.map((id) =>
-      collections.find((i) => i.id === id)
-    ) as CollectionRecords
+    const collectionObjs: CollectionRecord[] =
+      selectedCollections
+        .map((id) => collections.find((i) => i.id === id))
+        .filter((c): c is CollectionRecord => c !== undefined) || []
 
     const collectionTitles = collectionObjs.map((c) => c.title).join(',')
     trackEvent('S&A add collection', 'Add selected', collectionTitles)
 
     handleAddCollections({
       variables: {
-        collections: collectionObjs,
+        collections: addCollectionsInput(collectionObjs),
       },
       refetchQueries: [`getMySpace`],
     })

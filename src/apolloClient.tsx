@@ -8,11 +8,11 @@ import {
 import { onError } from '@apollo/client/link/error'
 
 const portalLink = new HttpLink({
-  uri: `http://localhost:3000/api/graphql`,
+  uri: `/api/graphql`,
 })
 
 const cmsLink = new HttpLink({
-  uri: `${process.env.NEXT_PUBLIC_KEYSTONE_URL}/api/graphql`,
+  uri: `${process.env.KEYSTONE_URL}/api/graphql`,
 })
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
