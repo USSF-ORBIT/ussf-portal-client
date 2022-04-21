@@ -363,22 +363,22 @@ export default SitesAndApplications
 SitesAndApplications.getLayout = withDefaultLayout
 
 export async function getServerSideProps() {
-  const { error: cmsCollectionsError, data: cmsCollections } =
-    await client.query({
-      query: GET_KEYSTONE_COLLECTIONS,
-      context: {
-        clientName: 'cms',
-      },
-      fetchPolicy: 'no-cache',
-    })
+  const { data: cmsCollections } = await client.query({
+    query: GET_KEYSTONE_COLLECTIONS,
+    context: {
+      clientName: 'cms',
+    },
+    fetchPolicy: 'no-cache',
+  })
 
   const collections = cmsCollections?.collections as CollectionRecords
 
-  const { error: cmsBookmarksError, data: cmsBookmarks } = await client.query({
+  const { data: cmsBookmarks } = await client.query({
     query: GET_KEYSTONE_BOOKMARKS,
     context: {
       clientName: 'cms',
     },
+    fetchPolicy: 'no-cache',
   })
 
   const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
