@@ -1,8 +1,8 @@
 import { MongoClient, Db, ObjectId } from 'mongodb'
 import { ObjectId as ObjectIdType } from 'bson'
+import { EXAMPLE_COLLECTION } from '../__fixtures__/newPortalUser'
 import { BookmarkModel } from './Bookmark'
 import { CollectionModel } from './Collection'
-import { EXAMPLE_COLLECTION } from '../__fixtures__/newPortalUser'
 import User from './User'
 import type {
   Bookmark,

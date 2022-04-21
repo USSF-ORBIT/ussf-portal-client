@@ -11,10 +11,8 @@ import { query } from '.keystone/api'
 
 import type {
   BookmarkRecords,
-  BookmarkRecordInput,
   CollectionRecord,
   CollectionRecords,
-  CollectionRecordInput,
   BookmarkRecord,
   NewBookmarkInput,
   MySpaceWidget,
