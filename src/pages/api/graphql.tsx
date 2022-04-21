@@ -18,6 +18,40 @@ import User from 'models/User'
 export const config: PageConfig = {
   api: { bodyParser: false },
 }
+import { client } from '../../apolloClient'
+import { cmsLink } from 'apolloClient'
+import { gql } from 'apollo-server-micro'
+import { EXAMPLE_COLLECTION_ID } from 'constants/index'
+import type { Collection } from 'types/index'
+
+// To create a new user, we need the example collection from Keystone
+const getExampleCollection = async () => {
+  // Tell Apollo to use the CMS GraphQL endpoint
+  client.setLink(cmsLink)
+  // Request the example collection based on ID
+  const res = await client.query({
+    query: gql`
+      query getCollection($where: CollectionWhereUniqueInput!) {
+        collection(where: $where) {
+          id
+          title
+          bookmarks {
+            cmsId: id
+            url
+            label
+          }
+        }
+      }
+    `,
+    variables: {
+      where: {
+        id: EXAMPLE_COLLECTION_ID,
+      },
+    },
+  })
+
+  return res.data.collection as Collection
+}
 
 const clientConnection = async () => {
   try {
@@ -54,7 +88,7 @@ export const apolloServer = new ApolloServer({
       const foundUser = await User.findOne(userId, { db })
       if (!foundUser) {
         try {
-          await User.createOne(userId, { db })
+          await User.createOne(userId, await getExampleCollection(), { db })
         } catch (e) {
           // TODO log error
           // console.error('error in creating new user', e)
