@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-beta.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/3.1.0...4.0.0-beta.0) (2022-04-21)
+
 ## [3.1.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/3.0.0...3.1.0) (2022-04-07)
 
 
