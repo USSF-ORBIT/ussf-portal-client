@@ -334,6 +334,7 @@ const CustomCollection = ({
             <CustomBookmark
               key={`bookmark_${bookmark._id}`}
               bookmark={bookmark}
+              index={index}
               onSave={(label, url) => {
                 handleEditBookmark(bookmark._id, url, label)
               }}
