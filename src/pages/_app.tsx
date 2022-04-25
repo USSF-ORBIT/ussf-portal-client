@@ -17,6 +17,7 @@ import { AnalyticsProvider } from 'stores/analyticsContext'
 import { AuthProvider } from 'stores/authContext'
 import DefaultLayout from 'layout/DefaultLayout/DefaultLayout'
 import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
+import ErrorBoundary from 'components/ErrorBoundary'
 
 config.autoAddCss = false
 
@@ -161,7 +162,9 @@ const USSFPortalApp = ({
             <meta name="msapplication-TileColor" content="#da532c" />
             <meta name="theme-color" content="#ffffff" />
           </Head>
-          {getLayout(<Component {...pageProps} />)}
+          <ErrorBoundary>
+            {getLayout(<Component {...pageProps} />)}
+          </ErrorBoundary>
         </AuthProvider>
       </AnalyticsProvider>
     </ApolloProvider>

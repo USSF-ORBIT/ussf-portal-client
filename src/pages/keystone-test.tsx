@@ -49,8 +49,8 @@ function isCollection(widget: MySpaceWidget): widget is CollectionType {
 }
 
 const KeystoneTest = ({
-  collections,
-  bookmarks,
+  collections = [],
+  bookmarks = [],
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
   const { user } = useUser()
