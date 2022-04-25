@@ -69,6 +69,7 @@ const CustomCollection = ({
   )
 
   const visibleBookmarks = bookmarks.filter((b) => !b.isRemoved)
+  const [allBookmarks, setBookmarks] = useState(visibleBookmarks)
 
   useEffect(() => {
     // Auto-focus on ComboBox when clicking Add Link
@@ -318,7 +319,7 @@ const CustomCollection = ({
             <Collection
               header={customCollectionHeader}
               footer={!isEditingTitle ? addLinkForm : null}>
-              {visibleBookmarks.map((bookmark: BookmarkType, index) =>
+              {allBookmarks.map((bookmark: BookmarkType, index) =>
                 bookmark.cmsId ? (
                   <Draggable
                     draggableId={bookmark.url}
