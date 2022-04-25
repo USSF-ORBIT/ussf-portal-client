@@ -5,14 +5,17 @@ import styles from './CustomCollection.module.scss'
 
 import Bookmark from 'components/Bookmark/Bookmark'
 import type { Bookmark as BookmarkType } from 'types/index'
+import { Draggable } from 'react-beautiful-dnd'
 
 const UNDO_TIMEOUT = 3000 // 3 seconds
 
 export const RemovableBookmark = ({
   bookmark,
+  index,
   handleRemove,
 }: {
   bookmark: BookmarkType
+  index: number
   handleRemove: () => void
 }) => {
   const { url, label } = bookmark
@@ -45,8 +48,15 @@ export const RemovableBookmark = ({
       Undo remove <FontAwesomeIcon icon="undo-alt" />
     </button>
   ) : (
-    <Bookmark href={url} onDelete={handleDeleteBookmark}>
-      {label || url}
-    </Bookmark>
+    <Draggable draggableId={bookmark.url} index={index}>
+      {(provided) => (
+        <div ref={provided.innerRef} {...provided.draggableProps}>
+          <p {...provided.dragHandleProps}>D</p>
+          <Bookmark href={url} onDelete={handleDeleteBookmark}>
+            {label || url}
+          </Bookmark>
+        </div>
+      )}
+    </Draggable>
   )
 }

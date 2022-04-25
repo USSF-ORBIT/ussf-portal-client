@@ -24,6 +24,7 @@ import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 import { useAnalytics } from 'stores/analyticsContext'
+import { DragDropContext } from 'react-beautiful-dnd'
 
 // TODO - refactor this component to use WidgetWithSettings
 
@@ -310,14 +311,15 @@ const CustomCollection = ({
   )
 
   return (
-    <>
+    <DragDropContext onDragEnd={() => 'DONE DRAGGING'}>
       <Collection
         header={customCollectionHeader}
         footer={!isEditingTitle ? addLinkForm : null}>
-        {visibleBookmarks.map((bookmark: BookmarkType) =>
+        {visibleBookmarks.map((bookmark: BookmarkType, index) =>
           bookmark.cmsId ? (
             <RemovableBookmark
               key={`bookmark_${bookmark._id}`}
+              index={index}
               bookmark={bookmark}
               handleRemove={() => {
                 trackEvent(
@@ -346,7 +348,7 @@ const CustomCollection = ({
         onSave={handleSaveCustomLink}
         showAddWarning={showAddWarning}
       />
-    </>
+    </DragDropContext>
   )
 }
 
