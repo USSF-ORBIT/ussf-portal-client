@@ -325,52 +325,84 @@ const CustomCollection = ({
                     draggableId={bookmark.url}
                     index={index}
                     key={bookmark.cmsId}>
-                    {(provided) => (
-                      <div ref={provided.innerRef} {...provided.draggableProps}>
-                        <span {...provided.dragHandleProps}>
-                          <FontAwesomeIcon
-                            icon="grip-vertical"
-                            style={{ color: '#A0A8B6' }}
+                    {(provided) => {
+                      // Overriding styles for element containing draggableProps
+                      const style = {
+                        display: 'flex',
+                        alignItems: 'center',
+                        ...provided.draggableProps.style,
+                      }
+
+                      return (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          style={style}>
+                          <span {...provided.dragHandleProps}>
+                            <FontAwesomeIcon
+                              icon="grip-vertical"
+                              style={{
+                                color: '#A0A8B6',
+                                marginRight: '10px',
+                                marginBottom: '2px',
+                              }}
+                            />
+                          </span>
+                          <RemovableBookmark
+                            key={`bookmark_${bookmark._id}`}
+                            bookmark={bookmark}
+                            handleRemove={() => {
+                              trackEvent(
+                                'Remove link',
+                                'Hide CMS link',
+                                `${title} / ${bookmark.label || bookmark.url}`
+                              )
+                              handleRemoveBookmark(bookmark._id, bookmark.cmsId)
+                            }}
                           />
-                        </span>
-                        <RemovableBookmark
-                          key={`bookmark_${bookmark._id}`}
-                          bookmark={bookmark}
-                          handleRemove={() => {
-                            trackEvent(
-                              'Remove link',
-                              'Hide CMS link',
-                              `${title} / ${bookmark.label || bookmark.url}`
-                            )
-                            handleRemoveBookmark(bookmark._id, bookmark.cmsId)
-                          }}
-                        />
-                      </div>
-                    )}
+                        </div>
+                      )
+                    }}
                   </Draggable>
                 ) : (
                   <Draggable
                     draggableId={bookmark.url}
                     index={index}
                     key={bookmark._id.toString()}>
-                    {(provided) => (
-                      <div ref={provided.innerRef} {...provided.draggableProps}>
-                        <span {...provided.dragHandleProps}>
-                          <FontAwesomeIcon
-                            icon="grip-vertical"
-                            style={{ color: '#A0A8B6' }}
+                    {(provided) => {
+                      // Overriding styles for element containing draggableProps
+                      const style = {
+                        display: 'flex',
+                        alignItems: 'center',
+                        ...provided.draggableProps.style,
+                      }
+
+                      return (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          style={style}>
+                          <span {...provided.dragHandleProps}>
+                            <FontAwesomeIcon
+                              icon="grip-vertical"
+                              style={{
+                                color: '#A0A8B6',
+                                marginRight: '10px',
+                                marginBottom: '2px',
+                              }}
+                            />
+                          </span>
+                          <CustomBookmark
+                            key={`bookmark_${bookmark._id}`}
+                            bookmark={bookmark}
+                            onSave={(label, url) => {
+                              handleEditBookmark(bookmark._id, url, label)
+                            }}
+                            onDelete={() => handleRemoveBookmark(bookmark._id)}
                           />
-                        </span>
-                        <CustomBookmark
-                          key={`bookmark_${bookmark._id}`}
-                          bookmark={bookmark}
-                          onSave={(label, url) => {
-                            handleEditBookmark(bookmark._id, url, label)
-                          }}
-                          onDelete={() => handleRemoveBookmark(bookmark._id)}
-                        />
-                      </div>
-                    )}
+                        </div>
+                      )
+                    }}
                   </Draggable>
                 )
               )}

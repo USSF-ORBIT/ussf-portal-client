@@ -9,6 +9,7 @@
   margin-bottom: 8px;
 
   display: flex;
+  flex-grow: 1;
 
   > :global(.usa-link) {
     flex-grow: 1;
