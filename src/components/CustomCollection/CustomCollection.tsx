@@ -24,7 +24,7 @@ import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 import { useAnalytics } from 'stores/analyticsContext'
-import { DragDropContext } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 // TODO - refactor this component to use WidgetWithSettings
 
@@ -312,37 +312,55 @@ const CustomCollection = ({
 
   return (
     <DragDropContext onDragEnd={() => 'DONE DRAGGING'}>
-      <Collection
-        header={customCollectionHeader}
-        footer={!isEditingTitle ? addLinkForm : null}>
-        {visibleBookmarks.map((bookmark: BookmarkType, index) =>
-          bookmark.cmsId ? (
-            <RemovableBookmark
-              key={`bookmark_${bookmark._id}`}
-              index={index}
-              bookmark={bookmark}
-              handleRemove={() => {
-                trackEvent(
-                  'Remove link',
-                  'Hide CMS link',
-                  `${title} / ${bookmark.label || bookmark.url}`
+      <Droppable droppableId="drop-test">
+        {(provided) => (
+          <div ref={provided.innerRef} {...provided.droppableProps}>
+            <Collection
+              header={customCollectionHeader}
+              footer={!isEditingTitle ? addLinkForm : null}>
+              {visibleBookmarks.map((bookmark: BookmarkType, index) =>
+                bookmark.cmsId ? (
+                  <Draggable
+                    draggableId={bookmark.url}
+                    index={index}
+                    key={bookmark.cmsId}>
+                    {(provided) => (
+                      <div ref={provided.innerRef} {...provided.draggableProps}>
+                        <span {...provided.dragHandleProps}>
+                          <FontAwesomeIcon icon="times" />
+                        </span>
+                        <RemovableBookmark
+                          key={`bookmark_${bookmark._id}`}
+                          bookmark={bookmark}
+                          handleRemove={() => {
+                            trackEvent(
+                              'Remove link',
+                              'Hide CMS link',
+                              `${title} / ${bookmark.label || bookmark.url}`
+                            )
+                            handleRemoveBookmark(bookmark._id, bookmark.cmsId)
+                          }}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                ) : (
+                  <CustomBookmark
+                    key={`bookmark_${bookmark._id}`}
+                    bookmark={bookmark}
+                    index={index}
+                    onSave={(label, url) => {
+                      handleEditBookmark(bookmark._id, url, label)
+                    }}
+                    onDelete={() => handleRemoveBookmark(bookmark._id)}
+                  />
                 )
-                handleRemoveBookmark(bookmark._id, bookmark.cmsId)
-              }}
-            />
-          ) : (
-            <CustomBookmark
-              key={`bookmark_${bookmark._id}`}
-              bookmark={bookmark}
-              index={index}
-              onSave={(label, url) => {
-                handleEditBookmark(bookmark._id, url, label)
-              }}
-              onDelete={() => handleRemoveBookmark(bookmark._id)}
-            />
-          )
+              )}
+            </Collection>
+            {provided.placeholder}
+          </div>
         )}
-      </Collection>
+      </Droppable>
       <AddCustomLinkModal
         modalRef={addCustomLinkModal}
         onCancel={handleCancel}
