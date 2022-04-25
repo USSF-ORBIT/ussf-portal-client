@@ -312,7 +312,7 @@ const CustomCollection = ({
   )
 
   return (
-    <DragDropContext onDragEnd={() => 'DONE DRAGGING'}>
+    <DragDropContext onDragEnd={() => console.log('DONE DRAGGING')}>
       <Droppable droppableId="drop-test">
         {(provided) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -328,7 +328,10 @@ const CustomCollection = ({
                     {(provided) => (
                       <div ref={provided.innerRef} {...provided.draggableProps}>
                         <span {...provided.dragHandleProps}>
-                          <FontAwesomeIcon icon="times" />
+                          <FontAwesomeIcon
+                            icon="grip-vertical"
+                            style={{ color: '#A0A8B6' }}
+                          />
                         </span>
                         <RemovableBookmark
                           key={`bookmark_${bookmark._id}`}
@@ -353,7 +356,10 @@ const CustomCollection = ({
                     {(provided) => (
                       <div ref={provided.innerRef} {...provided.draggableProps}>
                         <span {...provided.dragHandleProps}>
-                          <FontAwesomeIcon icon="times" />
+                          <FontAwesomeIcon
+                            icon="grip-vertical"
+                            style={{ color: '#A0A8B6' }}
+                          />
                         </span>
                         <CustomBookmark
                           key={`bookmark_${bookmark._id}`}
