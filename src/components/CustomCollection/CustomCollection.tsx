@@ -345,15 +345,26 @@ const CustomCollection = ({
                     )}
                   </Draggable>
                 ) : (
-                  <CustomBookmark
-                    key={`bookmark_${bookmark._id}`}
-                    bookmark={bookmark}
+                  <Draggable
+                    draggableId={bookmark.url}
                     index={index}
-                    onSave={(label, url) => {
-                      handleEditBookmark(bookmark._id, url, label)
-                    }}
-                    onDelete={() => handleRemoveBookmark(bookmark._id)}
-                  />
+                    key={bookmark._id.toString()}>
+                    {(provided) => (
+                      <div ref={provided.innerRef} {...provided.draggableProps}>
+                        <span {...provided.dragHandleProps}>
+                          <FontAwesomeIcon icon="times" />
+                        </span>
+                        <CustomBookmark
+                          key={`bookmark_${bookmark._id}`}
+                          bookmark={bookmark}
+                          onSave={(label, url) => {
+                            handleEditBookmark(bookmark._id, url, label)
+                          }}
+                          onDelete={() => handleRemoveBookmark(bookmark._id)}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
                 )
               )}
             </Collection>
