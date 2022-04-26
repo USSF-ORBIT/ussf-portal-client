@@ -72,6 +72,11 @@ const CustomCollection = ({
   const [allBookmarks, setBookmarks] = useState(visibleBookmarks)
 
   useEffect(() => {
+    // If there is an update to bookmarks, update the state
+    setBookmarks(visibleBookmarks)
+  }, [bookmarks])
+
+  useEffect(() => {
     // Auto-focus on ComboBox when clicking Add Link
     if (isAddingLink && linkInput.current) {
       linkInput.current.focus()
