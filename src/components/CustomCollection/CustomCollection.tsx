@@ -59,6 +59,7 @@ const CustomCollection = ({
 
   const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
   const [isEditingTitle, setEditingTitle] = useState(false)
+  const [isDraggingBookmark, setDraggingBookmark] = useState<boolean>(false)
   const { trackEvent } = useAnalytics()
 
   // Collection settings dropdown state
@@ -267,6 +268,7 @@ const CustomCollection = ({
   }
 
   const handleOnDragEnd = (result: any) => {
+    setDraggingBookmark(false)
     const { source, destination } = result
     const copiedBookmarks = [...allBookmarks]
     const [removed] = copiedBookmarks.splice(source.index, 1)
@@ -320,7 +322,9 @@ const CustomCollection = ({
   )
 
   return (
-    <DragDropContext onDragEnd={handleOnDragEnd}>
+    <DragDropContext
+      onDragEnd={handleOnDragEnd}
+      onDragStart={() => setDraggingBookmark(true)}>
       <Droppable droppableId={_id.toString()}>
         {(provided) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -414,8 +418,8 @@ const CustomCollection = ({
                   </Draggable>
                 )
               )}
+              {provided.placeholder}
             </Collection>
-            {provided.placeholder}
           </div>
         )}
       </Droppable>
