@@ -266,6 +266,14 @@ const CustomCollection = ({
     setEditingTitle(false)
   }
 
+  const handleOnDragEnd = (result: any) => {
+    const { source, destination } = result
+    const copiedBookmarks = [...allBookmarks]
+    const [removed] = copiedBookmarks.splice(source.index, 1)
+    copiedBookmarks.splice(destination.index, 0, removed)
+    setBookmarks(copiedBookmarks)
+  }
+
   const customCollectionHeader = (
     <>
       <EditableCollectionTitle
@@ -312,8 +320,8 @@ const CustomCollection = ({
   )
 
   return (
-    <DragDropContext onDragEnd={() => console.log('DONE DRAGGING')}>
-      <Droppable droppableId="drop-test">
+    <DragDropContext onDragEnd={handleOnDragEnd}>
+      <Droppable droppableId={_id.toString()}>
         {(provided) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
             <Collection
