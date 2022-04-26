@@ -330,7 +330,7 @@ const CustomCollection = ({
               {allBookmarks.map((bookmark: BookmarkType, index) =>
                 bookmark.cmsId ? (
                   <Draggable
-                    draggableId={bookmark.url}
+                    draggableId={bookmark._id.toString()}
                     index={index}
                     key={bookmark.cmsId}>
                     {(provided) => {
@@ -374,7 +374,7 @@ const CustomCollection = ({
                   </Draggable>
                 ) : (
                   <Draggable
-                    draggableId={bookmark.url}
+                    draggableId={bookmark._id.toString()}
                     index={index}
                     key={bookmark._id.toString()}>
                     {(provided) => {
