@@ -56,6 +56,7 @@ type AddCollectionInput = {
 type EditCollectionInput = {
   _id: ObjectIdType
   title: string
+  bookmarks: Bookmark[]
 }
 
 type AddBookmarkInput = {
@@ -165,7 +166,7 @@ const resolvers = {
     },
     editCollection: async (
       _: undefined,
-      { _id, title }: EditCollectionInput,
+      { _id, title, bookmarks }: EditCollectionInput,
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
@@ -175,7 +176,7 @@ const resolvers = {
       }
 
       return CollectionModel.editOne(
-        { _id, title, userId: user.userId },
+        { _id, title, bookmarks, userId: user.userId },
         { db }
       )
     },

@@ -30,6 +30,7 @@ type AddManyInput = {
 type EditOneInput = {
   _id: ObjectIdType
   title: string
+  bookmarks: Bookmark[]
   userId: string
 }
 
@@ -153,7 +154,7 @@ export const CollectionModel = {
     }
   },
   async editOne(
-    { _id, title, userId }: EditOneInput,
+    { _id, title, bookmarks, userId }: EditOneInput,
     { db }: Context
   ): Promise<Collection> {
     const query = {
@@ -164,6 +165,7 @@ export const CollectionModel = {
     const updateDocument = {
       $set: {
         'mySpace.$.title': title,
+        'mySpace.$.bookmarks': bookmarks,
       },
     }
 

@@ -44,7 +44,11 @@ export const typeDefs = gql`
     addWidget(title: String!, type: WidgetType!): Widget
     removeWidget(_id: OID!): Widget
     addCollection(title: String!, bookmarks: [BookmarkInput!]!): Collection
-    editCollection(_id: OID!, title: String!): Collection
+    editCollection(
+      _id: OID!
+      title: String!
+      bookmarks: [BookmarkInput]!
+    ): Collection
     removeCollection(_id: OID!): Collection
     addBookmark(
       collectionId: OID!

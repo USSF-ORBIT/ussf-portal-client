@@ -10,6 +10,7 @@ import type {
   BookmarkInput,
   Collection,
   Widget,
+  Bookmark,
 } from 'types/index'
 
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
@@ -131,11 +132,15 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                         refetchQueries: [`getMySpace`],
                       })
                     }}
-                    handleEditCollection={(title: string) => {
+                    handleEditCollection={(
+                      title: string,
+                      bookmarks?: Bookmark[]
+                    ) => {
                       handleEditCollection({
                         variables: {
                           _id: widget._id,
                           title,
+                          bookmarks,
                         },
                         refetchQueries: [`getMySpace`],
                       })

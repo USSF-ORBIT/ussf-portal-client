@@ -36,7 +36,7 @@ type PropTypes = {
   handleRemoveBookmark: (_id: ObjectId, cmsId?: string) => void
   handleAddBookmark: (url: string, label?: string, cmsId?: string) => void
   handleRemoveCollection: () => void
-  handleEditCollection: (title: string) => void
+  handleEditCollection: (title: string, bookmarks?: BookmarkType[]) => void
   handleEditBookmark: (_id: ObjectId, url?: string, label?: string) => void
 }
 
@@ -272,11 +272,17 @@ const CustomCollection = ({
   }
 
   const handleOnDragEnd = (result: any) => {
+    console.log(allBookmarks)
     const { source, destination } = result
     const copiedBookmarks = [...allBookmarks]
     const [removed] = copiedBookmarks.splice(source.index, 1)
     copiedBookmarks.splice(destination.index, 0, removed)
-    setBookmarks(copiedBookmarks)
+
+    // Might be able to omit this since there will be another query after
+    // updating the server?
+    // setBookmarks(copiedBookmarks)
+
+    handleEditCollection(title, copiedBookmarks)
   }
 
   const customCollectionHeader = (
