@@ -75,12 +75,6 @@ const CustomCollection = ({
   )
 
   const visibleBookmarks = bookmarks.filter((b) => !b.isRemoved)
-  const [allBookmarks, setBookmarks] = useState(visibleBookmarks)
-
-  useEffect(() => {
-    // If there is an update to bookmarks, update the state
-    setBookmarks(visibleBookmarks)
-  }, [bookmarks])
 
   useEffect(() => {
     // Auto-focus on ComboBox when clicking Add Link
@@ -278,11 +272,10 @@ const CustomCollection = ({
   }
 
   const handleOnDragEnd = (result: DropResult) => {
-    console.log(allBookmarks)
     const { source, destination } = result
 
     if (destination) {
-      const copiedBookmarks = allBookmarks.map(
+      const copiedBookmarks = visibleBookmarks.map(
         ({ _id, url, label, cmsId, isRemoved }) => ({
           _id,
           url,
@@ -294,10 +287,6 @@ const CustomCollection = ({
 
       const [removed] = copiedBookmarks.splice(source.index, 1)
       copiedBookmarks.splice(destination.index, 0, removed)
-
-      // Might be able to omit this since there will be another query after
-      // updating the server?
-      // setBookmarks(copiedBookmarks)
 
       handleEditCollection(title, copiedBookmarks)
     }
@@ -356,7 +345,7 @@ const CustomCollection = ({
             <Collection
               header={customCollectionHeader}
               footer={!isEditingTitle ? addLinkForm : null}>
-              {allBookmarks.map((bookmark: BookmarkType, index) =>
+              {visibleBookmarks.map((bookmark: BookmarkType, index) =>
                 bookmark.cmsId ? (
                   <Draggable
                     draggableId={bookmark._id.toString()}
