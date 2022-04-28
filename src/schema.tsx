@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 
 export const typeDefs = gql`
   scalar OID
+
   type Bookmark {
     _id: OID!
     url: String!
@@ -46,8 +47,8 @@ export const typeDefs = gql`
     addCollection(title: String!, bookmarks: [BookmarkInput!]!): Collection
     editCollection(
       _id: OID!
-      title: String!
-      bookmarks: [BookmarkInput]!
+      title: String
+      bookmarks: [BookmarkReorderInput]
     ): Collection
     removeCollection(_id: OID!): Collection
     addBookmark(
@@ -70,6 +71,14 @@ export const typeDefs = gql`
     url: String!
     label: String
     cmsId: ID
+  }
+
+  input BookmarkReorderInput {
+    _id: OID!
+    url: String!
+    label: String
+    cmsId: ID
+    isRemoved: Boolean
   }
 
   input CollectionRecord {

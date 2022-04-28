@@ -11,6 +11,13 @@ import {
   IconInfo,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from 'react-beautiful-dnd'
+
 import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
 import { CustomBookmark } from './CustomBookmark'
@@ -24,7 +31,6 @@ import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 import { useAnalytics } from 'stores/analyticsContext'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 // TODO - refactor this component to use WidgetWithSettings
 
@@ -271,18 +277,30 @@ const CustomCollection = ({
     setEditingTitle(false)
   }
 
-  const handleOnDragEnd = (result: any) => {
+  const handleOnDragEnd = (result: DropResult) => {
     console.log(allBookmarks)
     const { source, destination } = result
-    const copiedBookmarks = [...allBookmarks]
-    const [removed] = copiedBookmarks.splice(source.index, 1)
-    copiedBookmarks.splice(destination.index, 0, removed)
 
-    // Might be able to omit this since there will be another query after
-    // updating the server?
-    // setBookmarks(copiedBookmarks)
+    if (destination) {
+      const copiedBookmarks = allBookmarks.map(
+        ({ _id, url, label, cmsId, isRemoved }) => ({
+          _id,
+          url,
+          label,
+          cmsId,
+          isRemoved,
+        })
+      )
 
-    handleEditCollection(title, copiedBookmarks)
+      const [removed] = copiedBookmarks.splice(source.index, 1)
+      copiedBookmarks.splice(destination.index, 0, removed)
+
+      // Might be able to omit this since there will be another query after
+      // updating the server?
+      // setBookmarks(copiedBookmarks)
+
+      handleEditCollection(title, copiedBookmarks)
+    }
   }
 
   const customCollectionHeader = (
