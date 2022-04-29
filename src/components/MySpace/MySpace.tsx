@@ -1,6 +1,7 @@
 import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
+import { gql } from '@apollo/client'
 
 import styles from './MySpace.module.scss'
 
@@ -142,7 +143,31 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                           title,
                           bookmarks,
                         },
-                        refetchQueries: [`getMySpace`],
+                        // refetchQueries: [`getMySpace`],
+                        update(cache, { data }) {
+                          // debugger
+                          const editCollection = data
+                          console.log(data)
+                          if (editCollection) {
+                            cache.writeFragment({
+                              id: `Collection:${editCollection._id}`,
+                              fragment: gql`
+                                fragment collectionData on Collection {
+                                  _id
+                                  title
+                                  bookmarks {
+                                    _id
+                                    url
+                                    label
+                                    cmsId
+                                    isRemoved
+                                  }
+                                }
+                              `,
+                              data: editCollection,
+                            })
+                          }
+                        },
                       })
                     }}
                     handleRemoveBookmark={(_id, cmsId) => {
