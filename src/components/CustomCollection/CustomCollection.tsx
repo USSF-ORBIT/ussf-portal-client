@@ -350,7 +350,7 @@ const CustomCollection = ({
                   <Draggable
                     draggableId={bookmark._id.toString()}
                     index={index}
-                    key={bookmark.cmsId}>
+                    key={bookmark._id.toString()}>
                     {(provided) => {
                       // Overriding styles for element containing draggableProps
                       const style = {

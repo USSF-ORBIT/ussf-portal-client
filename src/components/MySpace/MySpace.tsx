@@ -123,7 +123,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                   <CustomCollection
                     _id={widget._id}
                     title={widget.title}
-                    bookmarks={widget.bookmarks}
+                    bookmarks={widget.bookmarks || []}
                     bookmarkOptions={bookmarks}
                     handleRemoveCollection={() => {
                       handleRemoveCollection({
@@ -143,12 +143,16 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                           title,
                           bookmarks,
                         },
-                        // refetchQueries: [`getMySpace`],
-                        update(cache, { data }) {
-                          // debugger
-                          const editCollection = data
-                          console.log(data)
-                          if (editCollection) {
+                        optimisticResponse: {
+                          editCollection: {
+                            _id: widget._id,
+                            title,
+                            bookmarks: bookmarks || widget.bookmarks,
+                          },
+                        },
+                        update(cache, result) {
+                          if (result.data?.editCollection) {
+                            const { editCollection } = result.data
                             cache.writeFragment({
                               id: `Collection:${editCollection._id}`,
                               fragment: gql`

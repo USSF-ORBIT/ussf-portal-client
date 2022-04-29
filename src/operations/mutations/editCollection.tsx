@@ -10,14 +10,14 @@ interface EditCollectionResponse {
 
 interface EditCollectionInput {
   _id: ObjectId
-  title?: string
+  title: string
   bookmarks?: Bookmark[]
 }
 
 export const EDIT_COLLECTION = gql`
   mutation editCollection(
     $_id: OID!
-    $title: String
+    $title: String!
     $bookmarks: [BookmarkReorderInput]
   ) {
     editCollection(_id: $_id, title: $title, bookmarks: $bookmarks) {
@@ -35,7 +35,8 @@ export const EDIT_COLLECTION = gql`
 `
 
 export function useEditCollectionMutation() {
-  return useMutation<EditCollectionResponse, EditCollectionInput>(
-    EDIT_COLLECTION
-  )
+  return useMutation<
+    { editCollection: EditCollectionResponse },
+    EditCollectionInput
+  >(EDIT_COLLECTION)
 }
