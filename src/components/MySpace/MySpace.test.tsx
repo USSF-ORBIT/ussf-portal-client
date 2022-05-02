@@ -94,10 +94,12 @@ describe('My Space Component', () => {
         })
       ).toBeInTheDocument()
 
+      // console.log(await screen.findAllByRole('listitem'))
+
       // 21 Collection widgets
       expect(await screen.findAllByRole('list')).toHaveLength(22)
-      // Total of 13 Bookmarks
-      expect(await screen.findAllByRole('listitem')).toHaveLength(13)
+      // Total of 35 Bookmarks
+      expect(await screen.findAllByRole('listitem')).toHaveLength(35)
     })
 
     it('renders the add widget component', async () => {
