@@ -275,7 +275,7 @@ const CustomCollection = ({
     const { source, destination } = result
 
     if (destination) {
-      const copiedBookmarks = visibleBookmarks.map(
+      const copiedBookmarks = bookmarks.map(
         ({ _id, url, label, cmsId, isRemoved }) => ({
           _id,
           url,
@@ -345,7 +345,7 @@ const CustomCollection = ({
             <Collection
               header={customCollectionHeader}
               footer={!isEditingTitle ? addLinkForm : null}>
-              {bookmarks.map((bookmark: BookmarkType, index) =>
+              {visibleBookmarks.map((bookmark: BookmarkType, index) =>
                 bookmark.cmsId ? (
                   <Draggable
                     draggableId={bookmark._id.toString()}
