@@ -345,7 +345,7 @@ const CustomCollection = ({
             <Collection
               header={customCollectionHeader}
               footer={!isEditingTitle ? addLinkForm : null}>
-              {visibleBookmarks.map((bookmark: BookmarkType, index) =>
+              {bookmarks.map((bookmark: BookmarkType, index) =>
                 bookmark.cmsId ? (
                   <Draggable
                     draggableId={bookmark._id.toString()}
