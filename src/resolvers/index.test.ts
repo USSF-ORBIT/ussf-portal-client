@@ -5,7 +5,7 @@ import { typeDefs } from '../schema'
 
 import { newPortalUser } from '../__fixtures__/newPortalUser'
 
-import resolvers from './index'
+import resolvers, { ObjectIdScalar } from './index'
 
 import { GET_MY_SPACE } from 'operations/queries/getMySpace'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
@@ -18,6 +18,7 @@ import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
 import { EDIT_BOOKMARK } from 'operations/mutations/editBookmark'
 import { ADD_WIDGET } from 'operations/mutations/addWidget'
 import { REMOVE_WIDGET } from 'operations/mutations/removeWidget'
+import bookmarks from 'pages/api/bookmarks'
 
 let server: ApolloServer
 let connection: typeof MongoClient
@@ -259,7 +260,7 @@ describe('GraphQL resolvers', () => {
     })
 
     describe('editCollection', () => {
-      it('edits an existing collection', async () => {
+      it('edits an existing collection title', async () => {
         const editCollection = newPortalUser.mySpace.find(
           (w) => w.type === 'Collection'
         )
@@ -279,6 +280,152 @@ describe('GraphQL resolvers', () => {
 
         expect(result.errors).toBeUndefined()
         expect(result.data).toMatchObject({ editCollection: expectedData })
+      })
+
+      it('edits the order of bookmarks in a collection', async () => {
+        const editCollection = newPortalUser.mySpace.find(
+          (w) => w.type === 'Collection'
+        )
+
+        expect(editCollection?.bookmarks[0].label).toEqual('Webmail')
+
+        // Reorder bookmarks in collection
+        const firstResult = await server.executeOperation({
+          query: EDIT_COLLECTION,
+          variables: {
+            _id: `${editCollection?._id}`,
+            title: 'Example Collection',
+            bookmarks: [
+              {
+                _id: `${editCollection?.bookmarks[1]._id.toString()}`,
+                url: 'https://mypay.dfas.mil/#/',
+                label: 'MyPay',
+                cmsId: 'cmsId2',
+                isRemoved: null,
+              },
+              {
+                _id: `${editCollection?.bookmarks[0]._id.toString()}`,
+                url: 'https://google.com',
+                label: 'Webmail',
+                cmsId: 'cmsId1',
+                isRemoved: null,
+              },
+              {
+                _id: `${editCollection?.bookmarks[2]._id.toString()}`,
+                url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+                label: 'vMPF',
+                cmsId: 'cmsId3',
+                isRemoved: null,
+              },
+              {
+                _id: `${editCollection?.bookmarks[3]._id.toString()}`,
+                url: 'https://leave.af.mil/profile',
+                label: 'LeaveWeb',
+                cmsId: 'cmsId4',
+                isRemoved: null,
+              },
+              {
+                _id: `${editCollection?.bookmarks[4]._id.toString()}`,
+                url: 'https://www.e-publishing.af.mil/',
+                label: 'e-Publications',
+                cmsId: 'cmsId5',
+                isRemoved: null,
+              },
+              {
+                _id: `${editCollection?.bookmarks[5]._id.toString()}`,
+                url: 'https://example.com',
+                label: 'Custom Bookmark',
+                cmsId: null,
+                isRemoved: null,
+              },
+            ],
+          },
+        })
+
+        const expectedFirst = {
+          _id: `${editCollection?._id}`,
+          title: 'Example Collection',
+          bookmarks: [
+            {
+              _id: `${editCollection?.bookmarks[1]._id.toString()}`,
+              url: 'https://mypay.dfas.mil/#/',
+              label: 'MyPay',
+              cmsId: 'cmsId2',
+              isRemoved: null,
+            },
+            {
+              _id: `${editCollection?.bookmarks[0]._id.toString()}`,
+              url: 'https://google.com',
+              label: 'Webmail',
+              cmsId: 'cmsId1',
+              isRemoved: null,
+            },
+            {
+              _id: `${editCollection?.bookmarks[2]._id.toString()}`,
+              url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+              label: 'vMPF',
+              cmsId: 'cmsId3',
+              isRemoved: null,
+            },
+            {
+              _id: `${editCollection?.bookmarks[3]._id.toString()}`,
+              url: 'https://leave.af.mil/profile',
+              label: 'LeaveWeb',
+              cmsId: 'cmsId4',
+              isRemoved: null,
+            },
+            {
+              _id: `${editCollection?.bookmarks[4]._id.toString()}`,
+              url: 'https://www.e-publishing.af.mil/',
+              label: 'e-Publications',
+              cmsId: 'cmsId5',
+              isRemoved: null,
+            },
+            {
+              _id: `${editCollection?.bookmarks[5]._id.toString()}`,
+              url: 'https://example.com',
+              label: 'Custom Bookmark',
+              cmsId: null,
+              isRemoved: null,
+            },
+          ],
+        }
+
+        expect(firstResult.errors).toBeUndefined()
+        expect(firstResult.data).toMatchObject({
+          editCollection: expectedFirst,
+        })
+
+        // Reorder bookmarks in collection to match original order
+        const secondResult = await server.executeOperation({
+          query: EDIT_COLLECTION,
+          variables: {
+            _id: `${editCollection?._id}`,
+            title: 'Example Collection',
+            bookmarks: editCollection?.bookmarks.map((b) => {
+              return {
+                ...b,
+                _id: `${b._id.toString()}`,
+              }
+            }),
+          },
+        })
+
+        const expectedSecond = {
+          _id: `${editCollection?._id}`,
+          title: 'Example Collection',
+          bookmarks: editCollection?.bookmarks.map((b) => {
+            return {
+              ...b,
+              _id: `${b._id.toString()}`,
+            }
+          }),
+        }
+
+        expect(secondResult.errors).toBeUndefined()
+        expect(secondResult.data).toMatchObject({
+          editCollection: expectedSecond,
+        })
       })
     })
 
