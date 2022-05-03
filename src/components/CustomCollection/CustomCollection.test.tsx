@@ -174,6 +174,30 @@ const mockLinks = [
   },
 ]
 
+// jest.mock('react-beautiful-dnd', () => ({
+//   Droppable: ({ children }) =>
+//     children(
+//       {
+//         droppableProps: {
+//           style: {},
+//         },
+//         innerRef: jest.fn(),
+//       },
+//       {}
+//     ),
+//   Draggable: ({ children }) =>
+//     children(
+//       {
+//         draggableProps: {
+//           style: {},
+//         },
+//         innerRef: jest.fn(),
+//       },
+//       {}
+//     ),
+//   DragDropContext: ({ children }) => children,
+// }))
+
 describe('CustomCollection component', () => {
   const addLinkDialog = {
     name: 'Add a custom link',
@@ -201,6 +225,17 @@ describe('CustomCollection component', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     scrollSpy.mockReset()
+  })
+
+  it('renders the collection with DragDropContext', () => {
+    const { container } = render(
+      <CustomCollection {...exampleCollection} {...mockHandlers} />
+    )
+    expect(
+      container
+        .querySelector('div')
+        ?.getAttribute('data-rbd-droppable-context-id')
+    ).toEqual('0')
   })
 
   it('renders the collection with delete or edit buttons', () => {
