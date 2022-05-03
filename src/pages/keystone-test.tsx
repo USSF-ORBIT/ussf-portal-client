@@ -37,7 +37,8 @@ import {
 import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 import { useAnalytics } from 'stores/analyticsContext'
-import { client } from 'apolloClient'
+
+import { client } from 'lib/keystoneClient'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
@@ -51,6 +52,8 @@ function isCollection(widget: MySpaceWidget): widget is CollectionType {
 const KeystoneTest = ({
   collections = [],
   bookmarks = [],
+  cmsCollectionsError,
+  cmsBookmarksError,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
   const { user } = useUser()
@@ -73,7 +76,19 @@ const KeystoneTest = ({
     }
   }, [router.query])
 
-  if (error) return <p>Error</p>
+  if (cmsCollectionsError || cmsBookmarksError) {
+    return (
+      <p>
+        Error loading CMS data:
+        <br />
+        <strong>Collections:</strong> {JSON.stringify(cmsCollectionsError)}
+        <br />
+        <strong>Bookmarks:</strong> {JSON.stringify(cmsBookmarksError)}
+      </p>
+    )
+  }
+
+  if (error) return <p>Error loading My Space data: {JSON.stringify(error)}</p>
 
   const userCollections: CollectionType[] =
     (data &&
@@ -359,29 +374,16 @@ export default KeystoneTest
 KeystoneTest.getLayout = withDefaultLayout
 
 export async function getServerSideProps() {
-  const {
-    loading: cmsCollectionsLoading,
-    error: cmsCollectionsError,
-    data: cmsCollections,
-  } = await client.query({
-    query: GET_KEYSTONE_COLLECTIONS,
-    context: {
-      clientName: 'cms',
-    },
-    fetchPolicy: 'no-cache',
-  })
+  const { error: cmsCollectionsError, data: cmsCollections } =
+    await client.query({
+      query: GET_KEYSTONE_COLLECTIONS,
+      fetchPolicy: 'no-cache',
+    })
 
   const collections = cmsCollections?.collections as CollectionRecords
 
-  const {
-    loading: cmsBookmarksLoading,
-    error: cmsBookmarksError,
-    data: cmsBookmarks,
-  } = await client.query({
+  const { error: cmsBookmarksError, data: cmsBookmarks } = await client.query({
     query: GET_KEYSTONE_BOOKMARKS,
-    context: {
-      clientName: 'cms',
-    },
     fetchPolicy: 'no-cache',
   })
 
@@ -391,6 +393,8 @@ export async function getServerSideProps() {
     props: {
       collections,
       bookmarks,
+      cmsCollectionsError: cmsCollectionsError || null,
+      cmsBookmarksError: cmsBookmarksError || null,
     },
   }
 }
