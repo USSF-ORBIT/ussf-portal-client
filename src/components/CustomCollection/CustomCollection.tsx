@@ -75,6 +75,7 @@ const CustomCollection = ({
   )
 
   const visibleBookmarks = bookmarks.filter((b) => !b.isRemoved)
+  const removedBookmarks = bookmarks.filter((b) => b.isRemoved)
 
   useEffect(() => {
     // Auto-focus on ComboBox when clicking Add Link
@@ -275,7 +276,7 @@ const CustomCollection = ({
     const { source, destination } = result
 
     if (destination) {
-      const copiedBookmarks = bookmarks.map(
+      let copiedBookmarks = visibleBookmarks.map(
         ({ _id, url, label, cmsId, isRemoved }) => ({
           _id,
           url,
@@ -287,6 +288,20 @@ const CustomCollection = ({
 
       const [removed] = copiedBookmarks.splice(source.index, 1)
       copiedBookmarks.splice(destination.index, 0, removed)
+
+      if (removedBookmarks.length > 0) {
+        const removedBookmarksToAddBack = removedBookmarks.map(
+          ({ _id, url, label, cmsId, isRemoved }) => ({
+            _id,
+            url,
+            label,
+            cmsId,
+            isRemoved,
+          })
+        )
+
+        copiedBookmarks = [...copiedBookmarks, ...removedBookmarksToAddBack]
+      }
 
       handleEditCollection(title, copiedBookmarks)
     }
