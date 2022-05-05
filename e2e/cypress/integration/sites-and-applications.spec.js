@@ -187,7 +187,7 @@ describe('Sites and Applications', () => {
       .next()
       .within(() => {
         // Inside of <ol>
-        cy.findAllByRole('listitem').should('have.length', 6)
+        cy.get('[aria-label="Drag Handle"]').should('have.length', 6)
         cy.contains('MyPay')
 
         // First undo
@@ -323,7 +323,7 @@ describe('Sites and Applications', () => {
       .parent()
       .parent()
       .within(() => {
-        cy.findAllByRole('listitem').should('have.length', 7)
+        cy.get('[aria-label="Drag Handle"]').should('have.length', 7)
 
         // Edit a link
         cy.findAllByRole('button', { name: 'Edit this link' }).first().click()
@@ -342,7 +342,7 @@ describe('Sites and Applications', () => {
       .parent()
       .parent()
       .within(() => {
-        cy.findAllByRole('listitem').should('have.length', 6)
+        cy.get('[aria-label="Drag Handle"]').should('have.length', 6)
       })
   })
 
@@ -376,7 +376,7 @@ describe('Sites and Applications', () => {
       .within(() => {
         // Inside of <ol>
         // Start with 7 links, remove 2
-        cy.findAllByRole('listitem').should('have.length', 6)
+        cy.get('[aria-label="Drag Handle"]').should('have.length', 6)
 
         cy.contains('vMPF').next().click()
         cy.contains('LeaveWeb').next().click()
@@ -384,7 +384,7 @@ describe('Sites and Applications', () => {
         cy.contains('vMPF').should('not.exist')
         cy.contains('LeaveWeb').should('not.exist')
 
-        cy.findAllByRole('listitem').should('have.length', 4)
+        cy.get('[aria-label="Drag Handle"]').should('have.length', 4)
       })
   })
 
