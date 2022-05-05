@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ObjectId } from 'mongodb'
 import React from 'react'
@@ -174,30 +174,6 @@ const mockLinks = [
   },
 ]
 
-// jest.mock('react-beautiful-dnd', () => ({
-//   Droppable: ({ children }) =>
-//     children(
-//       {
-//         droppableProps: {
-//           style: {},
-//         },
-//         innerRef: jest.fn(),
-//       },
-//       {}
-//     ),
-//   Draggable: ({ children }) =>
-//     children(
-//       {
-//         draggableProps: {
-//           style: {},
-//         },
-//         innerRef: jest.fn(),
-//       },
-//       {}
-//     ),
-//   DragDropContext: ({ children }) => children,
-// }))
-
 describe('CustomCollection component', () => {
   const addLinkDialog = {
     name: 'Add a custom link',
@@ -236,6 +212,28 @@ describe('CustomCollection component', () => {
         .querySelector('div')
         ?.getAttribute('data-rbd-droppable-context-id')
     ).toEqual('0')
+  })
+
+  it('drags and drops a link', async () => {
+    const mockEditCollection = jest.fn()
+
+    render(
+      <CustomCollection
+        {...exampleCollection}
+        {...mockHandlers}
+        handleEditCollection={mockEditCollection}
+      />
+    )
+
+    // Get drag handles
+    const dragHandle = screen.getAllByLabelText('Drag Handle')
+    dragHandle[0].focus()
+    expect(dragHandle[0]).toHaveFocus()
+
+    // Use keyboard to simulate drag and drop of a link
+    userEvent.keyboard('{space}{arrowdown}{space}')
+
+    expect(mockEditCollection).toHaveBeenCalled()
   })
 
   it('renders the collection with delete or edit buttons', () => {

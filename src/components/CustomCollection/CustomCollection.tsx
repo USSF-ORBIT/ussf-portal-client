@@ -379,7 +379,9 @@ const CustomCollection = ({
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           style={style}>
-                          <span {...provided.dragHandleProps}>
+                          <span
+                            {...provided.dragHandleProps}
+                            aria-label="Drag Handle">
                             <FontAwesomeIcon
                               icon="grip-vertical"
                               style={{
@@ -423,7 +425,9 @@ const CustomCollection = ({
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           style={style}>
-                          <span {...provided.dragHandleProps}>
+                          <span
+                            {...provided.dragHandleProps}
+                            aria-label="Drag Handle">
                             <FontAwesomeIcon
                               icon="grip-vertical"
                               style={{
