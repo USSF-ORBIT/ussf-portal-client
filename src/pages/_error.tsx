@@ -18,7 +18,6 @@ const Error: NextPageWithLayout<Props> = ({ statusCode }: Props) => {
   const router = useRouter()
   const handleBackClick = () => router.back()
 
-  // TODO - copy?
   return (
     <>
       <GridContainer>
