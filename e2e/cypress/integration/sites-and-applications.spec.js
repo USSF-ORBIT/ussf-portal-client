@@ -199,6 +199,7 @@ describe('Sites and Applications', () => {
         // Don't undo
         cy.findAllByRole('button', { name: 'Remove this link' }).first().click()
         cy.contains('MyPay').should('not.exist')
+        cy.contains('Undo remove').should('exist')
         // The number is 6 because MyPay doesn't exist, but the drag handle for it still does
         cy.get('[aria-label="Drag Handle"]').should('have.length', 6)
       })
