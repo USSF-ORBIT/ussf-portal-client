@@ -15,7 +15,7 @@ import { getMySpaceMock } from '../../__fixtures__/operations/getMySpace'
 import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
 import Home from 'pages/index'
 
-jest.mock('../../apolloClient', () => ({
+jest.mock('../../lib/keystoneClient', () => ({
   client: {
     query: () => {
       return

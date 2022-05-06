@@ -24,7 +24,7 @@ import {
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
 import SitesAndApplications from 'pages/sites-and-applications'
 
-jest.mock('../../apolloClient', () => ({
+jest.mock('../../lib/keystoneClient', () => ({
   client: {
     query: () => {
       return
