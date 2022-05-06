@@ -1,33 +1,30 @@
-import { ServerResponse } from 'http'
-
-import { MicroRequest } from 'apollo-server-micro/dist/types'
+import type { ServerResponse } from 'http'
+import type { MicroRequest } from 'apollo-server-micro/dist/types'
 import {
   ApolloServer,
   AuthenticationError,
   ApolloError,
+  gql,
 } from 'apollo-server-micro'
 import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core'
 import type { PageConfig } from 'next'
+
 import { typeDefs } from '../../schema'
-import resolvers from '../../resolvers/index'
-import type { SessionUser } from 'types/index'
+
+import resolvers from 'resolvers/index'
+import type { SessionUser, Collection } from 'types/index'
+import { client } from 'lib/keystoneClient'
 import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
 import User from 'models/User'
+import { EXAMPLE_COLLECTION_ID } from 'constants/index'
 
 export const config: PageConfig = {
   api: { bodyParser: false },
 }
-import { client } from '../../apolloClient'
-import { cmsLink } from 'apolloClient'
-import { gql } from 'apollo-server-micro'
-import { EXAMPLE_COLLECTION_ID } from 'constants/index'
-import type { Collection } from 'types/index'
 
 // To create a new user, we need the example collection from Keystone
 const getExampleCollection = async () => {
-  // Tell Apollo to use the CMS GraphQL endpoint
-  client.setLink(cmsLink)
   // Request the example collection based on ID
   const res = await client.query({
     query: gql`
