@@ -1,30 +1,20 @@
 import { ApolloClient, InMemoryCache, HttpLink, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 
-// Link to internal GraphQL API, only called from client
+// Link to Keystone, only called from server
 
-const portalLink = new HttpLink({
-  uri: `/api/graphql`,
+const cmsLink = new HttpLink({
+  uri: `${process.env.KEYSTONE_URL}/api/graphql`,
 })
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
-    graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+    graphQLErrors.forEach(({ message, locations, path }) => {
       // TODO - log error
       // eslint-disable-next-line no-console
       console.error(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       )
-      switch (extensions.code) {
-        case 'UNAUTHENTICATED':
-          window.location.href = '/login'
-          break
-        case 'SERVER_ERROR':
-          window.location.href = '/500'
-          break
-        default:
-          break
-      }
     })
 
   if (networkError) {
@@ -35,6 +25,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 })
 
 export const client = new ApolloClient({
-  link: from([errorLink, portalLink]),
+  link: from([errorLink, cmsLink]),
   cache: new InMemoryCache(),
+  credentials: 'include',
 })
