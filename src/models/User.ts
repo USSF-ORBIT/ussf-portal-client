@@ -1,24 +1,31 @@
 import { Context } from '@apollo/client'
+
 import { CollectionModel } from './Collection'
-import type { PortalUser, Collection } from 'types/index'
+
+import type { PortalUser, CollectionRecords } from 'types/index'
 
 const UserModel = {
   async findOne(userId: string, { db }: Context) {
     const foundUser = await db.collection('users').findOne({ userId })
     return foundUser
   },
-  async createOne(userId: string, exampleCollection: any, { db }: Context) {
+  async createOne(
+    userId: string,
+    initCollections: CollectionRecords,
+    { db }: Context
+  ) {
     const newUser: PortalUser = {
       userId,
       mySpace: [],
     }
+
     // Create user
     await db.collection('users').insertOne(newUser)
-    // Add example collection
-    await CollectionModel.addOne(
+
+    // Seed with initial collection(s) (records from CMS)
+    await CollectionModel.addMany(
       {
-        title: exampleCollection.title,
-        bookmarks: exampleCollection.bookmarks,
+        collections: initCollections,
         userId,
       },
       { db }

@@ -1,6 +1,10 @@
-import { Db, MongoClient, ObjectId } from 'mongodb'
+import { Db, MongoClient } from 'mongodb'
+
 import User from './User'
-import { exampleCollection1 } from '../__fixtures__/newPortalUser'
+import {
+  exampleCollection,
+  exampleCollection1,
+} from '__fixtures__/newPortalUser'
 
 let connection: typeof MongoClient
 let db: typeof Db
@@ -28,7 +32,7 @@ describe('User model', () => {
       mySpace: [exampleCollection1],
     }
 
-    await User.createOne('testUserId', exampleCollection1, { db })
+    await User.createOne('testUserId', [exampleCollection], { db })
 
     const insertedUser = await User.findOne('testUserId', { db })
 

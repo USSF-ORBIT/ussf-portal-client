@@ -1,6 +1,7 @@
 import { MongoClient, Db, ObjectId } from 'mongodb'
 import { ObjectId as ObjectIdType } from 'bson'
-import { EXAMPLE_COLLECTION } from '../__fixtures__/newPortalUser'
+
+import { exampleCollection } from '../__fixtures__/newPortalUser'
 import { BookmarkModel } from './Bookmark'
 import { CollectionModel } from './Collection'
 import User from './User'
@@ -10,6 +11,7 @@ import type {
   CollectionInput,
   RemovedBookmark,
 } from 'types'
+
 let connection: typeof MongoClient
 let db: typeof Db
 let exampleCollectionId: ObjectIdType
@@ -35,7 +37,7 @@ describe('Bookmark Model', () => {
 
     // Create test user
     const testUserId = 'testUserId'
-    await User.createOne(testUserId, EXAMPLE_COLLECTION, { db })
+    await User.createOne(testUserId, [exampleCollection], { db })
     const testUser = await User.findOne(testUserId, { db })
 
     // Test user comes with an example collection

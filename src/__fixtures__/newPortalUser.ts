@@ -1,46 +1,41 @@
 import { ObjectId } from 'mongodb'
-import { WIDGET_TYPES } from 'constants/index'
-import { Collection } from 'types/index'
+import { CollectionRecord, Collection, PortalUser } from 'types/index'
 
-export const EXAMPLE_COLLECTION: Collection = {
-  _id: ObjectId(),
-  cmsId: 'ckwz3u58s1835ql974leo1yll',
+// The ExampleCollection in Keystone used to initialize new users
+export const exampleCollection: CollectionRecord = {
+  id: 'ckwz3u58s1835ql974leo1yll',
   title: 'Example Collection',
-  type: WIDGET_TYPES.COLLECTION,
   bookmarks: [
     {
-      _id: ObjectId(),
-      cmsId: 'cktd7c0d30190w597qoftevq1',
+      id: 'cktd7c0d30190w597qoftevq1',
       url: 'https://afpcsecure.us.af.mil/',
       label: 'vMPF',
     },
     {
-      _id: ObjectId(),
-      cmsId: 'cktd7ettn0457w597p7ja4uye',
+      id: 'cktd7ettn0457w597p7ja4uye',
       url: 'https://leave.af.mil/profile',
       label: 'LeaveWeb',
     },
     {
-      _id: ObjectId(),
-      cmsId: 'cktd7hjz30636w5977vu4la4c',
+      id: 'cktd7hjz30636w5977vu4la4c',
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
     },
     {
-      _id: ObjectId(),
-      cmsId: 'ckwz3tphw1763ql97pia1zkvc',
+      id: 'ckwz3tphw1763ql97pia1zkvc',
       url: 'https://webmail.apps.mil/',
       label: 'Webmail',
     },
     {
-      _id: ObjectId(),
-      cmsId: 'ckwz3u4461813ql970wkd254m',
+      id: 'ckwz3u4461813ql970wkd254m',
       url: 'https://www.e-publishing.af.mil/',
       label: 'e-Publications',
     },
   ],
 }
-export const exampleCollection1 = {
+
+// Test collections that already exist on a User record in mongo
+export const exampleCollection1: Collection = {
   _id: ObjectId(),
   title: 'Example Collection',
   type: 'Collection',
@@ -90,7 +85,7 @@ export const exampleCollection1 = {
   ],
 }
 
-export const exampleCollection2 = {
+export const exampleCollection2: Collection = {
   _id: ObjectId(),
   title: 'Second Collection',
   type: 'Collection',
@@ -105,7 +100,7 @@ export const exampleCollection2 = {
   ],
 }
 
-export const newPortalUser = {
+export const newPortalUser: PortalUser = {
   userId: 'CAMPBELL.BERNADETTE.5244446289',
   mySpace: [exampleCollection1, exampleCollection2],
 }

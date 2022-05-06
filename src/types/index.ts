@@ -48,8 +48,8 @@ export type Bookmark = {
   _id: ObjectId
   url: string
   label?: string
-  cmsId?: string
-  isRemoved?: boolean
+  cmsId?: string | null
+  isRemoved?: boolean | null
 }
 
 // When creating a new empty collection, we need to initialize an empty bookmark with no _id
@@ -77,6 +77,11 @@ export interface Collection extends Widget {
   bookmarks: Bookmark[]
   cmsId?: string
   type: 'Collection'
+}
+
+export type NewCollectionInput = {
+  title: string
+  bookmarks: BookmarkInput[]
 }
 
 export type CollectionInput = {

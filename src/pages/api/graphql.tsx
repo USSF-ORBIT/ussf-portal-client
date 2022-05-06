@@ -12,7 +12,7 @@ import type { PageConfig } from 'next'
 import { typeDefs } from '../../schema'
 
 import resolvers from 'resolvers/index'
-import type { SessionUser, Collection } from 'types/index'
+import type { SessionUser, CollectionRecord } from 'types/index'
 import { client } from 'lib/keystoneClient'
 import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
@@ -47,7 +47,7 @@ const getExampleCollection = async () => {
     },
   })
 
-  return res.data.collection as Collection
+  return res.data.collection as CollectionRecord
 }
 
 const clientConnection = async () => {
@@ -85,7 +85,8 @@ export const apolloServer = new ApolloServer({
       const foundUser = await User.findOne(userId, { db })
       if (!foundUser) {
         try {
-          await User.createOne(userId, await getExampleCollection(), { db })
+          const initCollection = await getExampleCollection()
+          await User.createOne(userId, [initCollection], { db })
         } catch (e) {
           // TODO log error
           // console.error('error in creating new user', e)
