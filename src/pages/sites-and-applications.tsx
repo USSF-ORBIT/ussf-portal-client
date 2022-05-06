@@ -10,10 +10,8 @@ import type { ObjectId } from 'bson'
 
 import type {
   BookmarkRecords,
-  BookmarkRecordInput,
   CollectionRecord,
   CollectionRecords,
-  CollectionRecordInput,
   BookmarkRecord,
   NewBookmarkInput,
   MySpaceWidget,
@@ -43,7 +41,7 @@ import { useAnalytics } from 'stores/analyticsContext'
 
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/queries/getKeystoneBookmarks'
 import { GET_KEYSTONE_COLLECTIONS } from 'operations/queries/getKeystoneCollections'
-import { client } from '../apolloClient'
+import { client } from '../lib/keystoneClient'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
