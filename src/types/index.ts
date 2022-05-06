@@ -48,8 +48,8 @@ export type Bookmark = {
   _id: ObjectId
   url: string
   label?: string
-  cmsId?: string | null
-  isRemoved?: boolean | null
+  cmsId?: string
+  isRemoved?: boolean
 }
 
 // When creating a new empty collection, we need to initialize an empty bookmark with no _id

@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import { CollectionRecord, Collection, PortalUser } from 'types/index'
+import { CollectionRecord } from 'types/index'
 
 // The ExampleCollection in Keystone used to initialize new users
 export const exampleCollection: CollectionRecord = {
@@ -35,7 +35,7 @@ export const exampleCollection: CollectionRecord = {
 }
 
 // Test collections that already exist on a User record in mongo
-export const exampleCollection1: Collection = {
+export const exampleCollection1 = {
   _id: ObjectId(),
   title: 'Example Collection',
   type: 'Collection',
@@ -85,7 +85,7 @@ export const exampleCollection1: Collection = {
   ],
 }
 
-export const exampleCollection2: Collection = {
+export const exampleCollection2 = {
   _id: ObjectId(),
   title: 'Second Collection',
   type: 'Collection',
@@ -100,7 +100,7 @@ export const exampleCollection2: Collection = {
   ],
 }
 
-export const newPortalUser: PortalUser = {
+export const newPortalUser = {
   userId: 'CAMPBELL.BERNADETTE.5244446289',
   mySpace: [exampleCollection1, exampleCollection2],
 }
