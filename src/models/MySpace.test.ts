@@ -4,6 +4,7 @@ import User from './User'
 import { MySpaceModel } from './MySpace'
 
 import type { Widget } from 'types/index'
+import { exampleCollection } from '__fixtures__/newPortalUser'
 
 let connection: typeof MongoClient
 let db: typeof Db
@@ -23,7 +24,7 @@ describe('My Space model', () => {
     await db.collection('users').deleteMany({})
 
     // Create a test user (with one default collection)
-    await User.createOne(testUserId, { db })
+    await User.createOne(testUserId, [exampleCollection], { db })
   })
 
   afterAll(async () => {
