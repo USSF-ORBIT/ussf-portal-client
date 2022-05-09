@@ -7,7 +7,7 @@ export interface BookmarksQueryResponse {
 
 export const GET_KEYSTONE_BOOKMARKS = gql`
   query GetKeystoneBookmarks {
-    bookmarks {
+    bookmarks(orderBy: [{ label: asc }]) {
       id
       url
       label
