@@ -1,5 +1,4 @@
 .next
-.keystone
 .dockerignore
 node_modules
 Dockerfile

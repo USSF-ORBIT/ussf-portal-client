@@ -8,9 +8,6 @@ node_modules/
 .next
 out/
 
-# Keystone output
-/.keystone
-
 # Storybook build output
 storybook-static
 

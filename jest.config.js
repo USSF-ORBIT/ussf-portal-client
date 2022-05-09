@@ -5,7 +5,6 @@ module.exports = {
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
   },
-  transformIgnorePatterns: ['node_modules/(?!(.keystone)/)'],
   watchPathIgnorePatterns: ['globalconfig'],
   moduleNameMapper: {
     '\\.(scss|sass|css)$': 'identity-obj-proxy',
