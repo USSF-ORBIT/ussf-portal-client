@@ -1,22 +1,53 @@
-import { ServerResponse } from 'http'
-
-import { MicroRequest } from 'apollo-server-micro/dist/types'
+import type { ServerResponse } from 'http'
+import type { MicroRequest } from 'apollo-server-micro/dist/types'
 import {
   ApolloServer,
   AuthenticationError,
   ApolloError,
+  gql,
 } from 'apollo-server-micro'
 import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core'
 import type { PageConfig } from 'next'
+
 import { typeDefs } from '../../schema'
-import resolvers from '../../resolvers/index'
-import type { SessionUser } from 'types/index'
+
+import resolvers from 'resolvers/index'
+import type { SessionUser, CollectionRecord } from 'types/index'
+import { client } from 'lib/keystoneClient'
 import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
 import User from 'models/User'
+import { EXAMPLE_COLLECTION_ID } from 'constants/index'
 
 export const config: PageConfig = {
   api: { bodyParser: false },
+}
+
+// To create a new user, we need the example collection from Keystone
+const getExampleCollection = async () => {
+  // Request the example collection based on ID
+  const res = await client.query({
+    query: gql`
+      query getCollection($where: CollectionWhereUniqueInput!) {
+        collection(where: $where) {
+          id
+          title
+          bookmarks {
+            id
+            url
+            label
+          }
+        }
+      }
+    `,
+    variables: {
+      where: {
+        id: EXAMPLE_COLLECTION_ID,
+      },
+    },
+  })
+
+  return res.data.collection as CollectionRecord
 }
 
 const clientConnection = async () => {
@@ -54,7 +85,8 @@ export const apolloServer = new ApolloServer({
       const foundUser = await User.findOne(userId, { db })
       if (!foundUser) {
         try {
-          await User.createOne(userId, { db })
+          const initCollection = await getExampleCollection()
+          await User.createOne(userId, [initCollection], { db })
         } catch (e) {
           // TODO log error
           // console.error('error in creating new user', e)

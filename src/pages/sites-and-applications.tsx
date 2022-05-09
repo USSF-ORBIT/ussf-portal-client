@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { InferGetStaticPropsType } from 'next'
+import { InferGetServerSidePropsType } from 'next'
 import { Button, Grid, Alert, IconInfo } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
@@ -7,14 +7,11 @@ import { useRouter } from 'next/router'
 import type { ObjectId } from 'bson'
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { query } from '.keystone/api'
 
 import type {
   BookmarkRecords,
-  BookmarkRecordInput,
   CollectionRecord,
   CollectionRecords,
-  CollectionRecordInput,
   BookmarkRecord,
   NewBookmarkInput,
   MySpaceWidget,
@@ -42,6 +39,10 @@ import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
 import { useAddCollectionMutation } from 'operations/mutations/addCollection'
 import { useAnalytics } from 'stores/analyticsContext'
 
+import { GET_KEYSTONE_BOOKMARKS } from 'operations/queries/getKeystoneBookmarks'
+import { GET_KEYSTONE_COLLECTIONS } from 'operations/queries/getKeystoneCollections'
+import { client } from '../lib/keystoneClient'
+
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
 type SelectedCollections = string[]
@@ -54,7 +55,7 @@ function isCollection(widget: MySpaceWidget): widget is CollectionType {
 const SitesAndApplications = ({
   collections,
   bookmarks,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
   const { user } = useUser()
   const { loading, error, data } = useMySpaceQuery()
@@ -359,20 +360,25 @@ export default SitesAndApplications
 
 SitesAndApplications.getLayout = withDefaultLayout
 
-export async function getStaticProps() {
-  const collections: CollectionRecords = (await query.Collection.findMany({
-    query: 'id title bookmarks { id url label }',
-    where: {
-      showInSitesApps: {
-        equals: true,
-      },
+export async function getServerSideProps() {
+  const { data: cmsCollections } = await client.query({
+    query: GET_KEYSTONE_COLLECTIONS,
+    fetchPolicy: 'no-cache',
+  })
+
+  const collections = cmsCollections?.collections as CollectionRecords
+
+  const { data: cmsBookmarks } = await client.query({
+    query: GET_KEYSTONE_BOOKMARKS,
+    fetchPolicy: 'no-cache',
+  })
+
+  const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
+
+  return {
+    props: {
+      collections,
+      bookmarks,
     },
-  })) as CollectionRecords
-
-  const bookmarks: BookmarkRecords = (await query.Bookmark.findMany({
-    query: 'id url label description',
-    orderBy: [{ label: 'asc' }],
-  })) as BookmarkRecords
-
-  return { props: { collections, bookmarks } }
+  }
 }
