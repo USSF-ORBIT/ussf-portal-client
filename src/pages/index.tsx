@@ -1,20 +1,19 @@
-import { InferGetStaticPropsType } from 'next'
-
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { query } from '.keystone/api'
-
-import type { BookmarkRecords } from 'types/index'
+import { InferGetServerSidePropsType } from 'next'
 import MySpace from 'components/MySpace/MySpace'
 import AnnouncementLaunch from 'components/AnnouncementLaunch/AnnouncementLaunch'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
+import type { BookmarkRecords } from 'types/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
+import { GET_KEYSTONE_BOOKMARKS } from 'operations/queries/getKeystoneBookmarks'
 import styles from 'styles/pages/home.module.scss'
+import { client } from '../lib/keystoneClient'
 
 const Home = ({
   bookmarks,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
+
   return !user ? (
     <Loader />
   ) : (
@@ -33,11 +32,16 @@ export default Home
 
 Home.getLayout = withDefaultLayout
 
-export async function getStaticProps() {
-  const bookmarks: BookmarkRecords = (await query.Bookmark.findMany({
-    query: 'id url label',
-    orderBy: [{ label: 'asc' }],
-  })) as BookmarkRecords
+export async function getServerSideProps() {
+  const { data: cmsBookmarks } = await client.query({
+    query: GET_KEYSTONE_BOOKMARKS,
+  })
 
-  return { props: { bookmarks } }
+  const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
+
+  return {
+    props: {
+      bookmarks,
+    },
+  }
 }

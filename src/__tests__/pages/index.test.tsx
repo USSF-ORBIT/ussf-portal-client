@@ -15,6 +15,13 @@ import { getMySpaceMock } from '../../__fixtures__/operations/getMySpace'
 import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
 import Home from 'pages/index'
 
+jest.mock('../../lib/keystoneClient', () => ({
+  client: {
+    query: () => {
+      return
+    },
+  },
+}))
 jest.mock('axios')
 
 const mockedAxios = axios as jest.Mocked<typeof axios>

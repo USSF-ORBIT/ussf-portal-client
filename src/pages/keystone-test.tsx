@@ -147,7 +147,7 @@ const KeystoneTest = ({
       variables: {
         collections: addCollectionsInput(collectionObjs),
       },
-
+      
       refetchQueries: [`getMySpace`],
     })
     setSelectMode(false)
@@ -398,7 +398,6 @@ export async function getServerSideProps() {
     },
   }
 }
-
 const GET_KEYSTONE_COLLECTIONS = gql`
   query GetKeystoneCollections {
     collections {
