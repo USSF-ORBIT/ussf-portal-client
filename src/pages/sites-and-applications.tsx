@@ -363,9 +363,6 @@ SitesAndApplications.getLayout = withDefaultLayout
 export async function getServerSideProps() {
   const { data: cmsCollections } = await client.query({
     query: GET_KEYSTONE_COLLECTIONS,
-    context: {
-      clientName: 'cms',
-    },
     fetchPolicy: 'no-cache',
   })
 
@@ -373,9 +370,6 @@ export async function getServerSideProps() {
 
   const { data: cmsBookmarks } = await client.query({
     query: GET_KEYSTONE_BOOKMARKS,
-    context: {
-      clientName: 'cms',
-    },
     fetchPolicy: 'no-cache',
   })
 

@@ -35,9 +35,6 @@ Home.getLayout = withDefaultLayout
 export async function getServerSideProps() {
   const { data: cmsBookmarks } = await client.query({
     query: GET_KEYSTONE_BOOKMARKS,
-    context: {
-      clientName: 'cms',
-    },
   })
 
   const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
