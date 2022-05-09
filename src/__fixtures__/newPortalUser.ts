@@ -1,5 +1,40 @@
 import { ObjectId } from 'mongodb'
+import { CollectionRecord } from 'types/index'
 
+// The ExampleCollection in Keystone used to initialize new users
+export const exampleCollection: CollectionRecord = {
+  id: 'ckwz3u58s1835ql974leo1yll',
+  title: 'Example Collection',
+  bookmarks: [
+    {
+      id: 'cktd7c0d30190w597qoftevq1',
+      url: 'https://afpcsecure.us.af.mil/',
+      label: 'vMPF',
+    },
+    {
+      id: 'cktd7ettn0457w597p7ja4uye',
+      url: 'https://leave.af.mil/profile',
+      label: 'LeaveWeb',
+    },
+    {
+      id: 'cktd7hjz30636w5977vu4la4c',
+      url: 'https://mypay.dfas.mil/#/',
+      label: 'MyPay',
+    },
+    {
+      id: 'ckwz3tphw1763ql97pia1zkvc',
+      url: 'https://webmail.apps.mil/',
+      label: 'Webmail',
+    },
+    {
+      id: 'ckwz3u4461813ql970wkd254m',
+      url: 'https://www.e-publishing.af.mil/',
+      label: 'e-Publications',
+    },
+  ],
+}
+
+// Test collections that already exist on a User record in mongo
 export const exampleCollection1 = {
   _id: ObjectId(),
   title: 'Example Collection',

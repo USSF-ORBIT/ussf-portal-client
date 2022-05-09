@@ -1,6 +1,10 @@
-import { MongoClient, Db } from 'mongodb'
+import { Db, MongoClient } from 'mongodb'
 
-import User, { EXAMPLE_COLLECTION } from './User'
+import User from './User'
+import {
+  exampleCollection,
+  exampleCollection1,
+} from '__fixtures__/newPortalUser'
 
 let connection: typeof MongoClient
 let db: typeof Db
@@ -25,14 +29,16 @@ describe('User model', () => {
     const expectedUser = {
       _id: expect.anything(),
       userId: 'testUserId',
-      mySpace: [EXAMPLE_COLLECTION],
+      mySpace: [exampleCollection1],
     }
 
-    await User.createOne('testUserId', { db })
+    await User.createOne('testUserId', [exampleCollection], { db })
 
     const insertedUser = await User.findOne('testUserId', { db })
 
-    expect(insertedUser).toEqual(expectedUser)
+    expect(insertedUser.mySpace[0].title).toContain(
+      expectedUser.mySpace[0].title
+    )
   })
 
   it('returns null if finding a user that doesn’t exist', async () => {

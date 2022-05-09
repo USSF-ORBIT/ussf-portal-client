@@ -1,9 +1,12 @@
 import { MongoClient, Db, ObjectId } from 'mongodb'
 import { ObjectId as ObjectIdType } from 'bson'
+
 import User from './User'
 import { CollectionModel } from './Collection'
 import { MySpaceModel } from './MySpace'
+
 import { CollectionInput, CollectionRecords } from 'types'
+import { exampleCollection } from '__fixtures__/newPortalUser'
 
 let connection: typeof MongoClient
 let db: typeof Db
@@ -141,7 +144,7 @@ describe('Collection Model', () => {
 
     // Create test user
     testUserId = 'testUserId'
-    await User.createOne(testUserId, { db })
+    await User.createOne(testUserId, [exampleCollection], { db })
     const testUser = await User.findOne(testUserId, { db })
     exampleCollectionId = testUser.mySpace[0]._id
   })

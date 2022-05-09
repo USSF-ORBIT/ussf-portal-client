@@ -7,7 +7,6 @@ import styles from './MySpace.module.scss'
 import type {
   MySpaceWidget,
   BookmarkRecords,
-  BookmarkInput,
   Collection,
   Widget,
 } from 'types/index'
@@ -62,9 +61,8 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const addNewCollection = () => {
     trackEvent('Add section', 'Create new collection')
 
-    const newBookmark: BookmarkInput[] = []
     handleAddCollection({
-      variables: { title: '', bookmarks: newBookmark },
+      variables: { title: '', bookmarks: [] },
       refetchQueries: [`getMySpace`],
     })
   }
