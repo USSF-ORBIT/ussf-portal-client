@@ -33,7 +33,7 @@ const getExampleCollection = async () => {
           id
           title
           bookmarks {
-            cmsId: id
+            id
             url
             label
           }
