@@ -188,19 +188,19 @@ describe('Sites and Applications', () => {
       .within(() => {
         // Inside of <ol>
         cy.get('[aria-label="Drag Handle"]').should('have.length', 6)
-        cy.contains('MyPay')
+        cy.contains('vMPF')
 
         // First undo
         cy.findAllByRole('button', { name: 'Remove this link' }).first().click()
-        cy.contains('MyPay').should('not.exist')
+        cy.contains('vMPF').should('not.exist')
         cy.contains('Undo remove').click()
-        cy.contains('MyPay')
+        cy.contains('vMPF')
 
         // Don't undo
         cy.findAllByRole('button', { name: 'Remove this link' }).first().click()
-        cy.contains('MyPay').should('not.exist')
+        cy.contains('vMPF').should('not.exist')
         cy.contains('Undo remove').should('exist')
-        // The number is 6 because MyPay doesn't exist, but the drag handle for it still does
+        // The number is 6 because vMPF doesn't exist, but the drag handle for it still does
         cy.get('[aria-label="Drag Handle"]').should('have.length', 6)
       })
   })
@@ -219,9 +219,6 @@ describe('Sites and Applications', () => {
         cy.findByRole('button', { name: '+ Add link' }).click()
         cy.findByLabelText('Select existing link').click() // Open the select
         cy.findByRole('option', { name: 'ADP' }).click()
-        cy.findByRole('link', {
-          name: 'ADP (opens in a new window)',
-        }).should('exist')
       })
   })
 
@@ -271,7 +268,7 @@ describe('Sites and Applications', () => {
 
       cy.findByLabelText('URL')
         .clear()
-        .type('http://www.example.com')
+        .type('https://google.com')
         .then(($el) => $el[0].checkValidity())
         .should('be.true')
 
@@ -307,7 +304,7 @@ describe('Sites and Applications', () => {
       })
 
     cy.findByRole('dialog', { name: 'Edit custom link' }).within(() => {
-      cy.findByLabelText('Name').should('have.value', 'Webmail')
+      cy.findByLabelText('Name').should('have.value', 'My Custom Link')
       cy.findByLabelText('Name').clear().type('Edited Custom Link')
       cy.findByLabelText('URL').should('have.value', 'https://google.com')
       cy.findByLabelText('URL').clear().type('https://example.com')
@@ -325,10 +322,9 @@ describe('Sites and Applications', () => {
       .parent()
       .parent()
       .within(() => {
-        cy.get('[aria-label="Drag Handle"]').should('have.length', 7)
-
         // Edit a link
         cy.findAllByRole('button', { name: 'Edit this link' }).first().click()
+        // cy.get('[aria-label="Drag Handle"]').should('have.length', 7)
       })
 
     cy.findByRole('dialog', { name: 'Edit custom link' }).within(() => {
@@ -391,7 +387,7 @@ describe('Sites and Applications', () => {
   })
 
   it('can delete an existing collection', () => {
-    cy.contains('Second Collection')
+    cy.contains('My Second New Collection')
       .parent()
       .parent()
       .within(() => {
@@ -408,7 +404,7 @@ describe('Sites and Applications', () => {
     })
 
     // Reopen the modal
-    cy.contains('Second Collection')
+    cy.contains('My Second New Collection')
       .parent()
       .parent()
       .within(() => {
@@ -425,6 +421,6 @@ describe('Sites and Applications', () => {
     })
 
     // Make sure no collection exists
-    cy.contains('Second Collection').should('not.exist')
+    cy.contains('My Second New Collection').should('not.exist')
   })
 })
