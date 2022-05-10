@@ -192,13 +192,12 @@ describe('Sites and Applications', () => {
 
         // First undo
         cy.findAllByRole('button', { name: 'Remove this link' }).first().click()
-        cy.contains('vMPF').should('not.exist')
+        cy.contains('Undo remove').should('exist')
         cy.contains('Undo remove').click()
         cy.contains('vMPF')
 
         // Don't undo
         cy.findAllByRole('button', { name: 'Remove this link' }).first().click()
-        cy.contains('vMPF').should('not.exist')
         cy.contains('Undo remove').should('exist')
         // The number is 6 because vMPF doesn't exist, but the drag handle for it still does
         cy.get('[aria-label="Drag Handle"]').should('have.length', 6)
@@ -324,7 +323,6 @@ describe('Sites and Applications', () => {
       .within(() => {
         // Edit a link
         cy.findAllByRole('button', { name: 'Edit this link' }).first().click()
-        // cy.get('[aria-label="Drag Handle"]').should('have.length', 7)
       })
 
     cy.findByRole('dialog', { name: 'Edit custom link' }).within(() => {
