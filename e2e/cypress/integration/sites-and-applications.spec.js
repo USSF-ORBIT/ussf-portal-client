@@ -274,9 +274,7 @@ describe('Sites and Applications', () => {
       cy.findByRole('button', { name: 'Save custom link' }).click()
     })
 
-    cy.findByRole('link', {
-      name: 'My Custom Link (opens in a new window)',
-    }).should('exist')
+    cy.contains('My Custom Link')
   })
 
   it('can edit custom links', () => {
