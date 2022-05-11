@@ -386,7 +386,7 @@ describe('Sites and Applications', () => {
         cy.contains('vMPF').should('not.exist')
         cy.contains('LeaveWeb').should('not.exist')
 
-        cy.get('[aria-label="Drag Handle"]').should('have.length', 5)
+        cy.get('[aria-label="Drag Handle"]').should('have.length', 4)
       })
   })
 
