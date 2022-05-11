@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ObjectId } from 'mongodb'
 import React from 'react'
@@ -203,6 +203,39 @@ describe('CustomCollection component', () => {
     scrollSpy.mockReset()
   })
 
+  it('renders the collection with DragDropContext', () => {
+    const { container } = render(
+      <CustomCollection {...exampleCollection} {...mockHandlers} />
+    )
+    expect(
+      container
+        .querySelector('div')
+        ?.getAttribute('data-rbd-droppable-context-id')
+    ).toEqual('0')
+  })
+
+  it('drags and drops a link', async () => {
+    const mockEditCollection = jest.fn()
+
+    render(
+      <CustomCollection
+        {...exampleCollection}
+        {...mockHandlers}
+        handleEditCollection={mockEditCollection}
+      />
+    )
+
+    // Get drag handles
+    const dragHandle = screen.getAllByLabelText('Drag Handle')
+    dragHandle[0].focus()
+    expect(dragHandle[0]).toHaveFocus()
+
+    // Use keyboard to simulate drag and drop of a link
+    userEvent.keyboard('{space}{arrowdown}{space}')
+
+    expect(mockEditCollection).toHaveBeenCalled()
+  })
+
   it('renders the collection with delete or edit buttons', () => {
     render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
     expect(screen.getByRole('list')).toBeInTheDocument()
@@ -212,8 +245,9 @@ describe('CustomCollection component', () => {
       })
     ).toHaveTextContent(exampleCollection.title)
 
+    // Drag and drop library adds a blank <li />, so updated line below to look for length + 1
     expect(screen.getAllByRole('listitem')).toHaveLength(
-      exampleCollection.bookmarks.length
+      exampleCollection.bookmarks.length + 1
     )
     expect(screen.getAllByRole('link')).toHaveLength(
       exampleCollection.bookmarks.length

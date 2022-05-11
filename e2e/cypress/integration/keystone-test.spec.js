@@ -55,19 +55,12 @@ describe('Keystone Migration Test', () => {
     cy.contains('Keystone CMS Test Page')
 
     cy.contains('My Space')
-    cy.findByRole('heading', { level: 3, name: 'Career' }).should('not.exist')
-    cy.findByRole('heading', {
-      level: 3,
-      name: 'Medical & Dental',
-    }).should('not.exist')
-    cy.findByRole('heading', {
-      level: 3,
-      name: 'Life & Fitness',
-    }).should('not.exist')
+    cy.contains('Career').should('not.exist')
+    cy.contains('Medical & Dental').should('not.exist')
+    cy.contains('Life & Fitness').should('not.exist')
   })
 
   it('can add links to a new collection from the Keystone Test page', () => {
-    // Client-side navigate to the page
     // Client-side navigate to the page
     cy.visit('/keystone-test')
     cy.url().should('eq', Cypress.config().baseUrl + '/keystone-test')
@@ -101,7 +94,6 @@ describe('Keystone Migration Test', () => {
   })
 
   it('can add links to an existing collection from the Keystone Test page', () => {
-    // Client-side navigate to the page
     // Client-side navigate to the page
     cy.visit('/keystone-test')
     cy.url().should('eq', Cypress.config().baseUrl + '/keystone-test')
