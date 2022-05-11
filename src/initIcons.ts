@@ -6,6 +6,7 @@ import {
   faUndoAlt,
   faCog,
   faPen,
+  faGripVertical,
 } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faTimes, faList, faThLarge, faUndoAlt, faCog, faPen)
+library.add(faTimes, faList, faThLarge, faUndoAlt, faCog, faPen, faGripVertical)
