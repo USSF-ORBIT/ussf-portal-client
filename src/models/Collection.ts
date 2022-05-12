@@ -30,6 +30,7 @@ type AddManyInput = {
 type EditOneInput = {
   _id: ObjectIdType
   title: string
+  bookmarks?: Bookmark[]
   userId: string
 }
 
@@ -153,7 +154,7 @@ export const CollectionModel = {
     }
   },
   async editOne(
-    { _id, title, userId }: EditOneInput,
+    { _id, title, bookmarks, userId }: EditOneInput,
     { db }: Context
   ): Promise<Collection> {
     const query = {
@@ -161,22 +162,29 @@ export const CollectionModel = {
       'mySpace._id': _id,
     }
 
-    const updateDocument = {
-      $set: {
-        'mySpace.$.title': title,
-      },
-    }
+    const updateDocument = bookmarks
+      ? {
+          $set: {
+            'mySpace.$.title': title,
+            'mySpace.$.bookmarks': bookmarks,
+          },
+        }
+      : {
+          $set: {
+            'mySpace.$.title': title,
+          },
+        }
 
     try {
-      await db.collection('users').updateOne(query, updateDocument)
-
-      const updatedCollection = await db
+      const result = await db
         .collection('users')
-        .find({ 'mySpace._id': _id })
-        .project({ 'mySpace.$': 1, _id: 0 })
-        .toArray()
+        .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
 
-      return updatedCollection[0].mySpace[0]
+      const updatedCollection = result.value.mySpace.filter(
+        (collection: Collection) => collection._id.toString() === _id.toString()
+      )[0]
+
+      return updatedCollection
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('CollectionModel Error: error in editOne', e)

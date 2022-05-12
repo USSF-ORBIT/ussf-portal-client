@@ -9,21 +9,34 @@ interface EditCollectionResponse {
 }
 
 interface EditCollectionInput {
-  title: string
   _id: ObjectId
+  title: string
+  bookmarks?: Bookmark[]
 }
 
 export const EDIT_COLLECTION = gql`
-  mutation editCollection($title: String!, $_id: OID!) {
-    editCollection(_id: $_id, title: $title) {
+  mutation editCollection(
+    $_id: OID!
+    $title: String!
+    $bookmarks: [BookmarkReorderInput]
+  ) {
+    editCollection(_id: $_id, title: $title, bookmarks: $bookmarks) {
       _id
       title
+      bookmarks {
+        _id
+        url
+        label
+        cmsId
+        isRemoved
+      }
     }
   }
 `
 
 export function useEditCollectionMutation() {
-  return useMutation<EditCollectionResponse, EditCollectionInput>(
-    EDIT_COLLECTION
-  )
+  return useMutation<
+    { editCollection: EditCollectionResponse },
+    EditCollectionInput
+  >(EDIT_COLLECTION)
 }
