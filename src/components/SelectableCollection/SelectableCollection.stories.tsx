@@ -1,6 +1,5 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
-import { ObjectId } from 'mongodb'
 
 import SelectableCollection from './SelectableCollection'
 
@@ -24,23 +23,23 @@ export default {
 } as Meta
 
 const exampleCollection = {
-  id: ObjectId(),
+  id: '123',
   title: 'Example Collection',
   bookmarks: [
     {
-      id: ObjectId(),
+      id: '456',
       url: 'https://google.com',
       label: 'Webmail',
       description: 'Lorem ipsum',
     },
     {
-      id: ObjectId(),
+      id: '789',
       url: 'https://mypay.dfas.mil/#/',
       label: 'MyPay',
       description: 'Lorem ipsum',
     },
     {
-      id: ObjectId(),
+      id: '102',
       url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
       label: 'vMPF',
       description: 'Lorem ipsum',
