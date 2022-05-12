@@ -9,12 +9,11 @@ services:
       - '3001:3001'
     environment:
       PORT: 3001
+      SESSION_DOMAIN: localhost
       SESSION_SECRET: thisvaluecanbeanythingitisonlyforlocaldevelopment
       DATABASE_URL: postgres://keystone:keystonecms@keystone-db:5432/keystone
-      TEST_USERNAME: Admin
-      TEST_PASSWORD: adminpassword
-      TEST_EMAIL: admin@example.com
       PORTAL_URL: http://localhost:3000
+      REDIS_URL: redis://portal_redis:6379
     depends_on:
       - keystone-db
       - redis

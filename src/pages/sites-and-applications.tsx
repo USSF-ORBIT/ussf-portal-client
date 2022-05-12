@@ -6,7 +6,7 @@ import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import type { ObjectId } from 'bson'
 
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { client } from '../lib/keystoneClient'
 
 import type {
   BookmarkRecords,
@@ -41,7 +41,6 @@ import { useAnalytics } from 'stores/analyticsContext'
 
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/queries/getKeystoneBookmarks'
 import { GET_KEYSTONE_COLLECTIONS } from 'operations/queries/getKeystoneCollections'
-import { client } from '../lib/keystoneClient'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 

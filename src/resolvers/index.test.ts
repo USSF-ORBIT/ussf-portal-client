@@ -5,7 +5,7 @@ import { typeDefs } from '../schema'
 
 import { newPortalUser } from '../__fixtures__/newPortalUser'
 
-import resolvers, { ObjectIdScalar } from './index'
+import resolvers from './index'
 
 import { GET_MY_SPACE } from 'operations/queries/getMySpace'
 import { GET_COLLECTIONS } from 'operations/queries/getCollections'
@@ -18,7 +18,6 @@ import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
 import { EDIT_BOOKMARK } from 'operations/mutations/editBookmark'
 import { ADD_WIDGET } from 'operations/mutations/addWidget'
 import { REMOVE_WIDGET } from 'operations/mutations/removeWidget'
-import bookmarks from 'pages/api/bookmarks'
 
 let server: ApolloServer
 let connection: typeof MongoClient
