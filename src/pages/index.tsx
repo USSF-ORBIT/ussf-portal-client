@@ -8,7 +8,7 @@ import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 import type { BookmarkRecords } from 'types/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
-import { GET_KEYSTONE_BOOKMARKS } from 'operations/queries/getKeystoneBookmarks'
+import { GET_KEYSTONE_BOOKMARKS } from 'operations/external/queries/getKeystoneBookmarks'
 import styles from 'styles/pages/home.module.scss'
 
 const Home = ({

@@ -7,17 +7,17 @@ import { newPortalUser } from '../__fixtures__/newPortalUser'
 
 import resolvers from './index'
 
-import { GET_MY_SPACE } from 'operations/queries/getMySpace'
-import { GET_COLLECTIONS } from 'operations/queries/getCollections'
-import { ADD_COLLECTION } from 'operations/mutations/addCollection'
-import { EDIT_COLLECTION } from 'operations/mutations/editCollection'
-import { REMOVE_COLLECTION } from 'operations/mutations/removeCollection'
-import { ADD_COLLECTIONS } from 'operations/mutations/addCollections'
-import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
-import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
-import { EDIT_BOOKMARK } from 'operations/mutations/editBookmark'
-import { ADD_WIDGET } from 'operations/mutations/addWidget'
-import { REMOVE_WIDGET } from 'operations/mutations/removeWidget'
+import { GET_MY_SPACE } from 'operations/internal/queries/getMySpace'
+import { GET_COLLECTIONS } from 'operations/internal/queries/getCollections'
+import { ADD_COLLECTION } from 'operations/internal/mutations/addCollection'
+import { EDIT_COLLECTION } from 'operations/internal/mutations/editCollection'
+import { REMOVE_COLLECTION } from 'operations/internal/mutations/removeCollection'
+import { ADD_COLLECTIONS } from 'operations/internal/mutations/addCollections'
+import { ADD_BOOKMARK } from 'operations/internal/mutations/addBookmark'
+import { REMOVE_BOOKMARK } from 'operations/internal/mutations/removeBookmark'
+import { EDIT_BOOKMARK } from 'operations/internal/mutations/editBookmark'
+import { ADD_WIDGET } from 'operations/internal/mutations/addWidget'
+import { REMOVE_WIDGET } from 'operations/internal/mutations/removeWidget'
 
 let server: ApolloServer
 let connection: typeof MongoClient

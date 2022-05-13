@@ -1,6 +1,6 @@
 import { gql, useMutation } from '@apollo/client'
 import type { ObjectId } from 'bson'
-import type { Bookmark } from '../../types/index'
+import type { Bookmark } from '../../../types/index'
 
 interface EditCollectionResponse {
   _id: ObjectId

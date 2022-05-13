@@ -18,13 +18,13 @@ import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import MySpace from './MySpace'
 
 import mockRssFeed from '__mocks__/news-rss'
-import { GET_MY_SPACE } from 'operations/queries/getMySpace'
-import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
-import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
-import { REMOVE_COLLECTION } from 'operations/mutations/removeCollection'
-import { ADD_COLLECTION } from 'operations/mutations/addCollection'
-import { EDIT_COLLECTION } from 'operations/mutations/editCollection'
-import { EDIT_BOOKMARK } from 'operations/mutations/editBookmark'
+import { GET_MY_SPACE } from 'operations/internal/queries/getMySpace'
+import { REMOVE_BOOKMARK } from 'operations/internal/mutations/removeBookmark'
+import { ADD_BOOKMARK } from 'operations/internal/mutations/addBookmark'
+import { REMOVE_COLLECTION } from 'operations/internal/mutations/removeCollection'
+import { ADD_COLLECTION } from 'operations/internal/mutations/addCollection'
+import { EDIT_COLLECTION } from 'operations/internal/mutations/editCollection'
+import { EDIT_BOOKMARK } from 'operations/internal/mutations/editBookmark'
 
 const mockRouterPush = jest.fn()
 
