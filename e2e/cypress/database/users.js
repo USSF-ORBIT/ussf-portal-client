@@ -8,8 +8,9 @@ const exampleCollection1 = {
   bookmarks: [
     {
       _id: ObjectId(),
-      url: 'https://google.com',
+      url: 'https://webmail.apps.mil/',
       label: 'Webmail',
+      cmsId: 'ckwz3tphw1763ql97pia1zkvc',
     },
     {
       _id: ObjectId(),

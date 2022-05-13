@@ -1,6 +1,7 @@
 import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
+import { gql } from '@apollo/client'
 
 import styles from './MySpace.module.scss'
 
@@ -9,6 +10,7 @@ import type {
   BookmarkRecords,
   Collection,
   Widget,
+  Bookmark,
 } from 'types/index'
 
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
@@ -119,7 +121,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                   <CustomCollection
                     _id={widget._id}
                     title={widget.title}
-                    bookmarks={widget.bookmarks}
+                    bookmarks={widget.bookmarks || []}
                     bookmarkOptions={bookmarks}
                     handleRemoveCollection={() => {
                       handleRemoveCollection({
@@ -129,13 +131,45 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                         refetchQueries: [`getMySpace`],
                       })
                     }}
-                    handleEditCollection={(title: string) => {
+                    handleEditCollection={(
+                      title: string,
+                      bookmarks?: Bookmark[]
+                    ) => {
                       handleEditCollection({
                         variables: {
                           _id: widget._id,
                           title,
+                          bookmarks,
                         },
-                        refetchQueries: [`getMySpace`],
+                        optimisticResponse: {
+                          editCollection: {
+                            _id: widget._id,
+                            title,
+                            bookmarks: bookmarks || widget.bookmarks,
+                          },
+                        },
+                        update(cache, result) {
+                          if (result.data?.editCollection) {
+                            const { editCollection } = result.data
+                            cache.writeFragment({
+                              id: `Collection:${editCollection._id}`,
+                              fragment: gql`
+                                fragment collectionData on Collection {
+                                  _id
+                                  title
+                                  bookmarks {
+                                    _id
+                                    url
+                                    label
+                                    cmsId
+                                    isRemoved
+                                  }
+                                }
+                              `,
+                              data: editCollection,
+                            })
+                          }
+                        },
                       })
                     }}
                     handleRemoveBookmark={(_id, cmsId) => {

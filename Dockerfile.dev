@@ -8,11 +8,6 @@ WORKDIR /app
 # Install and cache dependencies
 COPY package.json yarn.lock ./
 
-# Copy files that embedded keystone requires
-COPY ./src/cms/schema.ts ./src/cms/schema.ts
-COPY ./cms.db .
-COPY keystone.ts .
-
 # Copy script for uswds assets
 COPY scripts/copy_uswds_assets.sh scripts/copy_uswds_assets.sh
 

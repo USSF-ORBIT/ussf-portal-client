@@ -22,10 +22,15 @@ import {
   addCollectionsInput,
 } from 'operations/mutations/addCollections'
 import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
-import SitesAndApplications, {
-  getStaticProps,
-} from 'pages/sites-and-applications'
+import SitesAndApplications from 'pages/sites-and-applications'
 
+jest.mock('../../lib/keystoneClient', () => ({
+  client: {
+    query: () => {
+      return
+    },
+  },
+}))
 jest.mock('axios')
 
 const mockedAxios = axios as jest.Mocked<typeof axios>
@@ -643,12 +648,5 @@ describe('Sites and Applications page', () => {
 
       expect(await screen.findByText('Error')).toBeInTheDocument()
     })
-  })
-})
-
-describe('getStaticProps', () => {
-  it('returns expected props', async () => {
-    const results = await getStaticProps()
-    expect(results).toEqual({ props: { collections: [], bookmarks: [] } })
   })
 })

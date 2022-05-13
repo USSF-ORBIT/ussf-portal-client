@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.0.0-beta.0...4.0.0) (2022-05-09)
+
+
+### Features
+
+* Display CMS content from hosted Keystone ([#613](https://github.com/USSF-ORBIT/ussf-portal-client/issues/613)) ([3343e1a](https://github.com/USSF-ORBIT/ussf-portal-client/commit/3343e1a6c9bd6108d4205c1e8dc1a6f3b3eb9f95))
+* Use error page for generic client & server errors, split out Keystone client ([#629](https://github.com/USSF-ORBIT/ussf-portal-client/issues/629)) ([bfb8dbb](https://github.com/USSF-ORBIT/ussf-portal-client/commit/bfb8dbb8de63720275cc8272d79d24a4d46b76b5))
+
 ## [4.0.0-beta.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/3.1.0...4.0.0-beta.0) (2022-04-21)
 
 ## [3.1.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/3.0.0...3.1.0) (2022-04-07)
