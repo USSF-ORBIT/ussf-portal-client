@@ -52,7 +52,7 @@ jobs:
         run: |
           ./scripts/snapshot-docdb.sh
 
-      - name: Download task definition | Update Task Definition | Update ECS Service
+      - name: Download task definition | Update Task Definition | Update ECS Service | Deploy new image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: portal-client
