@@ -26,6 +26,16 @@ export type CollectionRecord = {
 }
 export type CollectionRecords = readonly CollectionRecord[]
 
+/* ArticleRecord */
+
+export type ArticleListItemRecord = {
+  id: string
+  slug: string
+  title: string
+  preview: string
+  publishedDate: string
+}
+
 /**
  * ***********************
  * Types for Portal Data
