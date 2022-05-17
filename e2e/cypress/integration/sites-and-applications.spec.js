@@ -48,6 +48,8 @@ describe('Sites and Applications', () => {
     cy.contains('Sort by type').should('be.enabled')
     cy.contains('Sort alphabetically').should('be.disabled')
     cy.contains('Application name')
+    // Check for a url description
+    cy.contains('Automated Computer Program Identification Number System')
     // cy.findAllByRole('row').should('have.length', 311)
 
     cy.contains('Sort by type').click()
