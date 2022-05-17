@@ -25,7 +25,11 @@ import styles from './CustomCollection.module.scss'
 
 import Tooltip from 'components/Tooltip/Tooltip'
 import Collection from 'components/Collection/Collection'
-import type { Bookmark as BookmarkType, BookmarkRecords } from 'types/index'
+import type {
+  Bookmark as BookmarkType,
+  BookmarkRecord,
+  BookmarkRecords,
+} from 'types/index'
 import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
@@ -352,6 +356,13 @@ const CustomCollection = ({
     </>
   )
 
+  const findBookmark = (
+    bookmark: BookmarkType
+  ): BookmarkType | BookmarkRecord => {
+    const found = bookmarkOptions.filter((b) => b.id === bookmark.cmsId)
+    return found.length > 0 ? found[0] : bookmark
+  }
+
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Droppable droppableId={_id.toString()}>
@@ -393,7 +404,7 @@ const CustomCollection = ({
                           </span>
                           <RemovableBookmark
                             key={`bookmark_${bookmark._id}`}
-                            bookmark={bookmark}
+                            bookmark={findBookmark(bookmark)}
                             handleRemove={() => {
                               trackEvent(
                                 'Remove link',
