@@ -13,7 +13,7 @@ import { useUser } from 'hooks/useUser'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import { GET_PORTAL_NEWS_ARTICLES } from 'operations/queries/cms/getPortalNewsArticles'
-import { ArticleListItem } from 'components/ArticleListItem/ArticleListItem'
+import { ArticleList } from 'components/ArticleList/ArticleList'
 
 // The Dev Blog
 const PortalNews = ({
@@ -36,15 +36,7 @@ const PortalNews = ({
         </h3>
       </div>
 
-      <ol>
-        {articles.map((article) => {
-          return (
-            <li key={`${article.id}`}>
-              <ArticleListItem article={article} />
-            </li>
-          )
-        })}
-      </ol>
+      <ArticleList articles={articles} />
     </div>
   )
 }
