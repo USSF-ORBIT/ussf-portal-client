@@ -1,7 +1,36 @@
 @import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.ArticleDateBlock {
+  border: 1px solid $theme-cosmiclatte-dark;
+  border-radius: 6px;
+  background-color: $theme-cosmiclatte-lightest;
+
+  width: 65px;
+  padding: units(1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: size('body', 7);
+
+  small {
+    font-size: size('body', 1);
+  }
+
+  * + * {
+    margin-top: 2px;
+  }
+}
 
 .ArticleListItem {
   display: flex;
+  align-items: flex-start;
+
+  time {
+    flex-shrink: 0;
+  }
 
   time + div {
     margin-left: units(3);
