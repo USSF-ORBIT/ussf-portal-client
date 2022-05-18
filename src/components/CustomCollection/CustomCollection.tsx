@@ -311,6 +311,13 @@ const CustomCollection = ({
     }
   }
 
+  const findBookmark = (
+    bookmark: BookmarkType
+  ): BookmarkType | BookmarkRecord => {
+    const found = bookmarkOptions.filter((b) => b.id === bookmark.cmsId)
+    return found.length > 0 ? found[0] : bookmark
+  }
+
   const customCollectionHeader = (
     <>
       <EditableCollectionTitle
@@ -355,13 +362,6 @@ const CustomCollection = ({
       />
     </>
   )
-
-  const findBookmark = (
-    bookmark: BookmarkType
-  ): BookmarkType | BookmarkRecord => {
-    const found = bookmarkOptions.filter((b) => b.id === bookmark.cmsId)
-    return found.length > 0 ? found[0] : bookmark
-  }
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
