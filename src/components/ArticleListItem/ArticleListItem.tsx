@@ -3,6 +3,7 @@ import React from 'react'
 import styles from './ArticleListItem.module.scss'
 
 import type { ArticleListItemRecord } from 'types'
+import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const ArticleDateBlock = ({ date }: { date: Date }) => {
   const dateFormatter = new Intl.DateTimeFormat('en-us', {
@@ -34,8 +35,7 @@ export const ArticleListItem = ({
 }: {
   article: ArticleListItemRecord
 }) => {
-  // TODO - add permalink to single article page
-  const { /* id, slug,*/ title, preview, publishedDate } = article
+  const { slug, title, preview, publishedDate } = article
 
   const publishedDateObj = new Date(publishedDate)
 
@@ -45,6 +45,8 @@ export const ArticleListItem = ({
       <div>
         <h4>{title}</h4>
         <p>{preview}</p>
+        <br />
+        <LinkTo href={`/articles/${slug}`}>Read more...</LinkTo>
       </div>
     </article>
   )
