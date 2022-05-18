@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.0.0...4.1.0) (2022-05-18)
+
+
+### Features
+
+* Drag and drop support for links within a collection ([#630](https://github.com/USSF-ORBIT/ussf-portal-client/issues/630)) ([797526a](https://github.com/USSF-ORBIT/ussf-portal-client/commit/797526a69baeca9f6f086264c53540b91544925d))
+
+
+### Bug Fixes
+
+* URL descriptions are not being displayed when sorting sites and applications alphabetically ([#640](https://github.com/USSF-ORBIT/ussf-portal-client/issues/640)) ([66530cc](https://github.com/USSF-ORBIT/ussf-portal-client/commit/66530cc392eb2b21b9cea2292a2ee403f3087ae8))
+
 ## [4.0.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.0.0-beta.0...4.0.0) (2022-05-09)
 
 
