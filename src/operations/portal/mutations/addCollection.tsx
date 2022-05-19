@@ -1,27 +1,13 @@
-import { gql, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import {
+  AddCollectionDocument,
   AddCollectionMutationResult,
   AddCollectionMutationVariables,
-} from '../../../generated/graphql'
-
-export const ADD_COLLECTION = gql`
-  mutation addCollection($title: String!, $bookmarks: [BookmarkInput!]!) {
-    addCollection(title: $title, bookmarks: $bookmarks) {
-      _id
-      title
-      bookmarks {
-        _id
-        url
-        label
-        cmsId
-      }
-    }
-  }
-`
+} from 'generated/graphql'
 
 export function useAddCollectionMutation() {
   return useMutation<
     AddCollectionMutationResult,
     AddCollectionMutationVariables
-  >(ADD_COLLECTION)
+  >(AddCollectionDocument)
 }

@@ -1,21 +1,12 @@
-import { gql, useMutation } from '@apollo/client'
-import type {
+import { useMutation } from '@apollo/client'
+import {
+  AddWidgetDocument,
   AddWidgetMutationResult,
   AddWidgetMutationVariables,
-} from '../../../generated/graphql'
-
-export const ADD_WIDGET = gql`
-  mutation addWidget($title: String!, $type: WidgetType!) {
-    addWidget(title: $title, type: $type) {
-      _id
-      title
-      type
-    }
-  }
-`
+} from 'generated/graphql'
 
 export function useAddWidgetMutation() {
   return useMutation<AddWidgetMutationResult, AddWidgetMutationVariables>(
-    ADD_WIDGET
+    AddWidgetDocument
   )
 }

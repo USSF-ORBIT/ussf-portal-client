@@ -1,23 +1,6 @@
-import { gql, useQuery } from '@apollo/client'
-import type { GetCollectionsQuery } from 'generated/graphql'
-
-export const GET_COLLECTIONS = gql`
-  query getCollections {
-    collections {
-      _id
-      title
-      type
-      bookmarks {
-        _id
-        url
-        label
-        cmsId
-        isRemoved
-      }
-    }
-  }
-`
+import { useQuery } from '@apollo/client'
+import { GetCollectionsDocument, GetCollectionsQuery } from 'generated/graphql'
 
 export function useCollectionsQuery() {
-  return useQuery<GetCollectionsQuery>(GET_COLLECTIONS)
+  return useQuery<GetCollectionsQuery>(GetCollectionsDocument)
 }

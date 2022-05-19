@@ -1,0 +1,14 @@
+query getCollections {
+  collections {
+    _id
+    title
+    type
+    bookmarks {
+      _id
+      url
+      label
+      cmsId
+      isRemoved
+    }
+  }
+}

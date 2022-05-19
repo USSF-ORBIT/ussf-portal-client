@@ -1,0 +1,14 @@
+mutation addCollections($collections: [CollectionRecordInput!]!) {
+  addCollections(collections: $collections) {
+    _id
+    cmsId
+    title
+    type
+    bookmarks {
+      _id
+      cmsId
+      url
+      label
+    }
+  }
+}
