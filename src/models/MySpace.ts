@@ -1,7 +1,7 @@
 import type { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
 import { ObjectId as ObjectIdType } from 'bson'
-import type { Widget, WidgetType } from 'types'
+import type { MySpace, Widget, WidgetType } from 'types'
 
 type GetInput = {
   userId: string
@@ -20,7 +20,7 @@ type DeleteWidgetInput = {
 
 /** My Space */
 export const MySpaceModel = {
-  async get({ userId }: GetInput, { db }: Context) {
+  async get({ userId }: GetInput, { db }: Context): Promise<MySpace> {
     try {
       const user = await db.collection('users').findOne({ userId })
       return user.mySpace
@@ -31,7 +31,10 @@ export const MySpaceModel = {
     }
   },
 
-  async addWidget({ userId, title, type }: AddWidgetInput, { db }: Context) {
+  async addWidget(
+    { userId, title, type }: AddWidgetInput,
+    { db }: Context
+  ): Promise<Widget> {
     // For now, can only have one News widget
     if (type === 'News') {
       const allWidgets = await this.get({ userId }, { db })
@@ -58,7 +61,10 @@ export const MySpaceModel = {
     }
   },
 
-  async deleteWidget({ _id, userId }: DeleteWidgetInput, { db }: Context) {
+  async deleteWidget(
+    { _id, userId }: DeleteWidgetInput,
+    { db }: Context
+  ): Promise<{ _id: ObjectIdType; type: WidgetType }> {
     try {
       const result = await db
         .collection('users')
