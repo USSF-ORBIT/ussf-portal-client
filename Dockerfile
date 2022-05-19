@@ -1,33 +1,45 @@
 ##--------- Stage: builder ---------##
 
-FROM node:14.19.1-slim AS builder
-
-RUN apt-get update \
-  && apt-get -y --no-install-recommends install openssl libc6
+FROM node:14.19.1-slim AS base
 
 WORKDIR /app
 
-COPY . .
+COPY scripts/add-rds-cas.sh .
+COPY scripts/add-dod-cas.sh .
+COPY scripts/create-gcds-chain.sh .
+COPY dev-saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
+COPY test-saml.pem /usr/local/share/ca-certificates/federation.test.cce.af.mil.crt
+COPY prod-saml.pem /usr/local/share/ca-certificates/federation.prod.cce.af.mil.crt
 
-RUN yarn install --frozen-lockfile
+RUN apt-get update \
+  && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip dumb-init \
+  && chmod +x add-rds-cas.sh && sh add-rds-cas.sh \
+  && chmod +x add-dod-cas.sh && sh add-dod-cas.sh && chmod +x create-gcds-chain.sh && sh create-gcds-chain.sh \
+  && apt-get remove -y wget unzip ca-certificates \
+  && apt-get autoremove -y \
+  && apt-get autoclean -y \
+  && rm -rf /var/lib/apt/lists/*
+ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
+COPY package.json .
+COPY yarn.lock .
 
+##--------- Stage: builder ---------##
+FROM base as builder
+
+WORKDIR /app
 ARG BUILD
-
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV IMAGE_TAG=${BUILD}
 
-RUN yarn build
+COPY . .
 
-# Install only production deps this time
-RUN yarn install --production --ignore-scripts --prefer-offline
+RUN yarn install --frozen-lockfile && yarn build && yarn install --production --ignore-scripts --prefer-offline
+
 
 ##--------- Stage: e2e ---------##
 
 # E2E image for running tests (same as prod but without certs)
-FROM node:14.19.1-slim AS e2e
-
-RUN apt-get update \
-  && apt-get -y --no-install-recommends install openssl libc6
+FROM builder AS e2e
 
 WORKDIR /app
 
@@ -46,35 +58,20 @@ COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
-CMD ["node","-r","./startup/index.js", "node_modules/.bin/next", "start"]
+CMD ["bash", "-c", "node -r /app/startup/index.js /app/node_modules/.bin/next start"]
 
 ##--------- Stage: runner ---------##
 
 # Production image, copy all the files and run next
-FROM node:14.19.1-slim AS runner
+FROM base AS runner
 
 WORKDIR /app
-
-COPY scripts/add-rds-cas.sh .
-COPY scripts/add-dod-cas.sh .
-COPY scripts/create-gcds-chain.sh .
-COPY dev-saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
-COPY test-saml.pem /usr/local/share/ca-certificates/federation.test.cce.af.mil.crt
-COPY prod-saml.pem /usr/local/share/ca-certificates/federation.prod.cce.af.mil.crt
 
 # Copy files needed for startup
 COPY ./startup ./startup
 COPY ./migrations ./migrations
 COPY ./utils ./utils
 
-RUN apt-get update \
-  && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip \
-  && chmod +x add-rds-cas.sh && sh add-rds-cas.sh \
-  && chmod +x add-dod-cas.sh && sh add-dod-cas.sh && chmod +x create-gcds-chain.sh && sh create-gcds-chain.sh \
-  && apt-get remove -y wget unzip ca-certificates \
-  && apt-get autoremove -y \
-  && apt-get autoclean -y \
-  && rm -rf /var/lib/apt/lists/*
 
 ENV NODE_EXTRA_CA_CERTS='/usr/local/share/ca-certificates/GCDS.pem'
 ENV NODE_ENV production
@@ -87,4 +84,4 @@ COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
-CMD ["node","-r","./startup/index.js", "node_modules/.bin/next", "start"]
+CMD ["bash", "-c", "node -r /app/startup/index.js /app/node_modules/.bin/next start"]

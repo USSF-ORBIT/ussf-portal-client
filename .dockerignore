@@ -10,3 +10,15 @@ e2e
 docker-compose*
 .storybook
 .github
+README.md
+CHANGELOG.md
+renovate.json
+.github/
+users.php
+netlify.toml
+.prettier*
+.eslint*
+.gitignore
+.test
+out/
+.husky
