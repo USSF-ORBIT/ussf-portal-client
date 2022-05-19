@@ -1,9 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
-import type { Collection } from 'types'
+import type { GetCollectionsQuery } from 'generated/graphql'
 
-export interface CollectionsQueryResponse {
-  collections: Collection[]
-}
 export const GET_COLLECTIONS = gql`
   query getCollections {
     collections {
@@ -22,5 +19,5 @@ export const GET_COLLECTIONS = gql`
 `
 
 export function useCollectionsQuery() {
-  return useQuery<CollectionsQueryResponse>(GET_COLLECTIONS)
+  return useQuery<GetCollectionsQuery>(GET_COLLECTIONS)
 }

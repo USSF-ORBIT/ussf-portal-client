@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import { GET_COLLECTIONS } from 'operations/internal/queries/getCollections'
+import { GET_COLLECTIONS } from 'operations/portal/queries/getCollections'
 
 export const getCollectionsMock = [
   {

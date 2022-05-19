@@ -37,8 +37,8 @@ export const typeDefs = gql`
   }
 
   type Query {
-    collections: [Collection]
-    mySpace: [Widget]
+    collections: [Collection!]
+    mySpace: [Widget!]!
   }
 
   type Mutation {

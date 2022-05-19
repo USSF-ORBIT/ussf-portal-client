@@ -1,19 +1,5 @@
 import { gql, useMutation } from '@apollo/client'
-import type { ObjectId } from 'bson'
-import type { Bookmark } from '../../../types/index'
-
-interface EditCollectionResponse {
-  _id: ObjectId
-  title: string
-  bookmarks: Bookmark[]
-}
-
-interface EditCollectionInput {
-  _id: ObjectId
-  title: string
-  bookmarks?: Bookmark[]
-}
-
+import { EditCollectionMutationVariables } from 'generated/graphql'
 export const EDIT_COLLECTION = gql`
   mutation editCollection(
     $_id: OID!
@@ -35,8 +21,9 @@ export const EDIT_COLLECTION = gql`
 `
 
 export function useEditCollectionMutation() {
+  // #TODO review with suz, result type not accepted
   return useMutation<
-    { editCollection: EditCollectionResponse },
-    EditCollectionInput
+    { editCollection: EditCollectionMutationVariables },
+    EditCollectionMutationVariables
   >(EDIT_COLLECTION)
 }

@@ -6,7 +6,10 @@ import { BookmarkModel } from '../models/Bookmark'
 import { CollectionModel } from '../models/Collection'
 
 import { MySpaceModel } from 'models/MySpace'
+
 import { Widget, PortalUser, WidgetType, Bookmark } from 'types'
+
+import { Resolvers } from '../generated/resolver-types'
 
 export const ObjectIdScalar = new GraphQLScalarType({
   name: 'OID',
@@ -38,47 +41,47 @@ export const ObjectIdScalar = new GraphQLScalarType({
 
 // Resolver Types
 
-type PortalUserContext = {
-  db: typeof MongoClient
-  user: PortalUser
-}
+// type PortalUserContext = {
+//   db: typeof MongoClient
+//   user: PortalUser
+// }
 
-type AddWidgetInput = {
-  title: string
-  type: WidgetType
-}
+// type AddWidgetInput = {
+//   title: string
+//   type: WidgetType
+// }
 
-type AddCollectionInput = {
-  title: string
-  bookmarks: Bookmark[]
-}
+// type AddCollectionInput = {
+//   title: string
+//   bookmarks: Bookmark[]
+// }
 
-type EditCollectionInput = {
-  _id: ObjectIdType
-  title: string
-  bookmarks: Bookmark[]
-}
+// type EditCollectionInput = {
+//   _id: ObjectIdType
+//   title: string
+//   bookmarks: Bookmark[]
+// }
 
-type AddBookmarkInput = {
-  collectionId: ObjectIdType
-  url: string
-  label: string
-  cmsId: string
-}
+// type AddBookmarkInput = {
+//   collectionId: ObjectIdType
+//   url: string
+//   label: string
+//   cmsId: string
+// }
 
-type RemoveBookmarkInput = {
-  _id: ObjectIdType
-  collectionId: ObjectIdType
-  cmsId: string
-}
+// type RemoveBookmarkInput = {
+//   _id: ObjectIdType
+//   collectionId: ObjectIdType
+//   cmsId: string
+// }
 
-type EditBookmarkInput = {
-  _id: ObjectIdType
-  collectionId: ObjectIdType
-  url: string
-  label: string
-}
-const resolvers = {
+// type EditBookmarkInput = {
+//   _id: ObjectIdType
+//   collectionId: ObjectIdType
+//   url: string
+//   label: string
+// }
+const resolvers: Resolvers = {
   OID: ObjectIdScalar,
   // Interface resolvers
   // https://www.apollographql.com/docs/apollo-server/schema/unions-interfaces/#resolving-an-interface
@@ -88,58 +91,49 @@ const resolvers = {
       if (widget.type === 'News') return 'NewsWidget'
       return null // GraphQL Error
     },
+    _id: (widget: Widget) => widget._id,
+    title: (widget: Widget) => widget.title,
   },
+
   // Root resolvers
   Query: {
-    mySpace: async (
-      _: undefined,
-      args: undefined,
-      { db, user }: PortalUserContext
-    ) => {
+    mySpace: async (_, args, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
         )
       }
 
-      return MySpaceModel.get({ userId: user.userId }, { db })
+      return await MySpaceModel.get({ userId: user.userId }, { db })
     },
-    collections: async (
-      _: undefined,
-      args: undefined,
-      { db, user }: PortalUserContext
-    ) => {
+    collections: async (_, args, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
         )
       }
 
-      return CollectionModel.getAll({ userId: user.userId }, { db })
+      const collections = await CollectionModel.getAll(
+        { userId: user.userId },
+        { db }
+      )
+      return collections
     },
   },
   Mutation: {
-    addWidget: async (
-      _: undefined,
-      { title, type }: AddWidgetInput,
-      { db, user }: PortalUserContext
-    ) => {
+    addWidget: async (_, { title, type }, { user, db }) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
         )
       }
 
-      return MySpaceModel.addWidget(
+      return await MySpaceModel.addWidget(
         { title, type, userId: user.userId },
         { db }
       )
     },
-    removeWidget: async (
-      _: undefined,
-      { _id }: { _id: ObjectIdType },
-      { db, user }: PortalUserContext
-    ) => {
+    removeWidget: async (_, { _id }, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -148,11 +142,7 @@ const resolvers = {
 
       return MySpaceModel.deleteWidget({ _id, userId: user.userId }, { db })
     },
-    addCollection: async (
-      _: undefined,
-      { title, bookmarks }: AddCollectionInput,
-      { db, user }: PortalUserContext
-    ) => {
+    addCollection: async (_, { title, bookmarks }, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -164,11 +154,7 @@ const resolvers = {
         { db }
       )
     },
-    editCollection: async (
-      _: undefined,
-      { _id, title, bookmarks }: EditCollectionInput,
-      { db, user }: PortalUserContext
-    ) => {
+    editCollection: async (_, { _id, title, bookmarks }, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -180,11 +166,7 @@ const resolvers = {
         { db }
       )
     },
-    removeCollection: async (
-      _: undefined,
-      { _id }: { _id: ObjectIdType },
-      { db, user }: PortalUserContext
-    ) => {
+    removeCollection: async (_: undefined, { _id }, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -192,11 +174,7 @@ const resolvers = {
       }
       return CollectionModel.deleteOne({ _id, userId: user.userId }, { db })
     },
-    addCollections: async (
-      _: undefined,
-      args: any, //#TODO fix type
-      { db, user }: PortalUserContext
-    ) => {
+    addCollections: async (_, args, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -209,9 +187,9 @@ const resolvers = {
       )
     },
     addBookmark: async (
-      _: undefined,
-      { collectionId, url, label, cmsId }: AddBookmarkInput,
-      { db, user }: PortalUserContext
+      _,
+      { collectionId, url, label, cmsId },
+      { db, user }
     ) => {
       if (!user) {
         throw new AuthenticationError(
@@ -223,11 +201,7 @@ const resolvers = {
         { db }
       )
     },
-    removeBookmark: async (
-      _: undefined,
-      { _id, collectionId, cmsId }: RemoveBookmarkInput,
-      { db, user }: PortalUserContext
-    ) => {
+    removeBookmark: async (_, { _id, collectionId, cmsId }, { db, user }) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
@@ -247,9 +221,9 @@ const resolvers = {
       }
     },
     editBookmark: async (
-      _: undefined,
-      { _id, collectionId, url, label }: EditBookmarkInput,
-      { db, user }: PortalUserContext
+      _,
+      { _id, collectionId, url, label },
+      { db, user }
     ) => {
       if (!user) {
         throw new AuthenticationError(

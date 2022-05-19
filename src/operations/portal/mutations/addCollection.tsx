@@ -1,17 +1,8 @@
 import { gql, useMutation } from '@apollo/client'
-import type { ObjectId } from 'bson'
-import type { Bookmark, NewBookmarkInput } from 'types'
-
-interface AddCollectionResponse {
-  _id: ObjectId
-  title: string
-  bookmarks: Bookmark[]
-}
-
-interface AddCollectionInput {
-  title: string
-  bookmarks: NewBookmarkInput[]
-}
+import {
+  AddCollectionMutationResult,
+  AddCollectionMutationVariables,
+} from '../../../generated/graphql'
 
 export const ADD_COLLECTION = gql`
   mutation addCollection($title: String!, $bookmarks: [BookmarkInput!]!) {
@@ -29,5 +20,8 @@ export const ADD_COLLECTION = gql`
 `
 
 export function useAddCollectionMutation() {
-  return useMutation<AddCollectionResponse, AddCollectionInput>(ADD_COLLECTION)
+  return useMutation<
+    AddCollectionMutationResult,
+    AddCollectionMutationVariables
+  >(ADD_COLLECTION)
 }

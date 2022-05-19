@@ -1,18 +1,8 @@
 import { gql, useMutation } from '@apollo/client'
-import type { ObjectId } from 'bson'
-
-interface AddBookmarkResponse {
-  _id: ObjectId
-  url: string
-  label?: string
-  cmsId?: string
-}
-interface AddBookmarkInput {
-  collectionId: ObjectId
-  url: string
-  label?: string
-  cmsId?: string
-}
+import {
+  AddBookmarkMutationResult,
+  AddBookmarkMutationVariables,
+} from 'generated/graphql'
 
 export const ADD_BOOKMARK = gql`
   mutation addBookmark(
@@ -35,5 +25,7 @@ export const ADD_BOOKMARK = gql`
   }
 `
 export function useAddBookmarkMutation() {
-  return useMutation<AddBookmarkResponse, AddBookmarkInput>(ADD_BOOKMARK)
+  return useMutation<AddBookmarkMutationResult, AddBookmarkMutationVariables>(
+    ADD_BOOKMARK
+  )
 }

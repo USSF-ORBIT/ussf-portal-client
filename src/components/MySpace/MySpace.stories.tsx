@@ -2,7 +2,7 @@ import React from 'react'
 import { Meta } from '@storybook/react'
 import { ObjectId } from 'bson'
 import MySpace from './MySpace'
-import { GET_MY_SPACE } from 'operations/internal/queries/getMySpace'
+import { GET_MY_SPACE } from 'operations/portal/queries/getMySpace'
 
 export default {
   title: 'Components/My Space',

@@ -2,6 +2,8 @@ import type { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
 import { ObjectId as ObjectIdType } from 'bson'
 import type { MySpace, Widget, WidgetType } from 'types'
+import { NewsWidget } from 'generated/graphql'
+import { Collection } from 'generated/resolver-types'
 
 type GetInput = {
   userId: string
@@ -20,7 +22,7 @@ type DeleteWidgetInput = {
 
 /** My Space */
 export const MySpaceModel = {
-  async get({ userId }: GetInput, { db }: Context): Promise<MySpace> {
+  async get({ userId }: GetInput, { db }: Context) {
     try {
       const user = await db.collection('users').findOne({ userId })
       return user.mySpace
@@ -31,14 +33,11 @@ export const MySpaceModel = {
     }
   },
 
-  async addWidget(
-    { userId, title, type }: AddWidgetInput,
-    { db }: Context
-  ): Promise<Widget> {
+  async addWidget({ userId, title, type }: AddWidgetInput, { db }: Context) {
     // For now, can only have one News widget
     if (type === 'News') {
       const allWidgets = await this.get({ userId }, { db })
-      const newsWidget = allWidgets.find((s) => s.type === 'News')
+      const newsWidget = allWidgets.find((s: Widget) => s.type === 'News')
       if (newsWidget) throw new Error('You can only have one News section')
     }
 
@@ -61,10 +60,7 @@ export const MySpaceModel = {
     }
   },
 
-  async deleteWidget(
-    { _id, userId }: DeleteWidgetInput,
-    { db }: Context
-  ): Promise<{ _id: ObjectIdType; type: WidgetType }> {
+  async deleteWidget({ _id, userId }: DeleteWidgetInput, { db }: Context) {
     try {
       const result = await db
         .collection('users')

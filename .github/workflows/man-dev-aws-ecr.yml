@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-push-aws:
+  build-and-push-dev-aws:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@dcd71f646680f2efd8db4afa5ad64fdcba30e748 # tag=v3
@@ -50,7 +50,7 @@ jobs:
         run: |
           ./scripts/snapshot-docdb.sh
 
-      - name: Download task definition | Update Task Definition | Update ECS Service
+      - name: Download task definition | Update Task Definition | Update ECS Service | Deploy new image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: portal-client

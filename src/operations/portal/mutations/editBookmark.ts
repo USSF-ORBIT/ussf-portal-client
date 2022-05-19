@@ -1,18 +1,8 @@
 import { gql, useMutation } from '@apollo/client'
-import type { ObjectId } from 'bson'
-
-interface EditBookmarkResponse {
-  _id: ObjectId
-  label: string
-  url: string
-}
-
-interface EditBookmarkInput {
-  _id: ObjectId
-  collectionId: ObjectId
-  url?: string
-  label?: string
-}
+import {
+  EditBookmarkMutationResult,
+  EditBookmarkMutationVariables,
+} from 'generated/graphql'
 
 export const EDIT_BOOKMARK = gql`
   mutation editBookmark(
@@ -35,5 +25,7 @@ export const EDIT_BOOKMARK = gql`
 `
 
 export function useEditBookmarkMutation() {
-  return useMutation<EditBookmarkResponse, EditBookmarkInput>(EDIT_BOOKMARK)
+  return useMutation<EditBookmarkMutationResult, EditBookmarkMutationVariables>(
+    EDIT_BOOKMARK
+  )
 }

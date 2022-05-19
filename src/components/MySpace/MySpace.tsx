@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
 import { gql } from '@apollo/client'
-
+import { WidgetType } from '../../generated/graphql'
 import styles from './MySpace.module.scss'
 
 import type {
@@ -19,15 +19,15 @@ import CustomCollection from 'components/CustomCollection/CustomCollection'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import AddWidget from 'components/AddWidget/AddWidget'
 
-import { useMySpaceQuery } from 'operations/internal/queries/getMySpace'
-import { useAddWidgetMutation } from 'operations/internal/mutations/addWidget'
-import { useRemoveWidgetMutation } from 'operations/internal/mutations/removeWidget'
-import { useRemoveBookmarkMutation } from 'operations/internal/mutations/removeBookmark'
-import { useAddBookmarkMutation } from 'operations/internal/mutations/addBookmark'
-import { useRemoveCollectionMutation } from 'operations/internal/mutations/removeCollection'
-import { useEditCollectionMutation } from 'operations/internal/mutations/editCollection'
-import { useAddCollectionMutation } from 'operations/internal/mutations/addCollection'
-import { useEditBookmarkMutation } from 'operations/internal/mutations/editBookmark'
+import { useMySpaceQuery } from 'operations/portal/queries/getMySpace'
+import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget'
+import { useRemoveWidgetMutation } from 'operations/portal/mutations/removeWidget'
+import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark'
+import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark'
+import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection'
+import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection'
+import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection'
+import { useEditBookmarkMutation } from 'operations/portal/mutations/editBookmark'
 import { useAnalytics } from 'stores/analyticsContext'
 
 /** Type guards */
@@ -55,7 +55,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     trackEvent('Add section', 'Add news')
 
     handleAddWidget({
-      variables: { title: 'Recent news', type: 'News' },
+      variables: { title: 'Recent news', type: WidgetType.News },
       refetchQueries: ['getMySpace'],
     })
   }

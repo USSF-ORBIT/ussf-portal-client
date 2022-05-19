@@ -15,13 +15,13 @@ import {
 } from '../../__fixtures__/operations/getMySpace'
 import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
-import { GET_MY_SPACE } from 'operations/internal/queries/getMySpace'
-import { ADD_COLLECTION } from 'operations/internal/mutations/addCollection'
+import { GET_MY_SPACE } from 'operations/portal/queries/getMySpace'
+import { ADD_COLLECTION } from 'operations/portal/mutations/addCollection'
 import {
   ADD_COLLECTIONS,
   addCollectionsInput,
-} from 'operations/internal/mutations/addCollections'
-import { ADD_BOOKMARK } from 'operations/internal/mutations/addBookmark'
+} from 'operations/portal/mutations/addCollections'
+import { ADD_BOOKMARK } from 'operations/portal/mutations/addBookmark'
 import SitesAndApplications from 'pages/sites-and-applications'
 
 jest.mock('../../lib/keystoneClient', () => ({

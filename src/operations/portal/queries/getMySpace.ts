@@ -1,9 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
-import type { MySpace } from 'types'
-
-export interface MySpaceQueryResponse {
-  mySpace: MySpace
-}
+import { GetMySpaceQuery } from '../../../generated/graphql'
 
 export const GET_MY_SPACE = gql`
   query getMySpace {
@@ -25,5 +21,5 @@ export const GET_MY_SPACE = gql`
 `
 
 export function useMySpaceQuery() {
-  return useQuery<MySpaceQueryResponse>(GET_MY_SPACE)
+  return useQuery<GetMySpaceQuery>(GET_MY_SPACE)
 }

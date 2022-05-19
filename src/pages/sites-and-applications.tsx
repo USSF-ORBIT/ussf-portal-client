@@ -30,17 +30,17 @@ import Tooltip from 'components/Tooltip/Tooltip'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useUser } from 'hooks/useUser'
-import { useMySpaceQuery } from 'operations/internal/queries/getMySpace'
+import { useMySpaceQuery } from 'operations/portal/queries/getMySpace'
 import {
   useAddCollectionsMutation,
   addCollectionsInput,
-} from 'operations/internal/mutations/addCollections'
-import { useAddBookmarkMutation } from 'operations/internal/mutations/addBookmark'
-import { useAddCollectionMutation } from 'operations/internal/mutations/addCollection'
+} from 'operations/portal/mutations/addCollections'
+import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark'
+import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection'
 import { useAnalytics } from 'stores/analyticsContext'
 
-import { GET_KEYSTONE_BOOKMARKS } from 'operations/external/queries/getKeystoneBookmarks'
-import { GET_KEYSTONE_COLLECTIONS } from 'operations/external/queries/getKeystoneCollections'
+import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
+import { GET_KEYSTONE_COLLECTIONS } from 'operations/cms/queries/getKeystoneCollections'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 

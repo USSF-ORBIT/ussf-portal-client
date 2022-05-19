@@ -150,8 +150,8 @@ export type NewsWidget = Widget & {
 
 export type Query = {
   __typename?: 'Query'
-  collections?: Maybe<Array<Maybe<Collection>>>
-  mySpace?: Maybe<Array<Maybe<Widget>>>
+  collections?: Maybe<Array<Collection>>
+  mySpace: Array<Widget>
 }
 
 export type Widget = {
@@ -330,14 +330,14 @@ export type GetCollectionsQuery = {
       cmsId?: string | null
       isRemoved?: boolean | null
     } | null> | null
-  } | null> | null
+  }> | null
 }
 
 export type GetMySpaceQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetMySpaceQuery = {
   __typename?: 'Query'
-  mySpace?: Array<
+  mySpace: Array<
     | {
         __typename?: 'Collection'
         _id: any
@@ -353,8 +353,7 @@ export type GetMySpaceQuery = {
         } | null> | null
       }
     | { __typename?: 'NewsWidget'; _id: any; title: string; type: WidgetType }
-    | null
-  > | null
+  >
 }
 
 export const AddBookmarkDocument = gql`

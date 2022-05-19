@@ -1,13 +1,8 @@
 import { gql, useMutation } from '@apollo/client'
-import type { ObjectId } from 'bson'
-interface RemoveWidgetResponse {
-  _id: ObjectId
-}
-
-interface RemoveWidgetInput {
-  _id: ObjectId
-}
-
+import {
+  RemoveWidgetMutationVariables,
+  RemoveWidgetMutationResult,
+} from 'generated/graphql'
 export const REMOVE_WIDGET = gql`
   mutation removeWidget($_id: OID!) {
     removeWidget(_id: $_id) {
@@ -17,5 +12,7 @@ export const REMOVE_WIDGET = gql`
 `
 
 export function useRemoveWidgetMutation() {
-  return useMutation<RemoveWidgetResponse, RemoveWidgetInput>(REMOVE_WIDGET)
+  return useMutation<RemoveWidgetMutationResult, RemoveWidgetMutationVariables>(
+    REMOVE_WIDGET
+  )
 }

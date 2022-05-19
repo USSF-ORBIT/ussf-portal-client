@@ -73,6 +73,8 @@ This application uses SAML for its authentication mechanism. SAML relies on the 
 | `cmsuser`        | `cmsuserpass`        | John Henke          | civil             | CMS user        |
 | `analyticsadmin` | `analyticsadminpass` | Margaret Stivers    | contractor        | analytics admin |
 | `analyticsuser`  | `analyticsuserpass`  | Holly Okane         | employee          | analytics user  |
+| `cmsauthor`      | `cmsauthorpass`      | Ethel Neal          | civil             | CMS user        |
+| `cmsmanager`     | `cmsmanagerpass`     | Christina Haven     | civil             | CMS user        |
 
 **2. Production SSO IdP:** if you want to log in to the actual IdP we will use in all deployed environments (dev, test, and production) you can also do that. You will only be able to log in as your actual user with your CAC (so you won’t be able to test different user types this way). You will need to do some additional configuration:
 
