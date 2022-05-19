@@ -26,13 +26,36 @@ export type CollectionRecord = {
 }
 export type CollectionRecords = readonly CollectionRecord[]
 
-/* ArticleRecord */
-
+/* Preview ArticleRecord */
 export type ArticleListItemRecord = {
   id: string
   slug: string
   title: string
   preview: string
+  publishedDate: string
+}
+
+/* Document (JSON) content types*/
+type Text = {
+  text: string
+  [key: string]: unknown
+}
+
+type Node = Element | Text
+
+type Element = {
+  children: Node[]
+  [key: string]: unknown
+}
+
+/* Full ArticleRecord */
+export type ArticleRecord = {
+  id: string
+  slug: string
+  title: string
+  body: {
+    document: Element[]
+  }
   publishedDate: string
 }
 

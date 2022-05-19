@@ -1,5 +1,4 @@
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
-import { DocumentRenderer } from '@keystone-6/document-renderer'
 
 import {
   BreadcrumbBar,
@@ -13,28 +12,14 @@ import Loader from 'components/Loader/Loader'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import { GET_ARTICLE } from 'operations/queries/cms/getArticle'
+import { SingleArticle } from 'components/SingleArticle/SingleArticle'
 
 const SingleArticlePage = ({
   article,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
-  const {
-    title,
-    publishedDate,
-    body: { document },
-  } = article
 
-  return !user ? (
-    <Loader />
-  ) : (
-    <div>
-      <div>
-        <h2>{title}</h2>
-        {publishedDate}
-      </div>
-      <DocumentRenderer document={document} />
-    </div>
-  )
+  return !user ? <Loader /> : <SingleArticle article={article} />
 }
 
 export default SingleArticlePage
