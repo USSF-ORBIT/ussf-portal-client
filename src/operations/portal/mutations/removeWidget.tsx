@@ -3,7 +3,7 @@ import {
   RemoveWidgetDocument,
   RemoveWidgetMutationVariables,
   RemoveWidgetMutationResult,
-} from 'generated/graphql'
+} from '../../../generated/graphql'
 
 export function useRemoveWidgetMutation() {
   return useMutation<RemoveWidgetMutationResult, RemoveWidgetMutationVariables>(

@@ -1,15 +1,14 @@
 import { useMutation } from '@apollo/client'
+import {
+  AddCollectionsDocument,
+  AddCollectionMutationResult,
+  AddCollectionsMutationVariables,
+} from '../../../generated/graphql'
 import type {
   BookmarkRecordInput,
   CollectionRecord,
   CollectionRecordInput,
 } from 'types'
-
-import {
-  AddCollectionsDocument,
-  AddCollectionMutationResult,
-  AddCollectionsMutationVariables,
-} from 'generated/graphql'
 
 // Map Keystone Collection Record to Portal Collection
 export const addCollectionsInput = (

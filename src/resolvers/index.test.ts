@@ -4,20 +4,20 @@ import type { VariableValues } from 'apollo-server-types'
 import { typeDefs } from '../schema'
 
 import { newPortalUser } from '../__fixtures__/newPortalUser'
-
+import {
+  GetMySpaceDocument,
+  GetCollectionsDocument,
+  AddCollectionDocument,
+  EditCollectionDocument,
+  RemoveCollectionDocument,
+  AddCollectionsDocument,
+  AddBookmarkDocument,
+  RemoveBookmarkDocument,
+  EditBookmarkDocument,
+  AddWidgetDocument,
+  RemoveWidgetDocument,
+} from '../generated/graphql'
 import resolvers from './index'
-
-import { GET_MY_SPACE } from 'operations/portal/queries/getMySpace'
-import { GET_COLLECTIONS } from 'operations/portal/queries/getCollections'
-import { ADD_COLLECTION } from 'operations/portal/mutations/addCollection'
-import { EDIT_COLLECTION } from 'operations/portal/mutations/editCollection'
-import { REMOVE_COLLECTION } from 'operations/portal/mutations/removeCollection'
-import { ADD_COLLECTIONS } from 'operations/portal/mutations/addCollections'
-import { ADD_BOOKMARK } from 'operations/portal/mutations/addBookmark'
-import { REMOVE_BOOKMARK } from 'operations/portal/mutations/removeBookmark'
-import { EDIT_BOOKMARK } from 'operations/portal/mutations/editBookmark'
-import { ADD_WIDGET } from 'operations/portal/mutations/addWidget'
-import { REMOVE_WIDGET } from 'operations/portal/mutations/removeWidget'
 
 let server: ApolloServer
 let connection: typeof MongoClient
@@ -52,11 +52,11 @@ describe('GraphQL resolvers', () => {
     })
 
     it.each([
-      ['getMySpace', GET_MY_SPACE],
-      ['getCollections', GET_COLLECTIONS],
+      ['getMySpace', GetMySpaceDocument],
+      ['getCollections', GetCollectionsDocument],
       [
         'addCollection',
-        ADD_COLLECTION,
+        AddCollectionDocument,
         {
           title: 'Test Collection',
           bookmarks: [],
@@ -64,7 +64,7 @@ describe('GraphQL resolvers', () => {
       ],
       [
         'editCollection',
-        EDIT_COLLECTION,
+        EditCollectionDocument,
         {
           _id: `${testCollectionId}`,
           title: 'New Test Collection',
@@ -72,33 +72,33 @@ describe('GraphQL resolvers', () => {
       ],
       [
         'removeCollection',
-        REMOVE_COLLECTION,
+        RemoveCollectionDocument,
         {
           _id: `${testCollectionId}`,
         },
       ],
       [
         'addCollections',
-        ADD_COLLECTIONS,
+        AddCollectionsDocument,
         {
           collections: [],
         },
       ],
       [
         'addBookmark',
-        ADD_BOOKMARK,
+        AddBookmarkDocument,
         { url: 'test', label: 'Test', collectionId: `${testCollectionId}` },
       ],
       [
         'removeBookmark',
-        REMOVE_BOOKMARK,
+        RemoveBookmarkDocument,
         {
           _id: `${testBookmarkId}`,
           collectionId: `${testCollectionId}`,
         },
       ],
-      ['addWidget', ADD_WIDGET, { title: 'Recent news', type: 'News' }],
-      ['removeWidget', REMOVE_WIDGET, { _id: `${testWidgetId}` }],
+      ['addWidget', AddWidgetDocument, { title: 'Recent news', type: 'News' }],
+      ['removeWidget', RemoveWidgetDocument, { _id: `${testWidgetId}` }],
     ])(
       'the %s operation returns an authentication error',
       async (name, op, variables: VariableValues = {}) => {
@@ -142,7 +142,7 @@ describe('GraphQL resolvers', () => {
     describe('getMySpace', () => {
       it('returns all widgets for the logged in user', async () => {
         const result = await server.executeOperation({
-          query: GET_MY_SPACE,
+          query: GetMySpaceDocument,
         })
 
         const expectedData = { ...newPortalUser }
@@ -158,7 +158,7 @@ describe('GraphQL resolvers', () => {
     describe('getCollections', () => {
       it('returns all collections for the logged in user', async () => {
         const result = await server.executeOperation({
-          query: GET_COLLECTIONS,
+          query: GetCollectionsDocument,
         })
 
         const expectedData = { ...newPortalUser }
@@ -184,7 +184,7 @@ describe('GraphQL resolvers', () => {
     describe('addWidget', () => {
       it('adds a new widget to the user’s My Space', async () => {
         const result = await server.executeOperation({
-          query: ADD_WIDGET,
+          query: AddWidgetDocument,
           variables: {
             title: 'Recent news',
             type: 'News',
@@ -207,7 +207,7 @@ describe('GraphQL resolvers', () => {
         const testWidgetId = ObjectId()
 
         const result = await server.executeOperation({
-          query: REMOVE_WIDGET,
+          query: RemoveWidgetDocument,
           variables: {
             _id: testWidgetId,
           },
@@ -222,7 +222,7 @@ describe('GraphQL resolvers', () => {
         const testWidgetId = ObjectId()
 
         const result = await server.executeOperation({
-          query: REMOVE_WIDGET,
+          query: RemoveWidgetDocument,
           variables: {
             _id: `${testWidgetId}`,
           },
@@ -240,7 +240,7 @@ describe('GraphQL resolvers', () => {
     describe('addCollection', () => {
       it('adds a new collection to the user’s My Space', async () => {
         const result = await server.executeOperation({
-          query: ADD_COLLECTION,
+          query: AddCollectionDocument,
           variables: {
             title: '',
             bookmarks: [],
@@ -265,7 +265,7 @@ describe('GraphQL resolvers', () => {
         )
 
         const result = await server.executeOperation({
-          query: EDIT_COLLECTION,
+          query: EditCollectionDocument,
           variables: {
             _id: `${editCollection?._id}`,
             title: 'Edited Collection Title',
@@ -290,7 +290,7 @@ describe('GraphQL resolvers', () => {
 
         // Reorder bookmarks in collection
         const firstResult = await server.executeOperation({
-          query: EDIT_COLLECTION,
+          query: EditCollectionDocument,
           variables: {
             _id: `${editCollection?._id}`,
             title: 'Example Collection',
@@ -397,7 +397,7 @@ describe('GraphQL resolvers', () => {
 
         // Reorder bookmarks in collection to match original order
         const secondResult = await server.executeOperation({
-          query: EDIT_COLLECTION,
+          query: EditCollectionDocument,
           variables: {
             _id: `${editCollection?._id}`,
             title: 'Example Collection',
@@ -435,7 +435,7 @@ describe('GraphQL resolvers', () => {
         )
 
         const result = await server.executeOperation({
-          query: REMOVE_COLLECTION,
+          query: RemoveCollectionDocument,
           variables: {
             _id: `${removeCollection?._id}`,
           },
@@ -453,7 +453,7 @@ describe('GraphQL resolvers', () => {
     describe('addCollections', () => {
       it('adds multiple new collections to the user’s My Space', async () => {
         const result = await server.executeOperation({
-          query: ADD_COLLECTIONS,
+          query: AddCollectionsDocument,
           variables: {
             collections: [
               {
@@ -568,7 +568,7 @@ describe('GraphQL resolvers', () => {
         const collection = newPortalUser.mySpace[0]
 
         const result = await server.executeOperation({
-          query: ADD_BOOKMARK,
+          query: AddBookmarkDocument,
           variables: {
             collectionId: `${collection._id}`,
             label: 'New Label',
@@ -597,7 +597,7 @@ describe('GraphQL resolvers', () => {
         )[0]
 
         const result = await server.executeOperation({
-          query: EDIT_BOOKMARK,
+          query: EditBookmarkDocument,
           variables: {
             _id: `${editBookmark._id}`,
             collectionId: `${newPortalUser.mySpace[0]._id}`,
@@ -626,7 +626,7 @@ describe('GraphQL resolvers', () => {
         const bookmark = collection.bookmarks[0]
 
         const result = await server.executeOperation({
-          query: REMOVE_BOOKMARK,
+          query: RemoveBookmarkDocument,
           variables: {
             _id: `${bookmark?._id}`,
             collectionId: `${collection?._id}`,
@@ -646,7 +646,7 @@ describe('GraphQL resolvers', () => {
         const bookmark = collection.bookmarks[0]
 
         await server.executeOperation({
-          query: REMOVE_BOOKMARK,
+          query: RemoveBookmarkDocument,
           variables: {
             _id: `${bookmark?._id}`,
             cmsId: `${bookmark?.cmsId}`,
@@ -655,7 +655,7 @@ describe('GraphQL resolvers', () => {
         })
 
         const updated = await server.executeOperation({
-          query: GET_MY_SPACE,
+          query: GetMySpaceDocument,
           variables: {
             userId: newPortalUser.userId,
           },

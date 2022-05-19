@@ -3,7 +3,7 @@ import {
   EditBookmarkDocument,
   EditBookmarkMutationResult,
   EditBookmarkMutationVariables,
-} from 'generated/graphql'
+} from '../../../generated/graphql'
 
 export function useEditBookmarkMutation() {
   return useMutation<EditBookmarkMutationResult, EditBookmarkMutationVariables>(

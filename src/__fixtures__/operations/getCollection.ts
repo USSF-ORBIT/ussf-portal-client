@@ -1,10 +1,10 @@
 import { ObjectId } from 'mongodb'
-import { GET_COLLECTIONS } from 'operations/portal/queries/getCollections'
+import { GetCollectionsDocument } from 'generated/graphql'
 
 export const getCollectionsMock = [
   {
     request: {
-      query: GET_COLLECTIONS,
+      query: GetCollectionsDocument,
     },
     result: {
       data: {
@@ -85,7 +85,7 @@ const maxCollections = Array.from({ length: 25 }, () => {
 export const getMaximumCollectionsMock = [
   {
     request: {
-      query: GET_COLLECTIONS,
+      query: GetCollectionsDocument,
     },
     result: {
       data: {
