@@ -1,20 +1,15 @@
 import { useMutation } from '@apollo/client'
 import type {
   BookmarkRecordInput,
-  Collection,
   CollectionRecord,
   CollectionRecordInput,
 } from 'types'
 
-import { AddCollectionsDocument } from 'generated/graphql'
-
-interface AddCollectionsResponse {
-  collections: Collection[]
-}
-
-interface AddCollectionsInput {
-  collections: CollectionRecordInput[]
-}
+import {
+  AddCollectionsDocument,
+  AddCollectionMutationResult,
+  AddCollectionsMutationVariables,
+} from 'generated/graphql'
 
 // Map Keystone Collection Record to Portal Collection
 export const addCollectionsInput = (
@@ -32,7 +27,8 @@ export const addCollectionsInput = (
 }
 
 export function useAddCollectionsMutation() {
-  return useMutation<AddCollectionsResponse, AddCollectionsInput>(
-    AddCollectionsDocument
-  )
+  return useMutation<
+    AddCollectionMutationResult,
+    AddCollectionsMutationVariables
+  >(AddCollectionsDocument)
 }

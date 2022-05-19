@@ -68,7 +68,7 @@ export type Collection = Widget & {
 }
 
 export type CollectionRecord = {
-  bookmarks?: InputMaybe<Array<InputMaybe<BookmarkRecord>>>
+  bookmarks: Array<BookmarkRecord>
   id: Scalars['ID']
   title: Scalars['String']
 }
@@ -151,7 +151,7 @@ export type NewsWidget = Widget & {
 export type Query = {
   __typename?: 'Query'
   collections?: Maybe<Array<Collection>>
-  mySpace: Array<Widget>
+  mySpace?: Maybe<Array<Widget>>
 }
 
 export type Widget = {
@@ -337,7 +337,7 @@ export type GetMySpaceQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetMySpaceQuery = {
   __typename?: 'Query'
-  mySpace: Array<
+  mySpace?: Array<
     | {
         __typename?: 'Collection'
         _id: any
@@ -353,7 +353,7 @@ export type GetMySpaceQuery = {
         } | null> | null
       }
     | { __typename?: 'NewsWidget'; _id: any; title: string; type: WidgetType }
-  >
+  > | null
 }
 
 export const AddBookmarkDocument = gql`

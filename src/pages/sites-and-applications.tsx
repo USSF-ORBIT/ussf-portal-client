@@ -78,9 +78,10 @@ const SitesAndApplications = ({
 
   if (error) return <p>Error</p>
 
-  const userCollections: CollectionType[] =
-    (data &&
-      data.mySpace.filter((w): w is CollectionType => isCollection(w))) ||
+  const mySpace = data?.mySpace as MySpaceWidget[]
+
+  const userCollections =
+    ((mySpace && mySpace.filter((w) => isCollection(w))) as CollectionType[]) ||
     []
   const collectionsLength = userCollections.length || 0
 

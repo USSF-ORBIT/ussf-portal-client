@@ -40,6 +40,8 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const { trackEvent } = useAnalytics()
   const { loading, error, data } = useMySpaceQuery()
 
+  const mySpace = data?.mySpace as MySpaceWidget[]
+
   const [handleAddWidget] = useAddWidgetMutation()
   const [handleRemoveWidget] = useRemoveWidgetMutation()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
@@ -69,12 +71,12 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     })
   }
 
-  const canAddCollections =
-    data &&
-    data.mySpace.filter((w) => isCollection(w)).length < MAXIMUM_COLLECTIONS
+  const canAddCollections: boolean =
+    mySpace &&
+    mySpace.filter((w) => isCollection(w)).length < MAXIMUM_COLLECTIONS
 
-  const canAddNews =
-    data && data.mySpace.filter((w) => w.type === WIDGET_TYPES.NEWS).length < 1
+  const canAddNews: boolean =
+    mySpace && mySpace.filter((w) => w.type === WIDGET_TYPES.NEWS).length < 1
 
   const selectCollections = () => {
     trackEvent('Add section', 'Select collection from template')

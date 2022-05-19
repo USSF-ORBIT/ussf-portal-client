@@ -15,7 +15,7 @@ export type BookmarkRecord = {
   description?: string
 }
 
-export type BookmarkRecords = readonly BookmarkRecord[]
+export type BookmarkRecords = BookmarkRecord[]
 
 /* CollectionRecord refers to canonical collections created and managed in CMS */
 
