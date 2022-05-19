@@ -1,8 +1,8 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
 import { ObjectId } from 'bson'
+import { GetMySpaceDocument } from '../../generated/graphql'
 import MySpace from './MySpace'
-import { GET_MY_SPACE } from 'operations/portal/queries/getMySpace'
 
 export default {
   title: 'Components/My Space',
@@ -61,7 +61,7 @@ ExampleMySpace.parameters = {
     mocks: [
       {
         request: {
-          query: GET_MY_SPACE,
+          query: GetMySpaceDocument,
         },
         result: {
           data: {
@@ -81,7 +81,7 @@ Loading.parameters = {
       {
         delay: 100000000000000,
         request: {
-          query: GET_MY_SPACE,
+          query: GetMySpaceDocument,
         },
         result: {
           data: {},
