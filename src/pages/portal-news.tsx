@@ -14,6 +14,7 @@ import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import { GET_PORTAL_NEWS_ARTICLES } from 'operations/queries/cms/getPortalNewsArticles'
 import { ArticleList } from 'components/ArticleList/ArticleList'
+import styles from 'styles/pages/news.module.scss'
 
 // The Dev Blog
 const PortalNews = ({
@@ -28,7 +29,7 @@ const PortalNews = ({
     <Loader />
   ) : (
     <div>
-      <div>
+      <div className={styles.pageTitle}>
         <h2>Production team blog & announcements</h2>
         <h3>
           Here’s what we’re working on and planning in latest portal updates &
