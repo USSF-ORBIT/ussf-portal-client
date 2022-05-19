@@ -11,6 +11,7 @@ export const GET_KEYSTONE_BOOKMARKS = gql`
       id
       url
       label
+      description
     }
   }
 `
