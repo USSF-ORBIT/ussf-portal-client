@@ -1,9 +1,7 @@
 import type { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
 import { ObjectId as ObjectIdType } from 'bson'
-import type { MySpace, Widget, WidgetType } from 'types'
-import { NewsWidget } from 'generated/graphql'
-import { Collection } from 'generated/resolver-types'
+import type { Widget, WidgetType } from 'types'
 
 type GetInput = {
   userId: string
