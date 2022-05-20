@@ -19,7 +19,6 @@ RUN apt-get update \
   && apt-get autoremove -y \
   && apt-get autoclean -y \
   && rm -rf /var/lib/apt/lists/*
-ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
 COPY package.json .
 COPY yarn.lock .
 
@@ -63,7 +62,7 @@ CMD ["bash", "-c", "node -r /app/startup/index.js /app/node_modules/.bin/next st
 ##--------- Stage: runner ---------##
 
 # Production image, copy all the files and run next
-FROM base AS runner
+FROM gcr.io/distroless/nodejs:14 AS runner
 
 WORKDIR /app
 
@@ -72,10 +71,9 @@ COPY ./startup ./startup
 COPY ./migrations ./migrations
 COPY ./utils ./utils
 
-
-ENV NODE_EXTRA_CA_CERTS='/usr/local/share/ca-certificates/GCDS.pem'
-ENV NODE_ENV production
-
+# Copy certs
+COPY --from=builder /usr/local/share/ca-certificates /usr/local/share/ca-certificates
+COPY --from=builder /app/*.pem ./
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
@@ -84,4 +82,4 @@ COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
-CMD ["bash", "-c", "node -r /app/startup/index.js /app/node_modules/.bin/next start"]
+CMD ["./startup/index.js"]

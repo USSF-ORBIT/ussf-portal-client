@@ -4,6 +4,7 @@
 const { initLogger } = require('./logging')
 const { runMigrations } = require('./migrate')
 const { initTracing } = require('./tracing')
+const { nextStart } = require('../node_modules/next/dist/cli/next-start')
 require('dotenv').config()
 
 const requireVars = [
@@ -31,6 +32,7 @@ function startup() {
 
   runMigrations()
   initTracing('AWSObservability')
+  nextStart()
 }
 
 startup()
