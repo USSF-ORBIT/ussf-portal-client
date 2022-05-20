@@ -4,6 +4,7 @@ FROM node:14.19.1-slim AS base
 
 WORKDIR /app
 
+COPY scripts/copy_uswds_assets.sh ./scripts/copy_uswds_assets.sh
 COPY scripts/add-rds-cas.sh .
 COPY scripts/add-dod-cas.sh .
 COPY scripts/create-gcds-chain.sh .
@@ -22,6 +23,10 @@ RUN apt-get update \
 COPY package.json .
 COPY yarn.lock .
 
+RUN yarn install --frozen-lockfile && yarn cache clean
+
+COPY . .
+
 ##--------- Stage: builder ---------##
 FROM base as builder
 
@@ -29,10 +34,12 @@ WORKDIR /app
 ARG BUILD
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV IMAGE_TAG=${BUILD}
+ENV NODE_ENV production
 
-COPY . .
 
-RUN yarn install --frozen-lockfile && yarn build && yarn install --production --ignore-scripts --prefer-offline
+RUN yarn build \
+  && yarn install --production --ignore-scripts --prefer-offline \
+  && yarn cache clean
 
 
 ##--------- Stage: e2e ---------##
@@ -46,8 +53,6 @@ WORKDIR /app
 COPY ./startup ./startup
 COPY ./migrations ./migrations
 COPY ./utils ./utils
-
-ENV NODE_ENV production
 
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
