@@ -4,7 +4,7 @@ module.exports = {
     '/node_modules/',
     '.next/',
     'e2e/',
-    'src/generated/',
+    '/src/generated/',
   ],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   transform: {
