@@ -346,7 +346,7 @@ describe('Sites and Applications', () => {
       .parent()
       .parent()
       .within(() => {
-        cy.get('[aria-label="Drag Handle"]').should('have.length', 5)
+        cy.get('[aria-label="Drag Handle"]').should('have.length', 6)
       })
   })
 
@@ -380,7 +380,7 @@ describe('Sites and Applications', () => {
       .within(() => {
         // Inside of <ol>
         // Start with 7 links, remove 2
-        cy.get('[aria-label="Drag Handle"]').should('have.length', 5)
+        cy.get('[aria-label="Drag Handle"]').should('have.length', 6)
 
         cy.contains('vMPF').next().click()
         cy.contains('LeaveWeb').next().click()
@@ -388,7 +388,7 @@ describe('Sites and Applications', () => {
         cy.contains('vMPF').should('not.exist')
         cy.contains('LeaveWeb').should('not.exist')
 
-        cy.get('[aria-label="Drag Handle"]').should('have.length', 3)
+        cy.get('[aria-label="Drag Handle"]').should('have.length', 4)
       })
   })
 
