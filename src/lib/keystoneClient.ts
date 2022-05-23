@@ -28,4 +28,9 @@ export const client = new ApolloClient({
   link: from([errorLink, cmsLink]),
   cache: new InMemoryCache(),
   credentials: 'include',
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-and-network',
+    },
+  },
 })

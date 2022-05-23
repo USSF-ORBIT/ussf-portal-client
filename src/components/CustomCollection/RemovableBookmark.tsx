@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from './CustomCollection.module.scss'
 
 import Bookmark from 'components/Bookmark/Bookmark'
-import type { Bookmark as BookmarkType } from 'types/index'
+import type { Bookmark as BookmarkType, BookmarkRecord } from 'types/index'
 
 const UNDO_TIMEOUT = 3000 // 3 seconds
 
@@ -12,7 +12,7 @@ export const RemovableBookmark = ({
   bookmark,
   handleRemove,
 }: {
-  bookmark: BookmarkType
+  bookmark: BookmarkType | BookmarkRecord
   handleRemove: () => void
 }) => {
   const { url, label } = bookmark
