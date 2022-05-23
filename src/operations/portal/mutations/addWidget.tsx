@@ -3,7 +3,7 @@ import {
   AddWidgetDocument,
   AddWidgetMutationResult,
   AddWidgetMutationVariables,
-} from '../../../generated/graphql'
+} from '../../../../generated/graphql'
 
 export function useAddWidgetMutation() {
   return useMutation<AddWidgetMutationResult, AddWidgetMutationVariables>(

@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
 import { gql } from '@apollo/client'
-import { WidgetType } from '../../generated/graphql'
+import { WidgetType } from '../../../generated/graphql'
 import styles from './MySpace.module.scss'
 
 import type {

@@ -3,7 +3,7 @@ import {
   AddCollectionsDocument,
   AddCollectionMutationResult,
   AddCollectionsMutationVariables,
-} from '../../../generated/graphql'
+} from '../../../../generated/graphql'
 import type {
   BookmarkRecordInput,
   CollectionRecord,

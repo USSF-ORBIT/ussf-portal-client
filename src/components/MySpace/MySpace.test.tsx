@@ -18,7 +18,7 @@ import {
   AddBookmarkDocument,
   RemoveBookmarkDocument,
   EditBookmarkDocument,
-} from '../../generated/graphql'
+} from '../../../generated/graphql'
 
 import {
   getMySpaceMock,

@@ -16,7 +16,7 @@ import {
   EditBookmarkDocument,
   AddWidgetDocument,
   RemoveWidgetDocument,
-} from '../generated/graphql'
+} from '../../generated/graphql'
 import resolvers from './index'
 
 let server: ApolloServer

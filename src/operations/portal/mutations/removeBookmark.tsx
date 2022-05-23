@@ -3,7 +3,7 @@ import {
   RemoveBookmarkDocument,
   RemoveBookmarkMutationResult,
   RemoveBookmarkMutationVariables,
-} from '../../../generated/graphql'
+} from '../../../../generated/graphql'
 
 export function useRemoveBookmarkMutation() {
   return useMutation<

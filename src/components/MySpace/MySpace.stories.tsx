@@ -1,7 +1,7 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
 import { ObjectId } from 'bson'
-import { GetMySpaceDocument } from '../../generated/graphql'
+import { GetMySpaceDocument } from '../../../generated/graphql'
 import MySpace from './MySpace'
 
 export default {

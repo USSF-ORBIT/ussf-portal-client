@@ -3,7 +3,7 @@ import {
   AddCollectionDocument,
   AddCollectionMutationResult,
   AddCollectionMutationVariables,
-} from '../../../generated/graphql'
+} from '../../../../generated/graphql'
 
 export function useAddCollectionMutation() {
   return useMutation<

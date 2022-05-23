@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import { GetCollectionsDocument } from 'generated/graphql'
+import { GetCollectionsDocument } from '../../../generated/graphql'
 
 export const getCollectionsMock = [
   {

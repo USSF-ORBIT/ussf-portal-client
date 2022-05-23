@@ -3,7 +3,7 @@ import {
   RemoveCollectionDocument,
   RemoveCollectionMutationResult,
   RemoveCollectionMutationVariables,
-} from '../../../generated/graphql'
+} from '../../../../generated/graphql'
 
 export function useRemoveCollectionMutation() {
   return useMutation<
