@@ -4,7 +4,7 @@ import {
   AddBookmarkDocument,
   AddBookmarkMutationResult,
   AddBookmarkMutationVariables,
-} from '../../../../generated/graphql'
+} from 'types/index'
 
 export function useAddBookmarkMutation() {
   return useMutation<AddBookmarkMutationResult, AddBookmarkMutationVariables>(

@@ -2,7 +2,7 @@ overwrite: true
 schema: 'src/schema.tsx'
 documents: 'src/operations/portal'
 generates:
-  generated/graphql.tsx:
+  generated/graphql.ts:
     plugins:
       - 'typescript'
       - 'typescript-operations'
