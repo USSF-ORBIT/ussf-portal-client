@@ -43,4 +43,4 @@ cypress/reports
 public/
 
 # Generated files
-src/generated/*
+generated/
