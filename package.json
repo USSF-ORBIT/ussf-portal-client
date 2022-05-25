@@ -75,7 +75,7 @@
     "next-session": "4.0.4",
     "passport": "0.5.2",
     "passport-saml": "3.2.1",
-    "passport-saml-metadata": "2.5.0",
+    "passport-saml-metadata": "2.6.0",
     "path-to-regexp": "6.2.1",
     "pino": "7.11.0",
     "react": "17.0.2",

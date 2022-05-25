@@ -5729,10 +5729,15 @@
   dependencies:
     tslib "^2.3.0"
 
-"@xmldom/xmldom@^0.7.0", "@xmldom/xmldom@^0.7.4", "@xmldom/xmldom@^0.7.5":
+"@xmldom/xmldom@^0.7.0", "@xmldom/xmldom@^0.7.5":
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.7.5.tgz#09fa51e356d07d0be200642b0e4f91d8e6dd408d"
   integrity sha512-V3BIhmY36fXZ1OtVcI9W+FxQqxVLsPKcNjWigIaa81dLC9IolJl5Mt4Cvhmr0flUnjSpTdrbMTSbXqYqV5dT6A==
+
+"@xmldom/xmldom@^0.8.2":
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.8.2.tgz#b695ff674e8216efa632a3d36ad51ae9843380c0"
+  integrity sha512-+R0juSseERyoPvnBQ/cZih6bpF7IpCXlWbHRoCRzYzqpz6gWHOgf8o4MOEf6KBVuOyqU+gCNLkCWVIJAro8XyQ==
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -6404,20 +6409,13 @@ axe-core@^4.3.5:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.3.5.tgz#78d6911ba317a8262bfee292aeafcc1e04b49cc5"
   integrity sha512-WKTW1+xAzhMS5dJsxWkliixlO/PqC4VhmO9T4juNYcaTg9jzWiJsou6m5pxWYGfigWbwzJWeFY6z47a+4neRXA==
 
-axios@0.27.2:
+axios@0.27.2, axios@^0.27.2:
   version "0.27.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.27.2.tgz#207658cc8621606e586c85db4b41a750e756d972"
   integrity sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==
   dependencies:
     follow-redirects "^1.14.9"
     form-data "^4.0.0"
-
-axios@^0.21.4:
-  version "0.21.4"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
-  integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
-  dependencies:
-    follow-redirects "^1.14.0"
 
 axobject-query@^2.2.0:
   version "2.2.0"
@@ -8332,7 +8330,7 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@4, debug@4.3.2, debug@^4.1.0, debug@^4.1.1, debug@^4.3.2:
+debug@4, debug@4.3.2, debug@^4.1.0, debug@^4.1.1:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.2.tgz#f0a49c18ac8779e31d4a0c6029dfb76873c7428b"
   integrity sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==
@@ -8353,7 +8351,7 @@ debug@^4.0.0, debug@^4.2.0, debug@^4.3.3:
   dependencies:
     ms "2.1.2"
 
-debug@^4.3.1, debug@^4.3.4:
+debug@^4.3.1, debug@^4.3.2, debug@^4.3.4:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -9821,11 +9819,6 @@ flush-write-stream@^1.0.0:
   dependencies:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
-
-follow-redirects@^1.14.0:
-  version "1.14.8"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.8.tgz#016996fb9a11a100566398b1c6839337d7bfa8fc"
-  integrity sha512-1x0S9UVJHsQprFcEC/qnNzBLcIxsjAV905f/UkQxbclCsoTWlacCNOpQa/anodLl2uaEKFhfWOvM2Qg77+15zA==
 
 follow-redirects@^1.14.9:
   version "1.15.0"
@@ -13448,11 +13441,6 @@ node-fetch@2.6.7, node-fetch@^2.6.1, node-fetch@^2.6.7:
   dependencies:
     whatwg-url "^5.0.0"
 
-node-forge@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.10.0.tgz#32dea2afb3e9926f02ee5ce8794902691a676bf3"
-  integrity sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==
-
 node-int64@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
@@ -14120,19 +14108,19 @@ passport-custom@1.1.1:
   dependencies:
     passport-strategy "1.x.x"
 
-passport-saml-metadata@2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/passport-saml-metadata/-/passport-saml-metadata-2.5.0.tgz#b2cc6f1a5e0d94852d7613ee1a9dd75d3deb6a66"
-  integrity sha512-pbn7FLwJGiYsCG/En5K+ulcm4qx25BhvC7P2XnL7q/ZamWMUnM4/FTTUA2JiLFH0b3na0r7gsvHVh+A+/adW+w==
+passport-saml-metadata@2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/passport-saml-metadata/-/passport-saml-metadata-2.6.0.tgz#b0441aa857133dcd0dff3124edd9fa3e7c06f8c3"
+  integrity sha512-Mw62KGwgL9DRZeugvNKcCpdoWuA+HmNF6Wwv86veEViKf2/3dlRSFrPeBkmFaES4oH9tOE6RqK5uKuCTlqHRIQ==
   dependencies:
-    "@xmldom/xmldom" "^0.7.4"
-    axios "^0.21.4"
+    "@xmldom/xmldom" "^0.8.2"
+    axios "^0.27.2"
     debug "^4.3.2"
     lodash "^4.17.20"
     passport-saml "^3.1.0"
     xpath "0.0.32"
 
-passport-saml@3.2.1:
+passport-saml@3.2.1, passport-saml@^3.1.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/passport-saml/-/passport-saml-3.2.1.tgz#c489a61a4c2dd93ddec1d53952a595b9f33e15e8"
   integrity sha512-Y8aD94B6MTLht57BlBrDauEgvtWjuSeINKk7NadXlpT/OBmsoGGYPpb0FJeBtdyGX4GEbZARAkxvBEqsL8E7XQ==
@@ -14142,19 +14130,6 @@ passport-saml@3.2.1:
     passport-strategy "^1.0.0"
     xml-crypto "^2.1.3"
     xml-encryption "^2.0.0"
-    xml2js "^0.4.23"
-    xmlbuilder "^15.1.1"
-
-passport-saml@^3.1.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/passport-saml/-/passport-saml-3.2.0.tgz#72ec8203df6dd872a205b8d5f578859a4e723e42"
-  integrity sha512-EUzL+Wk8ZVdvOYhCBTkUrR1fwuMwF9za1FinFabP5Tl9qeJktsJWfoiBz7Fk6jQvpLwfnfryGdvwcOlGVct41A==
-  dependencies:
-    "@xmldom/xmldom" "^0.7.5"
-    debug "^4.3.2"
-    passport-strategy "^1.0.0"
-    xml-crypto "^2.1.3"
-    xml-encryption "^1.3.0"
     xml2js "^0.4.23"
     xmlbuilder "^15.1.1"
 
@@ -18144,16 +18119,6 @@ xml-crypto@^2.1.3:
   integrity sha512-MpXZwnn9JK0mNPZ5mnFIbNnQa+8lMGK4NtnX2FlJMfMWR60sJdFO9X72yO6ji068pxixzk53O7x0/iSKh6IhyQ==
   dependencies:
     "@xmldom/xmldom" "^0.7.0"
-    xpath "0.0.32"
-
-xml-encryption@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/xml-encryption/-/xml-encryption-1.3.0.tgz#4cad44a59bf8bdec76d7865ce0b89e13c09962f4"
-  integrity sha512-3P8C4egMMxSR1BmsRM+fG16a3WzOuUEQKS2U4c3AZ5v7OseIfdUeVkD8dwxIhuLryFZSRWUL5OP6oqkgU7hguA==
-  dependencies:
-    "@xmldom/xmldom" "^0.7.0"
-    escape-html "^1.0.3"
-    node-forge "^0.10.0"
     xpath "0.0.32"
 
 xml-encryption@^2.0.0:
