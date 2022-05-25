@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import { GetMySpaceDocument } from '../../../generated/graphql'
+import { GetMySpaceDocument } from 'types/index'
 
 const mockNews = {
   __typename: 'NewsWidget',

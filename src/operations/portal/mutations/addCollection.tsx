@@ -3,7 +3,7 @@ import type {
   AddCollectionMutationResult,
   AddCollectionMutationVariables,
 } from 'types'
-import { AddCollectionDocument } from 'types'
+import { AddCollectionDocument } from 'types/index'
 
 export function useAddCollectionMutation() {
   return useMutation<

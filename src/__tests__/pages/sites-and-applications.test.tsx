@@ -20,7 +20,7 @@ import {
   AddCollectionDocument,
   AddCollectionsDocument,
   AddBookmarkDocument,
-} from '../../../generated/graphql'
+} from 'types/index'
 
 import { addCollectionsInput } from 'operations/portal/mutations/addCollections'
 

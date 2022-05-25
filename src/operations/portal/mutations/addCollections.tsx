@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import { AddCollectionsDocument } from 'types'
+import { AddCollectionsDocument } from 'types/index'
 
 import type {
   BookmarkRecordInput,
