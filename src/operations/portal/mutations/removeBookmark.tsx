@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client'
-import {
-  RemoveBookmarkDocument,
+import type {
   RemoveBookmarkMutationResult,
   RemoveBookmarkMutationVariables,
-} from 'types/index'
+} from 'types'
+import { RemoveBookmarkDocument } from 'types'
 
 export function useRemoveBookmarkMutation() {
   return useMutation<

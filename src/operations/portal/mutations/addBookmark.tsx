@@ -1,10 +1,9 @@
 import { useMutation } from '@apollo/client'
-
-import {
-  AddBookmarkDocument,
+import type {
   AddBookmarkMutationResult,
   AddBookmarkMutationVariables,
-} from 'types/index'
+} from 'types'
+import { AddBookmarkDocument } from 'types'
 
 export function useAddBookmarkMutation() {
   return useMutation<AddBookmarkMutationResult, AddBookmarkMutationVariables>(

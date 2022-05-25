@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client'
-import {
-  EditBookmarkDocument,
+import type {
   EditBookmarkMutationResult,
   EditBookmarkMutationVariables,
-} from 'types/index'
+} from 'types'
+import { EditBookmarkDocument } from 'types'
 
 export function useEditBookmarkMutation() {
   return useMutation<EditBookmarkMutationResult, EditBookmarkMutationVariables>(

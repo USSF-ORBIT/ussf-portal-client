@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
 import { gql } from '@apollo/client'
-import { WidgetType } from '../../../generated/graphql'
+import { WidgetType as AddWidgetType } from '../../../generated/graphql'
 import styles from './MySpace.module.scss'
 
 import type {
@@ -57,7 +57,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     trackEvent('Add section', 'Add news')
 
     handleAddWidget({
-      variables: { title: 'Recent news', type: WidgetType.News },
+      variables: { title: 'Recent news', type: AddWidgetType.News },
       refetchQueries: ['getMySpace'],
     })
   }

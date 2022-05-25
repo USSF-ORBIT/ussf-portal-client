@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client'
-import {
-  AddCollectionDocument,
+import type {
   AddCollectionMutationResult,
   AddCollectionMutationVariables,
-} from 'types/index'
+} from 'types'
+import { AddCollectionDocument } from 'types'
 
 export function useAddCollectionMutation() {
   return useMutation<

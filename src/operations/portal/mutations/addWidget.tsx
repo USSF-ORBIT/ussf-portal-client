@@ -1,9 +1,6 @@
 import { useMutation } from '@apollo/client'
-import {
-  AddWidgetDocument,
-  AddWidgetMutationResult,
-  AddWidgetMutationVariables,
-} from 'types/index'
+import { AddWidgetDocument } from 'types'
+import type { AddWidgetMutationResult, AddWidgetMutationVariables } from 'types'
 
 export function useAddWidgetMutation() {
   return useMutation<AddWidgetMutationResult, AddWidgetMutationVariables>(
