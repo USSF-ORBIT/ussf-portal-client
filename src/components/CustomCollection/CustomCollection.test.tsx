@@ -172,6 +172,24 @@ const mockLinks = [
     url: 'http://www.example.com/3',
     label: 'Test Bookmark 3',
   },
+  {
+    id: 'cmsId3',
+    label: 'vMPF',
+    url: 'https://afpcsecure.us.af.mil/',
+    __typename: 'Bookmark',
+  },
+  {
+    id: 'cmsId2',
+    label: 'MyPay',
+    url: 'https://mypay.dfas.mil/#/',
+    __typename: 'Bookmark',
+  },
+  {
+    id: 'cmsId1',
+    label: 'Webmail',
+    url: 'https://webmail.apps.mil/',
+    __typename: 'Bookmark',
+  },
 ]
 
 describe('CustomCollection component', () => {
@@ -667,6 +685,20 @@ describe('CustomCollection component', () => {
 
     // Confirm the menu has been closed
     expect(deleteCollection).not.toBeInTheDocument()
+  })
+
+  it('renders the collection with links from the CMS', () => {
+    const { container } = render(
+      <CustomCollection
+        {...exampleCollection}
+        {...mockHandlers}
+        bookmarkOptions={mockLinks}
+      />
+    )
+
+    expect(container.querySelector('a')?.getAttribute('href')).toEqual(
+      'https://webmail.apps.mil/'
+    )
   })
 
   describe('an empty collection', () => {
