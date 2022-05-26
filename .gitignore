@@ -55,4 +55,4 @@ globalConfig.json
 .migrate
 
 # Generated GraphQL types
-generated/
+src/**/*.g.ts
