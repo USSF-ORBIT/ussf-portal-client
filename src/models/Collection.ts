@@ -12,7 +12,7 @@ import type {
 import { WIDGET_TYPES } from 'constants/index'
 
 // Types for CollectionModel
-// #TODO These types should be replaced when we add codegen to resolvers
+// #TODO These types should be revisited when we add codegen to resolvers
 type GetAllInput = {
   userId: string
 }

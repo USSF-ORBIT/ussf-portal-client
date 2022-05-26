@@ -5,7 +5,7 @@ import type { ObjectId as ObjectIdType } from 'bson'
 import type { BookmarkModelInput, Collection, Bookmark } from 'types'
 
 // Types for BookmarkModel
-// #TODO These types should be replaced when we add codegen to resolvers
+// #TODO These types should be revisited when we add codegen to resolvers
 type AddOneInput = {
   url: string
   collectionId: ObjectIdType
