@@ -3,6 +3,7 @@ import { ObjectId } from 'mongodb'
 import { ObjectId as ObjectIdType } from 'bson'
 import type { MySpace, Widget, WidgetType } from 'types'
 
+// #TODO These types should be replaced when we add codegen to resolvers
 type GetInput = {
   userId: string
 }

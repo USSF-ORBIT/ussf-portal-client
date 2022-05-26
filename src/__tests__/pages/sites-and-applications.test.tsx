@@ -92,6 +92,7 @@ const sitesAndAppsMock = [
           addCollection: {
             _id: ObjectId(),
             title: '',
+
             bookmarks: [
               {
                 _id: ObjectId(),
@@ -108,12 +109,10 @@ const sitesAndAppsMock = [
   {
     request: {
       query: AddCollectionsDocument,
-      variables: {
-        collections: addCollectionsInput([
-          cmsCollectionsMock[0],
-          cmsCollectionsMock[1],
-        ]),
-      },
+      variables: addCollectionsInput([
+        cmsCollectionsMock[0],
+        cmsCollectionsMock[1],
+      ]),
     },
     result: () => {
       collectionsAdded = true

@@ -4,7 +4,7 @@ import type { ObjectId as ObjectIdType } from 'bson'
 
 import type {
   Bookmark,
-  BookmarkInput,
+  BookmarkModelInput,
   Collection,
   CollectionRecords,
   PortalUser,
@@ -12,13 +12,14 @@ import type {
 import { WIDGET_TYPES } from 'constants/index'
 
 // Types for CollectionModel
+// #TODO These types should be replaced when we add codegen to resolvers
 type GetAllInput = {
   userId: string
 }
 
 type AddOneInput = {
   title: string
-  bookmarks: BookmarkInput[]
+  bookmarks: BookmarkModelInput[]
   userId: string
 }
 
@@ -70,7 +71,7 @@ export const CollectionModel = {
       throw e
     }
 
-    const newBookmarks: Bookmark[] = bookmarks.map((input) => ({
+    const newBookmarks: BookmarkModelInput[] = bookmarks.map((input) => ({
       _id: ObjectId(),
       url: input.url,
       label: input.label,

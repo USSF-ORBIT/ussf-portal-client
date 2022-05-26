@@ -13,13 +13,15 @@ import {
   CollectionRecord,
   CollectionRecords,
   BookmarkRecord,
-  NewBookmarkInput,
   MySpaceWidget,
   Collection as CollectionType,
 } from 'types/index'
 
 import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
-import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
+import {
+  AddCollectionMutationVariables,
+  useAddCollectionMutation,
+} from 'operations/portal/mutations/addCollection.g'
 import { useAddCollectionsMutation } from 'operations/portal/mutations/addCollections.g'
 import { useGetMySpaceQuery } from 'operations/portal/queries/getMySpace.g'
 import { addCollectionsInput } from 'operations/helpers'
@@ -133,9 +135,7 @@ const SitesAndApplications = ({
     trackEvent('S&A add collection', 'Add selected', collectionTitles)
 
     handleAddCollections({
-      variables: {
-        collections: addCollectionsInput(collectionObjs),
-      },
+      variables: addCollectionsInput(collectionObjs),
       refetchQueries: [`getMySpace`],
     })
     setSelectMode(false)
@@ -167,14 +167,19 @@ const SitesAndApplications = ({
       )
     } else {
       // Create a new collection and add the bookmark to it
-      const bookmarkInput: NewBookmarkInput = {
-        url: bookmark.url,
-        label: bookmark.label,
-        cmsId: bookmark.id,
+      const newCollection: AddCollectionMutationVariables = {
+        title: '',
+        bookmarks: [
+          {
+            url: bookmark.url,
+            label: bookmark.label,
+            cmsId: bookmark.id,
+          },
+        ],
       }
 
       handleAddCollection({
-        variables: { title: '', bookmarks: [bookmarkInput] },
+        variables: newCollection,
         refetchQueries: [`getMySpace`],
       })
       router.push('/')

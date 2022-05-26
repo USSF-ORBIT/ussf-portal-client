@@ -1,8 +1,5 @@
 import type { ObjectId } from 'bson'
 
-// #TODO add comments for any remaining types; what is this for, how are we using it?
-// any types only being used for graphql operations can be deleted
-
 /**
  * ***********************
  * Portal GraphQL Types
@@ -36,23 +33,30 @@ export type CollectionRecord = {
 export type CollectionRecords = readonly CollectionRecord[]
 
 /**
- * ***********************
+ * *****************************
  * Types for Portal Data
- * ***********************
+ * *****************************
  * */
 
+/* WidgetType is stored in MongoDB to identify the type of widget */
 export type WidgetType = 'Collection' | 'News'
 
+/* Widget refers to an existing widget in MongoDB, created and managed in a user's MySpace */
 export type Widget = {
   _id: ObjectId
   title: string
   type: WidgetType
 }
 
-export type MySpaceWidget = Widget | Collection
-export type MySpace = MySpaceWidget[]
-
-/* Bookmark refers to a user-created object containing a url */
+/* BookmarkModelInput represents a bookmark as it is passed into MongoDB for updating */
+export type BookmarkModelInput = {
+  _id: ObjectId
+  url: string
+  label?: string
+  cmsId?: string
+}
+/* Bookmark refers to an existing user-created object as it is stored in MongoDB */
+/* It has the addition of isRemoved, which is used to determine if the bookmark is deleted or hidden */
 export type Bookmark = {
   _id: ObjectId
   url: string
@@ -61,58 +65,17 @@ export type Bookmark = {
   isRemoved?: boolean
 }
 
-// When creating a new empty collection, we need to initialize an empty bookmark with no _id
-// When creating a new collection from a single bookmark, we need to initialize with no_id *and* a cmsId
-export type NewBookmarkInput = {
-  url: string
-  label?: string
-  cmsId?: string
-}
-
-// When creating a new Bookmark, the _id must be type ObjectId
-export type BookmarkInput = {
-  _id: ObjectId
-  url: string
-  label?: string
-  cmsId?: string
-}
-
-export type RemovedBookmark = {
-  _id: ObjectId
-}
-
 /* Collection refers to a user-created collection containing one or more bookmarks */
+/* It represents both the input and result of creating and retrieving a collection from MongoDB */
 export interface Collection extends Widget {
   bookmarks: Bookmark[]
   cmsId?: string
   type: 'Collection'
 }
 
-export type NewCollectionInput = {
-  title: string
-  bookmarks: BookmarkInput[]
-}
-
-export type CollectionInput = {
-  _id: ObjectId
-  title: string
-  bookmarks: BookmarkInput[]
-  type: 'Collection'
-}
-
-export type CollectionsInput = {
-  _id: ObjectId
-  title: string
-  bookmarks: BookmarkInput[]
-}
-
-export type CollectionRecordInput = Pick<
-  CollectionRecord,
-  'id' | 'title' | 'bookmarks'
->
-
-export type BookmarkRecordInput = Pick<BookmarkRecord, 'id' | 'url' | 'label'>
-
+/* MySpaceWidget represents a user's MySpace and is used when displaying their content */
+export type MySpaceWidget = Widget | Collection
+export type MySpace = MySpaceWidget[]
 /**
  * ***********************
  * Types for User / Auth
