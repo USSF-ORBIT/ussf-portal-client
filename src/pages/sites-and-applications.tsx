@@ -8,7 +8,7 @@ import type { ObjectId } from 'bson'
 
 import { client } from '../lib/keystoneClient'
 
-import type {
+import {
   BookmarkRecords,
   CollectionRecord,
   CollectionRecords,
@@ -16,6 +16,10 @@ import type {
   NewBookmarkInput,
   MySpaceWidget,
   Collection as CollectionType,
+  useAddBookmarkMutation,
+  useAddCollectionMutation,
+  useAddCollectionsMutation,
+  useGetMySpaceQuery,
 } from 'types/index'
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
@@ -30,15 +34,9 @@ import Tooltip from 'components/Tooltip/Tooltip'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useUser } from 'hooks/useUser'
-import { useMySpaceQuery } from 'operations/portal/queries/getMySpace'
-import {
-  useAddCollectionsMutation,
-  addCollectionsInput,
-} from 'operations/portal/mutations/addCollections'
-import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark'
-import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection'
-import { useAnalytics } from 'stores/analyticsContext'
 
+import { useAnalytics } from 'stores/analyticsContext'
+import { addCollectionsInput } from 'operations/portal/mutations/addCollections'
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
 import { GET_KEYSTONE_COLLECTIONS } from 'operations/cms/queries/getKeystoneCollections'
 
@@ -57,7 +55,7 @@ const SitesAndApplications = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
   const { user } = useUser()
-  const { loading, error, data } = useMySpaceQuery()
+  const { loading, error, data } = useGetMySpaceQuery()
   const { trackEvent } = useAnalytics()
 
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')

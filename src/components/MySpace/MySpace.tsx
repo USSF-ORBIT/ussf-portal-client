@@ -5,12 +5,21 @@ import { gql } from '@apollo/client'
 import { WidgetType as AddWidgetType } from '../../../generated/graphql'
 import styles from './MySpace.module.scss'
 
-import type {
+import {
   MySpaceWidget,
   BookmarkRecords,
   Collection,
   Widget,
   Bookmark,
+  useAddBookmarkMutation,
+  useAddCollectionMutation,
+  useAddWidgetMutation,
+  useEditBookmarkMutation,
+  useEditCollectionMutation,
+  useGetMySpaceQuery,
+  useRemoveBookmarkMutation,
+  useRemoveCollectionMutation,
+  useRemoveWidgetMutation,
 } from 'types/index'
 
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
@@ -19,15 +28,6 @@ import CustomCollection from 'components/CustomCollection/CustomCollection'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import AddWidget from 'components/AddWidget/AddWidget'
 
-import { useMySpaceQuery } from 'operations/portal/queries/getMySpace'
-import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget'
-import { useRemoveWidgetMutation } from 'operations/portal/mutations/removeWidget'
-import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark'
-import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark'
-import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection'
-import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection'
-import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection'
-import { useEditBookmarkMutation } from 'operations/portal/mutations/editBookmark'
 import { useAnalytics } from 'stores/analyticsContext'
 
 /** Type guards */
@@ -38,7 +38,7 @@ function isCollection(widget: MySpaceWidget): widget is Collection {
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const router = useRouter()
   const { trackEvent } = useAnalytics()
-  const { loading, error, data } = useMySpaceQuery()
+  const { loading, error, data } = useGetMySpaceQuery()
 
   const mySpace = data?.mySpace as MySpaceWidget[]
 

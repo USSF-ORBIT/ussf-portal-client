@@ -1,12 +1,7 @@
-import { useMutation } from '@apollo/client'
-
-import {
-  AddCollectionsDocument,
+import type {
   BookmarkRecordInput,
   CollectionRecord,
   CollectionRecordInput,
-  AddCollectionMutationResult,
-  AddCollectionsMutationVariables,
 } from 'types/index'
 
 // Map Keystone Collection Record to Portal Collection
@@ -22,11 +17,4 @@ export const addCollectionsInput = (
       }),
     }
   })
-}
-
-export function useAddCollectionsMutation() {
-  return useMutation<
-    AddCollectionMutationResult,
-    AddCollectionsMutationVariables
-  >(AddCollectionsDocument)
 }
