@@ -8,7 +8,7 @@ import type { ObjectId } from 'bson'
 
 import { client } from '../lib/keystoneClient'
 
-import {
+import type {
   BookmarkRecords,
   CollectionRecord,
   CollectionRecords,

@@ -38,25 +38,25 @@ export type CollectionRecords = readonly CollectionRecord[]
  * *****************************
  * */
 
-/* WidgetType is stored in MongoDB to identify the type of widget */
+/*  WidgetType is stored in MongoDB to identify the type of widget  */
 export type WidgetType = 'Collection' | 'News'
 
-/* Widget refers to an existing widget in MongoDB, created and managed in a user's MySpace */
+/*  Widget refers to an existing widget in MongoDB, created and managed in a user's MySpace */
 export type Widget = {
   _id: ObjectId
   title: string
   type: WidgetType
 }
 
-/* BookmarkModelInput represents a bookmark as it is passed into MongoDB for updating */
+/*  BookmarkModelInput represents a bookmark as it is passed into MongoDB for updating  */
 export type BookmarkModelInput = {
   _id: ObjectId
   url: string
   label?: string
   cmsId?: string
 }
-/* Bookmark refers to an existing user-created object as it is stored in MongoDB */
-/* It has the addition of isRemoved, which is used to determine if the bookmark is deleted or hidden */
+/*  Bookmark refers to an existing user-created object as it is stored in MongoDB 
+    It has the addition of isRemoved, which is used to determine if the bookmark is deleted or hidden */
 export type Bookmark = {
   _id: ObjectId
   url: string
@@ -65,17 +65,18 @@ export type Bookmark = {
   isRemoved?: boolean
 }
 
-/* Collection refers to a user-created collection containing one or more bookmarks */
-/* It represents both the input and result of creating and retrieving a collection from MongoDB */
+/*  Collection refers to a user-created collection containing one or more bookmarks
+    It represents both the input and result of creating and retrieving a collection from MongoDB  */
 export interface Collection extends Widget {
   bookmarks: Bookmark[]
   cmsId?: string
   type: 'Collection'
 }
 
-/* MySpaceWidget represents a user's MySpace and is used when displaying their content */
+/*  MySpaceWidget represents a user's MySpace and is used when displaying their content */
 export type MySpaceWidget = Widget | Collection
 export type MySpace = MySpaceWidget[]
+
 /**
  * ***********************
  * Types for User / Auth
