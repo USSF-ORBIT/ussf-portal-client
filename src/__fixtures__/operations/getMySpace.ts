@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import { GetMySpaceDocument } from 'types/index'
+import { GetMySpaceDocument } from 'operations/portal/queries/getMySpace.g'
 
 const mockNews = {
   __typename: 'NewsWidget',

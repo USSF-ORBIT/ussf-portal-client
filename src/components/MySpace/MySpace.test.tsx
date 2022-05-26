@@ -11,22 +11,20 @@ import { ObjectId } from 'mongodb'
 import { renderWithModalRoot } from '../../testHelpers'
 
 import {
-  GetMySpaceDocument,
-  AddCollectionDocument,
-  EditCollectionDocument,
-  RemoveCollectionDocument,
-  AddBookmarkDocument,
-  RemoveBookmarkDocument,
-  EditBookmarkDocument,
-} from '../../../generated/graphql'
-
-import {
   getMySpaceMock,
   getMySpaceMaximumCollectionsMock,
   getMySpaceMaximumCollectionsWithNewsMock,
 } from '../../__fixtures__/operations/getMySpace'
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import MySpace from './MySpace'
+
+import { GetMySpaceDocument } from 'operations/portal/queries/getMySpace.g'
+import { AddCollectionDocument } from 'operations/portal/mutations/addCollection.g'
+import { EditCollectionDocument } from 'operations/portal/mutations/editCollection.g'
+import { RemoveCollectionDocument } from 'operations/portal/mutations/removeCollection.g'
+import { AddBookmarkDocument } from 'operations/portal/mutations/addBookmark.g'
+import { RemoveBookmarkDocument } from 'operations/portal/mutations/removeBookmark.g'
+import { EditBookmarkDocument } from 'operations/portal/mutations/editBookmark.g'
 
 import mockRssFeed from '__mocks__/news-rss'
 

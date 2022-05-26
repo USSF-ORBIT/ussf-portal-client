@@ -2,8 +2,18 @@ import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
 import { gql } from '@apollo/client'
-import { WidgetType as AddWidgetType } from '../../../generated/graphql'
+import { WidgetType as AddWidgetType } from '../../graphql.g'
 import styles from './MySpace.module.scss'
+
+import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
+import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
+import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget.g'
+import { useEditBookmarkMutation } from 'operations/portal/mutations/editBookmark.g'
+import { useGetMySpaceQuery } from 'operations/portal/queries/getMySpace.g'
+import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
+import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
+import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
+import { useRemoveWidgetMutation } from 'operations/portal/mutations/removeWidget.g'
 
 import {
   MySpaceWidget,
@@ -11,15 +21,6 @@ import {
   Collection,
   Widget,
   Bookmark,
-  useAddBookmarkMutation,
-  useAddCollectionMutation,
-  useAddWidgetMutation,
-  useEditBookmarkMutation,
-  useEditCollectionMutation,
-  useGetMySpaceQuery,
-  useRemoveBookmarkMutation,
-  useRemoveCollectionMutation,
-  useRemoveWidgetMutation,
 } from 'types/index'
 
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'

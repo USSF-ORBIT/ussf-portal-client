@@ -8,7 +8,7 @@ import type { ObjectId } from 'bson'
  * Portal GraphQL Types
  * ***********************
  * */
-export * from '../../generated/graphql'
+export * from '../graphql.g'
 /**
  * ***********************
  * Types for Keystone Data

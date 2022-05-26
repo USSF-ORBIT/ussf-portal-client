@@ -1,9 +1,15 @@
 overwrite: true
 schema: 'src/schema.tsx'
-documents: 'src/operations/portal'
+documents: 'src/operations/portal/**/*.graphql'
 generates:
-  generated/graphql.ts:
+  src/graphql.g.ts:
     plugins:
       - 'typescript'
-      - 'typescript-operations'
+  src/:
+    preset: near-operation-file
+    presetConfig:
+      extension: .g.ts
+      baseTypesPath: graphql.g.ts
+    plugins:
+      - typescript-operations
       - 'typescript-react-apollo'

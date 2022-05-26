@@ -16,11 +16,14 @@ import {
   NewBookmarkInput,
   MySpaceWidget,
   Collection as CollectionType,
-  useAddBookmarkMutation,
-  useAddCollectionMutation,
-  useAddCollectionsMutation,
-  useGetMySpaceQuery,
 } from 'types/index'
+
+import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
+import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
+import { useAddCollectionsMutation } from 'operations/portal/mutations/addCollections.g'
+import { useGetMySpaceQuery } from 'operations/portal/queries/getMySpace.g'
+import { addCollectionsInput } from 'operations/helpers'
+
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import Loader from 'components/Loader/Loader'
@@ -36,7 +39,7 @@ import styles from 'styles/pages/sitesAndApplications.module.scss'
 import { useUser } from 'hooks/useUser'
 
 import { useAnalytics } from 'stores/analyticsContext'
-import { addCollectionsInput } from 'operations/portal/mutations/addCollections'
+
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
 import { GET_KEYSTONE_COLLECTIONS } from 'operations/cms/queries/getKeystoneCollections'
 

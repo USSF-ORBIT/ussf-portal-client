@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import { GetCollectionsDocument } from 'types/index'
+import { GetCollectionsDocument } from 'operations/portal/queries/getCollections.g'
 
 export const getCollectionsMock = [
   {

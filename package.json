@@ -85,6 +85,7 @@
   "devDependencies": {
     "@babel/core": "7.17.10",
     "@graphql-codegen/cli": "2.6.2",
+    "@graphql-codegen/near-operation-file-preset": "^2.2.12",
     "@graphql-codegen/typescript": "2.4.11",
     "@graphql-codegen/typescript-operations": "2.4.0",
     "@graphql-codegen/typescript-react-apollo": "3.2.14",

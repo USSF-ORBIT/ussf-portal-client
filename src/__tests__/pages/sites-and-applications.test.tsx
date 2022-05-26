@@ -15,14 +15,12 @@ import {
 } from '../../__fixtures__/operations/getMySpace'
 import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
-import {
-  GetMySpaceDocument,
-  AddCollectionDocument,
-  AddCollectionsDocument,
-  AddBookmarkDocument,
-} from 'types/index'
 
-import { addCollectionsInput } from 'operations/portal/mutations/addCollections'
+import { GetMySpaceDocument } from 'operations/portal/queries/getMySpace.g'
+import { AddCollectionDocument } from 'operations/portal/mutations/addCollection.g'
+import { AddCollectionsDocument } from 'operations/portal/mutations/addCollections.g'
+import { AddBookmarkDocument } from 'operations/portal/mutations/addBookmark.g'
+import { addCollectionsInput } from 'operations/helpers'
 
 import SitesAndApplications from 'pages/sites-and-applications'
 

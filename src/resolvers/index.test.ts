@@ -4,20 +4,20 @@ import type { VariableValues } from 'apollo-server-types'
 import { typeDefs } from '../schema'
 
 import { newPortalUser } from '../__fixtures__/newPortalUser'
-import {
-  GetMySpaceDocument,
-  GetCollectionsDocument,
-  AddCollectionDocument,
-  EditCollectionDocument,
-  RemoveCollectionDocument,
-  AddCollectionsDocument,
-  AddBookmarkDocument,
-  RemoveBookmarkDocument,
-  EditBookmarkDocument,
-  AddWidgetDocument,
-  RemoveWidgetDocument,
-} from '../../generated/graphql'
+
 import resolvers from './index'
+
+import { GetMySpaceDocument } from 'operations/portal/queries/getMySpace.g'
+import { GetCollectionsDocument } from 'operations/portal/queries/getCollections.g'
+import { AddCollectionDocument } from 'operations/portal/mutations/addCollection.g'
+import { EditCollectionDocument } from 'operations/portal/mutations/editCollection.g'
+import { RemoveCollectionDocument } from 'operations/portal/mutations/removeCollection.g'
+import { AddCollectionsDocument } from 'operations/portal/mutations/addCollections.g'
+import { AddBookmarkDocument } from 'operations/portal/mutations/addBookmark.g'
+import { RemoveBookmarkDocument } from 'operations/portal/mutations/removeBookmark.g'
+import { EditBookmarkDocument } from 'operations/portal/mutations/editBookmark.g'
+import { AddWidgetDocument } from 'operations/portal/mutations/addWidget.g'
+import { RemoveWidgetDocument } from 'operations/portal/mutations/removeWidget.g'
 
 let server: ApolloServer
 let connection: typeof MongoClient
