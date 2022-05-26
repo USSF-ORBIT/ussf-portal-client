@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client'
-import type {
+import {
+  RemoveWidgetDocument,
   RemoveWidgetMutationVariables,
   RemoveWidgetMutationResult,
-} from 'types'
-import { RemoveWidgetDocument } from 'types/index'
+} from 'types/index'
 
 export function useRemoveWidgetMutation() {
   return useMutation<RemoveWidgetMutationResult, RemoveWidgetMutationVariables>(

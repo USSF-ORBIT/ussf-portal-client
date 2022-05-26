@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client'
-import type { GetMySpaceQuery } from 'types'
-import { GetMySpaceDocument } from 'types/index'
+import { GetMySpaceDocument, GetMySpaceQuery } from 'types/index'
 
 export function useMySpaceQuery() {
   return useQuery<GetMySpaceQuery>(GetMySpaceDocument)

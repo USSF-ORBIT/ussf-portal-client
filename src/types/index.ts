@@ -1,5 +1,8 @@
 import type { ObjectId } from 'bson'
 
+// #TODO add comments for any remaining types; what is this for, how are we using it?
+// any types only being used for graphql operations can be deleted
+
 /**
  * ***********************
  * Portal GraphQL Types
