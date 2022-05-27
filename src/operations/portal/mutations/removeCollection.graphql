@@ -1,0 +1,5 @@
+mutation removeCollection($_id: OID!) {
+  removeCollection(_id: $_id) {
+    _id
+  }
+}

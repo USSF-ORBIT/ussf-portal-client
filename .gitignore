@@ -53,3 +53,6 @@ globalConfig.json
 
 # Mongo migration state
 .migrate
+
+# Generated GraphQL types
+src/**/*.g.ts

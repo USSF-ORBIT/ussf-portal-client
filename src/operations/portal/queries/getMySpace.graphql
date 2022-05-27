@@ -1,0 +1,16 @@
+query getMySpace {
+  mySpace {
+    _id
+    title
+    type
+    ... on Collection {
+      bookmarks {
+        _id
+        url
+        label
+        cmsId
+        isRemoved
+      }
+    }
+  }
+}

@@ -2,14 +2,10 @@ import { Context } from '@apollo/client'
 import { ObjectId } from 'mongodb'
 import type { ObjectId as ObjectIdType } from 'bson'
 
-import type {
-  BookmarkInput,
-  Collection,
-  Bookmark,
-  RemovedBookmark,
-} from 'types'
+import type { BookmarkModelInput, Collection, Bookmark } from 'types'
 
 // Types for BookmarkModel
+// #TODO These types should be revisited when we add codegen to resolvers
 type AddOneInput = {
   url: string
   collectionId: ObjectIdType
@@ -39,6 +35,10 @@ type EditOneInput = {
   userId: string
   url?: string
   label?: string
+}
+
+export type RemoveOneResult = {
+  _id: ObjectIdType
 }
 
 export const BookmarkModel = {
@@ -165,7 +165,7 @@ export const BookmarkModel = {
   async hideOne(
     { _id, collectionId, userId }: DeleteOrHideInput,
     { db }: Context
-  ): Promise<RemovedBookmark> {
+  ): Promise<RemoveOneResult> {
     const query = {
       userId,
       'mySpace.bookmarks._id': _id,
@@ -218,7 +218,7 @@ export const BookmarkModel = {
       throw e
     }
 
-    const newBookmark: BookmarkInput = {
+    const newBookmark: BookmarkModelInput = {
       _id: ObjectId(),
       url,
       label,

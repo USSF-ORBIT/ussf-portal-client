@@ -2,10 +2,20 @@ import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
 import { gql } from '@apollo/client'
-
+import { WidgetType as AddWidgetType } from '../../graphql.g'
 import styles from './MySpace.module.scss'
 
-import type {
+import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
+import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
+import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget.g'
+import { useEditBookmarkMutation } from 'operations/portal/mutations/editBookmark.g'
+import { useGetMySpaceQuery } from 'operations/portal/queries/getMySpace.g'
+import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
+import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
+import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
+import { useRemoveWidgetMutation } from 'operations/portal/mutations/removeWidget.g'
+
+import {
   MySpaceWidget,
   BookmarkRecords,
   Collection,
@@ -19,15 +29,6 @@ import CustomCollection from 'components/CustomCollection/CustomCollection'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import AddWidget from 'components/AddWidget/AddWidget'
 
-import { useMySpaceQuery } from 'operations/queries/getMySpace'
-import { useAddWidgetMutation } from 'operations/mutations/addWidget'
-import { useRemoveWidgetMutation } from 'operations/mutations/removeWidget'
-import { useRemoveBookmarkMutation } from 'operations/mutations/removeBookmark'
-import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
-import { useRemoveCollectionMutation } from 'operations/mutations/removeCollection'
-import { useEditCollectionMutation } from 'operations/mutations/editCollection'
-import { useAddCollectionMutation } from 'operations/mutations/addCollection'
-import { useEditBookmarkMutation } from 'operations/mutations/editBookmark'
 import { useAnalytics } from 'stores/analyticsContext'
 
 /** Type guards */
@@ -38,7 +39,9 @@ function isCollection(widget: MySpaceWidget): widget is Collection {
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const router = useRouter()
   const { trackEvent } = useAnalytics()
-  const { loading, error, data } = useMySpaceQuery()
+  const { loading, error, data } = useGetMySpaceQuery()
+
+  const mySpace = (data?.mySpace || []) as MySpaceWidget[]
 
   const [handleAddWidget] = useAddWidgetMutation()
   const [handleRemoveWidget] = useRemoveWidgetMutation()
@@ -55,7 +58,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     trackEvent('Add section', 'Add news')
 
     handleAddWidget({
-      variables: { title: 'Recent news', type: 'News' },
+      variables: { title: 'Recent news', type: AddWidgetType.News },
       refetchQueries: ['getMySpace'],
     })
   }
@@ -69,12 +72,12 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     })
   }
 
-  const canAddCollections =
-    data &&
-    data.mySpace.filter((w) => isCollection(w)).length < MAXIMUM_COLLECTIONS
+  const canAddCollections: boolean =
+    mySpace &&
+    mySpace.filter((w) => isCollection(w)).length < MAXIMUM_COLLECTIONS
 
-  const canAddNews =
-    data && data.mySpace.filter((w) => w.type === WIDGET_TYPES.NEWS).length < 1
+  const canAddNews: boolean =
+    mySpace && mySpace.filter((w) => w.type === WIDGET_TYPES.NEWS).length < 1
 
   const selectCollections = () => {
     trackEvent('Add section', 'Select collection from template')

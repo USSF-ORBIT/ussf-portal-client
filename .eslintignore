@@ -41,3 +41,6 @@ cypress/reports
 
 # Public assets
 public/
+
+# Generated files
+src/**/*.g.ts
