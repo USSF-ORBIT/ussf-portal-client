@@ -1,7 +1,6 @@
 module.exports = {
   roots: ['<rootDir>', '<rootDir>/src/'],
   testPathIgnorePatterns: ['/node_modules/', '.next/', 'e2e/'],
-  coveragePathIgnorePatterns: ['/node_modules/', 'generated/'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
