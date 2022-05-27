@@ -16,6 +16,7 @@ ARG BUILD
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV IMAGE_TAG=${BUILD}
 
+RUN yarn prebuild
 RUN yarn build
 
 # Install only production deps this time
