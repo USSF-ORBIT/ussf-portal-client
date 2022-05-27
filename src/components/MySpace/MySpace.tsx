@@ -41,7 +41,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const { trackEvent } = useAnalytics()
   const { loading, error, data } = useGetMySpaceQuery()
 
-  const mySpace = data?.mySpace as MySpaceWidget[]
+  const mySpace = data?.mySpace || [] as MySpaceWidget[]
 
   const [handleAddWidget] = useAddWidgetMutation()
   const [handleRemoveWidget] = useRemoveWidgetMutation()
