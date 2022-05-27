@@ -5,6 +5,8 @@ generates:
   src/graphql.g.ts:
     plugins:
       - 'typescript'
+      - add:
+          content: '/* istanbul ignore file */'
   src/:
     preset: near-operation-file
     presetConfig:
@@ -13,3 +15,5 @@ generates:
     plugins:
       - typescript-operations
       - 'typescript-react-apollo'
+      - add:
+          content: '/* istanbul ignore file */'
