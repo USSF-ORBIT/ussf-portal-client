@@ -13,10 +13,19 @@ import type {
   CollectionRecord,
   CollectionRecords,
   BookmarkRecord,
-  NewBookmarkInput,
   MySpaceWidget,
   Collection as CollectionType,
 } from 'types/index'
+
+import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
+import {
+  AddCollectionMutationVariables,
+  useAddCollectionMutation,
+} from 'operations/portal/mutations/addCollection.g'
+import { useAddCollectionsMutation } from 'operations/portal/mutations/addCollections.g'
+import { useGetMySpaceQuery } from 'operations/portal/queries/getMySpace.g'
+import { addCollectionsInput } from 'operations/helpers'
+
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import Loader from 'components/Loader/Loader'
@@ -30,17 +39,11 @@ import Tooltip from 'components/Tooltip/Tooltip'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useUser } from 'hooks/useUser'
-import { useMySpaceQuery } from 'operations/queries/getMySpace'
-import {
-  useAddCollectionsMutation,
-  addCollectionsInput,
-} from 'operations/mutations/addCollections'
-import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
-import { useAddCollectionMutation } from 'operations/mutations/addCollection'
+
 import { useAnalytics } from 'stores/analyticsContext'
 
-import { GET_KEYSTONE_BOOKMARKS } from 'operations/queries/getKeystoneBookmarks'
-import { GET_KEYSTONE_COLLECTIONS } from 'operations/queries/getKeystoneCollections'
+import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
+import { GET_KEYSTONE_COLLECTIONS } from 'operations/cms/queries/getKeystoneCollections'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
@@ -57,7 +60,7 @@ const SitesAndApplications = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
   const { user } = useUser()
-  const { loading, error, data } = useMySpaceQuery()
+  const { loading, error, data } = useGetMySpaceQuery()
   const { trackEvent } = useAnalytics()
 
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
@@ -78,9 +81,10 @@ const SitesAndApplications = ({
 
   if (error) return <p>Error</p>
 
-  const userCollections: CollectionType[] =
-    (data &&
-      data.mySpace.filter((w): w is CollectionType => isCollection(w))) ||
+  const mySpace = (data?.mySpace || []) as MySpaceWidget[]
+
+  const userCollections =
+    ((mySpace && mySpace.filter((w) => isCollection(w))) as CollectionType[]) ||
     []
   const collectionsLength = userCollections.length || 0
 
@@ -131,9 +135,7 @@ const SitesAndApplications = ({
     trackEvent('S&A add collection', 'Add selected', collectionTitles)
 
     handleAddCollections({
-      variables: {
-        collections: addCollectionsInput(collectionObjs),
-      },
+      variables: addCollectionsInput(collectionObjs),
       refetchQueries: [`getMySpace`],
     })
     setSelectMode(false)
@@ -165,14 +167,19 @@ const SitesAndApplications = ({
       )
     } else {
       // Create a new collection and add the bookmark to it
-      const bookmarkInput: NewBookmarkInput = {
-        url: bookmark.url,
-        label: bookmark.label,
-        cmsId: bookmark.id,
+      const newCollection: AddCollectionMutationVariables = {
+        title: '',
+        bookmarks: [
+          {
+            url: bookmark.url,
+            label: bookmark.label,
+            cmsId: bookmark.id,
+          },
+        ],
       }
 
       handleAddCollection({
-        variables: { title: '', bookmarks: [bookmarkInput] },
+        variables: newCollection,
         refetchQueries: [`getMySpace`],
       })
       router.push('/')

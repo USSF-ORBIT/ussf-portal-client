@@ -16,7 +16,8 @@
     "cms:down": "docker compose -f docker-compose.services.yml -f docker-compose.cms.yml down",
     "e2e:up": "docker compose -f docker-compose.services.yml -f docker-compose.e2e.dev.yml up -d",
     "e2e:down": "docker compose -f docker-compose.services.yml -f docker-compose.e2e.dev.yml down",
-    "dev": "node -r ./startup/index.js node_modules/.bin/next dev",
+    "prebuild": "yarn generate",
+    "dev": "concurrently \"yarn generate --watch\" \"node -r ./startup/index.js node_modules/.bin/next dev\"",
     "build": "next build",
     "build:analyze": "ANALYZE=true yarn build",
     "start": "node -r ./startup/index.js node_modules/.bin/next start",
@@ -33,7 +34,8 @@
     "cypress:dev": "yarn --cwd e2e/ cypress open",
     "postinstall": "sh ./scripts/copy_uswds_assets.sh",
     "release": "standard-version -t ''",
-    "migrate:create": "migrate create --template-file ./migration-template.js"
+    "migrate:create": "migrate create --template-file ./migration-template.js",
+    "generate": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "3.6.2",
@@ -83,6 +85,12 @@
   },
   "devDependencies": {
     "@babel/core": "7.17.10",
+    "@graphql-codegen/add": "3.1.1",
+    "@graphql-codegen/cli": "2.6.2",
+    "@graphql-codegen/near-operation-file-preset": "2.2.12",
+    "@graphql-codegen/typescript": "2.4.11",
+    "@graphql-codegen/typescript-operations": "2.4.0",
+    "@graphql-codegen/typescript-react-apollo": "3.2.14",
     "@shelf/jest-mongodb": "2.2.2",
     "@storybook/addon-a11y": "6.4.22",
     "@storybook/addon-actions": "6.4.22",
@@ -105,6 +113,7 @@
     "@typescript-eslint/parser": "5.23.0",
     "babel-loader": "8.2.5",
     "bson": "4.6.3",
+    "concurrently": "7.2.1",
     "css-loader": "5.2.7",
     "eslint": "8.15.0",
     "eslint-config-next": "12.1.6",

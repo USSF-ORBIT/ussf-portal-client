@@ -1,0 +1,18 @@
+mutation addBookmark(
+  $url: String!
+  $label: String
+  $collectionId: OID!
+  $cmsId: ID
+) {
+  addBookmark(
+    url: $url
+    label: $label
+    collectionId: $collectionId
+    cmsId: $cmsId
+  ) {
+    _id
+    url
+    label
+    cmsId
+  }
+}

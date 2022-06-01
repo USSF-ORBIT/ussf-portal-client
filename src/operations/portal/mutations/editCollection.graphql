@@ -1,0 +1,17 @@
+mutation editCollection(
+  $_id: OID!
+  $title: String!
+  $bookmarks: [BookmarkReorderInput]
+) {
+  editCollection(_id: $_id, title: $title, bookmarks: $bookmarks) {
+    _id
+    title
+    bookmarks {
+      _id
+      url
+      label
+      cmsId
+      isRemoved
+    }
+  }
+}

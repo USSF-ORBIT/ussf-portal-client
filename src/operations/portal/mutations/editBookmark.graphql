@@ -1,0 +1,17 @@
+mutation editBookmark(
+  $_id: OID!
+  $collectionId: OID!
+  $label: String
+  $url: String
+) {
+  editBookmark(
+    _id: $_id
+    collectionId: $collectionId
+    label: $label
+    url: $url
+  ) {
+    _id
+    label
+    url
+  }
+}

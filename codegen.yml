@@ -1,0 +1,19 @@
+overwrite: true
+schema: 'src/schema.tsx'
+documents: 'src/operations/portal/**/*.graphql'
+generates:
+  src/graphql.g.ts:
+    plugins:
+      - 'typescript'
+      - add:
+          content: '/* istanbul ignore file */'
+  src/:
+    preset: near-operation-file
+    presetConfig:
+      extension: .g.ts
+      baseTypesPath: graphql.g.ts
+    plugins:
+      - typescript-operations
+      - 'typescript-react-apollo'
+      - add:
+          content: '/* istanbul ignore file */'

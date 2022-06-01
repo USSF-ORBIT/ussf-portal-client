@@ -9,6 +9,7 @@ import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
 import { ObjectId } from 'mongodb'
 import { renderWithModalRoot } from '../../testHelpers'
+
 import {
   getMySpaceMock,
   getMySpaceMaximumCollectionsMock,
@@ -17,14 +18,15 @@ import {
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import MySpace from './MySpace'
 
+import { GetMySpaceDocument } from 'operations/portal/queries/getMySpace.g'
+import { AddCollectionDocument } from 'operations/portal/mutations/addCollection.g'
+import { EditCollectionDocument } from 'operations/portal/mutations/editCollection.g'
+import { RemoveCollectionDocument } from 'operations/portal/mutations/removeCollection.g'
+import { AddBookmarkDocument } from 'operations/portal/mutations/addBookmark.g'
+import { RemoveBookmarkDocument } from 'operations/portal/mutations/removeBookmark.g'
+import { EditBookmarkDocument } from 'operations/portal/mutations/editBookmark.g'
+
 import mockRssFeed from '__mocks__/news-rss'
-import { GET_MY_SPACE } from 'operations/queries/getMySpace'
-import { REMOVE_BOOKMARK } from 'operations/mutations/removeBookmark'
-import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
-import { REMOVE_COLLECTION } from 'operations/mutations/removeCollection'
-import { ADD_COLLECTION } from 'operations/mutations/addCollection'
-import { EDIT_COLLECTION } from 'operations/mutations/editCollection'
-import { EDIT_BOOKMARK } from 'operations/mutations/editBookmark'
 
 const mockRouterPush = jest.fn()
 
@@ -146,7 +148,7 @@ describe('My Space Component', () => {
     const errorMock = [
       {
         request: {
-          query: GET_MY_SPACE,
+          query: GetMySpaceDocument,
         },
         error: new Error(),
       },
@@ -237,7 +239,7 @@ describe('My Space Component', () => {
       ...getMySpaceMock,
       {
         request: {
-          query: REMOVE_BOOKMARK,
+          query: RemoveBookmarkDocument,
           variables: {
             _id: bookmarkId,
             collectionId: collectionId,
@@ -285,7 +287,7 @@ describe('My Space Component', () => {
       ...getMySpaceMock,
       {
         request: {
-          query: ADD_BOOKMARK,
+          query: AddBookmarkDocument,
           variables: {
             collectionId: getMySpaceMock[0].result.data.mySpace[0]._id,
             url: 'https://mypay.dfas.mil/#/',
@@ -339,7 +341,7 @@ describe('My Space Component', () => {
       ...getMySpaceMock,
       {
         request: {
-          query: EDIT_COLLECTION,
+          query: EditCollectionDocument,
           variables: {
             _id: collectionId,
             title: 'Updated Title',
@@ -395,7 +397,7 @@ describe('My Space Component', () => {
       ...getMySpaceMock,
       {
         request: {
-          query: REMOVE_COLLECTION,
+          query: RemoveCollectionDocument,
           variables: {
             _id: collectionId,
           },
@@ -449,7 +451,7 @@ describe('My Space Component', () => {
       ...getMySpaceMock,
       {
         request: {
-          query: ADD_COLLECTION,
+          query: AddCollectionDocument,
           variables: {
             title: '',
             bookmarks: [],
@@ -496,7 +498,7 @@ describe('My Space Component', () => {
       ...getMySpaceMock,
       {
         request: {
-          query: EDIT_BOOKMARK,
+          query: EditBookmarkDocument,
           variables: {
             _id: bookmarkId,
             collectionId: collectionId,

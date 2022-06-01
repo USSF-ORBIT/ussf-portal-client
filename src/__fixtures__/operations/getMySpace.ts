@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import { GET_MY_SPACE } from 'operations/queries/getMySpace'
+import { GetMySpaceDocument } from 'operations/portal/queries/getMySpace.g'
 
 const mockNews = {
   __typename: 'NewsWidget',
@@ -11,7 +11,7 @@ const mockNews = {
 export const getMySpaceMock = [
   {
     request: {
-      query: GET_MY_SPACE,
+      query: GetMySpaceDocument,
     },
     result: {
       data: {
@@ -98,7 +98,7 @@ const maxCollections = Array.from({ length: 25 }, (x, i) => {
 export const getMySpaceMaximumCollectionsMock = [
   {
     request: {
-      query: GET_MY_SPACE,
+      query: GetMySpaceDocument,
     },
     result: {
       data: {
@@ -111,7 +111,7 @@ export const getMySpaceMaximumCollectionsMock = [
 export const getMySpaceMaximumCollectionsWithNewsMock = [
   {
     request: {
-      query: GET_MY_SPACE,
+      query: GetMySpaceDocument,
     },
     result: {
       data: {

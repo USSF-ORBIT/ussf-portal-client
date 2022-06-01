@@ -2,15 +2,10 @@ import { MongoClient, Db, ObjectId } from 'mongodb'
 import { ObjectId as ObjectIdType } from 'bson'
 
 import { exampleCollection } from '../__fixtures__/newPortalUser'
-import { BookmarkModel } from './Bookmark'
+import { BookmarkModel, RemoveOneResult } from './Bookmark'
 import { CollectionModel } from './Collection'
 import User from './User'
-import type {
-  Bookmark,
-  BookmarkInput,
-  CollectionInput,
-  RemovedBookmark,
-} from 'types'
+import type { Bookmark, BookmarkModelInput, Collection } from 'types'
 
 let connection: typeof MongoClient
 let db: typeof Db
@@ -119,7 +114,7 @@ describe('Bookmark Model', () => {
     expect(created.label).toEqual(newBookmark.label)
     expect(created.url).toEqual(newBookmark.url)
 
-    const hidden: RemovedBookmark = await BookmarkModel.hideOne(
+    const hidden: RemoveOneResult = await BookmarkModel.hideOne(
       {
         _id: created._id,
         collectionId: exampleCollectionId,
@@ -389,7 +384,7 @@ describe('Bookmark Model', () => {
     // End Data: Test User, 1 new collection with 10 bookmarks
 
     // Create full collection
-    const maxBookmarks: BookmarkInput[] = [
+    const maxBookmarks: BookmarkModelInput[] = [
       {
         _id: ObjectId(),
         url: 'https://www.example1.com',
@@ -449,7 +444,7 @@ describe('Bookmark Model', () => {
         userId: 'testUserId',
       },
       { db }
-    )) as CollectionInput
+    )) as Collection
 
     // Should match length before attempting to add
     expect(newCollection.bookmarks).toHaveLength(10)

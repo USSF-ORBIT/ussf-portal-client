@@ -5,7 +5,7 @@ import User from './User'
 import { CollectionModel } from './Collection'
 import { MySpaceModel } from './MySpace'
 
-import { CollectionInput, CollectionRecords } from 'types'
+import { Collection, CollectionRecords } from 'types'
 import { exampleCollection } from '__fixtures__/newPortalUser'
 
 let connection: typeof MongoClient
@@ -181,7 +181,7 @@ describe('Collection Model', () => {
     const created = (await CollectionModel.addOne(
       { title: title, bookmarks: [], userId: testUserId },
       { db }
-    )) as CollectionInput
+    )) as Collection
 
     expect(created.title).toBe(title)
     expect(created.bookmarks).toHaveLength(0)
