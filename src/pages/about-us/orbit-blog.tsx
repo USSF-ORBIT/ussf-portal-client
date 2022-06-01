@@ -51,14 +51,19 @@ export default PortalNews
 PortalNews.getLayout = (page: React.ReactNode) =>
   withPageLayout(
     <div>
-      <h1>Portal News</h1>
+      <h1>ORBIT Blog</h1>
       <BreadcrumbBar>
         <Breadcrumb>
           <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
             Service portal home
           </BreadcrumbLink>
         </Breadcrumb>
-        <Breadcrumb current>Portal News</Breadcrumb>
+        <Breadcrumb>
+          <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/about-us">
+            About us
+          </BreadcrumbLink>
+        </Breadcrumb>
+        <Breadcrumb current>ORBIT Blog</Breadcrumb>
       </BreadcrumbBar>
     </div>,
     page

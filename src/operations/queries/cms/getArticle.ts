@@ -5,6 +5,7 @@ export const GET_ARTICLE = gql`
     article(where: { slug: $slug }) {
       id
       slug
+      category
       title
       body {
         document
