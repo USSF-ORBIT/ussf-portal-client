@@ -5,7 +5,7 @@ import {
   BreadcrumbLink,
 } from '@trussworks/react-uswds'
 
-import { client } from '../lib/keystoneClient'
+import { client } from '../../lib/keystoneClient'
 
 import type { ArticleListItemRecord } from 'types'
 import Loader from 'components/Loader/Loader'
@@ -37,7 +37,11 @@ const PortalNews = ({
         </h3>
       </div>
 
-      <ArticleList articles={articles} />
+      {articles.length > 0 ? (
+        <ArticleList articles={articles} />
+      ) : (
+        <p>There are no published articles in this category.</p>
+      )}
     </div>
   )
 }

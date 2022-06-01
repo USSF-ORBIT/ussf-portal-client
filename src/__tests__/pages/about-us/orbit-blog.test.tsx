@@ -7,11 +7,11 @@ import { axe } from 'jest-axe'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
-import { renderWithAuth } from '../../testHelpers'
+import { renderWithAuth } from '../../../testHelpers'
 
-import { cmsPortalNewsArticlesMock } from '../../__fixtures__/data/cmsPortalNewsArticles'
+import { cmsPortalNewsArticlesMock } from '../../../__fixtures__/data/cmsPortalNewsArticles'
 
-import PortalNews from 'pages/portal-news'
+import OrbitBlog from 'pages/about-us/orbit-blog'
 
 jest.mock('../../lib/keystoneClient', () => ({
   client: {
@@ -46,10 +46,10 @@ mockedUseRouter.mockReturnValue({
   replace: mockReplace,
 })
 
-describe('Portal News page', () => {
+describe('ORBIT Blog page', () => {
   describe('without a user', () => {
     beforeEach(() => {
-      renderWithAuth(<PortalNews articles={cmsPortalNewsArticlesMock} />, {
+      renderWithAuth(<OrbitBlog articles={cmsPortalNewsArticlesMock} />, {
         user: null,
       })
     })
@@ -69,7 +69,7 @@ describe('Portal News page', () => {
     let html: RenderResult
 
     beforeEach(() => {
-      html = renderWithAuth(<PortalNews articles={cmsPortalNewsArticlesMock} />)
+      html = renderWithAuth(<OrbitBlog articles={cmsPortalNewsArticlesMock} />)
     })
 
     it('renders the page title and list of artiles', async () => {

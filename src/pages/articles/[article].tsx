@@ -14,6 +14,8 @@ import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import { GET_ARTICLE } from 'operations/queries/cms/getArticle'
 import { SingleArticle } from 'components/SingleArticle/SingleArticle'
 
+// TODO - layout with PageHeader included
+
 const SingleArticlePage = ({
   article,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
