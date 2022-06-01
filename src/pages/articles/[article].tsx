@@ -97,7 +97,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     variables: { slug },
   })
 
-  if (!article) {
+  if (!article || article.status !== 'Published') {
     return {
       notFound: true,
     }
