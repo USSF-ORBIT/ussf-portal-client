@@ -10,7 +10,7 @@ export const ArticleList = ({
 }: {
   articles: ArticleListItemRecord[]
 }) => {
-  return (
+  return articles.length > 0 ? (
     <ol className={styles.ArticleList}>
       {articles.map((article, i) => (
         <li key={`${article.id}_${i}`}>
@@ -18,5 +18,7 @@ export const ArticleList = ({
         </li>
       ))}
     </ol>
+  ) : (
+    <p>There are no published articles in this category.</p>
   )
 }

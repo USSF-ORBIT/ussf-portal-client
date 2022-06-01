@@ -30,3 +30,5 @@ const testArticle: ArticleListItemRecord = {
 const testArticles = [testArticle, testArticle, testArticle]
 
 export const ExampleArticleList = () => <ArticleList articles={testArticles} />
+
+export const EmptyArticleList = () => <ArticleList articles={[]} />

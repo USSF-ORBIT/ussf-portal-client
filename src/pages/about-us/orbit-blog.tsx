@@ -22,9 +22,6 @@ const PortalNews = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
 
-  // TODO - empty state
-  // TODO - pagination
-
   return !user ? (
     <Loader />
   ) : (
@@ -37,11 +34,7 @@ const PortalNews = ({
         </h3>
       </div>
 
-      {articles.length > 0 ? (
-        <ArticleList articles={articles} />
-      ) : (
-        <p>There are no published articles in this category.</p>
-      )}
+      <ArticleList articles={articles} />
     </div>
   )
 }

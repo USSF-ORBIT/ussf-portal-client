@@ -36,4 +36,13 @@ describe('ArticleList component', () => {
       expect(await axe(container)).toHaveNoViolations()
     })
   })
+
+  it('renders an empty state', () => {
+    render(<ArticleList articles={[]} />)
+
+    expect(screen.queryByRole('list')).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('There are no published articles in this category.')
+    ).toBeInTheDocument()
+  })
 })

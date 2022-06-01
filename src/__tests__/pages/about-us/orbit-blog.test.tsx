@@ -13,7 +13,7 @@ import { cmsPortalNewsArticlesMock } from '../../../__fixtures__/data/cmsPortalN
 
 import OrbitBlog from 'pages/about-us/orbit-blog'
 
-jest.mock('../../lib/keystoneClient', () => ({
+jest.mock('../../../lib/keystoneClient', () => ({
   client: {
     query: () => {
       return
