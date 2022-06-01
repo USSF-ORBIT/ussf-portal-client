@@ -72,7 +72,7 @@ describe('ORBIT Blog page', () => {
       html = renderWithAuth(<OrbitBlog articles={cmsPortalNewsArticlesMock} />)
     })
 
-    it('renders the page title and list of artiles', async () => {
+    it('renders the page title and list of articles', async () => {
       expect(
         await screen.findByRole('heading', { level: 2 })
       ).toHaveTextContent('Production team blog & announcements')

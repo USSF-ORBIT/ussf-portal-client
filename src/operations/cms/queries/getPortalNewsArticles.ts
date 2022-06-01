@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
 
 // TODO - pagination
 export const GET_PORTAL_NEWS_ARTICLES = gql`
@@ -15,7 +15,3 @@ export const GET_PORTAL_NEWS_ARTICLES = gql`
     }
   }
 `
-
-export function useGetPortalNewsArticlesQuery() {
-  return useQuery(GET_PORTAL_NEWS_ARTICLES)
-}

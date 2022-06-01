@@ -13,7 +13,7 @@ import Loader from 'components/Loader/Loader'
 import { withArticleLayout } from 'layout/DefaultLayout/ArticleLayout'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import PageHeader from 'components/PageHeader/PageHeader'
-import { GET_ARTICLE } from 'operations/queries/cms/getArticle'
+import { GET_ARTICLE } from 'operations/cms/queries/getArticle'
 import { SingleArticle } from 'components/SingleArticle/SingleArticle'
 
 const ORBITBlogArticleHeader = () => (
@@ -97,8 +97,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     variables: { slug },
   })
 
-  // TODO - 404 if no published article
-  // TODO - preview article
+  if (!article) {
+    return {
+      notFound: true,
+    }
+  }
 
   return {
     props: {

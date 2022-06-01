@@ -12,7 +12,7 @@ import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
-import { GET_PORTAL_NEWS_ARTICLES } from 'operations/queries/cms/getPortalNewsArticles'
+import { GET_PORTAL_NEWS_ARTICLES } from 'operations/cms/queries/getPortalNewsArticles'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 import styles from 'styles/pages/news.module.scss'
 
