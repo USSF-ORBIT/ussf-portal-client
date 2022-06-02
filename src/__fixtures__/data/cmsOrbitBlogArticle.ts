@@ -4,6 +4,7 @@ export const cmsOrbitBlogArticle = {
   slug: 'announcing-the-dev-blog',
   category: 'ORBITBlog',
   title: 'Announcing the dev blog',
+  status: 'Published',
   body: {
     document: [
       {

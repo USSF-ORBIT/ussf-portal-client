@@ -4,6 +4,7 @@ export const cmsInternalNewsArticle = {
   slug: 'ussf-internal-news-article',
   category: 'InternalNews',
   title: 'USSF Internal News Article',
+  status: 'Published',
   body: {
     document: [
       {

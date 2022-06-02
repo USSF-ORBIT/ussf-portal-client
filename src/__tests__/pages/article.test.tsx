@@ -4,21 +4,31 @@
 import { screen, waitFor } from '@testing-library/react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import type { GetServerSidePropsContext } from 'next'
 
 import { renderWithAuth } from '../../testHelpers'
+import { client } from '../../lib/keystoneClient'
 
-import { cmsOrbitBlogArticle } from '../../__fixtures__/data/cmsOrbitBlogArticle'
+import { cmsOrbitBlogArticle as mockOrbitBlogArticle } from '../../__fixtures__/data/cmsOrbitBlogArticle'
 import { cmsInternalNewsArticle } from '../../__fixtures__/data/cmsInternalNewsArticle'
 
-import SingleArticlePage from 'pages/articles/[article]'
+import SingleArticlePage, { getServerSideProps } from 'pages/articles/[article]'
 
 jest.mock('../../lib/keystoneClient', () => ({
   client: {
-    query: () => {
-      return
-    },
+    query: jest.fn(() => {
+      return {
+        data: {
+          article: mockOrbitBlogArticle,
+        },
+        loading: false,
+        errors: [],
+      }
+    }),
   },
 }))
+
+const mockedKeystoneClient = client as jest.Mocked<typeof client>
 
 jest.mock('axios')
 
@@ -45,10 +55,59 @@ mockedUseRouter.mockReturnValue({
   replace: mockReplace,
 })
 
+describe('Single article getServerSideProps', () => {
+  const testContext = {
+    query: { article: 'test-article-slug' },
+  } as unknown as GetServerSidePropsContext
+
+  it('returns the article prop if the query returns a published article', async () => {
+    const response = await getServerSideProps(testContext)
+    expect(response).toEqual({
+      props: {
+        article: mockOrbitBlogArticle,
+      },
+    })
+  })
+
+  it('returns not found if the query returns an unpublished article', async () => {
+    mockedKeystoneClient.query.mockResolvedValueOnce({
+      data: {
+        article: { ...mockOrbitBlogArticle, status: 'Draft' },
+      },
+      loading: false,
+      errors: [],
+      networkStatus: 7,
+    })
+
+    const response = await getServerSideProps(testContext)
+
+    expect(response).toEqual({
+      notFound: true,
+    })
+  })
+
+  it('returns not found if no article is found by the query', async () => {
+    mockedKeystoneClient.query.mockResolvedValueOnce({
+      data: {
+        article: null,
+      },
+      loading: false,
+      errors: [],
+      networkStatus: 7,
+    })
+
+    const response = await getServerSideProps(testContext)
+
+    expect(response).toEqual({
+      notFound: true,
+    })
+  })
+})
+
 describe('Single article page', () => {
   describe('without a user', () => {
     beforeEach(() => {
-      renderWithAuth(<SingleArticlePage article={cmsOrbitBlogArticle} />, {
+      renderWithAuth(<SingleArticlePage article={mockOrbitBlogArticle} />, {
         user: null,
       })
     })
@@ -66,7 +125,7 @@ describe('Single article page', () => {
 
   describe('when logged in', () => {
     it('renders an ORBIT Blog article', async () => {
-      renderWithAuth(<SingleArticlePage article={cmsOrbitBlogArticle} />)
+      renderWithAuth(<SingleArticlePage article={mockOrbitBlogArticle} />)
 
       expect(
         await screen.findByRole('heading', { level: 1 })
