@@ -1,0 +1,23 @@
+@import 'styles/uswdsDependencies';
+
+.ArticleListItem {
+  display: flex;
+  align-items: flex-start;
+
+  time {
+    flex-shrink: 0;
+  }
+
+  time + div {
+    margin-left: units(3);
+  }
+
+  h4,
+  p {
+    margin: 0;
+  }
+
+  h4 + p {
+    margin-top: units(1);
+  }
+}
