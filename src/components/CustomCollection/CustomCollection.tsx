@@ -8,7 +8,7 @@ import {
   ComboBox,
   ComboBoxOption,
   ComboBoxRef,
-  IconInfo,
+  Icon,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -189,7 +189,7 @@ const CustomCollection = ({
               <Tooltip
                 position="right"
                 label={`You’re about to hit your link limit — each collection can only have 10 links.`}>
-                <IconInfo size={3} />
+                <Icon.Info size={3} />
               </Tooltip>
             )}
           </div>
