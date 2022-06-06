@@ -18,7 +18,7 @@ export default {
 
 const labelText = `You can only add 10 links to a collection.\nTo add more links, please create a new collection.`
 
-export const tooltipDefault = (): React.ReactElement => (
+export const TooltipDefault = (): React.ReactElement => (
   <div className="margin-4">
     <Tooltip label={labelText}>
       <Icon.Info size={3} />
@@ -26,7 +26,7 @@ export const tooltipDefault = (): React.ReactElement => (
   </div>
 )
 
-export const tooltipTop = (): React.ReactElement => (
+export const TooltipTop = (): React.ReactElement => (
   <div className="margin-4">
     <Tooltip position="top" label={labelText}>
       <Icon.Info size={3} />
@@ -34,7 +34,7 @@ export const tooltipTop = (): React.ReactElement => (
   </div>
 )
 
-export const tooltipBottom = (): React.ReactElement => (
+export const TooltipBottom = (): React.ReactElement => (
   <div className="margin-4">
     <Tooltip position="bottom" label={labelText}>
       <Icon.Info size={3} />
@@ -42,7 +42,7 @@ export const tooltipBottom = (): React.ReactElement => (
   </div>
 )
 
-export const tooltipRight = (): React.ReactElement => (
+export const TooltipRight = (): React.ReactElement => (
   <div className="margin-4">
     <Tooltip position="right" label={labelText}>
       <Icon.Info size={3} />
@@ -50,7 +50,7 @@ export const tooltipRight = (): React.ReactElement => (
   </div>
 )
 
-export const tooltipLeft = (): React.ReactElement => (
+export const TooltipLeft = (): React.ReactElement => (
   <div className="margin-4">
     <Tooltip position="left" label={labelText}>
       <Icon.Info size={3} />

@@ -21,7 +21,7 @@ export default {
   ],
 } as Meta
 
-export const joinBetaModal = () => {
+export const JoinBetaModalStory = () => {
   const storybookModal = useRef<ModalRef>(null)
   const openModal = () => storybookModal.current?.toggleModal(undefined, true)
 
@@ -35,7 +35,7 @@ export const joinBetaModal = () => {
   )
 }
 
-export const addCustomLinkModal = () => {
+export const AddCustomLinkModalStory = () => {
   const storybookModal = useRef<ModalRef>(null)
   const openModal = () => storybookModal.current?.toggleModal(undefined, true)
   const closeModal = () => storybookModal.current?.toggleModal(undefined, false)
@@ -54,7 +54,7 @@ export const addCustomLinkModal = () => {
   )
 }
 
-export const addCustomLinkWithWarningModal = () => {
+export const AddCustomLinkWithWarningModalStory = () => {
   const storybookModal = useRef<ModalRef>(null)
   const openModal = () => storybookModal.current?.toggleModal(undefined, true)
   const closeModal = () => storybookModal.current?.toggleModal(undefined, false)
@@ -74,7 +74,7 @@ export const addCustomLinkWithWarningModal = () => {
   )
 }
 
-export const editCustomLinkModal = () => {
+export const EditCustomLinkModalStory = () => {
   const storybookModal = useRef<ModalRef>(null)
   const openModal = () => storybookModal.current?.toggleModal(undefined, true)
   const closeModal = () => storybookModal.current?.toggleModal(undefined, false)
@@ -101,7 +101,7 @@ export const editCustomLinkModal = () => {
   )
 }
 
-export const removeCustomCollectionModal = () => {
+export const RemoveCustomCollectionModalStory = () => {
   const storybookModal = useRef<ModalRef>(null)
   const openModal = () => storybookModal.current?.toggleModal(undefined, true)
   const closeModal = () => storybookModal.current?.toggleModal(undefined, false)
@@ -120,7 +120,7 @@ export const removeCustomCollectionModal = () => {
   )
 }
 
-export const removeSectionModal = () => {
+export const RemoveSectionModalStory = () => {
   const storybookModal = useRef<ModalRef>(null)
   const openModal = () => storybookModal.current?.toggleModal(undefined, true)
   const closeModal = () => storybookModal.current?.toggleModal(undefined, false)
