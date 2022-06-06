@@ -1,0 +1,27 @@
+@import 'styles/uswdsDependencies';
+
+.SingleArticle {
+  margin-top: units(6);
+  margin-bottom: units(4);
+
+  h2 {
+    margin-bottom: 0;
+  }
+
+  h2 + .metadata {
+    margin-top: units(3);
+  }
+
+  .metadata {
+    margin-bottom: units(4);
+
+    dt {
+      font-size: size('body', 1);
+    }
+
+    dd {
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+}
