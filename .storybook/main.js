@@ -31,7 +31,7 @@ module.exports = {
         // All CSS assets will be served from /public so no need to resolve URLs
         { loader: 'css-loader', options: { url: false } },
 
-        'sass-loader',
+        { loader: 'sass-loader', options: { warnRuleAsWarning: false } },
       ],
     })
 
