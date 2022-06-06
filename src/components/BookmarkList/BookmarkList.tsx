@@ -1,10 +1,5 @@
 import React, { useRef } from 'react'
-import {
-  Table,
-  Button,
-  IconExpandLess,
-  IconExpandMore,
-} from '@trussworks/react-uswds'
+import { Table, Button, Icon } from '@trussworks/react-uswds'
 import type { ObjectId } from 'bson'
 import styles from './BookmarkList.module.scss'
 
@@ -72,9 +67,9 @@ const BookmarkListRow = ({
             <Button unstyled type="button" onClick={menuOnClick}>
               Add to My Space{' '}
               {isDropdownOpen ? (
-                <IconExpandLess aria-label="Open" />
+                <Icon.ExpandLess aria-label="Open" />
               ) : (
-                <IconExpandMore aria-label="Closed" />
+                <Icon.ExpandMore aria-label="Closed" />
               )}
             </Button>
           }

@@ -14,7 +14,8 @@
     "plugin:jsx-a11y/recommended",
     "prettier",
     "plugin:security/recommended",
-    "plugin:@next/next/recommended"
+    "plugin:@next/next/recommended",
+    "plugin:storybook/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

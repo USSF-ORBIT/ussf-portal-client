@@ -9,6 +9,7 @@ const Login = () => {
 
   const contactAccordion = [
     {
+      headingLevel: 'h4',
       title: 'Contact the Help Desk',
       content: (
         <>

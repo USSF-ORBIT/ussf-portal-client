@@ -1,10 +1,5 @@
 import React, { useRef } from 'react'
-import {
-  Button,
-  IconAdd,
-  IconExpandLess,
-  IconExpandMore,
-} from '@trussworks/react-uswds'
+import { Button, Icon } from '@trussworks/react-uswds'
 
 import styles from './AddWidget.module.scss'
 
@@ -46,14 +41,14 @@ const AddWidget = ({
             onClick={menuOnClick}
             aria-label="Add section">
             <span className={styles.plus}>
-              <IconAdd role="presentation" />
+              <Icon.Add role="presentation" />
             </span>
             <br />
             Add section{' '}
             {isDropdownOpen ? (
-              <IconExpandLess aria-label="Open" />
+              <Icon.ExpandLess aria-label="Open" />
             ) : (
-              <IconExpandMore aria-label="Closed" />
+              <Icon.ExpandMore aria-label="Closed" />
             )}
           </button>
         }

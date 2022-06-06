@@ -90,6 +90,7 @@ const AddCustomLinkModal = ({
             <Alert
               type="warning"
               heading="Link limit reached"
+              headingLevel="h4"
               slim
               className="font-sans-3xs">
               You’ve almost reached the maximum number of links (10) for this

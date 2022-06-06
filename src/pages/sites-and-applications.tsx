@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { InferGetServerSidePropsType } from 'next'
-import { Button, Grid, Alert, IconInfo } from '@trussworks/react-uswds'
+import { Button, Grid, Alert, Icon } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
@@ -160,7 +160,7 @@ const SitesAndApplications = ({
       const collection = userCollections.find((c) => c._id === collectionId)
 
       setFlash(
-        <Alert type="success" slim role="alert">
+        <Alert type="success" slim role="alert" headingLevel="h4">
           You have successfully added “{bookmark.label}” to the “
           {collection?.title}” section.
         </Alert>
@@ -234,14 +234,14 @@ const SitesAndApplications = ({
           {userCollections.some(
             (c) => c.bookmarks.filter((b) => !b.isRemoved).length >= 10
           ) && (
-            <Alert type="warning" role="alert">
+            <Alert type="warning" role="alert" headingLevel="h4">
               At least one collection on your My Space has reached the maximum
               number of links allowed (10).
             </Alert>
           )}
 
           {!canAddSections && (
-            <Alert type="warning" role="alert">
+            <Alert type="warning" role="alert" headingLevel="h4">
               You have reached the maximum number of collections allowed on your
               My Space (25).
             </Alert>
@@ -269,7 +269,7 @@ const SitesAndApplications = ({
                         ? `You’re approaching the maximum number of collections (25) you can add to your My Space page.`
                         : `You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`
                     }>
-                    <IconInfo size={3} />
+                    <Icon.Info size={3} />
                   </Tooltip>
                 )}
                 <span>
@@ -304,7 +304,7 @@ const SitesAndApplications = ({
                   <Tooltip
                     position="top"
                     label={`You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`}>
-                    <IconInfo size={3} />
+                    <Icon.Info size={3} />
                   </Tooltip>
                 )}
                 <Button
