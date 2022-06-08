@@ -1,0 +1,30 @@
+@import 'styles/uswdsDependencies';
+
+.SearchResultItem {
+  h3,
+  p {
+    margin: 0;
+  }
+
+  h3 {
+    margin-top: units(1);
+  }
+
+  h3 + p {
+    margin-top: units(1);
+    margin-bottom: units(1);
+  }
+
+  .metadata {
+    display: flex;
+    align-items: center;
+
+    :global(.usa-tag) + :global(.usa-tag) {
+      margin-left: units('05');
+    }
+
+    time {
+      margin-right: units(2);
+    }
+  }
+}
