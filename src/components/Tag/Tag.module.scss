@@ -1,0 +1,74 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.Tag,
+:global(.usa-tag).Tag {
+  @include u-radius('lg');
+  @include u-font-size('body', 1);
+  background-color: $theme-ultraviolet-base;
+  text-transform: lowercase;
+
+  // 4px 12px
+  padding: units('05') units('105');
+}
+
+.Label,
+:global(.usa-tag).Label {
+  @include u-radius('md');
+  @include u-font-size('body', 1);
+  text-transform: none;
+  display: inline-flex;
+  align-items: center;
+  line-height: normal;
+
+  // 4px 12px 4px 8px
+  padding: units(2px) units('105') units(2px) units(1);
+
+  svg {
+    margin-right: units('05');
+  }
+
+  &.Source {
+    background-color: $label-source-lighttheme-bg;
+    svg {
+      color: $label-source-lighttheme-icon;
+    }
+  }
+  &.All {
+    background-color: $label-all-lighttheme-bg;
+    svg {
+      color: $label-all-lighttheme-icon;
+    }
+  }
+  &.Base {
+    background-color: $label-base-lighttheme-bg;
+    svg {
+      color: $label-base-lighttheme-icon;
+    }
+  }
+}
+
+.Category {
+  @include u-radius('sm');
+  @include u-font-size('body', 1);
+  text-transform: uppercase;
+
+  // 5px 8px
+  padding: 5px units(1);
+
+  &.ExternalNews {
+    background-color: $category-externalnews-lighttheme;
+  }
+  &.InternalNews {
+    background-color: $category-internalnews-lighttheme;
+  }
+  &.Announcement {
+    background-color: $category-announcement-lighttheme;
+  }
+  &.Documentation {
+    background-color: $category-documentation-lighttheme;
+  }
+  &.Application {
+    background-color: $category-application-lighttheme;
+  }
+}
