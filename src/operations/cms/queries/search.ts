@@ -5,8 +5,8 @@ export const SEARCH = gql`
     search(query: $query) {
       type
       title
-      url
-      description
+      preview
+      permalink
     }
   }
 `

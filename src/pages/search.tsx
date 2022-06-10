@@ -42,6 +42,8 @@ const Search = ({
       </PageHeader>
       <GridContainer>
         {!user ? <Loader /> : `Search for ${query}`}
+
+        {JSON.stringify(results)}
       </GridContainer>
     </>
   )
@@ -65,6 +67,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       query: q,
+      results: data,
     },
   }
 }
