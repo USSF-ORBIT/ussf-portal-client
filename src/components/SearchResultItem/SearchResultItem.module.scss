@@ -16,9 +16,6 @@
   }
 
   .metadata {
-    display: flex;
-    align-items: center;
-
     :global(.usa-tag) + :global(.usa-tag) {
       margin-left: units('05');
     }
