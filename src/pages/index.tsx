@@ -3,7 +3,7 @@ import { InferGetServerSidePropsType } from 'next'
 import { client } from '../lib/keystoneClient'
 
 import MySpace from 'components/MySpace/MySpace'
-import AnnouncementLaunch from 'components/AnnouncementLaunch/AnnouncementLaunch'
+import Announcement from 'components/Announcement/Announcement'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 import type { BookmarkRecords } from 'types/index'
@@ -21,7 +21,7 @@ const Home = ({
   ) : (
     <div className={styles.home}>
       <section>
-        <AnnouncementLaunch />
+        <Announcement />
       </section>
       <section>
         <MySpace bookmarks={bookmarks} />

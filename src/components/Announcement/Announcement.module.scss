@@ -12,18 +12,19 @@
 
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.latestAnnouncements {
+  padding-left: units(4);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
+  color: $black;
 }
 
 .announcementContainer {
-  width: 33%;
-  padding-left: units(4);
-}
-
-.announcement-header {
-  font-family: 'Samsung Sharp Sans';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 32px;
-  line-height: 40px;
-  color: $black;
+  padding-right: 4%;
+  max-width: 66%;
 }

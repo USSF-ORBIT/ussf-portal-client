@@ -1,0 +1,48 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.carouselContainer {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+
+  div.slick-slide.slick-active.slick-current {
+    background-color: orangered !important;
+  }
+}
+
+.carouselArrow {
+  height: 24px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.date {
+  font-family: 'Samsung Sharp Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 23px;
+  color: $black;
+}
+
+.title {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 150%;
+  color: $black;
+}
+
+.body {
+  font-family: 'Trebuchet MS';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: $black;
+}

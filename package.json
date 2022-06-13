@@ -82,6 +82,7 @@
     "react-dom": "17.0.2",
     "react-slick": "0.29.0",
     "redis": "3.1.2",
+    "slick-carousel": "1.8.1",
     "uswds": "2.11.2"
   },
   "devDependencies": {
