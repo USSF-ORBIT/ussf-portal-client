@@ -7,6 +7,13 @@ export const SEARCH = gql`
       title
       preview
       permalink
+      ... on ArticleResult {
+        date
+        labels {
+          id
+          name
+        }
+      }
     }
   }
 `

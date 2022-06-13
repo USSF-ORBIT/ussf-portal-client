@@ -13,8 +13,14 @@ import { withArticleLayout } from 'layout/DefaultLayout/ArticleLayout'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import PageHeader from 'components/PageHeader/PageHeader'
 import { SEARCH } from 'operations/cms/queries/search'
-// import styles from 'styles/pages/news.module.scss'
+import { SearchBanner } from 'components/SearchBanner/SearchBanner'
+import { SearchResultItem } from 'components/SearchResultItem/SearchResultItem'
+import { SearchResultRecord } from 'types/index'
+import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
+import styles from 'styles/pages/search.module.scss'
 
+// TODO - empty state
+// TODO - end of results
 const Search = ({
   query,
   results,
@@ -37,13 +43,48 @@ const Search = ({
                 Search
               </BreadcrumbLink>
             </Breadcrumb>
+            <Breadcrumb current>“{query}”</Breadcrumb>
           </BreadcrumbBar>
         </div>
       </PageHeader>
       <GridContainer>
-        {!user ? <Loader /> : `Search for ${query}`}
-
-        {JSON.stringify(results)}
+        {!user ? (
+          <Loader />
+        ) : (
+          <>
+            <h2>
+              There are {results.length} results for ‘{query}’
+            </h2>
+            {results.length > 0 ? (
+              <ol className={styles.searchResults}>
+                {results.map((i: SearchResultRecord, index: number) => {
+                  return (
+                    <li key={`result_${index}`}>
+                      <SearchResultItem item={i} />
+                    </li>
+                  )
+                })}
+              </ol>
+            ) : (
+              <SearchBanner
+                icon={
+                  <img
+                    src="/assets/images/moon-flag.svg"
+                    alt="Icon of the US flag on the moon"
+                  />
+                }>
+                <div>
+                  <h3>There are no results that match that query.</h3>
+                  <p>
+                    It seems you didn’t find what you were looking for. Please
+                    re-perform the query with different parameters or click on
+                    one of the similar suggestions to the right.
+                  </p>
+                </div>
+              </SearchBanner>
+            )}
+          </>
+        )}
       </GridContainer>
     </>
   )
@@ -54,20 +95,36 @@ export default Search
 Search.getLayout = (page: React.ReactNode) => withArticleLayout(page)
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  // Need absolute URL
+  const { req } = context
+  const { origin } = getAbsoluteUrl(req)
+
   // get search terms from URL params
   const { q } = context.query
 
-  const { data } = await client.query({
+  const {
+    data: { search },
+  } = (await client.query({
     query: SEARCH,
     variables: { query: `${q} milmove` },
-  })
+  })) as unknown as { data: { search: SearchResultRecord[] } }
 
-  console.log('returned', data)
+  // Add full URL to articles (TODO do this on the CMS end by generating permalinks)
+  const results =
+    search?.map((i) => {
+      return {
+        ...i,
+        permalink:
+          i.type === 'Article'
+            ? `${origin}/articles/${i.permalink}`
+            : i.permalink,
+      }
+    }) || []
 
   return {
     props: {
       query: q,
-      results: data,
+      results,
     },
   }
 }

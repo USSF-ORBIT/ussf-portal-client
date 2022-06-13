@@ -5,27 +5,10 @@ import styles from './SearchResultItem.module.scss'
 import { Category } from 'components/Tag/Tag'
 import { CONTENT_CATEGORIES } from 'constants/index'
 import LinkTo from 'components/util/LinkTo/LinkTo'
-import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
-
-type SearchResultType = 'Article' | 'Bookmark'
-
-type LabelRecord = {
-  id: string
-  name: string
-}
-
-export type SearchResultRecord = {
-  id: string
-  type: SearchResultType // 'Article' | 'Bookmark'
-  title: string // Article.title or Bookmark.label
-  preview: string // Article.preview or Bookmark.description
-  permalink: string // Article.slug or Bookmark.url
-  date?: string // Article.publishedDate
-  labels?: LabelRecord[] // Article.labels { id name }
-}
+import { SearchResultRecord } from 'types/index'
 
 // TODO
-// Should bookmarks open in new window?
+// Should bookmarks open in new window? - YES
 // Permalink should be property on the CMS item
 
 export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
@@ -48,8 +31,6 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
       break
   }
 
-  const { origin } = getAbsoluteUrl()
-
   return (
     <div className={styles.SearchResultItem}>
       <div className={styles.metadata}>
@@ -64,14 +45,7 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
 
       <h3>{title}</h3>
       <p>{preview}</p>
-
-      {type === 'Article' && (
-        <LinkTo href={`/articles/${permalink}`}>
-          {origin}/articles/{permalink}
-        </LinkTo>
-      )}
-
-      {type === 'Bookmark' && <LinkTo href={permalink}>{permalink}</LinkTo>}
+      <LinkTo href={permalink}>{permalink}</LinkTo>
     </div>
   )
 }

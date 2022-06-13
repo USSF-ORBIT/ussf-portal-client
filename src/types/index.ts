@@ -65,6 +65,24 @@ export type ArticleRecord = {
   publishedDate: string
 }
 
+/* Search Results */
+export type SearchResultType = 'Article' | 'Bookmark'
+
+export type LabelRecord = {
+  id: string
+  name: string
+}
+
+export type SearchResultRecord = {
+  id: string
+  type: SearchResultType // 'Article' | 'Bookmark'
+  title: string // Article.title or Bookmark.label
+  preview: string // Article.preview or Bookmark.description
+  permalink: string // Article.slug or Bookmark.url
+  date?: string // Article.publishedDate
+  labels?: LabelRecord[] // Article.labels { id name }
+}
+
 /**
  * *****************************
  * Types for Portal Data
