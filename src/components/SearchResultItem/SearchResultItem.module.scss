@@ -1,21 +1,32 @@
 @import 'styles/uswdsDependencies';
 
 .SearchResultItem {
+  display: flex;
+
   h3,
   p {
     margin: 0;
   }
 
   h3 {
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
+  h3 + a {
+    display: inline-block;
     margin-top: units(1);
   }
 
-  h3 + p {
+  a + p {
     margin-top: units(1);
-    margin-bottom: units(1);
   }
 
   .metadata {
+    margin-top: units(1);
+
     :global(.usa-tag) + :global(.usa-tag) {
       margin-left: units('05');
     }
@@ -23,5 +34,9 @@
     time {
       margin-right: units(2);
     }
+  }
+
+  .icon + div {
+    margin-left: units('205');
   }
 }
