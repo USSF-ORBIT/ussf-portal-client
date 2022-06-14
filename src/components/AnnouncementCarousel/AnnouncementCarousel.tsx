@@ -1,7 +1,7 @@
 import React from 'react'
 import Slider from 'react-slick'
-// import { InferGetStaticPropsType } from 'next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import AnnouncementInfo from 'components/AnnouncementInfo/AnnouncementInfo'
 import styles from './AnnouncementCarousel.module.scss'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -31,6 +31,13 @@ const AnnouncementCarousel = () => {
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
+    appendDots: (dots: React.ReactNode) => {
+      return (
+        <div style={{ marginBottom: '18px' }}>
+          <ul style={{ margin: '0px' }}> {dots} </ul>
+        </div>
+      )
+    },
   }
 
   const announcements = [
@@ -49,11 +56,7 @@ const AnnouncementCarousel = () => {
     <Slider className={styles.carouselContainer} {...settings}>
       {announcements.map(({ date, title, body }, index) => {
         return (
-          <React.Fragment key={index}>
-            <h4 className={styles.date}>{date}</h4>
-            <label className={styles.title}>{title}</label>
-            <div className={styles.body}>{body}</div>
-          </React.Fragment>
+          <AnnouncementInfo key={index} date={date} title={title} body={body} />
         )
       })}
     </Slider>
@@ -61,19 +64,3 @@ const AnnouncementCarousel = () => {
 }
 
 export default AnnouncementCarousel
-
-// export function getStaticProps() {
-//   const announcements = [
-//     {
-//       date: 'Today 14:00 GMT',
-//       title: 'Space Force releases service-specific rank names',
-//       body: 'Effective Feb. 1, the Space Force will use the following rank names across all Space Force systems and in all manners of address.',
-//     },
-//   ]
-
-//   return {
-//     props: {
-//       announcements,
-//     },
-//   }
-// }

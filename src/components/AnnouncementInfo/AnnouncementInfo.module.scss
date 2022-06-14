@@ -1,0 +1,49 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.announcementContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
+  margin: 0 4.6% 0 4.6%;
+}
+
+.date {
+  font-family: 'Sharp Sans';
+  font-style: normal;
+  font-weight: 400 !important;
+  font-size: 18px;
+  line-height: 23px;
+  color: $black;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding-left: 18px;
+}
+
+.divider {
+  background-color: #707c91;
+  height: 50px;
+}
+
+.title {
+  font-family: 'Trebuchet MS';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 150%;
+  color: $black;
+}
+
+.body {
+  font-family: 'Trebuchet MS';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: $black;
+}

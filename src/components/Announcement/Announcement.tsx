@@ -4,7 +4,7 @@ import styles from './Announcement.module.scss'
 
 const Announcement = () => (
   <div className={styles.announcement}>
-    <h2 className={styles.latestAnnouncements}>Latest Announcements</h2>
+    <h2 className={styles.latestAnnouncements}>Latest announcements</h2>
     <div className={styles.announcementContainer}>
       <AnnouncementCarousel />
     </div>
