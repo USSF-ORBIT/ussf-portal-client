@@ -27,6 +27,7 @@
     overflow: hidden;
 
     > a {
+      // Truncate at 1 line
       display: inline-block;
       overflow: hidden;
       text-overflow: ellipsis;
