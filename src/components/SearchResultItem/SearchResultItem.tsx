@@ -27,7 +27,7 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
 
   return (
     <div className={styles.SearchResultItem}>
-      <div className={styles.icon}>{itemIcon}</div>
+      {itemIcon && <div className={styles.icon}>{itemIcon}</div>}
       <div className={styles.content}>
         <h3>
           <LinkTo href={permalink} target="_blank" rel="noreferrer noopener">

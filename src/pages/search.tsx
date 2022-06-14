@@ -19,8 +19,8 @@ import { SearchResultRecord } from 'types/index'
 import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
 import styles from 'styles/pages/search.module.scss'
 
-// TODO - empty state
-// TODO - end of results
+// TODO - empty state (need design)
+
 const Search = ({
   query,
   results,
@@ -29,7 +29,7 @@ const Search = ({
 
   return (
     <>
-      <PageHeader disableSearch>
+      <PageHeader>
         <div>
           <h1>Search</h1>
           <BreadcrumbBar>
@@ -52,19 +52,39 @@ const Search = ({
           <Loader />
         ) : (
           <>
-            <h2>
-              There are {results.length} results for ‘{query}’
-            </h2>
+            <div className={styles.pageTitle}>
+              <h2>
+                There are {results.length} results for ‘{query}’
+              </h2>
+            </div>
             {results.length > 0 ? (
-              <ol className={styles.searchResults}>
-                {results.map((i: SearchResultRecord, index: number) => {
-                  return (
-                    <li key={`result_${index}`}>
-                      <SearchResultItem item={i} />
-                    </li>
-                  )
-                })}
-              </ol>
+              <>
+                <ol className={styles.searchResults}>
+                  {results.map((i: SearchResultRecord, index: number) => {
+                    return (
+                      <li key={`result_${index}`}>
+                        <SearchResultItem item={i} />
+                      </li>
+                    )
+                  })}
+                </ol>
+                <SearchBanner
+                  icon={
+                    <img
+                      src="/assets/images/satellite.svg"
+                      alt="Icon of a satellite"
+                    />
+                  }>
+                  <div>
+                    <h3>You’ve reached the end of your search results.</h3>
+                    <p>
+                      If you didn’t find what you’re looking for, search again
+                      using different parameters, or check out a similar
+                      suggestion to the right.
+                    </p>
+                  </div>
+                </SearchBanner>
+              </>
             ) : (
               <SearchBanner
                 icon={
@@ -101,6 +121,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   // get search terms from URL params
   const { q } = context.query
+
+  if (!q) {
+    return {
+      props: {
+        query: null,
+        results: [],
+      },
+    }
+  }
 
   const {
     data: { search },

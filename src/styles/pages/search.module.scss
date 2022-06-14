@@ -20,4 +20,8 @@
   li + li {
     margin-top: units(6);
   }
+
+  li:last-child {
+    margin-bottom: units(6);
+  }
 }
