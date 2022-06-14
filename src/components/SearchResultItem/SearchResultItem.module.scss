@@ -16,12 +16,33 @@
   }
 
   h3 + a {
-    display: inline-block;
     margin-top: units(1);
   }
 
   a + p {
     margin-top: units(1);
+  }
+
+  .content {
+    overflow: hidden;
+
+    > a {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      white-space: nowrap;
+    }
+
+    > p {
+      /** Truncate text to 2 lines **/
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* number of lines to show */
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
   }
 
   .metadata {
@@ -36,7 +57,7 @@
     }
   }
 
-  .icon + div {
+  .icon + .content {
     margin-left: units('205');
   }
 }
