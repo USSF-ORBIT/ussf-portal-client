@@ -6,46 +6,47 @@ import { Category } from 'components/Tag/Tag'
 import { CONTENT_CATEGORIES } from 'constants/index'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { SearchResultRecord } from 'types/index'
-
-// TODO
-// Should bookmarks open in new window? - YES
-// Permalink should be property on the CMS item
+import { ArticleDateIcon } from 'components/ArticleDateIcon/ArticleDateIcon'
 
 export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
   const { type, title, preview, permalink, date } = item
 
-  const dateFormatter = new Intl.DateTimeFormat('en-us', {
-    year: 'numeric',
-    month: 'short',
-    day: '2-digit',
-  })
-  const dateObj = date && new Date(date)
-
   let itemCategory
+  let itemIcon
   switch (type) {
     case 'Bookmark':
       itemCategory = CONTENT_CATEGORIES.APPLICATION
       break
-    case 'Article':
+    case 'Article': {
+      const dateObj = date && new Date(date)
       itemCategory = CONTENT_CATEGORIES.INTERNAL_NEWS
+      itemIcon = dateObj && <ArticleDateIcon date={dateObj} />
       break
+    }
   }
 
   return (
     <div className={styles.SearchResultItem}>
-      <div className={styles.metadata}>
-        {dateObj && (
-          <time dateTime={dateObj.toLocaleString()}>
-            {dateFormatter.format(dateObj)}
-          </time>
-        )}
+      <div className={styles.icon}>{itemIcon}</div>
+      <div className={styles.content}>
+        <h3>
+          <LinkTo href={permalink} target="_blank" rel="noreferrer noopener">
+            {title}
+            <span className="usa-sr-only">(opens in a new window)</span>
+          </LinkTo>
+        </h3>
 
-        {itemCategory && <Category category={itemCategory} />}
+        <LinkTo href={permalink} target="_blank" rel="noreferrer noopener">
+          {permalink}
+          <span className="usa-sr-only">(opens in a new window)</span>
+        </LinkTo>
+
+        <p>{preview}</p>
+
+        <div className={styles.metadata}>
+          {itemCategory && <Category category={itemCategory} />}
+        </div>
       </div>
-
-      <h3>{title}</h3>
-      <p>{preview}</p>
-      <LinkTo href={permalink}>{permalink}</LinkTo>
     </div>
   )
 }

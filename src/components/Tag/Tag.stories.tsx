@@ -28,12 +28,15 @@ export const ExampleTags = () => (
 
 export const AllLabels = () => (
   <>
+    <h4>Source labels</h4>
     <Label type="Source">Spaceforce.mil</Label>
     <Label type="Source">Defense.gov</Label>
     <Label type="Source">Social media</Label>
     <br /> <br />
-    <Label type="All">All Guardians</Label>
+    <h4>Audience labels</h4>
+    <Label type="Audience">All Guardians</Label>
     <br /> <br />
+    <h4>Base labels</h4>
     <Label type="Base">Buckley SFB</Label>
     <Label type="Base">Schriever SFB</Label>
     <br /> <br />

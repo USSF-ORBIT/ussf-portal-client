@@ -5,12 +5,20 @@ import styles from './Tag.module.scss'
 
 import { CONTENT_CATEGORIES } from 'constants/index'
 
-const LabelTypes = ['Source', 'All', 'Base'] as const
+/**
+ * Label Types:
+ * - Source = the source of the content, ie "SpaceForce.mil"
+ * - Audience = the target audience of the content, ie "All Guardians"
+ * - Base = any Space Force base(s) that the content relates to
+ */
+const LabelTypes = ['Source', 'Audience', 'Base'] as const
 
+/** <Tag /> is used to display arbitrary tags, can render any content */
 export const Tag = ({ children }: { children: React.ReactNode }) => (
   <USWDSTag className={styles.Tag}>{children}</USWDSTag>
 )
 
+/** <Label /> is used to render arbitrary labels that fall into one of the three types (defined above) */
 export const Label = ({
   type,
   children,
@@ -23,6 +31,7 @@ export const Label = ({
   </USWDSTag>
 )
 
+/** <Category /> is used to render a specific category, as defined in the constants file */
 export const Category = ({
   category,
 }: {

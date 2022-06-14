@@ -34,9 +34,22 @@ const testArticleResult: SearchResultRecord = {
   title:
     'Physical training: Everything you need to know about the update in requirements',
   preview:
-    'As a steward of almost 9 million acres encompassing forests, prairies, deserts, wetlands, and coastal habitats, the Department of the Air Force recognizes the importance of protecting and sustaining the natural environment. ',
-  permalink: 'physical-training-everything-you-need-to-know',
+    'As a steward of almost 9 million acres encompassing forests, prairies, deserts, wetlands, and coastal habitats, the Department of the Air Force recognizes the importance of protecting and sustaining the natural environment.',
+  permalink:
+    'https://localhost:3000/articles/physical-training-everything-you-need-to-know',
   date: '2022-05-17T13:44:39.796Z',
 }
 
 export const ArticleResult = () => <SearchResultItem item={testArticleResult} />
+
+export const ArticleResultLineClamp = () => (
+  <SearchResultItem
+    item={{
+      ...testArticleResult,
+      preview:
+        'As a steward of almost 9 million acres encompassing forests, prairies, deserts, wetlands, and coastal habitats, the Department of the Air Force recognizes the importance of protecting and sustaining the natural environment. As a steward of almost 9 million acres encompassing forests, prairies, deserts, wetlands, and coastal habitats, the Department of the Air Force recognizes the importance of protecting and sustaining the natural environment. As a steward of almost 9 million acres encompassing forests, prairies, deserts, wetlands, and coastal habitats, the Department of the Air Force recognizes the importance of protecting and sustaining the natural environment.',
+      permalink:
+        'https://localhost:3000/articles/physical-training-everything-you-need-to-know?asfljaslfkjlkajrlakjsflkajsflasfmaaslkfjalsfjaklsjlasfksfljaslfkjlkajrlakjsflkajsflasfmaaslkfjalsfjaklsjlasfk',
+    }}
+  />
+)
