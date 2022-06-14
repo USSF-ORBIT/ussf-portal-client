@@ -27,6 +27,11 @@ const Search = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
 
+  const resultString =
+    results.length === 1
+      ? `There is 1 result`
+      : `There are ${results.length} results`
+
   return (
     <>
       <PageHeader>
@@ -54,7 +59,7 @@ const Search = ({
           <>
             <div className={styles.pageTitle}>
               <h2>
-                There are {results.length} results for ‘{query}’
+                {resultString} for ‘{query}’
               </h2>
             </div>
             {results.length > 0 ? (
