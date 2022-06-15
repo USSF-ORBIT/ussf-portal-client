@@ -44,15 +44,13 @@ export async function getServerSideProps() {
     query: GET_KEYSTONE_BOOKMARKS,
   })
 
-  const { data } = await client.query({
+  const {
+    data: { announcements },
+  } = await client.query({
     query: GET_ANNOUNCEMENTS,
   })
 
   const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
-
-  const announcements = data.announcements?.filter(
-    (a: AnnouncementRecord) => a.status === 'Published'
-  )
 
   return {
     props: {
