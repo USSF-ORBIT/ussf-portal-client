@@ -23,7 +23,7 @@ import styles from 'styles/pages/search.module.scss'
 
 const Search = ({
   query,
-  results,
+  results = [],
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
 
@@ -65,9 +65,9 @@ const Search = ({
             {results.length > 0 ? (
               <>
                 <ol className={styles.searchResults}>
-                  {results.map((i: SearchResultRecord, index: number) => {
+                  {results.map((i: SearchResultRecord) => {
                     return (
-                      <li key={`result_${index}`}>
+                      <li key={`result_${i.id}`}>
                         <SearchResultItem item={i} />
                       </li>
                     )
@@ -140,7 +140,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     data: { search },
   } = (await client.query({
     query: SEARCH,
-    variables: { query: `${q} milmove` },
+    variables: { query: q },
   })) as unknown as { data: { search: SearchResultRecord[] } }
 
   // Add full URL to articles (TODO do this on the CMS end by generating permalinks)

@@ -2,14 +2,14 @@ import React from 'react'
 
 import styles from './SearchResultItem.module.scss'
 
-import { Category } from 'components/Tag/Tag'
+import { Category, Label } from 'components/Tag/Tag'
 import { CONTENT_CATEGORIES } from 'constants/index'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { SearchResultRecord } from 'types/index'
 import { ArticleDateIcon } from 'components/ArticleDateIcon/ArticleDateIcon'
 
 export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
-  const { type, title, preview, permalink, date } = item
+  const { type, title, preview, permalink, date, labels } = item
 
   let itemCategory
   let itemIcon
@@ -45,6 +45,12 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
 
         <div className={styles.metadata}>
           {itemCategory && <Category category={itemCategory} />}
+          {labels &&
+            labels.map((l) => (
+              <Label key={`label_${l.id}`} type="Audience">
+                {l.name}
+              </Label>
+            ))}
         </div>
       </div>
     </div>
