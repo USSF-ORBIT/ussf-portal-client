@@ -8,7 +8,7 @@ const Search = ({ disabled }: { disabled?: boolean }) => {
     [styles.disabled]: disabled,
   })
 
-  // TODO - design? fix tests
+  // TODO - re-add filter dropdown & suggested terms as future work
 
   return (
     <div className={styles.search}>

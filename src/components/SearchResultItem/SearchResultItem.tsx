@@ -2,10 +2,10 @@ import React from 'react'
 
 import styles from './SearchResultItem.module.scss'
 
+import type { SearchResultRecord } from 'types/index'
 import { Category, Label } from 'components/Tag/Tag'
 import { CONTENT_CATEGORIES } from 'constants/index'
 import LinkTo from 'components/util/LinkTo/LinkTo'
-import { SearchResultRecord } from 'types/index'
 import { ArticleDateIcon } from 'components/ArticleDateIcon/ArticleDateIcon'
 
 export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {

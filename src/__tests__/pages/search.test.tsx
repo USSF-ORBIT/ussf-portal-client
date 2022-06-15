@@ -145,5 +145,25 @@ describe('Search page', () => {
         )
       ).toBeInTheDocument()
     })
+
+    it('renders the correct text if there is only one result', async () => {
+      const mockResults = [mockCmsSearchResults[0]].map((r) => ({
+        ...r,
+        permalink:
+          r.type === 'Article'
+            ? `http://localhost/articles/${r.permalink}`
+            : r.permalink,
+      }))
+
+      renderWithAuth(<SearchPage query="fitness" results={mockResults} />)
+      expect(
+        await screen.findByRole('heading', { level: 2 })
+      ).toHaveTextContent('There is 1 result for ‘fitness’')
+      expect(
+        await screen.findByText(
+          'You’ve reached the end of your search results.'
+        )
+      ).toBeInTheDocument()
+    })
   })
 })

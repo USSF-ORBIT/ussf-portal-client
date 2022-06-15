@@ -6,10 +6,8 @@
 
   h2 {
     margin-bottom: 0;
-  }
-
-  h2 + h3 {
-    margin-top: units('105');
+    padding-bottom: units(2);
+    border-bottom: 1px solid #c4c4c4;
   }
 }
 
