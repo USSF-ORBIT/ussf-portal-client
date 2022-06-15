@@ -22,9 +22,12 @@ const Home = ({
     <Loader />
   ) : (
     <div className={styles.home}>
-      <section>
-        <Announcement announcements={announcements} />
-      </section>
+      {announcements.length > 0 && (
+        <section>
+          <Announcement announcements={announcements} />
+        </section>
+      )}
+
       <section>
         <MySpace bookmarks={bookmarks} />
       </section>
