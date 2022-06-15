@@ -1,0 +1,12 @@
+mutation addCollection($title: String!, $bookmarks: [BookmarkInput!]!) {
+  addCollection(title: $title, bookmarks: $bookmarks) {
+    _id
+    title
+    bookmarks {
+      _id
+      url
+      label
+      cmsId
+    }
+  }
+}

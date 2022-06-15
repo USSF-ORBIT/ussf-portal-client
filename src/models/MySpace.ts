@@ -3,6 +3,7 @@ import { ObjectId } from 'mongodb'
 import { ObjectId as ObjectIdType } from 'bson'
 import type { MySpace, Widget, WidgetType } from 'types'
 
+// #TODO These types should be revisited when we add codegen to resolvers
 type GetInput = {
   userId: string
 }
@@ -38,7 +39,7 @@ export const MySpaceModel = {
     // For now, can only have one News widget
     if (type === 'News') {
       const allWidgets = await this.get({ userId }, { db })
-      const newsWidget = allWidgets.find((s) => s.type === 'News')
+      const newsWidget = allWidgets.find((s: Widget) => s.type === 'News')
       if (newsWidget) throw new Error('You can only have one News section')
     }
 

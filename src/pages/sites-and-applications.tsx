@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { InferGetServerSidePropsType } from 'next'
-import { Button, Grid, Alert, IconInfo } from '@trussworks/react-uswds'
+import { Button, Grid, Alert, Icon } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
@@ -13,10 +13,19 @@ import type {
   CollectionRecord,
   CollectionRecords,
   BookmarkRecord,
-  NewBookmarkInput,
   MySpaceWidget,
   Collection as CollectionType,
 } from 'types/index'
+
+import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
+import {
+  AddCollectionMutationVariables,
+  useAddCollectionMutation,
+} from 'operations/portal/mutations/addCollection.g'
+import { useAddCollectionsMutation } from 'operations/portal/mutations/addCollections.g'
+import { useGetMySpaceQuery } from 'operations/portal/queries/getMySpace.g'
+import { addCollectionsInput } from 'operations/helpers'
+
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import Loader from 'components/Loader/Loader'
@@ -30,17 +39,11 @@ import Tooltip from 'components/Tooltip/Tooltip'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useUser } from 'hooks/useUser'
-import { useMySpaceQuery } from 'operations/queries/getMySpace'
-import {
-  useAddCollectionsMutation,
-  addCollectionsInput,
-} from 'operations/mutations/addCollections'
-import { useAddBookmarkMutation } from 'operations/mutations/addBookmark'
-import { useAddCollectionMutation } from 'operations/mutations/addCollection'
+
 import { useAnalytics } from 'stores/analyticsContext'
 
-import { GET_KEYSTONE_BOOKMARKS } from 'operations/queries/getKeystoneBookmarks'
-import { GET_KEYSTONE_COLLECTIONS } from 'operations/queries/getKeystoneCollections'
+import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
+import { GET_KEYSTONE_COLLECTIONS } from 'operations/cms/queries/getKeystoneCollections'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
@@ -57,7 +60,7 @@ const SitesAndApplications = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
   const { user } = useUser()
-  const { loading, error, data } = useMySpaceQuery()
+  const { loading, error, data } = useGetMySpaceQuery()
   const { trackEvent } = useAnalytics()
 
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
@@ -78,9 +81,10 @@ const SitesAndApplications = ({
 
   if (error) return <p>Error</p>
 
-  const userCollections: CollectionType[] =
-    (data &&
-      data.mySpace.filter((w): w is CollectionType => isCollection(w))) ||
+  const mySpace = (data?.mySpace || []) as MySpaceWidget[]
+
+  const userCollections =
+    ((mySpace && mySpace.filter((w) => isCollection(w))) as CollectionType[]) ||
     []
   const collectionsLength = userCollections.length || 0
 
@@ -131,9 +135,7 @@ const SitesAndApplications = ({
     trackEvent('S&A add collection', 'Add selected', collectionTitles)
 
     handleAddCollections({
-      variables: {
-        collections: addCollectionsInput(collectionObjs),
-      },
+      variables: addCollectionsInput(collectionObjs),
       refetchQueries: [`getMySpace`],
     })
     setSelectMode(false)
@@ -158,21 +160,26 @@ const SitesAndApplications = ({
       const collection = userCollections.find((c) => c._id === collectionId)
 
       setFlash(
-        <Alert type="success" slim role="alert">
+        <Alert type="success" slim role="alert" headingLevel="h4">
           You have successfully added “{bookmark.label}” to the “
           {collection?.title}” section.
         </Alert>
       )
     } else {
       // Create a new collection and add the bookmark to it
-      const bookmarkInput: NewBookmarkInput = {
-        url: bookmark.url,
-        label: bookmark.label,
-        cmsId: bookmark.id,
+      const newCollection: AddCollectionMutationVariables = {
+        title: '',
+        bookmarks: [
+          {
+            url: bookmark.url,
+            label: bookmark.label,
+            cmsId: bookmark.id,
+          },
+        ],
       }
 
       handleAddCollection({
-        variables: { title: '', bookmarks: [bookmarkInput] },
+        variables: newCollection,
         refetchQueries: [`getMySpace`],
       })
       router.push('/')
@@ -227,14 +234,14 @@ const SitesAndApplications = ({
           {userCollections.some(
             (c) => c.bookmarks.filter((b) => !b.isRemoved).length >= 10
           ) && (
-            <Alert type="warning" role="alert">
+            <Alert type="warning" role="alert" headingLevel="h4">
               At least one collection on your My Space has reached the maximum
               number of links allowed (10).
             </Alert>
           )}
 
           {!canAddSections && (
-            <Alert type="warning" role="alert">
+            <Alert type="warning" role="alert" headingLevel="h4">
               You have reached the maximum number of collections allowed on your
               My Space (25).
             </Alert>
@@ -262,7 +269,7 @@ const SitesAndApplications = ({
                         ? `You’re approaching the maximum number of collections (25) you can add to your My Space page.`
                         : `You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`
                     }>
-                    <IconInfo size={3} />
+                    <Icon.Info size={3} />
                   </Tooltip>
                 )}
                 <span>
@@ -297,7 +304,7 @@ const SitesAndApplications = ({
                   <Tooltip
                     position="top"
                     label={`You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`}>
-                    <IconInfo size={3} />
+                    <Icon.Info size={3} />
                   </Tooltip>
                 )}
                 <Button

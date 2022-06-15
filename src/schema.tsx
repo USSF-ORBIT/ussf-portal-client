@@ -37,8 +37,8 @@ export const typeDefs = gql`
   }
 
   type Query {
-    collections: [Collection]
-    mySpace: [Widget]
+    collections: [Collection!]!
+    mySpace: [Widget!]!
   }
 
   type Mutation {
@@ -84,7 +84,7 @@ export const typeDefs = gql`
   input CollectionRecord {
     id: ID!
     title: String!
-    bookmarks: [BookmarkRecord]
+    bookmarks: [BookmarkRecord!]!
   }
 
   input BookmarkRecord {

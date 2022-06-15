@@ -1,0 +1,7 @@
+mutation addWidget($title: String!, $type: WidgetType!) {
+  addWidget(title: $title, type: $type) {
+    _id
+    title
+    type
+  }
+}

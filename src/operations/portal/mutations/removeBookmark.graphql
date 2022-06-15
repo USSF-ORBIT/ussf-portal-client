@@ -1,0 +1,5 @@
+mutation removeBookmark($_id: OID!, $collectionId: OID!, $cmsId: ID) {
+  removeBookmark(_id: $_id, collectionId: $collectionId, cmsId: $cmsId) {
+    _id
+  }
+}

@@ -15,13 +15,13 @@ import {
 } from '../../__fixtures__/operations/getMySpace'
 import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
-import { GET_MY_SPACE } from 'operations/queries/getMySpace'
-import { ADD_COLLECTION } from 'operations/mutations/addCollection'
-import {
-  ADD_COLLECTIONS,
-  addCollectionsInput,
-} from 'operations/mutations/addCollections'
-import { ADD_BOOKMARK } from 'operations/mutations/addBookmark'
+
+import { GetMySpaceDocument } from 'operations/portal/queries/getMySpace.g'
+import { AddCollectionDocument } from 'operations/portal/mutations/addCollection.g'
+import { AddCollectionsDocument } from 'operations/portal/mutations/addCollections.g'
+import { AddBookmarkDocument } from 'operations/portal/mutations/addBookmark.g'
+import { addCollectionsInput } from 'operations/helpers'
+
 import SitesAndApplications from 'pages/sites-and-applications'
 
 jest.mock('../../lib/keystoneClient', () => ({
@@ -72,7 +72,7 @@ const sitesAndAppsMock = [
   ...getMySpaceMock,
   {
     request: {
-      query: ADD_COLLECTION,
+      query: AddCollectionDocument,
       variables: {
         title: '',
         bookmarks: [
@@ -92,6 +92,7 @@ const sitesAndAppsMock = [
           addCollection: {
             _id: ObjectId(),
             title: '',
+
             bookmarks: [
               {
                 _id: ObjectId(),
@@ -107,13 +108,11 @@ const sitesAndAppsMock = [
   },
   {
     request: {
-      query: ADD_COLLECTIONS,
-      variables: {
-        collections: addCollectionsInput([
-          cmsCollectionsMock[0],
-          cmsCollectionsMock[1],
-        ]),
-      },
+      query: AddCollectionsDocument,
+      variables: addCollectionsInput([
+        cmsCollectionsMock[0],
+        cmsCollectionsMock[1],
+      ]),
     },
     result: () => {
       collectionsAdded = true
@@ -137,7 +136,7 @@ const sitesAndAppsMock = [
   },
   {
     request: {
-      query: ADD_BOOKMARK,
+      query: AddBookmarkDocument,
       variables: {
         collectionId: getMySpaceMock[0].result.data.mySpace[0]._id,
         cmsId: cmsBookmarksMock[0].id,
@@ -631,7 +630,7 @@ describe('Sites and Applications page', () => {
       const errorMock = [
         {
           request: {
-            query: GET_MY_SPACE,
+            query: GetMySpaceDocument,
           },
           error: new Error(),
         },

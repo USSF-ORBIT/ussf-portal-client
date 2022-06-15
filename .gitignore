@@ -7,6 +7,7 @@ node_modules/
 # Build output
 .next
 out/
+.vscode/
 
 # Storybook build output
 storybook-static
@@ -56,3 +57,6 @@ globalConfig.json
 
 # asdf
 .tool-versions
+
+# Generated GraphQL types
+src/**/*.g.ts
