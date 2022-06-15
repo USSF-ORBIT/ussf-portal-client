@@ -28,7 +28,6 @@ const AnnouncementCarousel = ({
 }: {
   announcements: AnnouncementRecord[]
 }) => {
-  console.log(typeof announcements)
   const settings = {
     dots: true,
     infinite: true,
