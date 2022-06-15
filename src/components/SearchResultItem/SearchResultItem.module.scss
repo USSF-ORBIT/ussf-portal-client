@@ -47,14 +47,11 @@
   }
 
   .metadata {
-    margin-top: units(1);
+    display: flex;
+    margin-top: units('105');
 
     :global(.usa-tag) + :global(.usa-tag) {
       margin-left: units('05');
-    }
-
-    time {
-      margin-right: units(2);
     }
   }
 

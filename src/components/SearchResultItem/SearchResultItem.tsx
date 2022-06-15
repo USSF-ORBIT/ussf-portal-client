@@ -2,7 +2,7 @@ import React from 'react'
 
 import styles from './SearchResultItem.module.scss'
 
-import { Category } from 'components/Tag/Tag'
+import { Category, Label } from 'components/Tag/Tag'
 import { CONTENT_CATEGORIES } from 'constants/index'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { ArticleDateIcon } from 'components/ArticleDateIcon/ArticleDateIcon'
@@ -12,6 +12,7 @@ type SearchResultType = 'Article' | 'Bookmark'
 type LabelRecord = {
   id: string
   name: string
+  type: 'Source' | 'Audience' | 'Base'
 }
 
 export type SearchResultRecord = {
@@ -25,7 +26,7 @@ export type SearchResultRecord = {
 }
 
 export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
-  const { type, title, preview, permalink, date } = item
+  const { type, title, preview, permalink, date, labels } = item
 
   let itemCategory
   let itemIcon
@@ -43,7 +44,7 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
 
   return (
     <div className={styles.SearchResultItem}>
-      <div className={styles.icon}>{itemIcon}</div>
+      {itemIcon && <div className={styles.icon}>{itemIcon}</div>}
       <div className={styles.content}>
         <h3>
           <LinkTo href={permalink} target="_blank" rel="noreferrer noopener">
@@ -61,6 +62,12 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
 
         <div className={styles.metadata}>
           {itemCategory && <Category category={itemCategory} />}
+          {labels &&
+            labels.map((l) => (
+              <Label key={`label_${l.id}`} type={l.type}>
+                {l.name}
+              </Label>
+            ))}
         </div>
       </div>
     </div>

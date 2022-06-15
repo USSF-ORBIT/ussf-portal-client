@@ -23,8 +23,8 @@
   align-items: center;
   line-height: normal;
 
-  // 4px 12px 4px 8px
-  padding: units(2px) units('105') units(2px) units(1);
+  // 1px 12px 1px 8px
+  padding: units(1px) units('105') units(1px) units(1);
 
   svg {
     margin-right: units('05');
@@ -50,15 +50,16 @@
   }
 }
 
-.Category {
+.Category,
+:global(.usa-tag).Category {
   @include u-radius('sm');
   @include u-font-size('body', 1);
   text-transform: uppercase;
   display: inline-block;
   line-height: normal;
 
-  // 5px 8px
-  padding: 5px units(1);
+  // 6px 8px
+  padding: 6px units(1);
 
   &.ExternalNews {
     background-color: $category-externalnews-lighttheme;

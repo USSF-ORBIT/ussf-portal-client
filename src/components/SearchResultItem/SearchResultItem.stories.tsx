@@ -38,6 +38,13 @@ const testArticleResult: SearchResultRecord = {
   permalink:
     'https://localhost:3000/articles/physical-training-everything-you-need-to-know',
   date: '2022-05-17T13:44:39.796Z',
+  labels: [
+    {
+      id: 'testLabel',
+      name: 'All Guardians',
+      type: 'Audience',
+    },
+  ],
 }
 
 export const ArticleResult = () => <SearchResultItem item={testArticleResult} />
