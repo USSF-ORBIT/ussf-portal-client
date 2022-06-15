@@ -6,13 +6,15 @@ import MySpace from 'components/MySpace/MySpace'
 import Announcement from 'components/Announcement/Announcement'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
-import type { BookmarkRecords } from 'types/index'
+import type { BookmarkRecords, AnnouncementRecord } from 'types/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
+import { GET_ANNOUNCEMENTS } from 'operations/cms/queries/getAnnouncements'
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
 import styles from 'styles/pages/home.module.scss'
 
 const Home = ({
   bookmarks,
+  announcements,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
 
@@ -21,7 +23,7 @@ const Home = ({
   ) : (
     <div className={styles.home}>
       <section>
-        <Announcement />
+        <Announcement announcements={announcements} />
       </section>
       <section>
         <MySpace bookmarks={bookmarks} />
@@ -39,11 +41,20 @@ export async function getServerSideProps() {
     query: GET_KEYSTONE_BOOKMARKS,
   })
 
+  const { data } = await client.query({
+    query: GET_ANNOUNCEMENTS,
+  })
+
   const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
+
+  const announcements = data.announcements?.filter(
+    (a: AnnouncementRecord) => a.status === 'Published'
+  )
 
   return {
     props: {
       bookmarks,
+      announcements,
     },
   }
 }

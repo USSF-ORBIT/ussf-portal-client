@@ -1,10 +1,11 @@
 import React from 'react'
 import Slider from 'react-slick'
+import styles from './AnnouncementCarousel.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import AnnouncementInfo from 'components/AnnouncementInfo/AnnouncementInfo'
-import styles from './AnnouncementCarousel.module.scss'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { AnnouncementRecord } from 'types'
 
 const NextArrow = ({ onClick }: any) => {
   return (
@@ -22,7 +23,12 @@ const PrevArrow = ({ onClick }: any) => {
   )
 }
 
-const AnnouncementCarousel = () => {
+const AnnouncementCarousel = ({
+  announcements,
+}: {
+  announcements: AnnouncementRecord[]
+}) => {
+  console.log(typeof announcements)
   const settings = {
     dots: true,
     infinite: true,
@@ -33,31 +39,17 @@ const AnnouncementCarousel = () => {
     prevArrow: <PrevArrow />,
     appendDots: (dots: React.ReactNode) => {
       return (
-        <div style={{ marginBottom: '18px' }}>
+        <div>
           <ul style={{ margin: '0px' }}> {dots} </ul>
         </div>
       )
     },
   }
 
-  const announcements = [
-    {
-      date: 'Today 14:00 GMT',
-      title: 'Space Force releases service-specific rank names',
-      body: 'Effective Feb. 1, the Space Force will use the following rank names across all Space Force systems and in all manners of address.',
-    },
-    {
-      date: 'Today 8:00 GMT',
-      title: 'Space Force is doing something',
-      body: 'Effective Feb. 1, the Space Force will use the following rank names across all Space Force systems and in all manners of address.',
-    },
-  ]
   return (
     <Slider className={styles.carouselContainer} {...settings}>
-      {announcements.map(({ date, title, body }, index) => {
-        return (
-          <AnnouncementInfo key={index} date={date} title={title} body={body} />
-        )
+      {announcements.map((announcement: AnnouncementRecord, index: number) => {
+        return <AnnouncementInfo key={index} announcement={announcement} />
       })}
     </Slider>
   )
