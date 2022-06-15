@@ -13,6 +13,7 @@ export const SEARCH = gql`
         labels {
           id
           name
+          type
         }
       }
     }

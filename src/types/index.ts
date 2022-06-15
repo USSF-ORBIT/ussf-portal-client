@@ -71,6 +71,7 @@ export type SearchResultType = 'Article' | 'Bookmark'
 export type LabelRecord = {
   id: string
   name: string
+  type: 'Source' | 'Audience' | 'Base'
 }
 
 export type SearchResultRecord = {
@@ -80,7 +81,7 @@ export type SearchResultRecord = {
   preview: string // Article.preview or Bookmark.description
   permalink: string // Article.slug or Bookmark.url
   date?: string // Article.publishedDate
-  labels?: LabelRecord[] // Article.labels { id name }
+  labels?: LabelRecord[] // Article.labels { id name type }
 }
 
 /**

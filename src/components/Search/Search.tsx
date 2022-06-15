@@ -8,6 +8,8 @@ const Search = ({ disabled }: { disabled?: boolean }) => {
     [styles.disabled]: disabled,
   })
 
+  // TODO - design? fix tests
+
   return (
     <div className={styles.search}>
       {disabled && (

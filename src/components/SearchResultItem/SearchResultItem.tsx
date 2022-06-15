@@ -47,7 +47,7 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
           {itemCategory && <Category category={itemCategory} />}
           {labels &&
             labels.map((l) => (
-              <Label key={`label_${l.id}`} type="Audience">
+              <Label key={`label_${l.id}`} type={l.type}>
                 {l.name}
               </Label>
             ))}
