@@ -67,14 +67,12 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             BUILD=${{ github.sha }}
-
       - name: Snapshot DocumentDB Cluster
         env:
           DOCDB_CLUSTER_IDENTIFIER: ${{ secrets.DOCDB_CLUSTER_IDENTIFIER }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           ./scripts/snapshot-docdb.sh
-
       - name: Download task definition | Update Task Definition | Update ECS Service | Deploy new image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
