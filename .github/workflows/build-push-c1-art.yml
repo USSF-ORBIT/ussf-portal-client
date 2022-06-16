@@ -40,7 +40,6 @@ jobs:
           DEV_CERT: ${{ secrets.SAML_CERT }}
           TEST_CERT: ${{ secrets.C1_TEST_SAML_CERT }}
           PROD_CERT: ${{ secrets.C1_PROD_SAML_CERT }}
-          
         run: |
           echo $DEV_CERT > dev-saml.pem
           echo $TEST_CERT > test-saml.pem
@@ -64,7 +63,6 @@ jobs:
           DEV_CERT: ${{ secrets.SAML_CERT }}
           TEST_CERT: ${{ secrets.C1_TEST_SAML_CERT }}
           PROD_CERT: ${{ secrets.C1_PROD_SAML_CERT }}
-
         run: |
           docker login -u portal -p ${{ secrets.C1_ARTIFACTORY_TOKEN }} $C1_REGISTRY
           docker push $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG

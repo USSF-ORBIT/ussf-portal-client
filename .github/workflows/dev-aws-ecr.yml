@@ -53,7 +53,6 @@ jobs:
           DEV_CERT: ${{ secrets.SAML_CERT }}
           TEST_CERT: ${{ secrets.C1_TEST_SAML_CERT }}
           PROD_CERT: ${{ secrets.C1_PROD_SAML_CERT }}
-
         run: |
           echo $DEV_CERT > dev-saml.pem
           echo $TEST_CERT > test-saml.pem
@@ -114,6 +113,7 @@ jobs:
           format: 'sarif'
           output: 'trivy-results.sarif'
           ignore-unfixed: true
+          
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@0e9acb6e5cd338179ea69a99146ca55f796799e0 # tag=v1
         with:
