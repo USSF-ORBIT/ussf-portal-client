@@ -53,7 +53,6 @@ jobs:
           DEV_CERT: ${{ secrets.SAML_CERT }}
           TEST_CERT: ${{ secrets.C1_TEST_SAML_CERT }}
           PROD_CERT: ${{ secrets.C1_PROD_SAML_CERT }}
-
         run: |
           echo $DEV_CERT > dev-saml.pem
           echo $TEST_CERT > test-saml.pem
@@ -68,7 +67,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             BUILD=${{ github.sha }}
-            
+
       - name: Snapshot DocumentDB Cluster
         env:
           DOCDB_CLUSTER_IDENTIFIER: ${{ secrets.DOCDB_CLUSTER_IDENTIFIER }}
