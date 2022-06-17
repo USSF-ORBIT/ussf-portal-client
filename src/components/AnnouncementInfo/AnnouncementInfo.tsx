@@ -20,15 +20,29 @@ const AnnouncementInfo = ({
     typeof componentBlocks
   > = {
     callToAction: (props: any) => {
-      const { ctaText } = props
-      const {
-        link: { value },
-      }: HydratedRelationshipData = props
+      const { ctaText, link } = props
+      // const {
+      //   link: { value },
+      // }: HydratedRelationshipData = props
       return (
         <>
-          {ctaText && (
+          {link.discriminant === 'article' && (
             <a
-              href={value?.data.slug ? `/articles/${value?.data.slug}` : '/'}
+              href={
+                link.value?.data.slug
+                  ? `/articles/${link.value?.data.slug}`
+                  : '/'
+              }
+              target="_blank"
+              rel="noreferrer"
+              className="usa-button">
+              {ctaText}
+            </a>
+          )}
+
+          {link.discriminant === 'url' && (
+            <a
+              href={link.value}
               target="_blank"
               rel="noreferrer"
               className="usa-button">
@@ -50,13 +64,15 @@ const AnnouncementInfo = ({
 
   return (
     <div className={styles.announcementContainer}>
-      <time
-        className={styles.date}
-        dateTime={publishedDateObj.toLocaleString()}>
-        {dateFormatter.format(publishedDateObj)}
-      </time>
+      <div className={styles.timeContainer}>
+        <time
+          className={styles.date}
+          dateTime={publishedDateObj.toLocaleString()}>
+          {dateFormatter.format(publishedDateObj)}
+        </time>
 
-      <hr className={styles.divider} />
+        <hr className={styles.divider} />
+      </div>
 
       <div>
         <label className={styles.title}>{title}</label>

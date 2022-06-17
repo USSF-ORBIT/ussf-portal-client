@@ -4,8 +4,9 @@
 .announcementContainer {
   display: flex;
   align-items: center;
-  // justify-content: space-evenly;
+  justify-content: center;
   height: 100%;
+  width: 100%;
 }
 
 .date {
@@ -20,6 +21,7 @@
 .innerContainer {
   display: flex;
   align-items: center;
+  width: 100%;
 
   p {
     margin: 0;
@@ -36,10 +38,16 @@
   }
 }
 
+.timeContainer {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
 .divider {
   background-color: #707c91;
   height: 50px;
-  margin-right: 3%;
+  margin: 0 !important;
 }
 
 .title {
