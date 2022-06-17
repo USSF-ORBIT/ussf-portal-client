@@ -6,7 +6,7 @@ import { AnnouncementRecord } from 'types'
 const Announcement = ({
   announcements,
 }: {
-  announcements: AnnouncementRecord
+  announcements: AnnouncementRecord[]
 }) => (
   <div className={styles.announcement}>
     <h2 className={styles.latestAnnouncements}>Latest announcements</h2>

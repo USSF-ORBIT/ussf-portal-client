@@ -4,9 +4,8 @@
 .announcementContainer {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  // justify-content: space-evenly;
   height: 100%;
-  margin: 0 4.6% 0 4.6%;
 }
 
 .date {
@@ -18,20 +17,29 @@
   color: $black;
 }
 
-.mainContent {
+.innerContainer {
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  padding-left: 18px;
+  align-items: center;
 
   p {
     margin: 0;
+  }
+
+  > div > a {
+    font-family: 'Trebuchet MS';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    white-space: nowrap;
   }
 }
 
 .divider {
   background-color: #707c91;
   height: 50px;
+  margin-right: 3%;
 }
 
 .title {
