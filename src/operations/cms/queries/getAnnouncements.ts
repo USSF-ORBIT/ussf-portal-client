@@ -10,7 +10,7 @@ export const GET_ANNOUNCEMENTS = gql`
       id
       title
       body {
-        document
+        document(hydrateRelationships: true)
       }
       publishedDate
       status
