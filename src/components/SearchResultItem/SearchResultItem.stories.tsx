@@ -1,7 +1,8 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
 
-import { SearchResultItem, SearchResultRecord } from './SearchResultItem'
+import { SearchResultItem } from './SearchResultItem'
+import type { SearchResultRecord } from 'types/index'
 
 export default {
   title: 'Components/SearchResultItem',
