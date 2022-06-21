@@ -8,6 +8,30 @@ export const WIDGET_TYPES = {
 export const MAXIMUM_COLLECTIONS = 25
 
 export const EXAMPLE_COLLECTION_ID = 'ckwz3u58s1835ql974leo1yll'
+
+export const CONTENT_CATEGORIES = {
+  EXTERNAL_NEWS: {
+    value: 'ExternalNews',
+    label: 'External USSF News',
+  },
+  INTERNAL_NEWS: {
+    value: 'InternalNews',
+    label: 'Internal USSF News',
+  },
+  ANNOUNCEMENT: {
+    value: 'Announcement',
+    label: 'Announcement',
+  },
+  DOCUMENTATION: {
+    value: 'Documentation',
+    label: 'USSF Documentation',
+  },
+  APPLICATION: {
+    value: 'Application',
+    label: 'Application',
+  },
+} as const
+
 /**
  * (for later, this is the last digit of fascn number)
  * 

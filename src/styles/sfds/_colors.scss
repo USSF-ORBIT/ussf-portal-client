@@ -85,3 +85,34 @@ $link-color: $theme-ultraviolet-base;
 $black: #000;
 $white: #fff;
 $grey: #f0f0f0;
+
+/** Taxonomy **/
+$tag-default-lighttheme: $theme-ultraviolet-base;
+$tag-default-darktheme: $theme-ultraviolet-lightest;
+
+$label-source-lighttheme-bg: $theme-mars-dark;
+$label-source-lighttheme-icon: $theme-mars-lightest;
+$label-source-darktheme-bg: $theme-mars-lightest;
+$label-source-darktheme-icon: $theme-mars-dark;
+
+$label-audience-lighttheme-bg: $theme-mars-darkest;
+$label-audience-lighttheme-icon: $theme-mars-lighter;
+$label-audience-darktheme-bg: $theme-mars-lighter;
+$label-audience-darktheme-icon: $theme-mars-darkest;
+
+$label-base-lighttheme-bg: $theme-aurora-darkest;
+$label-base-lighttheme-icon: $theme-aurora-lighter;
+$label-base-darktheme-bg: $theme-aurora-lighter;
+$label-base-darktheme-icon: $theme-aurora-darkest;
+
+$category-externalnews-lighttheme: #262626;
+$category-internalnews-lighttheme: $theme-spacebase-light;
+$category-announcement-lighttheme: $theme-ultraviolet-dark;
+$category-documentation-lighttheme: $theme-cosmiclatte-darker;
+$category-application-lighttheme: $theme-spacebase-base;
+
+$category-externalnews-darktheme: #e6e6e6;
+$category-internalnews-darktheme: $theme-spacebase-lighter;
+$category-announcement-darktheme: $theme-ultraviolet-lighter;
+$category-documentation-darktheme: $theme-cosmiclatte-dark;
+$category-application-darktheme: $theme-spacebase-lightest;
