@@ -64,24 +64,20 @@ const AnnouncementInfo = ({
 
   return (
     <div className={styles.announcementContainer}>
-      <div className={styles.timeContainer}>
-        <time
-          className={styles.date}
-          dateTime={publishedDateObj.toLocaleString()}>
-          {dateFormatter.format(publishedDateObj)}
-        </time>
+      <time
+        className={styles.date}
+        dateTime={publishedDateObj.toLocaleString()}>
+        {dateFormatter.format(publishedDateObj)}
+      </time>
 
-        <hr className={styles.divider} />
-      </div>
+      <hr className={styles.divider} />
 
-      <div>
+      <div className={styles.gridContainer}>
         <label className={styles.title}>{title}</label>
-        <div className={styles.innerContainer}>
-          <DocumentRenderer
-            document={document}
-            componentBlocks={componentBlockRenderers}
-          />
-        </div>
+        <DocumentRenderer
+          document={document}
+          componentBlocks={componentBlockRenderers}
+        />
       </div>
     </div>
   )
