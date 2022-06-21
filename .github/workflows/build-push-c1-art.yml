@@ -10,8 +10,52 @@ jobs:
     steps:
       - uses: actions/checkout@dcd71f646680f2efd8db4afa5ad64fdcba30e748 # tag=v3
 
-      - name: Build, tag, and push image to C1 Dev Artifactory
-        id: build-c1-image
+      - run: |
+          sudo sh scripts/add-dod-cas.sh
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ secrets.C1_REGISTRY }}/${{ secrets.C1_REPOSITORY }}
+          tags: |
+            type=sha,prefix=,format=long
+          flavor: |
+            latest=false
+
+      - uses: docker/setup-buildx-action@v2
+        id: buildx
+        with:
+          config-inline: |
+            [registry."${{ secrets.C1_REGISTRY }}"]
+              ca=["/etc/ssl/certs/adoptium/cacerts"]
+              http = false
+              insecure = true
+
+      - name: Rename certs
+        id: certs
+        env:
+          DEV_CERT: ${{ secrets.SAML_CERT }}
+          TEST_CERT: ${{ secrets.C1_TEST_SAML_CERT }}
+          PROD_CERT: ${{ secrets.C1_PROD_SAML_CERT }}
+        run: |
+          echo $DEV_CERT > dev-saml.pem
+          echo $TEST_CERT > test-saml.pem
+          echo $PROD_CERT > prod-saml.pem
+
+      - name: Build
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: false
+          load: true
+          tags: ${{ secrets.C1_REGISTRY}}/${{ secrets.C1_REPOSITORY }}:${{ github.sha }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Push image to C1 Dev Artifactory
+        id: push-c1-image
         env:
           IMAGE_TAG: ${{ github.sha }}
           C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
@@ -19,14 +63,8 @@ jobs:
           DEV_CERT: ${{ secrets.SAML_CERT }}
           TEST_CERT: ${{ secrets.C1_TEST_SAML_CERT }}
           PROD_CERT: ${{ secrets.C1_PROD_SAML_CERT }}
-
         run: |
-          echo $DEV_CERT > dev-saml.pem
-          echo $TEST_CERT > test-saml.pem
-          echo $PROD_CERT > prod-saml.pem
-          sudo sh scripts/add-dod-cas.sh
           docker login -u portal -p ${{ secrets.C1_ARTIFACTORY_TOKEN }} $C1_REGISTRY
-          docker build -t $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG . --build-arg BUILD=$IMAGE_TAG
           docker push $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG"
           docker logout $C1_REGISTRY

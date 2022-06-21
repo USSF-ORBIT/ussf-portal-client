@@ -6,14 +6,14 @@ import type { ObjectId } from 'bson'
  * ***********************
  * */
 export * from '../graphql.g'
+
 /**
- * ***********************
- * Types for Keystone Data
- * ***********************
+ * *****************************
+ * Types for Keystone Data (CMS)
+ * *****************************
  * */
 
 /* BookmarkRecord refers to canonical bookmarks created and managed in CMS */
-
 export type BookmarkRecord = {
   id: string
   url: string
@@ -24,7 +24,6 @@ export type BookmarkRecord = {
 export type BookmarkRecords = BookmarkRecord[]
 
 /* CollectionRecord refers to canonical collections created and managed in CMS */
-
 export type CollectionRecord = {
   id: string
   title: string
@@ -32,16 +31,7 @@ export type CollectionRecord = {
 }
 export type CollectionRecords = readonly CollectionRecord[]
 
-/* Preview ArticleRecord */
-export type ArticleListItemRecord = {
-  id: string
-  slug: string
-  title: string
-  preview: string
-  publishedDate: string
-}
-
-/* Document (JSON) content types*/
+/* Document field (JSON) content types*/
 type Text = {
   text: string
   [key: string]: unknown
@@ -54,25 +44,35 @@ type Element = {
   [key: string]: unknown
 }
 
-/* Full ArticleRecord */
+/* ArticleListItemRecord is used when querying multiple articles from the CMS */
+export type ArticleListItemRecord = {
+  id: string
+  slug: string
+  title: string
+  preview: string
+  publishedDate: string
+}
+
+/* ArticleRecord is the complete article used when viewing the single article page */
 export type ArticleRecord = {
   id: string
   slug: string
   title: string
+  publishedDate: string
   body: {
     document: Element[]
   }
-  publishedDate: string
 }
 
-/* Search Results */
-export type SearchResultType = 'Article' | 'Bookmark'
-
+/* LabelRecord is a label managed by the CMS */
 export type LabelRecord = {
   id: string
   name: string
   type: 'Source' | 'Audience' | 'Base'
 }
+
+/* Search Results (from Keystone) */
+export type SearchResultType = 'Article' | 'Bookmark'
 
 export type SearchResultRecord = {
   id: string
