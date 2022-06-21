@@ -1,0 +1,29 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.SearchBanner {
+  background-color: $theme-cosmiclatte-base;
+  border: 1px solid $theme-cosmiclatte-darker;
+  border-radius: 6px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > img {
+    margin: units(4);
+  }
+
+  > img:last-child {
+    transform: scaleX(-1);
+  }
+
+  h3,
+  p {
+    margin: 0;
+  }
+
+  h3 + p {
+    margin-top: units(1);
+  }
+}
