@@ -30,6 +30,7 @@ const AnnouncementCarousel = ({
 }) => {
   const settings = {
     dots: true,
+    accessibility: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
