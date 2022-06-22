@@ -1,0 +1,61 @@
+@import 'styles/uswdsDependencies';
+
+.SearchResultItem {
+  display: flex;
+
+  h3,
+  p {
+    margin: 0;
+  }
+
+  h3 {
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
+  h3 + a {
+    margin-top: units(1);
+  }
+
+  a + p {
+    margin-top: units(1);
+  }
+
+  .content {
+    overflow: hidden;
+
+    > a {
+      // Truncate at 1 line
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      white-space: nowrap;
+    }
+
+    > p {
+      /** Truncate text to 2 lines **/
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* number of lines to show */
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+  }
+
+  .metadata {
+    display: flex;
+    margin-top: units('105');
+
+    :global(.usa-tag) + :global(.usa-tag) {
+      margin-left: units('05');
+    }
+  }
+
+  .icon + .content {
+    margin-left: units('205');
+  }
+}
