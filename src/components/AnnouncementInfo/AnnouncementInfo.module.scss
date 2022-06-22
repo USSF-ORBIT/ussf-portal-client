@@ -8,6 +8,7 @@
   height: 100%;
   padding-left: 4%;
   padding-right: 4%;
+  width: auto;
 }
 
 .date {
@@ -62,7 +63,8 @@
 
 .divider {
   background-color: #707c91;
-  height: 50px;
+  height: 60px;
+  width: 1px;
   margin: 0 4% 0 4% !important;
 }
 
