@@ -31,4 +31,3 @@ services:
       - mongo
       - redis
       - idp
-      
