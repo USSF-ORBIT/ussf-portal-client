@@ -5,7 +5,9 @@
 import { act, render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 import React from 'react'
-import { SearchResultItem, SearchResultRecord } from './SearchResultItem'
+
+import { SearchResultItem } from './SearchResultItem'
+import type { SearchResultRecord } from 'types/index'
 
 const testApplicationResult: SearchResultRecord = {
   id: 'testBookmark123',
