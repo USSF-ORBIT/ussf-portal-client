@@ -12,10 +12,14 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@dcd71f646680f2efd8db4afa5ad64fdcba30e748 # tag=v3
 
+      - name: Read Node.js version from package.json
+        run: echo ::set-output name=nodeVersion::$(node -p "require('./package.json').engines.node")
+        id: engines
+
       - name: Set up node
         uses: actions/setup-node@17f8bd926464a1afa4c6a11669539e9c1ba77048 # tag=v3
         with:
-          node-version: '14.19.1'
+          node-version: ${{ steps.engines.outputs.nodeVersion }}
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
