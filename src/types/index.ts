@@ -181,5 +181,5 @@ export type AnnouncementRecord = {
     document: Element[]
   }
   status: string
-  publishedDate?: string
+  publishedDate: string
 }
