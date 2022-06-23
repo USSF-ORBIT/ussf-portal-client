@@ -17,6 +17,7 @@ const Home = ({
   announcements,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
+  console.log(announcements)
 
   return !user ? (
     <Loader />

@@ -13,6 +13,7 @@ import { renderWithAuth } from '../../testHelpers'
 
 import { getMySpaceMock } from '../../__fixtures__/operations/getMySpace'
 import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
+import { cmsAnnouncementsMock } from '../../__fixtures__/data/cmsAnnouncments'
 import Home from 'pages/index'
 
 jest.mock('../../lib/keystoneClient', () => ({
@@ -50,7 +51,13 @@ mockedUseRouter.mockReturnValue({
 describe('Home page', () => {
   describe('without a user', () => {
     beforeEach(() => {
-      renderWithAuth(<Home bookmarks={cmsBookmarksMock} />, { user: null })
+      renderWithAuth(
+        <Home
+          bookmarks={cmsBookmarksMock}
+          announcements={cmsAnnouncementsMock}
+        />,
+        { user: null }
+      )
     })
 
     it('renders the loader while fetching the user', () => {
@@ -70,7 +77,10 @@ describe('Home page', () => {
     beforeEach(() => {
       html = renderWithAuth(
         <MockedProvider mocks={getMySpaceMock} addTypename={false}>
-          <Home bookmarks={cmsBookmarksMock} />
+          <Home
+            bookmarks={cmsBookmarksMock}
+            announcements={cmsAnnouncementsMock}
+          />
         </MockedProvider>
       )
     })
