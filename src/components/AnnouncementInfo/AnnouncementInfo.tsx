@@ -3,7 +3,6 @@ import { DocumentRenderer } from '@keystone-6/document-renderer'
 import { InferRenderersForComponentBlocks } from '@keystone-6/fields-document/component-blocks'
 import styles from './AnnouncementInfo.module.scss'
 import { componentBlocks } from 'components/ComponentBlocks/component-blocks'
-import { formatKeystonePublishTime } from 'helpers'
 import { AnnouncementRecord } from 'types'
 
 const AnnouncementInfo = ({
@@ -55,12 +54,17 @@ const AnnouncementInfo = ({
     },
   }
 
-  const formattedPublishDate = formatKeystonePublishTime(publishedDate)
+  const dateFormatter = new Intl.DateTimeFormat('en-us', {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+  })
+  const publishedDateObj = new Date(publishedDate)
 
   return (
     <div className={styles.announcementContainer}>
       <time className={styles.date} dateTime={publishedDate?.toLocaleString()}>
-        {formattedPublishDate}
+        {dateFormatter.format(publishedDateObj)}
       </time>
 
       <div className={styles.divider} />
