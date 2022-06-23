@@ -14,4 +14,25 @@ export default {
   ],
 } as Meta
 
-export const DefaultAnnouncement = () => <Announcement />
+const mockAnnouncement = {
+  id: '1',
+  body: {
+    document: [
+      {
+        type: 'paragraph',
+        children: [
+          {
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          },
+        ],
+      },
+    ],
+  },
+  status: 'Published',
+  title: 'Test Announcment',
+  publishedDate: '2022-06-20T21:56:55.926Z',
+}
+
+export const DefaultAnnouncement = () => (
+  <Announcement announcements={[mockAnnouncement]} />
+)
