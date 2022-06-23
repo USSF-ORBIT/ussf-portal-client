@@ -39,7 +39,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
 
       - name: Cypress run
-        uses: cypress-io/github-action@16aacf8ea6a67e5e5d907d34bc3be8ad0e6e979f # tag=v3.0.3
+        uses: cypress-io/github-action@31b3f686c1ee05fb7390cc106d1f09eb83919a3c # tag=v3.2.0
         env:
           CYPRESS_BASE_URL: http://localhost:3000
         with:
