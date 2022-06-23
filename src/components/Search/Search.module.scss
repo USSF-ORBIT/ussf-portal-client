@@ -22,6 +22,7 @@
 
     .usa-input {
       background-color: $theme-white;
+      @include u-padding('205' 4);
     }
 
     .usa-button {
@@ -30,6 +31,7 @@
       background-color: $theme-ultraviolet-base;
       text-transform: unset;
       @include heading-book;
+      font-weight: bold;
 
       &.usa-select {
         color: $theme-white;

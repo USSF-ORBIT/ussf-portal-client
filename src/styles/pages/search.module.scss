@@ -1,0 +1,25 @@
+@import 'styles/uswdsDependencies';
+
+.pageTitle {
+  margin-top: units(6);
+  margin-bottom: units(4);
+
+  h2 {
+    margin-bottom: 0;
+    padding-bottom: units(2);
+    border-bottom: 1px solid #c4c4c4;
+  }
+}
+
+.searchResults {
+  list-style: none;
+  padding: 0;
+
+  li + li {
+    margin-top: units(6);
+  }
+
+  li:last-child {
+    margin-bottom: units(6);
+  }
+}
