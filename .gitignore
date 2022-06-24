@@ -56,3 +56,9 @@ globalConfig.json
 
 # Generated GraphQL types
 src/**/*.g.ts
+
+# asdf
+.tool-versions
+
+#vscode
+.vscode

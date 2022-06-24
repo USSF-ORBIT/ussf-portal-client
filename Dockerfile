@@ -1,6 +1,6 @@
 ##--------- Stage: builder ---------##
 
-FROM node:14.19.1-slim AS builder
+FROM node:14.19.3-slim AS builder
 
 RUN apt-get update \
   && apt-get -y --no-install-recommends install openssl libc6
@@ -25,7 +25,7 @@ RUN yarn install --production --ignore-scripts --prefer-offline
 ##--------- Stage: e2e ---------##
 
 # E2E image for running tests (same as prod but without certs)
-FROM node:14.19.1-slim AS e2e
+FROM node:14.19.3-slim AS e2e
 
 RUN apt-get update \
   && apt-get -y --no-install-recommends install openssl libc6
@@ -52,7 +52,7 @@ CMD ["node","-r","./startup/index.js", "node_modules/.bin/next", "start"]
 ##--------- Stage: runner ---------##
 
 # Production image, copy all the files and run next
-FROM node:14.19.1-slim AS runner
+FROM node:14.19.3-slim AS runner
 
 WORKDIR /app
 
