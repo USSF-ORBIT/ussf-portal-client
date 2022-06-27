@@ -153,6 +153,7 @@
     "util": "0.12.4"
   },
   "resolutions": {
+    "@types/react": "17.0.41",
     "ansi-regex": "5.0.1",
     "trim": "0.0.3",
     "webpack": "5.73.0"
