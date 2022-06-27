@@ -74,7 +74,9 @@ const AnnouncementInfo = ({
       <div className={styles.divider} />
 
       <div className={styles.gridContainer}>
-        <label className={styles.title}>{title}</label>
+        <p className={styles.title}>
+          <strong>{title}</strong>
+        </p>
         <DocumentRenderer
           document={document}
           componentBlocks={componentBlockRenderers}

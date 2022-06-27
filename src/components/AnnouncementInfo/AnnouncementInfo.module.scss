@@ -13,11 +13,7 @@
 
 .date {
   font-family: 'Sharp Sans';
-  font-style: normal;
-  font-weight: 400 !important;
-  font-size: 18px;
   line-height: 23px;
-  color: $black;
 }
 
 .gridContainer {
@@ -41,25 +37,12 @@
 
   > div > a {
     font-family: 'Trebuchet MS';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 19px;
-    text-align: center;
-    white-space: nowrap;
   }
 }
 
-.title {
-  font-family: 'Trebuchet MS';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
+p.title {
   line-height: 150%;
-  color: $black;
-
   grid-row: 1 / 1;
-  align-self: center;
 }
 
 .divider {
@@ -67,13 +50,4 @@
   height: 60px;
   width: 1px;
   margin: 0 2% 0 2% !important;
-}
-
-.body {
-  font-family: 'Trebuchet MS';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  color: $black;
 }
