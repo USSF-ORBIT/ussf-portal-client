@@ -4,6 +4,7 @@ import { InferRenderersForComponentBlocks } from '@keystone-6/fields-document/co
 import styles from './AnnouncementInfo.module.scss'
 import { componentBlocks } from 'components/ComponentBlocks/component-blocks'
 import { AnnouncementRecord } from 'types'
+import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const AnnouncementInfo = ({
   announcement,
@@ -27,7 +28,7 @@ const AnnouncementInfo = ({
       return (
         <>
           {link.discriminant === 'article' && (
-            <a
+            <LinkTo
               href={
                 link.value?.data.slug
                   ? `/articles/${link.value?.data.slug}`
@@ -37,17 +38,17 @@ const AnnouncementInfo = ({
               rel="noreferrer"
               className="usa-button">
               {ctaText}
-            </a>
+            </LinkTo>
           )}
 
           {link.discriminant === 'url' && (
-            <a
+            <LinkTo
               href={link.value}
               target="_blank"
               rel="noreferrer"
               className="usa-button">
               {ctaText}
-            </a>
+            </LinkTo>
           )}
         </>
       )
