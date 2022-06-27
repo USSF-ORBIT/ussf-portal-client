@@ -14,6 +14,7 @@ import { renderWithAuth } from '../../testHelpers'
 import { getMySpaceMock } from '../../__fixtures__/operations/getMySpace'
 import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
 import { cmsAnnouncementsMock } from '../../__fixtures__/data/cmsAnnouncments'
+import '../../__mocks__/mockMatchMedia'
 import Home from 'pages/index'
 
 jest.mock('../../lib/keystoneClient', () => ({
