@@ -91,12 +91,7 @@ describe('Home page', () => {
     })
 
     it('renders the home page', async () => {
-      expect(
-        await screen.findByRole('heading', {
-          level: 2,
-          name: 'Welcome to the new Space Force Service Portal!',
-        })
-      ).toBeInTheDocument()
+      expect(screen.getAllByText('Test Announcement')).toHaveLength(2)
 
       expect(
         await screen.findByRole('heading', {
