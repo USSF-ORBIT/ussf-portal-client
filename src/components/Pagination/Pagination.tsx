@@ -12,14 +12,7 @@ type PaginationProps = {
 
 /**
  * test cases:
- * - default
  * - unbounded (unknown # of pages)
- * - fewer than overflow limit (7)
- * - on first page
- * - on last page
- * - overflow before
- * - overflow after
- * - overflow both
  */
 
 const PaginationPage = ({
@@ -42,7 +35,8 @@ const PaginationPage = ({
       <LinkTo
         href={page}
         className={linkClasses}
-        aria-label={`Page ${pageNum}`}>
+        aria-label={`Page ${pageNum}`}
+        aria-current={isCurrent ? 'page' : undefined}>
         {pageNum}
       </LinkTo>
     </li>
@@ -117,8 +111,6 @@ const Pagination = ({
   if (currentPage !== 1) currentPageRange.unshift(1)
   if (showNextOverflow) currentPageRange.push('overflow')
   if (currentPage !== pages.length) currentPageRange.push(pages.length)
-
-  console.log('pages', currentPageRange)
 
   const pageItems = !showOverflow
     ? pages.map((p, i) => (

@@ -1,26 +1,39 @@
 import React from 'react'
-import { Meta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import Pagination from './Pagination'
 
 export default {
   title: 'Components/Pagination',
   component: Pagination,
-} as Meta
+  argTypes: {
+    currentPage: { control: 'number' },
+    maxSlots: { control: 'number' },
+  },
+} as ComponentMeta<typeof Pagination>
 
-const testPages = Array.from({ length: 24 }).map((item, i) => `#page-${i + 1}`)
+const generateTestPages = (length: number) =>
+  Array.from({ length }).map((item, i) => `#page-${i + 1}`)
 
-const testThreePages = Array.from({ length: 3 }).map(
-  (item, i) => `#page-${i + 1}`
+const testPages = generateTestPages(24)
+const testThreePages = generateTestPages(3)
+const testSevenPages = generateTestPages(7)
+const testEightPages = generateTestPages(8)
+const testNinePages = generateTestPages(9)
+
+const Template: ComponentStory<typeof Pagination> = (args) => (
+  <Pagination
+    pages={args.pages}
+    currentPage={args.currentPage}
+    maxSlots={args.maxSlots}
+  />
 )
-const testSevenPages = Array.from({ length: 7 }).map(
-  (item, i) => `#page-${i + 1}`
-)
-const testEightPages = Array.from({ length: 8 }).map(
-  (item, i) => `#page-${i + 1}`
-)
-const testNinePages = Array.from({ length: 9 }).map(
-  (item, i) => `#page-${i + 1}`
-)
+
+export const Sandbox = Template.bind({})
+Sandbox.args = {
+  pages: testPages,
+  currentPage: 10,
+  maxSlots: 7,
+}
 
 export const Default = () => <Pagination pages={testPages} currentPage={10} />
 
