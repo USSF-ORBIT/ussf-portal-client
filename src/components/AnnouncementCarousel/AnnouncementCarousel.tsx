@@ -39,7 +39,7 @@ const AnnouncementCarousel = ({
     prevArrow: <PrevArrow />,
     appendDots: (dots: React.ReactNode) => {
       return (
-        <div style={{ bottom: '0px' }}>
+        <div style={{ bottom: '-20px' }}>
           <ul style={{ margin: '0px' }}> {dots} </ul>
         </div>
       )

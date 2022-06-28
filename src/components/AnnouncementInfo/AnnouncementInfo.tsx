@@ -72,8 +72,6 @@ const AnnouncementInfo = ({
         {dateFormatter.format(publishedDateObj)}
       </time>
 
-      <div className={styles.divider} />
-
       <div className={styles.gridContainer}>
         <p className={styles.title}>
           <strong>{title}</strong>
