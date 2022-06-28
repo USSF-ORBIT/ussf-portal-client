@@ -26,11 +26,11 @@ let clientPromise: Promise<typeof MongoClient>
 if (process.env.NODE_ENV === 'development') {
   // In development mode, use a global variable so that the value
   // is preserved across module reloads caused by HMR (Hot Module Replacement).
-  if (!_mongoClientPromise) {
+  if (!globalThis._mongoClientPromise) {
     client = new MongoClient(connectionString)
-    _mongoClientPromise = client.connect()
+    globalThis._mongoClientPromise = client.connect()
   }
-  clientPromise = _mongoClientPromise
+  clientPromise = globalThis._mongoClientPromise
 } else {
   // In production mode, it's best to not use a global variable.
   client = new MongoClient(connectionString)
