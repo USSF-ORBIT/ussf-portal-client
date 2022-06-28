@@ -219,13 +219,13 @@ yarn services:up
 
 ## Working on an issue
 
-To begin working on an issue, make sure you've assigned yourself to the issue in Github and marked it as "In Progress.".
+To begin working on an issue, make sure you've assigned yourself to the issue in [Shortcut](https://app.shortcut.com/orbit-truss) and marked it as "In Progress.".
 
 Once you have an issue to work on, create a new branch off `main` using the naming convention:
 
-`{issue #}-{short description}`
+`sc-{issue #}-{short description}`
 
-For example: `112-logo-component`
+For example: `sc-112-logo-component`
 
 We have a pre-commit hook set up using Husky to run on staged files only. This will run [Prettier](https://prettier.io/), [TypeScript compilation](https://www.typescriptlang.org/) and [eslint](https://eslint.org/) and fail on errors. For an optimal developer experience, it's recommended that you configure your editor to run linting & formatting inline.
 
