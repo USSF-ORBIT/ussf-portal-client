@@ -108,8 +108,21 @@ describe('API / Auth handlers', () => {
         url: '/api/auth/logout',
         test: async ({ fetch }) => {
           const res = await fetch({ redirect: 'manual' })
-          expect(res.status).toBe(302)
-          expect(mockedAxios.post).toHaveBeenCalledWith('mock SLO request URL')
+          // TEMPORARY - DEVELOPMENT ONLY
+          // because our test IDP does not support SLO HTTP-POST bindings
+          if (
+            process.env.SAML_IDP_METADATA_URL ===
+              'http://idp:8080/simplesaml/saml2/idp/metadata.php' ||
+            process.env.SAML_IDP_METADATA_URL ===
+              'http://localhost:8080/simplesaml/saml2/idp/metadata.php'
+          ) {
+            expect(res.status).toBe(307)
+          } else {
+            expect(res.status).toBe(302)
+            expect(mockedAxios.post).toHaveBeenCalledWith(
+              'mock SLO request URL'
+            )
+          }
           expect(mockSession.destroy).toHaveBeenCalledTimes(1)
         },
       })
