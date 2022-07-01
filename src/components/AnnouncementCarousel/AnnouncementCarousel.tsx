@@ -7,6 +7,7 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { AnnouncementRecord } from 'types'
 
+/* eslint-disable-next-line */
 const NextArrow = ({ onClick }: any) => {
   return (
     <div className={styles.carouselArrow}>
@@ -15,6 +16,7 @@ const NextArrow = ({ onClick }: any) => {
   )
 }
 
+/* eslint-disable-next-line */
 const PrevArrow = ({ onClick }: any) => {
   return (
     <div className={styles.carouselArrow}>
