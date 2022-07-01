@@ -2,7 +2,6 @@
 @import 'styles/sfds/sfdsDependencies';
 
 .announcement {
-  // position: relative;
   mix-blend-mode: normal;
   background-color: $theme-white;
   padding: 0 1.5rem 0;
@@ -14,18 +13,28 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+  }
 }
 
 .latestAnnouncements {
   max-width: 24%;
 
-  // @media screen and (max-width: 1600px) {
-  //   font-size: 24px;
-  // }
+  @media screen and (max-width: 1024px) {
+    max-width: 100%;
+    margin-bottom: 0;
+  }
 }
 
 .announcementContainer {
   max-width: 70%;
   padding-top: 2rem;
   padding-bottom: 2rem;
+
+  @media screen and (max-width: 1024px) {
+    max-width: 90%;
+    padding-top: 1rem;
+  }
 }
