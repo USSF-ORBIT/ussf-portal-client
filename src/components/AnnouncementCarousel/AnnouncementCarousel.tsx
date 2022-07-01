@@ -1,7 +1,7 @@
 import React from 'react'
 import Slider from 'react-slick'
-import styles from './AnnouncementCarousel.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import styles from './AnnouncementCarousel.module.scss'
 import AnnouncementInfo from 'components/AnnouncementInfo/AnnouncementInfo'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
