@@ -21,33 +21,29 @@ const AnnouncementInfo = ({
     typeof componentBlocks
   > = {
     callToAction: (props: any) => {
-      const { ctaText, link } = props
-      // const {
-      //   link: { value },
-      // }: HydratedRelationshipData = props
       return (
         <>
-          {link.discriminant === 'article' && (
+          {props.link.discriminant === 'article' && (
             <LinkTo
               href={
-                link.value?.data.slug
-                  ? `/articles/${link.value?.data.slug}`
+                props.link.value.data.slug
+                  ? `/articles/${props.link.value.data.slug}`
                   : '/'
               }
               target="_blank"
               rel="noreferrer"
               className="usa-button">
-              {ctaText}
+              {props.ctaText}
             </LinkTo>
           )}
 
-          {link.discriminant === 'url' && (
+          {props.link.discriminant === 'url' && (
             <LinkTo
-              href={link.value}
+              href={props.link.value}
               target="_blank"
               rel="noreferrer"
               className="usa-button">
-              {ctaText}
+              {props.ctaText}
             </LinkTo>
           )}
         </>
