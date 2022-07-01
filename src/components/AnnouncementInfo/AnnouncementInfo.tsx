@@ -5,6 +5,7 @@ import styles from './AnnouncementInfo.module.scss'
 import { componentBlocks } from 'components/ComponentBlocks/component-blocks'
 import { AnnouncementRecord } from 'types'
 import LinkTo from 'components/util/LinkTo/LinkTo'
+import AnnouncementDate from 'components/AnnouncementDate/AnnouncementDate'
 
 const AnnouncementInfo = ({
   announcement,
@@ -51,22 +52,9 @@ const AnnouncementInfo = ({
     },
   }
 
-  const dateFormatter = new Intl.DateTimeFormat('en-us', {
-    year: 'numeric',
-    month: 'short',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-    timeZoneName: 'short',
-  })
-  const publishedDateObj = new Date(publishedDate)
-
   return (
     <div className={styles.announcementContainer}>
-      <time className={styles.date} dateTime={publishedDate?.toLocaleString()}>
-        {dateFormatter.format(publishedDateObj)}
-      </time>
+      <AnnouncementDate date={publishedDate} />
 
       <div className={styles.gridContainer}>
         <p className={styles.title}>
