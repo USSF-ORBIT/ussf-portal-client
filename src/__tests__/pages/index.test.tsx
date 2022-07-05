@@ -91,6 +91,8 @@ describe('Home page', () => {
     })
 
     it('renders the home page', async () => {
+      // Slider component in react-slick clones each item in the carousel,
+      // so a length of 2 is accurate
       expect(screen.getAllByText('Test Announcement')).toHaveLength(2)
 
       expect(
