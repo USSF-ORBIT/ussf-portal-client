@@ -30,6 +30,7 @@ const AnnouncementCarousel = ({
 }) => {
   const settings = {
     dots: true,
+    adaptiveHeight: true,
     accessibility: true,
     infinite: true,
     speed: 500,
