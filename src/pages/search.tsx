@@ -67,20 +67,22 @@ const Search = ({
 
             {results.length > 0 ? (
               <>
-                <Grid row gap>
-                  <Grid tablet={{ col: 2 }}>
+                <Grid row gap="md">
+                  <Grid col="auto">
                     <EPubsCard query={query} />
                   </Grid>
 
-                  <ol className={styles.searchResults}>
-                    {results.map((i: SearchResultRecord) => {
-                      return (
-                        <li key={`result_${i.id}`}>
-                          <SearchResultItem item={i} />
-                        </li>
-                      )
-                    })}
-                  </ol>
+                  <Grid col="fill">
+                    <ol className={styles.searchResults}>
+                      {results.map((i: SearchResultRecord) => {
+                        return (
+                          <li key={`result_${i.id}`}>
+                            <SearchResultItem item={i} />
+                          </li>
+                        )
+                      })}
+                    </ol>
+                  </Grid>
                 </Grid>
 
                 <SearchBanner
@@ -100,24 +102,28 @@ const Search = ({
                 </SearchBanner>
               </>
             ) : (
-              <>
-                <EPubsCard query={query} />
-                <SearchBanner
-                  icon={
-                    <img
-                      src="/assets/images/moon-flag.svg"
-                      alt="Icon of the US flag on the moon"
-                    />
-                  }>
-                  <div>
-                    <h3>There are no results that match that query.</h3>
-                    <p>
-                      It seems you didn’t find what you were looking for. Please
-                      search again with different keywords.
-                    </p>
-                  </div>
-                </SearchBanner>
-              </>
+              <Grid row gap="md">
+                <Grid col="auto">
+                  <EPubsCard query={query} />
+                </Grid>
+                <Grid col="fill">
+                  <SearchBanner
+                    icon={
+                      <img
+                        src="/assets/images/moon-flag.svg"
+                        alt="Icon of the US flag on the moon"
+                      />
+                    }>
+                    <div>
+                      <h3>There are no results that match that query.</h3>
+                      <p>
+                        It seems you didn’t find what you were looking for.
+                        Please search again with different keywords.
+                      </p>
+                    </div>
+                  </SearchBanner>
+                </Grid>
+              </Grid>
             )}
           </>
         )}
