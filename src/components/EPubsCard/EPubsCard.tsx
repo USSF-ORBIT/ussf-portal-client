@@ -7,7 +7,7 @@ type PropTypes = {
 }
 
 const EPubsCard = ({ query }: PropTypes) => {
-  const ePubsSearch = `https://www.e-publishing.af.mil/Product-Index/#/?view=search&keyword=${query}&isObsolete=false&modID=449&tabID=131`
+  const ePubsSearch = `https://search.usa.gov/search?affiliate=afpw_epubs&query=${query}`
 
   return (
     <div className={styles.epubs}>

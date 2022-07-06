@@ -20,7 +20,7 @@ describe('EPubsCard component', () => {
 
     expect(link).toHaveAttribute(
       'href',
-      'https://www.e-publishing.af.mil/Product-Index/#/?view=search&keyword=test&isObsolete=false&modID=449&tabID=131'
+      'https://search.usa.gov/search?affiliate=afpw_epubs&query=test'
     )
     expect(link).toBeInstanceOf(HTMLAnchorElement)
   })
