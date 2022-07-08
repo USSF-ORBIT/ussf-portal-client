@@ -2,8 +2,10 @@
 @import 'styles/sfds/sfdsDependencies';
 
 .personalData {
+  margin-bottom: units(2);
+
   h2 {
-    margin-bottom: units(2.5);
+    margin-bottom: 0;
     text-transform: uppercase;
   }
 
