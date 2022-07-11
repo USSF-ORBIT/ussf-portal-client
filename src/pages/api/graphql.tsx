@@ -87,6 +87,21 @@ export const apolloServer = new ApolloServer({
 
       // Check if user exists. If not, create new user
       const foundUser = await User.findOne(userId, { db })
+
+      const query = {
+        userId: userId,
+      }
+
+      const updateDocument = {
+        $set: {
+          displayName: displayName,
+        },
+      }
+
+      if (foundUser && !foundUser.displayName) {
+        await db.collection('users').updateOne(query, updateDocument)
+      }
+
       if (!foundUser) {
         try {
           const initCollection = await getExampleCollection()
