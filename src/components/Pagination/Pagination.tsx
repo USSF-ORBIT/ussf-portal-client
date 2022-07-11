@@ -4,24 +4,20 @@ import { Icon } from '@trussworks/react-uswds'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
 type PaginationProps = {
-  pages: string[] // Array of URLs for each page #
+  pathname: string // pathname of results page
+  totalPages: number // total items divided by items per page
   currentPage: number // current page number (starting at 1)
-  unbounded?: boolean // do we know the # of pages?
   maxSlots?: number // number of pagination "slots"
 }
 
-/**
- * test cases:
- * - unbounded (unknown # of pages)
- */
-
 const PaginationPage = ({
   page,
-  pageNum,
   isCurrent,
+  pathname,
 }: {
-  page: string
-  pageNum: number
+  pathname: string
+  page: number
+
   isCurrent?: boolean
 }) => {
   const linkClasses = classnames('usa-pagination__button', {
@@ -30,14 +26,14 @@ const PaginationPage = ({
 
   return (
     <li
-      key={`pagination_page_${pageNum}`}
+      key={`pagination_page_${page}`}
       className="usa-pagination__item usa-pagination__page-no">
       <LinkTo
-        href={page}
+        href={`${pathname}?page=${page}`}
         className={linkClasses}
-        aria-label={`Page ${pageNum}`}
+        aria-label={`Page ${page}`}
         aria-current={isCurrent ? 'page' : undefined}>
-        {pageNum}
+        {page}
       </LinkTo>
     </li>
   )
@@ -52,9 +48,9 @@ const PaginationOverflow = () => (
 )
 
 const Pagination = ({
-  pages,
+  pathname,
+  totalPages,
   currentPage,
-  unbounded = false,
   className,
   maxSlots = 7,
   ...props
@@ -62,20 +58,20 @@ const Pagination = ({
   const navClasses = classnames('usa-pagination', className)
 
   const isOnFirstPage = currentPage === 1
-  const isOnLastPage = currentPage === pages.length
+  const isOnLastPage = currentPage === totalPages
 
-  const showOverflow = pages.length > maxSlots // If more pages than slots, use overflow indicator(s)
+  const showOverflow = totalPages > maxSlots // If more pages than slots, use overflow indicator(s)
 
   const middleSlot = Math.round(maxSlots / 2) // 4 if maxSlots is 7
   const showPrevOverflow = showOverflow && currentPage > middleSlot
   const showNextOverflow =
-    showOverflow && pages.length - currentPage >= middleSlot
+    showOverflow && totalPages - currentPage >= middleSlot
 
   // Assemble array of page numbers to be shown
   const currentPageRange: Array<number | 'overflow'> = showOverflow
     ? [currentPage]
-    : Array.from({ length: pages.length }).map((_, i) => i + 1)
-
+    : Array.from({ length: totalPages }).map((_, i) => i + 1)
+  console.log('Current page range ', currentPageRange)
   if (showOverflow) {
     // Determine range of pages to show based on current page & number of slots
     // Follows logic described at: https://designsystem.digital.gov/components/pagination/
@@ -94,7 +90,7 @@ const Pagination = ({
     } else if (showPrevOverflow) {
       // We are in the end of the set, there will be overflow (...) at the beginning
       // Ex: [1] [...] [20] [21] [22] [23] [24]
-      currentPageAfterSize = pages.length - currentPage - 1 // current & last
+      currentPageAfterSize = totalPages - currentPage - 1 // current & last
       currentPageAfterSize = currentPageAfterSize < 0 ? 0 : currentPageAfterSize
       currentPageBeforeSize = pageRangeSize - currentPageAfterSize
     } else if (showNextOverflow) {
@@ -127,11 +123,14 @@ const Pagination = ({
     if (showPrevOverflow) currentPageRange.unshift('overflow')
     if (currentPage !== 1) currentPageRange.unshift(1)
     if (showNextOverflow) currentPageRange.push('overflow')
-    if (currentPage !== pages.length) currentPageRange.push(pages.length)
+    if (currentPage !== totalPages) currentPageRange.push(totalPages)
   }
 
-  const prevPage = !isOnFirstPage && pages[currentPage - 2]
-  const nextPage = !isOnLastPage && pages[currentPage]
+  console.log('Is on first page? ', isOnFirstPage)
+  console.log('Is on last page? ', isOnLastPage)
+  console.log('current page + 1', currentPage + 1)
+  const prevPage = !isOnFirstPage && currentPage - 1
+  const nextPage = !isOnLastPage && currentPage + 1
 
   return (
     <nav aria-label="Pagination" className={navClasses} {...props}>
@@ -139,7 +138,7 @@ const Pagination = ({
         {prevPage && (
           <li className="usa-pagination__item usa-pagination__arrow">
             <LinkTo
-              href={prevPage}
+              href={`${pathname}?page=${prevPage}`}
               className="usa-pagination__link usa-pagination__previous-page"
               aria-label="Previous page">
               <Icon.NavigateBefore />
@@ -154,8 +153,8 @@ const Pagination = ({
           ) : (
             <PaginationPage
               key={`pagination_page_${pageNum}`}
-              pageNum={pageNum}
-              page={pages[pageNum - 1]}
+              page={pageNum}
+              pathname={pathname}
               isCurrent={pageNum === currentPage}
             />
           )
@@ -164,7 +163,7 @@ const Pagination = ({
         {nextPage && (
           <li className="usa-pagination__item usa-pagination__arrow">
             <LinkTo
-              href={nextPage}
+              href={`${pathname}?page=${nextPage}`}
               className="usa-pagination__link usa-pagination__next-page"
               aria-label="Next page">
               <span className="usa-pagination__link-text">Next</span>

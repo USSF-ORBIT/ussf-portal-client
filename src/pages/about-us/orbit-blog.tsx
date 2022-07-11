@@ -4,6 +4,7 @@ import {
   Breadcrumb,
   BreadcrumbLink,
 } from '@trussworks/react-uswds'
+import { Context, gql } from '@apollo/client'
 
 import { client } from '../../lib/keystoneClient'
 
@@ -19,6 +20,8 @@ import styles from 'styles/pages/news.module.scss'
 // The Dev Blog
 const PortalNews = ({
   articles,
+  currentPage,
+  totalPages,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
 
@@ -34,7 +37,10 @@ const PortalNews = ({
         </h3>
       </div>
 
-      <ArticleList articles={articles} />
+      <ArticleList
+        articles={articles}
+        pagination={{ currentPage, totalPages }}
+      />
     </div>
   )
 }
@@ -62,16 +68,50 @@ PortalNews.getLayout = (page: React.ReactNode) =>
     page
   )
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: Context) {
+  // Determine page based on url query ?page=INT
+  // Set articles per page we want to display
+  const currentPage = parseInt(context.query.page) || 1
+  const articlesPerPage = 1
+
+  // Get total number of articles from CMS to determine
+  // total number of pages
+  const {
+    data: { articlesCount },
+  } = await client.query({
+    query: gql`
+      query articlesCount {
+        articlesCount
+      }
+    `,
+  })
+
+  // if a page number is manually entered in the url and
+  // it is out of range, return 404
+  if (currentPage > articlesCount / articlesPerPage) {
+    return {
+      notFound: true,
+    }
+  }
+
+  // Get articles based on current page and articles per page
   const {
     data: { articles },
   }: { data: { articles: ArticleListItemRecord[] } } = await client.query({
     query: GET_PORTAL_NEWS_ARTICLES,
+    variables: {
+      skip: (currentPage - 1) * articlesPerPage,
+      take: articlesPerPage,
+    },
   })
+
+  const totalPages = Math.ceil(articlesCount / articlesPerPage)
 
   return {
     props: {
       articles,
+      currentPage,
+      totalPages,
     },
   }
 }
