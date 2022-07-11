@@ -10,7 +10,7 @@ const EditDisplayName = () => {
     : 'Welcome!'
 
   return (
-    <GridContainer>
+    <div>
       <h3>Update name and rank:</h3>
 
       <form action="/">
@@ -42,7 +42,7 @@ const EditDisplayName = () => {
           </Grid>
         </Grid>
       </form>
-    </GridContainer>
+    </div>
   )
 }
 

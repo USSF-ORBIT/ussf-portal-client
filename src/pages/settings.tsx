@@ -1,6 +1,6 @@
 import styles from 'styles/pages/settings.module.scss'
 import Loader from 'components/Loader/Loader'
-import SettingsContainer from 'components/SettingsContainer/SettingsContainer'
+import EditDisplayName from 'components/EditDisplayName/EditDisplayName'
 import { useUser } from 'hooks/useUser'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 
@@ -11,9 +11,12 @@ const Settings = () => {
     <Loader />
   ) : (
     <div className={styles.settings}>
-      <section>
-        <SettingsContainer />
-      </section>
+      <div className={styles.widgetContainer}>
+        <h2 className={styles.pageTitle}>Settings</h2>
+        <section>
+          <EditDisplayName />
+        </section>
+      </div>
     </div>
   )
 }
