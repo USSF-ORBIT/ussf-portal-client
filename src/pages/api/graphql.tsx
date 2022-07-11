@@ -79,14 +79,18 @@ export const apolloServer = new ApolloServer({
       const db = client.db(process.env.MONGODB_DB)
 
       const loggedInUser = session.passport.user as SessionUser
-      const { userId } = loggedInUser
+      const {
+        userId,
+        attributes: { givenname, surname },
+      } = loggedInUser
+      const displayName = `${givenname} ${surname}`
 
       // Check if user exists. If not, create new user
       const foundUser = await User.findOne(userId, { db })
       if (!foundUser) {
         try {
           const initCollection = await getExampleCollection()
-          await User.createOne(userId, [initCollection], { db })
+          await User.createOne(userId, [initCollection], displayName, { db })
         } catch (e) {
           // TODO log error
           // console.error('error in creating new user', e)

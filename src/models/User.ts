@@ -12,11 +12,13 @@ const UserModel = {
   async createOne(
     userId: string,
     initCollections: CollectionRecords,
+    displayName: string,
     { db }: Context
   ) {
     const newUser: PortalUser = {
       userId,
       mySpace: [],
+      displayName,
     }
 
     // Create user
