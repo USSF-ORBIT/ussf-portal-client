@@ -41,6 +41,13 @@ export const typeDefs = gql`
     mySpace: [Widget!]!
   }
 
+  type User {
+    _id: OID!
+    userId: String
+    mySpace: [Collection]
+    displayName: String
+  }
+
   type Mutation {
     addWidget(title: String!, type: WidgetType!): Widget
     removeWidget(_id: OID!): Widget
@@ -65,6 +72,7 @@ export const typeDefs = gql`
       url: String
       label: String
     ): Bookmark
+    editDisplayName(_id: OID!, displayName: String): User
   }
 
   input BookmarkInput {
