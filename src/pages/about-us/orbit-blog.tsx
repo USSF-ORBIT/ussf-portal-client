@@ -71,7 +71,9 @@ PortalNews.getLayout = (page: React.ReactNode) =>
 export async function getServerSideProps(context: Context) {
   // Determine page based on url query ?page=INT
   // Set articles per page we want to display
+  // If no query or an invalid param, return page 1
   const currentPage = parseInt(context.query.page) || 1
+
   const articlesPerPage = 1
 
   // Get total number of articles from CMS to determine
@@ -86,9 +88,10 @@ export async function getServerSideProps(context: Context) {
     `,
   })
 
-  // if a page number is manually entered in the url and
-  // it is out of range, return 404
-  if (currentPage > articlesCount / articlesPerPage) {
+  const totalPages = Math.ceil(articlesCount / articlesPerPage)
+
+  // If a page number is requested that's out of range, return 404
+  if (currentPage > totalPages) {
     return {
       notFound: true,
     }
@@ -104,8 +107,6 @@ export async function getServerSideProps(context: Context) {
       take: articlesPerPage,
     },
   })
-
-  const totalPages = Math.ceil(articlesCount / articlesPerPage)
 
   return {
     props: {

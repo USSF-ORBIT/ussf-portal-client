@@ -8,6 +8,7 @@ export default {
   argTypes: {
     currentPage: { control: 'number' },
     maxSlots: { control: 'number' },
+    pathname: { control: 'string' },
   },
 } as ComponentMeta<typeof Pagination>
 
