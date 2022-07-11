@@ -1,0 +1,10 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds';
+
+.updateOfficialRecords {
+  background: $theme-cosmiclatte-lighter;
+  border: 1px solid $theme-cosmiclatte-dark;
+  border-radius: 8px;
+  padding: units(2) units(3);
+  max-width: 482px;
+}
