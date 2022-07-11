@@ -15,67 +15,69 @@ export default {
 const generateTestPages = (length: number) =>
   Array.from({ length }).map((item, i) => `#page-${i + 1}`)
 
-const testPages = generateTestPages(24)
-const testThreePages = generateTestPages(3)
-const testSevenPages = generateTestPages(7)
-const testEightPages = generateTestPages(8)
-const testNinePages = generateTestPages(9)
-
+const pathname = '/test-pathname'
 const Template: ComponentStory<typeof Pagination> = (args) => (
   <Pagination
-    pages={args.pages}
+    totalPages={24}
     currentPage={args.currentPage}
     maxSlots={args.maxSlots}
+    pathname={args.pathname}
   />
 )
 
 export const Sandbox = Template.bind({})
 Sandbox.args = {
-  pages: testPages,
   currentPage: 10,
   maxSlots: 7,
 }
 
-export const Default = () => <Pagination pages={testPages} currentPage={10} />
+export const Default = () => (
+  <Pagination pathname={pathname} totalPages={10} currentPage={10} />
+)
 
 export const ThreePagesFirst = () => (
-  <Pagination pages={testThreePages} currentPage={1} />
+  <Pagination pathname={pathname} totalPages={3} currentPage={1} />
 )
 export const ThreePages = () => (
-  <Pagination pages={testThreePages} currentPage={2} />
+  <Pagination pathname={pathname} totalPages={3} currentPage={2} />
 )
 export const ThreePagesLast = () => (
-  <Pagination pages={testThreePages} currentPage={3} />
+  <Pagination pathname={pathname} totalPages={3} currentPage={3} />
 )
 
 export const SevenPages = () => (
-  <Pagination pages={testSevenPages} currentPage={4} />
+  <Pagination pathname={pathname} totalPages={7} currentPage={4} />
 )
 
 export const EightPagesFirst = () => (
-  <Pagination pages={testEightPages} currentPage={1} />
+  <Pagination pathname={pathname} totalPages={8} currentPage={1} />
 )
 
 export const EightPagesFour = () => (
-  <Pagination pages={testEightPages} currentPage={4} />
+  <Pagination pathname={pathname} totalPages={8} currentPage={4} />
 )
 
 export const EightPagesFive = () => (
-  <Pagination pages={testEightPages} currentPage={5} />
+  <Pagination pathname={pathname} totalPages={8} currentPage={5} />
 )
 
 export const EightPagesSix = () => (
-  <Pagination pages={testEightPages} currentPage={6} />
+  <Pagination pathname={pathname} totalPages={8} currentPage={6} />
 )
 
 export const EightPagesLast = () => (
-  <Pagination pages={testEightPages} currentPage={8} />
+  <Pagination pathname={pathname} totalPages={8} currentPage={8} />
 )
 
 export const NinePagesFive = () => (
-  <Pagination pages={testNinePages} currentPage={5} />
+  <Pagination pathname={pathname} totalPages={9} currentPage={5} />
 )
 
 export const TenSlots = () => (
-  <Pagination pages={testPages} currentPage={10} maxSlots={10} />
+  <Pagination
+    pathname={pathname}
+    totalPages={24}
+    currentPage={10}
+    maxSlots={10}
+  />
 )
