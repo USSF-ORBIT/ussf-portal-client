@@ -15,7 +15,7 @@ const EditDisplayName = () => {
       <Grid col="fill">
         <h3>Update name and rank:</h3>
 
-        <form action="/">
+        <div>
           <label htmlFor="something">Current welcome display title:</label>
           <h1>{greeting}</h1>
 
@@ -43,7 +43,7 @@ const EditDisplayName = () => {
               </button>
             </Grid>
           </Grid>
-        </form>
+        </div>
       </Grid>
 
       {/* <Grid col="auto">

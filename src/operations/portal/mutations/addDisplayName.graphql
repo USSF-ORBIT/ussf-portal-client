@@ -1,0 +1,5 @@
+mutation addDisplayName($displayName: String) {
+  addDisplayName(displayName: $displayName) {
+    displayName
+  }
+}
