@@ -16,6 +16,7 @@ import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import { GET_PORTAL_NEWS_ARTICLES } from 'operations/cms/queries/getPortalNewsArticles'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 import styles from 'styles/pages/news.module.scss'
+import Pagination from 'components/Pagination/Pagination'
 
 // The Dev Blog
 const PortalNews = ({
@@ -37,9 +38,11 @@ const PortalNews = ({
         </h3>
       </div>
 
-      <ArticleList
-        articles={articles}
-        pagination={{ currentPage, totalPages }}
+      <ArticleList articles={articles} />
+      <Pagination
+        pathname={window.location.pathname}
+        totalPages={totalPages}
+        currentPage={currentPage}
       />
     </div>
   )
