@@ -6,11 +6,8 @@ import type { RenderResult } from '@testing-library/react'
 import { axe } from 'jest-axe'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-
 import { renderWithAuth } from '../../../testHelpers'
-
 import { cmsPortalNewsArticlesMock } from '../../../__fixtures__/data/cmsPortalNewsArticles'
-import { client } from '../../../lib/keystoneClient'
 import OrbitBlog, { getServerSideProps } from 'pages/about-us/orbit-blog'
 import { GetServerSidePropsContext } from 'next'
 
@@ -73,12 +70,9 @@ describe('ORBIT Blog page', () => {
   })
   describe('without a user', () => {
     beforeEach(() => {
-      renderWithAuth(
-        <OrbitBlog articles={cmsPortalNewsArticlesMock} currentPage={1} />,
-        {
-          user: null,
-        }
-      )
+      renderWithAuth(<OrbitBlog articles={cmsPortalNewsArticlesMock} />, {
+        user: null,
+      })
     })
 
     it('renders the loader while fetching the user', () => {
