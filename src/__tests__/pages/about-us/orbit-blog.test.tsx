@@ -10,13 +10,20 @@ import { useRouter } from 'next/router'
 import { renderWithAuth } from '../../../testHelpers'
 
 import { cmsPortalNewsArticlesMock } from '../../../__fixtures__/data/cmsPortalNewsArticles'
-
-import OrbitBlog from 'pages/about-us/orbit-blog'
+import { client } from '../../../lib/keystoneClient'
+import OrbitBlog, { getServerSideProps } from 'pages/about-us/orbit-blog'
+import { GetServerSidePropsContext } from 'next'
 
 jest.mock('../../../lib/keystoneClient', () => ({
   client: {
     query: () => {
-      return
+      return {
+        data: {
+          articles: cmsPortalNewsArticlesMock,
+        },
+        loading: false,
+        errors: [],
+      }
     },
   },
 }))
@@ -47,14 +54,27 @@ mockedUseRouter.mockReturnValue({
 })
 
 describe('ORBIT Blog page', () => {
+  const testContext = {
+    query: {
+      page: 1,
+    },
+  } as unknown as GetServerSidePropsContext
+
+  it('returns correct page of articles based on query', async () => {
+    const response = await getServerSideProps(testContext)
+
+    expect(response).toEqual({
+      props: {
+        articles: cmsPortalNewsArticlesMock,
+        currentPage: 1,
+        totalPages: 1,
+      },
+    })
+  })
   describe('without a user', () => {
     beforeEach(() => {
       renderWithAuth(
-        <OrbitBlog
-          articles={cmsPortalNewsArticlesMock}
-          currentPage={1}
-          totalPages={1}
-        />,
+        <OrbitBlog articles={cmsPortalNewsArticlesMock} currentPage={1} />,
         {
           user: null,
         }

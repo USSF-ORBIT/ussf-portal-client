@@ -1,4 +1,4 @@
-import { InferGetServerSidePropsType } from 'next'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import {
   BreadcrumbBar,
   Breadcrumb,
@@ -68,13 +68,15 @@ PortalNews.getLayout = (page: React.ReactNode) =>
     page
   )
 
-export async function getServerSideProps(context: Context) {
+export const getServerSideProps: GetServerSideProps = async (
+  context: Context
+) => {
   // Determine page based on url query ?page=INT
   // Set articles per page we want to display
   // If no query or an invalid param, return page 1
   const currentPage = parseInt(context.query.page) || 1
 
-  const articlesPerPage = 1
+  const articlesPerPage = 10
 
   // Get total number of articles from CMS to determine
   // total number of pages
@@ -87,8 +89,9 @@ export async function getServerSideProps(context: Context) {
       }
     `,
   })
-
-  const totalPages = Math.ceil(articlesCount / articlesPerPage)
+  // Calculate total pages
+  // If NaN, return 1 page
+  const totalPages = Math.ceil(articlesCount / articlesPerPage) || 1
 
   // If a page number is requested that's out of range, return 404
   if (currentPage > totalPages) {
