@@ -1,6 +1,12 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/sfds';
 
+.updateNameAndRank {
+  h2 {
+    text-transform: uppercase;
+  }
+}
+
 .updateOfficialRecords {
   background: $theme-cosmiclatte-lighter;
   border: 1px solid $theme-cosmiclatte-dark;

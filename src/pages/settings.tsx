@@ -4,11 +4,17 @@ import EditDisplayName from 'components/EditDisplayName/EditDisplayName'
 import { useUser } from 'hooks/useUser'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import { useEditDisplayNameMutation } from 'operations/portal/mutations/editDisplayName.g'
+import { useGetDisplayNameQuery } from 'operations/portal/queries/getDisplayName.g'
 
 const Settings = () => {
   const { user } = useUser()
 
   const [handleEditDisplayName] = useEditDisplayNameMutation()
+
+  const { error, data } = useGetDisplayNameQuery()
+  const userDisplayName = (data?.displayName || '') as string
+
+  if (error) return <p>Error</p>
 
   return !user ? (
     <Loader />
@@ -18,12 +24,14 @@ const Settings = () => {
         <h2 className={styles.pageTitle}>Settings</h2>
         <section>
           <EditDisplayName
+            userDisplayName={userDisplayName}
             handleEditDisplayName={(userId: string, displayName: string) => {
               handleEditDisplayName({
                 variables: {
                   userId,
                   displayName,
                 },
+                refetchQueries: [`getDisplayName`],
               })
             }}
           />

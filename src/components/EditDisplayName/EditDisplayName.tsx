@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import { Grid } from '@trussworks/react-uswds'
-// import styles from './EditDisplayName.module.scss'
+import styles from './EditDisplayName.module.scss'
 import { useAuthContext } from 'stores/authContext'
 
 type PropTypes = {
+  userDisplayName: string
   handleEditDisplayName: (userId: string, displayName: string) => void
 }
 
-const EditDisplayName = ({ handleEditDisplayName }: PropTypes) => {
+const EditDisplayName = ({
+  userDisplayName,
+  handleEditDisplayName,
+}: PropTypes) => {
   const { user } = useAuthContext()
   const [currentDisplayName, setDisplayName] = useState<string>()
 
-  const greeting = user
-    ? `Welcome, ${user.attributes.givenname} ${user.attributes.surname}`
-    : 'Welcome!'
+  const greeting = user ? `Welcome, ${userDisplayName}` : 'Welcome!'
 
   const updateDisplayName = () => {
     handleEditDisplayName(user?.userId, currentDisplayName)
@@ -24,9 +26,9 @@ const EditDisplayName = ({ handleEditDisplayName }: PropTypes) => {
       <Grid col="fill">
         <h3>Update name and rank:</h3>
 
-        <div>
+        <div className={styles.updateNameAndRank}>
           <label htmlFor="something">Current welcome display title:</label>
-          <h1>{greeting}</h1>
+          <h2>{greeting}</h2>
 
           <label htmlFor="displayName">Update name</label>
           <Grid row gap={4}>

@@ -123,6 +123,19 @@ const resolvers = {
 
       return CollectionModel.getAll({ userId: user.userId }, { db })
     },
+    displayName: async (
+      _: undefined,
+      args: undefined,
+      { db, user }: PortalUserContext
+    ) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      return UserModel.getDisplayName(user.userId, { db })
+    },
   },
   Mutation: {
     addWidget: async (

@@ -3,15 +3,15 @@ import { useRouter } from 'next/router'
 import { Breadcrumb, BreadcrumbLink } from '@trussworks/react-uswds'
 import styles from './PersonalData.module.scss'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
-import { useAuthContext } from 'stores/authContext'
+import { useGetDisplayNameQuery } from 'operations/portal/queries/getDisplayName.g'
 
 const PersonalData = () => {
-  const { user } = useAuthContext()
   const router = useRouter()
 
-  const greeting = user
-    ? `Welcome, ${user.attributes.givenname} ${user.attributes.surname}`
-    : 'Welcome!'
+  const { data } = useGetDisplayNameQuery()
+  const userDisplayName = (data?.displayName || '') as string
+
+  const greeting = userDisplayName ? `Welcome, ${userDisplayName}` : 'Welcome!'
 
   const currentPage = router.pathname
 

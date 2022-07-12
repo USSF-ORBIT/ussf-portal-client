@@ -39,6 +39,7 @@ export const typeDefs = gql`
   type Query {
     collections: [Collection!]!
     mySpace: [Widget!]!
+    displayName: String!
   }
 
   type User {
