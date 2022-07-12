@@ -160,8 +160,8 @@ export type PortalUser = {
 
 export type SessionUser = SAMLUser & {
   userId: string
-  givenname: string
-  surname: string
+  givenname?: string
+  surname?: string
 }
 
 /**
