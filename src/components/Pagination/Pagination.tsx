@@ -126,9 +126,6 @@ const Pagination = ({
     if (currentPage !== totalPages) currentPageRange.push(totalPages)
   }
 
-  console.log('Is on first page? ', isOnFirstPage)
-  console.log('Is on last page? ', isOnLastPage)
-  console.log('current page + 1', currentPage + 1)
   const prevPage = !isOnFirstPage && currentPage - 1
   const nextPage = !isOnLastPage && currentPage + 1
 
