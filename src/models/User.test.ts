@@ -32,7 +32,8 @@ describe('User model', () => {
       mySpace: [exampleCollection1],
     }
 
-    await User.createOne('testUserId', [exampleCollection], { db })
+    const displayName = 'Floyd King'
+    await User.createOne('testUserId', [exampleCollection], displayName, { db })
 
     const insertedUser = await User.findOne('testUserId', { db })
 
