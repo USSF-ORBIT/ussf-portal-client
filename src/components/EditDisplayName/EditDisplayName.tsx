@@ -1,14 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Grid } from '@trussworks/react-uswds'
 // import styles from './EditDisplayName.module.scss'
 import { useAuthContext } from 'stores/authContext'
 
-const EditDisplayName = () => {
+type PropTypes = {
+  handleEditDisplayName: (userId: string, displayName: string) => void
+}
+
+const EditDisplayName = ({ handleEditDisplayName }: PropTypes) => {
   const { user } = useAuthContext()
+  const [currentDisplayName, setDisplayName] = useState<string>()
 
   const greeting = user
     ? `Welcome, ${user.attributes.givenname} ${user.attributes.surname}`
     : 'Welcome!'
+
+  const updateDisplayName = () => {
+    handleEditDisplayName(user?.userId, currentDisplayName)
+  }
 
   return (
     <Grid row>
@@ -28,6 +37,7 @@ const EditDisplayName = () => {
                 name="displayName"
                 placeholder="Enter a display name"
                 required
+                onChange={(event) => setDisplayName(event.target.value)}
               />
             </Grid>
 
@@ -38,7 +48,10 @@ const EditDisplayName = () => {
                 data-testid="button">
                 Cancel
               </button>
-              <button type="button" className="usa-button">
+              <button
+                type="button"
+                className="usa-button"
+                onClick={updateDisplayName}>
                 Save
               </button>
             </Grid>

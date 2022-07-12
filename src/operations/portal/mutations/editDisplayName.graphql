@@ -1,6 +1,6 @@
-mutation editDisplayName($_id: OID!, $displayName: String) {
-  editDisplayName(_id: $_id, displayName: $displayName) {
-    _id
+mutation editDisplayName($userId: String!, $displayName: String!) {
+  editDisplayName(userId: $userId, displayName: $displayName) {
+    userId
     displayName
   }
 }

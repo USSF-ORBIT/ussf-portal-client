@@ -72,7 +72,7 @@ export const typeDefs = gql`
       url: String
       label: String
     ): Bookmark
-    editDisplayName(_id: OID!, displayName: String): User
+    editDisplayName(userId: String!, displayName: String!): User
   }
 
   input BookmarkInput {

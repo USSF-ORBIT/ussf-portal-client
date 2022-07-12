@@ -4,6 +4,11 @@ import { CollectionModel } from './Collection'
 
 import type { PortalUser, CollectionRecords } from 'types/index'
 
+type EditOneInput = {
+  userId: string
+  displayName: string
+}
+
 const UserModel = {
   async findOne(userId: string, { db }: Context) {
     const foundUser = await db.collection('users').findOne({ userId })
@@ -34,6 +39,22 @@ const UserModel = {
     )
 
     return true
+  },
+  async editOne({ userId, displayName }: EditOneInput, { db }: Context) {
+    const user = await UserModel.findOne(userId, { db })
+
+    const query = {
+      userId: userId,
+    }
+
+    const updateDocument = {
+      $set: {
+        ...user,
+        displayName: displayName,
+      },
+    }
+
+    await db.collection('users').updateOne(query, updateDocument)
   },
 }
 

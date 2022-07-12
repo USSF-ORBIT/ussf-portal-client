@@ -3,6 +3,7 @@ import { AuthenticationError } from 'apollo-server-micro'
 import { ObjectId, ObjectID, MongoClient } from 'mongodb'
 import type { ObjectId as ObjectIdType } from 'bson'
 import { BookmarkModel } from '../models/Bookmark'
+import UserModel from '../models/User'
 import { CollectionModel } from '../models/Collection'
 
 import { MySpaceModel } from 'models/MySpace'
@@ -77,6 +78,11 @@ type EditBookmarkInput = {
   collectionId: ObjectIdType
   url: string
   label: string
+}
+
+type EditDisplayNameInput = {
+  userId: string
+  displayName: string
 }
 const resolvers = {
   OID: ObjectIdScalar,
@@ -267,6 +273,19 @@ const resolvers = {
         },
         { db }
       )
+    },
+    editDisplayName: async (
+      _: undefined,
+      { userId, displayName }: EditDisplayNameInput,
+      { db, user }: PortalUserContext
+    ) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      return UserModel.editOne({ userId, displayName }, { db })
     },
   },
 }
