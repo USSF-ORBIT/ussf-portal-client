@@ -71,7 +71,7 @@ const Pagination = ({
   const currentPageRange: Array<number | 'overflow'> = showOverflow
     ? [currentPage]
     : Array.from({ length: totalPages }).map((_, i) => i + 1)
-  console.log('Current page range ', currentPageRange)
+
   if (showOverflow) {
     // Determine range of pages to show based on current page & number of slots
     // Follows logic described at: https://designsystem.digital.gov/components/pagination/

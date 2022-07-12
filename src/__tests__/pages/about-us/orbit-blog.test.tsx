@@ -49,9 +49,16 @@ mockedUseRouter.mockReturnValue({
 describe('ORBIT Blog page', () => {
   describe('without a user', () => {
     beforeEach(() => {
-      renderWithAuth(<OrbitBlog articles={cmsPortalNewsArticlesMock} />, {
-        user: null,
-      })
+      renderWithAuth(
+        <OrbitBlog
+          articles={cmsPortalNewsArticlesMock}
+          currentPage={1}
+          totalPages={1}
+        />,
+        {
+          user: null,
+        }
+      )
     })
 
     it('renders the loader while fetching the user', () => {
@@ -69,7 +76,13 @@ describe('ORBIT Blog page', () => {
     let html: RenderResult
 
     beforeEach(() => {
-      html = renderWithAuth(<OrbitBlog articles={cmsPortalNewsArticlesMock} />)
+      html = renderWithAuth(
+        <OrbitBlog
+          articles={cmsPortalNewsArticlesMock}
+          currentPage={1}
+          totalPages={1}
+        />
+      )
     })
 
     it('renders the page title and list of articles', async () => {
