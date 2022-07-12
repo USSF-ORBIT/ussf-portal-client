@@ -24,7 +24,7 @@ jobs:
 
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@3d4e073ce6a6845ed27b30a0fe05b6e22c80ac6b # tag=v1
+        uses: aws-actions/amazon-ecr-login@b874a33292cc9887d2e80bc63f6f1a11fccb4a7b # tag=v1
 
       - name: Login to ECR
         uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b # tag=v2
@@ -99,7 +99,7 @@ jobs:
 
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@3d4e073ce6a6845ed27b30a0fe05b6e22c80ac6b # tag=v1
+        uses: aws-actions/amazon-ecr-login@b874a33292cc9887d2e80bc63f6f1a11fccb4a7b # tag=v1
 
       - name: Aqua Security Trivy
         id: scan-aws-image
@@ -107,7 +107,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: portal-client
           IMAGE_TAG: ${{ github.sha }}
-        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe # tag=0.5.0
+        uses: aquasecurity/trivy-action@0105373003c89c494a3f436bd5efc57f3ac1ca20 # tag=0.5.1
         with:
           image-ref: '${{ steps.login-ecr.outputs.registry }}/portal-client:${{ github.sha }}'
           format: 'sarif'
@@ -115,6 +115,6 @@ jobs:
           ignore-unfixed: true
           
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@714ec5a57d98ec3f11dfdc9ba30f508c95881c1a # tag=v1
+        uses: github/codeql-action/upload-sarif@e41f8baf4a726fae01b76b1337c600136468896e # tag=v1
         with:
           sarif_file: 'trivy-results.sarif'
