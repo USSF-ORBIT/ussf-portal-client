@@ -3,13 +3,14 @@ import { GridContainer, Accordion, Button } from '@trussworks/react-uswds'
 import styles from './login.module.scss'
 import Layout from 'layout/LoginLayout/LoginLayout'
 import { useAuthContext } from 'stores/authContext'
-
+import { AccordionItemProps } from '@trussworks/react-uswds/lib/components/Accordion/Accordion'
+import type { HeadingLevel } from '@trussworks/react-uswds'
 const Login = () => {
   const { login } = useAuthContext()
 
-  const contactAccordion = [
+  const contactAccordion: AccordionItemProps[] = [
     {
-      headingLevel: 'h4',
+      headingLevel: 'h3' as HeadingLevel,
       title: 'Contact the Help Desk',
       content: (
         <>
@@ -32,6 +33,7 @@ const Login = () => {
       id: 'a1',
     },
   ]
+
   return (
     <div className={styles.loginPage}>
       <section className="usa-section padding-top-3">
