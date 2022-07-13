@@ -112,9 +112,10 @@ describe('Search page', () => {
       expect(
         await screen.findByRole('heading', { level: 2 })
       ).toHaveTextContent('There are 0 results for ‘’')
+
       expect(
-        await screen.findByRole('heading', { level: 3 })
-      ).toHaveTextContent('There are no results that match that query.')
+        screen.getAllByText('There are no results that match that query.')
+      ).toHaveLength(1)
     })
 
     it('renders no results if there were no matches for the query', async () => {
@@ -122,9 +123,10 @@ describe('Search page', () => {
       expect(
         await screen.findByRole('heading', { level: 2 })
       ).toHaveTextContent('There are 0 results for ‘nomatches’')
+
       expect(
-        await screen.findByRole('heading', { level: 3 })
-      ).toHaveTextContent('There are no results that match that query.')
+        screen.getAllByText('There are no results that match that query.')
+      ).toHaveLength(1)
     })
 
     it('renders the results if there were matches for the query', async () => {
