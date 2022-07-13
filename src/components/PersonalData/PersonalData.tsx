@@ -1,6 +1,10 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import { Breadcrumb, BreadcrumbLink } from '@trussworks/react-uswds'
+import {
+  Breadcrumb,
+  BreadcrumbBar,
+  BreadcrumbLink,
+} from '@trussworks/react-uswds'
 import styles from './PersonalData.module.scss'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import { useGetDisplayNameQuery } from 'operations/portal/queries/getDisplayName.g'
@@ -21,11 +25,13 @@ const PersonalData = () => {
 
       {currentPage != '/settings' && (
         <div>
-          <Breadcrumb>
-            <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/settings">
-              Edit name
-            </BreadcrumbLink>
-          </Breadcrumb>
+          <BreadcrumbBar>
+            <Breadcrumb>
+              <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/settings">
+                Edit name
+              </BreadcrumbLink>
+            </Breadcrumb>
+          </BreadcrumbBar>
         </div>
       )}
     </div>

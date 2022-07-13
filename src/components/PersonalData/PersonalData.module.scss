@@ -2,11 +2,13 @@
 @import 'styles/sfds/sfdsDependencies';
 
 .personalData {
-  margin-bottom: units(2);
-
   h2 {
     margin-bottom: 0;
     text-transform: uppercase;
+  }
+
+  h2 + div > nav {
+    padding-top: 0 !important;
   }
 
   dt {
