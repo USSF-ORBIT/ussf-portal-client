@@ -3,16 +3,18 @@ import { InferGetServerSidePropsType } from 'next'
 import { client } from '../lib/keystoneClient'
 
 import MySpace from 'components/MySpace/MySpace'
-import AnnouncementLaunch from 'components/AnnouncementLaunch/AnnouncementLaunch'
+import Announcement from 'components/Announcement/Announcement'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 import type { BookmarkRecords } from 'types/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
+import { GET_ANNOUNCEMENTS } from 'operations/cms/queries/getAnnouncements'
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
 import styles from 'styles/pages/home.module.scss'
 
 const Home = ({
   bookmarks,
+  announcements,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
 
@@ -20,9 +22,12 @@ const Home = ({
     <Loader />
   ) : (
     <div className={styles.home}>
-      <section>
-        <AnnouncementLaunch />
-      </section>
+      {announcements.length > 0 && (
+        <section>
+          <Announcement announcements={announcements} />
+        </section>
+      )}
+
       <section>
         <MySpace bookmarks={bookmarks} />
       </section>
@@ -39,11 +44,18 @@ export async function getServerSideProps() {
     query: GET_KEYSTONE_BOOKMARKS,
   })
 
+  const {
+    data: { announcements },
+  } = await client.query({
+    query: GET_ANNOUNCEMENTS,
+  })
+
   const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
 
   return {
     props: {
       bookmarks,
+      announcements,
     },
   }
 }

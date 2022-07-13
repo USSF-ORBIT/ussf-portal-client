@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
 import type { Bookmark } from 'types'
 
 export interface BookmarksQueryResponse {
@@ -15,7 +15,3 @@ export const GET_KEYSTONE_BOOKMARKS = gql`
     }
   }
 `
-
-export function useBookmarksQuery() {
-  return useQuery<BookmarksQueryResponse>(GET_KEYSTONE_BOOKMARKS)
-}
