@@ -1,0 +1,80 @@
+/**
+ * @jest-environment jsdom
+ */
+
+import { screen, waitFor, act } from '@testing-library/react'
+import type { RenderResult } from '@testing-library/react'
+import { MockedProvider } from '@apollo/client/testing'
+import axios from 'axios'
+import { useRouter } from 'next/router'
+import { axe } from 'jest-axe'
+
+import { renderWithAuth } from '../../testHelpers'
+
+import Settings from 'pages/settings'
+
+const mockReplace = jest.fn()
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}))
+
+const mockedUseRouter = useRouter as jest.Mock
+
+mockedUseRouter.mockReturnValue({
+  route: '',
+  pathname: '',
+  query: '',
+  asPath: '',
+  push: jest.fn(),
+  replace: mockReplace,
+})
+
+describe('Settings page', () => {
+  describe('without a user', () => {
+    beforeEach(() => {
+      renderWithAuth(
+        <MockedProvider>
+          <Settings />
+        </MockedProvider>,
+        { user: null }
+      )
+    })
+
+    it('renders the loader while fetching the user', () => {
+      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
+    })
+
+    it('redirects to the login page if not logged in', async () => {
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith('/login')
+      })
+    })
+  })
+
+  describe('when logged in', () => {
+    let html: RenderResult
+
+    beforeEach(() => {
+      html = renderWithAuth(
+        <MockedProvider>
+          <Settings />
+        </MockedProvider>
+      )
+    })
+
+    it('renders the settings page', async () => {
+      expect(await screen.getAllByText('Settings')).toHaveLength(1)
+
+      expect(await screen.getAllByText('Update name and rank:')).toHaveLength(1)
+    })
+
+    it('has no a11y violations', async () => {
+      // Bug with NextJS Link + axe :(
+      // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
+      await act(async () => {
+        expect(await axe(html.container)).toHaveNoViolations()
+      })
+    })
+  })
+})
