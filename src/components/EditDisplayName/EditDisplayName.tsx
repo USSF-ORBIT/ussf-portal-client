@@ -15,10 +15,13 @@ const EditDisplayName = ({
   const { user } = useAuthContext()
   const [currentDisplayName, setDisplayName] = useState<string>('')
 
-  const greeting = user ? `Welcome, ${userDisplayName}` : 'Welcome!'
+  const greeting = userDisplayName ? `Welcome, ${userDisplayName}` : 'Welcome!'
 
   const updateDisplayName = () => {
-    handleEditDisplayName(user?.userId, currentDisplayName)
+    if (!user) {
+      return
+    }
+    handleEditDisplayName(user.userId, currentDisplayName)
     setDisplayName('')
   }
 
