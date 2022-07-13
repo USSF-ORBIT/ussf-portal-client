@@ -186,3 +186,19 @@ export type NewsListItemArticle = {
   sourceName: string
   sourceLink: string
 }
+
+/**
+ * ***********************
+ * Types for Announcements
+ * ***********************
+ * */
+
+export type AnnouncementRecord = {
+  id: string
+  title: string
+  body: {
+    document: Element[]
+  }
+  status: string
+  publishedDate: string
+}

@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
 import type { Collection } from 'types'
 
 export interface CollectionsQueryResponse {
@@ -18,7 +18,3 @@ export const GET_KEYSTONE_COLLECTIONS = gql`
     }
   }
 `
-
-export function useCollectionsQuery() {
-  return useQuery<CollectionsQueryResponse>(GET_KEYSTONE_COLLECTIONS)
-}

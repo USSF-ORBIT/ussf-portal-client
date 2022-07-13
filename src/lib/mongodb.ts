@@ -7,11 +7,7 @@ import { MongoClient } from 'mongodb'
 // Required to use global._mongoClientPromise
 declare global {
   /* eslint-disable-next-line */
-  namespace NodeJS {
-    interface Global {
-      _mongoClientPromise: Promise<typeof MongoClient>
-    }
-  }
+  var _mongoClientPromise: Promise<typeof MongoClient>
 }
 
 const globalWithMongo = global as typeof globalThis & {
