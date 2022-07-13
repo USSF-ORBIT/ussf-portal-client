@@ -1,0 +1,24 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.dateContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 15%;
+
+  @media screen and (max-width: 1440px) {
+    padding: 0 0.5rem 0;
+  }
+}
+
+.displayTime {
+  display: flex;
+  flex-direction: column;
+
+  max-height: 30%;
+  font-family: 'Sharp Sans';
+  font-weight: 400;
+  line-height: 23px;
+}
