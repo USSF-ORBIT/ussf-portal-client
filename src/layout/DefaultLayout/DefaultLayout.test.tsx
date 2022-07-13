@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-
+import { MockedProvider } from '@apollo/client/testing'
+import { getDisplayNameMock } from '../../__fixtures__/operations/getDisplayName'
 import DefaultLayout, { withDefaultLayout } from './DefaultLayout'
 
 jest.mock('next/router', () => ({
@@ -18,9 +19,11 @@ jest.mock('next/router', () => ({
 describe('DefaultLayout component', () => {
   beforeEach(() => {
     render(
-      <DefaultLayout>
-        <h1>Test Page</h1>
-      </DefaultLayout>
+      <MockedProvider mocks={getDisplayNameMock}>
+        <DefaultLayout>
+          <h1>Test Page</h1>
+        </DefaultLayout>
+      </MockedProvider>
     )
   })
 
@@ -53,7 +56,11 @@ describe('DefaultLayout component', () => {
 
 describe('withDefaultLayout HOC', () => {
   it('renders children inside of the default layout', () => {
-    const TestPage = () => <div>My page</div>
+    const TestPage = () => (
+      <MockedProvider mocks={getDisplayNameMock}>
+        <div>My page</div>
+      </MockedProvider>
+    )
     render(withDefaultLayout(<TestPage />))
     expect(screen.getByText('My page')).toBeInTheDocument()
   })
