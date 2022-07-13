@@ -13,12 +13,17 @@ const EditDisplayName = ({
   handleEditDisplayName,
 }: PropTypes) => {
   const { user } = useAuthContext()
-  const [currentDisplayName, setDisplayName] = useState<string>()
+  const [currentDisplayName, setDisplayName] = useState<string>('')
 
   const greeting = user ? `Welcome, ${userDisplayName}` : 'Welcome!'
 
   const updateDisplayName = () => {
     handleEditDisplayName(user?.userId, currentDisplayName)
+    setDisplayName('')
+  }
+
+  const resetDisplayName = () => {
+    setDisplayName('')
   }
 
   return (
@@ -39,6 +44,7 @@ const EditDisplayName = ({
                 name="displayName"
                 placeholder="Enter a display name"
                 required
+                value={currentDisplayName}
                 onChange={(event) => setDisplayName(event.target.value)}
               />
             </Grid>
@@ -47,12 +53,13 @@ const EditDisplayName = ({
               <button
                 type="button"
                 className="usa-button usa-button--unstyled"
-                data-testid="button">
+                onClick={resetDisplayName}>
                 Cancel
               </button>
               <button
                 type="button"
                 className="usa-button"
+                disabled={currentDisplayName === '' ? true : false}
                 onClick={updateDisplayName}>
                 Save
               </button>
