@@ -9,7 +9,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN rm yarn.lock && yarn install --frozen-lockfile
+RUN rm yarn.lock && yarn install --frozen-lockfile --network-concurrency 1
 
 ARG BUILD
 
