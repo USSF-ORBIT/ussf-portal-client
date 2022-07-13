@@ -8,12 +8,20 @@ import {
 import styles from './PersonalData.module.scss'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import { useGetDisplayNameQuery } from 'operations/portal/queries/getDisplayName.g'
+import { useAuthContext } from 'stores/authContext'
 
 const PersonalData = () => {
+  const { user } = useAuthContext()
   const router = useRouter()
 
   const { data } = useGetDisplayNameQuery()
-  const userDisplayName = (data?.displayName || '') as string
+
+  let userDisplayName
+  if (data?.displayName) {
+    userDisplayName = data.displayName
+  } else if (user) {
+    userDisplayName = `${user.attributes.givenname} ${user.attributes.surname}`
+  }
 
   const greeting = userDisplayName ? `Welcome, ${userDisplayName}` : 'Welcome!'
 
