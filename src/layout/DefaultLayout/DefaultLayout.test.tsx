@@ -56,12 +56,14 @@ describe('DefaultLayout component', () => {
 
 describe('withDefaultLayout HOC', () => {
   it('renders children inside of the default layout', () => {
-    const TestPage = () => (
-      <MockedProvider mocks={getDisplayNameMock}>
-        <div>My page</div>
+    const TestPage = () => <div>My page</div>
+    render(
+      <MockedProvider>
+        <DefaultLayout>
+          <TestPage />
+        </DefaultLayout>
       </MockedProvider>
     )
-    render(withDefaultLayout(<TestPage />))
     expect(screen.getByText('My page')).toBeInTheDocument()
   })
 })
