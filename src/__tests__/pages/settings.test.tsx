@@ -5,7 +5,6 @@
 import { screen, waitFor, act } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
-import axios from 'axios'
 import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
 
