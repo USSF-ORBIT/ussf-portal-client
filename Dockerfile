@@ -3,13 +3,13 @@
 FROM node:14.19.3-slim AS builder
 
 RUN apt-get update \
-  && apt-get -y --no-install-recommends install openssl libc6
+  && apt-get -y --no-install-recommends install openssl libc6 git ca-certificates
 
 WORKDIR /app
 
 COPY . .
 
-RUN yarn install --frozen-lockfile
+RUN rm yarn.lock && yarn install --frozen-lockfile
 
 ARG BUILD
 
