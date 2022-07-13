@@ -14,7 +14,6 @@ describe('Routes & navigation', () => {
       cy.visit('/')
       cy.injectAxe()
       cy.contains('Welcome, BERNADETTE CAMPBELL')
-      cy.contains('Welcome to the new Space Force Service Portal!')
       cy.contains('My Space')
 
       // Check a11y

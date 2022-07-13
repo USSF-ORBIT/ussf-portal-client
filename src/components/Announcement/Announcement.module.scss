@@ -1,0 +1,48 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.announcement {
+  mix-blend-mode: normal;
+  background-color: $theme-white;
+  padding: 0 1.5rem 0;
+
+  border: 1px solid #929292;
+  border-radius: units(1);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+  }
+}
+
+.latestAnnouncements {
+  max-width: 24%;
+
+  @media screen and (max-width: 1024px) {
+    max-width: 100%;
+    margin-bottom: 0;
+    margin-top: 0.5rem;
+  }
+}
+
+.announcementContainer {
+  max-width: 70%;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+  display: flex;
+  flex-grow: 1;
+
+  @media screen and (max-width: 1440px) {
+    max-width: 65%;
+  }
+
+  @media screen and (max-width: 1024px) {
+    max-width: 100%;
+    padding-top: 1rem;
+  }
+}
