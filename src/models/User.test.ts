@@ -59,6 +59,13 @@ describe('User model', () => {
     expect(updatedUser.displayName).toEqual(displayName)
   })
 
+  it('can get the displayName of a user', async () => {
+    const foundDisplayName = await User.getDisplayName('testUserId', {
+      db,
+    })
+    expect(foundDisplayName).toEqual('Updated Name')
+  })
+
   it('returns null if finding a user that doesn’t exist', async () => {
     const testUserId = 'noSuchUser'
 
