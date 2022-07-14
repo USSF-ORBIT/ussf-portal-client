@@ -66,6 +66,14 @@ describe('User model', () => {
     expect(foundDisplayName).toEqual('Updated Name')
   })
 
+  it('throws an error if displayName is not found', async () => {
+    expect(
+      await User.getDisplayName('thisuserdoesnotexist', {
+        db,
+      })
+    ).rejects.toThrow()
+  })
+
   it('returns null if finding a user that doesn’t exist', async () => {
     const testUserId = 'noSuchUser'
 

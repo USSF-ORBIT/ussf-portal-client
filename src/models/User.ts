@@ -59,7 +59,9 @@ const UserModel = {
   async getDisplayName(userId: string, { db }: Context) {
     try {
       const user = await db.collection('users').findOne({ userId })
-      return user.displayName
+      if (user) {
+        return user.displayName
+      }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('UserModel Error: error in getDisplayName', e)
