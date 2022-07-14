@@ -30,6 +30,7 @@ describe('User model', () => {
       _id: expect.anything(),
       userId: 'testUserId',
       mySpace: [exampleCollection1],
+      displayName: 'Floyd King',
     }
 
     const displayName = 'Floyd King'
@@ -40,6 +41,22 @@ describe('User model', () => {
     expect(insertedUser.mySpace[0].title).toContain(
       expectedUser.mySpace[0].title
     )
+  })
+
+  it('can edit the displayName of a user', async () => {
+    const expectedUser = {
+      _id: expect.anything(),
+      userId: 'testUserId',
+      mySpace: [exampleCollection1],
+      displayName: 'Updated Name',
+    }
+
+    const { userId, displayName } = expectedUser
+    await User.editOne({ userId, displayName }, { db })
+
+    const updatedUser = await User.findOne(userId, { db })
+
+    expect(updatedUser.displayName).toEqual(displayName)
   })
 
   it('returns null if finding a user that doesn’t exist', async () => {
