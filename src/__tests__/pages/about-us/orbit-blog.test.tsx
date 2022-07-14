@@ -7,7 +7,7 @@ import { axe } from 'jest-axe'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { renderWithAuth } from '../../../testHelpers'
-import { cmsPortalNewsArticlesMock } from '../../../__fixtures__/data/cmsPortalNewsArticles'
+import { cmsPortalNewsArticlesMock as mockOrbitBlogArticles } from '../../../__fixtures__/data/cmsPortalNewsArticles'
 import OrbitBlog, { getServerSideProps } from 'pages/about-us/orbit-blog'
 import { GetServerSidePropsContext } from 'next'
 
@@ -16,7 +16,7 @@ jest.mock('../../../lib/keystoneClient', () => ({
     query: () => {
       return {
         data: {
-          articles: cmsPortalNewsArticlesMock,
+          articles: mockOrbitBlogArticles,
         },
         loading: false,
         errors: [],
@@ -62,7 +62,7 @@ describe('ORBIT Blog page', () => {
 
     expect(response).toEqual({
       props: {
-        articles: cmsPortalNewsArticlesMock,
+        articles: mockOrbitBlogArticles,
         currentPage: 1,
         totalPages: 1,
       },
@@ -70,7 +70,7 @@ describe('ORBIT Blog page', () => {
   })
   describe('without a user', () => {
     beforeEach(() => {
-      renderWithAuth(<OrbitBlog articles={cmsPortalNewsArticlesMock} />, {
+      renderWithAuth(<OrbitBlog articles={mockOrbitBlogArticles} />, {
         user: null,
       })
     })
@@ -92,7 +92,7 @@ describe('ORBIT Blog page', () => {
     beforeEach(() => {
       html = renderWithAuth(
         <OrbitBlog
-          articles={cmsPortalNewsArticlesMock}
+          articles={mockOrbitBlogArticles}
           currentPage={1}
           totalPages={1}
         />

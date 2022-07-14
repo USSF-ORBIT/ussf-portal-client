@@ -10,7 +10,7 @@ const Login = () => {
 
   const contactAccordion: AccordionItemProps[] = [
     {
-      headingLevel: 'h3' as HeadingLevel,
+      headingLevel: 'h4' as HeadingLevel,
       title: 'Contact the Help Desk',
       content: (
         <>
