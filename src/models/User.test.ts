@@ -71,7 +71,7 @@ describe('User model', () => {
       await User.getDisplayName('thisuserdoesnotexist', {
         db,
       })
-    ).rejects.toThrow()
+    ).toBeUndefined()
   })
 
   it('returns null if finding a user that doesn’t exist', async () => {
