@@ -27,6 +27,9 @@ RUN yarn install --production --ignore-scripts --prefer-offline
 # E2E image for running tests (same as prod but without certs)
 FROM node:14.19.3-slim AS e2e
 
+RUN apt-get update \
+  && apt-get -y --no-install-recommends install openssl libc6
+
 WORKDIR /app
 
 # Copy files needed for startup
