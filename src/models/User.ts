@@ -57,16 +57,11 @@ const UserModel = {
     await db.collection('users').updateOne(query, updateDocument)
   },
   async getDisplayName(userId: string, { db }: Context) {
-    try {
-      const user = await db.collection('users').findOne({ userId })
-      if (user) {
-        return user.displayName
-      }
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error('UserModel Error: error in getDisplayName', e)
-      throw e
+    const user = await db.collection('users').findOne({ userId })
+    if (!user) {
+      throw new Error('UserModel Error: error in getDisplayName')
     }
+    return user.displayName
   },
 }
 

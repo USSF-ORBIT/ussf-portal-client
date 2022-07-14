@@ -67,11 +67,11 @@ describe('User model', () => {
   })
 
   it('throws an error if displayName is not found', async () => {
-    expect(
-      await User.getDisplayName('thisuserdoesnotexist', {
+    await expect(
+      User.getDisplayName('thisuserdoesnotexist', {
         db,
       })
-    ).toBeUndefined()
+    ).rejects.toThrow()
   })
 
   it('returns null if finding a user that doesn’t exist', async () => {
