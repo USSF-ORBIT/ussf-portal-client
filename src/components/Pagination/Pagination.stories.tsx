@@ -12,9 +12,6 @@ export default {
   },
 } as ComponentMeta<typeof Pagination>
 
-const generateTestPages = (length: number) =>
-  Array.from({ length }).map((item, i) => `#page-${i + 1}`)
-
 const pathname = '/test-pathname'
 const Template: ComponentStory<typeof Pagination> = (args) => (
   <Pagination

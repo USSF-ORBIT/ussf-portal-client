@@ -6,10 +6,11 @@ import type { RenderResult } from '@testing-library/react'
 import { axe } from 'jest-axe'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { GetServerSidePropsContext } from 'next'
+
 import { renderWithAuth } from '../../../testHelpers'
 import { cmsPortalNewsArticlesMock as mockOrbitBlogArticles } from '../../../__fixtures__/data/cmsPortalNewsArticles'
 import OrbitBlog, { getServerSideProps } from 'pages/about-us/orbit-blog'
-import { GetServerSidePropsContext } from 'next'
 
 jest.mock('../../../lib/keystoneClient', () => ({
   client: {

@@ -17,7 +17,6 @@ const PaginationPage = ({
 }: {
   pathname: string
   page: number
-
   isCurrent?: boolean
 }) => {
   const linkClasses = classnames('usa-pagination__button', {
