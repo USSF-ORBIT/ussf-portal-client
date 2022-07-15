@@ -43,8 +43,9 @@ const EditDisplayName = ({
           <label htmlFor="displayName">
             <strong>*</strong>Update name
           </label>
+
           <Grid row gap={4}>
-            <Grid col={4}>
+            <Grid tablet={{ col: 4 }}>
               <input
                 className="usa-input"
                 type="text"
@@ -55,8 +56,7 @@ const EditDisplayName = ({
                 data-testid="nameInput"
               />
             </Grid>
-
-            <Grid row gap={5}>
+            <Grid row tablet={{ col: true }} gap={5}>
               <button
                 type="button"
                 className="usa-button usa-button--unstyled"
@@ -74,13 +74,15 @@ const EditDisplayName = ({
           </Grid>
 
           {submissionStatus && (
-            <Grid col={4}>
-              <Alert
-                className={styles.successMessage}
-                type="success"
-                headingLevel={4}>
-                New title has been saved
-              </Alert>
+            <Grid row gap={4}>
+              <Grid tablet={{ col: 4 }}>
+                <Alert
+                  className={styles.successMessage}
+                  type="success"
+                  headingLevel={4}>
+                  New title has been saved
+                </Alert>
+              </Grid>
             </Grid>
           )}
         </div>
