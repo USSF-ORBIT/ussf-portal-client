@@ -52,6 +52,7 @@ const EditDisplayName = ({
                 placeholder="Enter a display name"
                 value={currentDisplayName}
                 onChange={(event) => setDisplayName(event.target.value)}
+                data-testid="nameInput"
               />
             </Grid>
 
@@ -98,7 +99,7 @@ const EditDisplayName = ({
           </p>
           <p>
             You can reach them by phone, Monday through Saturday, 9am - 5pm GMT
-            at (202)768-5432
+            at <insert phone number>
           </p>
         </div>
       </Grid> */}
