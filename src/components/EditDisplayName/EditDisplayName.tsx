@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Grid } from '@trussworks/react-uswds'
+import { Grid, Alert } from '@trussworks/react-uswds'
 import styles from './EditDisplayName.module.scss'
 import { useAuthContext } from 'stores/authContext'
 
@@ -14,6 +14,7 @@ const EditDisplayName = ({
 }: PropTypes) => {
   const { user } = useAuthContext()
   const [currentDisplayName, setDisplayName] = useState<string>('')
+  const [submissionStatus, setSubmissionStatus] = useState<boolean>(false)
 
   const greeting = userDisplayName ? `Welcome, ${userDisplayName}` : 'Welcome!'
 
@@ -22,11 +23,12 @@ const EditDisplayName = ({
       return
     }
     handleEditDisplayName(user.userId, currentDisplayName)
-    setDisplayName('')
+    setSubmissionStatus(true)
   }
 
   const resetDisplayName = () => {
     setDisplayName('')
+    setSubmissionStatus(false)
   }
 
   return (
@@ -38,7 +40,9 @@ const EditDisplayName = ({
           <label htmlFor="something">Current welcome display title:</label>
           <h2>{greeting}</h2>
 
-          <label htmlFor="displayName">Update name</label>
+          <label htmlFor="displayName">
+            <strong>*</strong>Update name
+          </label>
           <Grid row gap={4}>
             <Grid col={4}>
               <input
@@ -46,13 +50,12 @@ const EditDisplayName = ({
                 type="text"
                 name="displayName"
                 placeholder="Enter a display name"
-                required
                 value={currentDisplayName}
                 onChange={(event) => setDisplayName(event.target.value)}
               />
             </Grid>
 
-            <Grid row gap={5} col="auto">
+            <Grid row gap={5}>
               <button
                 type="button"
                 className="usa-button usa-button--unstyled"
@@ -68,6 +71,17 @@ const EditDisplayName = ({
               </button>
             </Grid>
           </Grid>
+
+          {submissionStatus && (
+            <Grid col={4}>
+              <Alert
+                className={styles.successMessage}
+                type="success"
+                headingLevel={4}>
+                New title has been saved
+              </Alert>
+            </Grid>
+          )}
         </div>
       </Grid>
 
