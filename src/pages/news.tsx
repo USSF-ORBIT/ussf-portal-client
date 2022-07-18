@@ -8,7 +8,7 @@ import {
 
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import Loader from 'components/Loader/Loader'
-import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
+// import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import { useUser } from 'hooks/useUser'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
@@ -36,10 +36,27 @@ const News = () => {
   ) : (
     <div>
       <div className={styles.pageTitle}>
-        <h2>Latest news</h2>
-        <h3>The most recently publicly released Space Force news.</h3>
+        <h2>All USSF news</h2>
+        <h3>
+          Publically and internally released Space Force news, published within
+          the last 30 days.
+        </h3>
       </div>
-      <Grid row gap={2}>
+
+      <Grid col="fill">
+        {items
+          .filter(validateNewsItems)
+          .map((item) => formatRssToArticle(item as Required<RSSNewsItem>))
+          .map((item, i) => (
+            <Grid
+              key={`newsItem_${i}_${item.id}`}
+              className={styles.newsItemContainer}>
+              <NewsListItem article={item} />
+            </Grid>
+          ))}
+      </Grid>
+
+      {/* <Grid row gap={2}>
         {!items.length && (
           <>
             <Grid desktop={{ col: 6 }}>
@@ -50,19 +67,7 @@ const News = () => {
             </Grid>
           </>
         )}
-
-        {items
-          .filter(validateNewsItems)
-          .map((item) => formatRssToArticle(item as Required<RSSNewsItem>))
-          .map((item, i) => (
-            <Grid
-              key={`newsItem_${i}_${item.id}`}
-              tablet={{ col: 6 }}
-              className={styles.newsItemContainer}>
-              <NewsListItem article={item} />
-            </Grid>
-          ))}
-      </Grid>
+      </Grid> */}
 
       <div style={{ textAlign: 'center' }}>
         <LinkTo

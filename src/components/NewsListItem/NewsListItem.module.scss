@@ -1,61 +1,37 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/sfds/sfdsDependencies';
 
-.NewsListItem {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.articleLink,
-a.articleLink {
-  display: block;
-  text-decoration: none;
-  color: $theme-black;
-
-  &:hover {
-    text-decoration: underline;
-
-    > * {
-      text-decoration: underline;
-    }
-  }
-
-  > * {
-    display: inline;
-  }
-
-  h4 {
-    margin: 0;
-  }
-}
-
 .articleImage {
   border: 1px solid #c4c4c4;
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: hidden;
 
   img {
-    width: 100%;
     display: block;
-    height: 200px;
+    height: 121px;
+    width: 121px;
     object-fit: cover;
-
-    @include at-media('tablet') {
-      height: 360px;
-    }
   }
 }
 
-.articleImage + .articleLink {
-  margin-top: units(2);
+.articleTitle {
+  margin-bottom: 0;
+  margin-top: 0.5em;
+}
+
+.articlePublishedDate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .articleExcerpt {
   font-size: 18px;
   line-height: 1.4;
-  margin: units('105') 0 units(3);
-  text-align: right;
+  margin-bottom: 0;
+  margin-top: 0;
   flex-grow: 1;
 
   .articleExcerptTruncate {
@@ -68,10 +44,6 @@ a.articleLink {
     text-overflow: ellipsis;
     text-align: left;
   }
-}
-
-.articleTag {
-  align-self: flex-start;
 }
 
 .newsWidgetItem {
