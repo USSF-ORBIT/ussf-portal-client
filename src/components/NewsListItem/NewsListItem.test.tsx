@@ -32,12 +32,6 @@ describe('NewsListItem component', () => {
       expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
         testArticle.title
       )
-      expect(screen.getByText('08 FEB 2022')).toBeInTheDocument()
-
-      expect(screen.getAllByRole('img')[0]).toHaveAttribute(
-        'src',
-        testArticle.thumbnailSrc
-      )
 
       expect(
         screen.getByRole('link', {
@@ -59,15 +53,12 @@ describe('NewsListItem component', () => {
       expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
         testArticle.title
       )
-      expect(screen.getByText('08 FEB 2022')).toBeInTheDocument()
-
-      expect(screen.queryByRole('img')).toBeInTheDocument()
 
       expect(
         screen.queryByRole('link', {
           name: `${testArticle.title}`,
         })
-      ).not.toBeInTheDocument()
+      ).toBeInTheDocument()
 
       expect(screen.getByText(/This is a test article/i)).toBeInTheDocument()
       expect(screen.getByText(testArticle.sourceName)).toBeInTheDocument()
@@ -80,12 +71,9 @@ describe('NewsListItem component', () => {
     })
 
     it('renders the article contents', () => {
-      expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
+      expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent(
         testArticle.title
       )
-      expect(screen.getByText('08 FEB 2022')).toBeInTheDocument()
-
-      expect(screen.queryByRole('img')).toBeInTheDocument()
 
       expect(screen.getByText(/This is a test article/i)).toBeInTheDocument()
       expect(screen.getByText(testArticle.sourceName)).toBeInTheDocument()
