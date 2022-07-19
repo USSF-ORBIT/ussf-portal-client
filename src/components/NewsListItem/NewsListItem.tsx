@@ -62,35 +62,13 @@ const NewsListItem = ({
             {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
             <small>{publishDate} //</small>
             &nbsp;
-            {widget ? (
-              <h4>{title}</h4>
-            ) : (
-              <h3>
-                <strong>{title}</strong>
-              </h3>
-            )}
+            <h4>{title}</h4>
           </LinkTo>
 
           <p className={styles.articleExcerpt}>
             <span className={styles.articleExcerptTruncate}>
               {description}&hellip;
             </span>
-            {!widget && (
-              <>
-                (
-                <LinkTo
-                  href={sourceLink}
-                  className={classnames(
-                    styles.articleExcerptLink,
-                    'usa-link--external'
-                  )}
-                  target="_blank"
-                  rel="noreferrer noopener">
-                  continue reading
-                </LinkTo>
-                )
-              </>
-            )}
           </p>
 
           <Tag
