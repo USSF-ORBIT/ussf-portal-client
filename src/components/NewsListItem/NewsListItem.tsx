@@ -16,25 +16,11 @@ const NewsListItem = ({
   article: NewsListItemArticle
   widget?: boolean
 }) => {
-  const {
-    title,
-    sourceLink,
-    description,
-    publishDate,
-    thumbnailSrc,
-    sourceName,
-  } = article
+  const { title, sourceLink, description, publishDate, sourceName } = article
 
-  let DAY, MONTH, YEAR
-  if (publishDate) {
-    const dateObject = new Date(publishDate)
-    const utcDate = dateObject.toUTCString()
-
-    const dateArr = utcDate.split(' ')
-    DAY = dateArr[1]
-    MONTH = dateArr[2].toUpperCase()
-    YEAR = dateArr[3]
-  }
+  const x = publishDate.split(' ')
+  const MONTH = x[0]
+  const DAY = x[1].replace(',', '')
 
   return (
     <>
@@ -42,34 +28,24 @@ const NewsListItem = ({
         <article>
           <Grid row gap={4}>
             <Grid col="auto">
-              {!widget && thumbnailSrc && (
-                <div className={styles.articleImage}>
-                  <LinkTo
-                    href={sourceLink}
-                    target="_blank"
-                    rel="noreferrer noopener">
-                    <img src={thumbnailSrc} alt={title} />
-                  </LinkTo>
-                </div>
-              )}
+              <div className={styles.articlePublishedDate}>
+                <span className={styles.month}>{MONTH}</span>
+                <span className={styles.day}>{DAY}</span>
+              </div>
             </Grid>
 
-            <Grid col="fill">
-              <Grid row gap={4}>
-                <div className={styles.articlePublishedDate}>
-                  <time>
-                    {DAY} {MONTH} {YEAR}
-                  </time>
-                </div>
+            <Grid col="fill" gap="05">
+              <h3 className={styles.articleTitle}>
+                <LinkTo href={sourceLink}>{title}</LinkTo>
+              </h3>
+              <LinkTo href={sourceLink}>{sourceLink}</LinkTo>
+              <p>
+                <span>{description}</span>
+              </p>
+              <Grid row gap={4} className={styles.categoryAndLabel}>
                 <Category category={CONTENT_CATEGORIES.EXTERNAL_NEWS} />
                 <Label type="Source">{sourceName}</Label>
               </Grid>
-              <h3 className={styles.articleTitle}>
-                <strong>{title}</strong>
-              </h3>
-              <p className={styles.articleExcerpt}>
-                <span>{description}</span>
-              </p>
             </Grid>
           </Grid>
         </article>
@@ -78,17 +54,6 @@ const NewsListItem = ({
           className={classnames(styles.NewsListItem, {
             [styles.newsWidgetItem]: widget,
           })}>
-          {!widget && thumbnailSrc && (
-            <div className={styles.articleImage}>
-              <LinkTo
-                href={sourceLink}
-                target="_blank"
-                rel="noreferrer noopener">
-                <img src={thumbnailSrc} alt={title} />
-              </LinkTo>
-            </div>
-          )}
-
           <LinkTo
             href={sourceLink}
             className={classnames(styles.articleLink, 'usa-link--external')}

@@ -179,7 +179,7 @@ export type RSSNewsItem = {
 export type NewsListItemArticle = {
   id: string
   thumbnailSrc?: string
-  publishDate?: string
+  publishDate: string
   title: string
   description: string
   source: string
