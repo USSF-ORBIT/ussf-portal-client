@@ -13,9 +13,8 @@ export const ArticleDateIcon = ({ date }: { date: Date }) => {
     const dateParts = dateFormatter.formatToParts(date)
     const { value: month } = dateParts.find((i) => i.type === 'month') || {}
     const { value: day } = dateParts.find((i) => i.type === 'day') || {}
-    const { value: year } = dateParts.find((i) => i.type === 'year') || {}
 
-    if (month === undefined || day === undefined || year === undefined) {
+    if (month === undefined || day === undefined) {
       // TODO throw error
       return null
     }
@@ -24,7 +23,6 @@ export const ArticleDateIcon = ({ date }: { date: Date }) => {
       <time dateTime={date.toLocaleString()} className={styles.ArticleDateIcon}>
         <small>{month}</small>
         <span>{day}</span>
-        <small>{year}</small>
       </time>
     )
   } catch (e) {
