@@ -52,6 +52,7 @@ const EditDisplayName = ({
                 name="displayName"
                 placeholder="Enter a display name"
                 value={currentDisplayName}
+                maxLength={1000}
                 onChange={(event) => setDisplayName(event.target.value)}
                 data-testid="nameInput"
               />
