@@ -36,9 +36,19 @@ const NewsListItem = ({
 
             <Grid col="fill" gap="05">
               <h3 className={styles.articleTitle}>
-                <LinkTo href={sourceLink}>{title}</LinkTo>
+                <LinkTo
+                  href={sourceLink}
+                  target="_blank"
+                  rel="noreferrer noopener">
+                  {title}
+                </LinkTo>
               </h3>
-              <LinkTo href={sourceLink}>{sourceLink}</LinkTo>
+              <LinkTo
+                href={sourceLink}
+                target="_blank"
+                rel="noreferrer noopener">
+                {sourceLink}
+              </LinkTo>
               <p>
                 <span>{description}</span>
               </p>
