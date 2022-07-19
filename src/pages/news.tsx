@@ -8,7 +8,7 @@ import {
 
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import Loader from 'components/Loader/Loader'
-// import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
+import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import { useUser } from 'hooks/useUser'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
@@ -43,6 +43,12 @@ const News = () => {
         </h3>
       </div>
 
+      {!items.length && (
+        <Grid col="fill">
+          <LoadingWidget />
+        </Grid>
+      )}
+
       <Grid col="fill">
         {items
           .filter(validateNewsItems)
@@ -55,19 +61,6 @@ const News = () => {
             </Grid>
           ))}
       </Grid>
-
-      {/* <Grid row gap={2}>
-        {!items.length && (
-          <>
-            <Grid desktop={{ col: 6 }}>
-              <LoadingWidget />
-            </Grid>
-            <Grid desktop={{ col: 6 }}>
-              <LoadingWidget />
-            </Grid>
-          </>
-        )}
-      </Grid> */}
 
       <div style={{ textAlign: 'center' }}>
         <LinkTo
