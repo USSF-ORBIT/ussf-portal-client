@@ -1,6 +1,35 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/sfds/sfdsDependencies';
 
+.NewsListItem {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.articleLink,
+a.articleLink {
+  display: block;
+  text-decoration: none;
+  color: $theme-black;
+
+  &:hover {
+    text-decoration: underline;
+
+    > * {
+      text-decoration: underline;
+    }
+  }
+
+  > * {
+    display: inline;
+  }
+
+  h4 {
+    margin: 0;
+  }
+}
+
 .articleImage {
   border: 1px solid #c4c4c4;
   border-radius: 4px;
@@ -12,6 +41,10 @@
     width: 121px;
     object-fit: cover;
   }
+}
+
+.articleImage + .articleLink {
+  margin-top: units(2);
 }
 
 .articleTitle {
@@ -44,6 +77,10 @@
     text-overflow: ellipsis;
     text-align: left;
   }
+}
+
+.articleTag {
+  align-self: flex-start;
 }
 
 .newsWidgetItem {
