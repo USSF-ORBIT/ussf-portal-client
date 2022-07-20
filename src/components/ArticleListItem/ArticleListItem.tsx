@@ -30,7 +30,8 @@ export const ArticleListItem = ({
           <LinkTo
             href={`/articles/${slug}`}
             target="_blank"
-            rel="noreferrer noopener">
+            rel="noreferrer noopener"
+            data-testid="article-slug">
             {`/articles/${slug}`}
           </LinkTo>
           <p>
