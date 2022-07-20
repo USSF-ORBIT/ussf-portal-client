@@ -27,7 +27,7 @@ export const Label = ({
   children: React.ReactNode
 }) => (
   <USWDSTag className={`${styles.Label} ${styles[type]}`}>
-    <Icon.Label size={3} /> {children}
+    <Icon.Label aria-label="label" size={3} /> {children}
   </USWDSTag>
 )
 
