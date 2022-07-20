@@ -51,6 +51,8 @@ export type ArticleListItemRecord = {
   title: string
   preview: string
   publishedDate: string
+  source?: string
+  sourceName?: string
 }
 
 /* ArticleRecord is the complete article used when viewing the single article page */

@@ -12,12 +12,12 @@ import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import { useUser } from 'hooks/useUser'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
-import NewsListItem from 'components/NewsListItem/NewsListItem'
 import { useRSSFeed } from 'hooks/useRSSFeed'
 import styles from 'styles/pages/news.module.scss'
 import type { RSSNewsItem } from 'types'
-import { validateNewsItems, formatRssToArticle } from 'helpers/index'
+import { validateNewsItems, formatToArticleListItem } from 'helpers/index'
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
+import { ArticleList } from 'components/ArticleList/ArticleList'
 
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=12`
 
@@ -49,18 +49,13 @@ const News = () => {
         </Grid>
       )}
 
-      <Grid col="fill">
-        {items
+      <ArticleList
+        articles={items
           .filter(validateNewsItems)
-          .map((item) => formatRssToArticle(item as Required<RSSNewsItem>))
-          .map((item, i) => (
-            <Grid
-              key={`newsItem_${i}_${item.id}`}
-              className={styles.newsItemContainer}>
-              <NewsListItem article={item} />
-            </Grid>
-          ))}
-      </Grid>
+          .map((item) =>
+            formatToArticleListItem(item as Required<RSSNewsItem>)
+          )}
+      />
 
       <div style={{ textAlign: 'center' }}>
         <LinkTo

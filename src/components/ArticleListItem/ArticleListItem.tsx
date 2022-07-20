@@ -12,7 +12,14 @@ export const ArticleListItem = ({
 }: {
   article: ArticleListItemRecord
 }) => {
-  const { slug, title, preview, publishedDate } = article
+  const {
+    title,
+    preview,
+    publishedDate,
+    slug,
+    source = 'CMS',
+    sourceName = 'SPACEFORCE.mil',
+  } = article
 
   const publishedDateObj = new Date(publishedDate)
 
@@ -25,21 +32,29 @@ export const ArticleListItem = ({
 
         <Grid col="fill" gap="05">
           <h3 className={styles.articleTitle}>
-            <LinkTo href={`/articles/${slug}`}>{title}</LinkTo>
+            <LinkTo href={slug} target="_blank" rel="noreferrer noopener">
+              {title}
+            </LinkTo>
           </h3>
           <LinkTo
-            href={`/articles/${slug}`}
+            href={slug}
             target="_blank"
             rel="noreferrer noopener"
             data-testid="article-slug">
-            {`/articles/${slug}`}
+            {slug}
           </LinkTo>
           <p>
             <span>{preview}</span>
           </p>
           <Grid row gap={4} className={styles.categoryAndLabel}>
-            <Category category={CONTENT_CATEGORIES.INTERNAL_NEWS} />
-            <Label type="Source">SPACEFORCE.mil</Label>
+            <Category
+              category={
+                source === 'RSS'
+                  ? CONTENT_CATEGORIES.EXTERNAL_NEWS
+                  : CONTENT_CATEGORIES.INTERNAL_NEWS
+              }
+            />
+            <Label type="Source">{sourceName}</Label>
           </Grid>
         </Grid>
       </Grid>
