@@ -1,12 +1,14 @@
 import React from 'react'
 import classnames from 'classnames'
 import styles from './Search.module.scss'
-import LinkTo from 'components/util/LinkTo/LinkTo'
+// import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const Search = ({ disabled }: { disabled?: boolean }) => {
   const disableClass = classnames({
     [styles.disabled]: disabled,
   })
+
+  // TODO - re-add filter dropdown & suggested terms as future work
 
   return (
     <div className={styles.search}>
@@ -17,7 +19,12 @@ const Search = ({ disabled }: { disabled?: boolean }) => {
       )}
 
       <div className={disableClass}>
-        <form className="usa-search usa-search--big" role="search">
+        <form
+          className="usa-search usa-search--big"
+          role="search"
+          method="get"
+          action="/search">
+          {/*
           <label className="usa-sr-only" htmlFor="options">
             Search Options
           </label>
@@ -31,15 +38,16 @@ const Search = ({ disabled }: { disabled?: boolean }) => {
             <option value="value2">Option 2</option>
             <option value="value3">Option 3</option>
           </select>
+      */}
 
-          <label className="usa-sr-only" htmlFor="search-field-en-big">
+          <label className="usa-sr-only" htmlFor="q">
             Search
           </label>
           <input
             className="usa-input"
-            id="search-field-en-big"
+            id="q"
             type="search"
-            name="search"
+            name="q"
             placeholder="What are you looking for today?"
             disabled={disabled}
           />
@@ -48,6 +56,8 @@ const Search = ({ disabled }: { disabled?: boolean }) => {
             <span className="usa-search__submit-text">Search</span>
           </button>
         </form>
+
+        {/*
         <div className={styles.suggestedTerms}>
           <h3>Are you looking for:</h3>
           <ul>
@@ -76,6 +86,7 @@ const Search = ({ disabled }: { disabled?: boolean }) => {
             </li>
           </ul>
         </div>
+    */}
       </div>
     </div>
   )

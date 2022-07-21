@@ -1,6 +1,6 @@
 ##--------- Stage: builder ---------##
 
-FROM node:14.19.1-slim AS base
+FROM node:14.19.3-slim AS base
 
 WORKDIR /app
 
@@ -13,6 +13,7 @@ COPY test-saml.pem /usr/local/share/ca-certificates/federation.test.cce.af.mil.c
 COPY prod-saml.pem /usr/local/share/ca-certificates/federation.prod.cce.af.mil.crt
 
 RUN apt-get update \
+  && apt-get dist-upgrade -y \
   && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip dumb-init \
   && chmod +x add-rds-cas.sh && sh add-rds-cas.sh \
   && chmod +x add-dod-cas.sh && sh add-dod-cas.sh && chmod +x create-gcds-chain.sh && sh create-gcds-chain.sh \

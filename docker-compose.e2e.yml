@@ -2,7 +2,7 @@
 services:
   app:
     container_name: app
-    image: "${IMAGE_TAG}"
+    image: '${IMAGE_TAG}'
     build:
       context: .
       dockerfile: Dockerfile
@@ -59,7 +59,7 @@ services:
       - keystone-db
       - redis
 
-# Shared between CMS and Portal
+  # Shared between CMS and Portal
   redis:
     container_name: portal_redis
     image: redis:6.2
@@ -80,7 +80,7 @@ services:
     volumes:
       - ./users.php:/var/www/simplesamlphp/config/authsources.php
 
-# CMS-specific services
+  # CMS-specific services
   keystone-db:
     container_name: keystone-db
     image: postgres:14

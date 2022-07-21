@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.4.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.3.0...4.4.0) (2022-07-13)
+
+
+### Features
+
+* Announcement carousel ([#669](https://github.com/USSF-ORBIT/ussf-portal-client/issues/669)) ([2b52c0e](https://github.com/USSF-ORBIT/ussf-portal-client/commit/2b52c0e0ea3bed60f37f60c95bd4a7471dcce8ef))
+* ePubs search ([#693](https://github.com/USSF-ORBIT/ussf-portal-client/issues/693)) ([1c6725d](https://github.com/USSF-ORBIT/ussf-portal-client/commit/1c6725d6c944ebfc228f0b25e6f2ce25e9e25fdd))
+
+
+### Documentation
+
+* update the branch pattern and link to Shortcut ([#689](https://github.com/USSF-ORBIT/ussf-portal-client/issues/689)) ([87961af](https://github.com/USSF-ORBIT/ussf-portal-client/commit/87961af152e4d73d484707412692994bbbae1136))
+
+## [4.3.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.2.0...4.3.0) (2022-06-27)
+
+
+### Features
+
+* Search results page ([#663](https://github.com/USSF-ORBIT/ussf-portal-client/issues/663)) ([3af506a](https://github.com/USSF-ORBIT/ussf-portal-client/commit/3af506af03e2966a52393e5221bffa09414bdadf))
+
+
+### Bug Fixes
+
+* fix repository for client push ([#667](https://github.com/USSF-ORBIT/ussf-portal-client/issues/667)) ([4580ea2](https://github.com/USSF-ORBIT/ussf-portal-client/commit/4580ea2254da5b747c248569b6739217cc6c8d36))
+
 ## [4.2.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.1.0...4.2.0) (2022-06-10)
 
 
