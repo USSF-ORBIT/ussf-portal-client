@@ -34,7 +34,7 @@ export const formatToArticleListItem = (
   return {
     id: item.id,
     title: item.title,
-    slug: item.link,
+    sourceLink: item.link,
     preview: item.desc,
     publishedDate: item.date,
     source: 'RSS',

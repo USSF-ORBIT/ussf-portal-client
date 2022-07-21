@@ -17,6 +17,7 @@ export const ArticleListItem = ({
     preview,
     publishedDate,
     slug,
+    sourceLink,
     source = 'CMS',
     sourceName = 'SPACEFORCE.mil',
   } = article
@@ -32,16 +33,19 @@ export const ArticleListItem = ({
 
         <Grid col="fill" gap="05">
           <h3 className={styles.articleTitle}>
-            <LinkTo href={slug} target="_blank" rel="noreferrer noopener">
+            <LinkTo
+              href={sourceLink ? sourceLink : `/articles/${slug}`}
+              target="_blank"
+              rel="noreferrer noopener">
               {title}
             </LinkTo>
           </h3>
           <LinkTo
-            href={slug}
+            href={sourceLink ? sourceLink : `/articles/${slug}`}
             target="_blank"
             rel="noreferrer noopener"
             data-testid="article-slug">
-            {slug}
+            {sourceLink ? sourceLink : `/articles/${slug}`}
           </LinkTo>
           <p>
             <span>{preview}</span>

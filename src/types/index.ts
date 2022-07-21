@@ -47,12 +47,13 @@ type Element = {
 /* ArticleListItemRecord is used when querying multiple articles from the CMS */
 export type ArticleListItemRecord = {
   id: string
-  slug: string
+  slug?: string
   title: string
   preview: string
   publishedDate: string
   source?: string
   sourceName?: string
+  sourceLink?: string
 }
 
 /* ArticleRecord is the complete article used when viewing the single article page */
