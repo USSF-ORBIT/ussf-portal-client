@@ -17,54 +17,7 @@ const testArticle = {
   source: 'RSS',
 }
 
-const testArticleNoImage = {
-  ...testArticle,
-  thumbnailSrc: '',
-}
-
 describe('NewsListItem component', () => {
-  describe('with a complete article', () => {
-    beforeEach(() => {
-      render(<NewsListItem article={testArticle} />)
-    })
-
-    it('renders the article contents', () => {
-      expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
-        testArticle.title
-      )
-
-      expect(
-        screen.getByRole('link', {
-          name: `${testArticle.title}`,
-        })
-      ).toHaveAttribute('href', testArticle.sourceLink)
-
-      expect(screen.getByText(/This is a test article/i)).toBeInTheDocument()
-      expect(screen.getByText(testArticle.sourceName)).toBeInTheDocument()
-    })
-  })
-
-  describe('with no image', () => {
-    beforeEach(() => {
-      render(<NewsListItem article={testArticleNoImage} />)
-    })
-
-    it('renders the article contents with no image', () => {
-      expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
-        testArticle.title
-      )
-
-      expect(
-        screen.queryByRole('link', {
-          name: `${testArticle.title}`,
-        })
-      ).toBeInTheDocument()
-
-      expect(screen.getByText(/This is a test article/i)).toBeInTheDocument()
-      expect(screen.getByText(testArticle.sourceName)).toBeInTheDocument()
-    })
-  })
-
   describe('displayed in a widget', () => {
     beforeEach(() => {
       render(<NewsListItem article={testArticle} widget={true} />)
