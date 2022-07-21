@@ -27,6 +27,7 @@ export const formatRssToArticle = (
   }
 }
 
+/** Convert RSS items to article object expected by ArticleList component */
 export const formatToArticleListItem = (
   item: Required<RSSNewsItem>
 ): ArticleListItemRecord => {
