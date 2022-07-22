@@ -19,7 +19,8 @@ export const ArticleListItem = ({
     slug,
     sourceLink,
     source = 'CMS',
-    sourceName = 'SPACEFORCE.mil',
+    sourceName,
+    labels,
   } = article
 
   const publishedDateObj = new Date(publishedDate)
@@ -58,7 +59,20 @@ export const ArticleListItem = ({
                   : CONTENT_CATEGORIES.INTERNAL_NEWS
               }
             />
-            <Label type="Source">{sourceName}</Label>
+
+            {source === 'CMS' && labels && labels.length > 0 && (
+              <>
+                {labels?.map((label) => {
+                  return (
+                    <Label key={label.id} type={label.type}>
+                      {label.name}
+                    </Label>
+                  )
+                })}
+              </>
+            )}
+
+            {source === 'RSS' && <Label type="Source">{sourceName}</Label>}
           </Grid>
         </Grid>
       </Grid>

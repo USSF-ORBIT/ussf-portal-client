@@ -15,6 +15,7 @@ export const GET_INTERNAL_NEWS_ARTICLES = gql`
       preview
       publishedDate
       labels {
+        id
         name
         type
       }
