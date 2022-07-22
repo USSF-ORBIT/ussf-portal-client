@@ -22,8 +22,4 @@ netlify.toml
 node_modules
 out/
 renovate.json
-src/__fixtures__/
-src/__mocks__/
-src/__tests__/
-test
 users.php
