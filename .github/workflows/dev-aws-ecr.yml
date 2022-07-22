@@ -107,7 +107,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: portal-client
           IMAGE_TAG: ${{ github.sha }}
-        uses: aquasecurity/trivy-action@0105373003c89c494a3f436bd5efc57f3ac1ca20 # tag=0.5.1
+        uses: aquasecurity/trivy-action@503d3abc15463af68b817d685982721f134256a5 # tag=0.6.0
         with:
           image-ref: '${{ steps.login-ecr.outputs.registry }}/portal-client:${{ github.sha }}'
           format: 'sarif'
