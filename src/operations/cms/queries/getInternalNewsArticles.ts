@@ -14,6 +14,10 @@ export const GET_INTERNAL_NEWS_ARTICLES = gql`
       title
       preview
       publishedDate
+      labels {
+        name
+        type
+      }
     }
   }
 `
