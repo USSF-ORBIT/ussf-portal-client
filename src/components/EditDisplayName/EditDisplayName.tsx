@@ -80,7 +80,7 @@ const EditDisplayName = ({
                 <Alert
                   className={styles.successMessage}
                   type="success"
-                  headingLevel={4}>
+                  headingLevel="h4">
                   New title has been saved
                 </Alert>
               </Grid>
