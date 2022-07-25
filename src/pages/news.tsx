@@ -43,29 +43,30 @@ const News = () => {
         </h3>
       </div>
 
-      {!items.length && (
+      {!items.length ? (
         <Grid col="fill">
           <LoadingWidget />
         </Grid>
+      ) : (
+        <>
+          <ArticleList
+            articles={items
+              .filter(validateNewsItems)
+              .map((item) =>
+                formatToArticleListItem(item as Required<RSSNewsItem>)
+              )}
+          />
+          <div style={{ textAlign: 'center' }}>
+            <LinkTo
+              href="https://www.spaceforce.mil/News"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="usa-button">
+              Read more news
+            </LinkTo>
+          </div>
+        </>
       )}
-
-      <ArticleList
-        articles={items
-          .filter(validateNewsItems)
-          .map((item) =>
-            formatToArticleListItem(item as Required<RSSNewsItem>)
-          )}
-      />
-
-      <div style={{ textAlign: 'center' }}>
-        <LinkTo
-          href="https://www.spaceforce.mil/News"
-          target="_blank"
-          rel="noreferrer noopener"
-          className="usa-button">
-          Read more news
-        </LinkTo>
-      </div>
     </div>
   )
 }
