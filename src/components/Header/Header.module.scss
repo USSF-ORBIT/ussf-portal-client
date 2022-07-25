@@ -13,6 +13,10 @@
       @include sfds-grid-container();
     }
 
+    // .aboutUsDropdownButton {
+    //   background-color: orangered;
+    // }
+
     .usa-logo {
       img {
         width: 65px;
@@ -65,6 +69,20 @@
           content: none;
         }
       }
+    }
+
+    .usa-nav__primary > .usa-nav__primary-item > button {
+      font-weight: normal;
+    }
+
+    .usa-nav__primary button[aria-expanded='false']:hover {
+      background-image: url(/vendor/img/usa-icons-bg/expand_more--white.svg);
+    }
+
+    .usa-nav__primary
+      > .usa-nav__primary-item
+      > button.usa-accordion__button.usa-nav__link.usa-current::after {
+      background-color: transparent !important;
     }
   }
 
