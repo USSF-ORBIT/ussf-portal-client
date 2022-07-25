@@ -28,6 +28,21 @@ describe('ArticleList component', () => {
     expect(screen.getAllByRole('listitem')).toHaveLength(3)
   })
 
+  it('displays the Pagination component if pagination props are passed in', async () => {
+    render(
+      <ArticleList
+        articles={testArticles}
+        pagination={{ currentPage: 1, totalPages: 2 }}
+      />
+    )
+
+    expect(
+      screen.getByRole('navigation', { name: 'Pagination' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Page 1' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Page 2' })).toBeInTheDocument()
+  })
+
   it('has no a11y violations', async () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
