@@ -40,10 +40,13 @@ const Header = () => {
   }
 
   const aboutUsDropdownItems = [
-    <NavLink href="/about-us" key="one">
+    <NavLink href="/about-us" key="one" onClick={() => setIsOpen([false])}>
       About the USSF
     </NavLink>,
-    <NavLink href="/about-us/orbit-blog" key="two">
+    <NavLink
+      href="/about-us/orbit-blog"
+      key="two"
+      onClick={() => setIsOpen([false])}>
       ORBIT blog
     </NavLink>,
   ]
