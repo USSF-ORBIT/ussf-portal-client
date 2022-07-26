@@ -34,6 +34,7 @@ const Header = () => {
     setIsOpen((prevIsOpen) => {
       const newIsOpen = [false, false]
 
+      // eslint-disable-next-line
       newIsOpen[index] = !prevIsOpen[index]
       return newIsOpen
     })
