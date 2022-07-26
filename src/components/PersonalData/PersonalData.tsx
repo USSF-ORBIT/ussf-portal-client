@@ -35,7 +35,10 @@ const PersonalData = () => {
         <div>
           <BreadcrumbBar>
             <Breadcrumb>
-              <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/settings">
+              <BreadcrumbLink<NavLinkProps>
+                asCustom={NavLink}
+                href="/settings"
+                data-testid="editName">
                 Edit name
               </BreadcrumbLink>
             </Breadcrumb>

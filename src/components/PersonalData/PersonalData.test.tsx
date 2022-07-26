@@ -11,13 +11,6 @@ import { renderWithAuth } from '../../testHelpers'
 import { getDisplayNameMock } from '../../__fixtures__/operations/getDisplayName'
 import PersonalData from './PersonalData'
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    route: '',
-    pathname: '',
-  }),
-}))
-
 describe('Personal Data component', () => {
   let html: RenderResult
 
@@ -43,6 +36,11 @@ describe('Personal Data component', () => {
     it('renders the greeting with a name', () => {
       const greeting = screen.getByRole('heading', { level: 2 })
       expect(greeting).toHaveTextContent('Welcome, BERNADETTE CAMPBELL')
+    })
+
+    it('renders the Edit name link', async () => {
+      const editNameButton = await screen.findByTestId('editName')
+      expect(editNameButton).toBeVisible()
     })
 
     it('has no a11y violations', async () => {
