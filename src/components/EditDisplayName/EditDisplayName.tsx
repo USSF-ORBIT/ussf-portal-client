@@ -67,6 +67,7 @@ const EditDisplayName = ({
               <button
                 type="button"
                 className="usa-button"
+                data-testid="saveButton"
                 disabled={currentDisplayName === '' ? true : false}
                 onClick={updateDisplayName}>
                 Save
