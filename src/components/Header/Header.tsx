@@ -59,17 +59,16 @@ const Header = () => {
         onToggle={(): void => {
           onToggle(0)
         }}
-        onMouseOver={() => setIsOpen([true])}
-        onMouseOut={() => setIsOpen([false])}
+        onMouseLeave={() => setIsOpen([false])}
         isOpen={isOpen[0]}
         label="About Us"
         isCurrent={true}
       />
       <Menu
         key="nav_about"
-        onMouseOver={() => setIsOpen([true])}
-        onMouseOut={() => setIsOpen([false])}
         items={aboutUsDropdownItems}
+        onMouseEnter={() => setIsOpen([true])}
+        onMouseLeave={() => setIsOpen([false])}
         isOpen={isOpen[0]}
         id="aboutUsDropdown">
         About us
