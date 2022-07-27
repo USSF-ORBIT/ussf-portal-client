@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e
 
 # 474229110082.dkr.ecr.us-west-2.amazonaws.com/portal-client:0e4fbf2ff634b724128d29203811ce665b2b053a
