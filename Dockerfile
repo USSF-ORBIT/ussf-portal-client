@@ -3,6 +3,7 @@
 FROM node:14.19.3-slim AS builder
 
 RUN apt-get update \
+  && apt-get dist-upgrade -y \
   && apt-get -y --no-install-recommends install openssl libc6
 
 WORKDIR /app
@@ -28,6 +29,7 @@ RUN yarn install --production --ignore-scripts --prefer-offline
 FROM node:14.19.3-slim AS e2e
 
 RUN apt-get update \
+  && apt-get dist-upgrade -y \
   && apt-get -y --no-install-recommends install openssl libc6
 
 WORKDIR /app
@@ -69,6 +71,7 @@ COPY ./migrations ./migrations
 COPY ./utils ./utils
 
 RUN apt-get update \
+  && apt-get dist-upgrade -y \
   && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip \
   && chmod +x add-rds-cas.sh && sh add-rds-cas.sh \
   && chmod +x add-dod-cas.sh && sh add-dod-cas.sh && chmod +x create-gcds-chain.sh && sh create-gcds-chain.sh \
