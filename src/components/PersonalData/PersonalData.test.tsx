@@ -11,6 +11,13 @@ import { renderWithAuth } from '../../testHelpers'
 import { getDisplayNameMock } from '../../__fixtures__/operations/getDisplayName'
 import PersonalData from './PersonalData'
 
+jest.mock('next/router', () => ({
+  useRouter: jest.fn().mockReturnValue({
+    route: '',
+    pathname: '',
+  }),
+}))
+
 describe('Personal Data component', () => {
   let html: RenderResult
 
