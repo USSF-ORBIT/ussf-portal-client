@@ -24,10 +24,9 @@ describe('ArticleListItem component', () => {
 
     expect(screen.getByText('May')).toBeInTheDocument()
     expect(screen.getByText('17')).toBeInTheDocument()
-    expect(screen.getByText('2022')).toBeInTheDocument()
 
-    expect(screen.getByRole('link')).toHaveTextContent(testArticle.title)
-    expect(screen.getByRole('link')).toHaveAttribute(
+    expect(screen.getAllByText(testArticle.title)).toHaveLength(1)
+    expect(screen.getByTestId('article-slug')).toHaveAttribute(
       'href',
       `/articles/${testArticle.slug}`
     )

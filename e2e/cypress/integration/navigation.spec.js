@@ -27,7 +27,7 @@ describe('Routes & navigation', () => {
     it('can navigate to the News page', () => {
       cy.visit('/news')
       cy.injectAxe()
-      cy.contains('Latest news')
+      cy.contains('All USSF news')
       cy.checkA11y(null, null, logging, { skipFailures: true })
     })
 
