@@ -1,10 +1,14 @@
 import { ReactNode } from 'react'
-import { GridContainer, Accordion, Button } from '@trussworks/react-uswds'
+import {
+  GridContainer,
+  Accordion,
+  Button,
+  HeadingLevel,
+} from '@trussworks/react-uswds'
+import { AccordionItemProps } from '@trussworks/react-uswds/lib/components/Accordion/Accordion'
 import styles from './login.module.scss'
 import Layout from 'layout/LoginLayout/LoginLayout'
 import { useAuthContext } from 'stores/authContext'
-import { AccordionItemProps } from '@trussworks/react-uswds/lib/components/Accordion/Accordion'
-import type { HeadingLevel } from '@trussworks/react-uswds'
 
 const Login = () => {
   const { login } = useAuthContext()

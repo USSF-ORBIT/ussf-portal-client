@@ -24,7 +24,8 @@ describe('My Space model', () => {
     await db.collection('users').deleteMany({})
 
     // Create a test user (with one default collection)
-    await User.createOne(testUserId, [exampleCollection], { db })
+    const displayName = 'Floyd King'
+    await User.createOne(testUserId, [exampleCollection], displayName, { db })
   })
 
   afterAll(async () => {

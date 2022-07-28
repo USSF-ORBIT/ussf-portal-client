@@ -1,0 +1,6 @@
+mutation editDisplayName($userId: String!, $displayName: String!) {
+  editDisplayName(userId: $userId, displayName: $displayName) {
+    userId
+    displayName
+  }
+}

@@ -3,8 +3,12 @@
 
 .personalData {
   h2 {
-    margin-bottom: units(2.5);
+    margin-bottom: 0;
     text-transform: uppercase;
+  }
+
+  h2 + div > nav {
+    padding-top: 0 !important;
   }
 
   dt {
