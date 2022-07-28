@@ -51,8 +51,7 @@
       font-family: 'Trebuchet MS', sans-serif;
 
       &:hover {
-        background: $theme-white;
-        color: $theme-black;
+        background: $theme-spacebase-base;
         border-radius: 6px;
       }
 
@@ -67,8 +66,16 @@
       }
     }
 
+    .usa-nav__primary > .usa-nav__primary-item > .usa-nav__submenu {
+      background-color: $theme-spacebase-base;
+    }
+
     .usa-nav__primary > .usa-nav__primary-item > button {
       font-weight: normal;
+
+      &:hover {
+        background-color: $theme-spacebase-base;
+      }
     }
 
     .usa-nav__primary button[aria-expanded='false'] span::after {
