@@ -1,4 +1,8 @@
-import { validateNewsItems, formatRssToArticle } from './index'
+import {
+  validateNewsItems,
+  formatRssToArticle,
+  formatToArticleListItem,
+} from './index'
 
 import type { RSSNewsItem } from 'types'
 
@@ -55,5 +59,30 @@ describe('formatRssToArticle', () => {
     }
 
     expect(formatRssToArticle(rssItem)).toStrictEqual(newsItem)
+  })
+})
+
+describe('formatToArticleListItem', () => {
+  it('maps a valid RSS item to an ArticleList item', () => {
+    const rssItem: Required<RSSNewsItem> = {
+      id: 'testItemId',
+      desc: 'Test item description',
+      date: '14 Feb 2022',
+      link: 'http://www.example.com',
+      title: 'Test Item',
+      image: 'https://via.placeholder.com/150',
+    }
+
+    const articeItem = {
+      id: 'testItemId',
+      title: 'Test Item',
+      sourceLink: 'http://www.example.com',
+      preview: 'Test item description',
+      publishedDate: '14 Feb 2022',
+      source: 'RSS',
+      sourceName: 'SPACEFORCE.mil',
+    }
+
+    expect(formatToArticleListItem(rssItem)).toStrictEqual(articeItem)
   })
 })

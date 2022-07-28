@@ -62,7 +62,7 @@ export const ArticleListItem = ({
 
             {source === 'CMS' && labels && labels.length > 0 && (
               <>
-                {labels?.map((label) => {
+                {labels.map((label) => {
                   return (
                     <Label key={label.id} type={label.type}>
                       {label.name}

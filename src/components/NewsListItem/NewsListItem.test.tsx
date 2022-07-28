@@ -27,9 +27,18 @@ describe('NewsListItem component', () => {
       expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent(
         testArticle.title
       )
+      expect(
+        screen.getByText(`${testArticle.publishDate} //`)
+      ).toBeInTheDocument()
 
       expect(screen.getByText(/This is a test article/i)).toBeInTheDocument()
       expect(screen.getByText(testArticle.sourceName)).toBeInTheDocument()
+
+      expect(
+        screen.getByRole('link', {
+          name: `${testArticle.publishDate} // ${testArticle.title}`,
+        })
+      ).toHaveAttribute('href', testArticle.sourceLink)
     })
   })
 })
