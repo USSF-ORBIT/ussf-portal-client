@@ -1,35 +1,25 @@
-import React, { useEffect } from 'react'
+import { InferGetServerSidePropsType } from 'next'
 import {
   BreadcrumbBar,
   Breadcrumb,
   BreadcrumbLink,
-  Grid,
 } from '@trussworks/react-uswds'
 
-import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
+import { client } from '../lib/keystoneClient'
+
+import type { ArticleListItemRecord } from 'types'
 import Loader from 'components/Loader/Loader'
-import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import { useUser } from 'hooks/useUser'
-import LinkTo from 'components/util/LinkTo/LinkTo'
+import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
-import { useRSSFeed } from 'hooks/useRSSFeed'
-import styles from 'styles/pages/news.module.scss'
-import type { RSSNewsItem } from 'types'
-import { validateNewsItems, formatToArticleListItem } from 'helpers/index'
-import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
+import { GET_INTERNAL_NEWS_ARTICLES } from 'operations/cms/queries/getInternalNewsArticles'
 import { ArticleList } from 'components/ArticleList/ArticleList'
+import styles from 'styles/pages/news.module.scss'
 
-const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=12`
-
-const News = () => {
+const InternalNews = ({
+  articles,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
-  const { items, fetchItems } = useRSSFeed(RSS_URL)
-
-  useEffect(() => {
-    if (user) {
-      fetchItems()
-    }
-  }, [user])
 
   return !user ? (
     <Loader />
@@ -43,48 +33,44 @@ const News = () => {
         </h3>
       </div>
 
-      {!items.length ? (
-        <Grid col="fill">
-          <LoadingWidget />
-        </Grid>
-      ) : (
-        <>
-          <ArticleList
-            articles={items
-              .filter(validateNewsItems)
-              .map((item) =>
-                formatToArticleListItem(item as Required<RSSNewsItem>)
-              )}
-          />
-          <div style={{ textAlign: 'center' }}>
-            <LinkTo
-              href="https://www.spaceforce.mil/News"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="usa-button">
-              Read more news
-            </LinkTo>
-          </div>
-        </>
-      )}
+      <ArticleList articles={articles} />
     </div>
   )
 }
 
-export default News
+export default InternalNews
 
-News.getLayout = (page: React.ReactNode) =>
+InternalNews.getLayout = (page: React.ReactNode) =>
   withPageLayout(
     <div>
-      <h1>News</h1>
+      <h1>Internal News</h1>
       <BreadcrumbBar>
         <Breadcrumb>
           <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
             Service portal home
           </BreadcrumbLink>
         </Breadcrumb>
-        <Breadcrumb current>News</Breadcrumb>
+        <Breadcrumb>
+          <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/about-us">
+            About us
+          </BreadcrumbLink>
+        </Breadcrumb>
+        <Breadcrumb current>Internal News</Breadcrumb>
       </BreadcrumbBar>
     </div>,
     page
   )
+
+export async function getServerSideProps() {
+  const {
+    data: { articles },
+  }: { data: { articles: ArticleListItemRecord[] } } = await client.query({
+    query: GET_INTERNAL_NEWS_ARTICLES,
+  })
+
+  return {
+    props: {
+      articles,
+    },
+  }
+}
