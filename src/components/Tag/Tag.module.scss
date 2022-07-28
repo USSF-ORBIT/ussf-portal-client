@@ -31,9 +31,9 @@
   }
 
   &.Source {
-    background-color: $label-source-lighttheme-bg;
+    background-color: $theme-mars-darker;
     svg {
-      color: $label-source-lighttheme-icon;
+      color: $theme-mars-lightest;
     }
   }
   &.Audience {

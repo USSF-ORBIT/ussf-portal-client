@@ -1,6 +1,10 @@
 // Pure functions that can be executed anywhere (NodeJS, browser)
 
-import type { RSSNewsItem, NewsListItemArticle } from 'types'
+import type {
+  RSSNewsItem,
+  NewsListItemArticle,
+  ArticleListItemRecord,
+} from 'types'
 
 /** Validate items from an RSS feed by checking for required attributes */
 export const validateNewsItems = (item: RSSNewsItem): boolean => {
@@ -18,6 +22,21 @@ export const formatRssToArticle = (
     description: item.desc,
     publishDate: item.date,
     thumbnailSrc: item.image,
+    source: 'RSS',
+    sourceName: 'SPACEFORCE.mil',
+  }
+}
+
+/** Convert RSS items to article object expected by ArticleList component */
+export const formatToArticleListItem = (
+  item: Required<RSSNewsItem>
+): ArticleListItemRecord => {
+  return {
+    id: item.id,
+    title: item.title,
+    sourceLink: item.link,
+    preview: item.desc,
+    publishedDate: item.date,
     source: 'RSS',
     sourceName: 'SPACEFORCE.mil',
   }

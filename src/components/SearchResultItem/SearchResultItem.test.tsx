@@ -67,7 +67,6 @@ describe('SearchResultItem component', () => {
 
       expect(screen.queryByText('May')).toBeInTheDocument()
       expect(screen.queryByText('17')).toBeInTheDocument()
-      expect(screen.queryByText('2022')).toBeInTheDocument()
 
       expect(screen.queryByRole('img')).not.toBeInTheDocument()
       expect(screen.queryAllByRole('link')).toHaveLength(2)

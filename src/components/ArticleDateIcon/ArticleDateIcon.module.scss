@@ -3,20 +3,27 @@
 
 .ArticleDateIcon {
   border: 1px solid $theme-cosmiclatte-dark;
-  border-radius: 6px;
-  background-color: $theme-cosmiclatte-lightest;
+  border-radius: 8px;
+  background: $theme-cosmiclatte-lighter;
 
-  width: 65px;
-  padding: units(1);
+  width: 60px;
+  height: 60px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   text-transform: uppercase;
   font-size: size('body', 7);
 
   small {
     font-size: size('body', 1);
+    line-height: 15px;
+  }
+
+  span {
+    font-family: 'Sharp Sans';
+    line-height: 23px;
   }
 
   * + * {
