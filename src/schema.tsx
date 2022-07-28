@@ -39,6 +39,14 @@ export const typeDefs = gql`
   type Query {
     collections: [Collection!]!
     mySpace: [Widget!]!
+    displayName: String!
+  }
+
+  type User {
+    _id: OID!
+    userId: String
+    mySpace: [Collection]
+    displayName: String
   }
 
   type Mutation {
@@ -65,6 +73,7 @@ export const typeDefs = gql`
       url: String
       label: String
     ): Bookmark
+    editDisplayName(userId: String!, displayName: String!): User
   }
 
   input BookmarkInput {

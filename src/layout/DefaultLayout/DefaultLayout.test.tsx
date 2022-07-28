@@ -3,8 +3,9 @@
  */
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-
-import DefaultLayout, { withDefaultLayout } from './DefaultLayout'
+import { MockedProvider } from '@apollo/client/testing'
+import { getDisplayNameMock } from '../../__fixtures__/operations/getDisplayName'
+import DefaultLayout from './DefaultLayout'
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -18,9 +19,11 @@ jest.mock('next/router', () => ({
 describe('DefaultLayout component', () => {
   beforeEach(() => {
     render(
-      <DefaultLayout>
-        <h1>Test Page</h1>
-      </DefaultLayout>
+      <MockedProvider mocks={getDisplayNameMock}>
+        <DefaultLayout>
+          <h1>Test Page</h1>
+        </DefaultLayout>
+      </MockedProvider>
     )
   })
 
@@ -47,14 +50,20 @@ describe('DefaultLayout component', () => {
 
   it('renders common layout elements', () => {
     expect(screen.getAllByRole('banner')).toHaveLength(2) // Gov banner & site header
-    expect(screen.getAllByRole('navigation')).toHaveLength(3) // header, page nav, footer
+    expect(screen.getAllByRole('navigation')).toHaveLength(4) // header, page nav, footer
   })
 })
 
 describe('withDefaultLayout HOC', () => {
   it('renders children inside of the default layout', () => {
     const TestPage = () => <div>My page</div>
-    render(withDefaultLayout(<TestPage />))
+    render(
+      <MockedProvider>
+        <DefaultLayout>
+          <TestPage />
+        </DefaultLayout>
+      </MockedProvider>
+    )
     expect(screen.getByText('My page')).toBeInTheDocument()
   })
 })

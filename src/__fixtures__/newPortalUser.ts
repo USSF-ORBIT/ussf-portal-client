@@ -103,4 +103,5 @@ export const exampleCollection2 = {
 export const newPortalUser = {
   userId: 'CAMPBELL.BERNADETTE.5244446289',
   mySpace: [exampleCollection1, exampleCollection2],
+  displayName: 'BERNADETTE CAMPBELL',
 }

@@ -159,6 +159,7 @@ export interface SAMLUser {
 export type PortalUser = {
   userId: string
   mySpace: Collection[]
+  displayName: string
 }
 
 export type SessionUser = SAMLUser & {
