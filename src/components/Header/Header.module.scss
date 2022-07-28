@@ -51,8 +51,7 @@
       font-family: 'Trebuchet MS', sans-serif;
 
       &:hover {
-        background: $theme-white;
-        color: $theme-black;
+        background: $theme-spacebase-base;
         border-radius: 6px;
       }
 
@@ -65,6 +64,28 @@
           content: none;
         }
       }
+    }
+
+    .usa-nav__primary > .usa-nav__primary-item > .usa-nav__submenu {
+      background-color: $theme-spacebase-base;
+    }
+
+    .usa-nav__primary > .usa-nav__primary-item > button {
+      font-weight: normal;
+
+      &:hover {
+        background-color: $theme-spacebase-base;
+      }
+    }
+
+    .usa-nav__primary button[aria-expanded='false'] span::after {
+      background-color: $white;
+    }
+
+    .usa-nav__primary
+      > .usa-nav__primary-item
+      > button.usa-accordion__button.usa-nav__link.usa-current::after {
+      background-color: transparent !important;
     }
   }
 

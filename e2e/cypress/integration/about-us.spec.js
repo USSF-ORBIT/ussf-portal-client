@@ -12,7 +12,8 @@ describe('About Us', () => {
   })
 
   it('can visit the About Us page', () => {
-    cy.findByRole('link', { name: 'About us' }).click()
+    cy.get('button[aria-controls="aboutUsDropdown"]').click()
+    cy.findByRole('link', { name: 'About the USSF' }).click()
     cy.url().should('eq', Cypress.config().baseUrl + '/about-us')
     cy.findByRole('heading', { level: 1 }).contains('About us')
     cy.findAllByRole('heading', { level: 3, name: 'Essential Reading' }).should(

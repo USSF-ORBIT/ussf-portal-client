@@ -5,6 +5,8 @@ import {
   PrimaryNav,
   NavMenuButton,
   Button,
+  Menu,
+  NavDropDownButton,
 } from '@trussworks/react-uswds'
 
 import styles from './Header.module.scss'
@@ -19,6 +21,7 @@ const Header = () => {
   const { logout } = useAuthContext()
   const { trackEvent } = useAnalytics()
   const [expanded, setExpanded] = useState(false)
+  const [isOpen, setIsOpen] = useState([false, false])
   const handleNavButtonClick = (): void =>
     setExpanded((prevExpanded) => !prevExpanded)
 
@@ -27,10 +30,50 @@ const Header = () => {
     logout()
   }
 
-  const navItems = [
-    <NavLink key="nav_about" href="/about-us">
-      About us
+  const onToggle = (index: number): void => {
+    setIsOpen((prevIsOpen) => {
+      const newIsOpen = [false, false]
+
+      // eslint-disable-next-line
+      newIsOpen[index] = !prevIsOpen[index]
+      return newIsOpen
+    })
+  }
+
+  const aboutUsDropdownItems = [
+    <NavLink href="/about-us" key="one" onClick={() => setIsOpen([false])}>
+      About the USSF
     </NavLink>,
+    <NavLink
+      href="/about-us/orbit-blog"
+      key="two"
+      onClick={() => setIsOpen([false])}>
+      ORBIT blog
+    </NavLink>,
+  ]
+
+  const navItems = [
+    <>
+      <NavDropDownButton
+        menuId="aboutUsDropdown"
+        onToggle={(): void => {
+          onToggle(0)
+        }}
+        onMouseLeave={() => setIsOpen([false])}
+        isOpen={isOpen[0]}
+        label="About Us"
+        isCurrent={true}
+      />
+      <Menu
+        key="nav_about"
+        items={aboutUsDropdownItems}
+        onMouseEnter={() => setIsOpen([true])}
+        onMouseLeave={() => setIsOpen([false])}
+        isOpen={isOpen[0]}
+        id="aboutUsDropdown">
+        About us
+      </Menu>
+    </>,
     <NavLink key="nav_news" href="/news">
       News
     </NavLink>,
