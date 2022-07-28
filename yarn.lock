@@ -3373,10 +3373,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@shelf/jest-mongodb@3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@shelf/jest-mongodb/-/jest-mongodb-3.0.1.tgz#330dfcb5c9e734308defc785a8a41b7be6535d0a"
-  integrity sha512-M3jeNq4FzeY9ctZspPGDu7g5oXsN5+1umsXQH95o92Gy5Utlh3D2TcH+q+kxjNSkrPC9qrplCIO8foTtO3TsEA==
+"@shelf/jest-mongodb@4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@shelf/jest-mongodb/-/jest-mongodb-4.0.0.tgz#edbc1e7a8689eab9cab369023d88a8f1174f11aa"
+  integrity sha512-g251WdXUFD1uzT+QVXjmC0msjrcXqDhfIAKDzJNsGoFux0xfqo7PtUIOeguLFnvLD/ZQwSRQf8pQx4+0v2cPCg==
   dependencies:
     debug "4.3.4"
     mongodb-memory-server "7.6.3"
