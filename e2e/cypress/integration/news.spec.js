@@ -22,7 +22,7 @@ describe('News and Announcements', () => {
 
   it('can visit the News page', () => {
     cy.findByRole('link', { name: 'News' }).click()
-    cy.url().should('eq', Cypress.config().baseUrl + '/news')
+    cy.url().should('eq', Cypress.config().baseUrl + '/news-announcements')
     cy.findByRole('heading', { level: 1 }).contains('News')
     cy.wait('@getNewsRSS')
     cy.findAllByRole('article').should('exist')
