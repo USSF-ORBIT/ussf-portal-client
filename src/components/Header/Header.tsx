@@ -74,7 +74,7 @@ const Header = () => {
         About us
       </Menu>
     </>,
-    <NavLink key="nav_news" href="/news">
+    <NavLink key="nav_news" href="/news-announcements">
       News
     </NavLink>,
     <Button
