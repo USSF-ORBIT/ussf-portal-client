@@ -157,7 +157,7 @@
     "ansi-regex": "5.0.1",
     "trim": "0.0.3",
     "webpack": "5.73.0",
-    "glob-parent": "5.1.2"
+    "glob-parent": "6.0.2"
   },
   "browserslist": [
     "> 2%",
