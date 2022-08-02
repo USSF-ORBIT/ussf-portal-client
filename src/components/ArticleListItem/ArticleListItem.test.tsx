@@ -70,4 +70,13 @@ describe('ArticleListItem component', () => {
     expect(screen.getByText(rssTestArticle.preview)).toBeInTheDocument()
     expect(screen.getByText(rssTestArticle.sourceName)).toBeInTheDocument()
   })
+
+  it('rss article has no a11y violations', async () => {
+    // Bug with NextJS Link + axe :(
+    // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
+    await act(async () => {
+      const { container } = render(<ArticleListItem article={rssTestArticle} />)
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })
