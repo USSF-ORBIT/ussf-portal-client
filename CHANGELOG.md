@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.5.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.4.0...4.5.0) (2022-08-01)
+
+
+### Features
+
+* Add link to ORBIT Blog on portal ([#719](https://github.com/USSF-ORBIT/ussf-portal-client/issues/719)) ([7ce6af9](https://github.com/USSF-ORBIT/ussf-portal-client/commit/7ce6af9e3ca4b06dbe707f657b68ff58ae8ef664))
+* Create internal news page and update existing external news page ([#711](https://github.com/USSF-ORBIT/ussf-portal-client/issues/711)) ([feadcae](https://github.com/USSF-ORBIT/ussf-portal-client/commit/feadcae197d16079a49c7304c97d88ba6eb4d638))
+* Edit display name ([#706](https://github.com/USSF-ORBIT/ussf-portal-client/issues/706)) ([372ad2a](https://github.com/USSF-ORBIT/ussf-portal-client/commit/372ad2a3d3daa0963d691d33fc0322516c79132e))
+* Pagination component ([#690](https://github.com/USSF-ORBIT/ussf-portal-client/issues/690)) ([bc20cd5](https://github.com/USSF-ORBIT/ussf-portal-client/commit/bc20cd5fd90ad709fb351fb37a66cbe2730d6b05))
+
 ## [4.4.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.3.0...4.4.0) (2022-07-13)
 
 
