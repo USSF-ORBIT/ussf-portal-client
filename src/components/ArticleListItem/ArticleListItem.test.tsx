@@ -8,8 +8,9 @@ import React from 'react'
 
 import { ArticleListItem } from './ArticleListItem'
 
-const testArticle = {
+const cmsTestArticle = {
   id: 'testArticleId123',
+  labels: [{ id: 'labelId', name: 'A Label', type: 'Source' }],
   slug: 'test-article',
   title:
     'Version 2.8.5 released! Includes MVP search experience and a way to filter the news.',
@@ -18,27 +19,55 @@ const testArticle = {
   publishedDate: '2022-05-17T13:44:39.796Z',
 }
 
+const rssTestArticle = {
+  id: 'rssArticle123',
+  preview:
+    'In May 2022, the U.S. Space Force held a Cyber Constructive Service (CCS) Credit Board, in which the',
+  publishedDate: 'Aug 01, 2022',
+  source: 'RSS',
+  sourceLink:
+    'https://www.spaceforce.mil/News/Article/3111951/us-space-force-conducts-innovative-talent-acquisition-process/',
+  sourceName: 'SPACEFORCE.mil',
+  title: 'U.S. Space Force conducts innovative talent acquisition process',
+}
+
 describe('ArticleListItem component', () => {
-  it('renders the article preview', () => {
-    render(<ArticleListItem article={testArticle} />)
+  it('renders the article preview of a cms article', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    render(<ArticleListItem article={cmsTestArticle} />)
 
     expect(screen.getByText('May')).toBeInTheDocument()
     expect(screen.getByText('17')).toBeInTheDocument()
 
-    expect(screen.getAllByText(testArticle.title)).toHaveLength(1)
+    expect(screen.getAllByText(cmsTestArticle.title)).toHaveLength(1)
     expect(screen.getByTestId('article-slug')).toHaveAttribute(
       'href',
-      `/articles/${testArticle.slug}`
+      `/articles/${cmsTestArticle.slug}`
     )
-    expect(screen.getByText(testArticle.preview)).toBeInTheDocument()
+    expect(screen.getByText(cmsTestArticle.preview)).toBeInTheDocument()
+    expect(screen.getByText(cmsTestArticle.labels[0].name)).toBeInTheDocument()
   })
 
-  it('has no a11y violations', async () => {
+  it('cms article has no a11y violations', async () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
-      const { container } = render(<ArticleListItem article={testArticle} />)
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const { container } = render(<ArticleListItem article={cmsTestArticle} />)
       expect(await axe(container)).toHaveNoViolations()
     })
+  })
+
+  it('renders the article preview of an rss article', () => {
+    render(<ArticleListItem article={rssTestArticle} />)
+
+    expect(screen.getByText('Aug')).toBeInTheDocument()
+    expect(screen.getByText('01')).toBeInTheDocument()
+
+    expect(screen.getAllByText(rssTestArticle.title)).toHaveLength(1)
+    expect(screen.getByText(rssTestArticle.preview)).toBeInTheDocument()
+    expect(screen.getByText(rssTestArticle.sourceName)).toBeInTheDocument()
   })
 })
