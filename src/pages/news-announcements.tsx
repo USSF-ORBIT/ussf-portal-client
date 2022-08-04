@@ -19,6 +19,7 @@ import styles from 'styles/pages/news.module.scss'
 import type { RSSNewsItem } from 'types'
 import { validateNewsItems, formatToArticleListItem } from 'helpers/index'
 import { GET_ANNOUNCEMENTS } from 'operations/cms/queries/getAnnouncements'
+import { GET_INTERNAL_NEWS_CAROUSEL_ARTICLES } from 'operations/cms/queries/getInternalNewsCarouselArticles'
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 
@@ -106,9 +107,16 @@ export async function getServerSideProps() {
     query: GET_ANNOUNCEMENTS,
   })
 
+  const {
+    data: { articles },
+  } = await client.query({
+    query: GET_INTERNAL_NEWS_CAROUSEL_ARTICLES,
+  })
+
   return {
     props: {
       announcements,
+      articles,
     },
   }
 }
