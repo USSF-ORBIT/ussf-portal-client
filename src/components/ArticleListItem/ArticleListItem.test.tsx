@@ -5,12 +5,12 @@
 import { act, render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 import React from 'react'
-
 import { ArticleListItem } from './ArticleListItem'
+import { ArticleListItemRecord } from 'types'
 
-const cmsTestArticle = {
+const cmsTestArticle: ArticleListItemRecord = {
   id: 'testArticleId123',
-  labels: [{ id: 'labelId', name: 'A Label', type: 'Source' }],
+  labels: [{ id: 'labelId', name: 'CMS Test Label', type: 'Source' }],
   slug: 'test-article',
   title:
     'Version 2.8.5 released! Includes MVP search experience and a way to filter the news.',
@@ -33,8 +33,6 @@ const rssTestArticle = {
 
 describe('ArticleListItem component', () => {
   it('renders the article preview of a cms article', () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     render(<ArticleListItem article={cmsTestArticle} />)
 
     expect(screen.getByText('May')).toBeInTheDocument()
@@ -46,15 +44,13 @@ describe('ArticleListItem component', () => {
       `/articles/${cmsTestArticle.slug}`
     )
     expect(screen.getByText(cmsTestArticle.preview)).toBeInTheDocument()
-    expect(screen.getByText(cmsTestArticle.labels[0].name)).toBeInTheDocument()
+    expect(screen.getByText('CMS Test Label')).toBeInTheDocument()
   })
 
   it('cms article has no a11y violations', async () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       const { container } = render(<ArticleListItem article={cmsTestArticle} />)
       expect(await axe(container)).toHaveNoViolations()
     })
