@@ -9,6 +9,7 @@ import {
 import { client } from '../lib/keystoneClient'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import Announcement from 'components/Announcement/Announcement'
+import NewsCarousel from 'components/NewsCarousel/NewsCarousel'
 import Loader from 'components/Loader/Loader'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import { useUser } from 'hooks/useUser'
@@ -27,6 +28,7 @@ const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=12`
 
 const NewsAnnouncements = ({
   announcements,
+  articles,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
   const { items, fetchItems } = useRSSFeed(RSS_URL)
@@ -44,6 +46,12 @@ const NewsAnnouncements = ({
       {announcements.length > 0 && (
         <section>
           <Announcement announcements={announcements} />
+        </section>
+      )}
+
+      {articles.length > 0 && (
+        <section>
+          <NewsCarousel articles={articles} />
         </section>
       )}
 
