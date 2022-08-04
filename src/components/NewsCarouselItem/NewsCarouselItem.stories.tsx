@@ -17,7 +17,7 @@ export default {
 
 const mockArticle: ArticleListItemRecord = {
   id: '2',
-  title: 'Another Thing? Wow!',
+  title: 'Next USSF town hall happening 1 MAY 2022, at 1300 GMT',
   labels: [
     {
       id: 'label2',
@@ -27,7 +27,7 @@ const mockArticle: ArticleListItemRecord = {
   ],
   publishedDate: 'Aug 03, 2022',
   preview:
-    'Please, Don-Bot… look into your hard drive, and open your mercy file!',
+    'The second Inspector General Independent Racial Disparity Review focused on gender and ethnicity, and included additional racial groups (Hispanics, Latinos, Asians, American Indians, Alaska Natives, Native Hawaiians and other Pacific Islanders). It also referenced and compared data from the prior report on racial disparity, involving Black/African American Airmen and Guardians.',
 }
 
 export const DefaultNewsCarouselItem = () => (
