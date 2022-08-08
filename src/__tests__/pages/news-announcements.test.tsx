@@ -8,7 +8,7 @@ import axios from 'axios'
 import { renderWithAuth } from '../../testHelpers'
 
 import mockRssFeed from '__mocks__/news-rss'
-import News from 'pages/news'
+import NewsAnnouncements from 'pages/news-announcements'
 
 jest.mock('axios')
 
@@ -48,7 +48,7 @@ describe('News page', () => {
         return Promise.reject()
       })
 
-      renderWithAuth(<News />, { user: null })
+      renderWithAuth(<NewsAnnouncements />, { user: null })
     })
 
     it('renders the loader while fetching the user and does not fetch RSS items', () => {
@@ -73,7 +73,7 @@ describe('News page', () => {
         return Promise.resolve({ data: mockRssFeed })
       })
 
-      renderWithAuth(<News />)
+      renderWithAuth(<NewsAnnouncements />)
 
       expect(
         await screen.findByRole('heading', { level: 2 })
