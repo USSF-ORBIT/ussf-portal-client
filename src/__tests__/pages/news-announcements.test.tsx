@@ -7,9 +7,18 @@ import axios from 'axios'
 
 import { renderWithAuth } from '../../testHelpers'
 
+import { cmsAnnouncementsMock } from '../../__fixtures__/data/cmsAnnouncments'
 import mockRssFeed from '__mocks__/news-rss'
+import '../../__mocks__/mockMatchMedia'
 import NewsAnnouncements from 'pages/news-announcements'
 
+jest.mock('../../lib/keystoneClient', () => ({
+  client: {
+    query: () => {
+      return
+    },
+  },
+}))
 jest.mock('axios')
 
 const mockedAxios = axios as jest.Mocked<typeof axios>
@@ -48,7 +57,10 @@ describe('News page', () => {
         return Promise.reject()
       })
 
-      renderWithAuth(<NewsAnnouncements />, { user: null })
+      renderWithAuth(
+        <NewsAnnouncements announcements={cmsAnnouncementsMock} />,
+        { user: null }
+      )
     })
 
     it('renders the loader while fetching the user and does not fetch RSS items', () => {
@@ -73,11 +85,14 @@ describe('News page', () => {
         return Promise.resolve({ data: mockRssFeed })
       })
 
-      renderWithAuth(<NewsAnnouncements />)
+      renderWithAuth(<NewsAnnouncements announcements={cmsAnnouncementsMock} />)
 
-      expect(
-        await screen.findByRole('heading', { level: 2 })
-      ).toHaveTextContent('All USSF news')
+      // Slider component in react-slick clones each item in the carousel,
+      // so a length of 2 is accurate
+      expect(screen.getAllByText('Test Announcement')).toHaveLength(2)
+
+      expect(screen.getByText('All USSF news')).toBeInTheDocument()
+
       expect(await screen.findAllByRole('article')).toHaveLength(10)
     })
   })

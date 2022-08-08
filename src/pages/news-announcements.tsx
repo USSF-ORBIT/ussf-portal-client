@@ -1,3 +1,4 @@
+import { InferGetServerSidePropsType } from 'next'
 import React, { useEffect } from 'react'
 import {
   BreadcrumbBar,
@@ -5,8 +6,9 @@ import {
   BreadcrumbLink,
   Grid,
 } from '@trussworks/react-uswds'
-
+import { client } from '../lib/keystoneClient'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
+import Announcement from 'components/Announcement/Announcement'
 import Loader from 'components/Loader/Loader'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import { useUser } from 'hooks/useUser'
@@ -16,12 +18,15 @@ import { useRSSFeed } from 'hooks/useRSSFeed'
 import styles from 'styles/pages/news.module.scss'
 import type { RSSNewsItem } from 'types'
 import { validateNewsItems, formatToArticleListItem } from 'helpers/index'
+import { GET_ANNOUNCEMENTS } from 'operations/cms/queries/getAnnouncements'
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=12`
 
-const News = () => {
+const NewsAnnouncements = ({
+  announcements,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
   const { items, fetchItems } = useRSSFeed(RSS_URL)
 
@@ -35,6 +40,11 @@ const News = () => {
     <Loader />
   ) : (
     <div>
+      {announcements.length > 0 && (
+        <section>
+          <Announcement announcements={announcements} />
+        </section>
+      )}
       <div className={styles.pageTitle}>
         <h2>All USSF news</h2>
         <h3>
@@ -71,9 +81,9 @@ const News = () => {
   )
 }
 
-export default News
+export default NewsAnnouncements
 
-News.getLayout = (page: React.ReactNode) =>
+NewsAnnouncements.getLayout = (page: React.ReactNode) =>
   withPageLayout(
     <div>
       <h1>News</h1>
@@ -88,3 +98,18 @@ News.getLayout = (page: React.ReactNode) =>
     </div>,
     page
   )
+
+export async function getServerSideProps() {
+  const {
+    data: { announcements },
+  } = await client.query({
+    query: GET_ANNOUNCEMENTS,
+  })
+
+  return {
+    props: {
+      announcements,
+    },
+  }
+}
+
