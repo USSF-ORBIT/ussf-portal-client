@@ -1,15 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import classnames from 'classnames'
 import type { ObjectId } from 'bson'
-import {
-  Button,
-  Label,
-  ModalRef,
-  ComboBox,
-  ComboBoxOption,
-  ComboBoxRef,
-  Icon,
-} from '@trussworks/react-uswds'
+import { Button, Label, ModalRef, Icon } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   DragDropContext,
@@ -17,7 +9,11 @@ import {
   Draggable,
   DropResult,
 } from 'react-beautiful-dnd'
-
+import {
+  ComboBox,
+  ComboBoxOption,
+  ComboBoxRef,
+} from 'components/ComboBoxCustom'
 import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
 import { CustomBookmark } from './CustomBookmark'
@@ -119,6 +115,9 @@ const CustomCollection = ({
     addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
+  const dynamicValue = () => {
+    console.log('VALUES?!')
+  }
   // Save an existing link from the ComboBox
   const handleSelectChange = (value: string | undefined) => {
     const existingLink =
@@ -172,6 +171,7 @@ const CustomCollection = ({
               <Label htmlFor="bookmarkId" className="usa-sr-only">
                 Select existing link
               </Label>
+
               <ComboBox
                 id="bookmarkId"
                 name="bookmarkId"
@@ -183,6 +183,8 @@ const CustomCollection = ({
                   required: true,
                   placeholder: 'Choose a link...',
                 }}
+                noResults="Add a custom link"
+                handleCustomLink={openCustomLinkModal}
               />
             </div>
             {showAddWarning && (
@@ -195,17 +197,12 @@ const CustomCollection = ({
           </div>
 
           <div className="usa-form__note">
-            Don’t see what you need?
-            <br />
             <div
               style={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <Button type="button" unstyled onClick={openCustomLinkModal}>
-                Add a custom link
-              </Button>
               <Button
                 type="button"
                 unstyled
