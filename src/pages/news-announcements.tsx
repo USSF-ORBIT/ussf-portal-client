@@ -45,7 +45,6 @@ const NewsAnnouncements = ({
           <Announcement announcements={announcements} />
         </section>
       )}
-
       <div className={styles.pageTitle}>
         <h2>All USSF news</h2>
         <h3>
@@ -113,3 +112,4 @@ export async function getServerSideProps() {
     },
   }
 }
+

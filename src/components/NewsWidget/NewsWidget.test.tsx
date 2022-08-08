@@ -36,7 +36,7 @@ describe('NewsWidget component', () => {
 
     expect(screen.getByRole('link', { name: 'View all' })).toHaveAttribute(
       'href',
-      '/news'
+      '/news-announcements'
     )
   })
 

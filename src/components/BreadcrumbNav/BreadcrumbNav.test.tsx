@@ -17,7 +17,7 @@ jest.mock('next/router', () => ({
 
 const navItems = [
   { path: '/', label: 'Service portal home' },
-  { path: '/news', label: 'News & Announcements', current: true },
+  { path: '/news-announcements', label: 'News & Announcements', current: true },
 ]
 
 describe('BreadcrumbNav component', () => {
