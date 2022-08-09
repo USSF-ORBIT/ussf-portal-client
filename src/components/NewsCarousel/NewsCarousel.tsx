@@ -36,12 +36,16 @@ const NewsCarousel = ({ articles }: { articles: ArticleListItemRecord[] }) => {
       return (
         <div
           style={{
-            bottom: '-30px',
+            bottom: '-40px',
             display: 'flex',
             justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingLeft: '8rem',
+            paddingRight: '8rem',
           }}>
           <div className={styles.carouselArrow}>
             <FontAwesomeIcon
+              size="lg"
               icon="angle-left"
               onClick={() => {
                 if (sliderRef.current) {
@@ -60,6 +64,7 @@ const NewsCarousel = ({ articles }: { articles: ArticleListItemRecord[] }) => {
           </ul>
           <div className={styles.carouselArrow}>
             <FontAwesomeIcon
+              size="lg"
               icon="angle-right"
               onClick={() => {
                 if (sliderRef.current) {
