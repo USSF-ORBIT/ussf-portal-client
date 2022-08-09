@@ -9,6 +9,20 @@
   width: 100%;
   height: 100%;
   background-color: #161f2f;
+  border-radius: 4px;
+
+  .dots {
+    button.newsCarouselEllipse {
+      width: 16.17px;
+      height: 16px;
+      border-radius: 50px;
+      background: $theme-spacebase-lightest;
+    }
+
+    button::before {
+      color: transparent !important;
+    }
+  }
 }
 
 .carouselArrow {

@@ -7,6 +7,18 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { AnnouncementRecord } from 'types'
 
+const CustomEllipse = ({ onClick }: any) => {
+  return (
+    <div className="announcement-carousel-container">
+      <button
+        onClick={onClick}
+        type="button"
+        className={styles.carouselEllipse}
+      />
+    </div>
+  )
+}
+
 const NextArrow = ({ onClick }: any) => {
   return (
     <div className={styles.carouselArrow}>
@@ -38,6 +50,7 @@ const AnnouncementCarousel = ({
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
+    dotsClass: `slick-dots ${styles.dots}`,
     appendDots: (dots: React.ReactNode) => {
       return (
         <div style={{ bottom: '-20px' }}>
@@ -45,6 +58,7 @@ const AnnouncementCarousel = ({
         </div>
       )
     },
+    customPaging: () => <CustomEllipse />,
   }
 
   return (
