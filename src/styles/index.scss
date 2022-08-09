@@ -11,3 +11,11 @@ body,
 #__next {
   min-height: 100vh;
 }
+
+.slick-dots li.slick-active div.news-carousel-container button::before {
+  color: transparent !important;
+  background: #112548;
+  width: 16.17px;
+  height: 16px;
+  border-radius: 50px;
+}
