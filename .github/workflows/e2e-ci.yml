@@ -50,7 +50,7 @@ jobs:
 
       - name: Docker compose
         run: docker-compose up -d
-        working-directory: ./ussf-portal/e2e
+        working-directory: ../ussf-portal/e2e
         env:
           CLIENT_IMAGE_TAG: ${{ github.sha }}
 
