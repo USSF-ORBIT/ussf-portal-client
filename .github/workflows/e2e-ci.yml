@@ -1,4 +1,4 @@
-name: Cypress E2E tests
+name: E2E tests
 
 on:
   push:
@@ -13,7 +13,7 @@ on:
     branches: [main]
 
 jobs:
-  cypress-run:
+  e2e-run:
     runs-on: ubuntu-latest
     steps:
       - name: Read Node.js version from package.json
@@ -36,17 +36,28 @@ jobs:
           repository: USSF-ORBIT/ussf-portal-cms
           path: ./ussf-portal-cms
 
+      - name: Check out cms
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+        with:
+          repository: USSF-ORBIT/ussf-portal
+          path: ./ussf-portal
+
       - name: Build image for testing
         env:
-          IMAGE_TAG: ${{ github.sha }}
-        run: docker build -t $IMAGE_TAG --target e2e .
+          CLIENT_IMAGE_TAG: ${{ github.sha }}
+        run: docker build -t $CLIENT_IMAGE_TAG --target e2e .
         working-directory: ./ussf-portal-client
 
       - name: Docker compose
-        run: docker-compose -f docker-compose.e2e.yml up -d
-        working-directory: ./ussf-portal-client
+        run: docker-compose up -d
+        working-directory: ./ussf-portal/e2e
         env:
-          IMAGE_TAG: ${{ github.sha }}
+          CLIENT_IMAGE_TAG: ${{ github.sha }}
+
+      - name: Docker logs
+        uses: jwalton/gh-docker-logs@v2.2.0
+        with:
+          dest: './docker-logs'
 
       - name: Cypress run
         uses: cypress-io/github-action@31b3f686c1ee05fb7390cc106d1f09eb83919a3c # tag=v3.2.0
@@ -54,7 +65,7 @@ jobs:
           CYPRESS_BASE_URL: http://localhost:3000
         with:
           install-command: yarn install --frozen-lockfile
-          working-directory: ./ussf-portal-client/e2e
+          working-directory: ./ussf-portal/e2e
 
       - name: Upload screenshots
         uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # tag=v3
