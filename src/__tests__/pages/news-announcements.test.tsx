@@ -61,7 +61,7 @@ describe('News page', () => {
       renderWithAuth(
         <NewsAnnouncements
           announcements={cmsAnnouncementsMock}
-          articles={cmsAnnouncementsMock}
+          articles={cmsPortalNewsArticlesMock}
         />,
         { user: null }
       )
@@ -92,7 +92,7 @@ describe('News page', () => {
       renderWithAuth(
         <NewsAnnouncements
           announcements={cmsAnnouncementsMock}
-          articles={cmsAnnouncementsMock}
+          articles={cmsPortalNewsArticlesMock}
         />
       )
 

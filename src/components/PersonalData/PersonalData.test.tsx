@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { screen, render } from '@testing-library/react'
+import { act, screen, render } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import React from 'react'
 import { axe } from 'jest-axe'
@@ -51,7 +51,11 @@ describe('Personal Data component', () => {
     })
 
     it('has no a11y violations', async () => {
-      expect(await axe(html.container)).toHaveNoViolations()
+      // Bug with NextJS Link + axe :(
+      // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
+      await act(async () => {
+        expect(await axe(html.container)).toHaveNoViolations()
+      })
     })
   })
 })
