@@ -25,22 +25,28 @@ jobs:
         with:
           node-version: ${{ steps.engines.outputs.nodeVersion }}
 
+      - name: Check out repository
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+        with:
+          path: ./ussf-portal-client
+
       - name: Check out cms
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
         with:
           repository: USSF-ORBIT/ussf-portal-cms
-          path: ../ussf-portal-cms
+          path: ./ussf-portal-cms
 
       - name: Check out cms
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
         with:
           repository: USSF-ORBIT/ussf-portal
-          path: ../ussf-portal
+          path: ./ussf-portal
 
       - name: Build image for testing
         env:
           CLIENT_IMAGE_TAG: ${{ github.sha }}
         run: docker build -t $CLIENT_IMAGE_TAG --target e2e .
+        working-directory: ./ussf-portal-client
 
       - name: Docker compose
         run: docker-compose up -d
@@ -59,7 +65,7 @@ jobs:
           CYPRESS_BASE_URL: http://localhost:3000
         with:
           install-command: yarn install --frozen-lockfile
-          working-directory: ../ussf-portal/e2e
+          working-directory: ./ussf-portal/e2e
 
       - name: Upload screenshots
         uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # tag=v3
