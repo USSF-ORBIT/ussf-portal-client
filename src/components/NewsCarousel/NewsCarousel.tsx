@@ -20,7 +20,7 @@ const CustomEllipse = ({ onClick }: any) => {
 }
 
 const NewsCarousel = ({ articles }: { articles: ArticleListItemRecord[] }) => {
-  const sliderRef = useRef<Slider>()
+  const sliderRef = useRef<Slider>(null)
 
   const settings = {
     dots: true,
