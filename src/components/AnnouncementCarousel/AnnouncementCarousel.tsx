@@ -13,6 +13,7 @@ const CustomEllipse = ({ onClick }: any) => {
       <button
         onClick={onClick}
         type="button"
+        title="slide"
         className={styles.carouselEllipse}
       />
     </div>
