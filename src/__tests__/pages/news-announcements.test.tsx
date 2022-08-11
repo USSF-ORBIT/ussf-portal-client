@@ -8,6 +8,7 @@ import axios from 'axios'
 import { renderWithAuth } from '../../testHelpers'
 
 import { cmsAnnouncementsMock } from '../../__fixtures__/data/cmsAnnouncments'
+import { cmsPortalNewsArticlesMock } from '../../__fixtures__/data/cmsPortalNewsArticles'
 import mockRssFeed from '__mocks__/news-rss'
 import '../../__mocks__/mockMatchMedia'
 import NewsAnnouncements from 'pages/news-announcements'
@@ -58,7 +59,10 @@ describe('News page', () => {
       })
 
       renderWithAuth(
-        <NewsAnnouncements announcements={cmsAnnouncementsMock} />,
+        <NewsAnnouncements
+          announcements={cmsAnnouncementsMock}
+          articles={cmsAnnouncementsMock}
+        />,
         { user: null }
       )
     })
@@ -85,7 +89,12 @@ describe('News page', () => {
         return Promise.resolve({ data: mockRssFeed })
       })
 
-      renderWithAuth(<NewsAnnouncements announcements={cmsAnnouncementsMock} />)
+      renderWithAuth(
+        <NewsAnnouncements
+          announcements={cmsAnnouncementsMock}
+          articles={cmsAnnouncementsMock}
+        />
+      )
 
       // Slider component in react-slick clones each item in the carousel,
       // so a length of 2 is accurate
