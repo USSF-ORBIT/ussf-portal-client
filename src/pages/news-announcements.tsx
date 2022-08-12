@@ -50,7 +50,7 @@ const NewsAnnouncements = ({
       )}
 
       {articles.length > 0 && (
-        <section>
+        <section className={styles.newsCarouselSection}>
           <NewsCarousel articles={articles} />
         </section>
       )}
