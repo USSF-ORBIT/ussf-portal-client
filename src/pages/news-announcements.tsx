@@ -55,6 +55,16 @@ const NewsAnnouncements = ({
         </section>
       )}
 
+      <div className={styles.olderInternalNewsLink}>
+        <LinkTo
+          href="/news"
+          target="_blank"
+          rel="noreferrer noopener"
+          className="usa-button">
+          View older Internal USSF news
+        </LinkTo>
+      </div>
+
       <div className={styles.pageTitle}>
         <h2>All USSF news</h2>
         <h3>
