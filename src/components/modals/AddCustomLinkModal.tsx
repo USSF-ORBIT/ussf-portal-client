@@ -13,12 +13,15 @@ import {
 } from '@trussworks/react-uswds'
 
 import ModalPortal from 'components/util/ModalPortal'
+import validator from 'validator'
+import Error from 'next/error'
 
 type AddCustomLinkModalProps = {
-  onSave: (url: string, label: string) => void
+  onSave: (url: string, label: string) => Error | void
   onCancel: () => void
   modalRef: React.RefObject<ModalRef>
   showAddWarning?: boolean
+  customLinkLabel?: string
 } & Omit<ModalProps, 'children' | 'id'>
 
 const AddCustomLinkModal = ({
@@ -26,6 +29,7 @@ const AddCustomLinkModal = ({
   onCancel,
   modalRef,
   showAddWarning,
+  customLinkLabel,
   ...props
 }: AddCustomLinkModalProps) => {
   const modalId = 'addCustomLinkModal'
@@ -36,17 +40,35 @@ const AddCustomLinkModal = ({
     // TODO - ideally we'd just reset the form but ReactUSWDS does not (yet) forward a ref to the form
     const nameInputEl = nameInputRef.current as HTMLInputElement
     const urlInputEl = urlInputRef.current as HTMLInputElement
-    nameInputEl.value = ''
+    nameInputEl.value = customLinkLabel || ''
     urlInputEl.value = ''
   }
 
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    console.log('Handle Save ----')
     const data = new FormData(e.currentTarget)
     const label = `${data.get('bookmarkLabel')}`
-    const url = `${data.get('bookmarkUrl')}`
+    let url = `${data.get('bookmarkUrl')}`
+    // check if valid url regardless of protocol or not
+    // if so, then we can check and add http if necessary
+    // if not, return error
+    const isValid = validator.isURL(url, { require_protocol: false })
+
+    if (isValid) {
+      if (!url.startsWith('http')) {
+        url = `http://${url}`
+      }
+    } else {
+      console.log('Invalid URL')
+      // error to user
+      // return new Error({ statusCode: 400, message: '🤠Invalid URL' })
+      return <p>ERORRORO</p>
+    }
+
     resetForm()
     onSave(url, label)
+    // this can return an error, we should be handling
   }
 
   const handleCancel = () => {
@@ -65,7 +87,7 @@ const AddCustomLinkModal = ({
         forceAction
         modalRoot="#modal-root">
         <ModalHeading id={`${modalId}-heading`}>Add a custom link</ModalHeading>
-        <Form onSubmit={handleSave}>
+        <Form onSubmit={handleSave} noValidate>
           <Label htmlFor="newBookmarkLabel">Name</Label>
           <TextInput
             type="text"
@@ -74,6 +96,8 @@ const AddCustomLinkModal = ({
             required
             inputRef={nameInputRef}
             placeholder="Example link name"
+            value={customLinkLabel?.trim() || ''}
+            onChange={(e) => {}} // something something here
           />
 
           <Label htmlFor="newBookmarkUrl">URL</Label>
@@ -82,6 +106,7 @@ const AddCustomLinkModal = ({
             id="newBookmarkUrl"
             name="bookmarkUrl"
             required
+            title="Enter a valid URL"
             inputRef={urlInputRef}
             placeholder="https://www.copy-paste-your-url.com"
           />

@@ -84,8 +84,9 @@
     "react-dom": "17.0.2",
     "react-slick": "0.29.0",
     "redis": "3.1.2",
+    "slick-carousel": "1.8.1",
     "uswds": "2.13.3",
-    "slick-carousel": "1.8.1"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@babel/core": "7.18.2",
@@ -115,6 +116,7 @@
     "@types/passport-saml-metadata": "2.2.1",
     "@types/react": "17.0.41",
     "@types/react-fontawesome": "1.6.5",
+    "@types/validator": "^13.7.5",
     "@typescript-eslint/eslint-plugin": "5.29.0",
     "@typescript-eslint/parser": "5.29.0",
     "assert": "2.0.0",

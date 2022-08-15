@@ -74,6 +74,7 @@ const CustomCollection = ({
     false
   )
 
+  const [customLabel, setCustomLabel] = useState<string>('')
   const visibleBookmarks = bookmarks.filter((b) => !b.isRemoved)
   const removedBookmarks = bookmarks.filter((b) => b.isRemoved)
 
@@ -112,12 +113,10 @@ const CustomCollection = ({
     trackEvent('Add link', 'Save custom link', `${title} / ${label} / ${url}`)
     handleAddBookmark(url, label)
     setIsAddingLink(false)
+
     addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
-  const dynamicValue = () => {
-    console.log('VALUES?!')
-  }
   // Save an existing link from the ComboBox
   const handleSelectChange = (value: string | undefined) => {
     const existingLink =
@@ -182,6 +181,9 @@ const CustomCollection = ({
                 inputProps={{
                   required: true,
                   placeholder: 'Choose a link...',
+                  onChange: (e) => {
+                    setCustomLabel(e.target.value)
+                  },
                 }}
                 noResults="Add a custom link"
                 handleCustomLink={openCustomLinkModal}
@@ -469,6 +471,7 @@ const CustomCollection = ({
         onCancel={handleCancel}
         onSave={handleSaveCustomLink}
         showAddWarning={showAddWarning}
+        customLinkLabel={customLabel}
       />
     </DragDropContext>
   )
