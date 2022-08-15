@@ -1,16 +1,37 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/sfds/sfdsDependencies';
 
+.carouselImage {
+  margin: 0;
+}
+
+.imageContainer {
+  @media screen and (max-width: 1024px) {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
 .gridContainer {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 1024px) {
+    padding-top: 0.5rem;
+    padding-bottom: 1.25rem;
+  }
 
   .textContainer {
     color: $white;
     width: 100%;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
+
+    @media screen and (max-width: 768px) {
+      padding-top: 0;
+    }
   }
 
   .articleTitle {
@@ -20,5 +41,9 @@
 
   .articlePreview {
     padding-bottom: 2rem;
+
+    @media screen and (max-width: 1440px) {
+      padding-bottom: 0.5rem;
+    }
   }
 }
