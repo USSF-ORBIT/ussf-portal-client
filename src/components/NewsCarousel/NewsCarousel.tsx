@@ -48,6 +48,7 @@ const NewsCarousel = ({ articles }: { articles: ArticleListItemRecord[] }) => {
             <FontAwesomeIcon
               size="lg"
               icon="angle-left"
+              data-testid="slick-prev"
               onClick={() => {
                 if (sliderRef.current) {
                   return sliderRef.current.slickPrev()
@@ -67,6 +68,7 @@ const NewsCarousel = ({ articles }: { articles: ArticleListItemRecord[] }) => {
             <FontAwesomeIcon
               size="lg"
               icon="angle-right"
+              data-testid="slick-next"
               onClick={() => {
                 if (sliderRef.current) {
                   return sliderRef.current.slickNext()
