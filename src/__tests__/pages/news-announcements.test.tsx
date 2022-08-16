@@ -100,7 +100,7 @@ describe('News page', () => {
       // so a length of 2 is accurate
       expect(screen.getAllByText('Test Announcement')).toHaveLength(2)
 
-      expect(screen.getByText('All USSF news')).toBeInTheDocument()
+      expect(screen.getByText('Latest external USSF news')).toBeInTheDocument()
 
       expect(await screen.findAllByRole('article')).toHaveLength(4)
     })
