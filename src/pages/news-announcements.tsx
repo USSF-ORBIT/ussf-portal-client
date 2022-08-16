@@ -94,7 +94,7 @@ const NewsAnnouncements = ({
               target="_blank"
               rel="noreferrer noopener"
               className="usa-button">
-              View older Internal USSF news
+              View older Spaceforce.mil articles
             </LinkTo>
           </div>
         </>
