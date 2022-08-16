@@ -56,7 +56,7 @@ const NewsAnnouncements = ({
       )}
 
       {articles.length > 0 && (
-        <div className={styles.olderInternalNewsLink}>
+        <div className={styles.buttonContainer}>
           <LinkTo
             href="/news"
             target="_blank"
@@ -88,13 +88,13 @@ const NewsAnnouncements = ({
               )
               .slice(0, 4)}
           />
-          <div style={{ textAlign: 'center' }}>
+          <div className={styles.buttonContainer}>
             <LinkTo
               href="https://www.spaceforce.mil/News"
               target="_blank"
               rel="noreferrer noopener"
               className="usa-button">
-              Read more news
+              View older Internal USSF news
             </LinkTo>
           </div>
         </>
