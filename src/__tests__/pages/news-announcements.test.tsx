@@ -102,7 +102,7 @@ describe('News page', () => {
 
       expect(screen.getByText('All USSF news')).toBeInTheDocument()
 
-      expect(await screen.findAllByRole('article')).toHaveLength(10)
+      expect(await screen.findAllByRole('article')).toHaveLength(4)
     })
   })
 })

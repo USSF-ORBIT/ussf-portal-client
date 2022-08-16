@@ -85,7 +85,8 @@ const NewsAnnouncements = ({
               .filter(validateNewsItems)
               .map((item) =>
                 formatToArticleListItem(item as Required<RSSNewsItem>)
-              )}
+              )
+              .slice(0, 4)}
           />
           <div style={{ textAlign: 'center' }}>
             <LinkTo
