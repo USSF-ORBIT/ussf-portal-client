@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.6.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.5.0...4.6.0) (2022-08-16)
+
+
+### Features
+
+* Add announcements to news page ([#724](https://github.com/USSF-ORBIT/ussf-portal-client/issues/724)) ([4481828](https://github.com/USSF-ORBIT/ussf-portal-client/commit/44818284934c1aee8e73c3027faa6e13cac3cd90))
+* Update URL for News & Announcements and News listing page ([#723](https://github.com/USSF-ORBIT/ussf-portal-client/issues/723)) ([d9fed9e](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d9fed9ea076b1c94508f31c53f7b343c90014b6d))
+
 ## [4.5.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.4.0...4.5.0) (2022-08-01)
 
 
