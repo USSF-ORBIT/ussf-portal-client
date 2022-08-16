@@ -68,10 +68,9 @@ const NewsAnnouncements = ({
       )}
 
       <div className={styles.pageTitle}>
-        <h2>All USSF news</h2>
+        <h2>Latest external USSF news</h2>
         <h3>
-          Publically and internally released Space Force news, published within
-          the last 30 days.
+          Publically released Space Force news released within the last 30 days.
         </h3>
       </div>
 
