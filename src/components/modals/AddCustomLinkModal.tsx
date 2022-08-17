@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import {
   Modal,
   ModalProps,
@@ -10,11 +10,14 @@ import {
   Label,
   TextInput,
   Alert,
+  ErrorMessage,
 } from '@trussworks/react-uswds'
 
 import ModalPortal from 'components/util/ModalPortal'
-import validator from 'validator'
+// todo cleanup
 import Error from 'next/error'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
 
 type AddCustomLinkModalProps = {
   onSave: (url: string, label: string) => Error | void
@@ -23,6 +26,9 @@ type AddCustomLinkModalProps = {
   showAddWarning?: boolean
   customLinkLabel?: string
 } & Omit<ModalProps, 'children' | 'id'>
+
+const URL =
+  /^((https?|ftp):\/\/)?(www.)?(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i
 
 const AddCustomLinkModal = ({
   onSave,
@@ -36,43 +42,49 @@ const AddCustomLinkModal = ({
   const nameInputRef = useRef<HTMLInputElement>(null)
   const urlInputRef = useRef<HTMLInputElement>(null)
 
-  const resetForm = () => {
-    // TODO - ideally we'd just reset the form but ReactUSWDS does not (yet) forward a ref to the form
-    const nameInputEl = nameInputRef.current as HTMLInputElement
-    const urlInputEl = urlInputRef.current as HTMLInputElement
-    nameInputEl.value = customLinkLabel || ''
-    urlInputEl.value = ''
-  }
+  // regex for validating a url with optional scheme and www.
+  const URL =
+    /^((https?):\/\/)?(www.)?(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i
 
-  const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log('Handle Save ----')
-    const data = new FormData(e.currentTarget)
-    const label = `${data.get('bookmarkLabel')}`
-    let url = `${data.get('bookmarkUrl')}`
-    // check if valid url regardless of protocol or not
-    // if so, then we can check and add http if necessary
-    // if not, return error
-    const isValid = validator.isURL(url, { require_protocol: false })
-
-    if (isValid) {
-      if (!url.startsWith('http')) {
-        url = `http://${url}`
+  // #TODO: Integrate Formik into our forms following the
+  // wrapper component pattern used in other Truss projects
+  const formik = useFormik({
+    initialValues: {
+      bookmarkLabel: '',
+      bookmarkUrl: '',
+    },
+    validateOnChange: false,
+    validateOnBlur: false,
+    onSubmit: () => {
+      let { bookmarkLabel, bookmarkUrl } = formik.values
+      if (!bookmarkUrl.startsWith('http')) {
+        bookmarkUrl = `http://${bookmarkUrl}`
       }
-    } else {
-      console.log('Invalid URL')
-      // error to user
-      // return new Error({ statusCode: 400, message: '🤠Invalid URL' })
-      return <p>ERORRORO</p>
+      formik.resetForm()
+      onSave(bookmarkUrl, bookmarkLabel)
+    },
+
+    validationSchema: yup.object({
+      bookmarkLabel: yup.string().required('Link name is required'),
+      bookmarkUrl: yup
+        .string()
+        .matches(URL, 'URL is not valid')
+        .required('URL is required'),
+    }),
+  })
+
+  // Because the modal is initialized before a user begins the
+  // Add Custom Link flow, we need to populate the label name
+  // before the modal is shown.
+  useEffect(() => {
+    if (customLinkLabel) {
+      formik.setFieldValue('bookmarkLabel', customLinkLabel)
     }
+  }, [customLinkLabel])
 
-    resetForm()
-    onSave(url, label)
-    // this can return an error, we should be handling
-  }
-
+  // #TODO Can this be folded in to Formik functionality?
   const handleCancel = () => {
-    resetForm()
+    formik.resetForm()
     onCancel()
   }
 
@@ -87,30 +99,38 @@ const AddCustomLinkModal = ({
         forceAction
         modalRoot="#modal-root">
         <ModalHeading id={`${modalId}-heading`}>Add a custom link</ModalHeading>
-        <Form onSubmit={handleSave} noValidate>
-          <Label htmlFor="newBookmarkLabel">Name</Label>
+        <Form onSubmit={formik.handleSubmit} noValidate>
+          <Label htmlFor="bookmarkLabel">Name</Label>
           <TextInput
             type="text"
-            id="newBookmarkLabel"
+            id="BookmarkLabel"
             name="bookmarkLabel"
-            required
             inputRef={nameInputRef}
             placeholder="Example link name"
-            value={customLinkLabel?.trim() || ''}
-            onChange={(e) => {}} // something something here
+            value={formik.values.bookmarkLabel}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
+
+          {formik.errors.bookmarkLabel && (
+            <ErrorMessage>{formik.errors.bookmarkLabel}</ErrorMessage>
+          )}
 
           <Label htmlFor="newBookmarkUrl">URL</Label>
           <TextInput
             type="url"
             id="newBookmarkUrl"
             name="bookmarkUrl"
-            required
             title="Enter a valid URL"
             inputRef={urlInputRef}
+            value={formik.values.bookmarkUrl}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             placeholder="https://www.copy-paste-your-url.com"
           />
-
+          {formik.errors.bookmarkUrl && (
+            <ErrorMessage>{formik.errors.bookmarkUrl}</ErrorMessage>
+          )}
           {showAddWarning && (
             <Alert
               type="warning"
