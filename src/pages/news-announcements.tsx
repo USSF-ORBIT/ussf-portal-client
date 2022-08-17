@@ -108,14 +108,14 @@ export default NewsAnnouncements
 NewsAnnouncements.getLayout = (page: React.ReactNode) =>
   withPageLayout(
     <div>
-      <h1>News</h1>
+      <h1>News & Announcements</h1>
       <BreadcrumbBar>
         <Breadcrumb>
           <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
             Service portal home
           </BreadcrumbLink>
         </Breadcrumb>
-        <Breadcrumb current>News</Breadcrumb>
+        <Breadcrumb current>News & Announcements</Breadcrumb>
       </BreadcrumbBar>
     </div>,
     page
