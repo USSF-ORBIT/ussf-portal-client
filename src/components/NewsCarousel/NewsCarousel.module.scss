@@ -2,7 +2,7 @@
 @import 'styles/sfds/sfdsDependencies';
 
 .carouselContainer {
-  display: flex !important;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -20,7 +20,7 @@
     }
 
     button::before {
-      color: transparent !important;
+      color: transparent;
     }
   }
 
@@ -28,7 +28,7 @@
       li.slick-active
       div.news-carousel-container
       button::before) {
-    color: transparent !important;
+    color: transparent;
     background: #112548;
     width: 16.17px;
     height: 16px;
