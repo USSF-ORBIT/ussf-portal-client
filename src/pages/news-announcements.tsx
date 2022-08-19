@@ -24,7 +24,7 @@ import { GET_INTERNAL_NEWS_CAROUSEL_ARTICLES } from 'operations/cms/queries/getI
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 
-const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=12`
+const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=4`
 
 const NewsAnnouncements = ({
   announcements,
@@ -85,8 +85,7 @@ const NewsAnnouncements = ({
               .filter(validateNewsItems)
               .map((item) =>
                 formatToArticleListItem(item as Required<RSSNewsItem>)
-              )
-              .slice(0, 4)}
+              )}
           />
           <div className={styles.buttonContainer}>
             <LinkTo
