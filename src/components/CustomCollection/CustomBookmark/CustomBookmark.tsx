@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { ModalRef } from '@trussworks/react-uswds'
 
-import styles from './CustomCollection.module.scss'
+import styles from '../CustomCollection.module.scss'
 
 import Bookmark from 'components/Bookmark/Bookmark'
 import type { Bookmark as BookmarkType } from 'types/index'

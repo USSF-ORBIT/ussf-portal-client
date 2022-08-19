@@ -1,3 +1,12 @@
+/**
+ * This component is a copied + modified version of React USWDS ComboBox.
+ * Changes:
+ *  - Added handleCustomLink prop
+ *  - If noResults are found, the text displayed is "Add a custom Link"
+ *  - This option in the list is now enabled and clickable, instead of disabled
+ *  - Clicking the "Add a custom Link" option fires handleCustomLink
+ *  - Keyboard inputs are also updated to allow a11y of the Add a custom link option
+ */
 import React, {
   KeyboardEvent,
   FocusEvent,
@@ -209,6 +218,7 @@ const ComboBoxForwardRef: React.ForwardRefRenderFunction<
   )
 
   const handleInputKeyDown = (event: KeyboardEvent): void => {
+    console.log('handle input key down')
     if (event.key === 'Escape') {
       dispatch({ type: ActionTypes.CLOSE_LIST })
     } else if (event.key === 'ArrowDown' || event.key == 'Down') {
@@ -221,6 +231,8 @@ const ComboBoxForwardRef: React.ForwardRefRenderFunction<
           state.filteredOptions[0],
       })
     } else if (event.key === 'Tab') {
+      console.log('tabbed')
+      console.log('state', state)
       // Clear button is not visible in this case so manually handle focus
       if (state.isOpen && !state.selectedOption) {
         // If there are filtered options, prevent default
@@ -234,12 +246,13 @@ const ComboBoxForwardRef: React.ForwardRefRenderFunction<
             type: ActionTypes.FOCUS_OPTION,
             option: optionToFocus,
           })
-        } else {
-          dispatch({
-            type: ActionTypes.BLUR,
-          })
         }
+      } else {
+        dispatch({
+          type: ActionTypes.BLUR,
+        })
       }
+      // }
 
       if (!state.isOpen && state.selectedOption) {
         dispatch({
@@ -486,15 +499,16 @@ const ComboBoxForwardRef: React.ForwardRefRenderFunction<
             </li>
           )
         })}
-        {/* This is the part we're going to change */}
-        {state.filteredOptions.length === 0 ? (
+        {/* Modified from original React USWDS ComboBox */}
+        {/* {state.filteredOptions.length === 0 ? (
           <li
             className="usa-combo-box__list-option"
             role={'option'}
             onClick={handleCustomLink}>
             {noResults || 'Add a custom link'}
           </li>
-        ) : null}
+        ) : null} */}
+        {/* End modification */}
       </ul>
 
       <div className="usa-combo-box__status usa-sr-only" role="status">

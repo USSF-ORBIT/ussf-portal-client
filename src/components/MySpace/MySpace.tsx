@@ -201,8 +201,8 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                         variables: {
                           _id: id,
                           collectionId: widget._id,
-                          label,
                           url,
+                          label,
                         },
                         refetchQueries: [`getMySpace`],
                       })

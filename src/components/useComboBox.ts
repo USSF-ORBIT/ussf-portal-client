@@ -1,3 +1,7 @@
+/**
+ * This file is copied from React USWDS to support ComboBoxCustom.
+ * It includes the util generateDynamicEg
+ */
 import React, { useReducer } from 'react'
 import type { ComboBoxOption, CustomizableFilter } from './ComboBoxCustom'
 import { FocusMode } from './ComboBoxCustom'
@@ -111,9 +115,11 @@ export const useComboBox = (
       needle,
       customizableFilter.extras
     )
-    const filteredOptions = optionsList.filter((option) =>
+    let filteredOptions = optionsList.filter((option) =>
       regex.test(option.label.toLowerCase())
     )
+
+    filteredOptions.push({ value: 'custom', label: 'Add a custom link' })
 
     if (disableFiltering) {
       return {

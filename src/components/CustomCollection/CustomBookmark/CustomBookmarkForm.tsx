@@ -12,8 +12,9 @@ import {
 } from '@trussworks/react-uswds'
 
 type CustomBookmarkFormProps = {
-  onSave: (url: string, label: string) => Error | void
+  onSave: (url: string, label: string) => void
   onCancel: () => void
+  onDelete?: () => void
   label?: string
   url?: string
   showAddWarning?: boolean
@@ -23,6 +24,7 @@ type CustomBookmarkFormProps = {
 export const CustomBookmarkForm = ({
   onSave,
   onCancel,
+  onDelete,
   label,
   url,
   showAddWarning,
@@ -34,8 +36,8 @@ export const CustomBookmarkForm = ({
   // wrapper component pattern used in other Truss projects
   const formik = useFormik({
     initialValues: {
-      bookmarkLabel: '',
-      bookmarkUrl: '',
+      bookmarkLabel: label || '',
+      bookmarkUrl: url || '',
     },
     validateOnChange: false,
     validateOnBlur: false,
@@ -62,7 +64,15 @@ export const CustomBookmarkForm = ({
         .required('URL is required'),
     }),
   })
-
+  useEffect(() => {
+    console.log('update label or url', [label, url])
+    if (label) {
+      formik.setFieldValue('bookmarkLabel', label)
+    }
+    if (url) {
+      formik.setFieldValue('bookmarkUrl', url)
+    }
+  }, [label, url])
   const handleCancel = () => {
     formik.resetForm()
     onCancel()
@@ -124,6 +134,16 @@ export const CustomBookmarkForm = ({
           onClick={handleCancel}>
           Cancel
         </Button>
+        {onDelete && (
+          <Button
+            type="button"
+            data-close-modal
+            unstyled
+            className="padding-105 text-center text-error"
+            onClick={onDelete}>
+            Delete
+          </Button>
+        )}
       </ButtonGroup>
     </Form>
   )

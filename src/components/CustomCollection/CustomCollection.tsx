@@ -16,7 +16,7 @@ import {
 } from 'components/ComboBoxCustom'
 import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
-import { CustomBookmark } from './CustomBookmark'
+import { CustomBookmark } from './CustomBookmark/CustomBookmark'
 import styles from './CustomCollection.module.scss'
 
 import Tooltip from 'components/Tooltip/Tooltip'
@@ -119,9 +119,14 @@ const CustomCollection = ({
 
   // Save an existing link from the ComboBox
   const handleSelectChange = (value: string | undefined) => {
+    console.log('value to save, ', value)
+    const customLink = value === 'custom'
     const existingLink =
       value && bookmarkOptions.find((i) => `${i.id}` === value)
 
+    if (customLink) {
+      openCustomLinkModal()
+    }
     if (existingLink) {
       trackEvent(
         'Add link',
@@ -147,6 +152,8 @@ const CustomCollection = ({
           label: b.label || b.url,
         } as ComboBoxOption)
     )
+  // not sure best place to add this; currently have it working with this inside the combo box code
+  // urlOptions.unshift({ value: 'custom', label: 'Add a custom link' })
 
   const canAddLink = visibleBookmarks.length < MAXIMUM_BOOKMARKS_PER_COLLECTION
   const showAddWarning =
@@ -450,7 +457,7 @@ const CustomCollection = ({
                           <CustomBookmark
                             key={`bookmark_${bookmark._id}`}
                             bookmark={bookmark}
-                            onSave={(url, label) => {
+                            onSave={(label, url) => {
                               handleEditBookmark(bookmark._id, url, label)
                             }}
                             onDelete={() => handleRemoveBookmark(bookmark._id)}

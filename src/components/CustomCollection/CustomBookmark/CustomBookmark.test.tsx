@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event'
 import { ObjectId } from 'mongodb'
 import React from 'react'
 
-import { renderWithModalRoot } from '../../testHelpers'
+import { renderWithModalRoot } from '../../../testHelpers'
 
 import { CustomBookmark } from './CustomBookmark'
 
