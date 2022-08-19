@@ -9,7 +9,7 @@ describe('News and Announcements', () => {
     cy.preserveLoginCookies()
 
     cy.intercept(
-      'https://www.spaceforce.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=1060&max=12'
+      'https://www.spaceforce.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=1060&max=4'
     ).as('getNewsRSS')
 
     cy.intercept(
