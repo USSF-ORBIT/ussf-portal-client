@@ -44,18 +44,17 @@ const NewsCarousel = ({ articles }: { articles: ArticleListItemRecord[] }) => {
             paddingLeft: '8rem',
             paddingRight: '8rem',
           }}>
-          <div className={styles.carouselArrow}>
-            <FontAwesomeIcon
-              size="lg"
-              icon="angle-left"
-              data-testid="slick-prev"
-              onClick={() => {
-                if (sliderRef.current) {
-                  return sliderRef.current.slickPrev()
-                }
-              }}
-            />
-          </div>
+          <button
+            type="button"
+            className={styles.carouselArrow}
+            data-testid="slick-prev"
+            onClick={() => {
+              if (sliderRef.current) {
+                return sliderRef.current.slickPrev()
+              }
+            }}>
+            <FontAwesomeIcon size="lg" icon="angle-left" />
+          </button>
           <ul
             style={{
               margin: '0px',
@@ -64,18 +63,17 @@ const NewsCarousel = ({ articles }: { articles: ArticleListItemRecord[] }) => {
             {' '}
             {dots}{' '}
           </ul>
-          <div className={styles.carouselArrow}>
-            <FontAwesomeIcon
-              size="lg"
-              icon="angle-right"
-              data-testid="slick-next"
-              onClick={() => {
-                if (sliderRef.current) {
-                  return sliderRef.current.slickNext()
-                }
-              }}
-            />
-          </div>
+          <button
+            type="button"
+            className={styles.carouselArrow}
+            data-testid="slick-next"
+            onClick={() => {
+              if (sliderRef.current) {
+                return sliderRef.current.slickNext()
+              }
+            }}>
+            <FontAwesomeIcon size="lg" icon="angle-right" />
+          </button>
         </div>
       )
     },
