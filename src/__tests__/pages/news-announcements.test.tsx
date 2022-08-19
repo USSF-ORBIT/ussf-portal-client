@@ -102,7 +102,8 @@ describe('News page', () => {
 
       expect(screen.getByText('Latest external USSF news')).toBeInTheDocument()
 
-      expect(await screen.findAllByRole('article')).toHaveLength(4)
+      const allArticles = await screen.findAllByRole('article')
+      expect(allArticles[0]).toContainHTML('article')
     })
   })
 })
