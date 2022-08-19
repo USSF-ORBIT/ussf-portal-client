@@ -58,13 +58,12 @@ type ComboBoxProps = {
   disabled?: boolean
   onChange: (val?: string) => void
   assistiveHint?: string
-  noResults?: string
+  noResultsOption: ComboBoxOption
   inputProps?: JSX.IntrinsicElements['input']
   selectProps?: JSX.IntrinsicElements['select']
   ulProps?: JSX.IntrinsicElements['ul']
   customFilter?: CustomizableFilter
   disableFiltering?: boolean
-  handleCustomLink?: () => void
 }
 
 interface InputProps {
@@ -109,17 +108,16 @@ const ComboBoxForwardRef: React.ForwardRefRenderFunction<
     name,
     className,
     options,
+    noResultsOption,
     defaultValue,
     disabled,
     onChange,
     assistiveHint,
-    noResults,
     selectProps,
     inputProps,
     ulProps,
     customFilter,
     disableFiltering = false,
-    handleCustomLink,
   },
   ref
 ): React.ReactElement => {
@@ -127,7 +125,9 @@ const ComboBoxForwardRef: React.ForwardRefRenderFunction<
 
   let defaultOption
   if (defaultValue) {
+    console.log('default value')
     defaultOption = options.find((opt: ComboBoxOption): boolean => {
+      console.log('opt value', opt.value)
       return opt.value === defaultValue
     })
   }
@@ -148,7 +148,7 @@ const ComboBoxForwardRef: React.ForwardRefRenderFunction<
 
   const [state, dispatch] = useComboBox(
     initialState,
-    options,
+    [...options, noResultsOption],
     disableFiltering,
     filter
   )

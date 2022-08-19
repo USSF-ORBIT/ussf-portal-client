@@ -52,6 +52,7 @@ export const generateDynamicRegExp = (
     return escapeRegExp(query)
   })
 
+  console.log('find', find)
   find = '^(?:' + find + ')$'
 
   return new RegExp(find, 'i')
@@ -118,8 +119,10 @@ export const useComboBox = (
     let filteredOptions = optionsList.filter((option) =>
       regex.test(option.label.toLowerCase())
     )
-
-    filteredOptions.push({ value: 'custom', label: 'Add a custom link' })
+    //this works but im trying to make it so
+    // we can pass this option in as a prop
+    // and then filter on it too
+    //filteredOptions.push({ value: 'custom', label: 'Add a custom link' })
 
     if (disableFiltering) {
       return {
