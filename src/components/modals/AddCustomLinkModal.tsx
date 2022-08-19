@@ -1,4 +1,6 @@
 import React, { useRef, useEffect } from 'react'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
 import {
   Modal,
   ModalProps,
@@ -14,11 +16,8 @@ import {
 } from '@trussworks/react-uswds'
 
 import ModalPortal from 'components/util/ModalPortal'
-// todo cleanup
-import Error from 'next/error'
-import { useFormik } from 'formik'
-import * as yup from 'yup'
 
+import { CustomBookmarkForm } from 'components/CustomCollection/CustomBookmark/CustomBookmarkForm'
 type AddCustomLinkModalProps = {
   onSave: (url: string, label: string) => Error | void
   onCancel: () => void
@@ -26,9 +25,6 @@ type AddCustomLinkModalProps = {
   showAddWarning?: boolean
   customLinkLabel?: string
 } & Omit<ModalProps, 'children' | 'id'>
-
-const URL =
-  /^((https?|ftp):\/\/)?(www.)?(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i
 
 const AddCustomLinkModal = ({
   onSave,
@@ -42,10 +38,6 @@ const AddCustomLinkModal = ({
   const nameInputRef = useRef<HTMLInputElement>(null)
   const urlInputRef = useRef<HTMLInputElement>(null)
 
-  // regex for validating a url with optional scheme and www.
-  const URL =
-    /^((https?):\/\/)?(www.)?(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i
-
   // #TODO: Integrate Formik into our forms following the
   // wrapper component pattern used in other Truss projects
   const formik = useFormik({
@@ -55,34 +47,38 @@ const AddCustomLinkModal = ({
     },
     validateOnChange: false,
     validateOnBlur: false,
+
     onSubmit: () => {
-      let { bookmarkLabel, bookmarkUrl } = formik.values
-      if (!bookmarkUrl.startsWith('http')) {
-        bookmarkUrl = `http://${bookmarkUrl}`
-      }
       formik.resetForm()
-      onSave(bookmarkUrl, bookmarkLabel)
+      onSave(formik.values.bookmarkUrl, formik.values.bookmarkLabel)
     },
 
     validationSchema: yup.object({
       bookmarkLabel: yup.string().required('Link name is required'),
       bookmarkUrl: yup
         .string()
-        .matches(URL, 'URL is not valid')
+        .transform((_, value) => {
+          // If the user enters a URL without a scheme,
+          // add http:// so we can validate it.
+          // This doesn't affect the value of the input.
+          if (!value.startsWith('http')) {
+            return `http://${value}`
+          }
+          return value
+        })
+        .url('URL is invalid')
         .required('URL is required'),
     }),
   })
 
-  // Because the modal is initialized before a user begins the
-  // Add Custom Link flow, we need to populate the label name
-  // before the modal is shown.
+  // Because the modal is not re-initialized when the user adds a bookmark,
+  // we need to manually set the 'default' values when the props change
   useEffect(() => {
     if (customLinkLabel) {
       formik.setFieldValue('bookmarkLabel', customLinkLabel)
     }
   }, [customLinkLabel])
 
-  // #TODO Can this be folded in to Formik functionality?
   const handleCancel = () => {
     formik.resetForm()
     onCancel()

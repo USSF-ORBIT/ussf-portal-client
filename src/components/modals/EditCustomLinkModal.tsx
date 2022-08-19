@@ -1,4 +1,6 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
 import {
   Modal,
   ModalProps,
@@ -9,6 +11,7 @@ import {
   Button,
   Label,
   TextInput,
+  ErrorMessage,
 } from '@trussworks/react-uswds'
 
 import styles from './modal.module.scss'
@@ -36,24 +39,50 @@ const EditCustomLinkModal = ({
   const nameInputRef = useRef<HTMLInputElement>(null)
   const urlInputRef = useRef<HTMLInputElement>(null)
 
-  const resetForm = () => {
-    // TODO - ideally we'd just reset the form but ReactUSWDS does not (yet) forward a ref to the form
-    const nameInputEl = nameInputRef.current as HTMLInputElement
-    const urlInputEl = urlInputRef.current as HTMLInputElement
-    nameInputEl.value = bookmark.label || ''
-    urlInputEl.value = bookmark.url || ''
-  }
+  // #TODO: Integrate Formik into our forms following the
+  // wrapper component pattern used in other Truss projects
+  const formik = useFormik({
+    initialValues: {
+      bookmarkLabel: bookmark.label || '',
+      bookmarkUrl: bookmark.url,
+    },
+    validateOnChange: false,
+    validateOnBlur: false,
 
-  const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const data = new FormData(e.currentTarget)
-    const label = `${data.get('bookmarkLabel')}`
-    const url = `${data.get('bookmarkUrl')}`
-    onSave(label, url)
-  }
+    onSubmit: () => {
+      formik.resetForm()
+      onSave(formik.values.bookmarkLabel, formik.values.bookmarkUrl)
+    },
+
+    validationSchema: yup.object({
+      bookmarkLabel: yup.string().required('Link name is required'),
+      bookmarkUrl: yup
+        .string()
+        .transform((_, value) => {
+          // If the user enters a URL without a scheme,
+          // add http:// so we can validate it.
+          // This doesn't affect the value of the input.
+          if (!value.startsWith('http')) {
+            return `http://${value}`
+          }
+          return value
+        })
+        .url('URL is invalid')
+        .required('URL is required'),
+    }),
+  })
+
+  // Because the modal is not re-initialized when the user edits a bookmark,
+  // we need to manually set the 'default' values when the props change
+  useEffect(() => {
+    formik.setValues({
+      bookmarkLabel: bookmark.label || '',
+      bookmarkUrl: bookmark.url,
+    })
+  }, [bookmark])
 
   const handleCancel = () => {
-    resetForm()
+    formik.resetForm()
     onCancel()
   }
 
@@ -72,7 +101,7 @@ const EditCustomLinkModal = ({
         forceAction
         modalRoot="#modal-root">
         <ModalHeading id={`${modalId}-heading`}>Edit custom link</ModalHeading>
-        <Form onSubmit={handleSave}>
+        <Form onSubmit={formik.handleSubmit} noValidate>
           <Label htmlFor={`bookmarkLabel-${bookmark._id}`}>Name</Label>
           <TextInput
             type="text"
@@ -80,9 +109,13 @@ const EditCustomLinkModal = ({
             name="bookmarkLabel"
             required
             inputRef={nameInputRef}
-            defaultValue={bookmark.label}
+            value={formik.values.bookmarkLabel}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
-
+          {formik.errors.bookmarkLabel && (
+            <ErrorMessage>{formik.errors.bookmarkLabel}</ErrorMessage>
+          )}
           <Label htmlFor={`bookmarkUrl-${bookmark._id}`}>URL</Label>
           <TextInput
             type="url"
@@ -90,8 +123,13 @@ const EditCustomLinkModal = ({
             name="bookmarkUrl"
             required
             inputRef={urlInputRef}
-            defaultValue={bookmark.url}
+            value={formik.values.bookmarkUrl}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
+          {formik.errors.bookmarkUrl && (
+            <ErrorMessage>{formik.errors.bookmarkUrl}</ErrorMessage>
+          )}
           <ButtonGroup className={styles.buttonGroupWithDelete}>
             <Button type="submit" data-close-modal>
               Save custom link
