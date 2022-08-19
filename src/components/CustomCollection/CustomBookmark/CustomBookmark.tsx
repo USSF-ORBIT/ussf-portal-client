@@ -13,7 +13,7 @@ export const CustomBookmark = ({
   onDelete,
 }: {
   bookmark: BookmarkType
-  onSave: (url?: string, label?: string) => void
+  onSave: (url: string, label: string) => void
   onDelete: () => void
 }) => {
   const editCustomLinkModal = useRef<ModalRef>(null)

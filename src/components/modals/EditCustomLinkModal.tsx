@@ -30,10 +30,6 @@ const EditCustomLinkModal = ({
   const nameInputRef = useRef<HTMLInputElement>(null)
   const urlInputRef = useRef<HTMLInputElement>(null)
 
-  const handleDelete = () => {
-    onDelete()
-  }
-
   return (
     <ModalPortal>
       <Modal
@@ -48,7 +44,7 @@ const EditCustomLinkModal = ({
         <CustomBookmarkForm
           onSave={onSave}
           onCancel={onCancel}
-          onDelete={handleDelete}
+          onDelete={onDelete}
           label={bookmark.label}
           url={bookmark.url}
           nameInputRef={nameInputRef}

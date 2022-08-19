@@ -9,11 +9,7 @@ import {
   Draggable,
   DropResult,
 } from 'react-beautiful-dnd'
-// import {
-//   ComboBox,
-//   ComboBoxOption,
-//   ComboBoxRef,
-// } from 'components/ComboBoxCustom'
+
 import { ComboBox, ComboBoxOption, ComboBoxRef } from '@trussworks/react-uswds'
 import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
@@ -120,7 +116,6 @@ const CustomCollection = ({
 
   // Save an existing link from the ComboBox
   const handleSelectChange = (value: string | undefined) => {
-    console.log('value to save, ', value)
     const customLink = value === 'custom'
     const existingLink =
       value && bookmarkOptions.find((i) => `${i.id}` === value)
@@ -153,13 +148,11 @@ const CustomCollection = ({
           label: b.label || b.url,
         } as ComboBoxOption)
     )
-
+  // Custom link option for the ComboBox
   const addCustomLinkOption = {
     value: 'custom',
     label: 'Add custom link',
   }
-  // not sure best place to add this; currently have it working with this inside the combo box code
-  //urlOptions.unshift({ value: 'custom', label: 'Add a custom link' })
 
   const canAddLink = visibleBookmarks.length < MAXIMUM_BOOKMARKS_PER_COLLECTION
   const showAddWarning =
@@ -189,7 +182,6 @@ const CustomCollection = ({
                 name="bookmarkId"
                 className={styles.addLinkComboBox}
                 options={[...urlOptions, addCustomLinkOption]}
-                // noResultsOption={addCustomLinkOption}
                 onChange={handleSelectChange}
                 ref={linkInput}
                 customFilter={{

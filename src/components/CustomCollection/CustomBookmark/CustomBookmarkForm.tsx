@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import {
@@ -30,10 +30,10 @@ export const CustomBookmarkForm = ({
   showAddWarning,
   nameInputRef,
   urlInputRef,
-  ...props
 }: CustomBookmarkFormProps) => {
   // #TODO: Integrate Formik into our forms following the
   // wrapper component pattern used in other Truss projects
+
   const formik = useFormik({
     initialValues: {
       bookmarkLabel: label || '',
@@ -43,7 +43,6 @@ export const CustomBookmarkForm = ({
     validateOnBlur: false,
 
     onSubmit: () => {
-      formik.resetForm()
       onSave(formik.values.bookmarkUrl, formik.values.bookmarkLabel)
     },
 
@@ -65,18 +64,12 @@ export const CustomBookmarkForm = ({
     }),
   })
   useEffect(() => {
-    console.log('update label or url', [label, url])
-    if (label) {
-      formik.setFieldValue('bookmarkLabel', label)
-    }
-    if (url) {
-      formik.setFieldValue('bookmarkUrl', url)
-    }
+    formik.setValues({
+      bookmarkLabel: label || '',
+      bookmarkUrl: url || '',
+    })
   }, [label, url])
-  const handleCancel = () => {
-    formik.resetForm()
-    onCancel()
-  }
+
   return (
     <Form onSubmit={formik.handleSubmit} noValidate>
       <Label htmlFor="bookmarkLabel">Name</Label>
@@ -131,7 +124,7 @@ export const CustomBookmarkForm = ({
           data-close-modal
           unstyled
           className="padding-105 text-center"
-          onClick={handleCancel}>
+          onClick={onCancel}>
           Cancel
         </Button>
         {onDelete && (
