@@ -1,15 +1,24 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/sfds/sfdsDependencies';
 
-.carouselImage {
-  margin: 0;
+.carouselItemContainer {
+  min-height: 534px;
 }
 
 .imageContainer {
-  @media screen and (max-width: 1024px) {
-    display: flex;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  min-height: 534px;
+  background: rgb(7, 15, 29);
+  background: linear-gradient(
+    180deg,
+    rgba(7, 15, 29, 1) 3%,
+    rgba(17, 37, 72, 1) 46%,
+    rgba(101, 114, 180, 1) 100%
+  );
+
+  .carouselImage {
+    width: 50%;
   }
 }
 
