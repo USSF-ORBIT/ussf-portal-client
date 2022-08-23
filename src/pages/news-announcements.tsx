@@ -92,7 +92,7 @@ const NewsAnnouncements = ({
                 formatToArticleListItem(item as Required<RSSNewsItem>)
               )}
           />
-          <div className={styles.buttonContainer}>
+          <div className={styles.olderInternalNewsLink}>
             <LinkTo
               href="https://www.spaceforce.mil/News"
               target="_blank"
