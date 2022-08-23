@@ -70,23 +70,24 @@ describe('EditCustomLinkModal', () => {
       expect(screen.getByRole('heading')).toHaveTextContent('Edit custom link')
 
       const labelInput = screen.getByLabelText('Name')
-      userEvent.type(labelInput, 'My Custom Link')
       const urlInput = screen.getByLabelText('URL')
-      await act(async () => {
-        userEvent.type(urlInput, 'http://www.example.com')
-        userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
-      })
 
-      userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+      userEvent.type(labelInput, 'Edited Link')
+      userEvent.type(urlInput, 'http://www.newurl.com')
+
+      await act(async () =>
+        userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+      )
       expect(mockOnCancel).toHaveBeenCalled()
-      expect(screen.getByLabelText('Name')).toHaveValue('')
-      expect(screen.getByLabelText('URL')).toHaveValue('')
+      expect(screen.getByLabelText('Name')).toHaveValue(mockBookmark.label)
+      expect(screen.getByLabelText('URL')).toHaveValue(mockBookmark.url)
     })
   })
 
   describe('without bookmark filled in', () => {
     const mockBookmark = {
       _id: ObjectId(),
+      label: '',
       url: '',
     }
 
@@ -103,10 +104,12 @@ describe('EditCustomLinkModal', () => {
       )
     })
 
-    it('cancelling reverts the value of the text inputs', () => {
+    it('cancelling reverts the value of the text inputs', async () => {
       expect(screen.getByRole('heading')).toHaveTextContent('Edit custom link')
-
-      userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+      screen.debug()
+      await act(async () =>
+        userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+      )
       expect(mockOnCancel).toHaveBeenCalled()
       expect(screen.getByLabelText('Name')).toHaveValue('')
       expect(screen.getByLabelText('URL')).toHaveValue('')

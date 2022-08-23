@@ -79,6 +79,8 @@ const CustomCollection = ({
     // Auto-focus on ComboBox when clicking Add Link
     if (isAddingLink && linkInput.current) {
       linkInput.current.focus()
+      // Clear state in case a previously cancelled link is hanging around
+      setCustomLabel('')
     }
   }, [isAddingLink])
 
