@@ -38,12 +38,11 @@ export const CustomBookmarkForm = ({
     initialValues: {
       // We have to provide label and url as possible initial values
       // in case a user is editing
-      // #TODO this might break tests i already 'fixed'
       bookmarkLabel: label || '',
       bookmarkUrl: url || '',
     },
-    validateOnChange: false, // #TODO check with design
-    validateOnBlur: true, // #TODO check with design
+    validateOnChange: false,
+    validateOnBlur: true,
     enableReinitialize: true,
     onSubmit: () => {
       onSave(formik.values.bookmarkUrl, formik.values.bookmarkLabel)

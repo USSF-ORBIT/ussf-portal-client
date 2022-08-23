@@ -1,7 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react'
 import classnames from 'classnames'
 import type { ObjectId } from 'bson'
-import { Button, Label, ModalRef, Icon } from '@trussworks/react-uswds'
+import {
+  Button,
+  Label,
+  ModalRef,
+  Icon,
+  ComboBox,
+  ComboBoxOption,
+  ComboBoxRef,
+} from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   DragDropContext,
@@ -10,7 +18,6 @@ import {
   DropResult,
 } from 'react-beautiful-dnd'
 
-import { ComboBox, ComboBoxOption, ComboBoxRef } from '@trussworks/react-uswds'
 import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
 import { CustomBookmark } from './CustomBookmark/CustomBookmark'

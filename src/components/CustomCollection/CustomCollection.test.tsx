@@ -471,13 +471,11 @@ describe('CustomCollection component', () => {
       )
     })
 
-    // await act(async () => {
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com',
       'My Custom Link'
     )
     expect(mockAddLink).toHaveBeenCalledTimes(1)
-    // })
 
     // Modal closed
     expect(screen.queryByRole('dialog', addLinkDialog)).toHaveClass('is-hidden')
