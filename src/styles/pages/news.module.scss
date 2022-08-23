@@ -1,4 +1,5 @@
 @import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
 
 .pageTitle {
   margin-top: units(6);
@@ -17,4 +18,26 @@
   padding-bottom: units(4);
   border-bottom: 1px solid #c4c4c4;
   margin-bottom: units(4);
+}
+
+.newsCarouselSection {
+  margin: 3rem 0 4rem 0;
+}
+
+.olderInternalNewsLink {
+  display: flex;
+  justify-content: center;
+  background: $theme-cosmiclatte-lighter;
+  border: 1px dashed $neutral-gray;
+
+  :global(.usa-button) {
+    background-color: $theme-aurora-dark;
+    color: $black;
+    margin: 1.4rem 0 1.4rem 0;
+
+    &:hover {
+      background-color: $theme-aurora-dark;
+      color: $black;
+    }
+  }
 }

@@ -75,4 +75,15 @@ describe('ArticleListItem component', () => {
       expect(await axe(container)).toHaveNoViolations()
     })
   })
+
+  it('renders the article preview of an rss article', () => {
+    render(<ArticleListItem article={rssTestArticle} />)
+
+    expect(screen.getByText('Aug')).toBeInTheDocument()
+    expect(screen.getByText('01')).toBeInTheDocument()
+
+    expect(screen.getAllByText(rssTestArticle.title)).toHaveLength(1)
+    expect(screen.getByText(rssTestArticle.preview)).toBeInTheDocument()
+    expect(screen.getByText(rssTestArticle.sourceName)).toBeInTheDocument()
+  })
 })
