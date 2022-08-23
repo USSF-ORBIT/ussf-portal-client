@@ -36,14 +36,15 @@ export const CustomBookmarkForm = ({
 
   const formik = useFormik({
     initialValues: {
-      bookmarkLabel: label || '',
-      bookmarkUrl: url || '',
+      bookmarkLabel: '',
+      bookmarkUrl: '',
     },
-    validateOnChange: true, // #TODO check with design
+    validateOnChange: false, // #TODO check with design
     validateOnBlur: true, // #TODO check with design
     enableReinitialize: true,
     onSubmit: () => {
       onSave(formik.values.bookmarkUrl, formik.values.bookmarkLabel)
+      formik.resetForm()
     },
 
     validationSchema: yup.object({
@@ -71,7 +72,12 @@ export const CustomBookmarkForm = ({
   }, [label, url])
 
   const handleOnCancel = () => {
-    formik.resetForm()
+    formik.resetForm({
+      values: {
+        bookmarkUrl: '',
+        bookmarkLabel: '',
+      },
+    })
     onCancel()
   }
   return (

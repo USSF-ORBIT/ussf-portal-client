@@ -290,7 +290,7 @@ describe('CustomCollection component', () => {
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
     expect(toggleFormButton).toBeInTheDocument()
-
+    // why does this not need to be wrapped in act, but others do? makes no sense.
     userEvent.click(toggleFormButton)
     const linkInput = screen.getByLabelText('Select existing link')
     expect(linkInput).toBeInTheDocument()
@@ -377,20 +377,29 @@ describe('CustomCollection component', () => {
     })
   })
 
-  fit('canceling from the modal resets the form', () => {
+  fit('canceling from the modal resets the form', async () => {
     const mockAddLink = jest.fn()
 
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
         {...mockHandlers}
+        bookmarkOptions={mockLinks}
         handleAddBookmark={mockAddLink}
       />
     )
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
-    userEvent.click(toggleFormButton)
-    userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
+    expect(toggleFormButton).toBeInTheDocument()
+
+    await act(async () => userEvent.click(toggleFormButton))
+    screen.getByLabelText('Select existing link')
+
+    userEvent.click(
+      screen.getByRole('button', { name: 'Toggle the dropdown list' })
+    )
+
+    userEvent.click(screen.getByRole('option', { name: 'Add custom link' }))
 
     // Open modal
     const addLinkModal = screen.getByRole('dialog', addLinkDialog)
@@ -414,42 +423,61 @@ describe('CustomCollection component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('adding a link closes the modal and resets the form', () => {
+  fit('adding a link closes the modal and resets the form', async () => {
     const mockAddLink = jest.fn()
 
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
         {...mockHandlers}
+        bookmarkOptions={mockLinks}
         handleAddBookmark={mockAddLink}
       />
     )
 
-    userEvent.click(screen.getByRole('button', { name: '+ Add link' }))
-    userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
+    const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
+    expect(toggleFormButton).toBeInTheDocument()
+
+    // Find Add Custom Link in the ComboBox
+    userEvent.click(toggleFormButton)
+    const linkInput = screen.getByLabelText('Select existing link')
+    expect(linkInput).toBeInTheDocument()
+
+    userEvent.click(
+      screen.getByRole('button', { name: 'Toggle the dropdown list' })
+    )
+
+    userEvent.click(screen.getByRole('option', { name: 'Add custom link' }))
 
     // Open modal
     const addLinkModal = screen.getByRole('dialog', addLinkDialog)
 
     expect(addLinkModal).toHaveClass('is-visible')
 
-    const labelInput = within(addLinkModal).getByLabelText('Name')
-    expect(labelInput).toBeInvalid()
-    userEvent.type(labelInput, 'My Custom Link')
-    expect(labelInput).toBeValid()
-    const urlInput = within(addLinkModal).getByLabelText('URL')
-    userEvent.type(urlInput, 'http://www.example.com')
-    expect(urlInput).toBeValid()
+    const labelInput = within(addLinkModal).getByRole('textbox', {
+      name: 'bookmarkLabel',
+    })
 
-    userEvent.click(
-      within(addLinkModal).getByRole('button', { name: 'Save custom link' })
-    )
+    const urlInput = within(addLinkModal).getByRole('textbox', {
+      name: 'bookmarkUrl',
+    })
+
+    userEvent.type(labelInput, 'My Custom Link')
+    userEvent.type(urlInput, 'http://www.example.com')
+
+    await act(async () => {
+      userEvent.click(
+        within(addLinkModal).getByRole('button', { name: 'Save custom link' })
+      )
+    })
+
+    // await act(async () => {
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com',
       'My Custom Link'
     )
-
     expect(mockAddLink).toHaveBeenCalledTimes(1)
+    // })
 
     // Modal closed
     expect(screen.queryByRole('dialog', addLinkDialog)).toHaveClass('is-hidden')
@@ -457,24 +485,27 @@ describe('CustomCollection component', () => {
 
     // Modal is still closed, form is reset
     expect(screen.queryByRole('dialog', addLinkDialog)).toHaveClass('is-hidden')
-    userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
+
+    // Find Add Custom Link in the ComboBox
+    userEvent.click(toggleFormButton)
+    userEvent.click(
+      screen.getByRole('button', { name: 'Toggle the dropdown list' })
+    )
+    userEvent.click(screen.getByRole('option', { name: 'Add custom link' }))
+
     expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
 
-    expect(within(addLinkModal).getByLabelText('Name')).toBeInvalid()
-    userEvent.type(
-      within(addLinkModal).getByLabelText('Name'),
-      'Another Custom Link'
-    )
-    expect(within(addLinkModal).getByLabelText('URL')).toBeInvalid()
-    userEvent.type(
-      within(addLinkModal).getByLabelText('URL'),
-      'http://www.example.com'
-    )
-    expect(within(addLinkModal).getByLabelText('URL')).toBeValid()
+    userEvent.type(labelInput, 'Another Custom Link')
+    userEvent.type(urlInput, 'http://www.example.com')
 
-    userEvent.click(
-      within(addLinkModal).getByRole('button', { name: 'Save custom link' })
-    )
+    expect(labelInput).toBeValid()
+    expect(urlInput).toBeValid()
+
+    await act(async () => {
+      userEvent.click(
+        within(addLinkModal).getByRole('button', { name: 'Save custom link' })
+      )
+    })
     expect(mockAddLink).toHaveBeenCalledWith(
       'http://www.example.com',
       'Another Custom Link'
@@ -483,7 +514,7 @@ describe('CustomCollection component', () => {
     expect(mockAddLink).toHaveBeenCalledTimes(2)
   })
 
-  it('can add an existing link', () => {
+  fit('can add an existing link', () => {
     const mockAddLink = jest.fn()
 
     renderWithModalRoot(
@@ -508,7 +539,7 @@ describe('CustomCollection component', () => {
     )
   })
 
-  it('renders the settings dropdown menu', () => {
+  fit('renders the settings dropdown menu', () => {
     render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
     const menuToggleButton = screen.getByRole('button', {
       name: 'Collection Settings',
@@ -527,7 +558,7 @@ describe('CustomCollection component', () => {
     expect(editItem).toBeInTheDocument()
   })
 
-  it('clicking the delete collection button opens the delete modal', () => {
+  fit('clicking the delete collection button opens the delete modal', () => {
     const mockRemoveCollection = jest.fn()
 
     renderWithModalRoot(
@@ -556,7 +587,7 @@ describe('CustomCollection component', () => {
     )
   })
 
-  it('clicking the cancel button in the modal closes the delete modal', () => {
+  fit('clicking the cancel button in the modal closes the delete modal', () => {
     const mockRemoveCollection = jest.fn()
 
     renderWithModalRoot(
@@ -599,7 +630,7 @@ describe('CustomCollection component', () => {
     )
   })
 
-  it('clicking the delete button in the modal closes the modal', () => {
+  fit('clicking the delete button in the modal closes the modal', () => {
     const mockRemoveCollection = jest.fn()
 
     renderWithModalRoot(
@@ -640,7 +671,7 @@ describe('CustomCollection component', () => {
     )
   })
 
-  it('clicking outside the dropdown menu closes the menu', () => {
+  fit('clicking outside the dropdown menu closes the menu', () => {
     const mockRemoveCollection = jest.fn()
 
     renderWithModalRoot(
@@ -674,7 +705,7 @@ describe('CustomCollection component', () => {
     expect(deleteCollection).not.toBeInTheDocument()
   })
 
-  it('clicking the menu button toggles the menu', () => {
+  fit('clicking the menu button toggles the menu', () => {
     const mockRemoveCollection = jest.fn()
 
     renderWithModalRoot(
@@ -705,7 +736,7 @@ describe('CustomCollection component', () => {
     expect(deleteCollection).not.toBeInTheDocument()
   })
 
-  it('renders the collection with links from the CMS', () => {
+  fit('renders the collection with links from the CMS', () => {
     const { container } = render(
       <CustomCollection
         {...exampleCollection}
@@ -720,13 +751,13 @@ describe('CustomCollection component', () => {
   })
 
   describe('an empty collection', () => {
-    it('renders a focused input for the title', () => {
+    fit('renders a focused input for the title', () => {
       render(<CustomCollection _id={ObjectId()} {...mockHandlers} />)
 
       expect(screen.getByRole('textbox')).toHaveFocus()
     })
 
-    it('can enter a title', () => {
+    fit('can enter a title', () => {
       const mockEditCollection = jest.fn()
 
       render(
@@ -741,7 +772,7 @@ describe('CustomCollection component', () => {
       expect(mockEditCollection).toHaveBeenCalledWith('My New Collection')
     })
 
-    it('not entering a title deletes the collection', () => {
+    fit('not entering a title deletes the collection', () => {
       const mockDeleteCollection = jest.fn()
 
       render(
@@ -759,7 +790,7 @@ describe('CustomCollection component', () => {
   })
 
   describe('with 9 bookmarks', () => {
-    it('shows a warning when adding the tenth link', () => {
+    fit('shows a warning when adding the tenth link', () => {
       renderWithModalRoot(
         <CustomCollection
           {...exampleCollectionWithNine}
@@ -778,7 +809,14 @@ describe('CustomCollection component', () => {
         `You’re about to hit your link limit — each collection can only have 10 links.`
       )
 
-      userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
+      userEvent.click(toggleFormButton)
+      screen.getByLabelText('Select existing link')
+
+      userEvent.click(
+        screen.getByRole('button', { name: 'Toggle the dropdown list' })
+      )
+
+      userEvent.click(screen.getByRole('option', { name: 'Add custom link' }))
 
       const addLinkModal = screen.getByRole('dialog', addLinkDialog)
       expect(addLinkModal).toHaveClass('is-visible')
@@ -790,7 +828,7 @@ describe('CustomCollection component', () => {
   })
 
   describe('with 10 bookmarks', () => {
-    it('does not allow adding anymore links', () => {
+    fit('does not allow adding anymore links', () => {
       render(
         <CustomCollection
           {...exampleCollectionWithTen}
