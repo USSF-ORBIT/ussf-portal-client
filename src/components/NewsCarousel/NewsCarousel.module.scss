@@ -1,0 +1,40 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.carouselContainer {
+  width: 100%;
+  background-color: #161f2f;
+  border-radius: 4px;
+
+  .dots {
+    button.newsCarouselEllipse {
+      width: 16.17px;
+      height: 16px;
+      border-radius: 50px;
+      background: $theme-spacebase-lightest;
+    }
+
+    button::before {
+      color: transparent;
+    }
+  }
+
+  > :global(.slick-dots
+      li.slick-active
+      div.news-carousel-container
+      button::before) {
+    color: transparent;
+    background: #112548;
+    width: 16.17px;
+    height: 16px;
+    border-radius: 50px;
+  }
+}
+
+.carouselArrow {
+  background: transparent;
+  border: none;
+  &:hover {
+    cursor: pointer;
+  }
+}

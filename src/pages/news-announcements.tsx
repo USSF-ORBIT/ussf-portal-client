@@ -9,6 +9,7 @@ import {
 import { client } from '../lib/keystoneClient'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import Announcement from 'components/Announcement/Announcement'
+import NewsCarousel from 'components/NewsCarousel/NewsCarousel'
 import Loader from 'components/Loader/Loader'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import { useUser } from 'hooks/useUser'
@@ -19,6 +20,7 @@ import styles from 'styles/pages/news.module.scss'
 import type { RSSNewsItem } from 'types'
 import { validateNewsItems, formatToArticleListItem } from 'helpers/index'
 import { GET_ANNOUNCEMENTS } from 'operations/cms/queries/getAnnouncements'
+import { GET_INTERNAL_NEWS_CAROUSEL_ARTICLES } from 'operations/cms/queries/getInternalNewsCarouselArticles'
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 
@@ -26,6 +28,7 @@ const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=12`
 
 const NewsAnnouncements = ({
   announcements,
+  articles,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
   const { items, fetchItems } = useRSSFeed(RSS_URL)
@@ -45,6 +48,30 @@ const NewsAnnouncements = ({
           <Announcement announcements={announcements} />
         </section>
       )}
+
+      {articles.length > 0 && (
+        <section className={styles.newsCarouselSection}>
+          <NewsCarousel articles={articles} />
+        </section>
+      )}
+
+      {/* 
+      This is separate from the NewsCarousel render above because the 
+      react-slick library uses certain styles for the dots section of 
+      the carousel that interfere with margin and padding.
+      */}
+      {articles.length > 0 && (
+        <div className={styles.olderInternalNewsLink}>
+          <LinkTo
+            href="/news"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="usa-button">
+            View older Internal USSF news
+          </LinkTo>
+        </div>
+      )}
+
       <div className={styles.pageTitle}>
         <h2>All USSF news</h2>
         <h3>
@@ -106,10 +133,16 @@ export async function getServerSideProps() {
     query: GET_ANNOUNCEMENTS,
   })
 
+  const {
+    data: { articles },
+  } = await client.query({
+    query: GET_INTERNAL_NEWS_CAROUSEL_ARTICLES,
+  })
+
   return {
     props: {
       announcements,
+      articles,
     },
   }
 }
-
