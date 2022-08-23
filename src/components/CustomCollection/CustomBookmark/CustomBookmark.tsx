@@ -23,7 +23,6 @@ export const CustomBookmark = ({
     editCustomLinkModal.current?.toggleModal(undefined, true)
 
   const handleSaveLink = (label: string, url: string) => {
-    console.log('HandleSaveLink in CustomBookmark')
     editCustomLinkModal.current?.toggleModal(undefined, false)
     onSave(url, label)
   }
