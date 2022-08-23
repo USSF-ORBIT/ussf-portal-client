@@ -19,7 +19,11 @@ export const NewsAndAnnouncements = () => (
   <BreadcrumbNav
     navItems={[
       { path: '/', label: 'Service portal home' },
-      { path: '/news', label: 'News & Announcements', current: true },
+      {
+        path: '/news-announcements',
+        label: 'News & Announcements',
+        current: true,
+      },
     ]}
   />
 )
