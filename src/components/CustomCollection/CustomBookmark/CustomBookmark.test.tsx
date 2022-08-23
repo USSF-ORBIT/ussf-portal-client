@@ -2,12 +2,12 @@
  * @jest-environment jsdom
  */
 
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ObjectId } from 'mongodb'
 import React from 'react'
 
-import { renderWithModalRoot } from '../../testHelpers'
+import { renderWithModalRoot } from '../../../testHelpers'
 
 import { CustomBookmark } from './CustomBookmark'
 
@@ -49,7 +49,7 @@ describe('CustomBookmark component', () => {
     expect(screen.getByRole('link')).toHaveTextContent(testBookmarkNoLabel.url)
   })
 
-  it('can save the bookmark', () => {
+  it('can save the bookmark', async () => {
     renderWithModalRoot(
       <CustomBookmark bookmark={testBookmark} {...testHandlers} />
     )
@@ -62,7 +62,7 @@ describe('CustomBookmark component', () => {
 
     const saveButton = screen.getByRole('button', { name: 'Save custom link' })
     expect(saveButton).toBeInTheDocument()
-    userEvent.click(saveButton)
+    await act(async () => userEvent.click(saveButton))
     expect(testHandlers.onSave).toHaveBeenCalled()
   })
 

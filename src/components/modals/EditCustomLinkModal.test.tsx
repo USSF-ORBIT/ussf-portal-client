@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { screen } from '@testing-library/react'
+import { screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { createRef } from 'react'
 import { ModalRef } from '@trussworks/react-uswds'
@@ -36,7 +36,7 @@ describe('EditCustomLinkModal', () => {
       )
     })
 
-    it('renders a form to edit a custom link', () => {
+    it('renders a form to edit a custom link', async () => {
       expect(screen.getByRole('heading')).toHaveTextContent('Edit custom link')
 
       const labelInput = screen.getByLabelText('Name')
@@ -47,8 +47,13 @@ describe('EditCustomLinkModal', () => {
       const urlInput = screen.getByLabelText('URL')
       expect(urlInput).toHaveValue(mockBookmark.url)
 
-      userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
-      expect(mockOnSave).toHaveBeenCalledWith('Edited link', mockBookmark.url)
+      await act(async () => {
+        userEvent.click(
+          screen.getByRole('button', { name: 'Save custom link' })
+        )
+      })
+
+      expect(mockOnSave).toHaveBeenCalledWith(mockBookmark.url, 'Edited link')
     })
 
     it('can delete the custom link', () => {
@@ -61,18 +66,21 @@ describe('EditCustomLinkModal', () => {
       expect(mockOnCancel).toHaveBeenCalled()
     })
 
-    it('cancelling resets the value of the text inputs', () => {
+    it('cancelling reverts the value of the text inputs', async () => {
       expect(screen.getByRole('heading')).toHaveTextContent('Edit custom link')
 
       const labelInput = screen.getByLabelText('Name')
       userEvent.type(labelInput, 'My Custom Link')
       const urlInput = screen.getByLabelText('URL')
-      userEvent.type(urlInput, 'http://www.example.com')
+      await act(async () => {
+        userEvent.type(urlInput, 'http://www.example.com')
+        userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+      })
 
       userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
       expect(mockOnCancel).toHaveBeenCalled()
-      expect(screen.getByLabelText('Name')).toHaveValue(mockBookmark.label)
-      expect(screen.getByLabelText('URL')).toHaveValue(mockBookmark.url)
+      expect(screen.getByLabelText('Name')).toHaveValue('')
+      expect(screen.getByLabelText('URL')).toHaveValue('')
     })
   })
 
@@ -95,7 +103,7 @@ describe('EditCustomLinkModal', () => {
       )
     })
 
-    it('cancelling resets the value of the text inputs', () => {
+    it('cancelling reverts the value of the text inputs', () => {
       expect(screen.getByRole('heading')).toHaveTextContent('Edit custom link')
 
       userEvent.click(screen.getByRole('button', { name: 'Cancel' }))

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { ModalRef } from '@trussworks/react-uswds'
 
-import styles from './CustomCollection.module.scss'
+import styles from '../CustomCollection.module.scss'
 
 import Bookmark from 'components/Bookmark/Bookmark'
 import type { Bookmark as BookmarkType } from 'types/index'
@@ -13,7 +13,7 @@ export const CustomBookmark = ({
   onDelete,
 }: {
   bookmark: BookmarkType
-  onSave: (label?: string, url?: string) => void
+  onSave: (url: string, label: string) => void
   onDelete: () => void
 }) => {
   const editCustomLinkModal = useRef<ModalRef>(null)
@@ -23,8 +23,9 @@ export const CustomBookmark = ({
     editCustomLinkModal.current?.toggleModal(undefined, true)
 
   const handleSaveLink = (label: string, url: string) => {
+    console.log('HandleSaveLink in CustomBookmark')
     editCustomLinkModal.current?.toggleModal(undefined, false)
-    onSave(label, url)
+    onSave(url, label)
   }
 
   const handleCancel = () =>

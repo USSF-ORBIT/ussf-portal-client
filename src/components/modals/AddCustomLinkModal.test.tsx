@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { screen } from '@testing-library/react'
+import { screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { createRef } from 'react'
 import { ModalRef } from '@trussworks/react-uswds'
@@ -25,17 +25,15 @@ describe('AddCustomLinkModal', () => {
     )
   })
 
-  it('renders a form to add a custom link', () => {
+  it('renders a form to add a custom link', async () => {
     expect(screen.getByRole('heading')).toHaveTextContent('Add a custom link')
 
     const labelInput = screen.getByLabelText('Name')
-    expect(labelInput).toBeInvalid()
     userEvent.type(labelInput, 'My Custom Link')
     expect(labelInput).toBeValid()
 
     const urlInput = screen.getByLabelText('URL')
     expect(urlInput).toBeInTheDocument()
-    expect(urlInput).toBeInvalid()
 
     userEvent.type(urlInput, 'example')
     expect(urlInput).toBeInvalid()
@@ -43,7 +41,10 @@ describe('AddCustomLinkModal', () => {
     userEvent.type(urlInput, 'http://www.example.com')
     expect(urlInput).toBeValid()
 
-    userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
+    await act(async () =>
+      userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
+    )
+
     expect(mockOnSave).toHaveBeenCalled()
   })
 
@@ -52,7 +53,7 @@ describe('AddCustomLinkModal', () => {
     expect(mockOnCancel).toHaveBeenCalled()
   })
 
-  it('saving resets the value of the text inputs', () => {
+  it('saving resets the value of the text inputs', async () => {
     expect(screen.getByRole('heading')).toHaveTextContent('Add a custom link')
 
     const labelInput = screen.getByLabelText('Name')
@@ -60,22 +61,26 @@ describe('AddCustomLinkModal', () => {
     const urlInput = screen.getByLabelText('URL')
     userEvent.type(urlInput, 'http://www.example.com')
 
-    userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
+    await act(async () =>
+      userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
+    )
 
     expect(mockOnSave).toHaveBeenCalled()
     expect(screen.getByLabelText('Name')).toHaveValue('')
     expect(screen.getByLabelText('URL')).toHaveValue('')
   })
 
-  it('cancelling resets the value of the text inputs', () => {
+  it('cancelling reverts the value of the text inputs', async () => {
     expect(screen.getByRole('heading')).toHaveTextContent('Add a custom link')
 
     const labelInput = screen.getByLabelText('Name')
     userEvent.type(labelInput, 'My Custom Link')
     const urlInput = screen.getByLabelText('URL')
-    userEvent.type(urlInput, 'http://www.example.com')
+    await act(async () => {
+      userEvent.type(urlInput, 'http://www.example.com')
+      userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    })
 
-    userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
     expect(mockOnCancel).toHaveBeenCalled()
     expect(screen.getByLabelText('Name')).toHaveValue('')
     expect(screen.getByLabelText('URL')).toHaveValue('')

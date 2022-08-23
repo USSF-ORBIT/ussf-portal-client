@@ -9,14 +9,11 @@ import {
   Draggable,
   DropResult,
 } from 'react-beautiful-dnd'
-import {
-  ComboBox,
-  ComboBoxOption,
-  ComboBoxRef,
-} from 'components/ComboBoxCustom'
+
+import { ComboBox, ComboBoxOption, ComboBoxRef } from '@trussworks/react-uswds'
 import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
-import { CustomBookmark } from './CustomBookmark'
+import { CustomBookmark } from './CustomBookmark/CustomBookmark'
 import styles from './CustomCollection.module.scss'
 
 import Tooltip from 'components/Tooltip/Tooltip'
@@ -119,9 +116,15 @@ const CustomCollection = ({
 
   // Save an existing link from the ComboBox
   const handleSelectChange = (value: string | undefined) => {
+    const customLink = value === 'custom'
     const existingLink =
       value && bookmarkOptions.find((i) => `${i.id}` === value)
 
+    // If the value is 'custom', the user has selected 'Add custom link' and
+    // we need to open the AddCustomLinkModal
+    if (customLink) {
+      openCustomLinkModal()
+    }
     if (existingLink) {
       trackEvent(
         'Add link',
@@ -147,6 +150,11 @@ const CustomCollection = ({
           label: b.label || b.url,
         } as ComboBoxOption)
     )
+  // Custom link option for the ComboBox
+  const addCustomLinkOption = {
+    value: 'custom',
+    label: 'Add custom link',
+  }
 
   const canAddLink = visibleBookmarks.length < MAXIMUM_BOOKMARKS_PER_COLLECTION
   const showAddWarning =
@@ -175,9 +183,12 @@ const CustomCollection = ({
                 id="bookmarkId"
                 name="bookmarkId"
                 className={styles.addLinkComboBox}
-                options={urlOptions}
+                options={[...urlOptions, addCustomLinkOption]}
                 onChange={handleSelectChange}
                 ref={linkInput}
+                customFilter={{
+                  filter: '.*({{query}}|custom|{{query}},custom).*',
+                }}
                 inputProps={{
                   required: true,
                   placeholder: 'Choose a link...',
@@ -185,8 +196,6 @@ const CustomCollection = ({
                     setCustomLabel(e.target.value)
                   },
                 }}
-                noResults="Add a custom link"
-                handleCustomLink={openCustomLinkModal}
               />
             </div>
             {showAddWarning && (
