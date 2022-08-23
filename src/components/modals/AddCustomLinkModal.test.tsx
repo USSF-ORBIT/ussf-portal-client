@@ -29,25 +29,22 @@ describe('AddCustomLinkModal', () => {
     expect(screen.getByRole('heading')).toHaveTextContent('Add a custom link')
 
     const labelInput = screen.getByLabelText('Name')
-    // expect(labelInput).toBeInvalid()
     userEvent.type(labelInput, 'My Custom Link')
-    // expect(labelInput).toBeValid()
+    expect(labelInput).toBeValid()
 
     const urlInput = screen.getByLabelText('URL')
     expect(urlInput).toBeInTheDocument()
-    // expect(urlInput).toBeInvalid()
 
     userEvent.type(urlInput, 'example')
-    // expect(urlInput).toBeInvalid()
+    expect(urlInput).toBeInvalid()
     userEvent.clear(urlInput)
     userEvent.type(urlInput, 'http://www.example.com')
-    // expect(urlInput).toBeValid()
+    expect(urlInput).toBeValid()
 
     await act(async () =>
       userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
     )
-    // TODO look into usefulness or how to handle
-    // aria-invalid with formik
+
     expect(mockOnSave).toHaveBeenCalled()
   })
 
@@ -56,7 +53,7 @@ describe('AddCustomLinkModal', () => {
     expect(mockOnCancel).toHaveBeenCalled()
   })
 
-  it('saving reinitializes the value of the text inputs', async () => {
+  it('saving resets the value of the text inputs', async () => {
     expect(screen.getByRole('heading')).toHaveTextContent('Add a custom link')
 
     const labelInput = screen.getByLabelText('Name')
@@ -69,19 +66,21 @@ describe('AddCustomLinkModal', () => {
     )
 
     expect(mockOnSave).toHaveBeenCalled()
-    expect(screen.getByLabelText('Name')).toHaveValue('My Custom Link')
-    expect(screen.getByLabelText('URL')).toHaveValue('http://www.example.com')
+    expect(screen.getByLabelText('Name')).toHaveValue('')
+    expect(screen.getByLabelText('URL')).toHaveValue('')
   })
 
-  it('cancelling reverts the value of the text inputs', () => {
+  it('cancelling reverts the value of the text inputs', async () => {
     expect(screen.getByRole('heading')).toHaveTextContent('Add a custom link')
 
     const labelInput = screen.getByLabelText('Name')
     userEvent.type(labelInput, 'My Custom Link')
     const urlInput = screen.getByLabelText('URL')
-    userEvent.type(urlInput, 'http://www.example.com')
+    await act(async () => {
+      userEvent.type(urlInput, 'http://www.example.com')
+      userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    })
 
-    userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
     expect(mockOnCancel).toHaveBeenCalled()
     expect(screen.getByLabelText('Name')).toHaveValue('')
     expect(screen.getByLabelText('URL')).toHaveValue('')
