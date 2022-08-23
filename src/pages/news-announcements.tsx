@@ -55,6 +55,11 @@ const NewsAnnouncements = ({
         </section>
       )}
 
+      {/* 
+      This is separate from the NewsCarousel render above because the 
+      react-slick library uses certain styles for the dots section of 
+      the carousel that interfere with margin and padding.
+      */}
       {articles.length > 0 && (
         <div className={styles.olderInternalNewsLink}>
           <LinkTo
