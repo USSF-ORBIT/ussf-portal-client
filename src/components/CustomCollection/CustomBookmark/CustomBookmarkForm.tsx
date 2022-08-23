@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useFormik } from 'formik'
+import { useFormik, FormikState, FormikValues } from 'formik'
 import * as yup from 'yup'
 import {
   Form,
@@ -39,9 +39,9 @@ export const CustomBookmarkForm = ({
       bookmarkLabel: label || '',
       bookmarkUrl: url || '',
     },
-    validateOnChange: false,
-    validateOnBlur: false,
-
+    validateOnChange: true, // #TODO check with design
+    validateOnBlur: true, // #TODO check with design
+    enableReinitialize: true,
     onSubmit: () => {
       onSave(formik.values.bookmarkUrl, formik.values.bookmarkLabel)
     },
@@ -70,36 +70,46 @@ export const CustomBookmarkForm = ({
     })
   }, [label, url])
 
+  const handleOnCancel = () => {
+    formik.resetForm()
+    onCancel()
+  }
   return (
     <Form onSubmit={formik.handleSubmit} noValidate>
       <Label htmlFor="bookmarkLabel">Name</Label>
       <TextInput
         type="text"
-        id="BookmarkLabel"
+        id="bookmarkLabel"
         name="bookmarkLabel"
         inputRef={nameInputRef}
         placeholder="Example link name"
         value={formik.values.bookmarkLabel}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
+        aria-required
+        aria-invalid={!!formik.errors.bookmarkLabel}
+        aria-label="bookmarkLabel"
       />
 
       {formik.errors.bookmarkLabel && (
         <ErrorMessage>{formik.errors.bookmarkLabel}</ErrorMessage>
       )}
 
-      <Label htmlFor="newBookmarkUrl">URL</Label>
+      <Label htmlFor="bookmarkUrl">URL</Label>
       <TextInput
         type="url"
-        id="newBookmarkUrl"
+        id="bookmarkUrl"
         name="bookmarkUrl"
-        title="Enter a valid URL"
         inputRef={urlInputRef}
         value={formik.values.bookmarkUrl}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         placeholder="https://www.copy-paste-your-url.com"
+        aria-required
+        aria-invalid={!!formik.errors.bookmarkUrl}
+        aria-label="bookmarkUrl"
       />
+
       {formik.errors.bookmarkUrl && (
         <ErrorMessage>{formik.errors.bookmarkUrl}</ErrorMessage>
       )}
@@ -124,7 +134,7 @@ export const CustomBookmarkForm = ({
           data-close-modal
           unstyled
           className="padding-105 text-center"
-          onClick={onCancel}>
+          onClick={handleOnCancel}>
           Cancel
         </Button>
         {onDelete && (

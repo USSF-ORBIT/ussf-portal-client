@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, within, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ObjectId } from 'mongodb'
 import React from 'react'
@@ -221,7 +221,7 @@ describe('CustomCollection component', () => {
     scrollSpy.mockReset()
   })
 
-  it('renders the collection with DragDropContext', () => {
+  fit('renders the collection with DragDropContext', () => {
     const { container } = render(
       <CustomCollection {...exampleCollection} {...mockHandlers} />
     )
@@ -232,7 +232,7 @@ describe('CustomCollection component', () => {
     ).toEqual('0')
   })
 
-  it('drags and drops a link', async () => {
+  fit('drags and drops a link', async () => {
     const mockEditCollection = jest.fn()
 
     render(
@@ -254,7 +254,7 @@ describe('CustomCollection component', () => {
     expect(mockEditCollection).toHaveBeenCalled()
   })
 
-  it('renders the collection with delete or edit buttons', () => {
+  fit('renders the collection with delete or edit buttons', () => {
     render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(
@@ -279,7 +279,7 @@ describe('CustomCollection component', () => {
     ).toHaveLength(1)
   })
 
-  it('renders an Add Link toggleable form', () => {
+  fit('renders an Add Link toggleable form', () => {
     render(
       <CustomCollection
         {...exampleCollection}
@@ -303,7 +303,7 @@ describe('CustomCollection component', () => {
     expect(linkInput).toBeValid()
   })
 
-  it('cancels Add Link action and resets form', () => {
+  fit('cancels Add Link action and resets form', () => {
     render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
 
     userEvent.click(screen.getByRole('button', { name: '+ Add link' }))
@@ -321,42 +321,60 @@ describe('CustomCollection component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('can open the Add Custom Link modal', () => {
+  fit('can select Add Custom Link and open the Add Custom Link modal', async () => {
     const mockAddLink = jest.fn()
 
     renderWithModalRoot(
       <CustomCollection
         {...exampleCollection}
         {...mockHandlers}
+        bookmarkOptions={mockLinks}
         handleAddBookmark={mockAddLink}
       />
     )
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
+    expect(toggleFormButton).toBeInTheDocument()
+
     userEvent.click(toggleFormButton)
-    userEvent.click(screen.getByRole('button', { name: 'Add a custom link' }))
+    const linkInput = screen.getByLabelText('Select existing link')
+    expect(linkInput).toBeInTheDocument()
+    expect(linkInput).toBeInvalid()
+
+    userEvent.click(
+      screen.getByRole('button', { name: 'Toggle the dropdown list' })
+    )
+
+    userEvent.click(screen.getByRole('option', { name: 'Add custom link' }))
 
     // Open modal
     const addLinkModal = screen.getByRole('dialog', addLinkDialog)
+
     expect(addLinkModal).toHaveClass('is-visible')
 
-    const labelInput = within(addLinkModal).getByLabelText('Name')
-    expect(labelInput).toBeInvalid()
+    const labelInput = within(addLinkModal).getByRole('textbox', {
+      name: 'bookmarkLabel',
+    })
+
+    const urlInput = within(addLinkModal).getByRole('textbox', {
+      name: 'bookmarkUrl',
+    })
+
     userEvent.type(labelInput, 'My Custom Link')
-    expect(labelInput).toBeValid()
-
-    const urlInput = within(addLinkModal).getByLabelText('URL')
     userEvent.type(urlInput, 'http://www.example.com')
-    expect(urlInput).toBeValid()
 
-    userEvent.click(
-      within(addLinkModal).getByRole('button', { name: 'Save custom link' })
-    )
+    await act(async () => {
+      userEvent.click(
+        within(addLinkModal).getByRole('button', { name: 'Save custom link' })
+      )
+    })
 
-    expect(mockAddLink).toHaveBeenCalledWith(
-      'http://www.example.com',
-      'My Custom Link'
-    )
+    await act(async () => {
+      expect(mockAddLink).toHaveBeenCalledWith(
+        'http://www.example.com',
+        'My Custom Link'
+      )
+    })
   })
 
   it('canceling from the modal resets the form', () => {

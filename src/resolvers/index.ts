@@ -76,8 +76,8 @@ type RemoveBookmarkInput = {
 type EditBookmarkInput = {
   _id: ObjectIdType
   collectionId: ObjectIdType
-  url: string
-  label: string
+  url?: string
+  label?: string
 }
 
 type EditDisplayNameInput = {

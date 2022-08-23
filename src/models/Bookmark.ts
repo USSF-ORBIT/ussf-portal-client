@@ -86,10 +86,11 @@ export const BookmarkModel = {
     { db }: Context
   ) {
     try {
-      // If bookmark url does not have scheme, add http://
-      if (!url?.startsWith('http://') && !url?.startsWith('https://')) {
+      // If there is a url to update and it does not have scheme, add http://
+      if (url && !url?.startsWith('http://') && !url?.startsWith('https://')) {
         url = `http://${url}`
       }
+
       const bookmark = await BookmarkModel.findOne(
         { _id, collectionId },
         { db }

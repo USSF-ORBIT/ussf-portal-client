@@ -116,10 +116,14 @@ const CustomCollection = ({
 
   // Save an existing link from the ComboBox
   const handleSelectChange = (value: string | undefined) => {
+    // If the value is 'custom', the user has selected 'Add custom link' and
+    // we need to open the AddCustomLinkModal
     const customLink = value === 'custom'
     const existingLink =
       value && bookmarkOptions.find((i) => `${i.id}` === value)
 
+    // If the value is 'custom', the user has selected 'Add custom link' and
+    // we need to open the AddCustomLinkModal
     if (customLink) {
       openCustomLinkModal()
     }
