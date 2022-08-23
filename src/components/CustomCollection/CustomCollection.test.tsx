@@ -377,7 +377,7 @@ describe('CustomCollection component', () => {
     })
   })
 
-  it('canceling from the modal resets the form', () => {
+  fit('canceling from the modal resets the form', () => {
     const mockAddLink = jest.fn()
 
     renderWithModalRoot(
