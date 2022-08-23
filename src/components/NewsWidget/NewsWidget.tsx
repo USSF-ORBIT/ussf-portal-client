@@ -69,7 +69,9 @@ const NewsWidget = ({ onRemove }: { onRemove: () => void }) => {
           ))}
 
         <div style={{ textAlign: 'right' }}>
-          <LinkTo href="/news" className="usa-button usa-button--outline">
+          <LinkTo
+            href="/news-announcements"
+            className="usa-button usa-button--outline">
             View all
           </LinkTo>
         </div>

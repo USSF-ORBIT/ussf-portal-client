@@ -2,8 +2,14 @@ name: Node CI
 
 on:
   push:
+    paths-ignore:
+      - 'docs/**'
+      - '**.md**'
     branches: [main]
   pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '**.md**'
     branches: [main]
 
 jobs:
@@ -26,7 +32,7 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
+      - uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}

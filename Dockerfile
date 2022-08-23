@@ -1,6 +1,6 @@
 ##--------- Stage: builder ---------##
 
-FROM node:14.19.3-slim AS builder
+FROM node:14.20.0-slim AS builder
 
 RUN apt-get update \
   && apt-get dist-upgrade -y \
@@ -26,7 +26,7 @@ RUN yarn install --production --ignore-scripts --prefer-offline
 ##--------- Stage: e2e ---------##
 
 # E2E image for running tests (same as prod but without certs)
-FROM node:14.19.3-slim AS e2e
+FROM node:14.20.0-slim AS e2e
 
 RUN apt-get update \
   && apt-get dist-upgrade -y \
@@ -54,7 +54,7 @@ CMD ["node","-r","./startup/index.js", "node_modules/.bin/next", "start"]
 ##--------- Stage: runner ---------##
 
 # Production image, copy all the files and run next
-FROM node:14.19.3-slim AS runner
+FROM node:14.20.0-slim AS runner
 
 WORKDIR /app
 
