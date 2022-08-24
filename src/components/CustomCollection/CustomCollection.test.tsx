@@ -369,12 +369,10 @@ describe('CustomCollection component', () => {
       )
     })
 
-    await act(async () => {
-      expect(mockAddLink).toHaveBeenCalledWith(
-        'http://www.example.com',
-        'My Custom Link'
-      )
-    })
+    expect(mockAddLink).toHaveBeenCalledWith(
+      'http://www.example.com',
+      'My Custom Link'
+    )
   })
 
   it('canceling from the modal resets the form', async () => {
