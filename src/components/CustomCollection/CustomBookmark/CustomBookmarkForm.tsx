@@ -100,7 +100,7 @@ export const CustomBookmarkForm = ({
         aria-invalid={!!formik.errors.bookmarkLabel}
         aria-label="bookmarkLabel"
       />
-      {console.log(formik.touched)}
+
       {formik.errors.bookmarkLabel && formik.touched.bookmarkLabel && (
         <ErrorMessage>{formik.errors.bookmarkLabel}</ErrorMessage>
       )}
