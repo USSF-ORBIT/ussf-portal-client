@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import {
@@ -33,6 +33,7 @@ export const CustomBookmarkForm = ({
 }: CustomBookmarkFormProps) => {
   // #TODO: Integrate Formik into our forms following the
   // wrapper component pattern used in other Truss projects
+  const [validateFields, setValidateFields] = useState(false)
 
   const formik = useFormik({
     initialValues: {
@@ -41,8 +42,8 @@ export const CustomBookmarkForm = ({
       bookmarkLabel: label || '',
       bookmarkUrl: url || '',
     },
-    validateOnChange: false,
-    validateOnBlur: true,
+    validateOnChange: validateFields,
+    validateOnBlur: validateFields,
     enableReinitialize: true,
     onSubmit: () => {
       onSave(formik.values.bookmarkUrl, formik.values.bookmarkLabel)
@@ -62,7 +63,7 @@ export const CustomBookmarkForm = ({
           }
           return value
         })
-        .url('URL is invalid')
+        .url('Please enter a valid URL')
         .required('URL is required'),
     }),
   })
@@ -82,8 +83,14 @@ export const CustomBookmarkForm = ({
     })
     onCancel()
   }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    formik.handleSubmit()
+    setValidateFields(true)
+  }
   return (
-    <Form onSubmit={formik.handleSubmit} noValidate>
+    <Form onSubmit={handleSubmit} noValidate>
       <Label htmlFor="bookmarkLabel">Name</Label>
       <TextInput
         type="text"
