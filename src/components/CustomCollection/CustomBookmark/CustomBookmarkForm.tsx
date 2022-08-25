@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import {
@@ -33,7 +33,6 @@ export const CustomBookmarkForm = ({
 }: CustomBookmarkFormProps) => {
   // #TODO: Integrate Formik into our forms following the
   // wrapper component pattern used in other Truss projects
-  const [validateFields, setValidateFields] = useState(false)
 
   const formik = useFormik({
     initialValues: {
@@ -42,8 +41,9 @@ export const CustomBookmarkForm = ({
       bookmarkLabel: label || '',
       bookmarkUrl: url || '',
     },
-    validateOnChange: validateFields,
-    validateOnBlur: validateFields,
+
+    validateOnChange: true,
+    validateOnBlur: true,
     enableReinitialize: true,
     onSubmit: () => {
       onSave(formik.values.bookmarkUrl, formik.values.bookmarkLabel)
@@ -84,13 +84,8 @@ export const CustomBookmarkForm = ({
     onCancel()
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    formik.handleSubmit()
-    setValidateFields(true)
-  }
   return (
-    <Form onSubmit={handleSubmit} noValidate>
+    <Form onSubmit={formik.handleSubmit} noValidate>
       <Label htmlFor="bookmarkLabel">Name</Label>
       <TextInput
         type="text"
@@ -105,8 +100,8 @@ export const CustomBookmarkForm = ({
         aria-invalid={!!formik.errors.bookmarkLabel}
         aria-label="bookmarkLabel"
       />
-
-      {formik.errors.bookmarkLabel && (
+      {console.log(formik.touched)}
+      {formik.errors.bookmarkLabel && formik.touched.bookmarkLabel && (
         <ErrorMessage>{formik.errors.bookmarkLabel}</ErrorMessage>
       )}
 
@@ -125,7 +120,7 @@ export const CustomBookmarkForm = ({
         aria-label="bookmarkUrl"
       />
 
-      {formik.errors.bookmarkUrl && (
+      {formik.errors.bookmarkUrl && formik.touched.bookmarkUrl && (
         <ErrorMessage>{formik.errors.bookmarkUrl}</ErrorMessage>
       )}
       {showAddWarning && (
