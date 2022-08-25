@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.7.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.6.0...4.7.0) (2022-08-24)
+
+
+### Features
+
+* Add internal news carousel for news and announcements page ([#744](https://github.com/USSF-ORBIT/ussf-portal-client/issues/744)) ([c4acfe6](https://github.com/USSF-ORBIT/ussf-portal-client/commit/c4acfe6455f517ce67a8c9fc7639fa0de3c1f7d1)), closes [/github.com/DefinitelyTyped/DefinitelyTyped/issues/35572#issuecomment-498242139](https://github.com/USSF-ORBIT//github.com/DefinitelyTyped/DefinitelyTyped/issues/35572/issues/issuecomment-498242139)
+* Display Spaceforce.mil news articles below the news carousel ([#746](https://github.com/USSF-ORBIT/ussf-portal-client/issues/746)) ([e13b57a](https://github.com/USSF-ORBIT/ussf-portal-client/commit/e13b57af70864c1fe1d2774500bb5e077b21cfa0)), closes [/github.com/DefinitelyTyped/DefinitelyTyped/issues/35572#issuecomment-498242139](https://github.com/USSF-ORBIT//github.com/DefinitelyTyped/DefinitelyTyped/issues/35572/issues/issuecomment-498242139)
+
 ## [4.6.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.5.0...4.6.0) (2022-08-16)
 
 
