@@ -24,7 +24,7 @@ import { GET_INTERNAL_NEWS_CAROUSEL_ARTICLES } from 'operations/cms/queries/getI
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 
-const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=12`
+const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=4`
 
 const NewsAnnouncements = ({
   announcements,
@@ -73,10 +73,9 @@ const NewsAnnouncements = ({
       )}
 
       <div className={styles.pageTitle}>
-        <h2>All USSF news</h2>
+        <h2>Latest external USSF news</h2>
         <h3>
-          Publically and internally released Space Force news, published within
-          the last 30 days.
+          Publically released Space Force news released within the last 30 days.
         </h3>
       </div>
 
@@ -93,13 +92,13 @@ const NewsAnnouncements = ({
                 formatToArticleListItem(item as Required<RSSNewsItem>)
               )}
           />
-          <div style={{ textAlign: 'center' }}>
+          <div className={styles.olderInternalNewsLink}>
             <LinkTo
               href="https://www.spaceforce.mil/News"
               target="_blank"
               rel="noreferrer noopener"
               className="usa-button">
-              Read more news
+              View older Spaceforce.mil articles
             </LinkTo>
           </div>
         </>
@@ -113,14 +112,14 @@ export default NewsAnnouncements
 NewsAnnouncements.getLayout = (page: React.ReactNode) =>
   withPageLayout(
     <div>
-      <h1>News</h1>
+      <h1>News & Announcements</h1>
       <BreadcrumbBar>
         <Breadcrumb>
           <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
             Service portal home
           </BreadcrumbLink>
         </Breadcrumb>
-        <Breadcrumb current>News</Breadcrumb>
+        <Breadcrumb current>News & Announcements</Breadcrumb>
       </BreadcrumbBar>
     </div>,
     page
