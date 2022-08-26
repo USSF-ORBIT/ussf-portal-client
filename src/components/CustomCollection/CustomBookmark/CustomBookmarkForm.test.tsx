@@ -2,13 +2,7 @@
  * @jest-environment jsdom
  */
 
-import {
-  render,
-  screen,
-  RenderResult,
-  act,
-  waitFor,
-} from '@testing-library/react'
+import { render, screen, RenderResult, waitFor } from '@testing-library/react'
 import React, { createRef } from 'react'
 import { axe } from 'jest-axe'
 import userEvent from '@testing-library/user-event'
@@ -118,11 +112,9 @@ describe('CustomBookmarkForm component', () => {
       expect(urlInput).toHaveAttribute('aria-invalid', 'false')
     )
 
-    await act(async () =>
-      userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
-    )
+    userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
 
-    expect(testHandlers.onCancel).toHaveBeenCalledTimes(1)
+    await waitFor(() => expect(testHandlers.onCancel).toHaveBeenCalledTimes(1))
   })
 
   it('has no a11y violations', async () => {
@@ -166,15 +158,14 @@ describe('CustomBookmarkForm component, Add Custom Link', () => {
     userEvent.type(urlInput, 'https://example.com')
     await waitFor(() => expect(labelInput).toBeValid())
 
-    await act(async () =>
-      userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
-    )
+    userEvent.click(screen.getByRole('button', { name: 'Save custom link' }))
 
-    expect(testHandlers.onSave).toHaveBeenCalledWith(
-      'https://example.com',
-      'My Custom Link'
-    )
-
+    await waitFor(() => {
+      expect(testHandlers.onSave).toHaveBeenCalledWith(
+        'https://example.com',
+        'My Custom Link'
+      )
+    })
     expect(screen.getByLabelText('Name')).toHaveValue('')
     expect(screen.getByLabelText('URL')).toHaveValue('')
   })
@@ -183,12 +174,11 @@ describe('CustomBookmarkForm component, Add Custom Link', () => {
     const labelInput = screen.getByLabelText('Name')
     userEvent.type(labelInput, 'My Custom Link')
     const urlInput = screen.getByLabelText('URL')
-    await act(async () => {
-      userEvent.type(urlInput, 'http://www.example.com')
-      userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
-    })
 
-    expect(testHandlers.onCancel).toHaveBeenCalled()
+    userEvent.type(urlInput, 'http://www.example.com')
+    userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+
+    await waitFor(() => expect(testHandlers.onCancel).toHaveBeenCalled())
     expect(screen.getByLabelText('Name')).toHaveValue('')
     expect(screen.getByLabelText('URL')).toHaveValue('')
   })
@@ -230,10 +220,8 @@ describe('CustomBookmarkForm component, Edit Custom Link', () => {
     userEvent.type(urlInput, 'https://example.com')
     await waitFor(() => expect(labelInput).toBeValid())
 
-    await act(async () =>
-      userEvent.click(screen.getByRole('button', { name: 'Delete' }))
-    )
+    userEvent.click(screen.getByRole('button', { name: 'Delete' }))
 
-    expect(testHandlers.onDelete).toHaveBeenCalledTimes(1)
+    await waitFor(() => expect(testHandlers.onDelete).toHaveBeenCalledTimes(1))
   })
 })
