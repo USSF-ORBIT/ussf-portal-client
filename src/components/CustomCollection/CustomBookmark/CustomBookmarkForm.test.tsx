@@ -11,8 +11,8 @@ import {
 } from '@testing-library/react'
 import React, { createRef } from 'react'
 import { axe } from 'jest-axe'
-import { CustomBookmarkForm } from './CustomBookmarkForm'
 import userEvent from '@testing-library/user-event'
+import { CustomBookmarkForm } from './CustomBookmarkForm'
 
 describe('CustomBookmarkForm component', () => {
   const testHandlers = {
@@ -84,10 +84,10 @@ describe('CustomBookmarkForm component', () => {
 
     // Input: String, valid url with https://
     // Result: Valid
-    // userEvent.type(urlInput, 'https://example.com')
-    // await waitFor(() => expect(urlInput).toBeValid())
+    userEvent.type(urlInput, 'https://example.com')
+    await waitFor(() => expect(urlInput).toBeValid())
 
-    // userEvent.clear(urlInput)
+    userEvent.clear(urlInput)
 
     // Input: String, valid url with no scheme
     // Result: Valid
@@ -237,5 +237,3 @@ describe('CustomBookmarkForm component, Edit Custom Link', () => {
     expect(testHandlers.onDelete).toHaveBeenCalledTimes(1)
   })
 })
-
-// check that delete btn is renderes for add but not edit
