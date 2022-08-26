@@ -2,19 +2,22 @@
  * @jest-environment jsdom
  */
 
-import { screen, act } from '@testing-library/react'
+import { screen, act, RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { createRef } from 'react'
 import { ModalRef } from '@trussworks/react-uswds'
 import { ObjectId } from 'mongodb'
 import { renderWithModalRoot } from '../../testHelpers'
-
+import { axe } from 'jest-axe'
 import EditCustomLinkModal from './EditCustomLinkModal'
 
 describe('EditCustomLinkModal', () => {
-  const mockOnSave = jest.fn()
-  const mockOnCancel = jest.fn()
-  const mockOnDelete = jest.fn()
+  const testHandlers = {
+    onSave: jest.fn(),
+    onDelete: jest.fn(),
+    onCancel: jest.fn(),
+  }
+  let html: RenderResult
 
   describe('with bookmark filled in', () => {
     const mockBookmark = {
@@ -23,64 +26,39 @@ describe('EditCustomLinkModal', () => {
       url: 'http://www.example.com',
     }
 
-    beforeEach(() => {
+    beforeEach(async () => {
       const modalRef = createRef<ModalRef>()
-      renderWithModalRoot(
+
+      html = renderWithModalRoot(
         <EditCustomLinkModal
           bookmark={mockBookmark}
           modalRef={modalRef}
-          onSave={mockOnSave}
-          onCancel={mockOnCancel}
-          onDelete={mockOnDelete}
+          onSave={testHandlers.onSave}
+          onCancel={testHandlers.onCancel}
+          onDelete={testHandlers.onDelete}
         />
       )
+
+      await screen.findByRole('dialog', { name: 'Edit custom link' })
     })
 
-    it('renders a form to edit a custom link', async () => {
+    it('renders the EditCustomLinkModal component', async () => {
       expect(screen.getByRole('heading')).toHaveTextContent('Edit custom link')
-
-      const labelInput = screen.getByLabelText('Name')
-      expect(labelInput).toHaveValue(mockBookmark.label)
-      userEvent.clear(labelInput)
-      userEvent.type(labelInput, 'Edited link')
-
-      const urlInput = screen.getByLabelText('URL')
-      expect(urlInput).toHaveValue(mockBookmark.url)
-
-      await act(async () => {
-        userEvent.click(
-          screen.getByRole('button', { name: 'Save custom link' })
-        )
-      })
-
-      expect(mockOnSave).toHaveBeenCalledWith(mockBookmark.url, 'Edited link')
-    })
-
-    it('can delete the custom link', () => {
-      userEvent.click(screen.getByRole('button', { name: 'Delete' }))
-      expect(mockOnDelete).toHaveBeenCalled()
+      expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument()
     })
 
     it('can cancel out of the modal', () => {
       userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
-      expect(mockOnCancel).toHaveBeenCalled()
+      expect(testHandlers.onCancel).toHaveBeenCalled()
     })
 
-    it('cancelling reverts the value of the text inputs', async () => {
-      expect(screen.getByRole('heading')).toHaveTextContent('Edit custom link')
+    it('can delete the custom link', () => {
+      userEvent.click(screen.getByRole('button', { name: 'Delete' }))
+      expect(testHandlers.onDelete).toHaveBeenCalled()
+    })
 
-      const labelInput = screen.getByLabelText('Name')
-      const urlInput = screen.getByLabelText('URL')
-
-      userEvent.type(labelInput, 'Edited Link')
-      userEvent.type(urlInput, 'http://www.newurl.com')
-
-      await act(async () =>
-        userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
-      )
-      expect(mockOnCancel).toHaveBeenCalled()
-      expect(screen.getByLabelText('Name')).toHaveValue(mockBookmark.label)
-      expect(screen.getByLabelText('URL')).toHaveValue(mockBookmark.url)
+    it('has no a11y violations', async () => {
+      expect(await axe(html.container)).toHaveNoViolations()
     })
   })
 
@@ -91,28 +69,32 @@ describe('EditCustomLinkModal', () => {
       url: '',
     }
 
-    beforeEach(() => {
+    beforeEach(async () => {
       const modalRef = createRef<ModalRef>()
-      renderWithModalRoot(
+
+      html = renderWithModalRoot(
         <EditCustomLinkModal
           bookmark={mockBookmark}
           modalRef={modalRef}
-          onSave={mockOnSave}
-          onCancel={mockOnCancel}
-          onDelete={mockOnDelete}
+          onSave={testHandlers.onSave}
+          onCancel={testHandlers.onCancel}
+          onDelete={testHandlers.onDelete}
         />
       )
+
+      await screen.findByRole('dialog', { name: 'Edit custom link' })
     })
 
     it('cancelling reverts the value of the text inputs', async () => {
       expect(screen.getByRole('heading')).toHaveTextContent('Edit custom link')
-      screen.debug()
-      await act(async () =>
-        userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
-      )
-      expect(mockOnCancel).toHaveBeenCalled()
+      userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+      expect(testHandlers.onCancel).toHaveBeenCalled()
       expect(screen.getByLabelText('Name')).toHaveValue('')
       expect(screen.getByLabelText('URL')).toHaveValue('')
+    })
+
+    it('has no a11y violations', async () => {
+      expect(await axe(html.container)).toHaveNoViolations()
     })
   })
 })

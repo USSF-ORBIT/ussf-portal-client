@@ -237,3 +237,5 @@ describe('CustomBookmarkForm component, Edit Custom Link', () => {
     expect(testHandlers.onDelete).toHaveBeenCalledTimes(1)
   })
 })
+
+// check that delete btn is renderes for add but not edit

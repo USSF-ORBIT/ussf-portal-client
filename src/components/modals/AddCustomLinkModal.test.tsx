@@ -7,6 +7,7 @@ import userEvent from '@testing-library/user-event'
 import React, { createRef } from 'react'
 import { ModalRef } from '@trussworks/react-uswds'
 import { renderWithModalRoot } from '../../testHelpers'
+import { axe } from 'jest-axe'
 import AddCustomLinkModal from './AddCustomLinkModal'
 
 describe('AddCustomLinkModal', () => {
@@ -26,15 +27,19 @@ describe('AddCustomLinkModal', () => {
         onCancel={testHandlers.onCancel}
       />
     )
-    await screen.findByText('Add a custom link')
+    await screen.findByRole('dialog', { name: 'Add a custom link' })
   })
 
   it('renders the AddCustomLinkModal component', async () => {
-    expect(await screen.findByText('Add a custom link')).toBeInTheDocument()
+    expect(screen.getByRole('heading')).toHaveTextContent('Add a custom link')
   })
 
   it('can cancel out of the modal', () => {
     userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
     expect(testHandlers.onCancel).toHaveBeenCalled()
+  })
+
+  it('has no a11y violations', async () => {
+    expect(await axe(html.container)).toHaveNoViolations()
   })
 })
