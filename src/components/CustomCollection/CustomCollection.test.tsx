@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { render, screen, within, act } from '@testing-library/react'
+import { render, screen, within, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ObjectId } from 'mongodb'
 import React from 'react'
@@ -221,10 +221,11 @@ describe('CustomCollection component', () => {
     scrollSpy.mockReset()
   })
 
-  it('renders the collection with DragDropContext', () => {
+  it('renders the collection with DragDropContext', async () => {
     const { container } = render(
       <CustomCollection {...exampleCollection} {...mockHandlers} />
     )
+    await screen.findByText('Example Collection')
     expect(
       container
         .querySelector('div')
@@ -243,6 +244,8 @@ describe('CustomCollection component', () => {
       />
     )
 
+    await screen.findByText('Example Collection')
+
     // Get drag handles
     const dragHandle = screen.getAllByLabelText('Drag Handle')
     dragHandle[0].focus()
@@ -254,8 +257,10 @@ describe('CustomCollection component', () => {
     expect(mockEditCollection).toHaveBeenCalled()
   })
 
-  it('renders the collection with delete or edit buttons', () => {
+  it('renders the collection with delete or edit buttons', async () => {
     render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
+    await screen.findByText('Example Collection')
+
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(
       screen.getByRole('heading', {
@@ -279,7 +284,7 @@ describe('CustomCollection component', () => {
     ).toHaveLength(1)
   })
 
-  it('renders an Add Link toggleable form', () => {
+  it('renders an Add Link toggleable form', async () => {
     render(
       <CustomCollection
         {...exampleCollection}
@@ -287,10 +292,11 @@ describe('CustomCollection component', () => {
         bookmarkOptions={mockLinks}
       />
     )
+    await screen.findByText('Example Collection')
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
     expect(toggleFormButton).toBeInTheDocument()
-    // why does this not need to be wrapped in act, but others do? makes no sense.
+
     userEvent.click(toggleFormButton)
     const linkInput = screen.getByLabelText('Select existing link')
     expect(linkInput).toBeInTheDocument()
@@ -303,8 +309,9 @@ describe('CustomCollection component', () => {
     expect(linkInput).toBeValid()
   })
 
-  it('cancels Add Link action and resets form', () => {
+  it('cancels Add Link action and resets form', async () => {
     render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
+    await screen.findByText('Example Collection')
 
     userEvent.click(screen.getByRole('button', { name: '+ Add link' }))
     expect(screen.queryByLabelText('Select existing link')).toBeInTheDocument()
@@ -333,6 +340,7 @@ describe('CustomCollection component', () => {
       />
     )
 
+    await screen.findByText('Example Collection')
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
     expect(toggleFormButton).toBeInTheDocument()
 
@@ -387,10 +395,11 @@ describe('CustomCollection component', () => {
       />
     )
 
+    await screen.findByText('Example Collection')
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
     expect(toggleFormButton).toBeInTheDocument()
 
-    await act(async () => userEvent.click(toggleFormButton))
+    userEvent.click(toggleFormButton)
     screen.getByLabelText('Select existing link')
 
     userEvent.click(
@@ -432,6 +441,8 @@ describe('CustomCollection component', () => {
         handleAddBookmark={mockAddLink}
       />
     )
+
+    await screen.findByText('Example Collection')
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
     expect(toggleFormButton).toBeInTheDocument()
@@ -510,7 +521,7 @@ describe('CustomCollection component', () => {
     expect(mockAddLink).toHaveBeenCalledTimes(2)
   })
 
-  it('can add an existing link', () => {
+  it('can add an existing link', async () => {
     const mockAddLink = jest.fn()
 
     renderWithModalRoot(
@@ -521,8 +532,10 @@ describe('CustomCollection component', () => {
         handleAddBookmark={mockAddLink}
       />
     )
+    await screen.findByText('Example Collection')
 
     const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
+
     userEvent.click(toggleFormButton)
     const linkInput = screen.getByLabelText('Select existing link')
     userEvent.click(linkInput)
@@ -535,9 +548,9 @@ describe('CustomCollection component', () => {
     )
   })
 
-  it('renders the settings dropdown menu', () => {
+  it('renders the settings dropdown menu', async () => {
     render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
-    const menuToggleButton = screen.getByRole('button', {
+    const menuToggleButton = await screen.findByRole('button', {
       name: 'Collection Settings',
     })
     expect(menuToggleButton).toBeInTheDocument()
@@ -554,7 +567,7 @@ describe('CustomCollection component', () => {
     expect(editItem).toBeInTheDocument()
   })
 
-  it('clicking the delete collection button opens the delete modal', () => {
+  it('clicking the delete collection button opens the delete modal', async () => {
     const mockRemoveCollection = jest.fn()
 
     renderWithModalRoot(
@@ -565,7 +578,7 @@ describe('CustomCollection component', () => {
       />
     )
 
-    const menuToggleButton = screen.getByRole('button', {
+    const menuToggleButton = await screen.findByRole('button', {
       name: 'Collection Settings',
     })
     expect(menuToggleButton).toBeInTheDocument()
@@ -583,7 +596,7 @@ describe('CustomCollection component', () => {
     )
   })
 
-  it('clicking the cancel button in the modal closes the delete modal', () => {
+  it('clicking the cancel button in the modal closes the delete modal', async () => {
     const mockRemoveCollection = jest.fn()
 
     renderWithModalRoot(
@@ -594,7 +607,7 @@ describe('CustomCollection component', () => {
       />
     )
 
-    const menuToggleButton = screen.getByRole('button', {
+    const menuToggleButton = await screen.findByRole('button', {
       name: 'Collection Settings',
     })
 
@@ -626,7 +639,7 @@ describe('CustomCollection component', () => {
     )
   })
 
-  it('clicking the delete button in the modal closes the modal', () => {
+  it('clicking the delete button in the modal closes the modal', async () => {
     const mockRemoveCollection = jest.fn()
 
     renderWithModalRoot(
@@ -636,12 +649,12 @@ describe('CustomCollection component', () => {
         handleRemoveCollection={mockRemoveCollection}
       />
     )
+    const menuToggleButton = await screen.findByRole('button', {
+      name: 'Collection Settings',
+    })
     expect(screen.queryByRole('dialog', removeCollectionDialog)).toHaveClass(
       'is-hidden'
     )
-    const menuToggleButton = screen.getByRole('button', {
-      name: 'Collection Settings',
-    })
 
     userEvent.click(menuToggleButton)
 
@@ -667,7 +680,7 @@ describe('CustomCollection component', () => {
     )
   })
 
-  it('clicking outside the dropdown menu closes the menu', () => {
+  it('clicking outside the dropdown menu closes the menu', async () => {
     const mockRemoveCollection = jest.fn()
 
     renderWithModalRoot(
@@ -678,7 +691,7 @@ describe('CustomCollection component', () => {
       />
     )
 
-    const menuToggleButton = screen.getByRole('button', {
+    const menuToggleButton = await screen.findByRole('button', {
       name: 'Collection Settings',
     })
     // Open the menu
@@ -701,7 +714,7 @@ describe('CustomCollection component', () => {
     expect(deleteCollection).not.toBeInTheDocument()
   })
 
-  it('clicking the menu button toggles the menu', () => {
+  it('clicking the menu button toggles the menu', async () => {
     const mockRemoveCollection = jest.fn()
 
     renderWithModalRoot(
@@ -712,7 +725,7 @@ describe('CustomCollection component', () => {
       />
     )
 
-    const menuToggleButton = screen.getByRole('button', {
+    const menuToggleButton = await screen.findByRole('button', {
       name: 'Collection Settings',
     })
     // Open the menu
@@ -786,7 +799,7 @@ describe('CustomCollection component', () => {
   })
 
   describe('with 9 bookmarks', () => {
-    it('shows a warning when adding the tenth link', () => {
+    it('shows a warning when adding the tenth link', async () => {
       renderWithModalRoot(
         <CustomCollection
           {...exampleCollectionWithNine}
@@ -794,6 +807,7 @@ describe('CustomCollection component', () => {
           bookmarkOptions={mockLinks}
         />
       )
+      await screen.findByText('Example Collection')
 
       const toggleFormButton = screen.getByRole('button', {
         name: '+ Add link',
@@ -824,7 +838,7 @@ describe('CustomCollection component', () => {
   })
 
   describe('with 10 bookmarks', () => {
-    it('does not allow adding anymore links', () => {
+    it('does not allow adding anymore links', async () => {
       render(
         <CustomCollection
           {...exampleCollectionWithTen}
@@ -832,6 +846,8 @@ describe('CustomCollection component', () => {
           bookmarkOptions={mockLinks}
         />
       )
+
+      await screen.findByText('Example Collection')
 
       const toggleFormButton = screen.queryByRole('button', {
         name: '+ Add link',

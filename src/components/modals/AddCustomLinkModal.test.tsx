@@ -32,6 +32,11 @@ describe('AddCustomLinkModal', () => {
 
   it('renders the AddCustomLinkModal component', async () => {
     expect(screen.getByRole('heading')).toHaveTextContent('Add a custom link')
+
+    const deleteLinkButton = screen.queryByRole('button', {
+      name: 'Delete',
+    })
+    expect(deleteLinkButton).not.toBeInTheDocument()
   })
 
   it('can cancel out of the modal', () => {

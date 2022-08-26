@@ -27,10 +27,11 @@ describe('CustomBookmark component', () => {
     jest.clearAllMocks()
   })
 
-  it('renders a bookmark with an edit handler', () => {
+  it('renders a bookmark with an edit handler', async () => {
     renderWithModalRoot(
       <CustomBookmark bookmark={testBookmark} {...testHandlers} />
     )
+    await screen.findByText(testBookmark.label)
 
     expect(screen.getByRole('link')).toHaveTextContent(testBookmark.label)
     expect(
@@ -38,13 +39,14 @@ describe('CustomBookmark component', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the bookmark URL if there is no label', () => {
+  it('renders the bookmark URL if there is no label', async () => {
     const testBookmarkNoLabel = {
       _id: ObjectId(),
       url: 'https://example.com',
     }
 
     render(<CustomBookmark bookmark={testBookmarkNoLabel} {...testHandlers} />)
+    await screen.findByText(testBookmarkNoLabel.url)
 
     expect(screen.getByRole('link')).toHaveTextContent(testBookmarkNoLabel.url)
   })
@@ -54,7 +56,9 @@ describe('CustomBookmark component', () => {
       <CustomBookmark bookmark={testBookmark} {...testHandlers} />
     )
 
-    const editButton = screen.getByRole('button', { name: 'Edit this link' })
+    const editButton = await screen.findByRole('button', {
+      name: 'Edit this link',
+    })
     userEvent.click(editButton)
     expect(
       screen.getByRole('dialog', { name: 'Edit custom link' })
@@ -66,12 +70,14 @@ describe('CustomBookmark component', () => {
     expect(testHandlers.onSave).toHaveBeenCalled()
   })
 
-  it('can delete the bookmark', () => {
+  it('can delete the bookmark', async () => {
     renderWithModalRoot(
       <CustomBookmark bookmark={testBookmark} {...testHandlers} />
     )
 
-    const editButton = screen.getByRole('button', { name: 'Edit this link' })
+    const editButton = await screen.findByRole('button', {
+      name: 'Edit this link',
+    })
     userEvent.click(editButton)
     expect(
       screen.getByRole('dialog', { name: 'Edit custom link' })
@@ -83,12 +89,14 @@ describe('CustomBookmark component', () => {
     expect(testHandlers.onDelete).toHaveBeenCalled()
   })
 
-  it('can start editing and cancel', () => {
+  it('can start editing and cancel', async () => {
     renderWithModalRoot(
       <CustomBookmark bookmark={testBookmark} {...testHandlers} />
     )
 
-    const editButton = screen.getByRole('button', { name: 'Edit this link' })
+    const editButton = await screen.findByRole('button', {
+      name: 'Edit this link',
+    })
     userEvent.click(editButton)
     expect(
       screen.getByRole('dialog', { name: 'Edit custom link' })
