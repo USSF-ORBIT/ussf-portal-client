@@ -182,6 +182,10 @@ describe('CustomBookmarkForm component, Add Custom Link', () => {
     expect(screen.getByLabelText('Name')).toHaveValue('')
     expect(screen.getByLabelText('URL')).toHaveValue('')
   })
+
+  it('has no a11y violations', async () => {
+    expect(await axe(html.container)).toHaveNoViolations()
+  })
 })
 
 describe('CustomBookmarkForm component, Edit Custom Link', () => {
@@ -190,9 +194,7 @@ describe('CustomBookmarkForm component, Edit Custom Link', () => {
     onCancel: jest.fn(),
     onDelete: jest.fn(),
   }
-
   let html: RenderResult
-
   beforeEach(async () => {
     const mockNameRef = createRef<HTMLInputElement>()
     const mockUrlRef = createRef<HTMLInputElement>()
@@ -223,5 +225,9 @@ describe('CustomBookmarkForm component, Edit Custom Link', () => {
     userEvent.click(screen.getByRole('button', { name: 'Delete' }))
 
     await waitFor(() => expect(testHandlers.onDelete).toHaveBeenCalledTimes(1))
+  })
+
+  it('has no a11y violations', async () => {
+    expect(await axe(html.container)).toHaveNoViolations()
   })
 })
