@@ -8,20 +8,29 @@ RUN apt-get update \
 
 WORKDIR /app
 
-COPY . .
+COPY ["package*.json", "yarn.lock", "./"]
+
+COPY ./scripts/ /app/scripts/
 
 RUN yarn install --frozen-lockfile
+
+COPY ["codegen.yml", "next.config.js", "tsconfig.json", "./"]"
+
+COPY ./src/ /app/src/
+
+RUN yarn prebuild
+
+RUN yarn build
+
+# Install only production deps this time
+RUN yarn install --production --ignore-scripts --prefer-offline
 
 ARG BUILD
 
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV IMAGE_TAG=${BUILD}
 
-RUN yarn prebuild
-RUN yarn build
-
-# Install only production deps this time
-RUN yarn install --production --ignore-scripts --prefer-offline
+COPY . .
 
 ##--------- Stage: e2e ---------##
 
