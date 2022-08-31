@@ -5,10 +5,10 @@ import {
   Button,
   Label,
   ModalRef,
+  Icon,
   ComboBox,
   ComboBoxOption,
   ComboBoxRef,
-  Icon,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -20,7 +20,7 @@ import {
 
 import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
-import { CustomBookmark } from './CustomBookmark'
+import { CustomBookmark } from './CustomBookmark/CustomBookmark'
 import styles from './CustomCollection.module.scss'
 
 import Tooltip from 'components/Tooltip/Tooltip'
@@ -78,6 +78,7 @@ const CustomCollection = ({
     false
   )
 
+  const [customLabel, setCustomLabel] = useState<string>('')
   const visibleBookmarks = bookmarks.filter((b) => !b.isRemoved)
   const removedBookmarks = bookmarks.filter((b) => b.isRemoved)
 
@@ -85,6 +86,8 @@ const CustomCollection = ({
     // Auto-focus on ComboBox when clicking Add Link
     if (isAddingLink && linkInput.current) {
       linkInput.current.focus()
+      // Clear state in case a previously cancelled link is hanging around
+      setCustomLabel('')
     }
   }, [isAddingLink])
 
@@ -116,14 +119,21 @@ const CustomCollection = ({
     trackEvent('Add link', 'Save custom link', `${title} / ${label} / ${url}`)
     handleAddBookmark(url, label)
     setIsAddingLink(false)
+
     addCustomLinkModal.current?.toggleModal(undefined, false)
   }
 
   // Save an existing link from the ComboBox
   const handleSelectChange = (value: string | undefined) => {
+    const customLink = value === 'custom'
     const existingLink =
       value && bookmarkOptions.find((i) => `${i.id}` === value)
 
+    // If the value is 'custom', the user has selected 'Add custom link' and
+    // we need to open the AddCustomLinkModal
+    if (customLink) {
+      openCustomLinkModal()
+    }
     if (existingLink) {
       trackEvent(
         'Add link',
@@ -149,6 +159,11 @@ const CustomCollection = ({
           label: b.label || b.url,
         } as ComboBoxOption)
     )
+  // Custom link option for the ComboBox
+  const addCustomLinkOption = {
+    value: 'custom',
+    label: 'Add custom link',
+  }
 
   const canAddLink = visibleBookmarks.length < MAXIMUM_BOOKMARKS_PER_COLLECTION
   const showAddWarning =
@@ -172,16 +187,23 @@ const CustomCollection = ({
               <Label htmlFor="bookmarkId" className="usa-sr-only">
                 Select existing link
               </Label>
+
               <ComboBox
                 id="bookmarkId"
                 name="bookmarkId"
                 className={styles.addLinkComboBox}
-                options={urlOptions}
+                options={[...urlOptions, addCustomLinkOption]}
                 onChange={handleSelectChange}
                 ref={linkInput}
+                customFilter={{
+                  filter: '.*({{query}}|custom|{{query}},custom).*',
+                }}
                 inputProps={{
                   required: true,
                   placeholder: 'Choose a link...',
+                  onChange: (e) => {
+                    setCustomLabel(e.target.value)
+                  },
                 }}
               />
             </div>
@@ -195,17 +217,12 @@ const CustomCollection = ({
           </div>
 
           <div className="usa-form__note">
-            Don’t see what you need?
-            <br />
             <div
               style={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <Button type="button" unstyled onClick={openCustomLinkModal}>
-                Add a custom link
-              </Button>
               <Button
                 type="button"
                 unstyled
@@ -472,6 +489,7 @@ const CustomCollection = ({
         onCancel={handleCancel}
         onSave={handleSaveCustomLink}
         showAddWarning={showAddWarning}
+        customLinkLabel={customLabel}
       />
     </DragDropContext>
   )
