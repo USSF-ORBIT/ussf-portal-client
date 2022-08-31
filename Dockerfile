@@ -20,6 +20,10 @@ COPY ./src/ /app/src/
 
 RUN yarn prebuild
 
+COPY ["*.ts", ".eslintignore", ".eslintrc.json", "babel.config.js", "./"]
+
+COPY ./public/ /app/public/
+
 RUN yarn build
 
 # Install only production deps this time
