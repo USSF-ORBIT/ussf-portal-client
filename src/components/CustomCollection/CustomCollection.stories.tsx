@@ -53,7 +53,7 @@ export const ExampleCustomCollection = (argTypes: StorybookArgTypes) => (
 
 export const WithNineLinks = (argTypes: StorybookArgTypes) => (
   <CustomCollection
-    _id={new ObjectId('testCollection')}
+    _id={new ObjectId()}
     title="Example collection"
     bookmarks={[
       {
