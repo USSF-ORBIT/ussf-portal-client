@@ -1,0 +1,11 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.toggleContainer {
+  position: absolute;
+  width: 132px;
+  height: 30px;
+  left: 0px;
+  top: 0px;
+  background: $theme-aurora-dark;
+}
