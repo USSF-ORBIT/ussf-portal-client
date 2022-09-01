@@ -10,7 +10,11 @@ const ThemeToggle = () => {
   }
 
   return (
-    <button type="button" onClick={handleTheme} className={styles.toggleButton}>
+    <button
+      type="button"
+      onClick={handleTheme}
+      className={styles.toggleButton}
+      data-testid="theme-toggle">
       {theme === 'light' ? 'dark' : 'light'} mode
     </button>
   )
