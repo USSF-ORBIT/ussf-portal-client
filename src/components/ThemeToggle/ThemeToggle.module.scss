@@ -1,11 +1,21 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/sfds/sfdsDependencies';
 
-.toggleContainer {
+.toggleButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   width: 132px;
   height: 30px;
   left: 0px;
   top: 0px;
   background: $theme-aurora-dark;
+  border-radius: 4px;
+  border-style: none;
+  outline: none;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
