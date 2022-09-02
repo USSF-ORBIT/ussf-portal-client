@@ -1,0 +1,71 @@
+@import 'styles/sfds/_colors.scss';
+
+// This file contains css properties use throughout the
+// code base for each corresponding theme.
+// Loaded in next.config.js under sassOptions
+
+/************** Light Theme (default) **************/
+
+:root {
+  // HTML elements
+  --link: #{$theme-ultraviolet-base};
+  --link-hover: #{$theme-ultraviolet-darker};
+
+  // Layout
+  --bg: #{$theme-white};
+  --text: #{$theme-black};
+
+  // Buttons
+  --primary-text: #{$theme-white};
+  --primary-bg: #{$theme-ultraviolet-base};
+  --primary-bg-hover: #{$theme-ultraviolet-dark};
+  --primary-bg-active: #{$theme-ultraviolet-darker};
+
+  --secondary-bg: #{$theme-white};
+  --secondary-bg-hover: #{$theme-mars-dark};
+  --secondary-bg-active: #{$theme-mars-darker};
+
+  --outline-text: #{$theme-ultraviolet-base};
+  --outline-hover: #{$theme-ultraviolet-dark};
+  --outline-active: #{$theme-ultraviolet-darker};
+
+  // Bookmark
+  --bookmark-bg: transparent;
+  --bookmark-border: #{color(base-light)}; //todo what color is this tho
+  --bookmark-hover: #{$grey};
+  --icon: #{$theme-spacebase-light};
+  --icon-hover: #{$theme-spacebase-base};
+
+  // Widgets
+  --bg-widget: #{$theme-white};
+}
+
+/* ------------------------------------ */
+
+/************** Dark Theme **************/
+
+[data-theme='dark'] {
+  // HTML Elements
+  --link: #{$theme-aurora-dark};
+  --link-hover: #{$theme-aurora-base};
+
+  // Layout
+  --bg: #{$theme-spacebase-dark};
+  --text: #fff;
+
+  // Buttons
+  --outline-text: #{$theme-aurora-dark};
+  --outline-hover: #{$theme-aurora-base};
+  --outline-active: #{$theme-aurora-light};
+
+  // Bookmark
+  --bookmark-bg: #{$theme-ultraviolet-darkest};
+  --bookmark-hover: #{$theme-ultraviolet-darker};
+  --bookmark-border: #{$theme-spacebase-darkest};
+  --icon: #{$theme-white};
+  --icon-hover: #{$theme-spacebase-light};
+  --input-bg: #{$theme-white};
+  --input-text: #{$theme-black};
+  // Widgets
+  --bg-widget: #{$theme-spacebase-darker};
+}

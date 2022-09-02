@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path')
+/* eslint-disable @typescript-eslint/no-var-requires */
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -54,5 +56,9 @@ module.exports = withBundleAnalyzer({
         destination: '/update-browser',
       },
     ]
+  },
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'styles')],
+    prependData: `@import "themes.scss";`,
   },
 })
