@@ -36,7 +36,7 @@
 // namespace all styles in the .sfds class (until MVP is deprecated)
 .sfds {
   font-family: $sfds-body-font;
-  color: $theme-spacebase-darkest;
+  color: var(--text);
 
   ::selection {
     background: $theme-ultraviolet-muted-lighter;
@@ -126,9 +126,9 @@
 
   a,
   .usa-link {
-    color: $theme-ultraviolet-base;
+    color: var(--link);
     &:hover {
-      color: $theme-ultraviolet-darker;
+      color: var(--link-hover);
     }
   }
 
@@ -146,7 +146,7 @@
     }
 
     a {
-      color: $theme-aurora-base;
+      color: var(--link);
       &:hover {
         color: $theme-aurora-lighter;
       }
@@ -163,19 +163,19 @@
 
   // Primary (default)
   .usa-button {
-    color: $theme-white;
-    background-color: $theme-ultraviolet-base;
+    color: var(--primary-text);
+    background-color: var(--primary-bg);
 
     &:hover,
     &.usa-button--hover {
-      color: $theme-white;
-      background-color: $theme-ultraviolet-dark;
+      color: var(--bg);
+      background-color: var(--primary-bg-hover);
     }
 
     &:active,
     &.usa-button--active {
-      color: $theme-white;
-      background-color: $theme-ultraviolet-darker;
+      color: var(--primary-text);
+      background-color: var(--primary-bg-active);
     }
 
     &:disabled {
@@ -195,16 +195,16 @@
 
   // Secondary
   .usa-button--secondary {
-    background-color: $theme-mars-base;
+    background-color: var(--secondary-bg);
 
     &:hover,
     &.usa-button--hover {
-      background-color: $theme-mars-dark;
+      background-color: var(--secondary-bg-hover);
     }
 
     &:active,
     &.usa-button--active {
-      background-color: $theme-mars-darker;
+      background-color: var(--secondary-bg-active);
     }
   }
 
@@ -265,21 +265,21 @@
 
   .usa-button--outline {
     background-color: transparent;
-    color: $theme-ultraviolet-base;
-    box-shadow: inset 0 0 0 2px $theme-ultraviolet-base;
+    color: var(--outline-text);
+    box-shadow: inset 0 0 0 2px var(--outline-text);
 
     &:hover,
     &.usa-button--hover {
       background-color: transparent;
-      color: $theme-ultraviolet-dark;
-      box-shadow: inset 0 0 0 2px $theme-ultraviolet-dark;
+      color: var(--outline-hover);
+      box-shadow: inset 0 0 0 2px var(--outline-hover);
     }
 
     &:active,
     &.usa-button--active {
       background-color: transparent;
-      color: $theme-ultraviolet-darker;
-      box-shadow: inset 0 0 0 2px $theme-ultraviolet-darker;
+      color: var(--outline-active);
+      box-shadow: inset 0 0 0 2px var(--outline-active);
     }
 
     &:disabled {
@@ -336,15 +336,6 @@
       max-width: none;
     }
   }
-
-  /*
-  .usa-modal__heading {
-    font-size: 22px;
-    line-height: normal;
-    @include heading-book;
-  }
-  */
-
   /** Tooltip **/
   .usa-tooltip__body {
     background-color: $theme-spacebase-dark;
@@ -363,5 +354,20 @@
   /** Tags **/
   .usa-tag {
     padding: units('05') units(1);
+  }
+
+  /** Forms **/
+  .usa-combo-box__input,
+  .usa-input-group,
+  .usa-input,
+  .usa-textarea,
+  .usa-range,
+  .usa-select {
+    background-color: $theme-white;
+  }
+
+  .usa-combo-box__list,
+  .usa-combo-box__list-option {
+    color: $theme-black;
   }
 }
