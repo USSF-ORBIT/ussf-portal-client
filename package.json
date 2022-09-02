@@ -71,6 +71,7 @@
     "next": "12.1.6",
     "next-connect": "0.12.2",
     "next-session": "4.0.4",
+    "next-themes": "^0.2.0",
     "passport": "0.5.2",
     "passport-saml": "3.2.1",
     "passport-saml-metadata": "2.6.0",
@@ -82,8 +83,8 @@
     "react-dom": "17.0.2",
     "react-slick": "0.29.0",
     "redis": "3.1.2",
-    "uswds": "2.13.3",
-    "slick-carousel": "1.8.1"
+    "slick-carousel": "1.8.1",
+    "uswds": "2.13.3"
   },
   "devDependencies": {
     "@babel/core": "7.18.2",
