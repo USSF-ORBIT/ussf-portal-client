@@ -25,9 +25,6 @@ module.exports = withBundleAnalyzer({
 
     return config
   },
-  generateBuildId: async () => {
-    return process.env.IMAGE_TAG
-  },
   reactStrictMode: true,
   // swcMinify: true,
   async headers() {
