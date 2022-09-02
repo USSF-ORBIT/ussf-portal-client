@@ -96,8 +96,6 @@ describe('My Space Component', () => {
         })
       ).toBeInTheDocument()
 
-      // console.log(await screen.findAllByRole('listitem'))
-
       // 21 Collection widgets
       expect(await screen.findAllByRole('list')).toHaveLength(22)
       // Total of 35 Bookmarks
