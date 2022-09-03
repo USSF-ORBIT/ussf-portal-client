@@ -31,7 +31,7 @@
 
   // Bookmark
   --bookmark-bg: transparent;
-  --bookmark-border: #{color(base-light)}; //todo what color is this tho
+  --bookmark-border: #{color(base-light)};
   --bookmark-hover: #{$grey};
   --icon: #{$theme-spacebase-light};
   --icon-hover: #{$theme-spacebase-base};
@@ -51,7 +51,7 @@
 
   // Layout
   --bg: #{$theme-spacebase-dark};
-  --text: #fff;
+  --text: #{$white};
 
   // Buttons
   --outline-text: #{$theme-aurora-dark};
