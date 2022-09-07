@@ -6,7 +6,13 @@ const ThemeToggle = () => {
   const [theme, setTheme] = useState('light')
 
   const handleTheme = () => {
-    return theme === 'light' ? setTheme('dark') : setTheme('light')
+    if (theme === 'light') {
+      localStorage.setItem('theme', 'dark')
+      setTheme('dark')
+    } else {
+      localStorage.setItem('theme', 'light')
+      setTheme('light')
+    }
   }
 
   return (
