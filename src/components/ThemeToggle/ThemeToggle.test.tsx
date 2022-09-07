@@ -17,3 +17,5 @@ describe('ThemeToggle component', () => {
     expect(screen.getAllByText('light mode')).toHaveLength(1)
   })
 })
+
+// TODO: Once we are displaying the ThemeToggle component, add test to check that trackEvent is called
