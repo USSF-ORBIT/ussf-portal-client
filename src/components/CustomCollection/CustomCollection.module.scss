@@ -96,10 +96,9 @@ button.collectionSettingsDropdown {
   }
 
   button.cancelButton {
-    color: var(--link-secondary);
+    color: var(--disabled-btn-text);
     background-color: $state-disabled-base;
     &:hover {
-      color: var(--link-secondary-hover);
       background-color: $state-disabled-dark;
     }
   }

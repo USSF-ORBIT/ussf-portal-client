@@ -3,7 +3,7 @@
 @import 'styles/sfds/sfdsDependencies';
 
 .bookmark {
-  border: 1px solid var(--bookmark-bg);
+  border: 1px solid var(--bookmark-border);
   border-radius: 5px;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
   margin-bottom: 8px;
@@ -26,7 +26,7 @@
 
   &:hover {
     background-color: var(--bookmark-hover);
-    border-color: var(--bookmark-hover);
+    border-color: var(--bookmark-border-hover);
     .delete {
       background-color: var(--bookmark-hover);
     }

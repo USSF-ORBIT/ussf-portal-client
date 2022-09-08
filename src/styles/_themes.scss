@@ -34,12 +34,20 @@
 
   --unstyled-btn: #{$theme-ultraviolet-base};
   --unstyled-btn-hover: #{$theme-ultraviolet-darker};
+
+  --disabled-btn-text: #{$theme-white};
+
   // Bookmark
   --bookmark-bg: transparent;
   --bookmark-border: #{color(base-light)};
+  --bookmark-border-hover: var(--bookmark-border);
   --bookmark-hover: #{$grey};
-  --icon: #{$theme-spacebase-light};
-  --icon-hover: #{$theme-spacebase-base};
+  --icon: #{$theme-spacebase-base};
+  --icon-hover: #{$theme-spacebase-light};
+
+  // Menus
+  --dropdown-menu-bg: #{$theme-white};
+  --dropdown-menu-bg-hover: #{$grey};
 
   // Widgets
   --widget-bg: #{$theme-white};
@@ -73,7 +81,9 @@
 
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
+  --bookmark-border: #{$theme-ultraviolet-darkest};
   --bookmark-hover: #{$theme-ultraviolet-darker};
+  --bookmark-border-hover: #{$theme-ultraviolet-darker};
 
   --icon: #{$theme-white};
   --icon-hover: #{$theme-spacebase-lightest};
@@ -86,6 +96,7 @@
 
   // Menus
   --dropdown-menu-bg: #{$theme-spacebase-darkest};
+  --dropdown-menu-bg-hover: #{$theme-spacebase-darker};
 
   // Form Elements
   --form-input-bg: #{$theme-spacebase-darker};
