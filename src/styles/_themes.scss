@@ -58,7 +58,7 @@
 
 /************** Dark Theme **************/
 
-[data-theme='dark'] {
+[data-color-theme='dark'] {
   // HTML Elements
   --link-primary: #{$theme-aurora-dark};
   --link-primary-hover: #{$theme-aurora-base};
