@@ -18,13 +18,13 @@
   --text: #{$theme-black};
 
   // Buttons
-  --btn-primary-text: #{$theme-white}; //#TODO check these in light theme
-  --btn-primary-text-hover: #{$theme-spacebase-base};
+  --btn-primary-text: #{$theme-white};
+  --btn-primary-text-hover: #{$theme-spacebase-light};
   --btn-primary-bg: #{$theme-ultraviolet-base};
   --btn-primary-bg-hover: #{$theme-ultraviolet-dark};
   --btn-primary-bg-active: #{$theme-ultraviolet-darker};
 
-  --btn-secondary-bg: #{$theme-white};
+  --btn-secondary-bg: #{$theme-mars-base};
   --btn-secondary-bg-hover: #{$theme-mars-dark};
   --btn-secondary-bg-bg-active: #{$theme-mars-darker};
 
@@ -87,8 +87,6 @@
 
   --icon: #{$theme-white};
   --icon-hover: #{$theme-spacebase-lightest};
-  // --input-bg: #{$theme-white};
-  // --input-text: #{$theme-black};
 
   // Widgets
   --widget-bg: #{$theme-spacebase-darker};
@@ -101,18 +99,11 @@
   // Form Elements
   --form-input-bg: #{$theme-spacebase-darker};
   --form-input-text: #{$theme-white};
-
   --form-input-border: #{color(base-light)};
-
   --form-input-placeholder: #{$theme-white};
 
   // Filters for SVG color changes
   // Generated using https://codepen.io/sosuke/pen/Pjoqqp
   --filter-light: brightness(0) saturate(100%) invert(98%) sepia(1%)
     saturate(2653%) hue-rotate(178deg) brightness(118%) contrast(100%);
-
-  // #TODO find out from design if we want to change the color of the c icon for custom link
-  // this is where it happens
-  // --filter-mars-base: invert(72%) sepia(21%) saturate(2922%) hue-rotate(316deg)
-  //   brightness(108%) contrast(92%);
 }
