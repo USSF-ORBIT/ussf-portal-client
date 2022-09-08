@@ -36,9 +36,9 @@
 
 .addLinkComboBox {
   input {
-    background-color: var(--input-bg);
-    color: var(--input-text);
-    border: 1px solid var(--input-border);
+    background-color: var(--form-input-bg);
+    color: var(--form-input-text);
+    border: 1px solid var(--form-input-border);
     box-sizing: border-box;
     border-radius: 4px;
     margin-top: 0;
@@ -99,6 +99,7 @@ button.collectionSettingsDropdown {
     color: var(--link-secondary);
     background-color: $state-disabled-base;
     &:hover {
+      color: var(--link-secondary-hover);
       background-color: $state-disabled-dark;
     }
   }

@@ -163,12 +163,12 @@
 
   // Primary (default)
   .usa-button {
-    color: var(--primary-text);
+    color: var(--btn-primary-text);
     background-color: var(--btn-primary-bg);
 
     &:hover,
     &.usa-button--hover {
-      color: var(--bg);
+      // color: var(--btn-primary-text-hover);
       background-color: var(--btn-primary-bg-hover);
     }
 
@@ -364,16 +364,16 @@
   .usa-textarea,
   .usa-range,
   .usa-select {
-    background-color: var(--input-bg);
-    color: var(--input-text);
-    border: 1px solid var(--input-border);
+    background-color: var(--form-input-bg);
+    color: var(--form-input-text);
+    border: 1px solid var(--form-input-border);
     input {
-      background-color: var(--input-bg);
-      color: var(--input-text);
-      border: 1px solid var(--input-border);
+      background-color: var(--form-input-bg);
+      color: var(--form-input-text);
+      border: 1px solid var(--form-input-border);
     }
     &::placeholder {
-      color: var(--input-placeholder);
+      color: var(--form-input-placeholder);
     }
   }
   button.usa-combo-box__toggle-list {

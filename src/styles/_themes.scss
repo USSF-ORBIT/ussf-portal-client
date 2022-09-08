@@ -18,7 +18,8 @@
   --text: #{$theme-black};
 
   // Buttons
-  --btn-primary-text: #{$theme-white};
+  --btn-primary-text: #{$theme-white}; //#TODO check these in light theme
+  --btn-primary-text-hover: #{$theme-spacebase-base};
   --btn-primary-bg: #{$theme-ultraviolet-base};
   --btn-primary-bg-hover: #{$theme-ultraviolet-dark};
   --btn-primary-bg-active: #{$theme-ultraviolet-darker};
@@ -53,6 +54,8 @@
   // HTML Elements
   --link-primary: #{$theme-aurora-dark};
   --link-primary-hover: #{$theme-aurora-base};
+  --link-secondary: #{$theme-ultraviolet-darkest};
+  --link-secondary-hover: #{$theme-ultraviolet-darker};
 
   // Layout
   --bg: #{$theme-spacebase-dark};
@@ -66,14 +69,16 @@
   --unstyled-btn: #{$theme-aurora-dark};
   --unstyled-btn-hover: #{$theme-aurora-base};
 
+  --btn-primary-text: #{$theme-white};
+
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
   --bookmark-hover: #{$theme-ultraviolet-darker};
 
   --icon: #{$theme-white};
   --icon-hover: #{$theme-spacebase-lightest};
-  --input-bg: #{$theme-white};
-  --input-text: #{$theme-black};
+  // --input-bg: #{$theme-white};
+  // --input-text: #{$theme-black};
 
   // Widgets
   --widget-bg: #{$theme-spacebase-darker};
@@ -83,12 +88,12 @@
   --dropdown-menu-bg: #{$theme-spacebase-darkest};
 
   // Form Elements
-  --input-bg: #{$theme-spacebase-darker};
-  --input-text: #{$theme-white};
+  --form-input-bg: #{$theme-spacebase-darker};
+  --form-input-text: #{$theme-white};
 
-  --input-border: #{color(base-light)};
+  --form-input-border: #{color(base-light)};
 
-  --input-placeholder: #{$theme-white};
+  --form-input-placeholder: #{$theme-white};
 
   // Filters for SVG color changes
   // Generated using https://codepen.io/sosuke/pen/Pjoqqp
