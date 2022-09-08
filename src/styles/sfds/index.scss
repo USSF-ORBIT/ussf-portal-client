@@ -255,11 +255,12 @@
 
   .usa-button--unstyled {
     background-color: transparent;
-    color: $theme-ultraviolet-base;
+    //color: $theme-ultraviolet-base;
+    color: var(--unstyled-btn);
 
     &:hover {
       background-color: transparent;
-      color: $theme-ultraviolet-darker;
+      color: var(--unstyled-btn-hover);
     }
   }
 
@@ -363,11 +364,25 @@
   .usa-textarea,
   .usa-range,
   .usa-select {
-    background-color: $theme-white;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    border: 1px solid var(--input-border);
+    input {
+      background-color: var(--input-bg);
+      color: var(--input-text);
+      border: 1px solid var(--input-border);
+    }
+    &::placeholder {
+      color: var(--input-placeholder);
+    }
+  }
+  button.usa-combo-box__toggle-list {
+    filter: var(--filter-light);
   }
 
   .usa-combo-box__list,
   .usa-combo-box__list-option {
-    color: $theme-black;
+    color: var(--link-text);
+    background-color: var(--input-bg);
   }
 }

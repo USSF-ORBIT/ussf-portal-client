@@ -36,7 +36,9 @@
 
 .addLinkComboBox {
   input {
-    border: 1px solid #707c91;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    border: 1px solid var(--input-border);
     box-sizing: border-box;
     border-radius: 4px;
     margin-top: 0;
@@ -52,12 +54,6 @@
   }
 }
 
-.addLinkButton {
-  &:hover {
-    background-color: #f0f0f0;
-  }
-}
-
 .customLink {
   display: flex;
 
@@ -68,6 +64,8 @@
     height: 18px;
     margin-right: units(1);
     flex-shrink: 0;
+    // Change color of custom link icon based on theme
+    filter: var(--filter-mars-base);
   }
 
   .customLinkText {
@@ -79,8 +77,6 @@
 }
 
 button.collectionSettingsDropdown {
-  background-color: $theme-white;
-  color: $theme-ultraviolet-base;
   border: 0;
   border-radius: 0;
   font-weight: normal;
@@ -100,7 +96,7 @@ button.collectionSettingsDropdown {
   }
 
   button.cancelButton {
-    color: $theme-white;
+    color: var(--link);
     background-color: $state-disabled-base;
     &:hover {
       background-color: $state-disabled-dark;

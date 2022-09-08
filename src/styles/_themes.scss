@@ -29,6 +29,8 @@
   --outline-hover: #{$theme-ultraviolet-dark};
   --outline-active: #{$theme-ultraviolet-darker};
 
+  --unstyled-btn: #{$theme-ultraviolet-base};
+  --unstyled-btn-hover: #{$theme-ultraviolet-darker};
   // Bookmark
   --bookmark-bg: transparent;
   --bookmark-border: #{color(base-light)};
@@ -37,7 +39,8 @@
   --icon-hover: #{$theme-spacebase-base};
 
   // Widgets
-  --bg-widget: #{$theme-white};
+  --widget-bg: #{$theme-white};
+  --widget-border: #{color(base-light)}; // confirm this
 }
 
 /* ------------------------------------ */
@@ -58,14 +61,37 @@
   --outline-hover: #{$theme-aurora-base};
   --outline-active: #{$theme-aurora-light};
 
+  --unstyled-btn: #{$theme-aurora-dark};
+  --unstyled-btn-hover: #{$theme-aurora-base};
+
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
   --bookmark-hover: #{$theme-ultraviolet-darker};
-  --bookmark-border: #{$theme-spacebase-darkest};
+
   --icon: #{$theme-white};
-  --icon-hover: #{$theme-spacebase-light};
+  --icon-hover: #{$theme-spacebase-lightest};
   --input-bg: #{$theme-white};
   --input-text: #{$theme-black};
+
   // Widgets
-  --bg-widget: #{$theme-spacebase-darker};
+  --widget-bg: #{$theme-spacebase-darker};
+  --widget-border: #{$theme-spacebase-darker};
+
+  // Form Elements
+  --input-bg: #{$theme-spacebase-darker};
+  --input-text: #{$theme-white};
+
+  --input-border: #{color(base-light)};
+
+  --input-placeholder: #{$theme-white};
+
+  // Filters for SVG color changes
+  // Generated using https://codepen.io/sosuke/pen/Pjoqqp
+  --filter-light: brightness(0) saturate(100%) invert(98%) sepia(1%)
+    saturate(2653%) hue-rotate(178deg) brightness(118%) contrast(100%);
+
+  // #TODO find out from design if we want to change the color of the c icon for custom link
+  // this is where it happens
+  // --filter-mars-base: invert(72%) sepia(21%) saturate(2922%) hue-rotate(316deg)
+  //   brightness(108%) contrast(92%);
 }
