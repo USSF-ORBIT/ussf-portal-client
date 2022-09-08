@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+        with:
+          fetch-depth: 100
 
       - name: Read Node.js version from package.json
         run: echo ::set-output name=nodeVersion::$(node -p "require('./package.json').engines.node")
@@ -53,5 +55,8 @@ jobs:
       - name: Run Jest tests
         run: yarn test --coverage --silent
 
-      - name: Build Storybook
-        run: yarn storybook --ci --smoke-test
+      - name: Start Happo run
+        run: yarn happo-ci-github-actions
+        env:
+          HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+          HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
