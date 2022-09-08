@@ -126,9 +126,9 @@
 
   a,
   .usa-link {
-    color: var(--link);
+    color: var(--link-primary);
     &:hover {
-      color: var(--link-hover);
+      color: var(--link-primary-hover);
     }
   }
 
@@ -146,9 +146,9 @@
     }
 
     a {
-      color: var(--link);
+      color: var(--link-secondary);
       &:hover {
-        color: $theme-aurora-lighter;
+        color: var(--link-secondary-hover);
       }
     }
 
@@ -164,18 +164,18 @@
   // Primary (default)
   .usa-button {
     color: var(--primary-text);
-    background-color: var(--primary-bg);
+    background-color: var(--btn-primary-bg);
 
     &:hover,
     &.usa-button--hover {
       color: var(--bg);
-      background-color: var(--primary-bg-hover);
+      background-color: var(--btn-primary-bg-hover);
     }
 
     &:active,
     &.usa-button--active {
-      color: var(--primary-text);
-      background-color: var(--primary-bg-active);
+      color: var(--btn-primary-text);
+      background-color: var(--btn-primary-bg-active);
     }
 
     &:disabled {
@@ -195,16 +195,16 @@
 
   // Secondary
   .usa-button--secondary {
-    background-color: var(--secondary-bg);
+    background-color: var(--btn-secondary-bg);
 
     &:hover,
     &.usa-button--hover {
-      background-color: var(--secondary-bg-hover);
+      background-color: var(--btn-secondary-bg-hover);
     }
 
     &:active,
     &.usa-button--active {
-      background-color: var(--secondary-bg-active);
+      background-color: var(--btn-secondary-bg-active);
     }
   }
 
@@ -265,21 +265,21 @@
 
   .usa-button--outline {
     background-color: transparent;
-    color: var(--outline-text);
-    box-shadow: inset 0 0 0 2px var(--outline-text);
+    color: var(--btn-outline-text);
+    box-shadow: inset 0 0 0 2px var(--btn-outline-text);
 
     &:hover,
     &.usa-button--hover {
       background-color: transparent;
-      color: var(--outline-hover);
-      box-shadow: inset 0 0 0 2px var(--outline-hover);
+      color: var(--btn-outline-hover);
+      box-shadow: inset 0 0 0 2px var(--btn-outline-hover);
     }
 
     &:active,
     &.usa-button--active {
       background-color: transparent;
-      color: var(--outline-active);
-      box-shadow: inset 0 0 0 2px var(--outline-active);
+      color: var(--btn-outline-active);
+      box-shadow: inset 0 0 0 2px var(--btn-outline-active);
     }
 
     &:disabled {
@@ -363,11 +363,11 @@
   .usa-textarea,
   .usa-range,
   .usa-select {
-    background-color: $theme-white;
+    background-color: var(--form-input-bg);
   }
 
   .usa-combo-box__list,
   .usa-combo-box__list-option {
-    color: $theme-black;
+    color: var(--form-input-text);
   }
 }

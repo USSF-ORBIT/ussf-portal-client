@@ -8,26 +8,28 @@
 
 :root {
   // HTML elements
-  --link: #{$theme-ultraviolet-base};
-  --link-hover: #{$theme-ultraviolet-darker};
+  --link-primary: #{$theme-ultraviolet-base};
+  --link-primary-hover: #{$theme-ultraviolet-darker};
+  --link-secondary: #{$theme-aurora-base};
+  --link-secondary-hover: #{$theme-aurora-lighter};
 
   // Layout
   --bg: #{$theme-white};
   --text: #{$theme-black};
 
   // Buttons
-  --primary-text: #{$theme-white};
-  --primary-bg: #{$theme-ultraviolet-base};
-  --primary-bg-hover: #{$theme-ultraviolet-dark};
-  --primary-bg-active: #{$theme-ultraviolet-darker};
+  --btn-primary-text: #{$theme-white};
+  --btn-primary-bg: #{$theme-ultraviolet-base};
+  --btn-primary-bg-hover: #{$theme-ultraviolet-dark};
+  --btn-primary-bg-active: #{$theme-ultraviolet-darker};
 
-  --secondary-bg: #{$theme-white};
-  --secondary-bg-hover: #{$theme-mars-dark};
-  --secondary-bg-active: #{$theme-mars-darker};
+  --btn-secondary-bg: #{$theme-white};
+  --btn-secondary-bg-hover: #{$theme-mars-dark};
+  --btn-secondary-bg-bg-active: #{$theme-mars-darker};
 
-  --outline-text: #{$theme-ultraviolet-base};
-  --outline-hover: #{$theme-ultraviolet-dark};
-  --outline-active: #{$theme-ultraviolet-darker};
+  --btn-outline-text: #{$theme-ultraviolet-base};
+  --btn-outline-hover: #{$theme-ultraviolet-dark};
+  --btn-outline-active: #{$theme-ultraviolet-darker};
 
   // Bookmark
   --bookmark-bg: transparent;
@@ -37,7 +39,12 @@
   --icon-hover: #{$theme-spacebase-base};
 
   // Widgets
-  --bg-widget: #{$theme-white};
+  --widget-bg: #{$theme-white};
+  --widget-border: #{color(base-light)};
+
+  // Forms
+  --form-input-bg: #{$theme-white};
+  --form-input-text: #{$theme-black};
 }
 
 /* ------------------------------------ */
@@ -46,17 +53,17 @@
 
 [data-theme='dark'] {
   // HTML Elements
-  --link: #{$theme-aurora-dark};
-  --link-hover: #{$theme-aurora-base};
+  --link-primary: #{$theme-aurora-dark};
+  --link-primary-hover: #{$theme-aurora-base};
 
   // Layout
   --bg: #{$theme-spacebase-dark};
   --text: #{$white};
 
   // Buttons
-  --outline-text: #{$theme-aurora-dark};
-  --outline-hover: #{$theme-aurora-base};
-  --outline-active: #{$theme-aurora-light};
+  --btn-outline-text: #{$theme-aurora-dark};
+  --btn-outline-hover: #{$theme-aurora-base};
+  --btn-outline-active: #{$theme-aurora-light};
 
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
@@ -66,6 +73,8 @@
   --icon-hover: #{$theme-spacebase-light};
   --input-bg: #{$theme-white};
   --input-text: #{$theme-black};
+
   // Widgets
-  --bg-widget: #{$theme-spacebase-darker};
+  --widget-bg: #{$theme-spacebase-darker};
+  --widget-border: #{$theme-spacebase-darker};
 }
