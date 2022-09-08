@@ -55,7 +55,7 @@ jobs:
       - name: Run Jest tests
         run: yarn test --coverage --silent
 
-      - name: Start Happo run
+      - name: Build Storybook and start Happo run
         run: yarn happo-ci-github-actions
         env:
           HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
