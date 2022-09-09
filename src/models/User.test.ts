@@ -43,41 +43,43 @@ describe('User model', () => {
     )
   })
 
-  it('can edit the displayName of a user', async () => {
-    const expectedUser = {
-      _id: expect.anything(),
-      userId: 'testUserId',
-      mySpace: [exampleCollection1],
-      displayName: 'Updated Name',
-    }
-
-    const { userId, displayName } = expectedUser
-    await User.editOne({ userId, displayName }, { db })
-
-    const updatedUser = await User.findOne(userId, { db })
-
-    expect(updatedUser.displayName).toEqual(displayName)
-  })
-
-  it('can get the displayName of a user', async () => {
-    const foundDisplayName = await User.getDisplayName('testUserId', {
-      db,
-    })
-    expect(foundDisplayName).toEqual('Updated Name')
-  })
-
-  it('throws an error if displayName is not found', async () => {
-    await expect(
-      User.getDisplayName('thisuserdoesnotexist', {
-        db,
-      })
-    ).rejects.toThrow()
-  })
-
   it('returns null if finding a user that doesn’t exist', async () => {
     const testUserId = 'noSuchUser'
 
     const foundUser = await User.findOne(testUserId, { db })
     expect(foundUser).toEqual(null)
+  })
+
+  describe('displayName', () => {
+    it('can edit the displayName of a user', async () => {
+      const expectedUser = {
+        _id: expect.anything(),
+        userId: 'testUserId',
+        mySpace: [exampleCollection1],
+        displayName: 'Updated Name',
+      }
+
+      const { userId, displayName } = expectedUser
+      await User.setDisplayName({ userId, displayName }, { db })
+
+      const updatedUser = await User.findOne(userId, { db })
+
+      expect(updatedUser.displayName).toEqual(displayName)
+    })
+
+    it('can get the displayName of a user', async () => {
+      const foundDisplayName = await User.getDisplayName('testUserId', {
+        db,
+      })
+      expect(foundDisplayName).toEqual('Updated Name')
+    })
+
+    it('throws an error if displayName is not found', async () => {
+      await expect(
+        User.getDisplayName('thisuserdoesnotexist', {
+          db,
+        })
+      ).rejects.toThrow('UserModel Error: error in getDisplayName')
+    })
   })
 })

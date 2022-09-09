@@ -298,7 +298,7 @@ const resolvers = {
         )
       }
 
-      return UserModel.editOne({ userId, displayName }, { db })
+      return UserModel.setDisplayName({ userId, displayName }, { db })
     },
   },
 }

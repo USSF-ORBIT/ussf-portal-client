@@ -18,6 +18,7 @@ import { RemoveBookmarkDocument } from 'operations/portal/mutations/removeBookma
 import { EditBookmarkDocument } from 'operations/portal/mutations/editBookmark.g'
 import { AddWidgetDocument } from 'operations/portal/mutations/addWidget.g'
 import { RemoveWidgetDocument } from 'operations/portal/mutations/removeWidget.g'
+import { EditDisplayNameDocument } from 'operations/portal/mutations/editDisplayName.g'
 
 let server: ApolloServer
 let connection: typeof MongoClient
@@ -99,6 +100,11 @@ describe('GraphQL resolvers', () => {
       ],
       ['addWidget', AddWidgetDocument, { title: 'Recent news', type: 'News' }],
       ['removeWidget', RemoveWidgetDocument, { _id: `${testWidgetId}` }],
+      [
+        'editDisplayName',
+        EditDisplayNameDocument,
+        { userId: `${testWidgetId}`, displayName: 'New Name' },
+      ],
     ])(
       'the %s operation returns an authentication error',
       async (name, op, variables: VariableValues = {}) => {
@@ -663,6 +669,28 @@ describe('GraphQL resolvers', () => {
 
         expect(updated.data?.mySpace[0].bookmarks[0].cmsId).toBe(bookmark.cmsId)
         expect(updated.data?.mySpace[0].bookmarks[0].isRemoved).toBe(true)
+      })
+    })
+
+    describe('editDisplayName', () => {
+      it('edits an existing display name', async () => {
+        const editDisplayName = newPortalUser
+
+        const result = await server.executeOperation({
+          query: EditDisplayNameDocument,
+          variables: {
+            userId: `${editDisplayName.userId}`,
+            displayName: 'New Name',
+          },
+        })
+
+        const expectedData = {
+          userId: `${newPortalUser.userId}`,
+          displayName: 'New Name',
+        }
+
+        expect(result.errors).toBeUndefined()
+        expect(result.data).toMatchObject({ editDisplayName: expectedData })
       })
     })
   })
