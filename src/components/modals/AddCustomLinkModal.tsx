@@ -39,7 +39,7 @@ const AddCustomLinkModal = ({
         aria-labelledby={`${modalId}-heading`}
         aria-describedby={`${modalId}-description`}
         forceAction
-        className={styles.addCustomLinkModal}
+        className={styles.customLinkModal}
         modalRoot="#modal-root">
         <ModalHeading id={`${modalId}-heading`}>Add a custom link</ModalHeading>
         <CustomBookmarkForm

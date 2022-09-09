@@ -61,6 +61,9 @@
   --text: #{$white};
 
   // Buttons
+  --btn-primary-bg: #{$theme-aurora-dark};
+  --btn-primary-bg-hover: #{$theme-aurora-darker}; // Not sure about this
+  --btn-primary-bg-active: #{$theme-aurora-darker}; // Not sure about this either
   --btn-outline-text: #{$theme-aurora-dark};
   --btn-outline-hover: #{$theme-aurora-base};
   --btn-outline-active: #{$theme-aurora-light};
