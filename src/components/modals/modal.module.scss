@@ -1,7 +1,14 @@
+@import 'styles/sfds/sfdsDependencies';
+
 .buttonGroupWithDelete {
   // Right-align last child
   > :last-child {
     flex-grow: 1;
     text-align: right;
   }
+}
+
+.addCustomLinkModal {
+  background: var(--bg);
+  color: var(--text);
 }

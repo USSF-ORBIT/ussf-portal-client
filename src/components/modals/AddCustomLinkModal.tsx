@@ -5,6 +5,7 @@ import {
   ModalHeading,
   ModalRef,
 } from '@trussworks/react-uswds'
+import styles from './modal.module.scss'
 
 import ModalPortal from 'components/util/ModalPortal'
 
@@ -38,6 +39,7 @@ const AddCustomLinkModal = ({
         aria-labelledby={`${modalId}-heading`}
         aria-describedby={`${modalId}-description`}
         forceAction
+        className={styles.addCustomLinkModal}
         modalRoot="#modal-root">
         <ModalHeading id={`${modalId}-heading`}>Add a custom link</ModalHeading>
         <CustomBookmarkForm
