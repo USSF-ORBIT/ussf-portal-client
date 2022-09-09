@@ -33,7 +33,9 @@
     "postinstall": "sh ./scripts/copy_uswds_assets.sh",
     "release": "standard-version -t ''",
     "migrate:create": "migrate create --template-file ./migration-template.js",
-    "generate": "graphql-codegen --config codegen.yml"
+    "generate": "graphql-codegen --config codegen.yml",
+    "happo": "happo",
+    "happo-ci-github-actions": "happo-ci-github-actions"
   },
   "dependencies": {
     "@apollo/client": "3.6.8",
@@ -133,6 +135,8 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-security": "1.5.0",
     "eslint-plugin-storybook": "0.5.12",
+    "happo-plugin-storybook": "3.0.0",
+    "happo.io": "8.0.0",
     "husky": "8.0.1",
     "identity-obj-proxy": "3.0.0",
     "jest": "28.1.1",
