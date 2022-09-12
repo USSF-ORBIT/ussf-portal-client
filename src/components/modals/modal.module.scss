@@ -11,4 +11,8 @@
 .customLinkModal {
   background: var(--bg);
   color: var(--text);
+
+  p {
+    color: var(--text);
+  }
 }
