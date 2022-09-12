@@ -7,6 +7,9 @@
 // USWDS SCSS
 @import 'node_modules/uswds/dist/scss/uswds.scss';
 
+// SFDS Theme Properties
+@import 'styles/themes.scss';
+
 body,
 #__next {
   min-height: 100vh;

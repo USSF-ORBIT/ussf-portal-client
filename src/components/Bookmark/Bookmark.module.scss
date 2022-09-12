@@ -3,11 +3,11 @@
 @import 'styles/sfds/sfdsDependencies';
 
 .bookmark {
-  border: 1px solid color('base-light');
+  border: 1px solid var(--bookmark-border);
   border-radius: 5px;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
   margin-bottom: 8px;
-  background-color: #fff;
+  background-color: var(--bookmark-bg);
 
   display: flex;
   flex-grow: 1;
@@ -25,7 +25,7 @@
   }
 
   &:hover {
-    background-color: #f0f0f0;
+    background-color: var(--bookmark-hover);
   }
 }
 
@@ -35,10 +35,11 @@
 
 .delete {
   @extend %button-reset;
-  color: $theme-spacebase-light;
+  color: var(--icon);
+  background: var(--bookmark-bg);
   padding: 0 units('105');
 
   &:hover {
-    color: $theme-spacebase-base;
+    color: var(--icon-hover);
   }
 }
