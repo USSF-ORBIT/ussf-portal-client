@@ -45,6 +45,9 @@ const UserModel = {
     { db }: Context
   ) {
     const user = await UserModel.findOne(userId, { db })
+    if (!user) {
+      throw new Error('UserModel Error: error in setDisplayName no user found')
+    }
 
     const query = {
       userId: userId,
@@ -66,7 +69,7 @@ const UserModel = {
   async getDisplayName(userId: string, { db }: Context) {
     const user = await db.collection('users').findOne({ userId })
     if (!user) {
-      throw new Error('UserModel Error: error in getDisplayName')
+      throw new Error('UserModel Error: error in getDisplayName no user found')
     }
     return user.displayName
   },

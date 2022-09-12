@@ -67,6 +67,14 @@ describe('User model', () => {
       expect(updatedUser.displayName).toEqual(displayName)
     })
 
+    it('throws an error if user is not found during SET', async () => {
+      await expect(
+        User.setDisplayName({ userId: 'thisuserdoesnotexist', displayName: 'any name' }, {
+          db,
+        })
+      ).rejects.toThrow('UserModel Error: error in setDisplayName no user found')
+    })
+
     it('can get the displayName of a user', async () => {
       const foundDisplayName = await User.getDisplayName('testUserId', {
         db,
@@ -74,12 +82,12 @@ describe('User model', () => {
       expect(foundDisplayName).toEqual('Updated Name')
     })
 
-    it('throws an error if displayName is not found', async () => {
+    it('throws an error if user is not found during GET', async () => {
       await expect(
         User.getDisplayName('thisuserdoesnotexist', {
           db,
         })
-      ).rejects.toThrow('UserModel Error: error in getDisplayName')
+      ).rejects.toThrow('UserModel Error: error in getDisplayName no user found')
     })
   })
 })
