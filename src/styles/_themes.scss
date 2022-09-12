@@ -1,0 +1,80 @@
+@import 'styles/sfds/_colors.scss';
+
+// This file contains css properties use throughout the
+// code base for each corresponding theme.
+// Loaded in next.config.js under sassOptions
+
+/************** Light Theme (default) **************/
+
+:root {
+  // HTML elements
+  --link-primary: #{$theme-ultraviolet-base};
+  --link-primary-hover: #{$theme-ultraviolet-darker};
+  --link-secondary: #{$theme-aurora-base};
+  --link-secondary-hover: #{$theme-aurora-lighter};
+
+  // Layout
+  --bg: #{$theme-white};
+  --text: #{$theme-black};
+
+  // Buttons
+  --btn-primary-text: #{$theme-white};
+  --btn-primary-bg: #{$theme-ultraviolet-base};
+  --btn-primary-bg-hover: #{$theme-ultraviolet-dark};
+  --btn-primary-bg-active: #{$theme-ultraviolet-darker};
+
+  --btn-secondary-bg: #{$theme-white};
+  --btn-secondary-bg-hover: #{$theme-mars-dark};
+  --btn-secondary-bg-bg-active: #{$theme-mars-darker};
+
+  --btn-outline-text: #{$theme-ultraviolet-base};
+  --btn-outline-hover: #{$theme-ultraviolet-dark};
+  --btn-outline-active: #{$theme-ultraviolet-darker};
+
+  // Bookmark
+  --bookmark-bg: transparent;
+  --bookmark-border: #{color(base-light)};
+  --bookmark-hover: #{$grey};
+  --icon: #{$theme-spacebase-light};
+  --icon-hover: #{$theme-spacebase-base};
+
+  // Widgets
+  --widget-bg: #{$theme-white};
+  --widget-border: #{color(base-light)};
+
+  // Forms
+  --form-input-bg: #{$theme-white};
+  --form-input-text: #{$theme-black};
+}
+
+/* ------------------------------------ */
+
+/************** Dark Theme **************/
+
+[data-theme='dark'] {
+  // HTML Elements
+  --link-primary: #{$theme-aurora-dark};
+  --link-primary-hover: #{$theme-aurora-base};
+
+  // Layout
+  --bg: #{$theme-spacebase-dark};
+  --text: #{$white};
+
+  // Buttons
+  --btn-outline-text: #{$theme-aurora-dark};
+  --btn-outline-hover: #{$theme-aurora-base};
+  --btn-outline-active: #{$theme-aurora-light};
+
+  // Bookmark
+  --bookmark-bg: #{$theme-ultraviolet-darkest};
+  --bookmark-hover: #{$theme-ultraviolet-darker};
+  --bookmark-border: #{$theme-spacebase-darkest};
+  --icon: #{$theme-white};
+  --icon-hover: #{$theme-spacebase-light};
+  --input-bg: #{$theme-white};
+  --input-text: #{$theme-black};
+
+  // Widgets
+  --widget-bg: #{$theme-spacebase-darker};
+  --widget-border: #{$theme-spacebase-darker};
+}
