@@ -255,11 +255,11 @@
 
   .usa-button--unstyled {
     background-color: transparent;
-    color: var(--unstyled-btn);
+    color: var(--btn-unstyled);
 
     &:hover {
       background-color: transparent;
-      color: var(--unstyled-btn-hover);
+      color: var(--btn-unstyled-hover);
     }
   }
 
