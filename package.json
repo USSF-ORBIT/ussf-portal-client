@@ -59,7 +59,7 @@
     "@trussworks/react-uswds": "3.1.0",
     "@types/react-beautiful-dnd": "13.1.2",
     "@types/react-slick": "0.23.8",
-    "apollo-server-core": "3.9.0",
+    "apollo-server-core": "3.10.1",
     "apollo-server-micro": "3.9.0",
     "axios": "0.27.2",
     "classnames": "2.3.1",
