@@ -69,10 +69,15 @@ describe('User model', () => {
 
     it('throws an error if user is not found during SET', async () => {
       await expect(
-        User.setDisplayName({ userId: 'thisuserdoesnotexist', displayName: 'any name' }, {
-          db,
-        })
-      ).rejects.toThrow('UserModel Error: error in setDisplayName no user found')
+        User.setDisplayName(
+          { userId: 'thisuserdoesnotexist', displayName: 'any name' },
+          {
+            db,
+          }
+        )
+      ).rejects.toThrow(
+        'UserModel Error: error in setDisplayName no user found'
+      )
     })
 
     it('can get the displayName of a user', async () => {
@@ -87,7 +92,53 @@ describe('User model', () => {
         User.getDisplayName('thisuserdoesnotexist', {
           db,
         })
-      ).rejects.toThrow('UserModel Error: error in getDisplayName no user found')
+      ).rejects.toThrow(
+        'UserModel Error: error in getDisplayName no user found'
+      )
+    })
+  })
+
+  describe('theme', () => {
+    it('can edit the theme of a user', async () => {
+      const expectedUser = {
+        _id: expect.anything(),
+        userId: 'testUserId',
+        mySpace: [exampleCollection1],
+        theme: 'dark',
+      }
+
+      const { userId, theme } = expectedUser
+      await User.setTheme({ userId, theme }, { db })
+
+      const updatedUser = await User.findOne(userId, { db })
+
+      expect(updatedUser.theme).toEqual(theme)
+    })
+
+    it('throws an error if theme is not found on SET', async () => {
+      await expect(
+        User.setTheme(
+          { userId: 'thisuserdoesnotexist', theme: 'dark' },
+          {
+            db,
+          }
+        )
+      ).rejects.toThrow('UserModel Error: error in setTheme no user found')
+    })
+
+    it('can get the theme of a user', async () => {
+      const foundTheme = await User.getTheme('testUserId', {
+        db,
+      })
+      expect(foundTheme).toEqual('dark')
+    })
+
+    it('throws an error if theme is not found on GET', async () => {
+      await expect(
+        User.getTheme('thisuserdoesnotexist', {
+          db,
+        })
+      ).rejects.toThrow('UserModel Error: error in getTheme no user found')
     })
   })
 })
