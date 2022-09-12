@@ -25,7 +25,10 @@ describe('My Space model', () => {
 
     // Create a test user (with one default collection)
     const displayName = 'Floyd King'
-    await User.createOne(testUserId, [exampleCollection], displayName, { db })
+    const theme = 'light'
+    await User.createOne(testUserId, [exampleCollection], displayName, theme, {
+      db,
+    })
   })
 
   afterAll(async () => {

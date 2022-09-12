@@ -31,13 +31,23 @@ describe('User model', () => {
       userId: 'testUserId',
       mySpace: [exampleCollection1],
       displayName: 'Floyd King',
+      theme: 'light',
     }
 
     const displayName = 'Floyd King'
-    await User.createOne('testUserId', [exampleCollection], displayName, { db })
+    await User.createOne(
+      'testUserId',
+      [exampleCollection],
+      displayName,
+      'light',
+      { db }
+    )
 
     const insertedUser = await User.findOne('testUserId', { db })
 
+    expect(insertedUser.userId).toBe(expectedUser.userId)
+    expect(insertedUser.displayName).toBe(expectedUser.displayName)
+    expect(insertedUser.theme).toBe(expectedUser.theme)
     expect(insertedUser.mySpace[0].title).toContain(
       expectedUser.mySpace[0].title
     )

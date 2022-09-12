@@ -23,12 +23,14 @@ const UserModel = {
     userId: string,
     initCollections: CollectionRecords,
     displayName: string,
+    theme: 'light' | 'dark',
     { db }: Context
   ) {
     const newUser: PortalUser = {
       userId,
       mySpace: [],
       displayName,
+      theme,
     }
 
     // Create user
