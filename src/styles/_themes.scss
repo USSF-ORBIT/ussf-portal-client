@@ -19,12 +19,11 @@
 
   // Buttons
   --btn-primary-text: #{$theme-white};
-  --btn-primary-text-hover: #{$theme-spacebase-light};
   --btn-primary-bg: #{$theme-ultraviolet-base};
   --btn-primary-bg-hover: #{$theme-ultraviolet-dark};
   --btn-primary-bg-active: #{$theme-ultraviolet-darker};
 
-  --btn-secondary-bg: #{$theme-mars-base};
+  --btn-secondary-bg: #{$theme-white};
   --btn-secondary-bg-hover: #{$theme-mars-dark};
   --btn-secondary-bg-bg-active: #{$theme-mars-darker};
 
@@ -32,38 +31,30 @@
   --btn-outline-hover: #{$theme-ultraviolet-dark};
   --btn-outline-active: #{$theme-ultraviolet-darker};
 
-  --unstyled-btn: #{$theme-ultraviolet-base};
-  --unstyled-btn-hover: #{$theme-ultraviolet-darker};
-
-  --disabled-btn-text: #{$theme-white};
-
   // Bookmark
   --bookmark-bg: transparent;
   --bookmark-border: #{color(base-light)};
-  --bookmark-border-hover: var(--bookmark-border);
   --bookmark-hover: #{$grey};
-  --icon: #{$theme-spacebase-base};
-  --icon-hover: #{$theme-spacebase-light};
-
-  // Menus
-  --dropdown-menu-bg: #{$theme-white};
-  --dropdown-menu-bg-hover: #{$grey};
+  --icon: #{$theme-spacebase-light};
+  --icon-hover: #{$theme-spacebase-base};
 
   // Widgets
   --widget-bg: #{$theme-white};
-  --widget-border: #{color(base-light)}; // confirm this
+  --widget-border: #{color(base-light)};
+
+  // Forms
+  --form-input-bg: #{$theme-white};
+  --form-input-text: #{$theme-black};
 }
 
 /* ------------------------------------ */
 
 /************** Dark Theme **************/
 
-[data-color-theme='dark'] {
+[data-theme='dark'] {
   // HTML Elements
   --link-primary: #{$theme-aurora-dark};
   --link-primary-hover: #{$theme-aurora-base};
-  --link-secondary: #{$theme-ultraviolet-darkest};
-  --link-secondary-hover: #{$theme-ultraviolet-darker};
 
   // Layout
   --bg: #{$theme-spacebase-dark};
@@ -74,36 +65,16 @@
   --btn-outline-hover: #{$theme-aurora-base};
   --btn-outline-active: #{$theme-aurora-light};
 
-  --unstyled-btn: #{$theme-aurora-dark};
-  --unstyled-btn-hover: #{$theme-aurora-base};
-
-  --btn-primary-text: #{$theme-white};
-
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
-  --bookmark-border: #{$theme-ultraviolet-darkest};
   --bookmark-hover: #{$theme-ultraviolet-darker};
-  --bookmark-border-hover: #{$theme-ultraviolet-darker};
-
+  --bookmark-border: #{$theme-spacebase-darkest};
   --icon: #{$theme-white};
-  --icon-hover: #{$theme-spacebase-lightest};
+  --icon-hover: #{$theme-spacebase-light};
+  --input-bg: #{$theme-white};
+  --input-text: #{$theme-black};
 
   // Widgets
   --widget-bg: #{$theme-spacebase-darker};
   --widget-border: #{$theme-spacebase-darker};
-
-  // Menus
-  --dropdown-menu-bg: #{$theme-spacebase-darkest};
-  --dropdown-menu-bg-hover: #{$theme-spacebase-darker};
-
-  // Form Elements
-  --form-input-bg: #{$theme-spacebase-darker};
-  --form-input-text: #{$theme-white};
-  --form-input-border: #{color(base-light)};
-  --form-input-placeholder: #{$theme-white};
-
-  // Filters for SVG color changes
-  // Generated using https://codepen.io/sosuke/pen/Pjoqqp
-  --filter-light: brightness(0) saturate(100%) invert(98%) sepia(1%)
-    saturate(2653%) hue-rotate(178deg) brightness(118%) contrast(100%);
 }

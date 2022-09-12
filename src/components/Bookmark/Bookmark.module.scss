@@ -26,10 +26,6 @@
 
   &:hover {
     background-color: var(--bookmark-hover);
-    border-color: var(--bookmark-border-hover);
-    .delete {
-      background-color: var(--bookmark-hover);
-    }
   }
 }
 
