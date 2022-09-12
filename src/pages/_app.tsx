@@ -48,7 +48,11 @@ const USSFPortalApp = ({
     <ApolloProvider client={client}>
       <AnalyticsProvider>
         <AuthProvider>
+<<<<<<< HEAD
           <ThemeProvider enableSystem={false} attribute={'data-color-theme'}>
+=======
+          <ThemeProvider enableSystem={false}>
+>>>>>>> 8767bea (dev: Set up portal for theme support (#767))
             <Head>
               <meta charSet="utf-8" key="charset" />
               <meta httpEquiv="X-UA-Compatible" content="IE=edge" key="edge" />
