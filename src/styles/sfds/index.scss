@@ -370,9 +370,9 @@
       background-color: var(--form-input-bg);
       color: var(--form-input-text);
       border: 1px solid var(--form-input-border);
-    }
-    &::placeholder {
-      color: var(--form-input-placeholder);
+      &::placeholder {
+        color: var(--form-input-placeholder);
+      }
     }
   }
   button.usa-combo-box__toggle-list {
@@ -381,7 +381,7 @@
 
   .usa-combo-box__list,
   .usa-combo-box__list-option {
-    color: var(--link-text);
-    background-color: var(--input-bg);
+    background-color: var(--form-combobox-bg);
+    color: var(--form-input-text);
   }
 }

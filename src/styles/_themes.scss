@@ -38,12 +38,17 @@
   --icon: #{$theme-spacebase-light};
   --icon-hover: #{$theme-spacebase-base};
 
+  // Menus
+  --dropdown-menu-bg: #{$theme-white};
+  --dropdown-menu-bg-hover: #{$grey};
+
   // Widgets
   --widget-bg: #{$theme-white};
   --widget-border: #{color(base-light)};
 
   // Forms
-  --form-input-bg: #{$theme-white};
+  --form-combobox-bg: #{$theme-white};
+  --form-input-bg: transparent;
   --form-input-text: #{$theme-black};
 }
 
@@ -77,4 +82,20 @@
   // Widgets
   --widget-bg: #{$theme-spacebase-darker};
   --widget-border: #{$theme-spacebase-darker};
+
+  // Menus
+  --dropdown-menu-bg: #{$theme-spacebase-darkest};
+  --dropdown-menu-bg-hover: #{$theme-spacebase-darker};
+
+  // Form Elements
+  --form-combobox-bg: #{$theme-spacebase-darker};
+  --form-input-bg: #{$theme-spacebase-darker};
+  --form-input-text: #{$theme-white};
+  --form-input-border: #{color(base-light)};
+  --form-input-placeholder: #{$theme-white};
+
+  // Filters for SVG color changes
+  // Generated using https://codepen.io/sosuke/pen/Pjoqqp
+  --filter-light: brightness(0) saturate(100%) invert(98%) sepia(1%)
+    saturate(2653%) hue-rotate(178deg) brightness(118%) contrast(100%);
 }
