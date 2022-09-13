@@ -40,6 +40,7 @@ export const typeDefs = gql`
     collections: [Collection!]!
     mySpace: [Widget!]!
     displayName: String!
+    theme: String!
   }
 
   type User {
@@ -47,6 +48,7 @@ export const typeDefs = gql`
     userId: String
     mySpace: [Collection]
     displayName: String
+    theme: String
   }
 
   type Mutation {
@@ -74,6 +76,7 @@ export const typeDefs = gql`
       label: String
     ): Bookmark
     editDisplayName(userId: String!, displayName: String!): User
+    editTheme(userId: String!, theme: String!): User
   }
 
   input BookmarkInput {

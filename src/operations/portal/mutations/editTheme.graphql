@@ -1,0 +1,6 @@
+mutation editTheme($userId: String!, $theme: String!) {
+  editTheme(userId: $userId, theme: $theme) {
+    userId
+    theme
+  }
+}
