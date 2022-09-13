@@ -84,6 +84,11 @@ type EditDisplayNameInput = {
   userId: string
   displayName: string
 }
+
+type EditThemeInput = {
+  userId: string
+  theme: 'light' | 'dark'
+}
 const resolvers = {
   OID: ObjectIdScalar,
   // Interface resolvers
@@ -125,7 +130,7 @@ const resolvers = {
     },
     displayName: async (
       _: undefined,
-      args: undefined,
+      _args: undefined,
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
@@ -135,6 +140,19 @@ const resolvers = {
       }
 
       return UserModel.getDisplayName(user.userId, { db })
+    },
+    theme: async (
+      _: undefined,
+      _args: undefined,
+      { db, user }: PortalUserContext
+    ) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      return UserModel.getTheme(user.userId, { db })
     },
   },
   Mutation: {
@@ -299,6 +317,19 @@ const resolvers = {
       }
 
       return UserModel.setDisplayName({ userId, displayName }, { db })
+    },
+    editTheme: async (
+      _: undefined,
+      { userId, theme }: EditThemeInput,
+      { db, user }: PortalUserContext
+    ) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      return UserModel.setTheme({ userId, theme }, { db })
     },
   },
 }

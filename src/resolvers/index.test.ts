@@ -20,6 +20,9 @@ import { AddWidgetDocument } from 'operations/portal/mutations/addWidget.g'
 import { RemoveWidgetDocument } from 'operations/portal/mutations/removeWidget.g'
 import { EditDisplayNameDocument } from 'operations/portal/mutations/editDisplayName.g'
 import { GetDisplayNameDocument } from 'operations/portal/queries/getDisplayName.g'
+import { EditThemeDocument } from 'operations/portal/mutations/editTheme.g'
+import { GetThemeDocument } from 'operations/portal/queries/getTheme.g'
+import { PortalUser } from 'types'
 
 let server: ApolloServer
 let connection: typeof MongoClient
@@ -101,14 +104,21 @@ describe('GraphQL resolvers', () => {
       ],
       ['addWidget', AddWidgetDocument, { title: 'Recent news', type: 'News' }],
       ['removeWidget', RemoveWidgetDocument, { _id: `${testWidgetId}` }],
+      ['getDisplayName', GetDisplayNameDocument, { userId: `${testWidgetId}` }],
       [
         'editDisplayName',
         EditDisplayNameDocument,
         { userId: `${testWidgetId}`, displayName: 'New Name' },
       ],
+      ['getTheme', GetThemeDocument, { userId: `${testWidgetId}` }],
+      [
+        'editTheme',
+        EditThemeDocument,
+        { userId: `${testWidgetId}`, theme: 'light' },
+      ],
     ])(
       'the %s operation returns an authentication error',
-      async (name, op, variables: VariableValues = {}) => {
+      async (_name, op, variables: VariableValues = {}) => {
         const result = await server.executeOperation({
           query: op,
           variables,
@@ -706,6 +716,40 @@ describe('GraphQL resolvers', () => {
 
         expect(result.errors).toBeUndefined()
         expect(result.data).toMatchObject({ editDisplayName: expectedData })
+      })
+    })
+
+    describe('getTheme', () => {
+      it('returns theme of the user', async () => {
+        const result = await server.executeOperation({
+          query: GetThemeDocument,
+        })
+
+        const expectedData = { ...newPortalUser }
+
+        expect(result.errors).toBeUndefined()
+
+        expect(result.data?.theme).toEqual(expectedData.theme)
+      })
+    })
+
+    describe('editTheme', () => {
+      it('edits an existing user theme', async () => {
+        const result = await server.executeOperation({
+          query: EditThemeDocument,
+          variables: {
+            userId: `${newPortalUser.userId}`,
+            theme: 'light',
+          },
+        })
+
+        const expectedData = {
+          userId: `${newPortalUser.userId}`,
+          theme: 'light',
+        }
+
+        expect(result.errors).toBeUndefined()
+        expect(result.data).toMatchObject({ editTheme: expectedData })
       })
     })
   })
