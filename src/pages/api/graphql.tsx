@@ -92,16 +92,6 @@ export const apolloServer = new ApolloServer({
         userId: userId,
       }
 
-      const updateDocument = {
-        $set: {
-          displayName: displayName,
-        },
-      }
-
-      if (foundUser && !foundUser.displayName) {
-        await db.collection('users').updateOne(query, updateDocument)
-      }
-
       if (!foundUser) {
         try {
           const initCollection = await getExampleCollection()
@@ -112,6 +102,26 @@ export const apolloServer = new ApolloServer({
           // TODO log error
           // console.error('error in creating new user', e)
           throw new ApolloError('Error creating new user')
+        }
+      } else {
+        // TODO we should be able to remove these once all exisitng users have the defaults set.
+        // set defaults for new fields if user found
+        if (!foundUser.displayName) {
+          const updateDocument = {
+            $set: {
+              displayName: displayName,
+            },
+          }
+          await db.collection('users').updateOne(query, updateDocument)
+        }
+
+        if (!foundUser.theme) {
+          const updateDocument = {
+            $set: {
+              theme: 'light',
+            },
+          }
+          await db.collection('users').updateOne(query, updateDocument)
         }
       }
 
