@@ -19,6 +19,7 @@ import { EditBookmarkDocument } from 'operations/portal/mutations/editBookmark.g
 import { AddWidgetDocument } from 'operations/portal/mutations/addWidget.g'
 import { RemoveWidgetDocument } from 'operations/portal/mutations/removeWidget.g'
 import { EditDisplayNameDocument } from 'operations/portal/mutations/editDisplayName.g'
+import { GetDisplayNameDocument } from 'operations/portal/queries/getDisplayName.g'
 
 let server: ApolloServer
 let connection: typeof MongoClient
@@ -669,6 +670,20 @@ describe('GraphQL resolvers', () => {
 
         expect(updated.data?.mySpace[0].bookmarks[0].cmsId).toBe(bookmark.cmsId)
         expect(updated.data?.mySpace[0].bookmarks[0].isRemoved).toBe(true)
+      })
+    })
+
+    describe('getDisplayName', () => {
+      it('returns displayName of the user', async () => {
+        const result = await server.executeOperation({
+          query: GetDisplayNameDocument,
+        })
+
+        const expectedData = { ...newPortalUser }
+
+        expect(result.errors).toBeUndefined()
+
+        expect(result.data?.displayName).toEqual(expectedData.displayName)
       })
     })
 
