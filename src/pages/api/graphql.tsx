@@ -64,6 +64,7 @@ const clientConnection = async () => {
 export const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  cache: 'bounded',
   plugins: [ApolloServerPluginLandingPageDisabled()],
   context: async ({ req, res }) => {
     const session = await getSession(req, res)
