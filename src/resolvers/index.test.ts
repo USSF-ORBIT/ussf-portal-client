@@ -22,7 +22,6 @@ import { EditDisplayNameDocument } from 'operations/portal/mutations/editDisplay
 import { GetDisplayNameDocument } from 'operations/portal/queries/getDisplayName.g'
 import { EditThemeDocument } from 'operations/portal/mutations/editTheme.g'
 import { GetThemeDocument } from 'operations/portal/queries/getTheme.g'
-import { PortalUser } from 'types'
 
 let server: ApolloServer
 let connection: typeof MongoClient
