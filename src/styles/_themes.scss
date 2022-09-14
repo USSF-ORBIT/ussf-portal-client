@@ -19,13 +19,14 @@
 
   // Buttons
   --btn-primary-text: #{$theme-white};
+  --btn-primary-text-hover: #{$theme-spacebase-light};
   --btn-primary-bg: #{$theme-ultraviolet-base};
   --btn-primary-bg-hover: #{$theme-ultraviolet-dark};
   --btn-primary-bg-active: #{$theme-ultraviolet-darker};
 
-  --btn-secondary-bg: #{$theme-white};
+  --btn-secondary-bg: #{$theme-mars-base};
   --btn-secondary-bg-hover: #{$theme-mars-dark};
-  --btn-secondary-bg-bg-active: #{$theme-mars-darker};
+  --btn-secondary-bg-active: #{$theme-mars-darker};
 
   --btn-outline-text: #{$theme-ultraviolet-base};
   --btn-outline-hover: #{$theme-ultraviolet-dark};
@@ -39,6 +40,7 @@
   // Bookmark
   --bookmark-bg: transparent;
   --bookmark-border: #{color(base-light)};
+  --bookmark-border-hover: var(--bookmark-border);
   --bookmark-hover: #{$grey};
   --icon: #{$theme-spacebase-light};
   --icon-hover: #{$theme-spacebase-base};
@@ -61,10 +63,12 @@
 
 /************** Dark Theme **************/
 
-[data-theme='dark'] {
+[data-color-theme='dark'] {
   // HTML Elements
   --link-primary: #{$theme-aurora-dark};
   --link-primary-hover: #{$theme-aurora-base};
+  --link-secondary: #{$theme-ultraviolet-darkest};
+  --link-secondary-hover: #{$theme-ultraviolet-darker};
 
   // Layout
   --bg: #{$theme-spacebase-dark};
@@ -84,6 +88,7 @@
   --bookmark-bg: #{$theme-ultraviolet-darkest};
   --bookmark-hover: #{$theme-ultraviolet-darker};
   --bookmark-border: #{$theme-spacebase-darkest};
+  --bookmark-border-hover: #{$theme-ultraviolet-darker};
   --icon: #{$theme-white};
   --icon-hover: #{$theme-spacebase-light};
   --input-bg: #{$theme-white};
