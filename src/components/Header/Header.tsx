@@ -41,7 +41,11 @@ const Header = () => {
   }
 
   const aboutUsDropdownItems = [
-    <NavLink href="/about-us" key="one" onClick={() => setIsOpen([false])}>
+    <NavLink
+      data-testid="nav-about-ussf"
+      href="/about-us"
+      key="one"
+      onClick={() => setIsOpen([false])}>
       About the USSF
     </NavLink>,
     <NavLink
@@ -55,6 +59,7 @@ const Header = () => {
   const navItems = [
     <>
       <NavDropDownButton
+        data-testid="nav-about-us-dropdown"
         menuId="aboutUsDropdown"
         onToggle={(): void => {
           onToggle(0)

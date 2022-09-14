@@ -32,6 +32,17 @@ describe('Header component', () => {
     expect(screen.getAllByRole('link')).toHaveLength(2)
   })
 
+  it('can click an item from the About Us dropdown', () => {
+    render(<Header />)
+
+    const aboutTheUSSF = screen.getByTestId('nav-about-ussf')
+    expect(aboutTheUSSF).not.toBeVisible()
+
+    const dropdown = screen.getByTestId('nav-about-us-dropdown')
+    userEvent.click(dropdown)
+    expect(aboutTheUSSF).toBeVisible()
+  })
+
   it('can toggle navigation on smaller screen sizes', () => {
     render(<Header />)
 
