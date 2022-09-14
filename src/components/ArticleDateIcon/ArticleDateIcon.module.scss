@@ -4,7 +4,8 @@
 .ArticleDateIcon {
   border: 1px solid $theme-cosmiclatte-dark;
   border-radius: 8px;
-  background: $theme-cosmiclatte-lighter;
+  background: var(--date-icon-bg);
+  color: $black;
 
   width: 60px;
   height: 60px;
