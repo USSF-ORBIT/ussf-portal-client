@@ -36,7 +36,9 @@
 
 .addLinkComboBox {
   input {
-    border: 1px solid #707c91;
+    background-color: var(--form-input-bg);
+    color: var(--form-input-text);
+    border: 1px solid var(--form-input-border);
     box-sizing: border-box;
     border-radius: 4px;
     margin-top: 0;
@@ -49,12 +51,6 @@
     border-width: 0.25rem;
     border-style: solid;
     border-color: $state-warning-dark;
-  }
-}
-
-.addLinkButton {
-  &:hover {
-    background-color: #f0f0f0;
   }
 }
 
@@ -79,8 +75,6 @@
 }
 
 button.collectionSettingsDropdown {
-  background-color: $theme-white;
-  color: $theme-ultraviolet-base;
   border: 0;
   border-radius: 0;
   font-weight: normal;
@@ -100,9 +94,10 @@ button.collectionSettingsDropdown {
   }
 
   button.cancelButton {
-    color: $theme-white;
+    color: var(--disabled-btn-text);
     background-color: $state-disabled-base;
     &:hover {
+      color: var(--link-secondary-hover);
       background-color: $state-disabled-dark;
     }
   }

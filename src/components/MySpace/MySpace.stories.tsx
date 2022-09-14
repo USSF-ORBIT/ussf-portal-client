@@ -19,26 +19,26 @@ export default {
 const exampleMySpaceData = [
   {
     __typename: 'Collection',
-    _id: new ObjectId(),
+    _id: new ObjectId().toHexString(),
     title: 'Example Collection',
     type: 'Collection',
     bookmarks: [
       {
-        _id: new ObjectId(),
+        _id: new ObjectId().toHexString(),
         url: 'https://google.com',
         label: 'Webmail',
         cmsId: 'a',
         isRemoved: false,
       },
       {
-        _id: new ObjectId(),
+        _id: new ObjectId().toHexString(),
         url: 'https://mypay.dfas.mil/#/',
         label: 'MyPay',
         cmsId: 'b',
         isRemoved: false,
       },
       {
-        _id: new ObjectId(),
+        _id: new ObjectId().toHexString(),
         url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
         label: 'vMPF',
         cmsId: null,
@@ -48,7 +48,7 @@ const exampleMySpaceData = [
   },
   {
     __typename: 'NewsWidget',
-    _id: new ObjectId(),
+    _id: new ObjectId().toHexString(),
     title: 'Recent News',
     type: 'News',
   },
