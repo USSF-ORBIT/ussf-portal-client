@@ -2,7 +2,6 @@ import React, { useRef } from 'react'
 import type { Meta } from '@storybook/react'
 import type { ModalRef } from '@trussworks/react-uswds'
 import { ObjectId } from 'bson'
-import JoinBetaModal from './JoinBetaModal'
 import AddCustomLinkModal from './AddCustomLinkModal'
 import EditCustomLinkModal from './EditCustomLinkModal'
 import RemoveCustomCollectionModal from './RemoveCustomCollectionModal'
@@ -20,20 +19,6 @@ export default {
     },
   ],
 } as Meta
-
-export const JoinBetaModalStory = () => {
-  const storybookModal = useRef<ModalRef>(null)
-  const openModal = () => storybookModal.current?.toggleModal(undefined, true)
-
-  return (
-    <>
-      <button type="button" onClick={openModal}>
-        Open modal
-      </button>
-      <JoinBetaModal modalRef={storybookModal} />
-    </>
-  )
-}
 
 export const AddCustomLinkModalStory = () => {
   const storybookModal = useRef<ModalRef>(null)
