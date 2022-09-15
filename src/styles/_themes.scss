@@ -75,6 +75,14 @@
   --base-tag-bg: #{$label-base-lighttheme-bg};
   --base-tag-text: #{$white};
   --base-tag-svg: #{$label-base-lighttheme-icon};
+
+  // Categories
+  // TODO: couldn't find an example of these in Figma, so verify with design.
+  // Also, does external news == public USSF news? May need to change the name of these variables.
+  --category-externalnews-bg: #{$category-externalnews-lighttheme};
+  --category-externalnews-text: #{$white};
+  --category-internalnews-bg: #{$category-internalnews-lighttheme};
+  --category-internalnews-text: #{$white};
 }
 
 /* ------------------------------------ */
@@ -135,6 +143,14 @@
   --base-tag-bg: #{$label-base-darktheme-bg};
   --base-tag-text: #{$black};
   --base-tag-svg: #{$label-base-darktheme-icon};
+
+  // Categories
+  // TODO: couldn't find an example of these in Figma, so verify with design.
+  // Also, does external news == public USSF news? May need to change the name of these variables.
+  --category-externalnews-bg: #{$category-externalnews-darktheme};
+  --category-externalnews-text: #{$black};
+  --category-internalnews-bg: #{$category-internalnews-darktheme};
+  --category-internalnews-text: #{$black};
 
   // Menus
   --dropdown-menu-bg: #{$theme-spacebase-darkest};
