@@ -43,4 +43,3 @@ describe('calling trackEvent function', () => {
     )
   })
 })
-
