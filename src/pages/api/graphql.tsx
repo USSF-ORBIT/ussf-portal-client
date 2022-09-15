@@ -105,7 +105,9 @@ export const apolloServer = new ApolloServer({
       if (!foundUser) {
         try {
           const initCollection = await getExampleCollection()
-          await User.createOne(userId, [initCollection], displayName, { db })
+          await User.createOne(userId, [initCollection], displayName, 'light', {
+            db,
+          })
         } catch (e) {
           // TODO log error
           // console.error('error in creating new user', e)

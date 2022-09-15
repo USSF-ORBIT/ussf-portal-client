@@ -33,7 +33,10 @@ describe('Bookmark Model', () => {
     // Create test user
     const testUserId = 'testUserId'
     const displayName = 'Floyd King'
-    await User.createOne(testUserId, [exampleCollection], displayName, { db })
+    const theme = 'light'
+    await User.createOne(testUserId, [exampleCollection], displayName, theme, {
+      db,
+    })
     const testUser = await User.findOne(testUserId, { db })
 
     // Test user comes with an example collection
