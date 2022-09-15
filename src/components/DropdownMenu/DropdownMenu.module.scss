@@ -48,8 +48,8 @@
     > button,
     > button:global(.usa-button) {
       width: 100%;
-      background-color: $theme-white;
-      color: $theme-ultraviolet-base;
+      background-color: var(--dropdown-menu-bg);
+      color: var(--link-primary);
       border: 0;
       border-radius: 0;
       font-weight: normal;
@@ -57,8 +57,8 @@
       padding: units(1) units('105');
 
       &:hover {
-        background-color: #f0f0f0;
-        color: $theme-ultraviolet-dark;
+        background-color: var(--dropdown-menu-bg-hover);
+        color: var(--link-primary-hover);
       }
     }
   }

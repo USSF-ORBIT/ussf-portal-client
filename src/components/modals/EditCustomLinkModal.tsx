@@ -5,6 +5,7 @@ import {
   ModalHeading,
   ModalRef,
 } from '@trussworks/react-uswds'
+import styles from './modal.module.scss'
 
 import ModalPortal from 'components/util/ModalPortal'
 import type { Bookmark as BookmarkType } from 'types/index'
@@ -39,6 +40,7 @@ const EditCustomLinkModal = ({
         aria-labelledby={`${modalId}-heading`}
         aria-describedby={`${modalId}-description`}
         forceAction
+        className={styles.customLinkModal}
         modalRoot="#modal-root">
         <ModalHeading id={`${modalId}-heading`}>Edit custom link</ModalHeading>
         <CustomBookmarkForm

@@ -9,6 +9,8 @@ import {
   Button,
 } from '@trussworks/react-uswds'
 
+import styles from './modal.module.scss'
+
 import ModalPortal from 'components/util/ModalPortal'
 
 type RemoveSectionModalProps = {
@@ -34,6 +36,7 @@ const RemoveSectionModal = ({
         aria-labelledby={`${modalId}-heading`}
         aria-describedby={`${modalId}-description`}
         forceAction
+        className={styles.customLinkModal}
         modalRoot="#modal-root">
         <ModalHeading id={`${modalId}-heading`}>
           Are you sure you’d like to delete this section?
