@@ -63,6 +63,18 @@
   --btn-box-bg: #{$theme-cosmiclatte-lighter};
   --btn-box-border: #{$neutral-gray};
   --date-icon-bg: #{$theme-cosmiclatte-lighter};
+
+  // Tags
+  --source-tag-bg: #{$label-source-lighttheme-bg};
+  --source-tag-text: #{$theme-mars-lightest};
+  --source-tag-svg: #{$label-source-lighttheme-icon};
+  // TODO: couldn't find an example of these in Figma, so verify with design
+  --audience-tag-bg: #{$label-audience-lighttheme-bg};
+  --audience-tag-text: #{$theme-mars-lightest};
+  --audience-tag-svg: #{$label-audience-lighttheme-icon};
+  --base-tag-bg: #{$label-base-lighttheme-bg};
+  --base-tag-text: #{$white};
+  --base-tag-svg: #{$label-base-lighttheme-icon};
 }
 
 /* ------------------------------------ */
@@ -111,6 +123,18 @@
   --btn-box-bg: #{$theme-spacebase-light};
   --btn-box-border: #{$neutral-gray-800};
   --date-icon-bg: #{$theme-cosmiclatte-lightest};
+
+  // Tags
+  --source-tag-bg: #{$label-source-darktheme-bg};
+  --source-tag-text: #{$black};
+  --source-tag-svg: #{$label-source-darktheme-icon};
+  // TODO: couldn't find an example of these in Figma, so verify with design
+  --audience-tag-bg: #{$label-audience-darktheme-bg};
+  --audience-tag-text: #{$black};
+  --audience-tag-svg: #{$label-audience-darktheme-icon};
+  --base-tag-bg: #{$label-base-darktheme-bg};
+  --base-tag-text: #{$black};
+  --base-tag-svg: #{$label-base-darktheme-icon};
 
   // Menus
   --dropdown-menu-bg: #{$theme-spacebase-darkest};

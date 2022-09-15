@@ -72,7 +72,7 @@ export const ArticleListItem = ({
               </>
             )}
 
-            {source === 'RSS' && <Label type="Source">{sourceName}</Label>}
+            {source === 'RSS' && <Label type="Base">{sourceName}</Label>}
           </Grid>
         </Grid>
       </Grid>

@@ -31,21 +31,24 @@
   }
 
   &.Source {
-    background-color: $theme-mars-darker;
+    background-color: var(--source-tag-bg);
+    color: var(--source-tag-text);
     svg {
-      color: $theme-mars-lightest;
+      color: var(--source-tag-svg);
     }
   }
   &.Audience {
-    background-color: $label-audience-lighttheme-bg;
+    background-color: var(--audience-tag-bg);
+    color: var(--audience-tag-text);
     svg {
-      color: $label-audience-lighttheme-icon;
+      color: var(--audience-tag-svg);
     }
   }
   &.Base {
-    background-color: $label-base-lighttheme-bg;
+    background-color: var(--base-tag-bg);
+    color: var(--base-tag-text);
     svg {
-      color: $label-base-lighttheme-icon;
+      color: var(--base-tag-svg);
     }
   }
 }
