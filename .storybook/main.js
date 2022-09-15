@@ -12,6 +12,7 @@ module.exports = {
     'storybook-css-modules-preset',
     'storybook-addon-next-router',
     'storybook-addon-apollo-client',
+    'storybook-theme-toggle',
   ],
   typescript: {
     check: false,
