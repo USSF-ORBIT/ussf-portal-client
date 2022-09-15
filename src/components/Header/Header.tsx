@@ -16,7 +16,6 @@ import NavLink from 'components/util/NavLink/NavLink'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { useAuthContext } from 'stores/authContext'
 import { useAnalytics } from 'stores/analyticsContext'
-import ThemeToggle from 'components/ThemeToggle/ThemeToggle'
 
 const Header = () => {
   const { logout } = useAuthContext()
@@ -101,7 +100,6 @@ const Header = () => {
         onClick={() => setExpanded(false)}
         role="presentation"
       />
-      <ThemeToggle />
       <USWDSHeader basic className={styles.header}>
         <div className="usa-nav-container">
           <div className="usa-navbar">
