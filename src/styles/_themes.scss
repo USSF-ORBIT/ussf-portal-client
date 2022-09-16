@@ -37,6 +37,11 @@
 
   --disabled-btn-text: #{$theme-white};
 
+  --btn-add-widget-bg: rgba(220, 222, 224, 0.15);
+  --btn-add-widget-border: #{color('base-lighter')};
+  --btn-add-widget: #585a5c;
+  --btn-add-widget-icon: rgba(0, 0, 0, 0.1);
+  --btn-add-widget-icon-hover: rgba(0, 0, 0, 0.25);
   // Bookmark
   --bookmark-bg: transparent;
   --bookmark-border: #{color(base-light)};
@@ -80,6 +85,9 @@
   --category-externalnews-text: #{$white};
   --category-internalnews-bg: #{$category-internalnews-lighttheme};
   --category-internalnews-text: #{$white};
+
+  // Articles
+  --article-link-text: #{$theme-black};
 }
 
 /* ------------------------------------ */
@@ -109,6 +117,12 @@
   --btn-unstyled-hover: #{$theme-aurora-base};
 
   --btn-primary-text: #{$theme-white};
+
+  --btn-add-widget-border: #{$theme-spacebase-dark};
+  --btn-add-widget-bg: #{$theme-spacebase-darker};
+  --btn-add-widget: #{$theme-aurora-base};
+  --btn-add-widget-icon: #{$theme-white};
+  --btn-add-widget-icon-hover: #{$theme-spacebase-light};
 
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
@@ -156,6 +170,10 @@
   --form-input-text: #{$theme-white};
   --form-input-border: #{color(base-light)};
   --form-input-placeholder: #{$theme-white};
+
+  // Articles
+  --article-link-text: #{$theme-aurora-base};
+  --article-excerpt-text: #{$theme-white};
 
   // Filters for SVG color changes
   // Generated using https://codepen.io/sosuke/pen/Pjoqqp
