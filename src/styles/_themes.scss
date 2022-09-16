@@ -12,6 +12,7 @@
   --link-primary-hover: #{$theme-ultraviolet-darker};
   --link-secondary: #{$theme-aurora-base};
   --link-secondary-hover: #{$theme-aurora-lighter};
+  --paragraph-text: #{$theme-black};
 
   // Layout
   --bg: #{$theme-white};
@@ -100,6 +101,7 @@
   --link-primary-hover: #{$theme-aurora-base};
   --link-secondary: #{$theme-ultraviolet-darkest};
   --link-secondary-hover: #{$theme-ultraviolet-darker};
+  --paragraph-text: #{$theme-white};
 
   // Layout
   --bg: #{$theme-spacebase-dark};
