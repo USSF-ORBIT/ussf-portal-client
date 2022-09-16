@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.8.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.7.0...4.8.0) (2022-09-16)
+
+
+### Features
+
+* Add Light / Dark mode toggle to the portal ([#766](https://github.com/USSF-ORBIT/ussf-portal-client/issues/766)) ([e37be05](https://github.com/USSF-ORBIT/ussf-portal-client/commit/e37be0552cf9ad1dbeb84c1679e41e94b62fa636))
+* add mutation for get and set theme ([#774](https://github.com/USSF-ORBIT/ussf-portal-client/issues/774)) ([8141b36](https://github.com/USSF-ORBIT/ussf-portal-client/commit/8141b3626fb0e98aafeb60f17a9ac37f078d3732))
+* Move Add Custom Link to ComboBox ([#754](https://github.com/USSF-ORBIT/ussf-portal-client/issues/754)) ([d35fa74](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d35fa740625fdd1d943bdee76fc76a8930d3128e))
+* update user model for saving dark mode ([#772](https://github.com/USSF-ORBIT/ussf-portal-client/issues/772)) ([235f843](https://github.com/USSF-ORBIT/ussf-portal-client/commit/235f84330ef659b29c6d3cd5fb9250d66f9623fa))
+
+
+### Bug Fixes
+
+* **deps:** update dependency apollo-server-core to v3.10.1 [security] ([#750](https://github.com/USSF-ORBIT/ussf-portal-client/issues/750)) ([34aa373](https://github.com/USSF-ORBIT/ussf-portal-client/commit/34aa37358506bb89295026858b273402fb182a03))
+
 ## [4.7.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.6.0...4.7.0) (2022-08-24)
 
 
