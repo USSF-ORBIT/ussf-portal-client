@@ -4,9 +4,14 @@ import { CollectionModel } from './Collection'
 
 import type { PortalUser, CollectionRecords } from 'types/index'
 
-type EditOneInput = {
+type EditDisplayName = {
   userId: string
   displayName: string
+}
+
+type EditTheme = {
+  userId: string
+  theme: string
 }
 
 const UserModel = {
@@ -18,12 +23,14 @@ const UserModel = {
     userId: string,
     initCollections: CollectionRecords,
     displayName: string,
+    theme: 'light' | 'dark',
     { db }: Context
   ) {
     const newUser: PortalUser = {
       userId,
       mySpace: [],
       displayName,
+      theme,
     }
 
     // Create user
@@ -40,8 +47,14 @@ const UserModel = {
 
     return true
   },
-  async editOne({ userId, displayName }: EditOneInput, { db }: Context) {
+  async setDisplayName(
+    { userId, displayName }: EditDisplayName,
+    { db }: Context
+  ) {
     const user = await UserModel.findOne(userId, { db })
+    if (!user) {
+      throw new Error('UserModel Error: error in setDisplayName no user found')
+    }
 
     const query = {
       userId: userId,
@@ -54,14 +67,48 @@ const UserModel = {
       },
     }
 
-    await db.collection('users').updateOne(query, updateDocument)
+    const result = await db
+      .collection('users')
+      .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
+
+    return result.value
   },
   async getDisplayName(userId: string, { db }: Context) {
     const user = await db.collection('users').findOne({ userId })
     if (!user) {
-      throw new Error('UserModel Error: error in getDisplayName')
+      throw new Error('UserModel Error: error in getDisplayName no user found')
     }
     return user.displayName
+  },
+  async setTheme({ userId, theme }: EditTheme, { db }: Context) {
+    const user = await UserModel.findOne(userId, { db })
+    if (!user) {
+      throw new Error('UserModel Error: error in setTheme no user found')
+    }
+
+    const query = {
+      userId: userId,
+    }
+
+    const updateDocument = {
+      $set: {
+        ...user,
+        theme: theme,
+      },
+    }
+
+    const result = await db
+      .collection('users')
+      .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
+
+    return result.value
+  },
+  async getTheme(userId: string, { db }: Context) {
+    const user = await db.collection('users').findOne({ userId })
+    if (!user) {
+      throw new Error('UserModel Error: error in getTheme no user found')
+    }
+    return user.theme
   },
 }
 

@@ -160,6 +160,7 @@ export type PortalUser = {
   userId: string
   mySpace: Collection[]
   displayName: string
+  theme: string
 }
 
 export type SessionUser = SAMLUser & {
