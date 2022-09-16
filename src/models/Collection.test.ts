@@ -145,7 +145,10 @@ describe('Collection Model', () => {
     // Create test user
     testUserId = 'testUserId'
     const displayName = 'Floyd King'
-    await User.createOne(testUserId, [exampleCollection], displayName, { db })
+    const theme = 'light'
+    await User.createOne(testUserId, [exampleCollection], displayName, theme, {
+      db,
+    })
     const testUser = await User.findOne(testUserId, { db })
     exampleCollectionId = testUser.mySpace[0]._id
   })
