@@ -65,16 +65,16 @@
   --date-icon-bg: #{$theme-cosmiclatte-lighter};
 
   // Tags
-  --source-tag-bg: #{$label-source-lighttheme-bg};
-  --source-tag-text: #{$theme-mars-lightest};
-  --source-tag-svg: #{$label-source-lighttheme-icon};
+  --tag-source-bg: #{$label-source-lighttheme-bg};
+  --tag-source-text: #{$theme-mars-lightest};
+  --tag-source-svg: #{$label-source-lighttheme-icon};
   // TODO: couldn't find an example of these in Figma, so verify with design
-  --audience-tag-bg: #{$label-audience-lighttheme-bg};
-  --audience-tag-text: #{$theme-mars-lightest};
-  --audience-tag-svg: #{$label-audience-lighttheme-icon};
-  --base-tag-bg: #{$label-base-lighttheme-bg};
-  --base-tag-text: #{$white};
-  --base-tag-svg: #{$label-base-lighttheme-icon};
+  --tag-audience-bg: #{$label-audience-lighttheme-bg};
+  --tag-audience-text: #{$theme-mars-lightest};
+  --tag-audience-svg: #{$label-audience-lighttheme-icon};
+  --tag-base-bg: #{$label-base-lighttheme-bg};
+  --tag-base-text: #{$white};
+  --tag-base-svg: #{$label-base-lighttheme-icon};
 
   // Categories
   // TODO: couldn't find an example of these in Figma, so verify with design.
@@ -133,16 +133,16 @@
   --date-icon-bg: #{$theme-cosmiclatte-lightest};
 
   // Tags
-  --source-tag-bg: #{$label-source-darktheme-bg};
-  --source-tag-text: #{$black};
-  --source-tag-svg: #{$label-source-darktheme-icon};
+  --tag-source-bg: #{$label-source-darktheme-bg};
+  --tag-source-text: #{$black};
+  --tag-source-svg: #{$label-source-darktheme-icon};
   // TODO: couldn't find an example of these in Figma, so verify with design
-  --audience-tag-bg: #{$label-audience-darktheme-bg};
-  --audience-tag-text: #{$black};
-  --audience-tag-svg: #{$label-audience-darktheme-icon};
-  --base-tag-bg: #{$label-base-darktheme-bg};
-  --base-tag-text: #{$black};
-  --base-tag-svg: #{$label-base-darktheme-icon};
+  --tag-audience-bg: #{$label-audience-darktheme-bg};
+  --tag-audience-text: #{$black};
+  --tag-audience-svg: #{$label-audience-darktheme-icon};
+  --tag-base-bg: #{$label-base-darktheme-bg};
+  --tag-base-text: #{$black};
+  --tag-base-svg: #{$label-base-darktheme-icon};
 
   // Categories
   // TODO: couldn't find an example of these in Figma, so verify with design.

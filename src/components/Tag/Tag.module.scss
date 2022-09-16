@@ -31,24 +31,24 @@
   }
 
   &.Source {
-    background-color: var(--source-tag-bg);
-    color: var(--source-tag-text);
+    background-color: var(--tag-source-bg);
+    color: var(--tag-source-text);
     svg {
-      color: var(--source-tag-svg);
+      color: var(--tag-source-svg);
     }
   }
   &.Audience {
-    background-color: var(--audience-tag-bg);
-    color: var(--audience-tag-text);
+    background-color: var(--tag-audience-bg);
+    color: var(--tag-audience-text);
     svg {
-      color: var(--audience-tag-svg);
+      color: var(--tag-audience-svg);
     }
   }
   &.Base {
-    background-color: var(--base-tag-bg);
-    color: var(--base-tag-text);
+    background-color: var(--tag-base-bg);
+    color: var(--tag-base-text);
     svg {
-      color: var(--base-tag-svg);
+      color: var(--tag-base-svg);
     }
   }
 }
