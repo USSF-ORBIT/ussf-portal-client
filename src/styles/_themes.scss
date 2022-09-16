@@ -58,6 +58,7 @@
   // Widgets
   --widget-bg: #{$theme-white};
   --widget-border: #{color(base-light)};
+  --widget-selected: #{rgba($grey, 0.8)};
 
   // Forms
   --form-combobox-bg: #{$theme-white};
@@ -139,6 +140,7 @@
   // Widgets
   --widget-bg: #{$theme-spacebase-darker};
   --widget-border: #{$theme-spacebase-darker};
+  --widget-selected: #{rgba($grey, 0.4)};
 
   // News
   --btn-box-bg: #{$theme-spacebase-light};
