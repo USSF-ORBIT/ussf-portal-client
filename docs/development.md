@@ -7,6 +7,7 @@
 1. [Database migrations](#database-migrations)
 1. [PR linting](#pr-linting)
 1. [Testing](#testing)
+1. [Apollo Server Explorer](#apollo-server-explorer)
 1. [Releasing](#releasing)
 
 ## Environment Setup
@@ -338,6 +339,33 @@ The footer should also include `BREAKING CHANGE:` if the commit includes any bre
   - You can also run Cypress against the dev stack. Just note that the dev server does _not_ match the same behavior as when it is running in production, so Cypress tests should always also be verified against what is going to be deployed to production.
     - `docker compose up -d` (start the NextJS dev server at localhost:3000)
     - `yarn cypress:dev` (start the Cypress UI runner against the application)
+
+## Apollo Server Explorer
+
+Apollo server comes with a built in tool for executing graphql queries against your local server. It's disabled by default, but you can easily enable it. To do so switch the `ApolloServerPluginLandingPageDisabled` in `src/pages/api/graphql.tsx` to the below with `ApolloServerPluginLandingPageLocalDefault` instead. Note you will need to enable embedding to allow it to connect properly to your server. Details about the options are [documented here](https://www.apollographql.com/docs/apollo-server/api/plugin/landing-pages)
+
+```diff
+diff --git a/src/pages/api/graphql.tsx b/src/pages/api/graphql.tsx
+index 5fd1b8d..1979e22 100644
+--- a/src/pages/api/graphql.tsx
++++ b/src/pages/api/graphql.tsx
+@@ -6,7 +6,11 @@ import {
+   ApolloError,
+   gql,
+ } from 'apollo-server-micro'
+-import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core'
++import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
+ import type { PageConfig } from 'next'
+
+ import { typeDefs } from '../../schema'
+@@ -64,7 +68,12 @@ const clientConnection = async () => {
+ export const apolloServer = new ApolloServer({
+   typeDefs,
+   resolvers,
+-  plugins: [ApolloServerPluginLandingPageDisabled()],
++  plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
+   context: async ({ req, res }) => {
+```
 
 ## Releasing
 
