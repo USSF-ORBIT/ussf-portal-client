@@ -66,6 +66,7 @@
   --announcement-active-dots: #{$theme-spacebase-base};
   --announcement-dots: #{$theme-spacebase-lightest};
   --announcement-border: #{$light-gray};
+  --announcement-btn-text: #{$white};
 }
 
 /* ------------------------------------ */
@@ -128,6 +129,7 @@
   --announcement-active-dots: #{$theme-spacebase-light};
   --announcement-dots: #{$theme-spacebase-lightest};
   --announcement-border: #{$theme-spacebase-light};
+  --announcement-btn-text: #{$black};
 
   // Filters for SVG color changes
   // Generated using https://codepen.io/sosuke/pen/Pjoqqp
