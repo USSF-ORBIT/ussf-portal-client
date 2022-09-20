@@ -49,7 +49,7 @@ export const ArticleListItem = ({
             {sourceLink ? sourceLink : `/articles/${slug}`}
           </LinkTo>
           <p>
-            <span>{preview}</span>
+            <span className={styles.previewText}>{preview}</span>
           </p>
           <Grid row gap={4} className={styles.categoryAndLabel}>
             <Category
