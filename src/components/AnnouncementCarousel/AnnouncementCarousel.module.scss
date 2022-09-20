@@ -9,15 +9,29 @@
   width: 100%;
   height: 100%;
 
+  .dots {
+    button.carouselEllipse {
+      width: 7.54px;
+      height: 8px;
+      border-radius: 50px;
+      background: var(--announcement-dots);
+    }
+
+    button::before {
+      color: transparent;
+    }
+  }
+
   > :global(.slick-dots
       li.slick-active
       div.announcement-carousel-container
       button::before) {
-    color: var(--announcement-active-dots);
-  }
+    color: transparent;
+    width: 9.2px;
+    height: 9.2px;
+    border-radius: 50px;
 
-  > :global(.slick-dots li div.announcement-carousel-container button::before) {
-    color: var(--announcement-dots);
+    background: var(--announcement-active-dots);
   }
 }
 

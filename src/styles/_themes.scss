@@ -64,7 +64,7 @@
   --announcement-text: #{$black};
   --announcement-divider: #{$theme-spacebase-light};
   --announcement-active-dots: #{$theme-spacebase-base};
-  --announcement-dots: #{$neutral-gray};
+  --announcement-dots: #{$theme-spacebase-lightest};
   --announcement-border: #{$light-gray};
 }
 
@@ -125,7 +125,7 @@
   --announcement-bg: #{$theme-spacebase-darker};
   --announcement-text: #{$white};
   --announcement-divider: #{$theme-spacebase-light};
-  --announcement-active-dots: #{$white};
+  --announcement-active-dots: #{$theme-spacebase-light};
   --announcement-dots: #{$theme-spacebase-lightest};
   --announcement-border: #{$theme-spacebase-light};
 
