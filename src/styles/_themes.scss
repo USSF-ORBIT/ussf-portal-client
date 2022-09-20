@@ -68,7 +68,6 @@
   --tag-source-bg: #{$label-source-lighttheme-bg};
   --tag-source-text: #{$white};
   --tag-source-svg: #{$label-source-lighttheme-icon};
-  // TODO: couldn't find an example of these in Figma, so verify with design
   --tag-audience-bg: #{$label-audience-lighttheme-bg};
   --tag-audience-text: #{$white};
   --tag-audience-svg: #{$label-audience-lighttheme-icon};
@@ -77,8 +76,6 @@
   --tag-base-svg: #{$label-base-lighttheme-icon};
 
   // Categories
-  // TODO: couldn't find an example of these in Figma, so verify with design.
-  // Also, does external news == public USSF news? May need to change the name of these variables.
   --category-externalnews-bg: #{$category-externalnews-lighttheme};
   --category-externalnews-text: #{$white};
   --category-internalnews-bg: #{$category-internalnews-lighttheme};
@@ -136,7 +133,6 @@
   --tag-source-bg: #{$label-source-darktheme-bg};
   --tag-source-text: #{$black};
   --tag-source-svg: #{$label-source-darktheme-icon};
-  // TODO: couldn't find an example of these in Figma, so verify with design
   --tag-audience-bg: #{$label-audience-darktheme-bg};
   --tag-audience-text: #{$black};
   --tag-audience-svg: #{$label-audience-darktheme-icon};
@@ -145,8 +141,6 @@
   --tag-base-svg: #{$label-base-darktheme-icon};
 
   // Categories
-  // TODO: couldn't find an example of these in Figma, so verify with design.
-  // Also, does external news == public USSF news? May need to change the name of these variables.
   --category-externalnews-bg: #{$category-externalnews-darktheme};
   --category-externalnews-text: #{$black};
   --category-internalnews-bg: #{$category-internalnews-darktheme};
