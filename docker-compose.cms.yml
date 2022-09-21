@@ -11,7 +11,7 @@ services:
       PORT: 3001
       SESSION_DOMAIN: localhost
       SESSION_SECRET: thisvaluecanbeanythingitisonlyforlocaldevelopment
-      DATABASE_URL: postgres://keystone:keystonecms@keystone-db:5432/keystone
+      DATABASE_URL: postgres://keystone:keystonecms@keystone-db:5432/keystone?connect_timeout=10
       PORTAL_URL: http://localhost:3000
       REDIS_URL: redis://portal_redis:6379
     depends_on:
