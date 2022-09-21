@@ -27,8 +27,8 @@
 .olderInternalNewsLink {
   display: flex;
   justify-content: center;
-  background: $theme-cosmiclatte-lighter;
-  border: 1px dashed $neutral-gray;
+  background: var(--btn-box-bg);
+  border: 1px dashed var(--btn-box-border);
 
   :global(.usa-button) {
     background-color: $theme-aurora-dark;

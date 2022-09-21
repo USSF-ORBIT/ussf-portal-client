@@ -3,7 +3,7 @@
 
 .carouselContainer {
   width: 100%;
-  background-color: #161f2f;
+  background-color: $news-carousel;
   border-radius: 4px;
 
   .dots {
@@ -24,7 +24,7 @@
       div.news-carousel-container
       button::before) {
     color: transparent;
-    background: #112548;
+    background: $theme-spacebase-base;
     width: 16.17px;
     height: 16px;
     border-radius: 50px;
