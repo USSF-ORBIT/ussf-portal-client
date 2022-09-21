@@ -34,6 +34,8 @@ export const ArticleList = ({ articles, pagination }: ArticleListProps) => {
       )}
     </>
   ) : (
-    <p>There are no published articles in this category.</p>
+    <p className={styles.NoArticlesText}>
+      There are no published articles in this category.
+    </p>
   )
 }

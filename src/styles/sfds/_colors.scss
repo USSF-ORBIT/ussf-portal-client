@@ -87,16 +87,18 @@ $white: #fff;
 $grey: #f0f0f0;
 $neutral-gray: #767676;
 $neutral-gray-300: #cccccc;
+$neutral-gray-800: #424242;
 $neutral-gray-900: #262626;
+$news-carousel: #161f2f;
 
 /** Taxonomy **/
 $tag-default-lighttheme: $theme-ultraviolet-base;
 $tag-default-darktheme: $theme-ultraviolet-lightest;
 
-$label-source-lighttheme-bg: $theme-mars-dark;
+$label-source-lighttheme-bg: $theme-mars-darker;
 $label-source-lighttheme-icon: $theme-mars-lightest;
 $label-source-darktheme-bg: $theme-mars-lightest;
-$label-source-darktheme-icon: $theme-mars-dark;
+$label-source-darktheme-icon: $theme-mars-darker;
 
 $label-audience-lighttheme-bg: $theme-mars-darkest;
 $label-audience-lighttheme-icon: $theme-mars-lighter;
@@ -109,7 +111,7 @@ $label-base-darktheme-bg: $theme-aurora-lighter;
 $label-base-darktheme-icon: $theme-aurora-darkest;
 
 $category-externalnews-lighttheme: #262626;
-$category-internalnews-lighttheme: $theme-spacebase-light;
+$category-internalnews-lighttheme: $theme-spacebase-base;
 $category-announcement-lighttheme: $theme-ultraviolet-dark;
 $category-documentation-lighttheme: $theme-cosmiclatte-darker;
 $category-application-lighttheme: $theme-spacebase-base;
