@@ -31,21 +31,24 @@
   }
 
   &.Source {
-    background-color: $theme-mars-darker;
+    background-color: var(--tag-source-bg);
+    color: var(--tag-source-text);
     svg {
-      color: $theme-mars-lightest;
+      color: var(--tag-source-svg);
     }
   }
   &.Audience {
-    background-color: $label-audience-lighttheme-bg;
+    background-color: var(--tag-audience-bg);
+    color: var(--tag-audience-text);
     svg {
-      color: $label-audience-lighttheme-icon;
+      color: var(--tag-audience-svg);
     }
   }
   &.Base {
-    background-color: $label-base-lighttheme-bg;
+    background-color: var(--tag-base-bg);
+    color: var(--tag-base-text);
     svg {
-      color: $label-base-lighttheme-icon;
+      color: var(--tag-base-svg);
     }
   }
 }
@@ -62,10 +65,12 @@
   padding: 6px units(1);
 
   &.ExternalNews {
-    background-color: $category-externalnews-lighttheme;
+    background-color: var(--category-externalnews-bg);
+    color: var(--category-externalnews-text);
   }
   &.InternalNews {
-    background-color: $category-application-lighttheme;
+    background-color: var(--category-internalnews-bg);
+    color: var(--category-internalnews-text);
   }
   &.Announcement {
     background-color: $category-announcement-lighttheme;
