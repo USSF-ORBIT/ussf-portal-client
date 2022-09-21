@@ -29,6 +29,7 @@ export const ArticleList = ({ articles, pagination }: ArticleListProps) => {
           pathname={window.location.pathname}
           totalPages={pagination.totalPages}
           currentPage={pagination.currentPage}
+          className={styles.pagination}
         />
       )}
     </>

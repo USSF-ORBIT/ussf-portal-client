@@ -58,6 +58,12 @@
   --form-input-bg: transparent;
   --form-input-text: #{$theme-black};
   --form-input-border: #{color(base-light)};
+
+  // Pagination
+  --pagination-page-number-bg: #{$theme-ultraviolet-dark};
+  --pagination-page-number-border: #{$neutral-gray-300};
+  --pagination-page-number-active: #{$white};
+  --pagination-page-number-active-border: #{$neutral-gray-300};
 }
 
 /* ------------------------------------ */
@@ -112,6 +118,12 @@
   --form-input-text: #{$theme-white};
   --form-input-border: #{color(base-light)};
   --form-input-placeholder: #{$theme-white};
+
+  // Pagination
+  --pagination-page-number-bg: #{$white};
+  --pagination-page-number-border: #{$theme-spacebase-lighter};
+  --pagination-page-number-active: #{$neutral-gray-900};
+  --pagination-page-number-active-border: #{$theme-cosmiclatte-base};
 
   // Filters for SVG color changes
   // Generated using https://codepen.io/sosuke/pen/Pjoqqp
