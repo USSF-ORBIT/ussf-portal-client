@@ -14,15 +14,19 @@
     }
 
     .usa-sidenav a {
-      color: $theme-ultraviolet-base;
+      color: var(--link-primary);
 
       &:hover {
         background-color: transparent;
       }
+
+      &::after {
+        background-color: var(--link-primary);
+      }
     }
 
     .usa-sidenav a:not(.usa-button):not(.usa-current) {
-      color: $theme-ultraviolet-base;
+      color: var(--link-primary);
       text-decoration: underline;
 
       &:hover {
