@@ -3,7 +3,7 @@
 
 .footer {
   background: var(--footer-bg);
-  color: $theme-white;
+  color: var(--footer-text);
   @include u-font-size('body', '2xs');
 
   :global {
@@ -16,11 +16,11 @@
     }
 
     .usa-footer__secondary-section {
-      color: $theme-white;
+      color: var(--footer-text);
       background-color: transparent;
 
       a {
-        color: $theme-white;
+        color: var(--footer-text);
         text-decoration: none;
       }
     }
