@@ -1,27 +1,9 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/sfds/sfdsDependencies';
 
-$hero-image: url('/assets/images/hero.jpeg');
-
 .PageHeader {
   color: $theme-white;
-  background: $black $hero-image no-repeat;
-  background-position: bottom -240px center;
-  background-size: cover;
   @include u-padding-bottom(4);
-
-  @include at-media('tablet') {
-    background-size: 2000px auto;
-    background-position: bottom -120px center;
-  }
-
-  @media (min-width: 2000px) {
-    background-size: cover;
-  }
-
-  &:global(.usa-dark-background) {
-    background-color: $black;
-  }
 
   h1 {
     text-transform: uppercase;
