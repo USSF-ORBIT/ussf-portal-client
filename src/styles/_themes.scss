@@ -80,6 +80,9 @@
   --category-externalnews-text: #{$white};
   --category-internalnews-bg: #{$category-internalnews-lighttheme};
   --category-internalnews-text: #{$white};
+
+  // Footer
+  --footer-bg: #{$black};
 }
 
 /* ------------------------------------ */
@@ -161,4 +164,7 @@
   // Generated using https://codepen.io/sosuke/pen/Pjoqqp
   --filter-light: brightness(0) saturate(100%) invert(98%) sepia(1%)
     saturate(2653%) hue-rotate(178deg) brightness(118%) contrast(100%);
+
+  // Footer
+  --footer-bg: #{$black};
 }
