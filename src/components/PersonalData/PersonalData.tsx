@@ -8,10 +8,10 @@ import {
 import styles from './PersonalData.module.scss'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import { useGetDisplayNameQuery } from 'operations/portal/queries/getDisplayName.g'
-import { useAuthContext } from 'stores/authContext'
+import { useUser } from 'hooks/useUser'
 
 const PersonalData = () => {
-  const { user } = useAuthContext()
+  const { user } = useUser()
   const router = useRouter()
 
   const { data } = useGetDisplayNameQuery()
@@ -28,7 +28,7 @@ const PersonalData = () => {
   const currentPage = router.pathname
 
   return (
-    <div className={styles.personalData}>
+    <div data-testid={'personal-data'} className={styles.personalData}>
       <h2>{greeting}</h2>
 
       {currentPage != '/settings' && (
