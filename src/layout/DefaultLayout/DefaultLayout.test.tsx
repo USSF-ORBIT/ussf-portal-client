@@ -2,10 +2,15 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { render, screen } from '@testing-library/react'
-import { MockedProvider } from '@apollo/client/testing'
-import { getDisplayNameMock } from '../../__fixtures__/operations/getDisplayName'
-import DefaultLayout from './DefaultLayout'
+import { screen, waitFor } from '@testing-library/react'
+import { ThemeProvider } from 'next-themes'
+
+import DefaultLayout, { withDefaultLayout } from './DefaultLayout'
+
+import { mockUseTheme, renderWithAuthAndApollo } from '../../testHelpers'
+import { getDisplayNameMock } from '__fixtures__/operations/getDisplayName'
+import { getThemeMock } from '../../__fixtures__/operations/getTheme'
+import { editThemeMock } from '../../__fixtures__/operations/editTheme'
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -17,18 +22,28 @@ jest.mock('next/router', () => ({
 }))
 
 describe('DefaultLayout component', () => {
-  beforeEach(() => {
-    render(
-      <MockedProvider mocks={getDisplayNameMock}>
-        <DefaultLayout>
-          <h1>Test Page</h1>
-        </DefaultLayout>
-      </MockedProvider>
+  beforeEach(async () => {
+    renderWithAuthAndApollo(
+      <DefaultLayout>
+        <h1>Test Page</h1>
+      </DefaultLayout>,
+      {},
+      [...getDisplayNameMock, ...getThemeMock]
+    )
+    // need to wait for the query to finish so waiting for banner to display
+    await waitFor(() =>
+      expect(screen.getByTestId('govBanner')).toBeInTheDocument()
     )
   })
 
-  it('renders its children', () => {
+  it('renders its children', async () => {
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()
+  })
+
+  it('renders personal data', () => {
+    expect(screen.getByTestId('personal-data').textContent).toContain(
+      'Welcome, BERNADETT'
+    )
   })
 
   it('renders a skip nav link', () => {
@@ -54,16 +69,53 @@ describe('DefaultLayout component', () => {
   })
 })
 
-describe('withDefaultLayout HOC', () => {
-  it('renders children inside of the default layout', () => {
-    const TestPage = () => <div>My page</div>
-    render(
-      <MockedProvider>
+describe('calls hooks as needed', () => {
+  const { setItemMock } = mockUseTheme()
+
+  beforeEach(async () => {
+    renderWithAuthAndApollo(
+      <ThemeProvider enableSystem={false}>
         <DefaultLayout>
-          <TestPage />
+          <h1>Test Page</h1>
         </DefaultLayout>
-      </MockedProvider>
+      </ThemeProvider>,
+      {},
+      [...getThemeMock, ...editThemeMock]
     )
-    expect(screen.getByText('My page')).toBeInTheDocument()
+    // need to wait for the query to finish so waiting for banner to display
+    await waitFor(() =>
+      expect(screen.getByTestId('govBanner')).toBeInTheDocument()
+    )
+  })
+
+  it('uses useGetThemeQuery', () => {
+    expect(getThemeMock[0].result).toHaveBeenCalled()
+  })
+
+  it('uses setTheme', async () => {
+    await waitFor(() => expect(setItemMock).toHaveBeenCalled())
+  })
+})
+
+describe('DefaultLayout component before theme query is finished', () => {
+  beforeEach(async () => {
+    renderWithAuthAndApollo(
+      <DefaultLayout>
+        <h1>Test Page</h1>
+      </DefaultLayout>
+    )
+  })
+  it('does not show anything', () => {
+    expect(screen.queryByText('Test Page')).not.toBeInTheDocument()
+  })
+})
+
+describe('withDefaultLayout HOC', () => {
+  it('renders children inside of the default layout', async () => {
+    const TestPage = () => <div>My page</div>
+    renderWithAuthAndApollo(withDefaultLayout(<TestPage />), {}, getThemeMock)
+    await waitFor(() => {
+      expect(screen.getByText('My page')).toBeInTheDocument()
+    })
   })
 })
