@@ -90,14 +90,14 @@ export const mockUseTheme = () => {
   })
 
   const localStorageMock: { [key: string]: string } = {}
+  // eslint-disable-next-line security/detect-object-injection
   const getItemMock = jest.fn((key: string) => localStorageMock[key])
   const setItemMock = jest.fn((key: string, value: string) => {
+    // eslint-disable-next-line security/detect-object-injection
     localStorageMock[key] = value
   })
   global.Storage.prototype.getItem = getItemMock
-  // eslint-disable-next-line security/detect-object-injection
   global.Storage.prototype.setItem = setItemMock
 
-  // eslint-disable-next-line security/detect-object-injection
   return { getItemMock, setItemMock }
 }

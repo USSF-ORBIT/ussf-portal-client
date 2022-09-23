@@ -5,11 +5,11 @@ import React from 'react'
 import { waitFor, screen } from '@testing-library/react'
 import { ThemeProvider } from 'next-themes'
 
-import PageLayout, { withPageLayout } from './PageLayout'
-
 import { mockUseTheme, renderWithAuthAndApollo } from '../../testHelpers'
 import { getThemeMock } from '../../__fixtures__/operations/getTheme'
 import { editThemeMock } from '../../__fixtures__/operations/editTheme'
+
+import PageLayout, { withPageLayout } from './PageLayout'
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({

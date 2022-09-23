@@ -5,11 +5,12 @@ import React from 'react'
 import { waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ThemeProvider } from 'next-themes'
-import * as analyticsHooks from 'stores/analyticsContext'
 import { mockUseTheme, renderWithAuthAndApollo } from '../../testHelpers'
 import { editThemeMock } from '../../__fixtures__/operations/editTheme'
 
 import ThemeToggle from './ThemeToggle'
+
+import * as analyticsHooks from 'stores/analyticsContext'
 
 describe('ThemeToggle component', () => {
   it('renders the component', () => {

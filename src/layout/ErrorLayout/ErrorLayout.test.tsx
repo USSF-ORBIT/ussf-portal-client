@@ -4,8 +4,8 @@
 import React from 'react'
 import { waitFor, screen } from '@testing-library/react'
 
-import ErrorLayout, { withErrorLayout } from './ErrorLayout'
 import { renderWithAuthAndApollo } from '../../testHelpers'
+import ErrorLayout, { withErrorLayout } from './ErrorLayout'
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({

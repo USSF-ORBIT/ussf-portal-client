@@ -5,12 +5,12 @@ import React from 'react'
 import { screen, waitFor } from '@testing-library/react'
 import { ThemeProvider } from 'next-themes'
 
-import DefaultLayout, { withDefaultLayout } from './DefaultLayout'
-
 import { mockUseTheme, renderWithAuthAndApollo } from '../../testHelpers'
-import { getDisplayNameMock } from '__fixtures__/operations/getDisplayName'
+import { getDisplayNameMock } from '../../__fixtures__/operations/getDisplayName'
 import { getThemeMock } from '../../__fixtures__/operations/getTheme'
 import { editThemeMock } from '../../__fixtures__/operations/editTheme'
+
+import DefaultLayout, { withDefaultLayout } from './DefaultLayout'
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
