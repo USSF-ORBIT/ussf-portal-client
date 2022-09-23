@@ -98,7 +98,12 @@
   --link-secondary-hover: #{$theme-ultraviolet-darker};
 
   // Layout
-  --bg: #{$theme-spacebase-dark};
+  --bg: #{linear-gradient(
+      180deg,
+      #000000 6.36%,
+      #0f305a 73.55%,
+      #555f92 111.89%
+    )};
   --text: #{$white};
 
   // Buttons
