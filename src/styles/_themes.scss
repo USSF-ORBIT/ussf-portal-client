@@ -44,6 +44,27 @@
   --btn-add-widget: #585a5c;
   --btn-add-widget-icon: rgba(0, 0, 0, 0.1);
   --btn-add-widget-icon-hover: rgba(0, 0, 0, 0.25);
+
+  // Sites & Apps
+  --btn-sort-bg: transparent;
+  --btn-sort-border: #a9aeb1;
+  --btn-sort-text: $theme-ultraviolet-base;
+  --btn-sort-hover-bg: #{$theme-ultraviolet-dark};
+  --btn-sort-hover-text: #{$grey};
+  --btn-sort-disabled-bg: #f9fafa;
+  --btn-sort-disabled-border: #a9aeb1;
+  --btn-sort-disabled-text: #{$state-disabled-dark};
+
+  --widget-sites-apps-bg: #{$theme-white};
+  --bookmark-sites-apps-bg: transparent;
+  --bookmark-sites-apps-border: #{color(base-light)};
+
+  --btn-select-collections-bg: #{$theme-ultraviolet-base};
+  --btn-select-collections-bg-hover: #{$theme-ultraviolet-dark};
+
+  //alpha
+  --bookmark-sites-apps-text: #{$theme-black};
+
   // Bookmark
   --bookmark-bg: transparent;
   --bookmark-border: #{color(base-light)};
@@ -60,6 +81,7 @@
   --widget-bg: #{$theme-white};
   --widget-border: #{color(base-light)};
   --widget-selected: #{rgba($grey, 0.8)};
+  --widget-selected-border: #{$theme-spacebase-base};
 
   // Forms
   --form-combobox-bg: #{$theme-white};
@@ -151,6 +173,28 @@
   --btn-add-widget-icon: #{$theme-white};
   --btn-add-widget-icon-hover: #{$theme-spacebase-light};
 
+  // Sites & Apps
+  --btn-sort-border: #{$theme-aurora-dark};
+  --btn-sort-bg: #{$theme-aurora-dark};
+  --btn-sort-text: #{$theme-black};
+  --btn-sort-hover-bg: #{$theme-aurora-base};
+  --btn-sort-hover-text: #{$theme-black};
+  --btn-sort-disabled-bg: #b2b4ba;
+  --btn-sort-disabled-border: #b2b4ba;
+  --btn-sort-disabled-text: #{$theme-black};
+
+  --btn-select-collections-bg: #{$theme-mars-base};
+  --btn-select-collections-bg-hover: #{$theme-mars-light};
+
+  --widget-sites-apps-bg: rgba(0, 0, 0, 0.3);
+  --bookmark-sites-apps-bg: rgba(0, 0, 0, 0.6);
+  --bookmark-sites-apps-border: #71767a;
+
+  //Sites & Apps - alpha view
+  --bookmark-sites-apps-text: #{$white};
+  --bookmark-sites-apps-alpha-bg-odd: rgba(0, 0, 0, 0.3);
+  --bookmark-sites-apps-alpha-bg-even: rgba(0, 0, 0, 0.4);
+
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
   --bookmark-hover: #{$theme-ultraviolet-darker};
@@ -165,6 +209,7 @@
   --widget-bg: #{$theme-spacebase-darker};
   --widget-border: #{$theme-spacebase-darker};
   --widget-selected: #{rgba($grey, 0.4)};
+  --widget-selected-border: #{$theme-spacebase-base};
 
   // News
   --btn-box-bg: #{$theme-spacebase-light};

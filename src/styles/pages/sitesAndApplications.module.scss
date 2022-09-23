@@ -26,25 +26,125 @@
 }
 
 .widgetContainer {
-  border: 1px solid color('base-light');
+  border: 1px solid var(--widget-border);
   padding: 3px;
   border-radius: 4px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
 
   &.selectMode {
-    border: 4px solid $theme-spacebase-base;
+    border: 4px solid var(--widget-selected-border);
     padding: 0px;
 
     .widgetToolbar {
-      background-color: $theme-spacebase-base;
+      background-color: var(--widget-selected-border);
     }
   }
 
   .widgets {
     margin: units(4) units(4) units(6);
   }
+
+  :global(.sitesAndAppsCollection) {
+    background-color: var(--widget-sites-apps-bg);
+    border-color: var(--bookmark-sites-apps-border);
+
+    :global(.sitesAndAppsBookmark) {
+      background-color: var(--bookmark-sites-apps-bg);
+      border-color: var(--bookmark-sites-apps-border);
+    }
+  }
 }
 
+[data-color-theme='dark'] {
+  .widgetContainer {
+    border: none;
+    box-shadow: none;
+  }
+  .sortAlpha {
+    padding: 4rem 2.5rem;
+    margin-top: 2.5rem;
+    background-color: var(--bookmark-sites-apps-alpha-bg-odd);
+    :global(.sitesAndAppsBookmarkList) {
+      :global(.usa-table.usa-table--striped) {
+        border-radius: 4px;
+        border-collapse: separate;
+        background-color: var(--bg);
+        thead {
+          th,
+          td {
+            border: 1px solid var(--bookmark-sites-apps-border);
+            background-color: var(--bookmark-sites-apps-alpha-bg-even);
+            color: var(--bookmark-sites-apps-text);
+            &:first-child {
+              border-top-left-radius: 4px;
+              border-bottom-left-radius: 4px;
+              border-right: none;
+            }
+            &:nth-child(2) {
+              border-left: none;
+              border-right: none;
+            }
+            &:last-child {
+              border-top-right-radius: 4px;
+              border-bottom-right-radius: 4px;
+              border-left: none;
+              border-right: 1px solid var(--bookmark-sites-apps-border);
+            }
+          }
+        }
+        tbody {
+          th {
+            text-align: left;
+          }
+        }
+
+        :not(thead) {
+          tr:nth-child(odd) {
+            th,
+            td {
+              background-color: var(--bookmark-sites-apps-alpha-bg-odd);
+              border: none;
+              color: var(--bookmark-sites-apps-text);
+              padding: units(1) units(2);
+            }
+          }
+        }
+
+        tr:nth-child(even) {
+          th,
+          td {
+            background-color: var(--bookmark-sites-apps-alpha-bg-even);
+            border: 1px solid var(--bookmark-sites-apps-border);
+            color: var(--bookmark-sites-apps-text);
+            padding: units(1) units(2);
+            &:first-child {
+              border-right: none;
+              border-bottom-left-radius: 4px;
+              border-top-left-radius: 4px;
+            }
+            &:nth-child(2) {
+              border-left: none;
+              border-right: none;
+            }
+            &:last-child {
+              border-left: none;
+              border-top-right-radius: 4px;
+              border-bottom-right-radius: 4px;
+            }
+          }
+        }
+        tr {
+          th {
+            border-right: none;
+          }
+          td:first-child {
+            border-left: none;
+          }
+        }
+      }
+    }
+  }
+}
 .widgetToolbar {
   display: flex;
   justify-content: flex-end;
@@ -66,15 +166,24 @@
   }
 }
 
+.selectCollectionsButton {
+  &:global(.usa-button) {
+    background-color: var(--btn-select-collections-bg);
+    &:hover {
+      background-color: var(--btn-select-collections-bg-hover);
+    }
+  }
+}
+
 .sortButton {
   @extend %button-reset;
   @include typeset-link;
-  @include u-border-y(1px, solid, 'base-light');
   @include u-padding-y(1);
-  color: $theme-ultraviolet-base;
+  background-color: var(--btn-sort-bg);
+  color: var(--btn-sort-text);
   text-align: left;
   text-decoration: none;
-  border: 1px solid #a9aeb1;
+  border: 1px solid var(--btn-sort-border);
   border-radius: 4px;
   padding: 12px;
   box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.15);
@@ -85,8 +194,8 @@
   }
 
   &:hover {
-    color: $theme-ultraviolet-dark;
-    background-color: $grey;
+    color: var(--btn-sort-hover-text);
+    background-color: var(--btn-sort-hover-bg);
   }
 
   & + .sortButton {
@@ -94,8 +203,9 @@
   }
 
   &[disabled] {
-    color: $state-disabled-dark;
-    background-color: #f9fafa;
+    border-color: var(--btn-sort-disabled-border);
+    color: var(--btn-sort-disabled-text);
+    background-color: var(--btn-sort-disabled-bg);
     box-shadow: none;
     font-weight: 400;
   }
