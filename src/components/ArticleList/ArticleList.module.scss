@@ -23,6 +23,8 @@ p.NoArticlesText {
   color: var(--text);
 }
 
+// TODO: Find a new place for these styles to live as the Pagination component could
+// potentially be used somewhere outside of ArticleList in the future.
 .pagination {
   :global {
     .usa-pagination__list {
