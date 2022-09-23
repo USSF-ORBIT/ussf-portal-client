@@ -14,7 +14,7 @@ COPY ./scripts/ /app/scripts/
 
 RUN yarn install --frozen-lockfile
 
-COPY ["codegen.yml", "next.config.js", "tsconfig.json", "./"]"
+COPY ["codegen.yml", "next.config.js", "tsconfig.json", "./"]
 
 COPY ./src/ /app/src/
 
