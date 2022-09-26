@@ -53,5 +53,5 @@
   justify-content: center;
   opacity: 0;
   transition: opacity 0.12s;
-  background-color: rgba($grey, 0.8);
+  background-color: var(--widget-selected);
 }
