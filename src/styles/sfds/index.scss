@@ -92,7 +92,7 @@
 
   p,
   .usa-prose ul {
-    color: $theme-black;
+    color: var(--paragraph-text);
   }
 
   .usa-prose,
