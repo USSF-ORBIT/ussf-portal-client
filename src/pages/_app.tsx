@@ -28,17 +28,12 @@ type Page<P = Record<string, never>> = NextPage<P> & {
 
 type Props = AppProps & {
   Component: Page
-}
-
-const USSFPortalApp = ({
-  Component,
-  pageProps,
-  hostname,
-}: Props & {
   hostname: {
     origin: string
   }
-}) => {
+}
+
+const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
   const canonicalUrl = hostname.origin
   const { asPath } = useRouter()
 
