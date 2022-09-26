@@ -75,6 +75,7 @@
   --announcement-dots: #{$theme-spacebase-lightest};
   --announcement-border: #{$light-gray};
   --announcement-btn-text: #{$white};
+  --announcement-arrow-color: none;
 
   // Pagination
   --pagination-page-number-bg: #{$theme-ultraviolet-dark};
@@ -200,6 +201,8 @@
   --announcement-dots: #{$theme-spacebase-lightest};
   --announcement-border: #{$theme-spacebase-light};
   --announcement-btn-text: #{$black};
+  --announcement-arrow-color: brightness(0) saturate(100%) invert(84%)
+    sepia(15%) saturate(902%) hue-rotate(78deg) brightness(89%) contrast(84%);
 
   // Pagination
   --pagination-page-number-bg: #{$theme-cosmiclatte-base};

@@ -36,6 +36,7 @@
 }
 
 .carouselArrow {
+  filter: var(--announcement-arrow-color);
   &:hover {
     cursor: pointer;
   }
