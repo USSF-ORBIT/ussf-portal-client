@@ -76,6 +76,12 @@
   --announcement-border: #{$light-gray};
   --announcement-btn-text: #{$white};
 
+  // Pagination
+  --pagination-page-number-bg: #{$theme-ultraviolet-dark};
+  --pagination-page-number-border: #{$neutral-gray-300};
+  --pagination-page-number-active: #{$white};
+  --pagination-page-number-active-border: #{$neutral-gray-300};
+
   // News
   --btn-box-bg: #{$theme-cosmiclatte-lighter};
   --btn-box-border: #{$neutral-gray};
@@ -194,6 +200,12 @@
   --announcement-dots: #{$theme-spacebase-lightest};
   --announcement-border: #{$theme-spacebase-light};
   --announcement-btn-text: #{$black};
+
+  // Pagination
+  --pagination-page-number-bg: #{$theme-cosmiclatte-base};
+  --pagination-page-number-border: #{$theme-spacebase-lighter};
+  --pagination-page-number-active: #{$neutral-gray-900};
+  --pagination-page-number-active-border: #{$theme-cosmiclatte-base};
 
   // Articles
   --article-link-text: #{$theme-aurora-base};
