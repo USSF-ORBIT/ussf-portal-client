@@ -12,8 +12,10 @@
   --link-primary-hover: #{$theme-ultraviolet-darker};
   --link-secondary: #{$theme-aurora-base};
   --link-secondary-hover: #{$theme-aurora-lighter};
+  --paragraph-text: #{$theme-black};
 
   // Layout
+  --body-bg: #{$white};
   --bg: #{$theme-white};
   --text: #{$theme-black};
 
@@ -37,6 +39,11 @@
 
   --disabled-btn-text: #{$theme-white};
 
+  --btn-add-widget-bg: rgba(220, 222, 224, 0.15);
+  --btn-add-widget-border: #{color('base-lighter')};
+  --btn-add-widget: #585a5c;
+  --btn-add-widget-icon: rgba(0, 0, 0, 0.1);
+  --btn-add-widget-icon-hover: rgba(0, 0, 0, 0.25);
   // Bookmark
   --bookmark-bg: transparent;
   --bookmark-border: #{color(base-light)};
@@ -52,6 +59,7 @@
   // Widgets
   --widget-bg: #{$theme-white};
   --widget-border: #{color(base-light)};
+  --widget-selected: #{rgba($grey, 0.8)};
 
   // Forms
   --form-combobox-bg: #{$theme-white};
@@ -84,6 +92,9 @@
   // Footer
   --footer-bg: #{$black};
   --footer-text: #{$white};
+
+  // Articles
+  --article-link-text: #{$theme-black};
 }
 
 /* ------------------------------------ */
@@ -96,6 +107,7 @@
   --link-primary-hover: #{$theme-aurora-base};
   --link-secondary: #{$theme-ultraviolet-darkest};
   --link-secondary-hover: #{$theme-ultraviolet-darker};
+  --paragraph-text: #{$theme-white};
 
   // Layout
   --bg: #{linear-gradient(
@@ -104,6 +116,9 @@
       #0f305a 73.55%,
       #555f92 111.89%
     )};
+
+  --body-bg: #{$theme-spacebase-dark};
+  --bg: #{$theme-spacebase-dark};
   --text: #{$white};
 
   // Buttons
@@ -117,7 +132,13 @@
   --btn-unstyled: #{$theme-aurora-dark};
   --btn-unstyled-hover: #{$theme-aurora-base};
 
-  --btn-primary-text: #{$theme-white};
+  --btn-primary-text: #{$theme-black};
+
+  --btn-add-widget-border: #{$theme-spacebase-dark};
+  --btn-add-widget-bg: #{$theme-spacebase-darker};
+  --btn-add-widget: #{$theme-aurora-base};
+  --btn-add-widget-icon: #{$theme-white};
+  --btn-add-widget-icon-hover: #{$theme-spacebase-light};
 
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
@@ -132,6 +153,7 @@
   // Widgets
   --widget-bg: #{$theme-spacebase-darker};
   --widget-border: #{$theme-spacebase-darker};
+  --widget-selected: #{rgba($grey, 0.4)};
 
   // News
   --btn-box-bg: #{$theme-spacebase-light};
@@ -165,6 +187,10 @@
   --form-input-text: #{$theme-white};
   --form-input-border: #{color(base-light)};
   --form-input-placeholder: #{$theme-white};
+
+  // Articles
+  --article-link-text: #{$theme-aurora-base};
+  --article-excerpt-text: #{$theme-white};
 
   // Filters for SVG color changes
   // Generated using https://codepen.io/sosuke/pen/Pjoqqp
