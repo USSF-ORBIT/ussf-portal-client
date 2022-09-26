@@ -7,8 +7,8 @@ import userEvent from '@testing-library/user-event'
 import React, { createRef } from 'react'
 import { ModalRef } from '@trussworks/react-uswds'
 import { ObjectId } from 'mongodb'
-import { renderWithModalRoot } from '../../testHelpers'
 import { axe } from 'jest-axe'
+import { renderWithModalRoot } from '../../testHelpers'
 import EditCustomLinkModal from './EditCustomLinkModal'
 
 describe('EditCustomLinkModal', () => {

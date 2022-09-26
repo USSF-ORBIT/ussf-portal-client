@@ -5,7 +5,7 @@ declare const __VERSION__: string
 declare const __BUILD_ID__: string
 declare const __NODE_ENV__: string
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default function handler(_req: NextApiRequest, res: NextApiResponse) {
   res.status(200).json({
     version: __VERSION__,
     buildId: __BUILD_ID__,
