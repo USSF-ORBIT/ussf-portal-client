@@ -21,4 +21,8 @@
 
 .successMessage {
   margin-top: 8px;
+
+  > :global(div.usa-alert__body > p.usa-alert__text) {
+    color: $black;
+  }
 }
