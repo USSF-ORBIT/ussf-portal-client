@@ -10,6 +10,7 @@ export default function handler(_req: NextApiRequest, res: NextApiResponse) {
     version: __VERSION__,
     buildId: __BUILD_ID__,
     nodeEnv: __NODE_ENV__,
+    imageTag: process.env.IMAGE_TAG,
     analyticsUrl: process.env.MATOMO_URL,
     analyticsSiteId: process.env.MATOMO_SITE_ID,
     keystoneUrl: process.env.KEYSTONE_URL,
