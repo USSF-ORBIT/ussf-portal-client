@@ -67,6 +67,16 @@
   --form-input-text: #{$theme-black};
   --form-input-border: #{color(base-light)};
 
+  // Announcements
+  --announcement-bg: #{$white};
+  --announcement-text: #{$black};
+  --announcement-divider: #{$theme-spacebase-light};
+  --announcement-active-dots: #{$theme-spacebase-base};
+  --announcement-dots: #{$theme-spacebase-lightest};
+  --announcement-border: #{$light-gray};
+  --announcement-btn-text: #{$white};
+  --announcement-arrow-color: none;
+
   // Pagination
   --pagination-page-number-bg: #{$theme-ultraviolet-dark};
   --pagination-page-number-border: #{$neutral-gray-300};
@@ -193,6 +203,17 @@
   --form-input-text: #{$theme-white};
   --form-input-border: #{color(base-light)};
   --form-input-placeholder: #{$theme-white};
+
+  // Announcements
+  --announcement-bg: #{$theme-spacebase-darker};
+  --announcement-text: #{$white};
+  --announcement-divider: #{$theme-spacebase-light};
+  --announcement-active-dots: #{$theme-spacebase-light};
+  --announcement-dots: #{$theme-spacebase-lightest};
+  --announcement-border: #{$theme-spacebase-light};
+  --announcement-btn-text: #{$black};
+  --announcement-arrow-color: brightness(0) saturate(100%) invert(84%)
+    sepia(15%) saturate(902%) hue-rotate(78deg) brightness(89%) contrast(84%);
 
   // Pagination
   --pagination-page-number-bg: #{$theme-cosmiclatte-base};
