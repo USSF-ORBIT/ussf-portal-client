@@ -374,19 +374,11 @@ We are using the [FedRAMPed version of Launch Darkly](https://docs.launchdarkly.
 
 ### Local setup
 
-To see things with features turned on locally you will need to do some setup. Note localhost enviroment feature flags are shared, but the expectation is that pretty much all flags are on in this environment for local development and testing.
+To see things with features turned on locally there should be no additional setup. The `localhost` environment client side id is already in `.envrc`. This is okay because it does not need to be kept secret. See [Lauch Darkly documentation for details](https://docs.launchdarkly.com/sdk/concepts/client-side-server-side?site=federal#client-side-id). Note localhost enviroment feature flags are shared with anyone using the same client side id, but the expectation is that pretty much all flags are on in this environment for local development and testing.
 
-Add the following to your `.envrc.local` file. You can get the `<localhost_client_side_id>` from the [account settings page](https://app.launchdarkly.us/settings/projects/default/environments).
+**Relavant quote from [docs](https://docs.launchdarkly.com/sdk/concepts/client-side-server-side?site=federal#client-side-id):**
 
-```sh
-export LAUNCHDARKLY_SDK_CLIENT_SIDE_ID=<localhost_client_side_id>
-```
-
-**NOTE**
-
-> Be sure to grab the key for the `localhost` environment
-
-Once the above is in your configuration run `direnv allow` and start the server `yarn dev`.
+> Unlike a mobile key, the client-side ID for an environment never changes. The client-side ID does not need to be kept a secret.
 
 ## Releasing
 
