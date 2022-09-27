@@ -21,7 +21,7 @@
   grid-template-columns: 2fr 1fr;
   grid-template-rows: auto;
   align-items: center;
-  border-left: 1px solid #707c91;
+  border-left: 1px solid $theme-spacebase-light;
   padding-left: 20px;
 
   p {
@@ -29,6 +29,7 @@
     grid-row: 2 / 2;
     align-self: flex-start;
     font-size: 1rem;
+    color: var(--announcement-text);
   }
 
   p + div {
@@ -40,6 +41,7 @@
   > div > a {
     font-family: 'Trebuchet MS';
     white-space: nowrap;
+    color: var(--announcement-btn-text) !important;
   }
 }
 
