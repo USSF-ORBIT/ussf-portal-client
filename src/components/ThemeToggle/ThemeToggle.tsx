@@ -1,11 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTheme } from 'next-themes'
 import styles from './ThemeToggle.module.scss'
 import { useAnalytics } from 'stores/analyticsContext'
+import { useUser } from 'hooks/useUser'
+import { useEditThemeMutation } from 'operations/portal/mutations/editTheme.g'
 
 const ThemeToggle = () => {
   const { theme, setTheme } = useTheme()
   const { trackEvent } = useAnalytics()
+  const { user } = useUser()
+  const [handleEditThemeMutation] = useEditThemeMutation()
+
+  useEffect(() => {
+    if (user && theme) {
+      handleEditThemeMutation({
+        variables: {
+          userId: user.userId,
+          theme: theme,
+        },
+      })
+    }
+  }, [user, theme])
 
   return (
     <button
