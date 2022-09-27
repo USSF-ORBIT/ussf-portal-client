@@ -45,6 +45,27 @@ const mockAnnouncements = [
             },
           ],
         },
+        {
+          type: 'component-block',
+          props: {
+            link: {
+              value: 'https://www.google.com',
+              discriminant: 'url',
+            },
+            ctaText: 'View more',
+          },
+          children: [
+            {
+              type: 'component-inline-prop',
+              children: [
+                {
+                  text: '',
+                },
+              ],
+            },
+          ],
+          component: 'callToAction',
+        },
       ],
     },
     status: 'Published',

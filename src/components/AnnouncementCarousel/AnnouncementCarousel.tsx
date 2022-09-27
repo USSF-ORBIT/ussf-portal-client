@@ -54,7 +54,7 @@ const AnnouncementCarousel = ({
     dotsClass: `slick-dots ${styles.dots}`,
     appendDots: (dots: React.ReactNode) => {
       return (
-        <div style={{ bottom: '-20px' }}>
+        <div style={{ bottom: '-30px' }}>
           <ul style={{ margin: '0px', paddingLeft: '0px' }}> {dots} </ul>
         </div>
       )
