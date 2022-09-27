@@ -16402,6 +16402,13 @@ storybook-addon-apollo-client@4.0.11:
   dependencies:
     tslib "^2.3.0"
 
+storybook-addon-launchdarkly@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/storybook-addon-launchdarkly/-/storybook-addon-launchdarkly-1.0.2.tgz#ba128b094ae1a59d2c5cae64279f82cf4b8bf72a"
+  integrity sha512-iNLxsgocrqayjGUMJqokd020xOJ1VBXkXM2YPFLmUSURkTnXBGJWZ5zNykKJD11LJfq6DMtwB3CIQvlYugY+6g==
+  dependencies:
+    tslib "^2.3.0"
+
 storybook-addon-next-router@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/storybook-addon-next-router/-/storybook-addon-next-router-4.0.0.tgz#d0719e6e27cbd2c374d23fad821157f2b053b045"
