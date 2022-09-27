@@ -12215,7 +12215,7 @@ latest-version@5.1.0:
   dependencies:
     package-json "^6.3.0"
 
-launchdarkly-js-client-sdk@2.22.1, launchdarkly-js-client-sdk@^2.22.1:
+launchdarkly-js-client-sdk@2.22.1:
   version "2.22.1"
   resolved "https://registry.yarnpkg.com/launchdarkly-js-client-sdk/-/launchdarkly-js-client-sdk-2.22.1.tgz#e6064c79bc575eea0aa4364be41754d54d89ae6a"
   integrity sha512-EAdw7B8w4m/WZGmHHLj9gbYBP6lCqJs5TQDCM9kWJOnvHBz7DJIxOdqazNMDn5AzBxfvaMG7cpLms+Cur5LD5g==
@@ -12232,7 +12232,7 @@ launchdarkly-js-sdk-common@3.6.0:
     fast-deep-equal "^2.0.1"
     uuid "^3.3.2"
 
-launchdarkly-react-client-sdk@^2.27.0:
+launchdarkly-react-client-sdk@2.27.0:
   version "2.27.0"
   resolved "https://registry.yarnpkg.com/launchdarkly-react-client-sdk/-/launchdarkly-react-client-sdk-2.27.0.tgz#18a2f470e3af166d25d2252e4a14f092378fc2cb"
   integrity sha512-I2mmY5OHbc8bHkfYlt131cRXjSolCzbMtt0lMeN7vC5vMWnjNnLCT08YRrqromnNgPNUtg/7kwPEUTOmUCFqiA==
@@ -16402,7 +16402,7 @@ storybook-addon-apollo-client@4.0.11:
   dependencies:
     tslib "^2.3.0"
 
-storybook-addon-launchdarkly@^1.0.2:
+storybook-addon-launchdarkly@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/storybook-addon-launchdarkly/-/storybook-addon-launchdarkly-1.0.2.tgz#ba128b094ae1a59d2c5cae64279f82cf4b8bf72a"
   integrity sha512-iNLxsgocrqayjGUMJqokd020xOJ1VBXkXM2YPFLmUSURkTnXBGJWZ5zNykKJD11LJfq6DMtwB3CIQvlYugY+6g==
