@@ -3,10 +3,10 @@
 
 .announcement {
   mix-blend-mode: normal;
-  background-color: $theme-white;
+  background-color: var(--announcement-bg);
   padding: 0 1.5rem 0;
 
-  border: 1px solid #929292;
+  border: 1px solid var(--announcement-border);
   border-radius: units(1);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
 
