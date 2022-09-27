@@ -15,7 +15,7 @@ export default {
   ],
 } as Meta
 
-export const WhenOn: StoryObj = {
+export const FeatureOn: StoryObj = {
   parameters: {
     launchdarkly: {
       flags: {
@@ -25,7 +25,7 @@ export const WhenOn: StoryObj = {
   },
 }
 
-export const WhenOff: StoryObj = {
+export const FeatureOff: StoryObj = {
   parameters: {
     launchdarkly: {
       flags: {

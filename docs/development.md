@@ -8,6 +8,7 @@
 1. [PR linting](#pr-linting)
 1. [Testing](#testing)
 1. [Apollo Server Explorer](#apollo-server-explorer)
+1. [Launch Darkly](#launch-darkly)
 1. [Releasing](#releasing)
 
 ## Environment Setup
@@ -366,6 +367,26 @@ index 5fd1b8d..1979e22 100644
 +  plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
    context: async ({ req, res }) => {
 ```
+
+## Launch Darkly
+
+We are using the [FedRAMPed version of Launch Darkly](https://docs.launchdarkly.com/home/advanced/federal) for feature flags in the portal. If you need an invite to our group ask. There are 4 environments setup (localhost, dev, staging, and production) that correspond with our main environments. The feature flags are defined in our account and should exist at the project level so they can be configured per environment.
+
+### Local setup
+
+To see things with features turned on locally you will need to do some setup. Note localhost enviroment feature flags are shared, but the expectation is that pretty much all flags are on in this environment for local development and testing.
+
+Add the following to your `.envrc.local` file. You can get the `<localhost_client_side_id>` from the [account settings page](https://app.launchdarkly.us/settings/projects/default/environments).
+
+```sh
+export LAUNCHDARKLY_SDK_CLIENT_SIDE_ID=<localhost_client_side_id>
+```
+
+**NOTE**
+
+> Be sure to grab the key for the `localhost` environment
+
+Once the above is in your configuration run `direnv allow` and start the server `yarn dev`.
 
 ## Releasing
 
