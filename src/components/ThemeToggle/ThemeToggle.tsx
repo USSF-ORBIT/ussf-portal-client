@@ -1,13 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTheme } from 'next-themes'
 import { withLDConsumer } from 'launchdarkly-react-client-sdk'
 import { LDFlagSet } from 'launchdarkly-js-client-sdk'
 import styles from './ThemeToggle.module.scss'
 import { useAnalytics } from 'stores/analyticsContext'
+import { useUser } from 'hooks/useUser'
+import { useEditThemeMutation } from 'operations/portal/mutations/editTheme.g'
 
 const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
   const { theme, setTheme } = useTheme()
   const { trackEvent } = useAnalytics()
+  const { user } = useUser()
+  const [handleEditThemeMutation] = useEditThemeMutation()
+
+  useEffect(() => {
+    if (user && theme) {
+      handleEditThemeMutation({
+        variables: {
+          userId: user.userId,
+          theme: theme,
+        },
+      })
+    }
+  }, [user, theme])
 
   return flags!.darkModeToggle ? (
     <button

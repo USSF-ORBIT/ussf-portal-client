@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { screen, act, RenderResult } from '@testing-library/react'
+import { screen, RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { createRef } from 'react'
 import { ModalRef } from '@trussworks/react-uswds'
