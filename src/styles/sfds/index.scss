@@ -146,9 +146,9 @@
     }
 
     a {
-      color: var(--link-secondary);
+      color: var(--breadcrumbs-link);
       &:hover {
-        color: var(--link-secondary-hover);
+        color: var(--breadcrumbs-link-hover);
       }
     }
 
@@ -345,6 +345,16 @@
   /** Breadcrumbs **/
   .usa-breadcrumb {
     background-color: transparent;
+
+    .usa-breadcrumb__list-item {
+      .usa-breadcrumb__link {
+        // color: orange;
+      }
+    }
+
+    .usa-breadcrumb__list-item > li.usa-breadcrumb__list-item {
+      // color: red;
+    }
   }
 
   .usa-breadcrumb__link {

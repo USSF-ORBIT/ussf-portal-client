@@ -44,6 +44,7 @@
   --btn-add-widget: #585a5c;
   --btn-add-widget-icon: rgba(0, 0, 0, 0.1);
   --btn-add-widget-icon-hover: rgba(0, 0, 0, 0.25);
+
   // Bookmark
   --bookmark-bg: transparent;
   --bookmark-border: #{color(base-light)};
@@ -107,6 +108,10 @@
 
   // Articles
   --article-link-text: #{$theme-black};
+
+  // Breadcrumbs
+  --breadcrumbs-link: #{$theme-aurora-base};
+  --breadcrumbs-link-hover: #{$theme-aurora-lighter};
 }
 
 /* ------------------------------------ */
@@ -218,4 +223,8 @@
   // Generated using https://codepen.io/sosuke/pen/Pjoqqp
   --filter-light: brightness(0) saturate(100%) invert(98%) sepia(1%)
     saturate(2653%) hue-rotate(178deg) brightness(118%) contrast(100%);
+
+  // Breadcrumbs
+  --breadcrumbs-link: #{$white};
+  --breadcrumbs-link-hover: #{$white};
 }
