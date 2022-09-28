@@ -24,7 +24,7 @@ const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
     }
   }, [user, theme])
 
-  return flags!.darkModeToggle ? (
+  return flags && flags.darkModeToggle ? (
     <button
       type="button"
       onClick={() => {

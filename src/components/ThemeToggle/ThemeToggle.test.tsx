@@ -13,8 +13,22 @@ import ThemeToggle from './ThemeToggle'
 import * as analyticsHooks from 'stores/analyticsContext'
 
 describe('ThemeToggle component', () => {
+  it('when off does not render the component', () => {
+    renderWithAuthAndApollo(
+      <ThemeToggle flags={{ darkModeToggle: false }} />,
+      {},
+      editThemeMock
+    )
+
+    expect(screen.queryByText('light mode')).toBeNull()
+  })
+
   it('renders the component', () => {
-    renderWithAuthAndApollo(<ThemeToggle />, {}, editThemeMock)
+    renderWithAuthAndApollo(
+      <ThemeToggle flags={{ darkModeToggle: true }} />,
+      {},
+      editThemeMock
+    )
 
     const toggleBtn = screen.getByTestId('theme-toggle')
     expect(toggleBtn).toBeVisible()
@@ -40,7 +54,7 @@ describe('calling hook functions', () => {
 
     renderWithAuthAndApollo(
       <ThemeProvider enableSystem={false}>
-        <ThemeToggle />
+        <ThemeToggle flags={{ darkModeToggle: true }} />
       </ThemeProvider>,
       {},
       editThemeMock
