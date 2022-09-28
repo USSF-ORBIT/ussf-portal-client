@@ -2,8 +2,9 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { waitFor, screen } from '@testing-library/react'
 
+import { renderWithAuthAndApollo } from '../../testHelpers'
 import ErrorLayout, { withErrorLayout } from './ErrorLayout'
 
 jest.mock('next/router', () => ({
@@ -17,11 +18,15 @@ jest.mock('next/router', () => ({
 
 describe('ErrorLayout component', () => {
   describe('default props', () => {
-    beforeEach(() => {
-      render(
+    beforeEach(async () => {
+      renderWithAuthAndApollo(
         <ErrorLayout>
           <h2>Test Page</h2>
         </ErrorLayout>
+      )
+      // need to wait for the query to finish so waiting for banner to display
+      await waitFor(() =>
+        expect(screen.getByTestId('govBanner')).toBeInTheDocument()
       )
     })
 
@@ -45,7 +50,7 @@ describe('ErrorLayout component', () => {
 
   describe('if hideNav is true', () => {
     beforeEach(() => {
-      render(
+      renderWithAuthAndApollo(
         <ErrorLayout hideNav={true}>
           <h2>Test Page</h2>
         </ErrorLayout>
@@ -61,14 +66,14 @@ describe('ErrorLayout component', () => {
 describe('withErrorLayout HOC', () => {
   it('renders children inside of the error layout', () => {
     const TestPage = () => <div>My page</div>
-    render(withErrorLayout(<TestPage />))
+    renderWithAuthAndApollo(withErrorLayout(<TestPage />))
     expect(screen.getByText('My page')).toBeInTheDocument()
     expect(screen.getAllByRole('navigation')).toHaveLength(2) // header, footer
   })
 
   it('renders children inside of the error layout with no header nav', () => {
     const TestPage = () => <div>My page</div>
-    render(withErrorLayout(<TestPage />, true))
+    renderWithAuthAndApollo(withErrorLayout(<TestPage />, true))
     expect(screen.getByText('My page')).toBeInTheDocument()
     expect(screen.getAllByRole('navigation')).toHaveLength(1) // footer
   })
