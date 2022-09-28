@@ -1,44 +1,31 @@
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 
-import {
-  BreadcrumbBar,
-  Breadcrumb,
-  BreadcrumbLink,
-  GridContainer,
-} from '@trussworks/react-uswds'
+import { Breadcrumb, GridContainer } from '@trussworks/react-uswds'
 
 import { client } from 'lib/keystoneClient'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
 import { withArticleLayout } from 'layout/DefaultLayout/ArticleLayout'
-import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import PageHeader from 'components/PageHeader/PageHeader'
 import { GET_ARTICLE } from 'operations/cms/queries/getArticle'
 import { SingleArticle } from 'components/SingleArticle/SingleArticle'
+import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 
 const ORBITBlogArticleHeader = () => (
   <PageHeader disableSearch>
     <div>
       <h1>ORBIT Blog</h1>
-      <BreadcrumbBar>
-        <Breadcrumb>
-          <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
-            Service portal home
-          </BreadcrumbLink>
-        </Breadcrumb>
-        <Breadcrumb>
-          <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/about-us">
-            About us
-          </BreadcrumbLink>
-        </Breadcrumb>
-        <Breadcrumb current>
-          <BreadcrumbLink<NavLinkProps>
-            asCustom={NavLink}
-            href="/about-us/orbit-blog">
-            ORBIT Blog
-          </BreadcrumbLink>
-        </Breadcrumb>
-      </BreadcrumbBar>
+      <BreadcrumbNav
+        navItems={[
+          { path: '/', label: <Breadcrumb>Service portal home</Breadcrumb> },
+          { path: '/about-us', label: <Breadcrumb>About Us</Breadcrumb> },
+          {
+            path: '/about-us/orbit-blog',
+            label: <Breadcrumb>ORBIT Blog</Breadcrumb>,
+            current: true,
+          },
+        ]}
+      />
     </div>
   </PageHeader>
 )
@@ -47,18 +34,16 @@ const InternalNewsArticleHeader = () => (
   <PageHeader disableSearch>
     <div>
       <h1>News</h1>
-      <BreadcrumbBar>
-        <Breadcrumb>
-          <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
-            Service portal home
-          </BreadcrumbLink>
-        </Breadcrumb>
-        <Breadcrumb current>
-          <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/news">
-            News
-          </BreadcrumbLink>
-        </Breadcrumb>
-      </BreadcrumbBar>
+      <BreadcrumbNav
+        navItems={[
+          { path: '/', label: <Breadcrumb>Service portal home</Breadcrumb> },
+          {
+            path: '/news',
+            label: <Breadcrumb>News</Breadcrumb>,
+            current: true,
+          },
+        ]}
+      />
     </div>
   </PageHeader>
 )

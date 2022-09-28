@@ -1,9 +1,5 @@
 import { InferGetServerSidePropsType } from 'next'
-import {
-  BreadcrumbBar,
-  Breadcrumb,
-  BreadcrumbLink,
-} from '@trussworks/react-uswds'
+import { Breadcrumb } from '@trussworks/react-uswds'
 
 import { client } from '../lib/keystoneClient'
 
@@ -11,10 +7,10 @@ import type { ArticleListItemRecord } from 'types'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
-import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import { GET_INTERNAL_NEWS_ARTICLES } from 'operations/cms/queries/getInternalNewsArticles'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 import styles from 'styles/pages/news.module.scss'
+import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 
 const InternalNews = ({
   articles,
@@ -44,19 +40,19 @@ InternalNews.getLayout = (page: React.ReactNode) =>
   withPageLayout(
     <div>
       <h1>Internal News</h1>
-      <BreadcrumbBar>
-        <Breadcrumb>
-          <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
-            Service portal home
-          </BreadcrumbLink>
-        </Breadcrumb>
-        <Breadcrumb>
-          <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/about-us">
-            About us
-          </BreadcrumbLink>
-        </Breadcrumb>
-        <Breadcrumb current>Internal News</Breadcrumb>
-      </BreadcrumbBar>
+      <BreadcrumbNav
+        navItems={[
+          {
+            path: '/',
+            label: <Breadcrumb>Service portal home</Breadcrumb>,
+          },
+          {
+            path: '/news',
+            label: <Breadcrumb>Internal News</Breadcrumb>,
+            current: true,
+          },
+        ]}
+      />
     </div>,
     page
   )

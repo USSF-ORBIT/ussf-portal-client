@@ -1,17 +1,10 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import {
-  BreadcrumbBar,
-  Breadcrumb,
-  BreadcrumbLink,
-  GridContainer,
-  Grid,
-} from '@trussworks/react-uswds'
+import { Breadcrumb, GridContainer, Grid } from '@trussworks/react-uswds'
 
 import { client } from 'lib/keystoneClient'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 import { withArticleLayout } from 'layout/DefaultLayout/ArticleLayout'
-import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import PageHeader from 'components/PageHeader/PageHeader'
 import EPubsCard from 'components/EPubsCard/EPubsCard'
 import { SEARCH } from 'operations/cms/queries/search'
@@ -20,6 +13,7 @@ import { SearchResultItem } from 'components/SearchResultItem/SearchResultItem'
 import { SearchResultRecord } from 'types/index'
 import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
 import styles from 'styles/pages/search.module.scss'
+import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 
 // TODO - empty state (need design)
 
@@ -39,19 +33,24 @@ const Search = ({
       <PageHeader>
         <div>
           <h1>Search</h1>
-          <BreadcrumbBar>
-            <Breadcrumb>
-              <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
-                Service portal home
-              </BreadcrumbLink>
-            </Breadcrumb>
-            <Breadcrumb current>
-              <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/search">
-                Search
-              </BreadcrumbLink>
-            </Breadcrumb>
-            <Breadcrumb current>“{query}”</Breadcrumb>
-          </BreadcrumbBar>
+          <BreadcrumbNav
+            navItems={[
+              {
+                path: '/',
+                label: <Breadcrumb>Service portal home</Breadcrumb>,
+              },
+              {
+                path: '/search',
+                label: <Breadcrumb>Search</Breadcrumb>,
+                current: true,
+              },
+              {
+                path: '/search',
+                label: <Breadcrumb>{query}</Breadcrumb>,
+                current: true,
+              },
+            ]}
+          />
         </div>
       </PageHeader>
       <GridContainer>
