@@ -2,7 +2,12 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { waitFor, screen } from '@testing-library/react'
+import { ThemeProvider } from 'next-themes'
+
+import { mockUseTheme, renderWithAuthAndApollo } from '../../testHelpers'
+import { getThemeMock } from '../../__fixtures__/operations/getTheme'
+import { editThemeMock } from '../../__fixtures__/operations/editTheme'
 
 import ArticleLayout, { withArticleLayout } from './ArticleLayout'
 
@@ -16,11 +21,17 @@ jest.mock('next/router', () => ({
 }))
 
 describe('ArticleLayout component', () => {
-  beforeEach(() => {
-    render(
+  beforeEach(async () => {
+    renderWithAuthAndApollo(
       <ArticleLayout>
         <h2>Test Page</h2>
-      </ArticleLayout>
+      </ArticleLayout>,
+      {},
+      getThemeMock
+    )
+    // need to wait for the query to finish so waiting for banner to display
+    await waitFor(() =>
+      expect(screen.getByTestId('govBanner')).toBeInTheDocument()
     )
   })
 
@@ -42,10 +53,51 @@ describe('ArticleLayout component', () => {
   })
 })
 
+describe('calls hooks as needed', () => {
+  const { setItemMock } = mockUseTheme()
+
+  beforeEach(async () => {
+    renderWithAuthAndApollo(
+      <ThemeProvider enableSystem={false}>
+        <ArticleLayout>
+          <h1>Test Page</h1>
+        </ArticleLayout>
+      </ThemeProvider>,
+      {},
+      [...getThemeMock, ...editThemeMock]
+    )
+    // need to wait for the query to finish so waiting for banner to display
+    await waitFor(() =>
+      expect(screen.getByTestId('govBanner')).toBeInTheDocument()
+    )
+  })
+
+  it('uses useGetThemeQuery', () => {
+    expect(getThemeMock[0].result).toHaveBeenCalled()
+  })
+
+  it('uses setTheme', async () => {
+    await waitFor(() => expect(setItemMock).toHaveBeenCalled())
+  })
+})
+
+describe('ArticleLayout component before theme query is finished', () => {
+  beforeEach(async () => {
+    renderWithAuthAndApollo(
+      <ArticleLayout>
+        <h1>Test Page</h1>
+      </ArticleLayout>
+    )
+  })
+  it('does not show anything', () => {
+    expect(screen.queryByText('Test Page')).not.toBeInTheDocument()
+  })
+})
+
 describe('withArticleLayout HOC', () => {
   it('renders children inside of the article layout', () => {
     const TestPage = () => <div>My page</div>
-    render(withArticleLayout(<TestPage />))
-    expect(screen.getByText('My page')).toBeInTheDocument()
+    renderWithAuthAndApollo(withArticleLayout(<TestPage />), {}, getThemeMock)
+    waitFor(() => expect(screen.getByText('My page')).toBeInTheDocument())
   })
 })

@@ -3,6 +3,7 @@
  */
 import { screen, waitFor } from '@testing-library/react'
 import { useRouter } from 'next/router'
+import axios from 'axios'
 
 import { renderWithAuth } from '../../testHelpers'
 
@@ -24,6 +25,8 @@ mockedUseRouter.mockReturnValue({
   push: jest.fn(),
   replace: mockReplace,
 })
+
+jest.mock('axios')
 
 describe('404 page', () => {
   describe('without a user', () => {
@@ -61,6 +64,10 @@ describe('404 page', () => {
       expect(
         screen.getByRole('link', { name: 'Take me home' })
       ).toHaveAttribute('href', '/')
+    })
+
+    it('makes the call to get user', () => {
+      expect(axios.get).toHaveBeenLastCalledWith('/api/auth/user')
     })
   })
 })

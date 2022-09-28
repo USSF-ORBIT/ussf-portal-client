@@ -7,6 +7,7 @@ import type { RenderResult } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
+import axios from 'axios'
 
 import { renderWithAuth } from '../../testHelpers'
 
@@ -17,6 +18,8 @@ const mockReplace = jest.fn()
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }))
+
+jest.mock('axios')
 
 const mockedUseRouter = useRouter as jest.Mock
 
@@ -62,10 +65,10 @@ describe('Settings page', () => {
       )
     })
 
-    it('renders the settings page', async () => {
-      expect(await screen.getAllByText('Settings')).toHaveLength(1)
+    it('renders the settings page', () => {
+      expect(screen.getAllByText('Settings')).toHaveLength(1)
 
-      expect(await screen.getAllByText('Update name and rank:')).toHaveLength(1)
+      expect(screen.getAllByText('Update name and rank:')).toHaveLength(1)
     })
 
     it('has no a11y violations', async () => {
@@ -74,6 +77,10 @@ describe('Settings page', () => {
       await act(async () => {
         expect(await axe(html.container)).toHaveNoViolations()
       })
+    })
+
+    it('makes the call to get user', () => {
+      expect(axios.get).toHaveBeenLastCalledWith('/api/auth/user')
     })
   })
 })
