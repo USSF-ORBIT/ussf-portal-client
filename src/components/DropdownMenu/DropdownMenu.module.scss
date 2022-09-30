@@ -60,6 +60,16 @@
         background-color: var(--dropdown-menu-bg-hover);
         color: var(--link-primary-hover);
       }
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 1;
+        color: var(--dropdown-menu-disabled-text);
+
+        &:hover {
+          color: var(--dropdown-menu-disabled-text);
+          background-color: var(--dropdown-menu-bg);
+        }
+      }
     }
   }
 

@@ -37,7 +37,11 @@
   --btn-unstyled: #{$theme-ultraviolet-base};
   --btn-unstyled-hover: #{$theme-ultraviolet-darker};
 
-  --disabled-btn-text: #{$theme-white};
+  --btn-disabled-text: #{$theme-white};
+  --btn-disabled-text-hover: #{$theme-white};
+  --btn-disabled-bg: #{$state-disabled-base};
+  --btn-disabled-bg-hover: #{$state-disabled-dark};
+  --btn-disabled-outline: transparent;
 
   --btn-add-widget-bg: rgba(220, 222, 224, 0.15);
   --btn-add-widget-border: #{color('base-lighter')};
@@ -55,6 +59,7 @@
   // Menus
   --dropdown-menu-bg: #{$theme-white};
   --dropdown-menu-bg-hover: #{$grey};
+  --dropdown-menu-disabled-text: #070f1d50;
 
   // Widgets
   --widget-bg: #{$theme-white};
@@ -128,8 +133,8 @@
 
   // Buttons
   --btn-primary-bg: #{$theme-aurora-dark};
-  --btn-primary-bg-hover: #{$theme-aurora-darker}; // Not sure about this
-  --btn-primary-bg-active: #{$theme-aurora-darker}; // Not sure about this either
+  --btn-primary-bg-hover: #{$theme-aurora-base};
+  --btn-primary-bg-active: #{$theme-aurora-base};
   --btn-outline-text: #{$theme-aurora-dark};
   --btn-outline-hover: #{$theme-aurora-base};
   --btn-outline-active: #{$theme-aurora-light};
@@ -144,6 +149,13 @@
   --btn-add-widget: #{$theme-aurora-base};
   --btn-add-widget-icon: #{$theme-white};
   --btn-add-widget-icon-hover: #{$theme-spacebase-light};
+
+  --btn-disabled-text: #{$theme-aurora-dark};
+  --btn-disabled-text-hover: #{$theme-aurora-base};
+  --btn-disabled-bg: transparent;
+  --btn-disabled-bg-hover: transparent;
+  --btn-disabled-outline: #{$theme-aurora-dark};
+  --btn-disabled-outline-hover: #{$theme-aurora-base};
 
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
@@ -185,6 +197,7 @@
   // Menus
   --dropdown-menu-bg: #{$theme-spacebase-darkest};
   --dropdown-menu-bg-hover: #{$theme-spacebase-darker};
+  --dropdown-menu-disabled-text: #a3ffb650;
 
   // Form Elements
   --form-combobox-bg: #{$theme-spacebase-darker};
