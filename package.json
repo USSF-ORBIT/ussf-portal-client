@@ -3,7 +3,7 @@
   "version": "4.8.0",
   "private": true,
   "engines": {
-    "node": "14.20.0"
+    "node": "14.20.1"
   },
   "repository": {
     "type": "git",
@@ -38,7 +38,7 @@
     "happo-ci-github-actions": "happo-ci-github-actions"
   },
   "dependencies": {
-    "@apollo/client": "3.6.8",
+    "@apollo/client": "3.6.9",
     "@fortawesome/fontawesome-svg-core": "6.1.1",
     "@fortawesome/free-solid-svg-icons": "6.1.1",
     "@fortawesome/react-fontawesome": "0.1.18",
@@ -59,8 +59,8 @@
     "@trussworks/react-uswds": "3.1.0",
     "@types/react-beautiful-dnd": "13.1.2",
     "@types/react-slick": "0.23.8",
-    "apollo-server-core": "3.10.1",
-    "apollo-server-micro": "3.9.0",
+    "apollo-server-core": "3.10.2",
+    "apollo-server-micro": "3.10.2",
     "axios": "0.27.2",
     "classnames": "2.3.1",
     "connect-redis": "6.1.3",
