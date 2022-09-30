@@ -55,6 +55,8 @@
   // Menus
   --dropdown-menu-bg: #{$theme-white};
   --dropdown-menu-bg-hover: #{$grey};
+  --page-nav-link: #{$theme-ultraviolet-base};
+  --page-nav-link-after: #{$light-blue};
 
   // Widgets
   --widget-bg: #{$theme-white};
@@ -196,6 +198,8 @@
   // Menus
   --dropdown-menu-bg: #{$theme-spacebase-darkest};
   --dropdown-menu-bg-hover: #{$theme-spacebase-darker};
+  --page-nav-link: #{$theme-aurora-dark};
+  --page-nav-link-after: #{$theme-aurora-dark};
 
   // Form Elements
   --form-combobox-bg: #{$theme-spacebase-darker};

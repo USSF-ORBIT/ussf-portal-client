@@ -14,14 +14,14 @@
     }
 
     .usa-sidenav a {
-      color: var(--link-primary);
+      color: var(--page-nav-link);
 
       &:hover {
         background-color: transparent;
       }
 
       &::after {
-        background-color: var(--link-primary);
+        background-color: var(--page-nav-link-after);
       }
     }
 
