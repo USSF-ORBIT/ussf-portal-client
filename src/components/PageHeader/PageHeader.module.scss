@@ -3,7 +3,19 @@
 
 .PageHeader {
   color: $theme-white;
+  background: var(--header-image);
+  background-position: bottom -240px center;
+  background-size: cover;
   @include u-padding-bottom(4);
+
+  @include at-media('tablet') {
+    background-size: 2000px auto;
+    background-position: bottom -120px center;
+  }
+
+  @media (min-width: 2000px) {
+    background-size: cover;
+  }
 
   h1 {
     text-transform: uppercase;
