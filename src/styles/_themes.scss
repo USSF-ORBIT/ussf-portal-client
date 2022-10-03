@@ -112,6 +112,7 @@
   // Breadcrumbs
   --breadcrumbs-link: #{$theme-aurora-base};
   --breadcrumbs-link-hover: #{$theme-aurora-lighter};
+  --breadcrumbs-edit-display-name: #{$theme-aurora-base};
 }
 
 /* ------------------------------------ */
@@ -227,4 +228,5 @@
   // Breadcrumbs
   --breadcrumbs-link: #{$white};
   --breadcrumbs-link-hover: #{$white};
+  --breadcrumbs-edit-display-name: #{$theme-mars-lighter};
 }
