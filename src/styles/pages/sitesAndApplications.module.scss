@@ -38,6 +38,16 @@
     .widgetToolbar {
       background-color: var(--widget-selected-border);
     }
+
+    :global(.sitesAndAppsCollection) {
+      background-color: var(--widget-sites-apps-bg);
+      border-color: var(--bookmark-sites-apps-border);
+
+      :global(.sitesAndAppsBookmark) {
+        background-color: var(--bookmark-sites-apps-bg);
+        border-color: var(--bookmark-sites-apps-border);
+      }
+    }
   }
 
   .widgets {
@@ -48,7 +58,8 @@
     background-color: var(--widget-sites-apps-bg);
     border-color: var(--bookmark-sites-apps-border);
 
-    :global(.sitesAndAppsBookmark) {
+    :global(.sitesAndAppsBookmark),
+    :global(ol li > div) {
       background-color: var(--bookmark-sites-apps-bg);
       border-color: var(--bookmark-sites-apps-border);
     }
@@ -58,7 +69,18 @@
 [data-color-theme='dark'] {
   .widgetContainer {
     border: none;
-    box-shadow: none;
+    &.selectMode {
+      border: 4px solid var(--widget-selected-border);
+      padding: 0px;
+
+      .widgetToolbar {
+        background-color: var(--widget-selected-border);
+      }
+    }
+  }
+  .widgets {
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 2rem;
   }
   .sortAlpha {
     padding: 4rem 2.5rem;
