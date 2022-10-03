@@ -38,16 +38,6 @@
     .widgetToolbar {
       background-color: var(--widget-selected-border);
     }
-
-    :global(.sitesAndAppsCollection) {
-      background-color: var(--widget-sites-apps-bg);
-      border-color: var(--bookmark-sites-apps-border);
-
-      :global(.sitesAndAppsBookmark) {
-        background-color: var(--bookmark-sites-apps-bg);
-        border-color: var(--bookmark-sites-apps-border);
-      }
-    }
   }
 
   .widgets {
