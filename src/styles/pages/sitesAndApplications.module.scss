@@ -68,10 +68,10 @@
 
 [data-color-theme='dark'] {
   .widgetContainer {
-    border: none;
+    padding: 0px;
+    border: 4px solid transparent;
     &.selectMode {
       border: 4px solid var(--widget-selected-border);
-      padding: 0px;
 
       .widgetToolbar {
         background-color: var(--widget-selected-border);
