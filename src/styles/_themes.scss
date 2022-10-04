@@ -16,7 +16,7 @@
 
   // Layout
   --body-bg: #{$white};
-  --bg: #{$theme-white};
+  --bg: #{$white};
   --text: #{$theme-black};
 
   // Buttons
@@ -57,17 +57,17 @@
   --icon-hover: #{$theme-spacebase-base};
 
   // Menus
-  --dropdown-menu-bg: #{$theme-white};
+  --dropdown-menu-bg: #{$white};
   --dropdown-menu-bg-hover: #{$grey};
   --dropdown-menu-disabled-text: #070f1d50;
 
   // Widgets
-  --widget-bg: #{$theme-white};
+  --widget-bg: #{$white};
   --widget-border: #{color(base-light)};
   --widget-selected: #{rgba($grey, 0.8)};
 
   // Forms
-  --form-combobox-bg: #{$theme-white};
+  --form-combobox-bg: #{$white};
   --form-input-bg: transparent;
   --form-input-text: #{$theme-black};
   --form-input-border: #{color(base-light)};
