@@ -48,6 +48,10 @@
   --btn-add-widget: #585a5c;
   --btn-add-widget-icon: rgba(0, 0, 0, 0.1);
   --btn-add-widget-icon-hover: rgba(0, 0, 0, 0.25);
+
+  --btn-theme-toggle-bg: #{$theme-ultraviolet-base};
+  --btn-theme-toggle-text: #{$white};
+
   // Bookmark
   --bookmark-bg: transparent;
   --bookmark-border: #{color(base-light)};
@@ -157,6 +161,9 @@
   --btn-disabled-bg-hover: transparent;
   --btn-disabled-outline: #{$theme-aurora-dark};
   --btn-disabled-outline-hover: #{$theme-aurora-base};
+
+  --btn-theme-toggle-bg: #{$theme-aurora-dark};
+  --btn-theme-toggle-text: #{$black};
 
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};

@@ -101,7 +101,6 @@ const Header = () => {
         onClick={() => setExpanded(false)}
         role="presentation"
       />
-      <ThemeToggle />
       <USWDSHeader basic className={styles.header}>
         <div className="usa-nav-container">
           <div className="usa-navbar">
