@@ -59,7 +59,7 @@
 
   &::before {
     content: '';
-    background-image: url('/assets/images/icon_custom-link.svg');
+    background-image: var(--custom-link-icon);
     width: 18px;
     height: 18px;
     margin-right: units(1);
