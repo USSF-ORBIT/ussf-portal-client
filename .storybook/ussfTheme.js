@@ -1,9 +1,10 @@
 import { create } from '@storybook/theming'
 
 export default create({
-  base: 'light',
-  brandTitle: 'My custom storybook',
-  brandUrl: 'https://example.com',
-  brandImage: 'https://place-hold.it/350x150',
+  base: 'dark',
+  brandTitle: 'USSF Design System',
+  brandUrl: 'https://github.com/USSF-ORBIT/ussf-portal-client',
+  brandImage: '/img/ussf-logo-short.svg',
   brandTarget: '_self',
+  fontBase: '"Trebuchet MS", sans-serif',
 })
