@@ -47,6 +47,11 @@ $hero-image: url('/assets/images/hero.jpeg');
   --btn-add-widget: #585a5c;
   --btn-add-widget-icon: rgba(0, 0, 0, 0.1);
   --btn-add-widget-icon-hover: rgba(0, 0, 0, 0.25);
+
+  --btn-logout-primary-bg: #{$theme-mars-base};
+  --btn-logout-text: #{$white};
+  --btn-logout-hover: #{$theme-mars-dark};
+
   // Bookmark
   --bookmark-bg: transparent;
   --bookmark-border: #{color(base-light)};
@@ -161,6 +166,10 @@ $hero-image: url('/assets/images/hero.jpeg');
   --btn-add-widget: #{$theme-aurora-base};
   --btn-add-widget-icon: #{$theme-white};
   --btn-add-widget-icon-hover: #{$theme-spacebase-light};
+
+  --btn-logout-primary-bg: #{$theme-mars-base};
+  --btn-logout-text: #{$white};
+  --btn-logout-hover: #{$theme-mars-dark};
 
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
