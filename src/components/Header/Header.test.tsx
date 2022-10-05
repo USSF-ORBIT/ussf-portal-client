@@ -7,7 +7,8 @@ import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import React from 'react'
 
-import { renderWithAuth } from '../../testHelpers'
+import { renderWithAuthAndApollo } from '../../testHelpers'
+import { editThemeMock } from '../../__fixtures__/operations/editTheme'
 
 import Header from './Header'
 
@@ -24,7 +25,7 @@ const mockLogout = jest.fn()
 
 describe('Header component', () => {
   it('renders the USSF portal header', () => {
-    render(<Header />)
+    renderWithAuthAndApollo(<Header />, {}, editThemeMock)
 
     expect(
       screen.getByRole('img', { name: 'United States Space Force Logo' })
@@ -33,7 +34,7 @@ describe('Header component', () => {
   })
 
   it('can click an item from the About Us dropdown', () => {
-    render(<Header />)
+    renderWithAuthAndApollo(<Header />, {}, editThemeMock)
 
     const aboutTheUSSF = screen.getByTestId('nav-about-ussf')
     expect(aboutTheUSSF).not.toBeVisible()
@@ -44,7 +45,7 @@ describe('Header component', () => {
   })
 
   it('can toggle navigation on smaller screen sizes', () => {
-    render(<Header />)
+    renderWithAuthAndApollo(<Header />, {}, editThemeMock)
 
     const nav = screen.getByRole('navigation')
     expect(nav).not.toHaveClass('is-visible')
@@ -58,7 +59,7 @@ describe('Header component', () => {
   })
 
   it('can click the overlay to close the mobile navigation', () => {
-    render(<Header />)
+    renderWithAuthAndApollo(<Header />, {}, editThemeMock)
 
     const nav = screen.getByRole('navigation')
     expect(nav).not.toHaveClass('is-visible')
@@ -72,7 +73,7 @@ describe('Header component', () => {
   })
 
   it('renders the logout button', () => {
-    renderWithAuth(<Header />, { logout: mockLogout })
+    renderWithAuthAndApollo(<Header />, { logout: mockLogout }, editThemeMock)
     const logoutButton = screen.getByRole('button', { name: 'Log out' })
     expect(logoutButton).toBeInTheDocument()
     userEvent.click(logoutButton)
@@ -83,7 +84,11 @@ describe('Header component', () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
-      const { container } = render(<Header />)
+      const { container } = renderWithAuthAndApollo(
+        <Header />,
+        {},
+        editThemeMock
+      )
       expect(await axe(container)).toHaveNoViolations()
     })
   })
