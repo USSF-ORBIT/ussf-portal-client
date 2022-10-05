@@ -1,5 +1,7 @@
 @import 'styles/sfds/_colors.scss';
 
+$hero-image: url('/assets/images/hero.jpeg');
+
 // This file contains css properties use throughout the
 // code base for each corresponding theme.
 // Loaded in next.config.js under sassOptions
@@ -18,6 +20,7 @@
   --body-bg: #{$white};
   --bg: #{$theme-white};
   --text: #{$theme-black};
+  --header-image: #{$black $hero-image no-repeat};
 
   // Buttons
   --btn-primary-text: #{$theme-white};
@@ -45,6 +48,30 @@
   --btn-add-widget-icon: rgba(0, 0, 0, 0.1);
   --btn-add-widget-icon-hover: rgba(0, 0, 0, 0.25);
 
+  --btn-logout-primary-bg: #{$theme-mars-base};
+  --btn-logout-text: #{$white};
+  --btn-logout-hover: #{$theme-mars-dark};
+
+  // Sites & Apps
+  --btn-sort-bg: transparent;
+  --btn-sort-border: #a9aeb1;
+  --btn-sort-text: $theme-ultraviolet-base;
+  --btn-sort-hover-bg: #{$theme-ultraviolet-dark};
+  --btn-sort-hover-text: #{$grey};
+  --btn-sort-disabled-bg: #f9fafa;
+  --btn-sort-disabled-border: #a9aeb1;
+  --btn-sort-disabled-text: #{$state-disabled-dark};
+
+  --widget-sites-apps-bg: #{$theme-white};
+  --bookmark-sites-apps-bg: transparent;
+  --bookmark-sites-apps-border: #{color(base-light)};
+
+  --btn-select-collections-bg: #{$theme-ultraviolet-base};
+  --btn-select-collections-bg-hover: #{$theme-ultraviolet-dark};
+
+  //alpha
+  --bookmark-sites-apps-text: #{$theme-black};
+
   // Bookmark
   --bookmark-bg: transparent;
   --bookmark-border: #{color(base-light)};
@@ -56,11 +83,14 @@
   // Menus
   --dropdown-menu-bg: #{$theme-white};
   --dropdown-menu-bg-hover: #{$grey};
+  --page-nav-link: #{$theme-ultraviolet-base};
+  --page-nav-link-after: #{$light-blue};
 
   // Widgets
   --widget-bg: #{$theme-white};
   --widget-border: #{color(base-light)};
   --widget-selected: #{rgba($grey, 0.8)};
+  --widget-selected-border: #{$theme-spacebase-base};
 
   // Forms
   --form-combobox-bg: #{$theme-white};
@@ -106,6 +136,10 @@
   --category-internalnews-bg: #{$category-internalnews-lighttheme};
   --category-internalnews-text: #{$white};
 
+  // Footer
+  --footer-bg: #{$black};
+  --footer-text: #{$white};
+
   // Articles
   --article-link-text: #{$theme-black};
 
@@ -128,9 +162,17 @@
   --paragraph-text: #{$theme-white};
 
   // Layout
+  --bg: #{linear-gradient(
+      180deg,
+      #000000 6.36%,
+      #0f305a 73.55%,
+      #555f92 111.89%
+    )};
+
   --body-bg: #{$theme-spacebase-dark};
   --bg: #{$theme-spacebase-dark};
   --text: #{$white};
+  --header-image: none;
 
   // Buttons
   --btn-primary-bg: #{$theme-aurora-dark};
@@ -150,6 +192,38 @@
   --btn-add-widget: #{$theme-aurora-base};
   --btn-add-widget-icon: #{$theme-white};
   --btn-add-widget-icon-hover: #{$theme-spacebase-light};
+  
+  --btn-logout-primary-bg: #{$theme-mars-base};
+  --btn-logout-text: #{$white};
+  --btn-logout-hover: #{$theme-mars-dark};
+
+  --btn-add-widget-border: #{$theme-spacebase-dark};
+  --btn-add-widget-bg: #{$theme-spacebase-darker};
+  --btn-add-widget: #{$theme-aurora-base};
+  --btn-add-widget-icon: #{$theme-white};
+  --btn-add-widget-icon-hover: #{$theme-spacebase-light};
+
+  // Sites & Apps
+  --btn-sort-border: #{$theme-aurora-dark};
+  --btn-sort-bg: #{$theme-aurora-dark};
+  --btn-sort-text: #{$theme-black};
+  --btn-sort-hover-bg: #{$theme-aurora-base};
+  --btn-sort-hover-text: #{$theme-black};
+  --btn-sort-disabled-bg: #b2b4ba;
+  --btn-sort-disabled-border: #b2b4ba;
+  --btn-sort-disabled-text: #{$theme-black};
+
+  --btn-select-collections-bg: #{$theme-mars-base};
+  --btn-select-collections-bg-hover: #{$theme-mars-light};
+
+  --widget-sites-apps-bg: rgba(0, 0, 0, 0.3);
+  --bookmark-sites-apps-bg: rgba(0, 0, 0, 0.6);
+  --bookmark-sites-apps-border: #71767a;
+
+  //Sites & Apps - alpha view
+  --bookmark-sites-apps-text: #{$white};
+  --bookmark-sites-apps-alpha-bg-odd: rgba(0, 0, 0, 0.3);
+  --bookmark-sites-apps-alpha-bg-even: rgba(0, 0, 0, 0.4);
 
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
@@ -165,6 +239,7 @@
   --widget-bg: #{$theme-spacebase-darker};
   --widget-border: #{$theme-spacebase-darker};
   --widget-selected: #{rgba($grey, 0.4)};
+  --widget-selected-border: #{$theme-spacebase-base};
 
   // News
   --btn-box-bg: #{$theme-spacebase-light};
@@ -191,6 +266,8 @@
   // Menus
   --dropdown-menu-bg: #{$theme-spacebase-darkest};
   --dropdown-menu-bg-hover: #{$theme-spacebase-darker};
+  --page-nav-link: #{$theme-aurora-dark};
+  --page-nav-link-after: #{$theme-aurora-dark};
 
   // Form Elements
   --form-combobox-bg: #{$theme-spacebase-darker};
@@ -229,4 +306,8 @@
   --breadcrumbs-link: #{$white};
   --breadcrumbs-link-hover: #{$white};
   --breadcrumbs-edit-display-name: #{$theme-mars-lighter};
+
+  // Footer
+  --footer-bg: #{$black};
+  --footer-text: #{$white};
 }

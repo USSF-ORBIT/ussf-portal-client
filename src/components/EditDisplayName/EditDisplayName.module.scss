@@ -22,3 +22,10 @@
 .successMessage {
   margin-top: 8px;
 }
+
+.saveDisplayName {
+  &:hover:disabled {
+    cursor: default;
+    background-color: var(--btn-primary-bg);
+  }
+}
