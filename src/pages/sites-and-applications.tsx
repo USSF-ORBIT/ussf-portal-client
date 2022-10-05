@@ -334,6 +334,7 @@ const SitesAndApplications = ({
                   desktop={{ col: 4 }}>
                   {selectMode ? (
                     <SelectableCollection
+                      className={'sitesAndAppsCollection'}
                       id={collection.id}
                       title={collection.title}
                       bookmarks={collection.bookmarks}
