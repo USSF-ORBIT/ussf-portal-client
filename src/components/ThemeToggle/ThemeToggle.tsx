@@ -4,34 +4,57 @@ import styles from './ThemeToggle.module.scss'
 import { useAnalytics } from 'stores/analyticsContext'
 import { useUser } from 'hooks/useUser'
 import { useEditThemeMutation } from 'operations/portal/mutations/editTheme.g'
+import { SessionUser } from 'types'
+import { useGetThemeQuery } from 'operations/portal/queries/getTheme.g'
 
 const ThemeToggle = () => {
+  const { data } = useGetThemeQuery()
   const { theme, setTheme } = useTheme()
   const { trackEvent } = useAnalytics()
   const { user } = useUser()
   const [handleEditThemeMutation] = useEditThemeMutation()
 
   useEffect(() => {
-    if (user && theme) {
+    if (data && theme && data.theme !== theme) {
+      // If there is a discrepancy between what is in the db and what is
+      // in local storage, then use what is in local storage.
+      setTheme(theme)
+    } else if (data) {
+      setTheme(data.theme)
+    }
+  }, [])
+
+  if (!data) {
+    return null
+  }
+
+  const handleThemeChangeAndTracking = (
+    user: SessionUser | null,
+    newTheme: string
+  ) => {
+    trackEvent(
+      'Dark mode',
+      'Click on light/dark mode toggle',
+      'Light/Dark mode toggle'
+    )
+
+    if (user) {
       handleEditThemeMutation({
         variables: {
           userId: user.userId,
-          theme: theme,
+          theme: newTheme,
         },
       })
     }
-  }, [user, theme])
+  }
 
   return (
     <button
       type="button"
       onClick={() => {
-        trackEvent(
-          'Dark mode',
-          'Click on light/dark mode toggle',
-          'Light/Dark mode toggle'
-        )
-        setTheme(theme === 'light' ? 'dark' : 'light')
+        const newTheme = theme === 'light' ? 'dark' : 'light'
+        setTheme(newTheme)
+        if (theme) handleThemeChangeAndTracking(user, newTheme)
       }}
       className={styles.toggleButton}
       data-testid="theme-toggle">
