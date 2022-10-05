@@ -97,6 +97,7 @@ type BookmarkListProps = {
   userCollectionOptions?: Collection[]
   handleAddToCollection: (b: BookmarkRecord, c?: ObjectId) => void
   canAddNewCollection?: boolean
+  className?: string
 }
 
 const BookmarkList = ({
@@ -104,32 +105,35 @@ const BookmarkList = ({
   userCollectionOptions = [],
   handleAddToCollection,
   canAddNewCollection = true,
+  className = '',
 }: BookmarkListProps) => {
   const filterInvalidBookmarks = (
     b: Partial<BookmarkRecord>
   ): b is BookmarkRecord => !(b.id === undefined || b.url === undefined)
 
   return (
-    <Table striped fullWidth>
-      <thead>
-        <tr>
-          <th scope="col">Application name</th>
-          <th scope="col">Description</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {bookmarks.filter(filterInvalidBookmarks).map((b) => (
-          <BookmarkListRow
-            key={`bookmark_${b.id}`}
-            bookmark={b}
-            userCollectionOptions={userCollectionOptions}
-            handleAddToCollection={handleAddToCollection}
-            canAddNewCollection={canAddNewCollection}
-          />
-        ))}
-      </tbody>
-    </Table>
+    <div className={className}>
+      <Table striped fullWidth>
+        <thead>
+          <tr>
+            <th scope="col">Application name</th>
+            <th scope="col">Description</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {bookmarks.filter(filterInvalidBookmarks).map((b) => (
+            <BookmarkListRow
+              key={`bookmark_${b.id}`}
+              bookmark={b}
+              userCollectionOptions={userCollectionOptions}
+              handleAddToCollection={handleAddToCollection}
+              canAddNewCollection={canAddNewCollection}
+            />
+          ))}
+        </tbody>
+      </Table>
+    </div>
   )
 }
 
