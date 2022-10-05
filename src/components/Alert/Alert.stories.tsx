@@ -19,8 +19,7 @@ const errorMsg = 'Error alert'
 const warningMsg = 'Warning alert'
 const infoMsg = 'Info alert'
 
-//TODO: The relative path of the icon in react uswds alert
-// is not displaying in storybook
+//TODO: Icons for React USWDS component not displaying in Chrome Storybook
 
 export const AlertSuccess = () => (
   <Alert headingLevel="h1" type="success">
