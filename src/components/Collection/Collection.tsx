@@ -9,12 +9,19 @@ type PropTypes = {
   header?: React.ReactNode
   children: React.ReactNode | React.ReactNode[]
   footer?: React.ReactNode
+  className?: string
 }
 
-const Collection = ({ title = '', children, header, footer }: PropTypes) => {
+const Collection = ({
+  title = '',
+  children,
+  header,
+  footer,
+  className = '',
+}: PropTypes) => {
   return (
     <Widget
-      className={styles.collection}
+      className={className}
       header={
         <>
           {title && <h3>{title}</h3>}

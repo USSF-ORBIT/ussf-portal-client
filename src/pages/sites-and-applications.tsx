@@ -230,7 +230,7 @@ const SitesAndApplications = ({
       )}
 
       {!loading && sortBy === 'SORT_ALPHA' && (
-        <>
+        <div className={styles.sortAlpha}>
           {userCollections.some(
             (c) => c.bookmarks.filter((b) => !b.isRemoved).length >= 10
           ) && (
@@ -248,12 +248,13 @@ const SitesAndApplications = ({
           )}
 
           <BookmarkList
+            className={'sitesAndAppsBookmarkList'}
             bookmarks={bookmarks}
             userCollectionOptions={userCollections}
             handleAddToCollection={handleAddToCollection}
             canAddNewCollection={canAddSections}
           />
-        </>
+        </div>
       )}
 
       {!loading && sortBy === 'SORT_TYPE' && (
@@ -309,6 +310,7 @@ const SitesAndApplications = ({
                 )}
                 <Button
                   type="button"
+                  className={styles.selectCollectionsButton}
                   onClick={() => {
                     trackEvent(
                       'S&A add collection',
@@ -332,6 +334,7 @@ const SitesAndApplications = ({
                   desktop={{ col: 4 }}>
                   {selectMode ? (
                     <SelectableCollection
+                      className={'sitesAndAppsCollection'}
                       id={collection.id}
                       title={collection.title}
                       bookmarks={collection.bookmarks}
@@ -342,9 +345,12 @@ const SitesAndApplications = ({
                       }
                     />
                   ) : (
-                    <Collection title={collection.title}>
+                    <Collection
+                      title={collection.title}
+                      className={'sitesAndAppsCollection'}>
                       {collection.bookmarks?.map((bookmark) => (
                         <Bookmark
+                          className={'sitesAndAppsBookmark'}
                           key={`bookmark_${bookmark.id}`}
                           href={bookmark.url}>
                           {bookmark.label}

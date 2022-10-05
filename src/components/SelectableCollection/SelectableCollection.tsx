@@ -15,6 +15,7 @@ type SelectableCollectionProps = {
   onSelect: () => void
   isSelected: boolean
   disabled?: boolean
+  className?: string
 }
 
 const SelectableCollection = ({
@@ -24,6 +25,7 @@ const SelectableCollection = ({
   onSelect,
   isSelected,
   disabled = false,
+  className = '',
 }: SelectableCollectionProps) => {
   // TODO - what should happen if empty collection? throw error?
 
@@ -43,7 +45,7 @@ const SelectableCollection = ({
   return (
     <label htmlFor={`selectCollection_${id}`} className={classes}>
       <div className={styles.disabledCollection}>
-        <Collection title={title}>
+        <Collection title={title} className={className}>
           {bookmarks.map((bookmark) => (
             <Bookmark
               key={`bookmark_${bookmark.id}`}
