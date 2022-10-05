@@ -13,7 +13,7 @@
   }
 
   main {
-    background-color: var(--bg);
+    background: var(--bg);
     color: var(--text);
     flex: 1;
     margin-bottom: units(7);
