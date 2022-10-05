@@ -25,17 +25,21 @@ module.exports = {
   },
   staticDirs: ['../public'],
   webpackFinal: async (config) => {
-    config.module.rules.push({
-      test: /\.scss$/,
-      use: [
-        'style-loader',
+    ;(config.resolve.alias.uswds = path.resolve(
+      __dirname,
+      '../node_modules/uswds'
+    )),
+      config.module.rules.push({
+        test: /\.scss$/,
+        use: [
+          'style-loader',
 
-        // All CSS assets will be served from /public so no need to resolve URLs
-        { loader: 'css-loader', options: { url: false } },
+          // All CSS assets will be served from /public so no need to resolve URLs
+          { loader: 'css-loader', options: { url: false } },
 
-        { loader: 'sass-loader', options: { warnRuleAsWarning: false } },
-      ],
-    })
+          { loader: 'sass-loader', options: { warnRuleAsWarning: false } },
+        ],
+      })
 
     config.resolve.modules = config.resolve.modules || []
     config.resolve.modules.push(path.resolve(__dirname, '../src'))

@@ -19,8 +19,6 @@ const errorMsg = 'Error alert'
 const warningMsg = 'Warning alert'
 const infoMsg = 'Info alert'
 
-//TODO: Icons for React USWDS component not displaying in Chrome Storybook
-
 export const AlertSuccess = () => (
   <Alert headingLevel="h1" type="success">
     {successMsg}
