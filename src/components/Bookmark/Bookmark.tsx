@@ -28,7 +28,7 @@ const Bookmark = ({
   )
 
   return (
-    <div className={styles.bookmark}>
+    <div className={classnames(styles.bookmark, className)}>
       {disabled ? (
         <span className={linkClasses}>{children}</span>
       ) : (
