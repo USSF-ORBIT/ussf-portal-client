@@ -36,14 +36,29 @@ ENV IMAGE_TAG=${BUILD}
 
 COPY . .
 
-##--------- Stage: e2e ---------##
-
-# E2E image for running tests (same as prod but without certs)
-FROM node:14.20.1-slim AS e2e
+##--------- Stage: build-env ---------##
+FROM node:14.20.1-slim AS build-env
 
 RUN apt-get update \
   && apt-get dist-upgrade -y \
-  && apt-get -y --no-install-recommends install openssl libc6
+  && apt-get -y --no-install-recommends install openssl libc6 zlib1g
+
+##--------- Stage: e2e ---------##
+
+# E2E image for running tests (same as prod but without certs)
+# FROM node:14.20.1-slim AS e2e
+# FROM gcr.io/distroless/nodejs:14-debug-amd64 AS e2e
+FROM gcr.io/distroless/nodejs:14 AS e2e
+
+
+COPY --from=build-env /lib/aarch64-linux-gnu/libz*  /lib/aarch64-linux-gnu/
+COPY --from=build-env /lib/aarch64-linux-gnu/libexpat*  /lib/aarch64-linux-gnu/
+COPY --from=build-env /lib/aarch64-linux-gnu/libhistory*  /lib/aarch64-linux-gnu/
+COPY --from=build-env /lib/aarch64-linux-gnu/libreadline*  /lib/aarch64-linux-gnu/
+# COPY --from=build-env /lib/x86_64-linux-gnu/libz*  /lib/x86_64-linux-gnu/
+# COPY --from=build-env /lib/x86_64-linux-gnu/libexpat*  /lib/x86_64-linux-gnu/
+# COPY --from=build-env /lib/x86_64-linux-gnu/libhistory*  /lib/x86_64-linux-gnu/
+# COPY --from=build-env /lib/x86_64-linux-gnu/libreadline*  /lib/x86_64-linux-gnu/
 
 WORKDIR /app
 
@@ -62,7 +77,8 @@ COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
-CMD ["node","-r","./startup/index.js", "node_modules/.bin/next", "start"]
+# ENTRYPOINT ["/usr/local/bin/node"]
+CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
 
 ##--------- Stage: runner ---------##
 
