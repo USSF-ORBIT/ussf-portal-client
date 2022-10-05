@@ -3,11 +3,13 @@ import App from 'next/app'
 import Head from 'next/head'
 import type { AppProps, AppContext } from 'next/app'
 import { useRouter } from 'next/router'
-import type { ReactNode } from 'react'
+import type { ReactNode, ComponentType } from 'react'
 import { config } from '@fortawesome/fontawesome-svg-core'
-import '@fortawesome/fontawesome-svg-core/styles.css'
 import { ApolloProvider } from '@apollo/client'
 import { ThemeProvider } from 'next-themes'
+import { withLDProvider } from 'launchdarkly-react-client-sdk'
+
+import '@fortawesome/fontawesome-svg-core/styles.css'
 import 'styles/index.scss'
 import 'styles/sfds/index.scss'
 import '../initIcons'
@@ -26,17 +28,12 @@ type Page<P = Record<string, never>> = NextPage<P> & {
 
 type Props = AppProps & {
   Component: Page
-}
-
-const USSFPortalApp = ({
-  Component,
-  pageProps,
-  hostname,
-}: Props & {
   hostname: {
     origin: string
   }
-}) => {
+}
+
+const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
   const canonicalUrl = hostname.origin
   const { asPath } = useRouter()
 
@@ -177,4 +174,11 @@ USSFPortalApp.getInitialProps = async (appContext: AppContext) => {
   return { ...appProps, hostname }
 }
 
-export default USSFPortalApp
+export default withLDProvider({
+  clientSideID: process.env.LAUNCHDARKLY_SDK_CLIENT_SIDE_ID!,
+  options: {
+    baseUrl: 'https://sdk.launchdarkly.us',
+    streamUrl: 'https://clientstream.launchdarkly.us',
+    eventsUrl: 'https://events.launchdarkly.us',
+  },
+})(USSFPortalApp as unknown as ComponentType)
