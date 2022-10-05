@@ -13,6 +13,7 @@ module.exports = {
     'storybook-addon-next-router',
     'storybook-addon-apollo-client',
     'storybook-theme-toggle',
+    'storybook-addon-launchdarkly',
   ],
   typescript: {
     check: false,
