@@ -6,5 +6,5 @@ export default create({
   brandUrl: 'https://github.com/USSF-ORBIT/ussf-portal-client',
   brandImage: '/img/ussf-logo-short.svg',
   brandTarget: '_self',
-  fontBase: '"Trebuchet MS", sans-serif',
+  fontBase: '"Sharp Sans", "Trebuchet MS", sans-serif',
 })
