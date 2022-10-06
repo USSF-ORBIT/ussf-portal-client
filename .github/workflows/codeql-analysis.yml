@@ -75,9 +75,7 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@b398f525a5587552e573b247ac661067fafa920b # tag=v2
 
-      - name: Upload reports
-        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # tag=v3
-        if: always()
+      - name: Upload CodeQL scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@b398f525a5587552e573b247ac661067fafa920b # tag=v2
         with:
-          name: codeql-sarif-reports
-          path: /home/runner/work/ussf-portal-client/results/javascript.sarif
+          sarif_file: /home/runner/work/ussf-portal-client/results/javascript.sarif
