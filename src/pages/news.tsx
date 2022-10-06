@@ -47,6 +47,10 @@ InternalNews.getLayout = (page: React.ReactNode) =>
             label: <Breadcrumb>Service portal home</Breadcrumb>,
           },
           {
+            path: '/about-us',
+            label: <Breadcrumb>About Us</Breadcrumb>,
+          },
+          {
             path: '/news',
             label: <Breadcrumb>Internal News</Breadcrumb>,
             current: true,
