@@ -13,6 +13,7 @@ module.exports = {
     'storybook-css-modules-preset',
     'storybook-addon-next-router',
     'storybook-theme-toggle',
+    'storybook-addon-launchdarkly',
   ],
   typescript: {
     check: false,

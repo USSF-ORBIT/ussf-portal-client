@@ -1,5 +1,5 @@
 import React from 'react'
-import { Meta } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 
 import ThemeToggle from './ThemeToggle'
 
@@ -15,4 +15,22 @@ export default {
   ],
 } as Meta
 
-export const DefaultThemeToggle = () => <ThemeToggle />
+export const FeatureOn: StoryObj = {
+  parameters: {
+    launchdarkly: {
+      flags: {
+        darkModeToggle: true,
+      },
+    },
+  },
+}
+
+export const FeatureOff: StoryObj = {
+  parameters: {
+    launchdarkly: {
+      flags: {
+        darkModeToggle: false,
+      },
+    },
+  },
+}

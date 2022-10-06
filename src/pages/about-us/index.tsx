@@ -1,15 +1,10 @@
-import {
-  BreadcrumbBar,
-  Breadcrumb,
-  BreadcrumbLink,
-  Grid,
-} from '@trussworks/react-uswds'
+import { Breadcrumb, Grid } from '@trussworks/react-uswds'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 import styles from 'styles/pages/aboutUs.module.scss'
-import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
+import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 const AboutUs = () => {
   const { user } = useUser()
 
@@ -174,14 +169,16 @@ AboutUs.getLayout = (page: React.ReactNode) =>
   withPageLayout(
     <div>
       <h1>About us</h1>
-      <BreadcrumbBar>
-        <Breadcrumb>
-          <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
-            Service portal home
-          </BreadcrumbLink>
-        </Breadcrumb>
-        <Breadcrumb current>About us</Breadcrumb>
-      </BreadcrumbBar>
+      <BreadcrumbNav
+        navItems={[
+          { path: '/', label: <Breadcrumb>Service portal home</Breadcrumb> },
+          {
+            path: '/about-us',
+            label: <Breadcrumb>About Us</Breadcrumb>,
+            current: true,
+          },
+        ]}
+      />
     </div>,
     page
   )
