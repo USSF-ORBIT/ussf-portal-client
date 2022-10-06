@@ -9,6 +9,12 @@
 
   h2 + div > nav {
     padding-top: 0 !important;
+
+    :global(ol.usa-breadcrumb__list
+        > li.usa-breadcrumb__list-item
+        > a.usa-breadcrumb__link) {
+      color: var(--breadcrumbs-edit-display-name);
+    }
   }
 
   dt {
