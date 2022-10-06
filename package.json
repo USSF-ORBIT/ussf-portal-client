@@ -166,7 +166,8 @@
     "trim": "0.0.3",
     "webpack": "5.73.0",
     "glob-parent": "6.0.2",
-    "parse-url": "8.1.0"
+    "parse-url": "8.1.0",
+    "trim-newlines": "3.0.1"
   },
   "browserslist": [
     "> 2%",
