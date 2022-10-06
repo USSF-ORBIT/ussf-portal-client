@@ -74,3 +74,10 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@b398f525a5587552e573b247ac661067fafa920b # tag=v2
+
+      - name: Upload reports
+        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # tag=v3
+        if: always()
+        with:
+          name: codeql-sarif-reports
+          path: ./results/javascript.sarif
