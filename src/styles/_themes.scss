@@ -142,6 +142,11 @@ $hero-image: url('/assets/images/hero.jpeg');
 
   // Articles
   --article-link-text: #{$theme-black};
+
+  // Breadcrumbs
+  --breadcrumbs-link: #{$theme-aurora-base};
+  --breadcrumbs-link-hover: #{$theme-aurora-lighter};
+  --breadcrumbs-edit-display-name: #{$theme-aurora-base};
 }
 
 /* ------------------------------------ */
@@ -296,6 +301,11 @@ $hero-image: url('/assets/images/hero.jpeg');
   // Generated using https://codepen.io/sosuke/pen/Pjoqqp
   --filter-light: brightness(0) saturate(100%) invert(98%) sepia(1%)
     saturate(2653%) hue-rotate(178deg) brightness(118%) contrast(100%);
+
+  // Breadcrumbs
+  --breadcrumbs-link: #{$white};
+  --breadcrumbs-link-hover: #{$white};
+  --breadcrumbs-edit-display-name: #{$theme-mars-lighter};
 
   // Footer
   --footer-bg: #{$black};

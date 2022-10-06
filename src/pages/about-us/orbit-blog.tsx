@@ -1,9 +1,5 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import {
-  BreadcrumbBar,
-  Breadcrumb,
-  BreadcrumbLink,
-} from '@trussworks/react-uswds'
+import { Breadcrumb } from '@trussworks/react-uswds'
 import { Context, gql } from '@apollo/client'
 
 import { client } from '../../lib/keystoneClient'
@@ -12,10 +8,10 @@ import type { ArticleListItemRecord } from 'types'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
-import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import { GET_PORTAL_NEWS_ARTICLES } from 'operations/cms/queries/getPortalNewsArticles'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 import styles from 'styles/pages/news.module.scss'
+import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 
 // The Dev Blog
 const PortalNews = ({
@@ -51,19 +47,17 @@ PortalNews.getLayout = (page: React.ReactNode) =>
   withPageLayout(
     <div>
       <h1>ORBIT Blog</h1>
-      <BreadcrumbBar>
-        <Breadcrumb>
-          <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
-            Service portal home
-          </BreadcrumbLink>
-        </Breadcrumb>
-        <Breadcrumb>
-          <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/about-us">
-            About us
-          </BreadcrumbLink>
-        </Breadcrumb>
-        <Breadcrumb current>ORBIT Blog</Breadcrumb>
-      </BreadcrumbBar>
+      <BreadcrumbNav
+        navItems={[
+          { path: '/', label: <Breadcrumb>Service portal home</Breadcrumb> },
+          { path: '/about-us', label: <Breadcrumb>About Us</Breadcrumb> },
+          {
+            path: '/orbit-blog',
+            label: <Breadcrumb>ORBIT Blog</Breadcrumb>,
+            current: true,
+          },
+        ]}
+      />
     </div>,
     page
   )
