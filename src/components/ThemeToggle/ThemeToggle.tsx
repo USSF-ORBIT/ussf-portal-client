@@ -26,10 +26,6 @@ const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
     }
   }, [])
 
-  if (!data) {
-    return null
-  }
-
   const handleThemeChangeAndTracking = (
     user: SessionUser | null,
     newTheme: string
