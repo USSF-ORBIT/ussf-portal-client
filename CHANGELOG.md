@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.9.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.8.0...4.9.0) (2022-10-06)
+
+
+### Features
+
+* add launch darkly flag for dark mode toggle ([#787](https://github.com/USSF-ORBIT/ussf-portal-client/issues/787)) ([397dccd](https://github.com/USSF-ORBIT/ussf-portal-client/commit/397dccddd2fc1475e3638c389d426498dd4080f3))
+* save theme setting to database and load theme from database when user logs in ([#778](https://github.com/USSF-ORBIT/ussf-portal-client/issues/778)) ([8a7c8e7](https://github.com/USSF-ORBIT/ussf-portal-client/commit/8a7c8e7e3c272fa5c89ee43e3073af809c8d92de))
+
+
+### Bug Fixes
+
+* remove unnecessary trailing double quote ([#782](https://github.com/USSF-ORBIT/ussf-portal-client/issues/782)) ([5721bb3](https://github.com/USSF-ORBIT/ussf-portal-client/commit/5721bb3fbf82b6b4d70ec21b69bd10a9cd35dc6e))
+
 ## [4.8.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.7.0...4.8.0) (2022-09-16)
 
 
