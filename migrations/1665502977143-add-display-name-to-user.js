@@ -5,7 +5,7 @@ const { runMigration } = require('../utils/mongodb')
 
 module.exports.up = runMigration(async (db) => {
   await db.collection('users').updateMany(
-    {},
+    { displayName: { $exists: false } },
     {
       $set: {
         displayName: '',
