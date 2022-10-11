@@ -1,11 +1,6 @@
 import { InferGetServerSidePropsType } from 'next'
 import React, { useEffect } from 'react'
-import {
-  BreadcrumbBar,
-  Breadcrumb,
-  BreadcrumbLink,
-  Grid,
-} from '@trussworks/react-uswds'
+import { Breadcrumb, Grid } from '@trussworks/react-uswds'
 import { client } from '../lib/keystoneClient'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import Announcement from 'components/Announcement/Announcement'
@@ -14,7 +9,6 @@ import Loader from 'components/Loader/Loader'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import { useUser } from 'hooks/useUser'
 import LinkTo from 'components/util/LinkTo/LinkTo'
-import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import { useRSSFeed } from 'hooks/useRSSFeed'
 import styles from 'styles/pages/news.module.scss'
 import type { RSSNewsItem } from 'types'
@@ -23,6 +17,7 @@ import { GET_ANNOUNCEMENTS } from 'operations/cms/queries/getAnnouncements'
 import { GET_INTERNAL_NEWS_CAROUSEL_ARTICLES } from 'operations/cms/queries/getInternalNewsCarouselArticles'
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 import { ArticleList } from 'components/ArticleList/ArticleList'
+import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=4`
 
@@ -113,14 +108,19 @@ NewsAnnouncements.getLayout = (page: React.ReactNode) =>
   withPageLayout(
     <div>
       <h1>News & Announcements</h1>
-      <BreadcrumbBar>
-        <Breadcrumb>
-          <BreadcrumbLink<NavLinkProps> asCustom={NavLink} href="/">
-            Service portal home
-          </BreadcrumbLink>
-        </Breadcrumb>
-        <Breadcrumb current>News & Announcements</Breadcrumb>
-      </BreadcrumbBar>
+      <BreadcrumbNav
+        navItems={[
+          {
+            path: '/',
+            label: <Breadcrumb>Service portal home</Breadcrumb>,
+          },
+          {
+            path: '/news-announcements',
+            label: <Breadcrumb>News & Announcements</Breadcrumb>,
+            current: true,
+          },
+        ]}
+      />
     </div>,
     page
   )

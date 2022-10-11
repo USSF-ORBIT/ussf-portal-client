@@ -57,7 +57,7 @@
 .customLink {
   display: flex;
 
-  &::before {
+  &:global(.usa-link::before) {
     content: '';
     background-image: var(--custom-link-icon);
     width: 18px;

@@ -66,7 +66,7 @@ const EditDisplayName = ({
               </button>
               <button
                 type="button"
-                className="usa-button"
+                className={`usa-button ${styles.saveDisplayName}`}
                 data-testid="saveButton"
                 disabled={currentDisplayName === '' ? true : false}
                 onClick={updateDisplayName}>
