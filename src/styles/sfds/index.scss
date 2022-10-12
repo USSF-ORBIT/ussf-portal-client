@@ -146,9 +146,9 @@
     }
 
     a {
-      color: var(--link-secondary);
+      color: var(--breadcrumbs-link);
       &:hover {
-        color: var(--link-secondary-hover);
+        color: var(--breadcrumbs-link-hover);
       }
     }
 
