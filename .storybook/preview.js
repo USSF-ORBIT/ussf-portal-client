@@ -104,6 +104,11 @@ export const parameters = {
   nextRouter: {
     Provider: RouterContext.Provider,
   },
+  options: {
+    storySort: {
+      order: ['Global', 'Layout', 'Components'],
+    },
+  },
   apolloClient: {
     MockedProvider,
   },
