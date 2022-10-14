@@ -37,8 +37,8 @@ $hero-image: url('/assets/images/hero.jpeg');
   --btn-outline-hover: #{$theme-ultraviolet-dark};
   --btn-outline-active: #{$theme-ultraviolet-darker};
 
-  --btn-unstyled: #{$theme-ultraviolet-base};
-  --btn-unstyled-hover: #{$theme-ultraviolet-darker};
+  --btn-unstyled-text: #{$theme-ultraviolet-base};
+  --btn-unstyled-text-hover: #{$theme-ultraviolet-darker};
   --btn-unstyled-bg-hover: #{$theme-ultraviolet-lightest};
 
   --btn-disabled-text: #{$theme-white};
