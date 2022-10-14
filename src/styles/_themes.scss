@@ -39,7 +39,7 @@ $hero-image: url('/assets/images/hero.jpeg');
 
   --btn-unstyled: #{$theme-ultraviolet-base};
   --btn-unstyled-hover: #{$theme-ultraviolet-darker};
-  --btn-unstyled-bg-hover: transparent;
+  --btn-unstyled-bg-hover: #{$theme-ultraviolet-lightest};
 
   --btn-disabled-text: #{$theme-white};
   --btn-disabled-text-hover: #{$theme-white};
@@ -61,7 +61,7 @@ $hero-image: url('/assets/images/hero.jpeg');
 
   --btn-delete-text: #{$state-error-base};
   --btn-delete-text-hover: #{$state-error-dark};
-  --btn-delete-bg-hover: transparent;
+  --btn-delete-bg-hover: #{$state-error-lighter};
 
   // Sites & Apps
   --btn-sort-bg: transparent;
