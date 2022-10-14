@@ -391,4 +391,27 @@
     background-color: var(--form-combobox-bg);
     color: var(--form-input-text);
   }
+
+  // Alerts
+  .usa-alert {
+    p {
+      color: var(--alert-text);
+    }
+    &.usa-alert--success {
+      background-color: var(--alert-success-bg);
+      border-left-color: var(--alert-success-border);
+    }
+    &.usa-alert--warning {
+      background-color: var(--alert-warning-bg);
+      border-left-color: var(--alert-warning-border);
+    }
+    &.usa-alert--error {
+      background-color: var(--alert-error-bg);
+      border-left-color: var(--alert-error-border);
+    }
+    &.usa-alert--info {
+      background-color: var(--alert-info-bg);
+      border-left-color: var(--alert-info-border);
+    }
+  }
 }

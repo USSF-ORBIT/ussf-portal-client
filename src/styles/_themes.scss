@@ -156,6 +156,16 @@ $hero-image: url('/assets/images/hero.jpeg');
   // Articles
   --article-link-text: #{$theme-black};
 
+  // Alerts
+  --alert-text: #{$theme-black};
+  --alert-success-border: #{$state-success-base};
+  --alert-success-bg: #{$state-success-lighter};
+  --alert-warning-border: #{$state-warning-base};
+  --alert-warning-bg: #{$state-warning-lighter};
+  --alert-error-border: #{$state-error-base};
+  --alert-error-bg: #{$state-error-lighter};
+  --alert-info-border: #{$state-info-base};
+  --alert-info-bg: #{$state-info-lighter};
   // Breadcrumbs
   --breadcrumbs-link: #{$theme-aurora-base};
   --breadcrumbs-link-hover: #{$theme-aurora-lighter};
@@ -236,7 +246,7 @@ $hero-image: url('/assets/images/hero.jpeg');
 
   --widget-sites-apps-bg: rgba(0, 0, 0, 0.3);
   --bookmark-sites-apps-bg: rgba(0, 0, 0, 0.6);
-  --bookmark-sites-apps-border: #71767a;
+  --bookmark-sites-apps-border: #{$blue-gray};
 
   //Sites & Apps - alpha view
   --bookmark-sites-apps-text: #{$white};
@@ -326,6 +336,17 @@ $hero-image: url('/assets/images/hero.jpeg');
   // Articles
   --article-link-text: #{$theme-aurora-base};
   --article-excerpt-text: #{$theme-white};
+
+  // Alerts
+  --alert-text: #{$theme-black};
+  --alert-success-border: #{$blue-gray};
+  --alert-success-bg: #{$state-success-lighter};
+  --alert-warning-bg: #{$state-warning-lighter};
+  --alert-warning-border: #{$blue-gray};
+  --alert-error-bg: #{$state-error-lighter};
+  --alert-error-border: #{$blue-gray};
+  --alert-info-bg: #{$state-info-lighter};
+  --alert-info-border: #{$blue-gray};
 
   // Filters for SVG color changes
   // Generated using https://codepen.io/sosuke/pen/Pjoqqp
