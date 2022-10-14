@@ -154,8 +154,7 @@ const AboutUs = () => {
 
             <script
               async
-              src="https://platform.twitter.com/widgets.js"
-              charSet="utf-8"></script>
+              src="https://platform.twitter.com/widgets.js"></script>
           </div>
         </Grid>
       </Grid>
