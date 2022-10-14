@@ -39,6 +39,7 @@ $hero-image: url('/assets/images/hero.jpeg');
 
   --btn-unstyled: #{$theme-ultraviolet-base};
   --btn-unstyled-hover: #{$theme-ultraviolet-darker};
+  --btn-unstyled-bg-hover: transparent;
 
   --btn-disabled-text: #{$theme-white};
   --btn-disabled-text-hover: #{$theme-white};
@@ -57,6 +58,10 @@ $hero-image: url('/assets/images/hero.jpeg');
   --btn-logout-primary-bg: #{$theme-mars-base};
   --btn-logout-text: #{$white};
   --btn-logout-hover: #{$theme-mars-dark};
+
+  --btn-delete-text: #{$state-error-base};
+  --btn-delete-text-hover: #{$state-error-dark};
+  --btn-delete-bg-hover: transparent;
 
   // Sites & Apps
   --btn-sort-bg: transparent;
@@ -190,8 +195,9 @@ $hero-image: url('/assets/images/hero.jpeg');
   --btn-outline-hover: #{$theme-aurora-base};
   --btn-outline-active: #{$theme-aurora-light};
 
-  --btn-unstyled: #{$theme-aurora-dark};
-  --btn-unstyled-hover: #{$theme-aurora-base};
+  --btn-unstyled-text: #{$theme-aurora-dark};
+  --btn-unstyled-text-hover: #{$theme-aurora-base};
+  --btn-unstyled-bg-hover: #{$theme-ultraviolet-base};
 
   --btn-primary-text: #{$theme-black};
 
@@ -210,6 +216,10 @@ $hero-image: url('/assets/images/hero.jpeg');
   --btn-add-widget: #{$theme-aurora-base};
   --btn-add-widget-icon: #{$theme-white};
   --btn-add-widget-icon-hover: #{$theme-spacebase-light};
+
+  --btn-delete-text: #{$state-error-base};
+  --btn-delete-text-hover: #{$state-error-dark};
+  --btn-delete-bg-hover: #{$state-error-lighter};
 
   // Sites & Apps
   --btn-sort-border: #{$theme-aurora-dark};
