@@ -86,7 +86,11 @@
   input:not([disabled]):focus,
   select:not([disabled]):focus,
   textarea:not([disabled]):focus,
-  button:not([disabled]):focus {
+  button:not([disabled]):focus,
+  iframe:focus,
+  [href]:focus,
+  [tabindex]:focus,
+  [contentEditable='true']:focus {
     outline: 0.25rem solid var(--element-focus);
   }
 
@@ -318,7 +322,7 @@
         box-shadow: none;
 
         &:focus {
-          outline: 0.25rem solid $element-focus;
+          outline: 0.25rem solid var(--element-focus);
         }
       }
     }
