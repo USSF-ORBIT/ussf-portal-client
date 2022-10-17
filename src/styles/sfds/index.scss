@@ -195,6 +195,7 @@
 
   // Secondary
   .usa-button--secondary {
+    color: var(--btn-secondary-text);
     background-color: var(--btn-secondary-bg);
 
     &:hover,
