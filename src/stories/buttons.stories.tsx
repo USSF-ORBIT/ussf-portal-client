@@ -117,32 +117,6 @@ export const Buttons = () => {
         Unstyled button
       </button>
 
-      <h3 className="site-preview-heading">Base color</h3>
-      <button type="button" className="usa-button usa-button--base">
-        Default
-      </button>
-      <button
-        type="button"
-        className="usa-button usa-button--base usa-button--hover">
-        Hover
-      </button>
-      <button
-        type="button"
-        className="usa-button usa-button--base usa-button--active">
-        Active
-      </button>
-      <button type="button" className="usa-button usa-button--base usa-focus">
-        Focus
-      </button>
-      <button type="button" className="usa-button usa-button--base" disabled>
-        Disabled
-      </button>
-      <button
-        type="button"
-        className="usa-button usa-button--base usa-button--unstyled">
-        Unstyled button
-      </button>
-
       <h3 className="site-preview-heading">Outline</h3>
       <button type="button" className="usa-button usa-button--outline">
         Default
