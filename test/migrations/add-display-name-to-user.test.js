@@ -6,7 +6,9 @@ import {
 } from '../../migrations/1665502977143-add-display-name-to-user'
 
 describe('[Migration: Add displayName to user]', () => {
-  const testUserId = 'FLOYD.KING.TEST'
+  const testUserIdOne = 'FLOYD.KING.TEST'
+  const testUserIdTwo = 'BERNADETTE.CAMPBELL.TEST'
+  const testUserIdTwoDisplayName = 'TEST DISPLAY NAME'
   let connection
   let db
 
@@ -20,9 +22,15 @@ describe('[Migration: Add displayName to user]', () => {
     // Reset db
     await db.collection('users').deleteMany({})
 
-    // Create a test user
+    // Create a test user WITHOUT a displayName
     await db.collection('users').insertOne({
-      userId: testUserId,
+      userId: testUserIdOne,
+    })
+
+    // Create a test user WITH a displayName
+    await db.collection('users').insertOne({
+      userId: testUserIdTwo,
+      displayName: testUserIdTwoDisplayName,
     })
   })
 
@@ -31,22 +39,42 @@ describe('[Migration: Add displayName to user]', () => {
   })
 
   it('up', async () => {
-    let user = await db.collection('users').findOne({ userId: testUserId })
-    expect(user).not.toHaveProperty('displayName')
+    let userOne = await db
+      .collection('users')
+      .findOne({ userId: testUserIdOne })
+    expect(userOne).not.toHaveProperty('displayName')
+
+    let userTwo = await db
+      .collection('users')
+      .findOne({ userId: testUserIdTwo })
+    expect(userTwo).toHaveProperty('displayName', 'TEST DISPLAY NAME')
 
     await up()
 
-    user = await db.collection('users').findOne({ userId: testUserId })
-    expect(user).toHaveProperty('displayName')
+    userOne = await db.collection('users').findOne({ userId: testUserIdOne })
+    expect(userOne).toHaveProperty('displayName')
+
+    userTwo = await db.collection('users').findOne({ userId: testUserIdTwo })
+    expect(userTwo).toHaveProperty('displayName', 'TEST DISPLAY NAME')
   })
 
   it('down', async () => {
-    let user = await db.collection('users').findOne({ userId: testUserId })
-    expect(user).toHaveProperty('displayName')
+    let userOne = await db
+      .collection('users')
+      .findOne({ userId: testUserIdOne })
+    expect(userOne).toHaveProperty('displayName')
+
+    let userTwo = await db
+      .collection('users')
+      .findOne({ userId: testUserIdTwo })
+    expect(userTwo).toHaveProperty('displayName', 'TEST DISPLAY NAME')
 
     await down()
 
-    user = await db.collection('users').findOne({ userId: testUserId })
-    expect(user).not.toHaveProperty('displayName')
+    userOne = await db.collection('users').findOne({ userId: testUserIdOne })
+    expect(userOne).not.toHaveProperty('displayName')
+
+    userTwo = await db.collection('users').findOne({ userId: testUserIdTwo })
+    expect(userTwo).toHaveProperty('displayName', 'TEST DISPLAY NAME')
   })
 })
