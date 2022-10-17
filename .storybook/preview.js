@@ -5,6 +5,7 @@ import { MockedProvider } from '@apollo/client/testing'
 // happo support
 import 'happo-plugin-storybook/register'
 
+import 'uswds/dist/css/uswds.css'
 import '../src/initIcons'
 import '../src/styles/index.scss'
 // SFDS
@@ -103,6 +104,11 @@ export const parameters = {
   },
   nextRouter: {
     Provider: RouterContext.Provider,
+  },
+  options: {
+    storySort: {
+      order: ['Global', 'Layout', 'Components'],
+    },
   },
   apolloClient: {
     MockedProvider,

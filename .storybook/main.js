@@ -6,12 +6,12 @@ module.exports = {
   },
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
+    '@storybook/addon-a11y',
+    'storybook-addon-apollo-client',
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    '@storybook/addon-a11y',
     'storybook-css-modules-preset',
     'storybook-addon-next-router',
-    'storybook-addon-apollo-client',
     'storybook-theme-toggle',
     'storybook-addon-launchdarkly',
   ],
@@ -37,6 +37,10 @@ module.exports = {
       ],
     })
 
+    config.resolve.alias.uswds = path.resolve(
+      __dirname,
+      '../node_modules/uswds'
+    )
     config.resolve.modules = config.resolve.modules || []
     config.resolve.modules.push(path.resolve(__dirname, '../src'))
     config.resolve.modules.push('node_modules')
