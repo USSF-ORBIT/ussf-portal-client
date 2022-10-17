@@ -57,5 +57,6 @@
   &:focus {
     border: 4px var(--element-focus) solid;
     outline: none;
+    padding: 0 units(1);
   }
 }
