@@ -318,7 +318,7 @@
         box-shadow: none;
 
         &:focus {
-          outline: 0.25rem solid $theme-ultraviolet-light;
+          outline: 0.25rem solid $element-focus;
         }
       }
     }
