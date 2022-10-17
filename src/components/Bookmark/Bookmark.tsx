@@ -37,7 +37,8 @@ const Bookmark = ({
           href={href}
           className={linkClasses}
           rel="noreferrer noopener"
-          target="_blank">
+          target="_blank"
+          tabIndex="0">
           {children}
           <span className="usa-sr-only">(opens in a new window)</span>
         </LinkTo>
@@ -48,7 +49,8 @@ const Bookmark = ({
           type="button"
           onClick={onDelete}
           className={styles.delete}
-          aria-label="Remove this link">
+          aria-label="Remove this link"
+          tabIndex="0">
           <FontAwesomeIcon icon="times" />
         </button>
       )}
@@ -58,7 +60,8 @@ const Bookmark = ({
           type="button"
           onClick={onEdit}
           className={styles.delete}
-          aria-label="Edit this link">
+          aria-label="Edit this link"
+          tabIndex="0">
           <FontAwesomeIcon icon="pen" />
         </button>
       )}
