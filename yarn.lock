@@ -8766,10 +8766,10 @@ eslint-plugin-import@2.26.0, eslint-plugin-import@^2.26.0:
     resolve "^1.22.0"
     tsconfig-paths "^3.14.1"
 
-eslint-plugin-jest@26.5.3:
-  version "26.5.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-26.5.3.tgz#a3ceeaf4a757878342b8b00eca92379b246e5505"
-  integrity sha512-sICclUqJQnR1bFRZGLN2jnSVsYOsmPYYnroGCIMVSvTS3y8XR3yjzy1EcTQmk6typ5pRgyIWzbjqxK6cZHEZuQ==
+eslint-plugin-jest@27.1.1:
+  version "27.1.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-27.1.1.tgz#60f68dee15d4ffd9cdff65158d7fa46a65dbaaf5"
+  integrity sha512-vuSuXGKHHi/UAffIM46QKm4g0tQP+6n52nRxUpMq6x6x9rhnv5WM7ktSu3h9cTnXE4b0Y0ODQTgRlCm9rdRLvg==
   dependencies:
     "@typescript-eslint/utils" "^5.10.0"
 
@@ -13681,10 +13681,10 @@ passport-saml-metadata@2.6.0:
     passport-saml "^3.1.0"
     xpath "0.0.32"
 
-passport-saml@3.2.1, passport-saml@^3.1.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/passport-saml/-/passport-saml-3.2.1.tgz#c489a61a4c2dd93ddec1d53952a595b9f33e15e8"
-  integrity sha512-Y8aD94B6MTLht57BlBrDauEgvtWjuSeINKk7NadXlpT/OBmsoGGYPpb0FJeBtdyGX4GEbZARAkxvBEqsL8E7XQ==
+passport-saml@3.2.2, passport-saml@^3.1.0:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/passport-saml/-/passport-saml-3.2.2.tgz#0ebd5aa26898f79d0c821e5e098ee0464ea43f7b"
+  integrity sha512-69lhv2HVuXlMcywSeZ91o91L5BW1tSK3xX3TJh8QfRUv8M65B5Jm0cgm2PV63IM3qn4Cq4jDkq934vcBEBcRNw==
   dependencies:
     "@xmldom/xmldom" "^0.7.5"
     debug "^4.3.2"
