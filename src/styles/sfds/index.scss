@@ -87,7 +87,7 @@
   select:not([disabled]):focus,
   textarea:not([disabled]):focus,
   button:not([disabled]):focus {
-    outline: 0.25rem solid $theme-ultraviolet-light;
+    outline: 0.25rem solid var(--element-focus);
   }
 
   p,
