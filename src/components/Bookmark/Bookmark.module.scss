@@ -22,6 +22,12 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    &:focus {
+      padding: units(1) units('105');
+      border: 4px var(--bookmark-focus) solid;
+      outline: none;
+    }
   }
 
   &:hover,
@@ -44,7 +50,12 @@
   background: var(--bookmark-bg);
   padding: 0 units('105');
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: var(--icon-hover);
+  }
+  &:focus {
+    border: 4px var(--bookmark-focus) solid;
+    outline: none;
   }
 }
