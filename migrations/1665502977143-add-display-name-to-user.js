@@ -15,5 +15,7 @@ module.exports.up = runMigration(async (db) => {
 })
 
 module.exports.down = runMigration(async (db) => {
-  await db.collection('users').updateMany({}, { $unset: { displayName: '' } })
+  await db
+    .collection('users')
+    .updateMany({ displayName: '' }, { $unset: { displayName: '' } })
 })
