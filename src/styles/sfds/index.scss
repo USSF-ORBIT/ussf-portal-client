@@ -332,6 +332,12 @@
     }
   }
 
+  // Big button
+
+  .usa-button--big {
+    font-family: $sfds-heading-font;
+  }
+
   .text-error {
     color: $state-error-base;
   }
