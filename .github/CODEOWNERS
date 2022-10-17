@@ -1,6 +1,11 @@
 # Default owners for everything
 
-* @abbyoung @esacteksab @gidjin @minhlai
+- @abbyoung @esacteksab @gidjin @minhlai
+
+# Require design / frontend reviews on Storybook
+
+/src/stories/ @USSF-ORBIT/design
+\*.stories.tsx @USSF-ORBIT/design
 
 # Github settings
 
@@ -12,5 +17,5 @@
 
 # Solution: make files used by renovate owned by everyone
 
-**/*/package.json
-**/*/yarn.lock
+**/\*/package.json
+**/\*/yarn.lock
