@@ -15,7 +15,7 @@ $hero-image: url('/assets/images/hero.jpeg');
   --link-secondary: #{$theme-aurora-base};
   --link-secondary-hover: #{$theme-aurora-lighter};
   --paragraph-text: #{$theme-black};
-  --bookmark-focus: #{$theme-ultraviolet-base};
+  --element-focus: #{$theme-ultraviolet-base};
 
   // Layout
   --body-bg: #{$white};
@@ -171,7 +171,7 @@ $hero-image: url('/assets/images/hero.jpeg');
   --link-secondary: #{$theme-ultraviolet-darkest};
   --link-secondary-hover: #{$theme-ultraviolet-darker};
   --paragraph-text: #{$theme-white};
-  --bookmark-focus: #{$theme-aurora-base};
+  --element-focus: #{$theme-aurora-base};
 
   // Layout
   --bg: #{linear-gradient(
