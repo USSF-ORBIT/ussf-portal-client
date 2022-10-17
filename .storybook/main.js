@@ -37,6 +37,10 @@ module.exports = {
       ],
     })
 
+    config.resolve.alias.uswds = path.resolve(
+      __dirname,
+      '../node_modules/uswds'
+    )
     config.resolve.modules = config.resolve.modules || []
     config.resolve.modules.push(path.resolve(__dirname, '../src'))
     config.resolve.modules.push('node_modules')
