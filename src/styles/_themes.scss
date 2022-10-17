@@ -15,6 +15,7 @@ $hero-image: url('/assets/images/hero.jpeg');
   --link-secondary: #{$theme-aurora-base};
   --link-secondary-hover: #{$theme-aurora-lighter};
   --paragraph-text: #{$theme-black};
+  --bookmark-focus: #{$theme-ultraviolet-base};
 
   // Layout
   --body-bg: #{$white};
@@ -79,7 +80,6 @@ $hero-image: url('/assets/images/hero.jpeg');
   --bookmark-hover: #{$grey};
   --icon: #{$theme-spacebase-light};
   --icon-hover: #{$theme-spacebase-base};
-  --bookmark-focus: #{$theme-ultraviolet-base};
 
   // Menus
   --dropdown-menu-bg: #{$theme-white};
@@ -171,6 +171,7 @@ $hero-image: url('/assets/images/hero.jpeg');
   --link-secondary: #{$theme-ultraviolet-darkest};
   --link-secondary-hover: #{$theme-ultraviolet-darker};
   --paragraph-text: #{$theme-white};
+  --bookmark-focus: #{$theme-aurora-base};
 
   // Layout
   --bg: #{linear-gradient(
@@ -241,7 +242,7 @@ $hero-image: url('/assets/images/hero.jpeg');
   --bookmark-hover: #{$theme-ultraviolet-darker};
   --bookmark-border: #{$theme-spacebase-darkest};
   --bookmark-border-hover: #{$theme-ultraviolet-darker};
-  --bookmark-focus: #{$theme-aurora-base};
+
   --icon: #{$theme-white};
   --icon-hover: #{$theme-spacebase-light};
   --input-bg: #{$theme-white};
