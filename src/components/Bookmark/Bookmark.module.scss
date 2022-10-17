@@ -24,7 +24,8 @@
     text-overflow: ellipsis;
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: var(--bookmark-hover);
     border-color: var(--bookmark-border-hover);
     .delete {
