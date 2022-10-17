@@ -259,11 +259,18 @@
 
   .usa-button--unstyled {
     background-color: transparent;
-    color: var(--btn-unstyled);
+    color: var(--btn-unstyled-text);
 
     &:hover {
-      background-color: transparent;
-      color: var(--btn-unstyled-hover);
+      background-color: var(--btn-unstyled-bg-hover);
+      color: var(--btn-unstyled-text-hover);
+    }
+    &.text-error {
+      color: var(--btn-delete-text);
+      &:hover {
+        background-color: var(--btn-delete-bg-hover);
+        color: var(--btn-delete-text-hover);
+      }
     }
   }
 
