@@ -10,8 +10,8 @@
   height: 30px;
   left: 0px;
   top: 0px;
-  background: $theme-aurora-dark;
-  color: $black;
+  background: var(--btn-theme-toggle-bg);
+  color: var(--btn-theme-toggle-text);
   border-radius: 4px;
   border-style: none;
   outline: none;

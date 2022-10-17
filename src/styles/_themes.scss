@@ -18,7 +18,7 @@ $hero-image: url('/assets/images/hero.jpeg');
 
   // Layout
   --body-bg: #{$white};
-  --bg: #{$theme-white};
+  --bg: #{$white};
   --text: #{$theme-black};
   --header-image: #{$black $hero-image no-repeat};
 
@@ -37,10 +37,15 @@ $hero-image: url('/assets/images/hero.jpeg');
   --btn-outline-hover: #{$theme-ultraviolet-dark};
   --btn-outline-active: #{$theme-ultraviolet-darker};
 
-  --btn-unstyled: #{$theme-ultraviolet-base};
-  --btn-unstyled-hover: #{$theme-ultraviolet-darker};
+  --btn-unstyled-text: #{$theme-ultraviolet-base};
+  --btn-unstyled-text-hover: #{$theme-ultraviolet-darker};
+  --btn-unstyled-bg-hover: #{$theme-ultraviolet-lightest};
 
-  --disabled-btn-text: #{$theme-white};
+  --btn-disabled-text: #{$theme-white};
+  --btn-disabled-text-hover: #{$theme-white};
+  --btn-disabled-bg: #{$state-disabled-base};
+  --btn-disabled-bg-hover: #{$state-disabled-dark};
+  --btn-disabled-outline: transparent;
 
   --btn-add-widget-bg: rgba(220, 222, 224, 0.15);
   --btn-add-widget-border: #{color('base-lighter')};
@@ -48,9 +53,15 @@ $hero-image: url('/assets/images/hero.jpeg');
   --btn-add-widget-icon: rgba(0, 0, 0, 0.1);
   --btn-add-widget-icon-hover: rgba(0, 0, 0, 0.25);
 
+  --btn-theme-toggle-bg: #{$theme-ultraviolet-base};
+  --btn-theme-toggle-text: #{$white};
   --btn-logout-primary-bg: #{$theme-mars-base};
   --btn-logout-text: #{$white};
   --btn-logout-hover: #{$theme-mars-dark};
+
+  --btn-delete-text: #{$state-error-base};
+  --btn-delete-text-hover: #{$state-error-dark};
+  --btn-delete-bg-hover: #{$state-error-lighter};
 
   // Sites & Apps
   --btn-sort-bg: transparent;
@@ -79,21 +90,23 @@ $hero-image: url('/assets/images/hero.jpeg');
   --bookmark-hover: #{$grey};
   --icon: #{$theme-spacebase-light};
   --icon-hover: #{$theme-spacebase-base};
+  --custom-link-icon: url('/assets/images/icon_custom-link.svg');
 
   // Menus
-  --dropdown-menu-bg: #{$theme-white};
+  --dropdown-menu-bg: #{$white};
   --dropdown-menu-bg-hover: #{$grey};
+  --dropdown-menu-disabled-text: #070f1d50;
   --page-nav-link: #{$theme-ultraviolet-base};
   --page-nav-link-after: #{$light-blue};
 
   // Widgets
-  --widget-bg: #{$theme-white};
+  --widget-bg: #{$white};
   --widget-border: #{color(base-light)};
   --widget-selected: #{rgba($grey, 0.8)};
   --widget-selected-border: #{$theme-spacebase-base};
 
   // Forms
-  --form-combobox-bg: #{$theme-white};
+  --form-combobox-bg: #{$white};
   --form-input-bg: transparent;
   --form-input-text: #{$theme-black};
   --form-input-border: #{color(base-light)};
@@ -186,14 +199,15 @@ $hero-image: url('/assets/images/hero.jpeg');
 
   // Buttons
   --btn-primary-bg: #{$theme-aurora-dark};
-  --btn-primary-bg-hover: #{$theme-aurora-darker}; // Not sure about this
-  --btn-primary-bg-active: #{$theme-aurora-darker}; // Not sure about this either
+  --btn-primary-bg-hover: #{$theme-aurora-base};
+  --btn-primary-bg-active: #{$theme-aurora-base};
   --btn-outline-text: #{$theme-aurora-dark};
   --btn-outline-hover: #{$theme-aurora-base};
   --btn-outline-active: #{$theme-aurora-light};
 
-  --btn-unstyled: #{$theme-aurora-dark};
-  --btn-unstyled-hover: #{$theme-aurora-base};
+  --btn-unstyled-text: #{$theme-aurora-dark};
+  --btn-unstyled-text-hover: #{$theme-aurora-base};
+  --btn-unstyled-bg-hover: #{$theme-ultraviolet-base};
 
   --btn-primary-text: #{$theme-black};
 
@@ -212,6 +226,10 @@ $hero-image: url('/assets/images/hero.jpeg');
   --btn-add-widget: #{$theme-aurora-base};
   --btn-add-widget-icon: #{$theme-white};
   --btn-add-widget-icon-hover: #{$theme-spacebase-light};
+
+  --btn-delete-text: #{$state-error-base};
+  --btn-delete-text-hover: #{$state-error-dark};
+  --btn-delete-bg-hover: #{$state-error-lighter};
 
   // Sites & Apps
   --btn-sort-border: #{$theme-aurora-dark};
@@ -235,6 +253,16 @@ $hero-image: url('/assets/images/hero.jpeg');
   --bookmark-sites-apps-alpha-bg-odd: rgba(0, 0, 0, 0.3);
   --bookmark-sites-apps-alpha-bg-even: rgba(0, 0, 0, 0.4);
 
+  --btn-disabled-text: #{$theme-aurora-dark};
+  --btn-disabled-text-hover: #{$theme-aurora-base};
+  --btn-disabled-bg: transparent;
+  --btn-disabled-bg-hover: transparent;
+  --btn-disabled-outline: #{$theme-aurora-dark};
+  --btn-disabled-outline-hover: #{$theme-aurora-base};
+
+  --btn-theme-toggle-bg: #{$theme-aurora-dark};
+  --btn-theme-toggle-text: #{$black};
+
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
   --bookmark-hover: #{$theme-ultraviolet-darker};
@@ -244,11 +272,12 @@ $hero-image: url('/assets/images/hero.jpeg');
   --icon-hover: #{$theme-spacebase-light};
   --input-bg: #{$theme-white};
   --input-text: #{$theme-black};
+  --custom-link-icon: url('/assets/images/icon_custom-link-dark.svg');
 
   // Widgets
   --widget-bg: #{$theme-spacebase-darker};
   --widget-border: #{$theme-spacebase-darker};
-  --widget-selected: #{rgba($grey, 0.4)};
+  --widget-selected: #{rgba($black, 0.65)};
   --widget-selected-border: #{$theme-spacebase-base};
 
   // News
@@ -276,6 +305,7 @@ $hero-image: url('/assets/images/hero.jpeg');
   // Menus
   --dropdown-menu-bg: #{$theme-spacebase-darkest};
   --dropdown-menu-bg-hover: #{$theme-spacebase-darker};
+  --dropdown-menu-disabled-text: #a3ffb650;
   --page-nav-link: #{$theme-aurora-dark};
   --page-nav-link-after: #{$theme-aurora-dark};
 
