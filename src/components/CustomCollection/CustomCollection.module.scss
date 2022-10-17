@@ -59,7 +59,7 @@
 
   &:global(.usa-link::before) {
     content: '';
-    background-image: url('/assets/images/icon_custom-link.svg');
+    background-image: var(--custom-link-icon);
     width: 18px;
     height: 18px;
     margin-right: units(1);
@@ -93,12 +93,14 @@ button.collectionSettingsDropdown {
     flex-grow: 1;
   }
 
-  button.cancelButton {
-    color: var(--disabled-btn-text);
-    background-color: $state-disabled-base;
+  :global(.usa-button).cancelButton {
+    color: var(--btn-disabled-text);
+    background-color: var(--btn-disabled-bg);
+    box-shadow: inset 0 0 0 2px var(--btn-disabled-outline);
     &:hover {
-      color: var(--link-secondary-hover);
-      background-color: $state-disabled-dark;
+      color: var(--btn-disabled-text-hover);
+      background-color: var(--btn-disabled-bg-hover);
+      box-shadow: inset 0 0 0 2px var(--btn-disabled-outline-hover);
     }
   }
 }
