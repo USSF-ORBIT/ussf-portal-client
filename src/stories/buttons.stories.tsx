@@ -8,7 +8,7 @@ export default {
 export const Buttons = () => {
   return (
     <div className="sfds">
-      <h1>Buttons</h1>
+      <h2>Buttons</h2>
       <h3 className="site-preview-heading">Default</h3>
       <button type="button" className="usa-button">
         Default
