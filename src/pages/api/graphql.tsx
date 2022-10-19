@@ -89,10 +89,6 @@ export const apolloServer = new ApolloServer({
       // Check if user exists. If not, create new user
       const foundUser = await User.findOne(userId, { db })
 
-      const query = {
-        userId: userId,
-      }
-
       if (!foundUser) {
         try {
           const initCollection = await getExampleCollection()
@@ -103,15 +99,6 @@ export const apolloServer = new ApolloServer({
           // TODO log error
           // console.error('error in creating new user', e)
           throw new ApolloError('Error creating new user')
-        }
-      } else {
-        if (!foundUser.theme) {
-          const updateDocument = {
-            $set: {
-              theme: 'light',
-            },
-          }
-          await db.collection('users').updateOne(query, updateDocument)
         }
       }
 
