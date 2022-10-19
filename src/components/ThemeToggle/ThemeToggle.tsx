@@ -52,7 +52,7 @@ const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
       onClick={() => {
         const newTheme = theme === 'light' ? 'dark' : 'light'
         setTheme(newTheme)
-        if (theme) handleThemeChangeAndTracking(user, newTheme)
+        handleThemeChangeAndTracking(user, newTheme)
       }}
       className={styles.toggleButton}
       data-testid="theme-toggle">
