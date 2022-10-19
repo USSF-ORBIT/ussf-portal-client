@@ -107,5 +107,5 @@ button.collectionSettingsDropdown {
 
 .dragBookmark {
   margin-left: 10px;
-  width: 100%;
+  width: calc(100% - 1rem - 10px);
 }
