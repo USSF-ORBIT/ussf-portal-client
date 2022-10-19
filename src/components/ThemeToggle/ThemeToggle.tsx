@@ -24,6 +24,8 @@ const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
     } else if (data) {
       setTheme(data.theme)
     }
+    // The dependency list is intentionally left blank so that useEffect only runs once.
+    // After the theme is queried and applied, we can rely on updating local storage to serve the theme.
   }, [])
 
   const handleThemeChangeAndTracking = (
