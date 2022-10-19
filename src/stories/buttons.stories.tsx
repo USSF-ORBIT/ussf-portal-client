@@ -8,7 +8,7 @@ export default {
 export const Buttons = () => {
   return (
     <div className="sfds">
-      <h1>Buttons</h1>
+      <h2>Buttons</h2>
       <h3 className="site-preview-heading">Default</h3>
       <button type="button" className="usa-button">
         Default
@@ -114,32 +114,6 @@ export const Buttons = () => {
       <button
         type="button"
         className="usa-button usa-button--muted usa-button--unstyled">
-        Unstyled button
-      </button>
-
-      <h3 className="site-preview-heading">Base color</h3>
-      <button type="button" className="usa-button usa-button--base">
-        Default
-      </button>
-      <button
-        type="button"
-        className="usa-button usa-button--base usa-button--hover">
-        Hover
-      </button>
-      <button
-        type="button"
-        className="usa-button usa-button--base usa-button--active">
-        Active
-      </button>
-      <button type="button" className="usa-button usa-button--base usa-focus">
-        Focus
-      </button>
-      <button type="button" className="usa-button usa-button--base" disabled>
-        Disabled
-      </button>
-      <button
-        type="button"
-        className="usa-button usa-button--base usa-button--unstyled">
         Unstyled button
       </button>
 
