@@ -199,6 +199,7 @@
 
   // Secondary
   .usa-button--secondary {
+    color: var(--btn-secondary-text);
     background-color: var(--btn-secondary-bg);
 
     &:hover,
@@ -225,7 +226,7 @@
     &:active,
     &.usa-button--active {
       color: $theme-white;
-      background-color: $theme-aurora-darker;
+      background-color: $theme-aurora-darkest;
     }
   }
 
@@ -333,6 +334,12 @@
         }
       }
     }
+  }
+
+  // Big button
+
+  .usa-button--big {
+    font-family: $sfds-heading-font;
   }
 
   .text-error {
