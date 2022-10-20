@@ -386,7 +386,6 @@ const CustomCollection = ({
         {(provided) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
             <Collection
-              className="dragList"
               header={customCollectionHeader}
               footer={!isEditingTitle ? addLinkForm : null}>
               {visibleBookmarks.map((bookmark: BookmarkType, index) =>
