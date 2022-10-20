@@ -411,12 +411,7 @@ const CustomCollection = ({
                             {...provided.dragHandleProps}
                             aria-label="Drag Handle"
                             className={styles.dragIconWrap}>
-                            <FontAwesomeIcon
-                              icon="grip-vertical"
-                              style={{
-                                color: '#A0A8B6',
-                              }}
-                            />
+                            <FontAwesomeIcon icon="grip-vertical" />
                           </span>
                           <div className={styles.dragBookmark}>
                             <RemovableBookmark
@@ -461,12 +456,7 @@ const CustomCollection = ({
                             {...provided.dragHandleProps}
                             aria-label="Drag Handle"
                             className={styles.dragIcon}>
-                            <FontAwesomeIcon
-                              icon="grip-vertical"
-                              style={{
-                                color: '#A0A8B6',
-                              }}
-                            />
+                            <FontAwesomeIcon icon="grip-vertical" />
                           </span>
                           <div className={styles.dragBookmark}>
                             <CustomBookmark

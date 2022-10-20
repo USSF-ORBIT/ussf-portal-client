@@ -1,6 +1,7 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/deps';
 @import 'styles/sfds/sfdsDependencies';
+@import 'styles/sfds/_colors.scss';
 
 .undo {
   @extend %button-reset;
@@ -107,6 +108,7 @@ button.collectionSettingsDropdown {
 
 .dragIconWrap svg {
   margin-bottom: 2px;
+  color: $theme-spacebase-lighter;
 }
 
 .dragIconWrap:focus svg {
