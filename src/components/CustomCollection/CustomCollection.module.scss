@@ -105,6 +105,14 @@ button.collectionSettingsDropdown {
   }
 }
 
+.dragIconWrap svg {
+  margin-bottom: 2px;
+}
+
+.dragIconWrap:focus svg {
+  margin-bottom: 0px;
+}
+
 .dragBookmark {
   margin-left: 10px;
   width: calc(100% - 1rem);
