@@ -415,7 +415,7 @@ const CustomCollection = ({
                               icon="grip-vertical"
                               style={{
                                 color: '#A0A8B6',
-                                marginBottom: '2px',
+                                margin: '2px',
                               }}
                             />
                           </span>
@@ -465,7 +465,7 @@ const CustomCollection = ({
                               icon="grip-vertical"
                               style={{
                                 color: '#A0A8B6',
-                                marginBottom: '2px',
+                                margin: '2px',
                               }}
                             />
                           </span>
