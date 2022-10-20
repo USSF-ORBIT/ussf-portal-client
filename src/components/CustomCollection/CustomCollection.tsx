@@ -455,7 +455,7 @@ const CustomCollection = ({
                           <span
                             {...provided.dragHandleProps}
                             aria-label="Drag Handle"
-                            className={styles.dragIcon}>
+                            className={styles.dragIconWrap}>
                             <FontAwesomeIcon icon="grip-vertical" />
                           </span>
                           <div className={styles.dragBookmark}>
