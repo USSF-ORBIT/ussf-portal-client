@@ -409,28 +409,27 @@ const CustomCollection = ({
                           style={style}>
                           <span
                             {...provided.dragHandleProps}
-                            aria-label="Drag Handle">
-                            <FontAwesomeIcon
-                              icon="grip-vertical"
-                              style={{
-                                color: '#A0A8B6',
-                                marginRight: '10px',
-                                marginBottom: '2px',
+                            aria-label="Drag Handle"
+                            className={styles.dragIconWrap}>
+                            <FontAwesomeIcon icon="grip-vertical" />
+                          </span>
+                          <div className={styles.dragBookmark}>
+                            <RemovableBookmark
+                              key={`bookmark_${bookmark._id}`}
+                              bookmark={findBookmark(bookmark)}
+                              handleRemove={() => {
+                                trackEvent(
+                                  'Remove link',
+                                  'Hide CMS link',
+                                  `${title} / ${bookmark.label || bookmark.url}`
+                                )
+                                handleRemoveBookmark(
+                                  bookmark._id,
+                                  bookmark.cmsId
+                                )
                               }}
                             />
-                          </span>
-                          <RemovableBookmark
-                            key={`bookmark_${bookmark._id}`}
-                            bookmark={findBookmark(bookmark)}
-                            handleRemove={() => {
-                              trackEvent(
-                                'Remove link',
-                                'Hide CMS link',
-                                `${title} / ${bookmark.label || bookmark.url}`
-                              )
-                              handleRemoveBookmark(bookmark._id, bookmark.cmsId)
-                            }}
-                          />
+                          </div>
                         </div>
                       )
                     }}
@@ -455,24 +454,22 @@ const CustomCollection = ({
                           style={style}>
                           <span
                             {...provided.dragHandleProps}
-                            aria-label="Drag Handle">
-                            <FontAwesomeIcon
-                              icon="grip-vertical"
-                              style={{
-                                color: '#A0A8B6',
-                                marginRight: '10px',
-                                marginBottom: '2px',
-                              }}
-                            />
+                            aria-label="Drag Handle"
+                            className={styles.dragIconWrap}>
+                            <FontAwesomeIcon icon="grip-vertical" />
                           </span>
-                          <CustomBookmark
-                            key={`bookmark_${bookmark._id}`}
-                            bookmark={bookmark}
-                            onSave={(label, url) => {
-                              handleEditBookmark(bookmark._id, url, label)
-                            }}
-                            onDelete={() => handleRemoveBookmark(bookmark._id)}
-                          />
+                          <div className={styles.dragBookmark}>
+                            <CustomBookmark
+                              key={`bookmark_${bookmark._id}`}
+                              bookmark={bookmark}
+                              onSave={(label, url) => {
+                                handleEditBookmark(bookmark._id, url, label)
+                              }}
+                              onDelete={() =>
+                                handleRemoveBookmark(bookmark._id)
+                              }
+                            />
+                          </div>
                         </div>
                       )
                     }}
