@@ -34,9 +34,9 @@ describe('Dropdown Menu ', () => {
     expect(screen.getAllByRole('listitem')).toHaveLength(3)
   })
 
-  it('renders the toggle button', () => {
+  it('renders the toggle button', async () => {
     expect(screen.getByRole('button')).toHaveTextContent('Toggle Dropdown')
-    userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('button'))
     expect(mockOnClick).toHaveBeenCalled()
   })
 

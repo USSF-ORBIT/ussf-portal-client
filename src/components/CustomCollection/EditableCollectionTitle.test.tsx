@@ -60,15 +60,15 @@ it('saves the form', async () => {
     />
   )
   const input = screen.getByRole('textbox', { name: 'Collection Title' })
-  userEvent.clear(input)
-  userEvent.type(input, 'New Title')
+  await userEvent.clear(input)
+  await userEvent.type(input, 'New Title')
 
   const saveNameButton = screen.getByRole('button', { name: 'Save name' })
-  userEvent.click(saveNameButton)
+  await userEvent.click(saveNameButton)
   expect(mockHandleOnSave).toBeCalledWith('New Title')
 })
 
-it('cancels the form', () => {
+it('cancels the form', async () => {
   const mockHandleOnCancel = jest.fn()
   render(
     <EditableCollectionTitle
@@ -80,6 +80,6 @@ it('cancels the form', () => {
     />
   )
   const cancelButton = screen.getByRole('button', { name: 'Cancel' })
-  userEvent.click(cancelButton)
+  await userEvent.click(cancelButton)
   expect(mockHandleOnCancel).toBeCalledTimes(1)
 })

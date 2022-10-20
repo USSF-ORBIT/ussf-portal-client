@@ -39,13 +39,13 @@ describe('500 page', () => {
     )
   })
 
-  it('renders a back button', () => {
+  it('renders a back button', async () => {
     const backButton = screen.getByRole('button', {
       name: 'Return to previous page',
     })
     expect(backButton).toBeInTheDocument()
 
-    userEvent.click(backButton)
+    await userEvent.click(backButton)
     expect(mockBack).toHaveBeenCalled()
   })
 })
