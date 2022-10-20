@@ -409,7 +409,8 @@ const CustomCollection = ({
                           style={style}>
                           <span
                             {...provided.dragHandleProps}
-                            aria-label="Drag Handle">
+                            aria-label="Drag Handle"
+                            className={styles.dragIconWrap}>
                             <FontAwesomeIcon
                               icon="grip-vertical"
                               style={{
@@ -458,7 +459,8 @@ const CustomCollection = ({
                           style={style}>
                           <span
                             {...provided.dragHandleProps}
-                            aria-label="Drag Handle">
+                            aria-label="Drag Handle"
+                            className={styles.dragIcon}>
                             <FontAwesomeIcon
                               icon="grip-vertical"
                               style={{
