@@ -22,9 +22,16 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    &:focus {
+      padding: units(1) units('105');
+      border: 4px var(--element-focus) solid;
+      outline: none;
+    }
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: var(--bookmark-hover);
     border-color: var(--bookmark-border-hover);
     .delete {
@@ -43,7 +50,13 @@
   background: var(--bookmark-bg);
   padding: 0 units('105');
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: var(--icon-hover);
+  }
+  &:focus {
+    border: 4px var(--element-focus) solid;
+    border-left: 0px;
+    padding: 0 units(1);
   }
 }
