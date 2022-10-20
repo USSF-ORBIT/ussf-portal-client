@@ -64,44 +64,53 @@ EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
 CMD ["node","-r","./startup/index.js", "node_modules/.bin/next", "start"]
 
-##--------- Stage: runner ---------##
+##--------- Stage: build-env ---------##
 
 # Production image, copy all the files and run next
-FROM node:14.20.1-slim AS runner
+FROM node:14.20.1-slim AS build-env
 
 WORKDIR /app
 
-COPY scripts/add-rds-cas.sh .
-COPY scripts/add-dod-cas.sh .
-COPY scripts/create-gcds-chain.sh .
-COPY dev-saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
-COPY test-saml.pem /usr/local/share/ca-certificates/federation.test.cce.af.mil.crt
-COPY prod-saml.pem /usr/local/share/ca-certificates/federation.prod.cce.af.mil.crt
-
-# Copy files needed for startup
-COPY ./startup ./startup
-COPY ./migrations ./migrations
-COPY ./utils ./utils
+COPY --from=builder /app/scripts/add-rds-cas.sh .
+COPY --from=builder /app/scripts/add-dod-cas.sh .
+COPY --from=builder /app/scripts/create-gcds-chain.sh .
+COPY --from=builder /app/dev-saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
+COPY --from=builder /app/test-saml.pem /usr/local/share/ca-certificates/federation.test.cce.af.mil.crt
+COPY --from=builder /app/prod-saml.pem /usr/local/share/ca-certificates/federation.prod.cce.af.mil.crt
 
 RUN apt-get update \
   && apt-get dist-upgrade -y \
-  && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip \
+  && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip zlib1g \
   && chmod +x add-rds-cas.sh && sh add-rds-cas.sh \
-  && chmod +x add-dod-cas.sh && sh add-dod-cas.sh && chmod +x create-gcds-chain.sh && sh create-gcds-chain.sh \
-  && apt-get remove -y wget unzip ca-certificates \
-  && apt-get autoremove -y \
-  && apt-get autoclean -y \
-  && rm -rf /var/lib/apt/lists/*
+  && chmod +x add-dod-cas.sh && sh add-dod-cas.sh && chmod +x create-gcds-chain.sh && sh create-gcds-chain.sh
 
-ENV NODE_EXTRA_CA_CERTS='/usr/local/share/ca-certificates/GCDS.pem'
-ENV NODE_ENV production
+##--------- Stage: runner ---------##
 
+FROM gcr.io/distroless/nodejs:14 AS runner
+
+COPY --from=build-env /lib/x86_64-linux-gnu/libz*  /lib/x86_64-linux-gnu/
+COPY --from=build-env /lib/x86_64-linux-gnu/libexpat*  /lib/x86_64-linux-gnu/
+COPY --from=build-env /lib/x86_64-linux-gnu/libhistory*  /lib/x86_64-linux-gnu/
+COPY --from=build-env /lib/x86_64-linux-gnu/libreadline*  /lib/x86_64-linux-gnu/
+
+WORKDIR /app
+
+COPY ./startup ./startup
+COPY ./migrations ./migrations
+COPY ./utils ./utils
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+COPY --from=build-env /etc/ssl/certs /etc/ssl/certs
+COPY --from=build-env /usr/local/share/ca-certificates /usr/local/share/ca-certificates
+
+
+ENV NODE_EXTRA_CA_CERTS='/usr/local/share/ca-certificates/GCDS.pem'
+ENV NODE_ENV production
 
 EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
-CMD ["node","-r","./startup/index.js", "node_modules/.bin/next", "start"]
+
+CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
