@@ -37,7 +37,8 @@ const Bookmark = ({
           href={href}
           className={linkClasses}
           rel="noreferrer noopener"
-          target="_blank">
+          target="_blank"
+          tabIndex={0}>
           {children}
           <span className="usa-sr-only">(opens in a new window)</span>
         </LinkTo>
