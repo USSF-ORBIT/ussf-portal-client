@@ -109,6 +109,7 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
+COPY --from=build-env  ["/app/rds-combined-ca-bundle.pem", "/app/rds-combined-ca-us-gov-bundle.pem", "/app/us-gov-west-1-bundle.pem", "./"]
 COPY --from=build-env /usr/local/share/ca-certificates /usr/local/share/ca-certificates
 COPY --from=build-env /usr/share/ca-certificates /usr/share/ca-certificates
 COPY --from=build-env /etc/ssl/certs/ /etc/ssl/certs/
