@@ -36,7 +36,8 @@ describe('SearchResultItem component', () => {
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
       const { container } = render(
-        <SearchResultItem item={testApplicationResult} />
+        <SearchResultItem item={testApplicationResult} />,
+        { legacyRoot: true }
       )
 
       expect(screen.queryByRole('img')).not.toBeInTheDocument()
@@ -62,7 +63,8 @@ describe('SearchResultItem component', () => {
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
       const { container } = render(
-        <SearchResultItem item={testArticleResult} />
+        <SearchResultItem item={testArticleResult} />,
+        { legacyRoot: true }
       )
 
       expect(screen.queryByText('May')).toBeInTheDocument()
