@@ -70,13 +70,15 @@ describe('Auth context', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('User:')
   })
 
-  it('handles a log in action', () => {
-    userEvent.click(screen.getByRole('button', { name: 'Log in' }))
+  it('handles a log in action', async () => {
+    await userEvent.click(screen.getByRole('button', { name: 'Log in' }))
     expect(window.location.href).toEqual('/api/auth/login')
   })
 
-  it('can set the user', () => {
-    userEvent.click(screen.getByRole('button', { name: 'Set mock user data' }))
+  it('can set the user', async () => {
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Set mock user data' })
+    )
 
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
       'User: BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil'
@@ -84,7 +86,7 @@ describe('Auth context', () => {
   })
 
   it('handles a log out action', async () => {
-    userEvent.click(screen.getByRole('button', { name: 'Log out' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Log out' }))
     expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/logout')
 
     await waitFor(() => {
