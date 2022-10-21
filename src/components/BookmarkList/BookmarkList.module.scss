@@ -7,3 +7,12 @@
   text-align: right;
   white-space: nowrap;
 }
+
+.bmListTable th,
+.bmListTable td {
+  padding: 0;
+}
+
+.bmListTable th {
+  padding-left: 30px;
+}

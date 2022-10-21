@@ -121,7 +121,7 @@ const BookmarkList = ({
             <th></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className={styles.bmListTable}>
           {bookmarks.filter(filterInvalidBookmarks).map((b) => (
             <BookmarkListRow
               key={`bookmark_${b.id}`}
