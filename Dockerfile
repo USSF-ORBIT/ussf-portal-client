@@ -86,12 +86,17 @@ RUN apt-get update \
 
 ##--------- Stage: runner ---------##
 
-FROM gcr.io/distroless/nodejs:14 AS runner
+# FROM gcr.io/distroless/nodejs:14 AS runner
+FROM gcr.io/distroless/nodejs:16-debug-arm64 AS runner
 
-COPY --from=build-env /lib/x86_64-linux-gnu/libz*  /lib/x86_64-linux-gnu/
-COPY --from=build-env /lib/x86_64-linux-gnu/libexpat*  /lib/x86_64-linux-gnu/
-COPY --from=build-env /lib/x86_64-linux-gnu/libhistory*  /lib/x86_64-linux-gnu/
-COPY --from=build-env /lib/x86_64-linux-gnu/libreadline*  /lib/x86_64-linux-gnu/
+# COPY --from=build-env /lib/x86_64-linux-gnu/libz*  /lib/x86_64-linux-gnu/
+# COPY --from=build-env /lib/x86_64-linux-gnu/libexpat*  /lib/x86_64-linux-gnu/
+# COPY --from=build-env /lib/x86_64-linux-gnu/libhistory*  /lib/x86_64-linux-gnu/
+# COPY --from=build-env /lib/x86_64-linux-gnu/libreadline*  /lib/x86_64-linux-gnu/
+COPY --from=build-env /lib/aarch64-linux-gnu/libz*  /lib/aarch64-linux-gnu/
+COPY --from=build-env /lib/aarch64-linux-gnu/libexpat*  /lib/aarch64-linux-gnu/
+COPY --from=build-env /lib/aarch64-linux-gnu/libhistory*  /lib/aarch64-linux-gnu/
+COPY --from=build-env /lib/aarch64-linux-gnu/libreadline*  /lib/aarch64-linux-gnu/
 
 WORKDIR /app
 
