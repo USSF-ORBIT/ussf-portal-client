@@ -206,11 +206,13 @@
 
     &:hover,
     &.usa-button--hover {
+      color: white;
       background-color: var(--btn-secondary-bg-hover);
     }
 
     &:active,
     &.usa-button--active {
+      color: white;
       background-color: var(--btn-secondary-bg-active);
     }
   }
