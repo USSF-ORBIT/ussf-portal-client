@@ -32,8 +32,8 @@ $hero-image: url('/assets/images/hero.jpeg');
 
   --btn-secondary-text: #{$black};
   --btn-secondary-bg: #{$theme-mars-base};
-  --btn-secondary-bg-hover: #{$theme-mars-dark};
-  --btn-secondary-bg-active: #{$theme-mars-darker};
+  --btn-secondary-bg-hover: #{$theme-mars-darker};
+  --btn-secondary-bg-active: #{$theme-mars-darkest};
 
   --btn-outline-text: #{$theme-ultraviolet-base};
   --btn-outline-hover: #{$theme-ultraviolet-dark};

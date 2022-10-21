@@ -169,6 +169,8 @@
   .usa-button {
     color: var(--btn-primary-text);
     background-color: var(--btn-primary-bg);
+    padding: 12px 24px;
+    font-family: 'Trebuchet MS', sans-serif;
 
     &:hover,
     &.usa-button--hover {
