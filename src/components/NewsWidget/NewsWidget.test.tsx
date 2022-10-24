@@ -59,7 +59,7 @@ describe('NewsWidget component', () => {
   it('clicking the remove section button opens the confirmation modal', async () => {
     renderWithModalRoot(<NewsWidget onRemove={mockHandleRemove} />)
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: 'Section Settings',
       })
@@ -71,7 +71,7 @@ describe('NewsWidget component', () => {
 
     expect(removeButton).toBeInTheDocument()
 
-    userEvent.click(removeButton)
+    await userEvent.click(removeButton)
 
     // Open modal
     expect(
@@ -86,13 +86,13 @@ describe('NewsWidget component', () => {
   it('clicking the cancel button in the modal closes the confirmation modal', async () => {
     renderWithModalRoot(<NewsWidget onRemove={mockHandleRemove} />)
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: 'Section Settings',
       })
     )
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', {
         name: 'Remove this section',
       })
@@ -107,7 +107,7 @@ describe('NewsWidget component', () => {
     const cancelButton = within(confirmationModal).getByRole('button', {
       name: 'Cancel',
     })
-    userEvent.click(cancelButton)
+    await userEvent.click(cancelButton)
 
     expect(mockHandleRemove).toHaveBeenCalledTimes(0)
     expect(
@@ -126,13 +126,13 @@ describe('NewsWidget component', () => {
       })
     ).toHaveClass('is-hidden')
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: 'Section Settings',
       })
     )
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', {
         name: 'Remove this section',
       })
@@ -144,7 +144,7 @@ describe('NewsWidget component', () => {
     })
 
     expect(confirmationModal).toHaveClass('is-visible')
-    userEvent.click(
+    await userEvent.click(
       within(confirmationModal).getByRole('button', {
         name: 'Delete',
       })
