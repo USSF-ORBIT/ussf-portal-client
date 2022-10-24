@@ -47,13 +47,13 @@ describe('EditCustomLinkModal', () => {
       expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument()
     })
 
-    it('can cancel out of the modal', () => {
-      userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    it('can cancel out of the modal', async () => {
+      await userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
       expect(testHandlers.onCancel).toHaveBeenCalled()
     })
 
-    it('can delete the custom link', () => {
-      userEvent.click(screen.getByRole('button', { name: 'Delete' }))
+    it('can delete the custom link', async () => {
+      await userEvent.click(screen.getByRole('button', { name: 'Delete' }))
       expect(testHandlers.onDelete).toHaveBeenCalled()
     })
 
