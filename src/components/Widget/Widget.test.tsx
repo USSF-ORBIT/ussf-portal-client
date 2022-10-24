@@ -74,7 +74,7 @@ describe('WidgetWithSettings component', () => {
     })
     expect(menuToggleButton).toBeInTheDocument()
 
-    userEvent.click(menuToggleButton)
+    await userEvent.click(menuToggleButton)
     const settingsItem = screen.getByRole('button', {
       name: 'Section settings handler',
     })
@@ -82,24 +82,24 @@ describe('WidgetWithSettings component', () => {
 
     expect(await axe(html.container)).toHaveNoViolations()
 
-    userEvent.click(settingsItem)
+    await userEvent.click(settingsItem)
     expect(handleSettingsItemClick).toHaveBeenCalled()
   })
 
-  it('clicking outside the dropdown menu closes the menu', () => {
+  it('clicking outside the dropdown menu closes the menu', async () => {
     const menuToggleButton = screen.getByRole('button', {
       name: 'Section Settings menu',
     })
     expect(menuToggleButton).toBeInTheDocument()
 
-    userEvent.click(menuToggleButton)
+    await userEvent.click(menuToggleButton)
     const settingsItem = screen.getByRole('button', {
       name: 'Section settings handler',
     })
     expect(settingsItem).toBeInTheDocument()
 
     // Click outside menu
-    userEvent.click(screen.getByRole('heading'))
+    await userEvent.click(screen.getByRole('heading'))
 
     // Confirm the menu has been closed
     expect(
@@ -109,13 +109,13 @@ describe('WidgetWithSettings component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('clicking the menu button toggles the menu', () => {
+  it('clicking the menu button toggles the menu', async () => {
     const menuToggleButton = screen.getByRole('button', {
       name: 'Section Settings menu',
     })
 
     // Open the menu
-    userEvent.click(menuToggleButton)
+    await userEvent.click(menuToggleButton)
 
     expect(
       screen.getByRole('button', {
@@ -124,7 +124,7 @@ describe('WidgetWithSettings component', () => {
     ).toBeInTheDocument()
 
     // Close the menu
-    userEvent.click(menuToggleButton)
+    await userEvent.click(menuToggleButton)
 
     // Confirm the menu has been closed
     expect(
