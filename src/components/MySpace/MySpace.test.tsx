@@ -113,7 +113,7 @@ describe('My Space Component', () => {
         await screen.findByRole('button', { name: 'Add section' })
       ).toBeInTheDocument()
 
-      userEvent.click(
+      await userEvent.click(
         await screen.findByRole('button', { name: 'Add section' })
       )
       expect(
@@ -174,7 +174,9 @@ describe('My Space Component', () => {
       await screen.findByRole('button', { name: 'Add section' })
     ).toBeInTheDocument()
 
-    userEvent.click(await screen.findByRole('button', { name: 'Add section' }))
+    await userEvent.click(
+      await screen.findByRole('button', { name: 'Add section' })
+    )
     expect(
       screen.queryByRole('button', {
         name: 'Add news section',
@@ -213,8 +215,10 @@ describe('My Space Component', () => {
       </MockedProvider>
     )
 
-    userEvent.click(await screen.findByRole('button', { name: 'Add section' }))
-    userEvent.click(
+    await userEvent.click(
+      await screen.findByRole('button', { name: 'Add section' })
+    )
+    await userEvent.click(
       await screen.findByRole('button', {
         name: 'Select collection from template',
       })
@@ -319,12 +323,12 @@ describe('My Space Component', () => {
     })
 
     const addLinkButton = addLinkButtons[0]
-    userEvent.click(addLinkButton)
+    await userEvent.click(addLinkButton)
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', { name: 'Toggle the dropdown list' })
     )
-    userEvent.click(screen.getByRole('option', { name: 'MyPay' }))
+    await userEvent.click(screen.getByRole('option', { name: 'MyPay' }))
 
     await act(
       async () => await new Promise((resolve) => setTimeout(resolve, 0))
@@ -371,16 +375,16 @@ describe('My Space Component', () => {
     })
 
     const settingsBtn = settings[0]
-    userEvent.click(settingsBtn)
+    await userEvent.click(settingsBtn)
 
-    const edit = await screen.getAllByRole('button', {
+    const edit = screen.getAllByRole('button', {
       name: 'Edit collection title',
     })[0]
-    userEvent.click(edit)
+    await userEvent.click(edit)
 
     const input = await screen.findByRole('textbox')
-    userEvent.clear(input)
-    userEvent.type(input, 'Updated Title{enter}')
+    await userEvent.clear(input)
+    await userEvent.type(input, 'Updated Title{enter}')
 
     await act(
       async () => await new Promise((resolve) => setTimeout(resolve, 0))
@@ -422,8 +426,8 @@ describe('My Space Component', () => {
       name: 'Collection Settings',
     })
 
-    userEvent.click(dropdownMenu[0])
-    userEvent.click(
+    await userEvent.click(dropdownMenu[0])
+    await userEvent.click(
       screen.getByRole('button', { name: 'Delete this collection' })
     )
     const removeCollectionModals = screen.getAllByRole('dialog', {
@@ -432,7 +436,7 @@ describe('My Space Component', () => {
 
     const removeCollectionModal = removeCollectionModals[0]
     expect(removeCollectionModal).toHaveClass('is-visible')
-    userEvent.click(
+    await userEvent.click(
       within(removeCollectionModal).getByRole('button', { name: 'Delete' })
     )
 
@@ -475,8 +479,10 @@ describe('My Space Component', () => {
       </MockedProvider>
     )
 
-    userEvent.click(await screen.findByRole('button', { name: 'Add section' }))
-    userEvent.click(
+    await userEvent.click(
+      await screen.findByRole('button', { name: 'Add section' })
+    )
+    await userEvent.click(
       screen.getByRole('button', { name: 'Create new collection' })
     )
 
@@ -528,7 +534,7 @@ describe('My Space Component', () => {
     const editButton = await screen.findByRole('button', {
       name: 'Edit this link',
     })
-    userEvent.click(editButton)
+    await userEvent.click(editButton)
 
     const editModal = await screen.findByRole('dialog', {
       name: 'Edit custom link',
@@ -538,11 +544,11 @@ describe('My Space Component', () => {
     const nameInput = within(editModal).getByLabelText('Name')
     const urlInput = within(editModal).getByLabelText('URL')
 
-    userEvent.clear(nameInput)
-    userEvent.clear(urlInput)
-    userEvent.type(nameInput, 'Yahoo')
-    userEvent.type(urlInput, '{clear}https://www.yahoo.com')
-    userEvent.click(
+    await userEvent.clear(nameInput)
+    await userEvent.clear(urlInput)
+    await userEvent.type(nameInput, 'Yahoo')
+    await userEvent.type(urlInput, '{clear}https://www.yahoo.com')
+    await userEvent.click(
       within(editModal).getByRole('button', { name: 'Save custom link' })
     )
 
