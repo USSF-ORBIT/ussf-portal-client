@@ -231,6 +231,8 @@ describe('My Space Component', () => {
   })
 
   it('handles the remove bookmark operation', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime })
+
     let bookmarkRemoved = false
 
     const bookmarkId =
@@ -274,7 +276,7 @@ describe('My Space Component', () => {
       name: 'Remove this link',
     })
 
-    userEvent.click(buttons[0])
+    await user.click(buttons[0])
 
     await act(async () => {
       jest.runAllTimers()
