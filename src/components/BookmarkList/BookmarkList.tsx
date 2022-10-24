@@ -114,7 +114,7 @@ const BookmarkList = ({
   return (
     <div className={className}>
       <Table striped fullWidth>
-        <thead>
+        <thead className={styles.bmListHeader}>
           <tr>
             <th scope="col">Application name</th>
             <th scope="col">Description</th>
