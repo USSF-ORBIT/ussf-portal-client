@@ -30,10 +30,10 @@ $hero-image: url('/assets/images/hero.jpeg');
   --btn-primary-bg-hover: #{$theme-ultraviolet-dark};
   --btn-primary-bg-active: #{$theme-ultraviolet-darker};
 
-  --btn-secondary-text: #{$theme-white};
+  --btn-secondary-text: #{$black};
   --btn-secondary-bg: #{$theme-mars-base};
-  --btn-secondary-bg-hover: #{$theme-mars-dark};
-  --btn-secondary-bg-active: #{$theme-mars-darker};
+  --btn-secondary-bg-hover: #{$theme-mars-darker};
+  --btn-secondary-bg-active: #{$theme-mars-darkest};
 
   --btn-outline-text: #{$theme-ultraviolet-base};
   --btn-outline-hover: #{$theme-ultraviolet-dark};
@@ -207,6 +207,11 @@ $hero-image: url('/assets/images/hero.jpeg');
   --btn-outline-text: #{$theme-aurora-dark};
   --btn-outline-hover: #{$theme-aurora-base};
   --btn-outline-active: #{$theme-aurora-light};
+
+  --btn-secondary-text: #{$black};
+  --btn-secondary-bg: #{$theme-mars-base};
+  --btn-secondary-bg-hover: #{$theme-mars-darker};
+  --btn-secondary-bg-active: #{$theme-mars-darkest};
 
   --btn-unstyled-text: #{$theme-aurora-dark};
   --btn-unstyled-text-hover: #{$theme-aurora-base};
