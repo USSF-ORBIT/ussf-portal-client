@@ -129,8 +129,9 @@ describe('BookmarkList component', () => {
     })
   })
 
-  it('can add a bookmark to a new collection', () => {
+  it('can add a bookmark to a new collection', async () => {
     const mockAddToCollection = jest.fn()
+    const user = userEvent.setup()
 
     render(
       <BookmarkList
@@ -140,7 +141,7 @@ describe('BookmarkList component', () => {
       />
     )
 
-    userEvent.click(
+    await user.click(
       screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
     )
 
@@ -151,7 +152,7 @@ describe('BookmarkList component', () => {
     expect(
       screen.getByRole('button', { name: 'Add to new collection' })
     ).toBeInTheDocument()
-    userEvent.click(
+    await user.click(
       screen.getByRole('button', { name: 'Add to new collection' })
     )
 
@@ -162,8 +163,9 @@ describe('BookmarkList component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('cannot add a bookmark to a new collection if not allowed', () => {
+  it('cannot add a bookmark to a new collection if not allowed', async () => {
     const mockAddToCollection = jest.fn()
+    const user = userEvent.setup()
 
     render(
       <BookmarkList
@@ -174,7 +176,7 @@ describe('BookmarkList component', () => {
       />
     )
 
-    userEvent.click(
+    await user.click(
       screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
     )
 
@@ -187,8 +189,9 @@ describe('BookmarkList component', () => {
     ).toBeDisabled()
   })
 
-  it('can add a bookmark to an existing collection', () => {
+  it('can add a bookmark to an existing collection', async () => {
     const mockAddToCollection = jest.fn()
+    const user = userEvent.setup()
 
     render(
       <BookmarkList
@@ -198,7 +201,7 @@ describe('BookmarkList component', () => {
       />
     )
 
-    userEvent.click(
+    await user.click(
       screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
     )
 
@@ -209,7 +212,7 @@ describe('BookmarkList component', () => {
     expect(
       screen.getByRole('button', { name: 'Example Collection' })
     ).toBeInTheDocument()
-    userEvent.click(screen.getByRole('button', { name: 'Example Collection' }))
+    await user.click(screen.getByRole('button', { name: 'Example Collection' }))
 
     expect(mockAddToCollection).toHaveBeenCalledWith(
       exampleBookmarks[0],
@@ -221,8 +224,9 @@ describe('BookmarkList component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('cannot add a bookmark to an existing collection that has 10 bookmarks', () => {
+  it('cannot add a bookmark to an existing collection that has 10 bookmarks', async () => {
     const mockAddToCollection = jest.fn()
+    const user = userEvent.setup()
 
     render(
       <BookmarkList
@@ -232,7 +236,7 @@ describe('BookmarkList component', () => {
       />
     )
 
-    userEvent.click(
+    await user.click(
       screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
     )
 
