@@ -31,7 +31,7 @@ describe('CustomBookmark component', () => {
     renderWithModalRoot(
       <CustomBookmark bookmark={testBookmark} {...testHandlers} />
     )
-    await screen.findByText(testBookmark.label)
+    await act(async () => screen.findByText(testBookmark.label))
 
     expect(screen.getByRole('link')).toHaveTextContent(testBookmark.label)
     expect(
@@ -59,7 +59,7 @@ describe('CustomBookmark component', () => {
     const editButton = await screen.findByRole('button', {
       name: 'Edit this link',
     })
-    userEvent.click(editButton)
+    await userEvent.click(editButton)
     expect(
       screen.getByRole('dialog', { name: 'Edit custom link' })
     ).not.toHaveClass('is-hidden')
@@ -78,14 +78,14 @@ describe('CustomBookmark component', () => {
     const editButton = await screen.findByRole('button', {
       name: 'Edit this link',
     })
-    userEvent.click(editButton)
+    await userEvent.click(editButton)
     expect(
       screen.getByRole('dialog', { name: 'Edit custom link' })
     ).not.toHaveClass('is-hidden')
 
     const deleteButton = screen.getByRole('button', { name: 'Delete' })
     expect(deleteButton).toBeInTheDocument()
-    userEvent.click(deleteButton)
+    await userEvent.click(deleteButton)
     expect(testHandlers.onDelete).toHaveBeenCalled()
   })
 
@@ -97,14 +97,14 @@ describe('CustomBookmark component', () => {
     const editButton = await screen.findByRole('button', {
       name: 'Edit this link',
     })
-    userEvent.click(editButton)
+    await userEvent.click(editButton)
     expect(
       screen.getByRole('dialog', { name: 'Edit custom link' })
     ).not.toHaveClass('is-hidden')
 
     const cancelButton = screen.getByRole('button', { name: 'Cancel' })
     expect(cancelButton).toBeInTheDocument()
-    userEvent.click(cancelButton)
+    await userEvent.click(cancelButton)
     expect(
       screen.getByRole('dialog', { name: 'Edit custom link' })
     ).toHaveClass('is-hidden')

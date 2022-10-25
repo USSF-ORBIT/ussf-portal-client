@@ -15,6 +15,10 @@ export const renderWithModalRoot = (
   return render(ui, {
     ...options,
     container: document.body.appendChild(modalContainer),
+    // modal seems to trigger the legacy mode for React
+    // there is a warning that the test isn't setup to use act when this is removed
+    // so eventually we need to update it.
+    legacyRoot: true,
   })
 }
 
