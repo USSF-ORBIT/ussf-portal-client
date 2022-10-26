@@ -34,49 +34,53 @@ describe('Header component', () => {
   })
 
   it('can click an item from the About Us dropdown', async () => {
+    const user = userEvent.setup()
     renderWithAuthAndApollo(<Header />, {}, editThemeMock)
 
     const aboutTheUSSF = screen.getByTestId('nav-about-ussf')
     expect(aboutTheUSSF).not.toBeVisible()
 
     const dropdown = screen.getByTestId('nav-about-us-dropdown')
-    await userEvent.click(dropdown)
+    await user.click(dropdown)
     expect(aboutTheUSSF).toBeVisible()
   })
 
   it('can toggle navigation on smaller screen sizes', async () => {
+    const user = userEvent.setup()
     renderWithAuthAndApollo(<Header />, {}, editThemeMock)
 
     const nav = screen.getByRole('navigation')
     expect(nav).not.toHaveClass('is-visible')
 
-    await userEvent.click(screen.getByRole('button', { name: 'Menu' }))
+    await user.click(screen.getByRole('button', { name: 'Menu' }))
 
     expect(nav).toHaveClass('is-visible')
 
-    await userEvent.click(screen.getByRole('button', { name: 'close' }))
+    await user.click(screen.getByRole('button', { name: 'close' }))
     expect(nav).not.toHaveClass('is-visible')
   })
 
   it('can click the overlay to close the mobile navigation', async () => {
+    const user = userEvent.setup()
     renderWithAuthAndApollo(<Header />, {}, editThemeMock)
 
     const nav = screen.getByRole('navigation')
     expect(nav).not.toHaveClass('is-visible')
 
-    await userEvent.click(screen.getByRole('button', { name: 'Menu' }))
+    await user.click(screen.getByRole('button', { name: 'Menu' }))
 
     expect(nav).toHaveClass('is-visible')
 
-    await userEvent.click(screen.getByRole('presentation'))
+    await user.click(screen.getByRole('presentation'))
     expect(nav).not.toHaveClass('is-visible')
   })
 
   it('renders the logout button', async () => {
+    const user = userEvent.setup()
     renderWithAuthAndApollo(<Header />, { logout: mockLogout }, editThemeMock)
     const logoutButton = screen.getByRole('button', { name: 'Log out' })
     expect(logoutButton).toBeInTheDocument()
-    await userEvent.click(logoutButton)
+    await user.click(logoutButton)
     expect(mockLogout).toHaveBeenCalled()
   })
 
