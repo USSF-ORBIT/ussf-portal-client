@@ -48,12 +48,14 @@ describe('EditCustomLinkModal', () => {
     })
 
     it('can cancel out of the modal', async () => {
-      await userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+      const user = userEvent.setup()
+      await user.click(screen.getByRole('button', { name: 'Cancel' }))
       expect(testHandlers.onCancel).toHaveBeenCalled()
     })
 
     it('can delete the custom link', async () => {
-      await userEvent.click(screen.getByRole('button', { name: 'Delete' }))
+      const user = userEvent.setup()
+      await user.click(screen.getByRole('button', { name: 'Delete' }))
       expect(testHandlers.onDelete).toHaveBeenCalled()
     })
 
@@ -86,8 +88,9 @@ describe('EditCustomLinkModal', () => {
     })
 
     it('cancelling reverts the value of the text inputs', async () => {
+      const user = userEvent.setup()
       expect(screen.getByRole('heading')).toHaveTextContent('Edit custom link')
-      userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+      user.click(screen.getByRole('button', { name: 'Cancel' }))
       expect(testHandlers.onCancel).toHaveBeenCalled()
       expect(screen.getByLabelText('Name')).toHaveValue('')
       expect(screen.getByLabelText('URL')).toHaveValue('')
