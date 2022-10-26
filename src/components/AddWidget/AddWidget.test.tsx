@@ -24,6 +24,7 @@ describe('AddWidget component', () => {
   })
 
   it('can toggle the menu', async () => {
+    const user = userEvent.setup()
     render(
       <>
         <AddWidget {...testProps} />
@@ -37,21 +38,20 @@ describe('AddWidget component', () => {
 
     const menuButton = screen.getByRole('button', { name: 'Add section' })
     expect(menuButton).toBeInTheDocument()
-    await userEvent.click(menuButton)
+    await user.click(menuButton)
 
     expect(
       screen.getByRole('button', { name: 'Select collection from template' })
     ).toBeInTheDocument()
 
-    await userEvent.click(
-      screen.getByRole('button', { name: 'Another element' })
-    )
+    await user.click(screen.getByRole('button', { name: 'Another element' }))
     expect(
       screen.queryByRole('button', { name: 'Select collection from template' })
     ).not.toBeInTheDocument()
   })
 
   it('handles the select collection button', async () => {
+    const user = userEvent.setup()
     const mockHandleSelect = jest.fn()
 
     render(
@@ -61,12 +61,12 @@ describe('AddWidget component', () => {
     const menuButton = screen.getByRole('button', { name: 'Add section' })
     expect(menuButton).toBeInTheDocument()
 
-    await userEvent.click(menuButton)
+    await user.click(menuButton)
 
     expect(
       screen.getByRole('button', { name: 'Select collection from template' })
     ).toBeInTheDocument()
-    await userEvent.click(
+    await user.click(
       screen.getByRole('button', { name: 'Select collection from template' })
     )
 
@@ -79,6 +79,7 @@ describe('AddWidget component', () => {
   })
 
   it('handles the create collection button', async () => {
+    const user = userEvent.setup()
     const mockHandleCreate = jest.fn()
 
     render(
@@ -88,12 +89,12 @@ describe('AddWidget component', () => {
     const menuButton = screen.getByRole('button', { name: 'Add section' })
     expect(menuButton).toBeInTheDocument()
 
-    await userEvent.click(menuButton)
+    await user.click(menuButton)
 
     expect(
       screen.getByRole('button', { name: 'Create new collection' })
     ).toBeInTheDocument()
-    await userEvent.click(
+    await user.click(
       screen.getByRole('button', { name: 'Create new collection' })
     )
 
@@ -104,6 +105,7 @@ describe('AddWidget component', () => {
   })
 
   it('the add collection buttons are disabled if the user cannot add collections', async () => {
+    const user = userEvent.setup()
     const mockHandleCreate = jest.fn()
     const mockHandleSelect = jest.fn()
 
@@ -119,7 +121,7 @@ describe('AddWidget component', () => {
     const menuButton = screen.getByRole('button', { name: 'Add section' })
     expect(menuButton).toBeInTheDocument()
 
-    await userEvent.click(menuButton)
+    await user.click(menuButton)
 
     expect(
       screen.getByRole('button', { name: 'Select collection from template' })
@@ -128,12 +130,12 @@ describe('AddWidget component', () => {
       screen.getByRole('button', { name: 'Create new collection' })
     ).toBeDisabled()
 
-    await userEvent.click(
+    await user.click(
       screen.getByRole('button', { name: 'Select collection from template' })
     )
     expect(mockHandleSelect).not.toHaveBeenCalled()
 
-    await userEvent.click(
+    await user.click(
       screen.getByRole('button', {
         name: 'Create new collection',
       })
@@ -142,6 +144,7 @@ describe('AddWidget component', () => {
   })
 
   it('handles the Add news section button', async () => {
+    const user = userEvent.setup()
     const mockAddNews = jest.fn()
 
     render(<AddWidget {...testProps} handleAddNews={mockAddNews} />)
@@ -149,14 +152,12 @@ describe('AddWidget component', () => {
     const menuButton = screen.getByRole('button', { name: 'Add section' })
     expect(menuButton).toBeInTheDocument()
 
-    await userEvent.click(menuButton)
+    await user.click(menuButton)
 
     expect(
       screen.getByRole('button', { name: 'Add news section' })
     ).toBeInTheDocument()
-    await userEvent.click(
-      screen.getByRole('button', { name: 'Add news section' })
-    )
+    await user.click(screen.getByRole('button', { name: 'Add news section' }))
 
     expect(mockAddNews).toHaveBeenCalled()
     expect(
@@ -165,6 +166,7 @@ describe('AddWidget component', () => {
   })
 
   it('the Add news section button is disabled if the user cannot add News', async () => {
+    const user = userEvent.setup()
     const mockAddNews = jest.fn()
 
     render(
@@ -178,7 +180,7 @@ describe('AddWidget component', () => {
     const menuButton = screen.getByRole('button', { name: 'Add section' })
     expect(menuButton).toBeInTheDocument()
 
-    await userEvent.click(menuButton)
+    await user.click(menuButton)
 
     expect(
       screen.getByRole('button', { name: 'Add news section' })
@@ -187,9 +189,7 @@ describe('AddWidget component', () => {
       screen.getByRole('button', { name: 'Add news section' })
     ).toBeDisabled()
 
-    await userEvent.click(
-      screen.getByRole('button', { name: 'Add news section' })
-    )
+    await user.click(screen.getByRole('button', { name: 'Add news section' }))
     expect(mockAddNews).not.toHaveBeenCalled()
   })
 
