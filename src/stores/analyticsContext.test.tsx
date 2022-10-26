@@ -290,7 +290,8 @@ describe('Analytics context', () => {
     })
 
     it('provides the push handler', async () => {
-      await userEvent.click(screen.getByRole('button', { name: 'Test push' }))
+      const user = userEvent.setup()
+      await user.click(screen.getByRole('button', { name: 'Test push' }))
 
       expect(windowWithAnalytics._paq.pop()).toEqual([
         'trackEvent',
@@ -300,9 +301,8 @@ describe('Analytics context', () => {
     })
 
     it('provides the trackEvent handler', async () => {
-      await userEvent.click(
-        screen.getByRole('button', { name: 'Test track event' })
-      )
+      const user = userEvent.setup()
+      await user.click(screen.getByRole('button', { name: 'Test track event' }))
       expect(windowWithAnalytics._paq.pop()).toEqual([
         'trackEvent',
         'testEvent',
@@ -311,7 +311,8 @@ describe('Analytics context', () => {
     })
 
     it('can use trackEvent to track an event name', async () => {
-      await userEvent.click(
+      const user = userEvent.setup()
+      await user.click(
         screen.getByRole('button', { name: 'Test track event with name' })
       )
       expect(windowWithAnalytics._paq.pop()).toEqual([
@@ -323,7 +324,8 @@ describe('Analytics context', () => {
     })
 
     it('can use trackEvent to track an event value', async () => {
-      await userEvent.click(
+      const user = userEvent.setup()
+      await user.click(
         screen.getByRole('button', { name: 'Test track event with value' })
       )
       expect(windowWithAnalytics._paq.pop()).toEqual([
