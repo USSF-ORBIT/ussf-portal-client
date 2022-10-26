@@ -22,8 +22,6 @@ const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
     }
   }, [data])
 
-  if (!data) return null
-
   const handleThemeChangeAndTracking = (
     user: SessionUser | null,
     newTheme: string
@@ -59,7 +57,7 @@ const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
     <button
       type="button"
       onClick={() => {
-        const newTheme = data.theme === 'light' ? 'dark' : 'light'
+        const newTheme = theme === 'light' ? 'dark' : 'light'
         handleThemeChangeAndTracking(user, newTheme)
       }}
       className={styles.toggleButton}
