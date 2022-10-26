@@ -1,2 +1,21 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/sfds/sfdsDependencies';
+
+.breadcrumbs {
+  :global(.usa-breadcrumb__list-item:not(:last-child)::after) {
+    background-color: $theme-white;
+  }
+  li {
+    color: $theme-white;
+  }
+  a {
+    color: $theme-aurora-base;
+    &:hover,
+    &:focus {
+      color: $theme-aurora-lighter;
+    }
+    &:visited {
+      color: $theme-aurora-base;
+    }
+  }
+}
