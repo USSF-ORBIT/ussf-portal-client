@@ -40,7 +40,8 @@ describe('AddCustomLinkModal', () => {
   })
 
   it('can cancel out of the modal', async () => {
-    await userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    const user = userEvent.setup()
+    await user.click(screen.getByRole('button', { name: 'Cancel' }))
     expect(testHandlers.onCancel).toHaveBeenCalled()
   })
 
