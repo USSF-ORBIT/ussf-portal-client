@@ -109,11 +109,13 @@ describe('My Space Component', () => {
     })
 
     it('disables adding a news section if there is already a news section', async () => {
+      const user = userEvent.setup()
+
       expect(
         await screen.findByRole('button', { name: 'Add section' })
       ).toBeInTheDocument()
 
-      await userEvent.click(
+      await user.click(
         await screen.findByRole('button', { name: 'Add section' })
       )
       expect(
@@ -162,6 +164,8 @@ describe('My Space Component', () => {
   })
 
   it('disables adding more collections if there are 25 collections', async () => {
+    const user = userEvent.setup()
+
     render(
       <MockedProvider
         mocks={getMySpaceMaximumCollectionsMock}
@@ -174,9 +178,7 @@ describe('My Space Component', () => {
       await screen.findByRole('button', { name: 'Add section' })
     ).toBeInTheDocument()
 
-    await userEvent.click(
-      await screen.findByRole('button', { name: 'Add section' })
-    )
+    await user.click(await screen.findByRole('button', { name: 'Add section' }))
     expect(
       screen.queryByRole('button', {
         name: 'Add news section',
@@ -209,16 +211,16 @@ describe('My Space Component', () => {
   })
 
   it('navigates to Sites & Applications when adding new existing collections', async () => {
+    const user = userEvent.setup()
+
     render(
       <MockedProvider mocks={getMySpaceMock} addTypename={false}>
         <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
       </MockedProvider>
     )
 
-    await userEvent.click(
-      await screen.findByRole('button', { name: 'Add section' })
-    )
-    await userEvent.click(
+    await user.click(await screen.findByRole('button', { name: 'Add section' }))
+    await user.click(
       await screen.findByRole('button', {
         name: 'Select collection from template',
       })
@@ -286,6 +288,8 @@ describe('My Space Component', () => {
   })
 
   it('handles the add bookmark operation', async () => {
+    const user = userEvent.setup()
+
     let bookmarkAdded = false
     const addBookmarkMock = [
       ...getMySpaceMock,
@@ -325,12 +329,12 @@ describe('My Space Component', () => {
     })
 
     const addLinkButton = addLinkButtons[0]
-    await userEvent.click(addLinkButton)
+    await user.click(addLinkButton)
 
-    await userEvent.click(
+    await user.click(
       screen.getByRole('button', { name: 'Toggle the dropdown list' })
     )
-    await userEvent.click(screen.getByRole('option', { name: 'MyPay' }))
+    await user.click(screen.getByRole('option', { name: 'MyPay' }))
 
     await act(
       async () => await new Promise((resolve) => setTimeout(resolve, 0))
@@ -339,6 +343,8 @@ describe('My Space Component', () => {
   })
 
   it('handles the edit collection title operation', async () => {
+    const user = userEvent.setup()
+
     let collectionEdited = false
     const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
     const editCollectionMock = [
@@ -377,16 +383,16 @@ describe('My Space Component', () => {
     })
 
     const settingsBtn = settings[0]
-    await userEvent.click(settingsBtn)
+    await user.click(settingsBtn)
 
     const edit = screen.getAllByRole('button', {
       name: 'Edit collection title',
     })[0]
-    await userEvent.click(edit)
+    await user.click(edit)
 
     const input = await screen.findByRole('textbox')
-    await userEvent.clear(input)
-    await userEvent.type(input, 'Updated Title{enter}')
+    await user.clear(input)
+    await user.type(input, 'Updated Title{enter}')
 
     await act(
       async () => await new Promise((resolve) => setTimeout(resolve, 0))
@@ -395,6 +401,8 @@ describe('My Space Component', () => {
   })
 
   it('handles the remove collection operation', async () => {
+    const user = userEvent.setup()
+
     let collectionRemoved = false
     const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
     const removeCollectionMock = [
@@ -428,8 +436,8 @@ describe('My Space Component', () => {
       name: 'Collection Settings',
     })
 
-    await userEvent.click(dropdownMenu[0])
-    await userEvent.click(
+    await user.click(dropdownMenu[0])
+    await user.click(
       screen.getByRole('button', { name: 'Delete this collection' })
     )
     const removeCollectionModals = screen.getAllByRole('dialog', {
@@ -438,7 +446,7 @@ describe('My Space Component', () => {
 
     const removeCollectionModal = removeCollectionModals[0]
     expect(removeCollectionModal).toHaveClass('is-visible')
-    await userEvent.click(
+    await user.click(
       within(removeCollectionModal).getByRole('button', { name: 'Delete' })
     )
 
@@ -450,6 +458,8 @@ describe('My Space Component', () => {
   })
 
   it('handles the add collection operation', async () => {
+    const user = userEvent.setup()
+
     let collectionAdded = false
     const addCollectionMock = [
       ...getMySpaceMock,
@@ -481,10 +491,8 @@ describe('My Space Component', () => {
       </MockedProvider>
     )
 
-    await userEvent.click(
-      await screen.findByRole('button', { name: 'Add section' })
-    )
-    await userEvent.click(
+    await user.click(await screen.findByRole('button', { name: 'Add section' }))
+    await user.click(
       screen.getByRole('button', { name: 'Create new collection' })
     )
 
@@ -496,6 +504,8 @@ describe('My Space Component', () => {
   })
 
   it('handles the edit bookmark operation', async () => {
+    const user = userEvent.setup()
+
     let bookmarkEdited = false
     const bookmarkId =
       getMySpaceMock[0].result.data.mySpace[0].bookmarks?.[0]._id
@@ -536,7 +546,7 @@ describe('My Space Component', () => {
     const editButton = await screen.findByRole('button', {
       name: 'Edit this link',
     })
-    await userEvent.click(editButton)
+    await user.click(editButton)
 
     const editModal = await screen.findByRole('dialog', {
       name: 'Edit custom link',
@@ -546,11 +556,11 @@ describe('My Space Component', () => {
     const nameInput = within(editModal).getByLabelText('Name')
     const urlInput = within(editModal).getByLabelText('URL')
 
-    await userEvent.clear(nameInput)
-    await userEvent.clear(urlInput)
-    await userEvent.type(nameInput, 'Yahoo')
-    await userEvent.type(urlInput, '{clear}https://www.yahoo.com')
-    await userEvent.click(
+    await user.clear(nameInput)
+    await user.clear(urlInput)
+    await user.type(nameInput, 'Yahoo')
+    await user.type(urlInput, '{clear}https://www.yahoo.com')
+    await user.click(
       within(editModal).getByRole('button', { name: 'Save custom link' })
     )
 
