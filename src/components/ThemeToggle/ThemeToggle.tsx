@@ -20,7 +20,9 @@ const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
     if (data) {
       setTheme(data.theme)
     }
-  }, [])
+  }, [data])
+
+  if (!data) return null
 
   const handleThemeChangeAndTracking = (
     user: SessionUser | null,
@@ -39,8 +41,10 @@ const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
             userId: user.userId,
             theme: newTheme,
           },
+          refetchQueries: ['getTheme'],
         })
       }
+
       setTheme(newTheme)
     } catch (error) {
       // Should this line be ignored? Or logged a different way?
@@ -55,7 +59,7 @@ const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
     <button
       type="button"
       onClick={() => {
-        const newTheme = theme === 'light' ? 'dark' : 'light'
+        const newTheme = data.theme === 'light' ? 'dark' : 'light'
         handleThemeChangeAndTracking(user, newTheme)
       }}
       className={styles.toggleButton}
