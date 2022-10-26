@@ -17,34 +17,37 @@ const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
   const [handleEditThemeMutation] = useEditThemeMutation()
 
   useEffect(() => {
-    if (data && theme && data.theme !== theme) {
-      // If there is a discrepancy between what is in the db and what is
-      // in local storage, then use what is in local storage.
-      setTheme(theme)
-    } else if (data) {
+    if (data) {
       setTheme(data.theme)
     }
-    // The dependency list is intentionally left blank so that useEffect only runs once.
-    // After the theme is queried and applied, we can rely on updating local storage to serve the theme.
   }, [])
 
   const handleThemeChangeAndTracking = (
     user: SessionUser | null,
     newTheme: string
   ) => {
-    trackEvent(
-      'Dark mode',
-      'Click on light/dark mode toggle',
-      'Light/Dark mode toggle'
-    )
+    try {
+      trackEvent(
+        'Dark mode',
+        'Click on light/dark mode toggle',
+        'Light/Dark mode toggle'
+      )
 
-    if (user) {
-      handleEditThemeMutation({
-        variables: {
-          userId: user.userId,
-          theme: newTheme,
-        },
-      })
+      if (user) {
+        handleEditThemeMutation({
+          variables: {
+            userId: user.userId,
+            theme: newTheme,
+          },
+        })
+      }
+      setTheme(newTheme)
+    } catch (error) {
+      // Should this line be ignored? Or logged a different way?
+      console.error(
+        'Error updating theme: error in handleThemeChangeAndTracking',
+        error
+      )
     }
   }
 
@@ -53,7 +56,6 @@ const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
       type="button"
       onClick={() => {
         const newTheme = theme === 'light' ? 'dark' : 'light'
-        setTheme(newTheme)
         handleThemeChangeAndTracking(user, newTheme)
       }}
       className={styles.toggleButton}
