@@ -64,6 +64,7 @@ describe('SelectableCollection component', () => {
   })
 
   it('clicking the button calls the select handler', async () => {
+    const user = userEvent.setup()
     const mockOnSelect = jest.fn()
 
     render(
@@ -74,7 +75,7 @@ describe('SelectableCollection component', () => {
       />
     )
 
-    await userEvent.click(
+    await user.click(
       screen.getByRole('button', {
         name: 'Select collection Example Collection',
       })
@@ -83,6 +84,7 @@ describe('SelectableCollection component', () => {
   })
 
   it('the select handler is keyboard accessible', async () => {
+    const user = userEvent.setup()
     const mockOnSelect = jest.fn()
 
     render(
@@ -93,13 +95,13 @@ describe('SelectableCollection component', () => {
       />
     )
 
-    await userEvent.tab()
+    await user.tab()
     expect(
       screen.getByRole('button', {
         name: 'Select collection Example Collection',
       })
     ).toHaveFocus()
-    await userEvent.keyboard('{enter}')
+    await user.keyboard('{enter}')
     expect(mockOnSelect).toBeCalled()
   })
 
@@ -117,6 +119,7 @@ describe('SelectableCollection component', () => {
 
   describe('when selected', () => {
     it('renders an unselect button that appears on focus', async () => {
+      const user = userEvent.setup()
       const mockOnSelect = jest.fn()
 
       render(
@@ -127,13 +130,13 @@ describe('SelectableCollection component', () => {
         />
       )
 
-      await userEvent.tab()
+      await user.tab()
       expect(
         screen.getByRole('button', {
           name: 'Unselect collection Example Collection',
         })
       ).toHaveFocus()
-      await userEvent.click(
+      await user.click(
         screen.getByRole('button', {
           name: 'Unselect collection Example Collection',
         })
