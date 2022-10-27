@@ -40,11 +40,8 @@ COPY . .
 
 # E2E image for running tests (same as prod but without certs)
 FROM gcr.io/distroless/nodejs:14 AS e2e
-
-# COPY --from=builder /lib/x86_64-linux-gnu/libz*  /lib/x86_64-linux-gnu/
-# COPY --from=builder /lib/x86_64-linux-gnu/libexpat*  /lib/x86_64-linux-gnu/
-# COPY --from=builder /lib/x86_64-linux-gnu/libhistory*  /lib/x86_64-linux-gnu/
-# COPY --from=builder /lib/x86_64-linux-gnu/libreadline*  /lib/x86_64-linux-gnu/
+# The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
+# FROM gcr.io/distroless/nodejs:16-debug-arm64 AS e2e
 
 WORKDIR /app
 
@@ -88,19 +85,8 @@ RUN apt-get update \
 ##--------- Stage: runner ---------##
 
 FROM gcr.io/distroless/nodejs:14 AS runner
-# The below image is a debug image that has helpful binaries for debugging, such as a shell
+# The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
 # FROM gcr.io/distroless/nodejs:16-debug-arm64 AS runner
-
-COPY --from=build-env /lib/x86_64-linux-gnu/libz*  /lib/x86_64-linux-gnu/
-COPY --from=build-env /lib/x86_64-linux-gnu/libexpat*  /lib/x86_64-linux-gnu/
-COPY --from=build-env /lib/x86_64-linux-gnu/libhistory*  /lib/x86_64-linux-gnu/
-COPY --from=build-env /lib/x86_64-linux-gnu/libreadline*  /lib/x86_64-linux-gnu/
-
-# These copies are only relevant if the Docker host is running on arm64
-# COPY --from=build-env /lib/aarch64-linux-gnu/libz*  /lib/aarch64-linux-gnu/
-# COPY --from=build-env /lib/aarch64-linux-gnu/libexpat*  /lib/aarch64-linux-gnu/
-# COPY --from=build-env /lib/aarch64-linux-gnu/libhistory*  /lib/aarch64-linux-gnu/
-# COPY --from=build-env /lib/aarch64-linux-gnu/libreadline*  /lib/aarch64-linux-gnu/
 
 WORKDIR /app
 
