@@ -29,7 +29,9 @@ module.exports = withBundleAnalyzer({
 
     return config
   },
-  reactStrictMode: true,
+  // TODO: This change was made so that drag and drop would continue to work after upgrading to React 18.
+  // Change this back to true once we find another way to keep drag and drop working
+  reactStrictMode: false,
   // swcMinify: true,
   async headers() {
     return [
