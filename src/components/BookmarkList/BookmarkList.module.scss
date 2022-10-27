@@ -7,3 +7,20 @@
   text-align: right;
   white-space: nowrap;
 }
+
+.bmListTable th,
+.bmListTable td {
+  padding: 0;
+}
+
+.bmListHeader th {
+  padding: 0px;
+  padding-bottom: 9px;
+  padding-top: 9px;
+  font-family: 'Sharp Sans';
+}
+
+.bmListTable th,
+.bmListHeader th:first-child {
+  padding-left: 30px;
+}

@@ -86,8 +86,12 @@
   input:not([disabled]):focus,
   select:not([disabled]):focus,
   textarea:not([disabled]):focus,
-  button:not([disabled]):focus {
-    outline: 0.25rem solid $theme-ultraviolet-light;
+  button:not([disabled]):focus,
+  iframe:focus,
+  [href]:focus,
+  [tabindex]:focus,
+  [contentEditable='true']:focus {
+    outline: 0.25rem solid var(--element-focus);
   }
 
   p,
@@ -165,6 +169,8 @@
   .usa-button {
     color: var(--btn-primary-text);
     background-color: var(--btn-primary-bg);
+    font-family: 'Trebuchet MS', sans-serif;
+    padding: 12px 24px;
 
     &:hover,
     &.usa-button--hover {
@@ -200,11 +206,13 @@
 
     &:hover,
     &.usa-button--hover {
+      color: white;
       background-color: var(--btn-secondary-bg-hover);
     }
 
     &:active,
     &.usa-button--active {
+      color: white;
       background-color: var(--btn-secondary-bg-active);
     }
   }
@@ -257,6 +265,7 @@
   .usa-button--unstyled {
     background-color: transparent;
     color: var(--btn-unstyled-text);
+    padding: 12px 20px;
 
     &:hover {
       background-color: var(--btn-unstyled-bg-hover);
@@ -326,7 +335,7 @@
         box-shadow: none;
 
         &:focus {
-          outline: 0.25rem solid $theme-ultraviolet-light;
+          outline: 0.25rem solid var(--element-focus);
         }
       }
     }
@@ -336,6 +345,7 @@
 
   .usa-button--big {
     font-family: $sfds-heading-font;
+    padding: units(2) units(4);
   }
 
   .text-error {

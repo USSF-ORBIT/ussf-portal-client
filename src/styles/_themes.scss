@@ -15,6 +15,7 @@ $hero-image: url('/assets/images/hero.jpeg');
   --link-secondary: #{$theme-aurora-base};
   --link-secondary-hover: #{$theme-aurora-lighter};
   --paragraph-text: #{$theme-black};
+  --element-focus: #{$theme-ultraviolet-light};
 
   // Layout
   --body-bg: #{$white};
@@ -29,10 +30,10 @@ $hero-image: url('/assets/images/hero.jpeg');
   --btn-primary-bg-hover: #{$theme-ultraviolet-dark};
   --btn-primary-bg-active: #{$theme-ultraviolet-darker};
 
-  --btn-secondary-text: #{$theme-white};
+  --btn-secondary-text: #{$black};
   --btn-secondary-bg: #{$theme-mars-base};
-  --btn-secondary-bg-hover: #{$theme-mars-dark};
-  --btn-secondary-bg-active: #{$theme-mars-darker};
+  --btn-secondary-bg-hover: #{$theme-mars-darker};
+  --btn-secondary-bg-active: #{$theme-mars-darkest};
 
   --btn-outline-text: #{$theme-ultraviolet-base};
   --btn-outline-hover: #{$theme-ultraviolet-dark};
@@ -184,6 +185,7 @@ $hero-image: url('/assets/images/hero.jpeg');
   --link-secondary: #{$theme-ultraviolet-darkest};
   --link-secondary-hover: #{$theme-ultraviolet-darker};
   --paragraph-text: #{$theme-white};
+  --element-focus: #{$theme-aurora-base};
 
   // Layout
   --bg: #{linear-gradient(
@@ -205,6 +207,11 @@ $hero-image: url('/assets/images/hero.jpeg');
   --btn-outline-text: #{$theme-aurora-dark};
   --btn-outline-hover: #{$theme-aurora-base};
   --btn-outline-active: #{$theme-aurora-light};
+
+  --btn-secondary-text: #{$black};
+  --btn-secondary-bg: #{$theme-mars-base};
+  --btn-secondary-bg-hover: #{$theme-mars-darker};
+  --btn-secondary-bg-active: #{$theme-mars-darkest};
 
   --btn-unstyled-text: #{$theme-aurora-dark};
   --btn-unstyled-text-hover: #{$theme-aurora-base};
@@ -269,6 +276,7 @@ $hero-image: url('/assets/images/hero.jpeg');
   --bookmark-hover: #{$theme-ultraviolet-darker};
   --bookmark-border: #{$theme-spacebase-darkest};
   --bookmark-border-hover: #{$theme-ultraviolet-darker};
+
   --icon: #{$theme-white};
   --icon-hover: #{$theme-spacebase-light};
   --input-bg: #{$theme-white};
