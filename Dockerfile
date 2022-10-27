@@ -4,7 +4,7 @@ FROM node:14.20.1-slim AS builder
 
 RUN apt-get update \
   && apt-get dist-upgrade -y \
-  && apt-get -y --no-install-recommends install openssl libc6
+  && apt-get -y --no-install-recommends install openssl libc6 zlib1g
 
 WORKDIR /app
 
@@ -39,11 +39,12 @@ COPY . .
 ##--------- Stage: e2e ---------##
 
 # E2E image for running tests (same as prod but without certs)
-FROM node:14.20.1-slim AS e2e
+FROM gcr.io/distroless/nodejs:14 AS e2e
 
-RUN apt-get update \
-  && apt-get dist-upgrade -y \
-  && apt-get -y --no-install-recommends install openssl libc6
+COPY --from=build-env /lib/x86_64-linux-gnu/libz*  /lib/x86_64-linux-gnu/
+COPY --from=build-env /lib/x86_64-linux-gnu/libexpat*  /lib/x86_64-linux-gnu/
+COPY --from=build-env /lib/x86_64-linux-gnu/libhistory*  /lib/x86_64-linux-gnu/
+COPY --from=build-env /lib/x86_64-linux-gnu/libreadline*  /lib/x86_64-linux-gnu/
 
 WORKDIR /app
 
