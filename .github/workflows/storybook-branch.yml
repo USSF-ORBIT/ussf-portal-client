@@ -26,7 +26,7 @@ jobs:
         continue-on-error: false
 
       - name: Post Storybook URL
-        uses: thollander/actions-comment-pull-request@686ab1cab89e0f715a44a0d04b9fdfdd4f33d751 # tag=v1.4.1
+        uses: thollander/actions-comment-pull-request@ca435e7cdbb9ea1b90c4c2af8db208fd9f9b6620 # tag=v1.5.0
         with:
           GITHUB_TOKEN: '${{github.token}}'
           message: '🎉 View this branch in Storybook - [${{ steps.deploy-storybook-to-netlify.outputs.NETLIFY_PREVIEW_URL }}](${{ steps.deploy-storybook-to-netlify.outputs.NETLIFY_PREVIEW_URL }})'

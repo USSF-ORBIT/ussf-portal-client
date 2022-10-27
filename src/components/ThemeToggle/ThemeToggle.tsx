@@ -6,34 +6,59 @@ import styles from './ThemeToggle.module.scss'
 import { useAnalytics } from 'stores/analyticsContext'
 import { useUser } from 'hooks/useUser'
 import { useEditThemeMutation } from 'operations/portal/mutations/editTheme.g'
+import { SessionUser } from 'types'
+import { useGetThemeQuery } from 'operations/portal/queries/getTheme.g'
 
 const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
+  const { data } = useGetThemeQuery()
   const { theme, setTheme } = useTheme()
   const { trackEvent } = useAnalytics()
   const { user } = useUser()
   const [handleEditThemeMutation] = useEditThemeMutation()
 
   useEffect(() => {
-    if (user && theme) {
-      handleEditThemeMutation({
-        variables: {
-          userId: user.userId,
-          theme: theme,
-        },
-      })
+    if (data) {
+      setTheme(data.theme)
     }
-  }, [user, theme])
+  }, [data])
+
+  const handleThemeChangeAndTracking = (
+    user: SessionUser | null,
+    newTheme: string
+  ) => {
+    try {
+      trackEvent(
+        'Dark mode',
+        'Click on light/dark mode toggle',
+        'Light/Dark mode toggle'
+      )
+
+      if (user) {
+        handleEditThemeMutation({
+          variables: {
+            userId: user.userId,
+            theme: newTheme,
+          },
+          refetchQueries: ['getTheme'],
+        })
+      }
+
+      setTheme(newTheme)
+    } catch (error) {
+      // Should this line be ignored? Or logged a different way?
+      console.error(
+        'Error updating theme: error in handleThemeChangeAndTracking',
+        error
+      )
+    }
+  }
 
   return flags && flags.darkModeToggle ? (
     <button
       type="button"
       onClick={() => {
-        trackEvent(
-          'Dark mode',
-          'Click on light/dark mode toggle',
-          'Light/Dark mode toggle'
-        )
-        setTheme(theme === 'light' ? 'dark' : 'light')
+        const newTheme = theme === 'light' ? 'dark' : 'light'
+        handleThemeChangeAndTracking(user, newTheme)
       }}
       className={styles.toggleButton}
       data-testid="theme-toggle">
