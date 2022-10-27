@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { GovBanner, GridContainer, Grid } from '@trussworks/react-uswds'
-import { useTheme } from 'next-themes'
 
 import styles from './DefaultLayout.module.scss'
 
@@ -10,20 +9,8 @@ import PageHeader from 'components/PageHeader/PageHeader'
 import PageNav from 'components/PageNav/PageNav'
 import FeedbackCard from 'components/FeedbackCard/FeedbackCard'
 import Footer from 'components/Footer/Footer'
-import { useGetThemeQuery } from 'operations/portal/queries/getTheme.g'
 
 const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
-  const { data } = useGetThemeQuery()
-  const { setTheme } = useTheme()
-
-  useEffect(() => {
-    if (data) setTheme(data.theme)
-  }, [data])
-
-  if (!data) {
-    return null
-  }
-
   const navItems = [
     { path: '/', label: 'My Space' },
     {
