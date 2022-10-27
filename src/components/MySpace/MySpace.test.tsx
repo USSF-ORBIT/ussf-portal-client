@@ -26,7 +26,7 @@ import { AddBookmarkDocument } from 'operations/portal/mutations/addBookmark.g'
 import { RemoveBookmarkDocument } from 'operations/portal/mutations/removeBookmark.g'
 import { EditBookmarkDocument } from 'operations/portal/mutations/editBookmark.g'
 
-import mockRssFeed from '__mocks__/news-rss'
+import { mockRssFeedTen } from '__mocks__/news-rss'
 
 const mockRouterPush = jest.fn()
 
@@ -38,7 +38,7 @@ jest.mock('next/router', () => ({
 
 jest.mock('axios', () => ({
   get: () => {
-    return Promise.resolve({ data: mockRssFeed })
+    return Promise.resolve({ data: mockRssFeedTen })
   },
 }))
 
