@@ -249,6 +249,7 @@ describe('CustomCollection component', () => {
 
     // Get drag handles
     const dragHandle = screen.getAllByLabelText('Drag Handle')
+    expect(dragHandle[0]).toHaveAttribute('data-rbd-drag-handle-context-id')
     dragHandle[0].focus()
     expect(dragHandle[0]).toHaveFocus()
 
