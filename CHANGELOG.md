@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.9.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.9.0...4.9.1) (2022-10-28)
+
+
+### Bug Fixes
+
+* a11y: enhances focus styling in bookmarks and configures consistent focus styling  ([#815](https://github.com/USSF-ORBIT/ussf-portal-client/issues/815)) ([fd542f8](https://github.com/USSF-ORBIT/ussf-portal-client/commit/fd542f8b96c22463484e5d8e972c128581a161a5))
+* adjusts button styling to be in alignment with Figma button styling ([#818](https://github.com/USSF-ORBIT/ussf-portal-client/issues/818)) ([e8de88d](https://github.com/USSF-ORBIT/ussf-portal-client/commit/e8de88d8834e43ccc8996d113757f2225c2974cd))
+* design: secondary buttons colors / more button design updates  ([#830](https://github.com/USSF-ORBIT/ussf-portal-client/issues/830)) ([2e6c0ac](https://github.com/USSF-ORBIT/ussf-portal-client/commit/2e6c0acbe45d10a07758ff24686651c554c12639))
+* Light/Dark theme settings are inconsistent across the portal ([#797](https://github.com/USSF-ORBIT/ussf-portal-client/issues/797)) ([4e0f856](https://github.com/USSF-ORBIT/ussf-portal-client/commit/4e0f85684a79db9d08b903ee9fec6f6a18c7a637))
+
+
+### Security Improvements
+
+* addresses dependabot alert [#51](https://github.com/USSF-ORBIT/ussf-portal-client/issues/51) ([#814](https://github.com/USSF-ORBIT/ussf-portal-client/issues/814)) ([c88cbf5](https://github.com/USSF-ORBIT/ussf-portal-client/commit/c88cbf582829272687dcd2318bd06ee98983e547))
+
+
+### Reverted Changes
+
+* Revert "chore(deps): update amannn/action-semantic-pull-request action to v5 (#833)" (#836) ([b9b8d77](https://github.com/USSF-ORBIT/ussf-portal-client/commit/b9b8d7760a9206f97a663106daf9881a1b484b68)), closes [#833](https://github.com/USSF-ORBIT/ussf-portal-client/issues/833) [#836](https://github.com/USSF-ORBIT/ussf-portal-client/issues/836)
+
 ## [4.9.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.8.0...4.9.0) (2022-10-06)
 
 
