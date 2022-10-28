@@ -260,7 +260,7 @@ describe('CustomCollection component', () => {
     expect(dragHandle[0]).toHaveFocus()
 
     // Use keyboard to simulate drag and drop of a link
-    await user.keyboard('{space}{arrowdown}{space}')
+    await user.keyboard('[Space][ArrowDown][Space]')
 
     expect(mockEditCollection).toHaveBeenCalled()
   })
