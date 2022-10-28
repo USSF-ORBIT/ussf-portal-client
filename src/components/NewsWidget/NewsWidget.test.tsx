@@ -9,7 +9,7 @@ import axios from 'axios'
 import { renderWithModalRoot } from '../../testHelpers'
 import NewsWidget from './NewsWidget'
 
-import mockRssFeed from '__mocks__/news-rss'
+import { mockRssFeedTen } from '__mocks__/news-rss'
 
 jest.mock('axios')
 
@@ -19,7 +19,7 @@ describe('NewsWidget component', () => {
   const mockHandleRemove = jest.fn()
 
   mockedAxios.get.mockImplementation(() => {
-    return Promise.resolve({ data: mockRssFeed })
+    return Promise.resolve({ data: mockRssFeedTen })
   })
 
   beforeEach(() => {
