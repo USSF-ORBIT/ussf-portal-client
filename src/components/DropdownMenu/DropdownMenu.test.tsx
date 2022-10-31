@@ -35,8 +35,9 @@ describe('Dropdown Menu ', () => {
   })
 
   it('renders the toggle button', async () => {
+    const user = userEvent.setup()
     expect(screen.getByRole('button')).toHaveTextContent('Toggle Dropdown')
-    await userEvent.click(screen.getByRole('button'))
+    await user.click(screen.getByRole('button'))
     expect(mockOnClick).toHaveBeenCalled()
   })
 

@@ -34,8 +34,9 @@ describe('Login page', () => {
   })
 
   it('renders the open accordion on click', async () => {
+    const user = userEvent.setup()
     const button = screen.getByRole('button', { name: 'Contact the Help Desk' })
-    await userEvent.click(button)
+    await user.click(button)
     expect(screen.getByTestId('accordionItem_a1')).toBeVisible()
   })
 
@@ -46,9 +47,10 @@ describe('Login page', () => {
   })
 
   it('renders the login button', async () => {
+    const user = userEvent.setup()
     const loginButton = screen.getByRole('button', { name: 'Log In' })
     expect(loginButton).toBeInTheDocument()
-    await userEvent.click(loginButton)
+    await user.click(loginButton)
     expect(mockLogin).toHaveBeenCalled()
   })
 
