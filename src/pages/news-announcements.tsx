@@ -1,6 +1,6 @@
 import { InferGetServerSidePropsType } from 'next'
 import React, { useEffect } from 'react'
-import { Breadcrumb, Grid } from '@trussworks/react-uswds'
+import { Grid } from '@trussworks/react-uswds'
 import { client } from '../lib/keystoneClient'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import Announcement from 'components/Announcement/Announcement'
@@ -112,11 +112,11 @@ NewsAnnouncements.getLayout = (page: React.ReactNode) =>
         navItems={[
           {
             path: '/',
-            label: <Breadcrumb>Service portal home</Breadcrumb>,
+            label: <span>Service portal home</span>,
           },
           {
             path: '/news-announcements',
-            label: <Breadcrumb>News & Announcements</Breadcrumb>,
+            label: <span>News & Announcements</span>,
             current: true,
           },
         ]}

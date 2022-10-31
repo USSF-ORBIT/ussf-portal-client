@@ -1,5 +1,4 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { Breadcrumb } from '@trussworks/react-uswds'
 import { Context, gql } from '@apollo/client'
 
 import { client } from '../../lib/keystoneClient'
@@ -49,11 +48,11 @@ PortalNews.getLayout = (page: React.ReactNode) =>
       <h1>ORBIT Blog</h1>
       <BreadcrumbNav
         navItems={[
-          { path: '/', label: <Breadcrumb>Service portal home</Breadcrumb> },
-          { path: '/about-us', label: <Breadcrumb>About Us</Breadcrumb> },
+          { path: '/', label: <span>Service portal home</span> },
+          { path: '/about-us', label: <span>About Us</span> },
           {
             path: '/orbit-blog',
-            label: <Breadcrumb>ORBIT Blog</Breadcrumb>,
+            label: <span>ORBIT Blog</span>,
             current: true,
           },
         ]}
