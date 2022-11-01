@@ -118,7 +118,7 @@
     "@types/jest-axe": "3.5.4",
     "@types/passport": "1.0.9",
     "@types/passport-saml-metadata": "2.2.1",
-    "@types/react": "17.0.41",
+    "@types/react": "18.0.24",
     "@types/react-fontawesome": "1.6.5",
     "@typescript-eslint/eslint-plugin": "5.40.0",
     "@typescript-eslint/parser": "5.40.0",
@@ -162,7 +162,7 @@
     "util": "0.12.4"
   },
   "resolutions": {
-    "@types/react": "17.0.41",
+    "@types/react": "18.0.24",
     "ansi-regex": "5.0.1",
     "trim": "0.0.3",
     "webpack": "5.73.0",
