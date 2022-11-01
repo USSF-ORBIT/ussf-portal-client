@@ -4,7 +4,7 @@ FROM node:14.20.1-slim AS builder
 
 RUN apt-get update \
   && apt-get dist-upgrade -y \
-  && apt-get -y --no-install-recommends install openssl libc6
+  && apt-get -y --no-install-recommends install openssl libc6 zlib1g
 
 WORKDIR /app
 
@@ -39,11 +39,9 @@ COPY . .
 ##--------- Stage: e2e ---------##
 
 # E2E image for running tests (same as prod but without certs)
-FROM node:14.20.1-slim AS e2e
-
-RUN apt-get update \
-  && apt-get dist-upgrade -y \
-  && apt-get -y --no-install-recommends install openssl libc6
+FROM gcr.io/distroless/nodejs:14 AS e2e
+# The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
+# FROM gcr.io/distroless/nodejs:16-debug-arm64 AS e2e
 
 WORKDIR /app
 
@@ -62,46 +60,55 @@ COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
-CMD ["node","-r","./startup/index.js", "node_modules/.bin/next", "start"]
+CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
 
-##--------- Stage: runner ---------##
+##--------- Stage: build-env ---------##
 
 # Production image, copy all the files and run next
-FROM node:14.20.1-slim AS runner
+FROM node:14.20.1-slim AS build-env
 
 WORKDIR /app
 
-COPY scripts/add-rds-cas.sh .
-COPY scripts/add-dod-cas.sh .
-COPY scripts/create-gcds-chain.sh .
-COPY dev-saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
-COPY test-saml.pem /usr/local/share/ca-certificates/federation.test.cce.af.mil.crt
-COPY prod-saml.pem /usr/local/share/ca-certificates/federation.prod.cce.af.mil.crt
-
-# Copy files needed for startup
-COPY ./startup ./startup
-COPY ./migrations ./migrations
-COPY ./utils ./utils
+COPY --from=builder /app/scripts/add-rds-cas.sh .
+COPY --from=builder /app/scripts/add-dod-cas.sh .
+COPY --from=builder /app/scripts/create-gcds-chain.sh .
+COPY --from=builder /app/dev-saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
+COPY --from=builder /app/test-saml.pem /usr/local/share/ca-certificates/federation.test.cce.af.mil.crt
+COPY --from=builder /app/prod-saml.pem /usr/local/share/ca-certificates/federation.prod.cce.af.mil.crt
 
 RUN apt-get update \
   && apt-get dist-upgrade -y \
-  && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip \
+  && apt-get -y --no-install-recommends install openssl libc6 ca-certificates wget unzip zlib1g \
   && chmod +x add-rds-cas.sh && sh add-rds-cas.sh \
-  && chmod +x add-dod-cas.sh && sh add-dod-cas.sh && chmod +x create-gcds-chain.sh && sh create-gcds-chain.sh \
-  && apt-get remove -y wget unzip ca-certificates \
-  && apt-get autoremove -y \
-  && apt-get autoclean -y \
-  && rm -rf /var/lib/apt/lists/*
+  && chmod +x add-dod-cas.sh && sh add-dod-cas.sh && chmod +x create-gcds-chain.sh && sh create-gcds-chain.sh
+
+##--------- Stage: runner ---------##
+
+FROM gcr.io/distroless/nodejs:14 AS runner
+# The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
+# FROM gcr.io/distroless/nodejs:16-debug-arm64 AS runner
+
+WORKDIR /app
+
+COPY ./startup ./startup
+COPY ./migrations ./migrations
+COPY ./utils ./utils
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+
+COPY --from=build-env  ["/app/rds-combined-ca-bundle.pem", "/app/rds-combined-ca-us-gov-bundle.pem", "/app/us-gov-west-1-bundle.pem", "./"]
+COPY --from=build-env /usr/local/share/ca-certificates /usr/local/share/ca-certificates
+COPY --from=build-env /usr/share/ca-certificates /usr/share/ca-certificates
+COPY --from=build-env /etc/ssl/certs/ /etc/ssl/certs/
+
 
 ENV NODE_EXTRA_CA_CERTS='/usr/local/share/ca-certificates/GCDS.pem'
 ENV NODE_ENV production
 
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-
 EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
-CMD ["node","-r","./startup/index.js", "node_modules/.bin/next", "start"]
+
+CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
