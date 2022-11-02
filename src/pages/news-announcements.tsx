@@ -112,11 +112,11 @@ NewsAnnouncements.getLayout = (page: React.ReactNode) =>
         navItems={[
           {
             path: '/',
-            label: <span>Service portal home</span>,
+            label: 'Service portal home',
           },
           {
             path: '/news-announcements',
-            label: <span>News & Announcements</span>,
+            label: 'News & Announcements',
             current: true,
           },
         ]}
