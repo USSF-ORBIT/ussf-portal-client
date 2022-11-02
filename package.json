@@ -1,6 +1,6 @@
 {
   "name": "ussf-portal",
-  "version": "4.9.0",
+  "version": "4.9.1",
   "private": true,
   "engines": {
     "node": "14.20.1"
@@ -169,7 +169,7 @@
     "glob-parent": "6.0.2",
     "parse-url": "8.1.0",
     "trim-newlines": "3.0.1",
-    "@xmldom/xmldom": "0.8.3"
+    "@xmldom/xmldom": "0.8.4"
   },
   "browserslist": [
     "> 2%",
