@@ -29,10 +29,7 @@ RUN yarn build
 # Install only production deps this time
 RUN yarn install --production --ignore-scripts --prefer-offline
 
-ARG BUILD
-
 ENV NEXT_TELEMETRY_DISABLED 1
-ENV IMAGE_TAG=${BUILD}
 
 COPY . .
 
@@ -57,6 +54,9 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+
+ARG BUILD
+ENV BUILD_ID=${BUILD}
 
 EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
@@ -109,6 +109,10 @@ ENV NODE_EXTRA_CA_CERTS='/usr/local/share/ca-certificates/GCDS.pem'
 ENV NODE_ENV production
 
 EXPOSE 3000
+
+ARG BUILD
+ENV BUILD_ID=${BUILD}
+
 ENV NEXT_TELEMETRY_DISABLED 1
 
 CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
