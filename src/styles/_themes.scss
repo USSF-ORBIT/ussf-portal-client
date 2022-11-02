@@ -189,8 +189,8 @@ $hero-image: url('/assets/images/hero.jpeg');
   --element-focus: #{$theme-aurora-base};
 
   // Layout
-  --body-bg: #{$theme-spacebase-dark};
-  --bg: #{linear-gradient(
+  --bg: #{$theme-spacebase-dark};
+  --body-bg: #{linear-gradient(
       180deg,
       #000000 6.36%,
       #0f305a 73.55%,
