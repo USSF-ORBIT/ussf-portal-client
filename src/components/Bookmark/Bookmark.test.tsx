@@ -21,7 +21,8 @@ describe('Bookmark component', () => {
     expect(link).toBeInstanceOf(HTMLAnchorElement)
   })
 
-  it('renders a delete button if a handler is provided', () => {
+  it('renders a delete button if a handler is provided', async () => {
+    const user = userEvent.setup()
     const mockOnDelete = jest.fn()
 
     render(
@@ -31,7 +32,7 @@ describe('Bookmark component', () => {
     )
 
     const button = screen.getByRole('button')
-    userEvent.click(button)
+    await user.click(button)
     expect(mockOnDelete).toHaveBeenCalled()
   })
 

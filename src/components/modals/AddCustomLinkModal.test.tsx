@@ -39,8 +39,9 @@ describe('AddCustomLinkModal', () => {
     expect(deleteLinkButton).not.toBeInTheDocument()
   })
 
-  it('can cancel out of the modal', () => {
-    userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+  it('can cancel out of the modal', async () => {
+    const user = userEvent.setup()
+    await user.click(screen.getByRole('button', { name: 'Cancel' }))
     expect(testHandlers.onCancel).toHaveBeenCalled()
   })
 

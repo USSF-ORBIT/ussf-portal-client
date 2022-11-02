@@ -235,6 +235,10 @@ describe('Sites and Applications page', () => {
       })
 
       it('can toggle sort type', async () => {
+        const user = userEvent.setup({
+          advanceTimers: jest.advanceTimersByTime,
+        })
+
         const sortAlphaBtn = await screen.findByRole('button', {
           name: 'Sort alphabetically',
         })
@@ -242,7 +246,7 @@ describe('Sites and Applications page', () => {
         const sortTypeBtn = screen.getByRole('button', { name: 'Sort by type' })
 
         expect(sortTypeBtn).toBeDisabled()
-        userEvent.click(sortAlphaBtn)
+        await user.click(sortAlphaBtn)
 
         expect(sortAlphaBtn).toBeDisabled()
         expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(0)
@@ -252,7 +256,7 @@ describe('Sites and Applications page', () => {
         )
         expect(sortTypeBtn).not.toBeDisabled()
 
-        userEvent.click(sortTypeBtn)
+        await user.click(sortTypeBtn)
         expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(
           cmsCollectionsMock.length
         )
@@ -267,12 +271,15 @@ describe('Sites and Applications page', () => {
           })
         })
 
-        it('can enter select mode', () => {
+        it('can enter select mode', async () => {
+          const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+          })
           const selectBtn = screen.getByRole('button', {
             name: 'Select multiple collections',
           })
           expect(selectBtn).toBeInTheDocument()
-          userEvent.click(selectBtn)
+          await user.click(selectBtn)
 
           expect(
             screen.getByRole('button', {
@@ -305,12 +312,16 @@ describe('Sites and Applications page', () => {
           ).toBeInTheDocument()
         })
 
-        it('can cancel out of select mode', () => {
+        it('can cancel out of select mode', async () => {
+          const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+          })
+
           expect(
             screen.queryByText('0 collections selected')
           ).not.toBeInTheDocument()
 
-          userEvent.click(
+          await user.click(
             screen.getByRole('button', {
               name: 'Select multiple collections',
             })
@@ -320,7 +331,7 @@ describe('Sites and Applications page', () => {
             screen.queryByText('0 collections selected')
           ).toBeInTheDocument()
 
-          userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+          await user.click(screen.getByRole('button', { name: 'Cancel' }))
 
           expect(
             screen.queryByText('0 collections selected')
@@ -328,7 +339,11 @@ describe('Sites and Applications page', () => {
         })
 
         it('can select multiple collections and add them', async () => {
-          userEvent.click(
+          const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+          })
+
+          await user.click(
             screen.getByRole('button', {
               name: 'Select multiple collections',
             })
@@ -339,14 +354,14 @@ describe('Sites and Applications page', () => {
           ).toBeDisabled()
           expect(screen.getByText('0 collections selected')).toBeInTheDocument()
 
-          userEvent.click(
+          await user.click(
             screen.getByRole('button', {
               name: 'Select collection Example Collection 1',
             })
           )
           expect(screen.getByText('1 collection selected')).toBeInTheDocument()
 
-          userEvent.click(
+          await user.click(
             screen.getByRole('button', {
               name: 'Select collection Example Collection 2',
             })
@@ -365,16 +380,21 @@ describe('Sites and Applications page', () => {
             screen.getByRole('button', { name: 'Add selected' })
           ).toBeEnabled()
 
-          userEvent.click(screen.getByRole('button', { name: 'Add selected' }))
-
           await act(async () => {
-            jest.runAllTimers()
+            await user.click(
+              screen.getByRole('button', { name: 'Add selected' })
+            )
           })
+
           expect(collectionsAdded).toBe(true)
         })
 
-        it('cannot select more than the max number of collections', () => {
-          userEvent.click(
+        it('cannot select more than the max number of collections', async () => {
+          const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+          })
+
+          await user.click(
             screen.getByRole('button', {
               name: 'Select multiple collections',
             })
@@ -388,7 +408,7 @@ describe('Sites and Applications page', () => {
             screen.getByText('(3 of 25 possible remaining)')
           ).toBeInTheDocument()
 
-          userEvent.click(
+          await user.click(
             screen.getByRole('button', {
               name: 'Select collection Example Collection 1',
             })
@@ -398,7 +418,7 @@ describe('Sites and Applications page', () => {
             screen.getByText('(2 of 25 possible remaining)')
           ).toBeInTheDocument()
 
-          userEvent.click(
+          await user.click(
             screen.getByRole('button', {
               name: 'Select collection Example Collection 2',
             })
@@ -414,7 +434,7 @@ describe('Sites and Applications page', () => {
             })
           ).toBeInTheDocument()
 
-          userEvent.click(
+          await user.click(
             screen.getByRole('button', {
               name: 'Select collection Example Collection 3',
             })
@@ -439,8 +459,12 @@ describe('Sites and Applications page', () => {
           ).not.toBeInTheDocument()
         })
 
-        it('selecting the same collection twice removes it from the selection', () => {
-          userEvent.click(
+        it('selecting the same collection twice removes it from the selection', async () => {
+          const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+          })
+
+          await user.click(
             screen.getByRole('button', {
               name: 'Select multiple collections',
             })
@@ -451,13 +475,13 @@ describe('Sites and Applications page', () => {
           ).toBeDisabled()
           expect(screen.getByText('0 collections selected')).toBeInTheDocument()
 
-          userEvent.click(
+          await user.click(
             screen.getByRole('button', {
               name: 'Select collection Example Collection 1',
             })
           )
           expect(screen.getByText('1 collection selected')).toBeInTheDocument()
-          userEvent.click(
+          await user.click(
             screen.getByRole('button', {
               name: 'Select collection Example Collection 2',
             })
@@ -467,13 +491,13 @@ describe('Sites and Applications page', () => {
             screen.getByRole('button', { name: 'Add selected' })
           ).toBeEnabled()
 
-          userEvent.click(
+          await user.click(
             screen.getByRole('button', {
               name: 'Unselect collection Example Collection 1',
             })
           )
           expect(screen.getByText('1 collection selected')).toBeInTheDocument()
-          userEvent.click(
+          await user.click(
             screen.getByRole('button', {
               name: 'Unselect collection Example Collection 2',
             })
@@ -483,22 +507,25 @@ describe('Sites and Applications page', () => {
       })
 
       describe('selecting bookmarks', () => {
-        beforeEach(async () => {
-          userEvent.click(
-            await screen.findByRole('button', {
-              name: 'Sort alphabetically',
-            })
-          )
-        })
-
         it('can add a bookmark to an existing collection', async () => {
-          userEvent.click(
+          const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+          })
+
+          const sortAlpha = await screen.findByRole('button', {
+            name: 'Sort alphabetically',
+          })
+          await user.click(sortAlpha)
+
+          await user.click(
             screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
           )
 
-          userEvent.click(
-            screen.getByRole('button', { name: 'Example Collection' })
-          )
+          await act(async () => {
+            await user.click(
+              screen.getByRole('button', { name: 'Example Collection' })
+            )
+          })
 
           const flashMessage = screen.getAllByRole('alert')[0]
 
@@ -515,11 +542,20 @@ describe('Sites and Applications page', () => {
         })
 
         it('cannot add a bookmark to an existing collection with 10 links', async () => {
+          const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+          })
+
+          const sortAlpha = await screen.findByRole('button', {
+            name: 'Sort alphabetically',
+          })
+          await user.click(sortAlpha)
+
           expect(screen.getByRole('alert')).toHaveTextContent(
             `At least one collection on your My Space has reached the maximum number of links allowed (10).`
           )
 
-          userEvent.click(
+          await user.click(
             screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
           )
 
@@ -529,17 +565,25 @@ describe('Sites and Applications page', () => {
         })
 
         it('can add a bookmark to a new collection', async () => {
-          userEvent.click(
+          const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+          })
+
+          const sortAlpha = await screen.findByRole('button', {
+            name: 'Sort alphabetically',
+          })
+          await user.click(sortAlpha)
+
+          await user.click(
             screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
           )
 
-          userEvent.click(
-            screen.getByRole('button', { name: 'Add to new collection' })
-          )
-
           await act(async () => {
-            jest.runAllTimers()
+            await user.click(
+              screen.getByRole('button', { name: 'Add to new collection' })
+            )
           })
+
           expect(collectionAdded).toBe(true)
           expect(mockPush).toHaveBeenCalledWith('/')
         })
@@ -598,6 +642,8 @@ describe('Sites and Applications page', () => {
     })
 
     it('prevents adding a bookmark to a new collection if the user already has 25', async () => {
+      const user = userEvent.setup()
+
       renderWithAuth(
         <MockedProvider mocks={getMySpaceMaximumCollectionsMock}>
           <SitesAndApplications
@@ -607,7 +653,7 @@ describe('Sites and Applications page', () => {
         </MockedProvider>
       )
 
-      userEvent.click(
+      await user.click(
         await screen.findByRole('button', {
           name: 'Sort alphabetically',
         })
@@ -617,7 +663,7 @@ describe('Sites and Applications page', () => {
         `You have reached the maximum number of collections allowed on your My Space (25).`
       )
 
-      userEvent.click(
+      await user.click(
         screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
       )
 
