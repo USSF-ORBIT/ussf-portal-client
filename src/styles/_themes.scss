@@ -195,7 +195,7 @@ $hero-image: url('/assets/images/hero.jpeg');
       #000000 6.36%,
       #0f305a 73.55%,
       #555f92 111.89%
-    )};
+    )} fixed;
   --mySpaceBg: rgba(10, 22, 43, 0.4);
   --text: #{$white};
   --header-image: none;
