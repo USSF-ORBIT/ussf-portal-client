@@ -166,7 +166,8 @@
     "glob-parent": "6.0.2",
     "parse-url": "8.1.0",
     "trim-newlines": "3.0.1",
-    "@xmldom/xmldom": "0.8.4"
+    "@xmldom/xmldom": "0.8.4",
+    "apollo-server-core": "3.11.0"
   },
   "browserslist": [
     "> 2%",
