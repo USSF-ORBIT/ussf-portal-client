@@ -105,13 +105,13 @@ Most commonly used during development:
 - `yarn services:up`: Starts all required services in Docker
   - Stop containers with `yarn services:down`
 - `yarn cms:up`: Starts all required services _and_ Keystone CMS in Docker
-  - Stop containers with `yarn cms:down`
+  - Stop containers with `yarn services:down`
+- `yarn portal:up`: Starts all services, Client, _and_ Keystone CMS in Docker
+  - Stop containers with `yarn services:down`
 - `yarn dev`: Starts NextJS server in development mode and watches for changed files
 - `yarn storybook`: Starts the Storybook component library on port 6006
 - `yarn test:watch`: Run Jest tests in watch mode
-- `yarn e2e:up`: Starts all required services to run Cypress tests
-  - Stop containers with `yarn e2e:down`
-- `yarn cypress:dev`: Start the Cypress test runner UI (make sure to run `yarn cypress:install` first)
+- `yarn services:removeall`: Will force remove all running and stopped containers
 
 To start the app server as it will run in production:
 
@@ -211,14 +211,30 @@ To **reset the database**:
 
 ```
 yarn services:down
-# Or yarn cms:down
-# Depending on how you started the instance
 
 # Remove mounted volume for db
 docker volume rm ussf-portal-client_portal_data
 
 yarn services:up
 ```
+
+### Client in a docker container locally for debugging deployment issues
+
+If you want to run all services in docker to mimic a deployed environment as close as possible you can do this as described below.
+
+1. Download `dev-saml.pem`, `test-saml.pem`, and `prod-saml.pem` from 1Password vault
+  - These are found in `SAML Certs for USSF/GCDS` note in the Space Force vault
+  - Put them in the respective file name in the root of this repo.
+  - These should not be checked in and are alread in our `.gitignore` file
+1. Ensure you have the latest version of the images built
+  - Run `docker compose build`
+1. Ensure no other `yarn dev` is running in this repo or cms repo
+1. Run `yarn portal:up` will start everything
+  - Client will be at http://localhost:3000
+  - CMS will be at http://localhost:3001
+1. You can check things are running with `docker compose ps`
+1. You can follow the logs with `docker compose logs -f`
+1. Run `yarn services:down` to shut everything down
 
 ### Known limitations
 
