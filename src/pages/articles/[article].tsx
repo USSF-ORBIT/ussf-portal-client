@@ -1,6 +1,6 @@
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 
-import { Breadcrumb, GridContainer } from '@trussworks/react-uswds'
+import { GridContainer } from '@trussworks/react-uswds'
 
 import { client } from 'lib/keystoneClient'
 import { useUser } from 'hooks/useUser'
@@ -17,11 +17,11 @@ const ORBITBlogArticleHeader = () => (
       <h1>ORBIT Blog</h1>
       <BreadcrumbNav
         navItems={[
-          { path: '/', label: <Breadcrumb>Service portal home</Breadcrumb> },
-          { path: '/about-us', label: <Breadcrumb>About Us</Breadcrumb> },
+          { path: '/', label: <span>Service portal home</span> },
+          { path: '/about-us', label: <span>About Us</span> },
           {
             path: '/about-us/orbit-blog',
-            label: <Breadcrumb>ORBIT Blog</Breadcrumb>,
+            label: <span>ORBIT Blog</span>,
             current: true,
           },
         ]}
@@ -36,10 +36,10 @@ const InternalNewsArticleHeader = () => (
       <h1>News</h1>
       <BreadcrumbNav
         navItems={[
-          { path: '/', label: <Breadcrumb>Service portal home</Breadcrumb> },
+          { path: '/', label: <span>Service portal home</span> },
           {
             path: '/news',
-            label: <Breadcrumb>News</Breadcrumb>,
+            label: <span>News</span>,
             current: true,
           },
         ]}

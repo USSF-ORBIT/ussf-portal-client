@@ -36,7 +36,8 @@ describe('EditDisplayName component', () => {
     expect(inputField).toHaveValue('Test Name')
   })
 
-  it('saves a new display name', () => {
+  it('saves a new display name', async () => {
+    const user = userEvent.setup()
     const textInput = screen.getAllByTestId('nameInput')[0]
     fireEvent.change(textInput, { target: { value: 'My New Name' } })
 
@@ -44,7 +45,7 @@ describe('EditDisplayName component', () => {
     expect(textInput).toHaveAttribute('value', 'My New Name')
 
     const saveButton = screen.getAllByTestId('saveButton')[0]
-    userEvent.click(saveButton)
+    await user.click(saveButton)
 
     expect(mockHandlers.handleEditDisplayName).toHaveBeenCalled()
   })

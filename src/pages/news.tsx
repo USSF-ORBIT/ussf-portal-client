@@ -1,5 +1,4 @@
 import { InferGetServerSidePropsType } from 'next'
-import { Breadcrumb } from '@trussworks/react-uswds'
 
 import { client } from '../lib/keystoneClient'
 
@@ -44,15 +43,15 @@ InternalNews.getLayout = (page: React.ReactNode) =>
         navItems={[
           {
             path: '/',
-            label: <Breadcrumb>Service portal home</Breadcrumb>,
+            label: <span>Service portal home</span>,
           },
           {
             path: '/about-us',
-            label: <Breadcrumb>About Us</Breadcrumb>,
+            label: <span>About Us</span>,
           },
           {
             path: '/news',
-            label: <Breadcrumb>Internal News</Breadcrumb>,
+            label: <span>Internal News</span>,
             current: true,
           },
         ]}

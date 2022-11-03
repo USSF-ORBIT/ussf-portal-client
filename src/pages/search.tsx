@@ -1,5 +1,5 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { Breadcrumb, GridContainer, Grid } from '@trussworks/react-uswds'
+import { GridContainer, Grid } from '@trussworks/react-uswds'
 
 import { client } from 'lib/keystoneClient'
 import Loader from 'components/Loader/Loader'
@@ -37,16 +37,16 @@ const Search = ({
             navItems={[
               {
                 path: '/',
-                label: <Breadcrumb>Service portal home</Breadcrumb>,
+                label: <span>Service portal home</span>,
               },
               {
                 path: '/search',
-                label: <Breadcrumb>Search</Breadcrumb>,
+                label: <span>Search</span>,
                 current: true,
               },
               {
                 path: '/search',
-                label: <Breadcrumb>{query}</Breadcrumb>,
+                label: <span>{query}</span>,
                 current: true,
               },
             ]}

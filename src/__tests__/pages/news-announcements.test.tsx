@@ -9,7 +9,7 @@ import { renderWithAuth } from '../../testHelpers'
 
 import { cmsAnnouncementsMock } from '../../__fixtures__/data/cmsAnnouncments'
 import { cmsPortalNewsArticlesMock } from '../../__fixtures__/data/cmsPortalNewsArticles'
-import mockRssFeed from '__mocks__/news-rss'
+import { mockRssFeedTen } from '__mocks__/news-rss'
 import '../../__mocks__/mockMatchMedia'
 import NewsAnnouncements from 'pages/news-announcements'
 
@@ -86,7 +86,7 @@ describe('News page', () => {
 
     it('renders the page title and RSS items', async () => {
       mockedAxios.get.mockImplementation(() => {
-        return Promise.resolve({ data: mockRssFeed })
+        return Promise.resolve({ data: mockRssFeedTen })
       })
 
       renderWithAuth(

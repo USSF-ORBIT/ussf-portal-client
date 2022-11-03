@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { waitFor, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ThemeProvider } from 'next-themes'
 import { mockUseTheme, renderWithAuthAndApollo } from '../../testHelpers'
@@ -24,6 +24,8 @@ describe('ThemeToggle component', () => {
   })
 
   it('renders the component', () => {
+    const user = userEvent.setup()
+
     renderWithAuthAndApollo(
       <ThemeToggle flags={{ darkModeToggle: true }} />,
       {},
@@ -33,7 +35,7 @@ describe('ThemeToggle component', () => {
     const toggleBtn = screen.getByTestId('theme-toggle')
     expect(toggleBtn).toBeVisible()
 
-    userEvent.click(toggleBtn)
+    user.click(toggleBtn)
     expect(screen.getAllByText('light mode')).toHaveLength(1)
   })
 })
@@ -61,9 +63,10 @@ describe('calling hook functions', () => {
     )
   })
 
-  it('calls trackEvent when the toggle is clicked', () => {
+  it('calls trackEvent when the toggle is clicked', async () => {
+    const user = userEvent.setup()
     const toggle = screen.getByTestId('theme-toggle')
-    userEvent.click(toggle)
+    await user.click(toggle)
 
     expect(mockTrackEvents).toHaveBeenCalledTimes(1)
     expect(mockTrackEvents).toHaveBeenCalledWith(
@@ -73,25 +76,25 @@ describe('calling hook functions', () => {
     )
   })
 
-  it('calls setTheme when the toggle is clicked', () => {
+  it('calls setTheme when the toggle is clicked', async () => {
+    const user = userEvent.setup()
     const toggle = screen.getByTestId('theme-toggle')
-    userEvent.click(toggle)
+    await user.click(toggle)
     expect(setItemMock).toHaveBeenCalledTimes(1)
     expect(setItemMock).toHaveBeenCalledWith('theme', 'dark')
 
-    userEvent.click(toggle)
+    await user.click(toggle)
     expect(setItemMock).toHaveBeenCalledTimes(2)
     expect(setItemMock).toHaveBeenLastCalledWith('theme', 'light')
   })
 
   it('calls handleEditThemeMutation when the toggle is clicked', async () => {
+    const user = userEvent.setup()
     const toggle = screen.getByTestId('theme-toggle')
-    userEvent.click(toggle)
+    await user.click(toggle)
 
     // only need to check that the function was called the expected number of times
     // the expected parameters are defined in the mock
-    await waitFor(() =>
-      expect(editThemeMock[0].newData).toHaveBeenCalledTimes(3)
-    )
+    expect(editThemeMock[0].newData).toHaveBeenCalledTimes(3)
   })
 })

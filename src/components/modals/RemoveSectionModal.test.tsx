@@ -25,7 +25,9 @@ describe('RemoveSectionModal', () => {
     )
   })
 
-  it('renders and fires delete button on click', () => {
+  it('renders and fires delete button on click', async () => {
+    const user = userEvent.setup()
+
     expect(screen.getByRole('heading')).toHaveTextContent(
       'Are you sure you’d like to delete this section?'
     )
@@ -34,16 +36,17 @@ describe('RemoveSectionModal', () => {
 
     expect(deleteButton).toBeInTheDocument()
 
-    userEvent.click(deleteButton)
+    await user.click(deleteButton)
     expect(mockOnDelete).toHaveBeenCalled()
   })
 
-  it('renders and fires cancel button on click', () => {
+  it('renders and fires cancel button on click', async () => {
+    const user = userEvent.setup()
     const cancelButton = screen.getByRole('button', { name: 'Cancel' })
 
     expect(cancelButton).toBeInTheDocument()
 
-    userEvent.click(cancelButton)
+    await user.click(cancelButton)
     expect(mockOnCancel).toHaveBeenCalled()
   })
 })

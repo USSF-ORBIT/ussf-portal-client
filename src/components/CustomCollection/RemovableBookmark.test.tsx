@@ -48,6 +48,7 @@ describe('RemovableBookmark component', () => {
   })
 
   it('allows the delete handler to be undone', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime })
     jest.useFakeTimers()
 
     const mockHandleRemove = jest.fn()
@@ -62,12 +63,12 @@ describe('RemovableBookmark component', () => {
     const deleteButton = screen.getByRole('button', {
       name: 'Remove this link',
     })
-    userEvent.click(deleteButton)
+    await user.click(deleteButton)
 
     const undoButton = screen.getByRole('button', { name: 'Undo remove' })
     expect(undoButton).toBeInTheDocument()
     expect(deleteButton).not.toBeInTheDocument()
-    userEvent.click(undoButton)
+    await user.click(undoButton)
 
     expect(screen.getByRole('link')).toHaveTextContent(testBookmark.label)
     expect(undoButton).not.toBeInTheDocument()
@@ -84,7 +85,8 @@ describe('RemovableBookmark component', () => {
     expect(mockHandleRemove).not.toHaveBeenCalled()
   })
 
-  it('handles the delete button if not undone', () => {
+  it('handles the delete button if not undone', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime })
     jest.useFakeTimers()
 
     const mockHandleRemove = jest.fn()
@@ -99,7 +101,7 @@ describe('RemovableBookmark component', () => {
     const deleteButton = screen.getByRole('button', {
       name: 'Remove this link',
     })
-    userEvent.click(deleteButton)
+    await user.click(deleteButton)
 
     const undoButton = screen.getByRole('button', { name: 'Undo remove' })
     expect(undoButton).toBeInTheDocument()

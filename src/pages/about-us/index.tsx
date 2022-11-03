@@ -1,4 +1,4 @@
-import { Breadcrumb, Grid } from '@trussworks/react-uswds'
+import { Grid } from '@trussworks/react-uswds'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import Loader from 'components/Loader/Loader'
@@ -170,10 +170,10 @@ AboutUs.getLayout = (page: React.ReactNode) =>
       <h1>About us</h1>
       <BreadcrumbNav
         navItems={[
-          { path: '/', label: <Breadcrumb>Service portal home</Breadcrumb> },
+          { path: '/', label: <span>Service portal home</span> },
           {
             path: '/about-us',
-            label: <Breadcrumb>About Us</Breadcrumb>,
+            label: <span>About Us</span>,
             current: true,
           },
         ]}

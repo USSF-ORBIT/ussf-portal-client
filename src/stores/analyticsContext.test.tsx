@@ -289,30 +289,33 @@ describe('Analytics context', () => {
       )
     })
 
-    it('provides the push handler', () => {
-      userEvent.click(screen.getByRole('button', { name: 'Test push' }))
+    it('provides the push handler', async () => {
+      const user = userEvent.setup()
+      await user.click(screen.getByRole('button', { name: 'Test push' }))
 
-      expect(windowWithAnalytics._paq[0]).toEqual([
+      expect(windowWithAnalytics._paq.pop()).toEqual([
         'trackEvent',
         'testEvent',
         'push action',
       ])
     })
 
-    it('provides the trackEvent handler', () => {
-      userEvent.click(screen.getByRole('button', { name: 'Test track event' }))
-      expect(windowWithAnalytics._paq[0]).toEqual([
+    it('provides the trackEvent handler', async () => {
+      const user = userEvent.setup()
+      await user.click(screen.getByRole('button', { name: 'Test track event' }))
+      expect(windowWithAnalytics._paq.pop()).toEqual([
         'trackEvent',
         'testEvent',
         'track event action',
       ])
     })
 
-    it('can use trackEvent to track an event name', () => {
-      userEvent.click(
+    it('can use trackEvent to track an event name', async () => {
+      const user = userEvent.setup()
+      await user.click(
         screen.getByRole('button', { name: 'Test track event with name' })
       )
-      expect(windowWithAnalytics._paq[0]).toEqual([
+      expect(windowWithAnalytics._paq.pop()).toEqual([
         'trackEvent',
         'testEvent',
         'track event action',
@@ -320,11 +323,12 @@ describe('Analytics context', () => {
       ])
     })
 
-    it('can use trackEvent to track an event value', () => {
-      userEvent.click(
+    it('can use trackEvent to track an event value', async () => {
+      const user = userEvent.setup()
+      await user.click(
         screen.getByRole('button', { name: 'Test track event with value' })
       )
-      expect(windowWithAnalytics._paq[0]).toEqual([
+      expect(windowWithAnalytics._paq.pop()).toEqual([
         'trackEvent',
         'testEvent',
         'track event action',

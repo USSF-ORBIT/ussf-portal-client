@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { act, render, screen } from '@testing-library/react'
+import { act, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import React from 'react'
@@ -33,50 +33,54 @@ describe('Header component', () => {
     expect(screen.getAllByRole('link')).toHaveLength(2)
   })
 
-  it('can click an item from the About Us dropdown', () => {
+  it('can click an item from the About Us dropdown', async () => {
+    const user = userEvent.setup()
     renderWithAuthAndApollo(<Header />, {}, editThemeMock)
 
     const aboutTheUSSF = screen.getByTestId('nav-about-ussf')
     expect(aboutTheUSSF).not.toBeVisible()
 
     const dropdown = screen.getByTestId('nav-about-us-dropdown')
-    userEvent.click(dropdown)
+    await user.click(dropdown)
     expect(aboutTheUSSF).toBeVisible()
   })
 
-  it('can toggle navigation on smaller screen sizes', () => {
+  it('can toggle navigation on smaller screen sizes', async () => {
+    const user = userEvent.setup()
     renderWithAuthAndApollo(<Header />, {}, editThemeMock)
 
     const nav = screen.getByRole('navigation')
     expect(nav).not.toHaveClass('is-visible')
 
-    userEvent.click(screen.getByRole('button', { name: 'Menu' }))
+    await user.click(screen.getByRole('button', { name: 'Menu' }))
 
     expect(nav).toHaveClass('is-visible')
 
-    userEvent.click(screen.getByRole('button', { name: 'close' }))
+    await user.click(screen.getByRole('button', { name: 'close' }))
     expect(nav).not.toHaveClass('is-visible')
   })
 
-  it('can click the overlay to close the mobile navigation', () => {
+  it('can click the overlay to close the mobile navigation', async () => {
+    const user = userEvent.setup()
     renderWithAuthAndApollo(<Header />, {}, editThemeMock)
 
     const nav = screen.getByRole('navigation')
     expect(nav).not.toHaveClass('is-visible')
 
-    userEvent.click(screen.getByRole('button', { name: 'Menu' }))
+    await user.click(screen.getByRole('button', { name: 'Menu' }))
 
     expect(nav).toHaveClass('is-visible')
 
-    userEvent.click(screen.getByRole('presentation'))
+    await user.click(screen.getByRole('presentation'))
     expect(nav).not.toHaveClass('is-visible')
   })
 
-  it('renders the logout button', () => {
+  it('renders the logout button', async () => {
+    const user = userEvent.setup()
     renderWithAuthAndApollo(<Header />, { logout: mockLogout }, editThemeMock)
     const logoutButton = screen.getByRole('button', { name: 'Log out' })
     expect(logoutButton).toBeInTheDocument()
-    userEvent.click(logoutButton)
+    await user.click(logoutButton)
     expect(mockLogout).toHaveBeenCalled()
   })
 
