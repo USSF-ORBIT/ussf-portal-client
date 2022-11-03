@@ -4,6 +4,8 @@ services:
     build:
       context: https://github.com/USSF-ORBIT/ussf-portal-cms.git#main
       dockerfile: Dockerfile
+      args:
+        BUILD: localbuild
     restart: always
     ports:
       - '3001:3001'
