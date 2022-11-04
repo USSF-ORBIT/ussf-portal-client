@@ -14,7 +14,7 @@
     "services:up": "docker compose up -d redis mongo-express idp keystone-db",
     "services:down": "docker compose down",
     "cms:up": "docker compose up -d cms mongo-express idp",
-    "portal:up": "docker compose up -d cms client mongo-express",
+    "portal:up": "docker compose up --build -d cms client mongo-express",
     "prebuild": "yarn generate",
     "dev": "concurrently \"yarn generate --watch\" \"node -r ./startup/index.js node_modules/.bin/next dev\"",
     "build": "next build",
