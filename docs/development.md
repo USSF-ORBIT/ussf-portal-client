@@ -222,19 +222,19 @@ yarn services:up
 
 If you want to run all services in docker to mimic a deployed environment as close as possible you can do this as described below.
 
-1. Download `dev-saml.pem`, `test-saml.pem`, and `prod-saml.pem` from 1Password vault
+- Download `dev-saml.pem`, `test-saml.pem`, and `prod-saml.pem` from 1Password vault
   - These are found in `SAML Certs for USSF/GCDS` note in the Space Force vault
   - Put them in the respective file name in the root of this repo.
   - These should not be checked in and are alread in our `.gitignore` file
-1. Ensure you have the latest version of the images built
+- Ensure you have the latest version of the images built
   - Run `docker compose build`
-1. Ensure no other `yarn dev` is running in this repo or cms repo
-1. Run `yarn portal:up` will start everything
+- Ensure no other `yarn dev` is running in this repo or cms repo
+- Run `yarn portal:up` will start everything
   - Client will be at http://localhost:3000
   - CMS will be at http://localhost:3001
-1. You can check things are running with `docker compose ps`
-1. You can follow the logs with `docker compose logs -f`
-1. Run `yarn services:down` to shut everything down
+- You can check things are running with `docker compose ps`
+- You can follow the logs with `docker compose logs -f`
+- Run `yarn services:down` to shut everything down
 
 ### Known limitations
 
