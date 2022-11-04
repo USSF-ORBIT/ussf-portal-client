@@ -30,11 +30,26 @@ describe('LaunchDarkly', () => {
       return Promise.resolve({ data: { clientSideID: expectedClientSideID } })
     })
 
-    const TestComponent = () => <div data-testid="sample">child</div>
+    render(
+      <LaunchDarkly>
+        <div data-testid="sample">child</div>
+      </LaunchDarkly>
+    )
+
+    const childComponent = await screen.findByTestId('sample')
+    expect(childComponent).toHaveTextContent('child')
+    expect(mockedAxios.get).toHaveBeenCalledWith(expectedEndpoint)
+    expect(consoleSpy).not.toHaveBeenCalled()
+  })
+
+  it('does not call sysinfo but throws no errors if localfile', async () => {
+    mockedAxios.get.mockImplementation(() => {
+      return Promise.resolve({ data: { clientSideID: 'localfile' } })
+    })
 
     render(
       <LaunchDarkly>
-        <TestComponent />
+        <div data-testid="sample">child</div>
       </LaunchDarkly>
     )
 
@@ -49,11 +64,9 @@ describe('LaunchDarkly', () => {
       return Promise.resolve({ data: { something: 'not clientSideID' } })
     })
 
-    const TestComponent = () => <div data-testid="sample">child</div>
-
     render(
       <LaunchDarkly>
-        <TestComponent />
+        <div data-testid="sample">child</div>
       </LaunchDarkly>
     )
 
@@ -75,11 +88,9 @@ describe('LaunchDarkly', () => {
       return Promise.reject()
     })
 
-    const TestComponent = () => <div data-testid="sample">child</div>
-
     render(
       <LaunchDarkly>
-        <TestComponent />
+        <div data-testid="sample">child</div>
       </LaunchDarkly>
     )
 
