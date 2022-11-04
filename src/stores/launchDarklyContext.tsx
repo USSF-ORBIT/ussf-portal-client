@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { LDProvider } from 'launchdarkly-react-client-sdk'
+import localLDFlags from './launchDarklyLocal'
 
 export const LaunchDarkly = ({ children }: { children: React.ReactNode }) => {
   const [clientSideID, setClientSideID] = useState(null)
@@ -28,13 +29,31 @@ export const LaunchDarkly = ({ children }: { children: React.ReactNode }) => {
     return null
   }
 
-  return (
+  const ldCommonOptions = {
+    baseUrl: 'https://sdk.launchdarkly.us',
+    streamUrl: 'https://clientstream.launchdarkly.us',
+    eventsUrl: 'https://events.launchdarkly.us',
+  }
+
+  // if localfile is requested load the flags json and turn off initialization
+  // of the LDClient via deferInitialization option
+  //
+  // otherwise configure the LDProvider to initialize the client and run normally
+  return clientSideID === 'localfile' ? (
+    <LDProvider
+      clientSideID={clientSideID}
+      deferInitialization={true}
+      options={{
+        ...ldCommonOptions,
+        bootstrap: localLDFlags,
+      }}>
+      {children}
+    </LDProvider>
+  ) : (
     <LDProvider
       clientSideID={clientSideID}
       options={{
-        baseUrl: 'https://sdk.launchdarkly.us',
-        streamUrl: 'https://clientstream.launchdarkly.us',
-        eventsUrl: 'https://events.launchdarkly.us',
+        ...ldCommonOptions,
       }}>
       {children}
     </LDProvider>
