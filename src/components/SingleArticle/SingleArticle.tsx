@@ -1,9 +1,9 @@
 import React from 'react'
 import { DocumentRenderer } from '@keystone-6/document-renderer'
-
+import { Tag } from '@trussworks/react-uswds'
 import styles from './SingleArticle.module.scss'
-
 import type { ArticleRecord } from 'types'
+import colors from 'styles/sfds/colors.module.scss'
 
 export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   const {
@@ -12,6 +12,7 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
     body: { document },
     byline: { name: byline },
     location: { name: location },
+    tags,
   } = article
 
   const dateFormatter = new Intl.DateTimeFormat('en-us', {
@@ -24,6 +25,15 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   return (
     <article className={styles.SingleArticle}>
       <div className={styles.title}>
+        {tags &&
+          tags.map((tag) => {
+            return (
+              <Tag key={`${tag.id}`} background={colors['theme-mars-base']}>
+                {tag.name}
+              </Tag>
+            )
+          })}
+
         <h2>{title}</h2>
 
         <dl className={styles.metadata}>
