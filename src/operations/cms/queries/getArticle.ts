@@ -17,6 +17,7 @@ export const GET_ARTICLE = gql`
       }
       labels {
         name
+        type
       }
       location {
         name

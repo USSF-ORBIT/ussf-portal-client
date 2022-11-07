@@ -66,14 +66,14 @@ export type ArticleRecord = {
   body: {
     document: Element[]
   }
-  byline?: {
+  byline: {
     name: string
   }
-  labels?: LabelRecord[]
-  location?: {
+  labels: LabelRecord[]
+  location: {
     name: string
   }
-  tags?: Tag[]
+  tags: Tag[]
 }
 
 /* LabelRecord is a label managed by the CMS */

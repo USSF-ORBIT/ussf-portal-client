@@ -13,7 +13,12 @@
   }
 
   .metadata {
+    display: flex;
     margin-bottom: units(4);
+
+    div {
+      padding-right: 4rem;
+    }
 
     dt {
       font-size: size('body', 1);

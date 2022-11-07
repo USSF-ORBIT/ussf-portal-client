@@ -10,6 +10,8 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
     title,
     publishedDate,
     body: { document },
+    byline: { name: byline },
+    location: { name: location },
   } = article
 
   const dateFormatter = new Intl.DateTimeFormat('en-us', {
@@ -25,12 +27,28 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
         <h2>{title}</h2>
 
         <dl className={styles.metadata}>
-          <dt>Post date:</dt>
-          <dd>
-            <time dateTime={publishedDateObj.toLocaleString()}>
-              {dateFormatter.format(publishedDateObj)}
-            </time>
-          </dd>
+          <div>
+            <dt>Post date:</dt>
+            <dd>
+              <time dateTime={publishedDateObj.toLocaleString()}>
+                {dateFormatter.format(publishedDateObj)}
+              </time>
+            </dd>
+          </div>
+
+          {byline && (
+            <div>
+              <dt>Written by:</dt>
+              <dd>{byline}</dd>
+            </div>
+          )}
+
+          {location && (
+            <div>
+              <dt>Posted from:</dt>
+              <dd>{location}</dd>
+            </div>
+          )}
         </dl>
       </div>
 
