@@ -12,6 +12,18 @@ export const GET_ARTICLE = gql`
       }
       publishedDate
       status
+      byline {
+        name
+      }
+      labels {
+        name
+      }
+      location {
+        name
+      }
+      tags {
+        name
+      }
     }
   }
 `
