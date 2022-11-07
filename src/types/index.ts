@@ -66,6 +66,14 @@ export type ArticleRecord = {
   body: {
     document: Element[]
   }
+  byline?: {
+    name: string
+  }
+  labels?: LabelRecord[]
+  location?: {
+    name: string
+  }
+  tags?: Tag[]
 }
 
 /* LabelRecord is a label managed by the CMS */
@@ -73,6 +81,12 @@ export type LabelRecord = {
   id: string
   name: string
   type: 'Source' | 'Audience' | 'Base'
+}
+
+/* Tag is managed by the CMS */
+export type Tag = {
+  id: string
+  name: string
 }
 
 /* Search Results (from Keystone) */
