@@ -15,10 +15,6 @@ export const GET_ARTICLE = gql`
       byline {
         name
       }
-      labels {
-        name
-        type
-      }
       location {
         name
       }
