@@ -1,3 +1,4 @@
+import React from 'react'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 
 const USSFDocumentation = () => {
@@ -10,4 +11,5 @@ const USSFDocumentation = () => {
 
 export default USSFDocumentation
 
-USSFDocumentation.getLayout = withDefaultLayout
+USSFDocumentation.getLayout = (page: React.ReactNode) =>
+  withDefaultLayout(page, false)

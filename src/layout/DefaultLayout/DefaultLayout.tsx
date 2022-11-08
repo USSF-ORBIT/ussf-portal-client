@@ -10,7 +10,13 @@ import PageNav from 'components/PageNav/PageNav'
 import FeedbackCard from 'components/FeedbackCard/FeedbackCard'
 import Footer from 'components/Footer/Footer'
 
-const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
+const DefaultLayout = ({
+  displayFeedbackCard = true,
+  children,
+}: {
+  displayFeedbackCard?: boolean
+  children: React.ReactNode
+}) => {
   const navItems = [
     { path: '/', label: 'My Space' },
     {
@@ -36,7 +42,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
             <Grid row gap>
               <Grid tablet={{ col: 3 }}>
                 <PageNav navItems={navItems} />
-                <FeedbackCard />
+                {displayFeedbackCard && <FeedbackCard />}
               </Grid>
               <Grid tablet={{ col: true }}>
                 {/* PAGE CONTENT */}
@@ -53,6 +59,11 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
 
 export default DefaultLayout
 
-export const withDefaultLayout = (page: React.ReactNode) => (
-  <DefaultLayout>{page}</DefaultLayout>
+export const withDefaultLayout = (
+  page: React.ReactNode,
+  displayFeedbackCard?: boolean
+) => (
+  <DefaultLayout displayFeedbackCard={displayFeedbackCard}>
+    {page}
+  </DefaultLayout>
 )
