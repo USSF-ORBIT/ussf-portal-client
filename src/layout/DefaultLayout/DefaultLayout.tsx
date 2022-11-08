@@ -23,6 +23,7 @@ const DefaultLayout = ({
       path: '/sites-and-applications',
       label: <>All sites &amp; applications</>,
     },
+    { path: '/ussf-documentation', label: 'USSF documentation' },
   ]
 
   return (
