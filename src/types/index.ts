@@ -69,6 +69,7 @@ export type ArticleRecord = {
   byline?: {
     name: string
   }
+  labels?: LabelRecord[]
   location?: {
     name: string
   }

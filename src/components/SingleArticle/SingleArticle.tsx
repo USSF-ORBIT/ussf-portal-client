@@ -2,6 +2,7 @@ import React from 'react'
 import { DocumentRenderer } from '@keystone-6/document-renderer'
 import { Tag } from '@trussworks/react-uswds'
 import styles from './SingleArticle.module.scss'
+import { Label } from 'components/Tag/Tag'
 import type { ArticleRecord } from 'types'
 import colors from 'styles/sfds/colors.module.scss'
 
@@ -15,6 +16,7 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
     // but can't figure out how to write it properly
     // byline: { name: byline },
     // location: { name: location },
+    labels,
     tags,
   } = article
 
@@ -27,15 +29,26 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
 
   return (
     <article className={styles.SingleArticle}>
-      <div className={styles.title}>
-        {tags &&
-          tags.map((tag) => {
-            return (
-              <Tag key={`${tag.id}`} background={colors['theme-mars-base']}>
-                {tag.name}
-              </Tag>
-            )
-          })}
+      <div>
+        <div className={styles.tagAndLabelContainer}>
+          {tags &&
+            tags.map((tag) => {
+              return (
+                <Tag key={`${tag.id}`} background={colors['theme-mars-base']}>
+                  {tag.name}
+                </Tag>
+              )
+            })}
+
+          {labels &&
+            labels.map((label) => {
+              return (
+                <Label type={label.type} key={`${label.id}`}>
+                  {label.name}
+                </Label>
+              )
+            })}
+        </div>
 
         <h2>{title}</h2>
 
