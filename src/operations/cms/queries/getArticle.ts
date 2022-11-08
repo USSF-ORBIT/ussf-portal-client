@@ -19,6 +19,7 @@ export const GET_ARTICLE = gql`
         name
       }
       tags {
+        id
         name
       }
     }
