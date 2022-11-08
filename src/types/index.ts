@@ -66,13 +66,13 @@ export type ArticleRecord = {
   body: {
     document: Element[]
   }
-  byline: {
+  byline?: {
     name: string
   }
-  location: {
+  location?: {
     name: string
   }
-  tags: {
+  tags?: {
     id: string
     name: string
   }[]
