@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 import { useTheme } from 'next-themes'
-import { withLDConsumer } from 'launchdarkly-react-client-sdk'
-import { LDFlagSet } from 'launchdarkly-js-client-sdk'
 import styles from './ThemeToggle.module.scss'
 import { useAnalytics } from 'stores/analyticsContext'
 import { useUser } from 'hooks/useUser'
@@ -9,7 +7,7 @@ import { useEditThemeMutation } from 'operations/portal/mutations/editTheme.g'
 import { SessionUser } from 'types'
 import { useGetThemeQuery } from 'operations/portal/queries/getTheme.g'
 
-const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
+const ThemeToggle = () => {
   const { data } = useGetThemeQuery()
   const { theme, setTheme } = useTheme()
   const { trackEvent } = useAnalytics()
@@ -53,7 +51,7 @@ const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
     }
   }
 
-  return flags && flags.darkModeToggle ? (
+  return (
     <button
       type="button"
       onClick={() => {
@@ -64,7 +62,7 @@ const ThemeToggle = ({ flags }: { flags?: LDFlagSet }) => {
       data-testid="theme-toggle">
       {theme === 'light' ? 'dark' : 'light'} mode
     </button>
-  ) : null
+  )
 }
 
-export default withLDConsumer()(ThemeToggle)
+export default ThemeToggle
