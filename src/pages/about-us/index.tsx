@@ -170,10 +170,10 @@ AboutUs.getLayout = (page: React.ReactNode) =>
       <h1>About us</h1>
       <BreadcrumbNav
         navItems={[
-          { path: '/', label: <span>Service portal home</span> },
+          { path: '/', label: 'Service portal home' },
           {
             path: '/about-us',
-            label: <span>About Us</span>,
+            label: 'About Us',
             current: true,
           },
         ]}
