@@ -3,5 +3,10 @@
 
 .documentation {
   display: flex;
+  justify-content: space-between;
+}
+
+.accordionContent {
+  display: flex;
   flex-direction: column;
 }

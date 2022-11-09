@@ -2,6 +2,7 @@ import React from 'react'
 import { Accordion } from '@trussworks/react-uswds'
 import { AccordionItemProps } from '@trussworks/react-uswds/lib/components/Accordion/Accordion'
 import LinkTo from 'components/util/LinkTo/LinkTo'
+import EPubsCard from 'components/EPubsCard/EPubsCard'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/ussf-documentation.module.scss'
 
@@ -10,7 +11,7 @@ const USSFDocumentation = () => {
     {
       title: 'Essential Reading',
       content: (
-        <div className={styles.documentation}>
+        <div className={styles.accordionContent}>
           <LinkTo
             target="_blank"
             rel="noreferrer noopener"
@@ -56,7 +57,10 @@ const USSFDocumentation = () => {
   return (
     <div>
       <h2>Official USSF documentation</h2>
-      <Accordion bordered={true} items={testItems} />
+      <div className={styles.documentation}>
+        <Accordion bordered={true} items={testItems} />
+        <EPubsCard query={'query'} />
+      </div>
     </div>
   )
 }
