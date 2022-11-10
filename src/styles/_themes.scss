@@ -24,6 +24,7 @@ $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg
   // Layout
   --body-bg: #{$white};
   --bg: #{$white};
+  --mySpaceBg: rgba(255, 255, 255, 0.75);
   --text: #{$theme-black};
   --header-image: #{$black $hero-image no-repeat};
 
@@ -199,15 +200,14 @@ $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg
   --element-focus: #{$theme-aurora-base};
 
   // Layout
-  --bg: #{linear-gradient(
+  --bg: #{$theme-spacebase-dark};
+  --body-bg: #{linear-gradient(
       180deg,
       #000000 6.36%,
       #0f305a 73.55%,
       #555f92 111.89%
     )};
-
-  --body-bg: #{$theme-spacebase-dark};
-  --bg: #{$theme-spacebase-dark};
+  --mySpaceBg: rgba(10, 22, 43, 0.4);
   --text: #{$white};
   --header-image: none;
 

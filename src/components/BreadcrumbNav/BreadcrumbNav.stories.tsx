@@ -8,7 +8,7 @@ export default {
   component: BreadcrumbNav,
   decorators: [
     (Story) => (
-      <div className="sfds">
+      <div className="sfds darkBgLock">
         <Story />
       </div>
     ),
