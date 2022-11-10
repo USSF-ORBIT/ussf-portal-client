@@ -4,6 +4,7 @@ import {
   Breadcrumb,
   BreadcrumbLink,
 } from '@trussworks/react-uswds'
+import styles from './BreadcrumbNav.module.scss'
 
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 
@@ -16,7 +17,7 @@ type PropTypes = {
 }
 
 const BreadcrumbNav = ({ navItems }: PropTypes) => (
-  <BreadcrumbBar>
+  <BreadcrumbBar className={styles.breadcrumbs}>
     {navItems.map((i) =>
       i.current ? (
         <Breadcrumb key={`nav_${i.path}`} current>
