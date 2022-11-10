@@ -30,6 +30,13 @@
     background-repeat: no-repeat;
     background-size: 1.5rem;
   }
+
+  :global(> div.usa-accordion__content) {
+    background-color: var(--accordion-content-bg);
+    border-bottom: 0.25rem solid var(--accordion-content-border);
+    border-left: 0.25rem solid var(--accordion-content-border);
+    border-right: 0.25rem solid var(--accordion-content-border);
+  }
 }
 
 .accordionContent {
