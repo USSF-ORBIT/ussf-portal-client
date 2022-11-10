@@ -41,7 +41,7 @@ const DefaultLayout = ({
 
           <GridContainer>
             <Grid row gap>
-              <Grid tablet={{ col: 3 }}>
+              <Grid tablet={{ col: displayFeedbackCard ? 3 : 2 }}>
                 <PageNav navItems={navItems} />
                 {displayFeedbackCard && <FeedbackCard />}
               </Grid>
