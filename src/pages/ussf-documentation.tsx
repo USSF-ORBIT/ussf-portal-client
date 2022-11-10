@@ -58,7 +58,11 @@ const USSFDocumentation = () => {
     <div>
       <h2>Official USSF documentation</h2>
       <div className={styles.documentation}>
-        <Accordion bordered={true} items={testItems} />
+        <Accordion
+          bordered={true}
+          items={testItems}
+          className={styles.accordion}
+        />
         <EPubsCard query={'query'} />
       </div>
     </div>

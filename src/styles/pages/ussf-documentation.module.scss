@@ -6,6 +6,27 @@
   justify-content: space-between;
 }
 
+.accordion {
+  > h3 > button {
+    background-color: var(--accordion-btn-bg);
+    color: var(--accordion-title);
+  }
+
+  :global(.usa-accordion__button[aria-expanded='false']) {
+    background-image: var(--accordion-plus-btn-img-path),
+      linear-gradient(transparent, transparent);
+    background-repeat: no-repeat;
+    background-size: 1.5rem;
+  }
+
+  :global(.usa-accordion__button) {
+    background-image: var(--accordion-minus-btn-img-path),
+      linear-gradient(transparent, transparent);
+    background-repeat: no-repeat;
+    background-size: 1.5rem;
+  }
+}
+
 .accordionContent {
   display: flex;
   flex-direction: column;
