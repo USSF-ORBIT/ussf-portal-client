@@ -10,6 +10,11 @@
   > h3 > button {
     background-color: var(--accordion-btn-bg);
     color: var(--accordion-title);
+
+    &:hover {
+      background-color: var(--accordion-btn-bg-hover);
+      color: var(--accordion-title);
+    }
   }
 
   :global(.usa-accordion__button[aria-expanded='false']) {

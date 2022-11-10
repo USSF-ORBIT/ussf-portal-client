@@ -182,6 +182,7 @@ $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg
   // Accordion
   --accordion-title: #1b1b1b;
   --accordion-btn-bg: #{$grey};
+  --accordion-btn-bg-hover: #dfe1e2;
   --accordion-plus-btn-img-path: #{$accordion-light-plus-icon-path};
   --accordion-minus-btn-img-path: #{$accordion-light-minus-icon-path};
 }
@@ -385,6 +386,7 @@ $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg
   // Accordion
   --accordion-title: #{$white};
   --accordion-btn-bg: #{$theme-spacebase-darkest};
+  --accordion-btn-bg-hover: #{$theme-spacebase-dark};
   --accordion-plus-btn-img-path: #{$accordion-dark-plus-icon-path};
   --accordion-minus-btn-img-path: #{$accordion-dark-minus-icon-path};
 }
