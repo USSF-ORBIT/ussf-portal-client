@@ -20,6 +20,12 @@ const ThemeToggle = () => {
     }
   }, [data])
 
+  // This is necessary to avoid a rehydration error since we render server side
+  // See this blog for details: https://www.joshwcomeau.com/react/the-perils-of-rehydration/
+  if (!user) {
+    return null
+  }
+
   const handleThemeChangeAndTracking = (
     user: SessionUser | null,
     newTheme: string
