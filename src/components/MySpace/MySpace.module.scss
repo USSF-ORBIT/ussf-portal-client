@@ -1,6 +1,8 @@
 @import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
 
 .mySpace {
+  background: var(--mySpaceBg);
   .pageTitle {
     margin-top: 0;
     font-weight: 700;
@@ -8,7 +10,7 @@
   }
 
   .widgetContainer {
-    border: 1px solid #929292;
+    border: 1px solid #a0a8b6;
     border-radius: 8px;
     padding: units(3) units(3) 0;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
