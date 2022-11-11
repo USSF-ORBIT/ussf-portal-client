@@ -4,6 +4,7 @@ services:
     build:
       context: https://github.com/USSF-ORBIT/ussf-portal-cms.git#main
       dockerfile: Dockerfile
+      target: e2e-local
       args:
         BUILD: localbuild
     restart: always
