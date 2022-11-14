@@ -1,11 +1,6 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/sfds/sfdsDependencies';
 
-.documentation {
-  display: flex;
-  justify-content: space-between;
-}
-
 .accordion {
   > h3 > button {
     background-color: var(--accordion-btn-bg);
