@@ -72,7 +72,7 @@ const USSFDocumentation = () => {
           />
         </Grid>
         <Grid col={4}>
-          <EPubsCard query={'query'} />
+          <EPubsCard title="Looking for a general form or documentation outside of the USSF?" />
         </Grid>
       </Grid>
     </div>
