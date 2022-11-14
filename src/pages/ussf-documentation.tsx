@@ -1,5 +1,5 @@
 import React from 'react'
-import { Accordion } from '@trussworks/react-uswds'
+import { Accordion, Grid } from '@trussworks/react-uswds'
 import { AccordionItemProps } from '@trussworks/react-uswds/lib/components/Accordion/Accordion'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import EPubsCard from 'components/EPubsCard/EPubsCard'
@@ -57,14 +57,18 @@ const USSFDocumentation = () => {
   return (
     <div>
       <h2>Official USSF documentation</h2>
-      <div className={styles.documentation}>
-        <Accordion
-          bordered={true}
-          items={testItems}
-          className={styles.accordion}
-        />
-        <EPubsCard query={'query'} />
-      </div>
+      <Grid row gap="lg">
+        <Grid col={8}>
+          <Accordion
+            bordered={true}
+            items={testItems}
+            className={styles.accordion}
+          />
+        </Grid>
+        <Grid col={4}>
+          <EPubsCard query={'query'} />
+        </Grid>
+      </Grid>
     </div>
   )
 }
