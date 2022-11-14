@@ -3,10 +3,14 @@ import { Accordion, Grid } from '@trussworks/react-uswds'
 import { AccordionItemProps } from '@trussworks/react-uswds/lib/components/Accordion/Accordion'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import EPubsCard from 'components/EPubsCard/EPubsCard'
+import { useUser } from 'hooks/useUser'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/ussf-documentation.module.scss'
+import Loader from 'components/Loader/Loader'
 
 const USSFDocumentation = () => {
+  const { user } = useUser()
+
   const testItems: AccordionItemProps[] = [
     {
       title: 'Essential Reading',
@@ -54,7 +58,9 @@ const USSFDocumentation = () => {
     },
   ]
 
-  return (
+  return !user ? (
+    <Loader />
+  ) : (
     <div>
       <h2>Official USSF documentation</h2>
       <Grid row gap="lg">
