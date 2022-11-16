@@ -7,7 +7,6 @@ import type { ReactNode, ComponentType } from 'react'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import { ApolloProvider } from '@apollo/client'
 import { ThemeProvider } from 'next-themes'
-import { withLDProvider } from 'launchdarkly-react-client-sdk'
 
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import 'styles/index.scss'
@@ -174,11 +173,4 @@ USSFPortalApp.getInitialProps = async (appContext: AppContext) => {
   return { ...appProps, hostname }
 }
 
-export default withLDProvider({
-  clientSideID: process.env.LAUNCHDARKLY_SDK_CLIENT_SIDE_ID!,
-  options: {
-    baseUrl: 'https://sdk.launchdarkly.us',
-    streamUrl: 'https://clientstream.launchdarkly.us',
-    eventsUrl: 'https://events.launchdarkly.us',
-  },
-})(USSFPortalApp as unknown as ComponentType)
+export default USSFPortalApp
