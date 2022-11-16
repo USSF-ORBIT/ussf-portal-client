@@ -7,6 +7,9 @@ export const GET_ARTICLE = gql`
       slug
       category
       title
+      hero {
+        url
+      }
       body {
         document
       }

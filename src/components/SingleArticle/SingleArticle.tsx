@@ -9,6 +9,7 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   const {
     title,
     publishedDate,
+    hero: { url },
     body: { document },
   } = article
 
@@ -18,7 +19,6 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
     day: '2-digit',
   })
   const publishedDateObj = new Date(publishedDate)
-
   return (
     <article className={styles.SingleArticle}>
       <div className={styles.title}>
@@ -33,7 +33,6 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
           </dd>
         </dl>
       </div>
-
       <DocumentRenderer document={document} />
     </article>
   )

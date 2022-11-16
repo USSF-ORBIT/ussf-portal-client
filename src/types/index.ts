@@ -63,6 +63,9 @@ export type ArticleRecord = {
   slug: string
   title: string
   publishedDate: string
+  hero: {
+    url: string
+  }
   body: {
     document: Element[]
   }
