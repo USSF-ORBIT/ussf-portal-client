@@ -15,22 +15,4 @@ export default {
   ],
 } as Meta
 
-export const FeatureOn: StoryObj = {
-  parameters: {
-    launchdarkly: {
-      flags: {
-        darkModeToggle: true,
-      },
-    },
-  },
-}
-
-export const FeatureOff: StoryObj = {
-  parameters: {
-    launchdarkly: {
-      flags: {
-        darkModeToggle: false,
-      },
-    },
-  },
-}
+export const Example: StoryObj = {}
