@@ -62,6 +62,7 @@ export type ArticleRecord = {
   id: string
   slug: string
   title: string
+  category: string
   publishedDate: string
   body: {
     document: Element[]

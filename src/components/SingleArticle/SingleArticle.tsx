@@ -1,6 +1,7 @@
 import React from 'react'
 import { DocumentRenderer } from '@keystone-6/document-renderer'
 import { Tag } from '@trussworks/react-uswds'
+import tagStyles from '../Tag/Tag.module.scss'
 import styles from './SingleArticle.module.scss'
 import { Category, Label } from 'components/Tag/Tag'
 import type { ArticleRecord } from 'types'
@@ -10,6 +11,7 @@ import colors from 'styles/sfds/colors.module.scss'
 export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   const {
     title,
+    category,
     publishedDate,
     body: { document },
     byline,
@@ -29,11 +31,11 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
     <article className={styles.SingleArticle}>
       <div>
         <div className={styles.tagAndLabelContainer}>
-          {/* 
-            This will always be Internal News, because External News refers to 
-            the RSS feed, which links to an article on a separate domain.
-          */}
-          <Category category={CONTENT_CATEGORIES.INTERNAL_NEWS} />
+          {category === 'InternalNews' ? (
+            <Category category={CONTENT_CATEGORIES.INTERNAL_NEWS} />
+          ) : (
+            <Tag className={`${tagStyles.Category}`}>{category}</Tag>
+          )}
 
           {labels &&
             labels.map((label) => {
