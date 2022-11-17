@@ -12,11 +12,8 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
     title,
     publishedDate,
     body: { document },
-    // TODO: Find a way to destructure this.
-    // I think I need to use nullish coalescing here,
-    // but can't figure out how to write it properly
-    // byline: { name: byline },
-    // location: { name: location },
+    byline,
+    location,
     labels,
     tags,
   } = article
@@ -69,17 +66,17 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
             </dd>
           </div>
 
-          {article.byline && (
+          {byline && (
             <div>
               <dt>Written by:</dt>
-              <dd>{article.byline.name}</dd>
+              <dd>{byline.name}</dd>
             </div>
           )}
 
-          {article.location && (
+          {location && (
             <div>
               <dt>Posted from:</dt>
-              <dd>{article.location.name}</dd>
+              <dd>{location.name}</dd>
             </div>
           )}
         </dl>
