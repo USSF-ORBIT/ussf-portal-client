@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.10.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.9.1...4.10.0) (2022-11-17)
+
+
+### Features
+
+* Enable dark mode toggle ([#859](https://github.com/USSF-ORBIT/ussf-portal-client/issues/859)) ([a3a02a1](https://github.com/USSF-ORBIT/ussf-portal-client/commit/a3a02a16dbb3726494fd4d6a4d9a0bc6c66a9b50))
+
+
+### Bug Fixes
+
+* **deps:** update dependency apollo-server-core to v3.11.0 [security] ([#845](https://github.com/USSF-ORBIT/ussf-portal-client/issues/845)) ([e735f78](https://github.com/USSF-ORBIT/ussf-portal-client/commit/e735f78b806c533845a99957f11ef7856855f3d4))
+* design: dark mode improvements ([#844](https://github.com/USSF-ORBIT/ussf-portal-client/issues/844)) ([8f0fd1d](https://github.com/USSF-ORBIT/ussf-portal-client/commit/8f0fd1dccb39567e8af6f8ca346eeae2a8a49185))
+
 ### [4.9.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.9.0...4.9.1) (2022-10-28)
 
 
