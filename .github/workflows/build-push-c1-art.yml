@@ -57,6 +57,8 @@ jobs:
           load: true
           tags: ${{ secrets.C1_REGISTRY}}/${{ secrets.C1_REPOSITORY }}:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            BUILD=${{ github.sha }}
 
       - name: Push image to C1 Dev Artifactory
         id: push-c1-image
