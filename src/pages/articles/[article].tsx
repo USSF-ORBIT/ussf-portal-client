@@ -17,11 +17,11 @@ const ORBITBlogArticleHeader = () => (
       <h1>ORBIT Blog</h1>
       <BreadcrumbNav
         navItems={[
-          { path: '/', label: <span>Service portal home</span> },
-          { path: '/about-us', label: <span>About Us</span> },
+          { path: '/', label: 'Service portal home' },
+          { path: '/about-us', label: 'About Us' },
           {
             path: '/about-us/orbit-blog',
-            label: <span>ORBIT Blog</span>,
+            label: 'ORBIT Blog',
             current: true,
           },
         ]}
@@ -36,10 +36,10 @@ const InternalNewsArticleHeader = () => (
       <h1>News</h1>
       <BreadcrumbNav
         navItems={[
-          { path: '/', label: <span>Service portal home</span> },
+          { path: '/', label: 'Service portal home' },
           {
             path: '/news',
-            label: <span>News</span>,
+            label: 'News',
             current: true,
           },
         ]}

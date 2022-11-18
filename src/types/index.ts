@@ -62,10 +62,22 @@ export type ArticleRecord = {
   id: string
   slug: string
   title: string
+  category: string
   publishedDate: string
   body: {
     document: Element[]
   }
+  byline?: {
+    name: string
+  }
+  labels?: LabelRecord[]
+  location?: {
+    name: string
+  }
+  tags?: {
+    id: string
+    name: string
+  }[]
 }
 
 /* LabelRecord is a label managed by the CMS */
