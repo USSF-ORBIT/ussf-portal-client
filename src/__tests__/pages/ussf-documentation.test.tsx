@@ -3,7 +3,6 @@
  */
 
 import { screen, waitFor, act } from '@testing-library/react'
-import type { RenderResult } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
@@ -32,20 +31,25 @@ mockedUseRouter.mockReturnValue({
 
 describe('USSF Documentation page', () => {
   describe('without a user', () => {
-    beforeEach(() => {
+    it('renders the loader while fetching the user', () => {
       renderWithAuth(
         <MockedProvider>
           <USSFDocumentation />
         </MockedProvider>,
         { user: null }
       )
-    })
 
-    it('renders the loader while fetching the user', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
     it('redirects to the login page if not logged in', async () => {
+      renderWithAuth(
+        <MockedProvider>
+          <USSFDocumentation />
+        </MockedProvider>,
+        { user: null }
+      )
+
       await waitFor(() => {
         expect(mockReplace).toHaveBeenCalledWith('/login')
       })
@@ -53,23 +57,25 @@ describe('USSF Documentation page', () => {
   })
 
   describe('when logged in', () => {
-    let html: RenderResult
-
-    beforeEach(() => {
-      html = renderWithAuth(
+    it('renders the settings page', () => {
+      renderWithAuth(
         <MockedProvider>
           <USSFDocumentation />
         </MockedProvider>
       )
-    })
 
-    it('renders the settings page', () => {
       expect(screen.getAllByText('Official USSF documentation')).toHaveLength(1)
 
       expect(screen.getAllByText('Essential Reading')).toHaveLength(1)
     })
 
     it('has no a11y violations', async () => {
+      const html = renderWithAuth(
+        <MockedProvider>
+          <USSFDocumentation />
+        </MockedProvider>
+      )
+
       // Bug with NextJS Link + axe :(
       // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
       await act(async () => {
@@ -78,6 +84,12 @@ describe('USSF Documentation page', () => {
     })
 
     it('makes the call to get user', () => {
+      renderWithAuth(
+        <MockedProvider>
+          <USSFDocumentation />
+        </MockedProvider>
+      )
+
       expect(axios.get).toHaveBeenLastCalledWith('/api/auth/user')
     })
   })
