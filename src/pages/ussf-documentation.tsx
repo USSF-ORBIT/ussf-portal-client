@@ -52,7 +52,7 @@ const USSFDocumentation = () => {
           </LinkTo>
         </div>
       ),
-      expanded: false,
+      expanded: true,
       id: 'essential-reading',
       headingLevel: 'h3',
     },
