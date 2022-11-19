@@ -43,15 +43,15 @@ InternalNews.getLayout = (page: React.ReactNode) =>
         navItems={[
           {
             path: '/',
-            label: <span>Service portal home</span>,
+            label: 'Service portal home',
           },
           {
             path: '/about-us',
-            label: <span>About Us</span>,
+            label: 'About Us',
           },
           {
             path: '/news',
-            label: <span>Internal News</span>,
+            label: 'Internal News',
             current: true,
           },
         ]}

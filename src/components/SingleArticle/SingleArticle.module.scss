@@ -12,8 +12,18 @@
     margin-top: units(3);
   }
 
+  .tagAndLabelContainer {
+    display: flex;
+    align-items: center;
+  }
+
   .metadata {
+    display: flex;
     margin-bottom: units(4);
+
+    div {
+      padding-right: 4rem;
+    }
 
     dt {
       font-size: size('body', 1);

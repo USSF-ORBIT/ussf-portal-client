@@ -48,11 +48,11 @@ PortalNews.getLayout = (page: React.ReactNode) =>
       <h1>ORBIT Blog</h1>
       <BreadcrumbNav
         navItems={[
-          { path: '/', label: <span>Service portal home</span> },
-          { path: '/about-us', label: <span>About Us</span> },
+          { path: '/', label: 'Service portal home' },
+          { path: '/about-us', label: 'About Us' },
           {
             path: '/orbit-blog',
-            label: <span>ORBIT Blog</span>,
+            label: 'ORBIT Blog',
             current: true,
           },
         ]}
