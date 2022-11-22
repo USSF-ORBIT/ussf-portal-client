@@ -1,6 +1,10 @@
 @import 'styles/sfds/_colors.scss';
 
 $hero-image: url('/assets/images/hero.jpeg');
+$accordion-light-plus-icon-path: url('/vendor/img/usa-icons/add.svg');
+$accordion-dark-plus-icon-path: url('/vendor/img/usa-icons-bg/add--white.svg');
+$accordion-light-minus-icon-path: url('/vendor/img/usa-icons/remove.svg');
+$accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg');
 
 // This file contains css properties use throughout the
 // code base for each corresponding theme.
@@ -20,6 +24,7 @@ $hero-image: url('/assets/images/hero.jpeg');
   // Layout
   --body-bg: #{$white};
   --bg: #{$white};
+  --mySpaceBg: rgba(255, 255, 255, 0.75);
   --text: #{$theme-black};
   --header-image: #{$black $hero-image no-repeat};
 
@@ -168,10 +173,20 @@ $hero-image: url('/assets/images/hero.jpeg');
   --alert-error-bg: #{$state-error-lighter};
   --alert-info-border: #{$state-info-base};
   --alert-info-bg: #{$state-info-lighter};
+
   // Breadcrumbs
   --breadcrumbs-link: #{$theme-aurora-base};
   --breadcrumbs-link-hover: #{$theme-aurora-lighter};
   --breadcrumbs-edit-display-name: #{$theme-aurora-base};
+
+  // Accordion
+  --accordion-title: #1b1b1b;
+  --accordion-btn-bg: #{$grey};
+  --accordion-btn-bg-hover: #dfe1e2;
+  --accordion-content-bg: #{$white};
+  --accordion-content-border: #{$grey};
+  --accordion-plus-btn-img-path: #{$accordion-light-plus-icon-path};
+  --accordion-minus-btn-img-path: #{$accordion-light-minus-icon-path};
 }
 
 /* ------------------------------------ */
@@ -188,15 +203,14 @@ $hero-image: url('/assets/images/hero.jpeg');
   --element-focus: #{$theme-aurora-base};
 
   // Layout
-  --bg: #{linear-gradient(
+  --bg: #{$theme-spacebase-dark};
+  --body-bg: #{linear-gradient(
       180deg,
       #000000 6.36%,
       #0f305a 73.55%,
       #555f92 111.89%
     )};
-
-  --body-bg: #{$theme-spacebase-dark};
-  --bg: #{$theme-spacebase-dark};
+  --mySpaceBg: rgba(10, 22, 43, 0.4);
   --text: #{$white};
   --header-image: none;
 
@@ -365,9 +379,18 @@ $hero-image: url('/assets/images/hero.jpeg');
   // Breadcrumbs
   --breadcrumbs-link: #{$white};
   --breadcrumbs-link-hover: #{$white};
-  --breadcrumbs-edit-display-name: #{$theme-mars-lighter};
+  --breadcrumbs-edit-display-name: #{$theme-aurora-base};
 
   // Footer
   --footer-bg: #{$black};
   --footer-text: #{$white};
+
+  // Accordion
+  --accordion-title: #{$white};
+  --accordion-btn-bg: #{$theme-spacebase-darkest};
+  --accordion-btn-bg-hover: #{$theme-spacebase-dark};
+  --accordion-content-bg: #{$theme-spacebase-darker};
+  --accordion-content-border: #{$theme-spacebase-darkest};
+  --accordion-plus-btn-img-path: #{$accordion-dark-plus-icon-path};
+  --accordion-minus-btn-img-path: #{$accordion-dark-minus-icon-path};
 }

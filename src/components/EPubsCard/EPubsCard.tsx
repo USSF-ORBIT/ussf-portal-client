@@ -3,15 +3,18 @@ import styles from './EPubsCard.module.scss'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
 type PropTypes = {
-  query: string
+  query?: string
+  title?: string
 }
 
-const EPubsCard = ({ query }: PropTypes) => {
-  const ePubsSearch = `https://search.usa.gov/search?affiliate=afpw_epubs&query=${query}`
+const EPubsCard = ({ query, title = 'Looking for a form?' }: PropTypes) => {
+  const ePubsSearch = query
+    ? `https://search.usa.gov/search?affiliate=afpw_epubs&query=${query}`
+    : 'https://search.usa.gov/search?affiliate=afpw_epubs'
 
   return (
     <div className={styles.epubs}>
-      <h3>Looking for a form?</h3>
+      <h3>{title}</h3>
       <p>Launch your query on ePubs!</p>
       <LinkTo
         href={ePubsSearch}

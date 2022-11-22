@@ -1,6 +1,6 @@
 {
   "name": "ussf-portal",
-  "version": "4.9.1",
+  "version": "4.10.0",
   "private": true,
   "engines": {
     "node": "14.20.1"
@@ -10,10 +10,11 @@
     "url": "github:USSF-ORBIT/ussf-portal-client"
   },
   "scripts": {
-    "services:up": "docker compose -f docker-compose.services.yml up -d",
-    "services:down": "docker compose -f docker-compose.services.yml down",
-    "cms:up": "docker compose -f docker-compose.services.yml -f docker-compose.cms.yml up -d",
-    "cms:down": "docker compose -f docker-compose.services.yml -f docker-compose.cms.yml down",
+    "services:removeall": "docker ps --quiet --all | xargs docker rm --force",
+    "services:up": "docker compose up -d redis mongo-express idp keystone-db",
+    "services:down": "docker compose down",
+    "cms:up": "docker compose up -d cms mongo-express idp",
+    "portal:up": "docker compose up --build -d cms client mongo-express",
     "prebuild": "yarn generate",
     "dev": "concurrently \"yarn generate --watch\" \"node -r ./startup/index.js node_modules/.bin/next dev\"",
     "build": "next build",
@@ -64,7 +65,6 @@
     "dotenv": "16.0.1",
     "formik": "2.2.9",
     "graphql": "16.5.0",
-    "launchdarkly-react-client-sdk": "2.27.0",
     "micro": "9.3.4",
     "migrate": "1.8.0",
     "mongodb": "3.7.3",
@@ -142,7 +142,6 @@
     "jest": "29.2.1",
     "jest-axe": "6.0.0",
     "jest-environment-jsdom": "29.2.1",
-    "launchdarkly-js-client-sdk": "2.24.0",
     "lint-staged": "13.0.3",
     "next-test-api-route-handler": "3.1.7",
     "passport-custom": "1.1.1",
@@ -151,7 +150,6 @@
     "sass-loader": "13.1.0",
     "standard-version": "9.5.0",
     "storybook-addon-apollo-client": "4.0.13",
-    "storybook-addon-launchdarkly": "1.0.2",
     "storybook-addon-next-router": "4.0.1",
     "storybook-css-modules-preset": "1.1.1",
     "storybook-theme-toggle": "0.1.2",
