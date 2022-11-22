@@ -57,12 +57,10 @@ const NewsAnnouncements = ({
       */}
       {articles.length > 0 && (
         <div className={styles.olderInternalNewsLink}>
-          <LinkTo
-            href="/news"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="usa-button">
-            View older Internal USSF news
+          <LinkTo href="/news" target="_blank" rel="noreferrer noopener">
+            <button type="button" className="usa-button">
+              View older Internal USSF news
+            </button>
           </LinkTo>
         </div>
       )}
@@ -91,9 +89,12 @@ const NewsAnnouncements = ({
             <LinkTo
               href="https://www.spaceforce.mil/News"
               target="_blank"
-              rel="noreferrer noopener"
-              className="usa-button">
-              View older Spaceforce.mil articles
+              rel="noreferrer noopener">
+              <button
+                type="button"
+                className="usa-button usa-button--accent-cool">
+                View older Spaceforce.mil articles
+              </button>
             </LinkTo>
           </div>
         </>
