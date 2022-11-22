@@ -37,11 +37,11 @@ const Search = ({
             navItems={[
               {
                 path: '/',
-                label: <span>Service portal home</span>,
+                label: 'Service portal home',
               },
               {
                 path: '/search',
-                label: <span>Search</span>,
+                label: 'Search',
                 current: true,
               },
               {

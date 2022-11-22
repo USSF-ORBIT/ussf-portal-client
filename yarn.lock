@@ -5911,10 +5911,10 @@ apollo-reporting-protobuf@^3.3.1, apollo-reporting-protobuf@^3.3.3:
   dependencies:
     "@apollo/protobufjs" "1.2.6"
 
-apollo-server-core@3.11.0:
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/apollo-server-core/-/apollo-server-core-3.11.0.tgz#dbbf4c03ac0fdd8774e03c1f4f0d1ea1448b743c"
-  integrity sha512-5iRlkbilXpQeY66/F2/t2oNO0YSqb+kFb5lyMUIqK9VLuBfI/hILQDa5H71ar7hhexKwoDzIDfSJRg5ASNmnQw==
+apollo-server-core@3.11.1, apollo-server-core@^3.11.1:
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/apollo-server-core/-/apollo-server-core-3.11.1.tgz#89d83aeaa71a59f760ebfa35bb0cbd31e15474ca"
+  integrity sha512-t/eCKrRFK1lYZlc5pHD99iG7Np7CEm3SmbDiONA7fckR3EaB/pdsEdIkIwQ5QBBpT5JLp/nwvrZRVwhaWmaRvw==
   dependencies:
     "@apollo/utils.keyvaluecache" "^1.0.1"
     "@apollo/utils.logger" "^1.0.0"
@@ -5928,42 +5928,14 @@ apollo-server-core@3.11.0:
     apollo-reporting-protobuf "^3.3.3"
     apollo-server-env "^4.2.1"
     apollo-server-errors "^3.3.1"
-    apollo-server-plugin-base "^3.7.0"
-    apollo-server-types "^3.7.0"
+    apollo-server-plugin-base "^3.7.1"
+    apollo-server-types "^3.7.1"
     async-retry "^1.2.1"
     fast-json-stable-stringify "^2.1.0"
     graphql-tag "^2.11.0"
     loglevel "^1.6.8"
     lru-cache "^6.0.0"
     node-abort-controller "^3.0.1"
-    sha.js "^2.4.11"
-    uuid "^9.0.0"
-    whatwg-mimetype "^3.0.0"
-
-apollo-server-core@^3.10.2:
-  version "3.10.3"
-  resolved "https://registry.yarnpkg.com/apollo-server-core/-/apollo-server-core-3.10.3.tgz#64db45703785e9e79e7c5dadb6df2f7ee6fcbecc"
-  integrity sha512-PiTirlcaszgnJGzSsGui9XWh0KAh0BUW+GvRKN6O0H0qOSXSLmoqqyL83J+u+HaUZGyyiE0+VOkyCcuF+kKbEw==
-  dependencies:
-    "@apollo/utils.keyvaluecache" "^1.0.1"
-    "@apollo/utils.logger" "^1.0.0"
-    "@apollo/utils.usagereporting" "^1.0.0"
-    "@apollographql/apollo-tools" "^0.5.3"
-    "@apollographql/graphql-playground-html" "1.6.29"
-    "@graphql-tools/mock" "^8.1.2"
-    "@graphql-tools/schema" "^8.0.0"
-    "@josephg/resolvable" "^1.0.0"
-    apollo-datasource "^3.3.2"
-    apollo-reporting-protobuf "^3.3.3"
-    apollo-server-env "^4.2.1"
-    apollo-server-errors "^3.3.1"
-    apollo-server-plugin-base "^3.6.3"
-    apollo-server-types "^3.6.3"
-    async-retry "^1.2.1"
-    fast-json-stable-stringify "^2.1.0"
-    graphql-tag "^2.11.0"
-    loglevel "^1.6.8"
-    lru-cache "^6.0.0"
     sha.js "^2.4.11"
     uuid "^9.0.0"
     whatwg-mimetype "^3.0.0"
@@ -5980,44 +5952,27 @@ apollo-server-errors@^3.3.0, apollo-server-errors@^3.3.1:
   resolved "https://registry.yarnpkg.com/apollo-server-errors/-/apollo-server-errors-3.3.1.tgz#ba5c00cdaa33d4cbd09779f8cb6f47475d1cd655"
   integrity sha512-xnZJ5QWs6FixHICXHxUfm+ZWqqxrNuPlQ+kj5m6RtEgIpekOPssH/SD9gf2B4HuWV0QozorrygwZnux8POvyPA==
 
-apollo-server-micro@3.10.2:
-  version "3.10.2"
-  resolved "https://registry.yarnpkg.com/apollo-server-micro/-/apollo-server-micro-3.10.2.tgz#dc39f0b922b5339cad42f8e40e462e9d1077856c"
-  integrity sha512-A7aXwYt6/TdK44SWLsvxuJh13xbjNWGO7oNEWrP+x0pdvKh/BhQVM+L5ZueTmKtIQZ+F5w83OlIYbj6UH5vfGQ==
+apollo-server-micro@3.11.1:
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/apollo-server-micro/-/apollo-server-micro-3.11.1.tgz#4f1b7f68ce78c3f91f9a7cfbd1c1301f0d235ab7"
+  integrity sha512-4bETccnRotMQIg3ah4/NAWPppB05i5ePrTOuLBGBBQaV8bz1E4Md3snxSB8JkANND7sXmH9OCiKKeLFK8q8JaA==
   dependencies:
     "@hapi/accept" "^5.0.2"
-    apollo-server-core "^3.10.2"
-    apollo-server-types "^3.6.2"
+    apollo-server-core "^3.11.1"
+    apollo-server-types "^3.7.1"
     type-is "^1.6.18"
 
-apollo-server-plugin-base@^3.6.3:
-  version "3.6.3"
-  resolved "https://registry.yarnpkg.com/apollo-server-plugin-base/-/apollo-server-plugin-base-3.6.3.tgz#7eaf24af19641ddccf37307f294aba6877bf4c86"
-  integrity sha512-/Q0Zx8N8La97faKV0siGHDzfZ56ygN6ovtUpPbr+1GIbNmUzkte3lWW2YV08HmxiRmC2i2OGN80exNJEvbKvNA==
+apollo-server-plugin-base@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/apollo-server-plugin-base/-/apollo-server-plugin-base-3.7.1.tgz#aa78ef49bd114e35906ca9cf7493fed2664cbde8"
+  integrity sha512-g3vJStmQtQvjGI289UkLMfThmOEOddpVgHLHT2bNj0sCD/bbisj4xKbBHETqaURokteqSWyyd4RDTUe0wAUDNQ==
   dependencies:
-    apollo-server-types "^3.6.3"
+    apollo-server-types "^3.7.1"
 
-apollo-server-plugin-base@^3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/apollo-server-plugin-base/-/apollo-server-plugin-base-3.7.0.tgz#b7170c2be0344d5f4382fea951f6d1dd274d6635"
-  integrity sha512-YRPjqFHvWK9eM4gN3D4ArrAtPY7Mb1FL+YoXXwq2GxdrsZSolnDYQkqZ6BhK11J8lUmAQpnpunK91IPZshWluA==
-  dependencies:
-    apollo-server-types "^3.7.0"
-
-apollo-server-types@^3.6.2, apollo-server-types@^3.6.3:
-  version "3.6.3"
-  resolved "https://registry.yarnpkg.com/apollo-server-types/-/apollo-server-types-3.6.3.tgz#7818cab914c865dafa53ea263ca6cb1854b4f05a"
-  integrity sha512-+7caNTLdevpWI2dGKSa7CWdyudO3NBuJ3HzcrYxjBei6Bth9YdRUNzPSFmBjlm2baHF0GsrMwLpjO+HStJzm3A==
-  dependencies:
-    "@apollo/utils.keyvaluecache" "^1.0.1"
-    "@apollo/utils.logger" "^1.0.0"
-    apollo-reporting-protobuf "^3.3.3"
-    apollo-server-env "^4.2.1"
-
-apollo-server-types@^3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/apollo-server-types/-/apollo-server-types-3.7.0.tgz#5a6f6f05a3c2ed937ad339b91665248dad957733"
-  integrity sha512-Y2wx7eH/dqqYDdzt0KBJRbVKR10bLiup2aT8huoBbp/u3nbCN88jo1yW+FvlETeV+iKuoY3RiZDlHIvcDQ5/lA==
+apollo-server-types@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/apollo-server-types/-/apollo-server-types-3.7.1.tgz#87adfcb52ec0893999a9cfafd5474bfda7ab0798"
+  integrity sha512-aE9RDVplmkaOj/OduNmGa+0a1B5RIWI0o3zC1zLvBTVWMKTpo0ifVf11TyMkLCY+T7cnZqVqwyShziOyC3FyUw==
   dependencies:
     "@apollo/utils.keyvaluecache" "^1.0.1"
     "@apollo/utils.logger" "^1.0.0"
@@ -6606,7 +6561,7 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
-base64-js@^1.3.0, base64-js@^1.3.1:
+base64-js@^1.3.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
@@ -9051,11 +9006,6 @@ fast-decode-uri-component@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/fast-decode-uri-component/-/fast-decode-uri-component-1.0.1.tgz#46f8b6c22b30ff7a81357d4f59abfae938202543"
   integrity sha512-WKgKWg5eUxvRZGwW8FvfbaH7AXSh2cL+3j5fMGzUMCxWBJ3dV3a7Wz8y2f/uQ0e3B6WmodD3oS54jTQ9HVTIIg==
-
-fast-deep-equal@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz#7b05218ddf9667bf7f370bf7fdb2cb15fdd0aa49"
-  integrity sha512-bCK/2Z4zLidyB4ReuIsvALH6w31YfAQDmXMqMx6FyfHqvBxtjC0eRumeSu4Bs3XtXwpyIywtSTrVT99BxY1f9w==
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
@@ -11807,49 +11757,6 @@ language-tags@^1.0.5:
   integrity sha512-qJhlO9cGXi6hBGKoxEG/sKZDAHD5Hnu9Hs4WbOY3pCWXDhw0N8x1NenNzm2EnNLkLkk7J2SdxAkDSbb6ftT+UQ==
   dependencies:
     language-subtag-registry "~0.3.2"
-
-launchdarkly-js-client-sdk@2.22.1:
-  version "2.22.1"
-  resolved "https://registry.yarnpkg.com/launchdarkly-js-client-sdk/-/launchdarkly-js-client-sdk-2.22.1.tgz#e6064c79bc575eea0aa4364be41754d54d89ae6a"
-  integrity sha512-EAdw7B8w4m/WZGmHHLj9gbYBP6lCqJs5TQDCM9kWJOnvHBz7DJIxOdqazNMDn5AzBxfvaMG7cpLms+Cur5LD5g==
-  dependencies:
-    escape-string-regexp "^1.0.5"
-    launchdarkly-js-sdk-common "3.6.0"
-
-launchdarkly-js-client-sdk@2.24.0:
-  version "2.24.0"
-  resolved "https://registry.yarnpkg.com/launchdarkly-js-client-sdk/-/launchdarkly-js-client-sdk-2.24.0.tgz#8aa796dbd9af6caf1934fee2e503a5ae055884ca"
-  integrity sha512-7Bk5QxgFgfebo+PQJyD3ZglojWF6+Z2y5YC5NafVe6jHxS6GqrTt/B/xsJo9cE2KvO8Bc0+1/IgjBr7sNEJ0tA==
-  dependencies:
-    escape-string-regexp "^4.0.0"
-    launchdarkly-js-sdk-common "3.8.1"
-
-launchdarkly-js-sdk-common@3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/launchdarkly-js-sdk-common/-/launchdarkly-js-sdk-common-3.6.0.tgz#d146be5bbd86a019c4bedc52e66c37a1ffa7bb3d"
-  integrity sha512-wCdBoBiYXlP64jTrC0dOXY2B345LSJO/IvitbdW4kBKmJ1DkeufpqV0s5DBlwE0RLzDmaQx3mRTmcoNAIhIoaA==
-  dependencies:
-    base64-js "^1.3.0"
-    fast-deep-equal "^2.0.1"
-    uuid "^3.3.2"
-
-launchdarkly-js-sdk-common@3.8.1:
-  version "3.8.1"
-  resolved "https://registry.yarnpkg.com/launchdarkly-js-sdk-common/-/launchdarkly-js-sdk-common-3.8.1.tgz#67f0684784fe181bf6c6483c4116cb8730d555e9"
-  integrity sha512-2U7Z1Q3z8+q5hH93F/HiKTgThZ+tUtgwucE7uLP+xOTTb9xMCNt14NqtSD8Vjpptaol0g9cVhQV5n+Im+0fV4w==
-  dependencies:
-    base64-js "^1.3.0"
-    fast-deep-equal "^2.0.1"
-    uuid "^3.3.2"
-
-launchdarkly-react-client-sdk@2.27.0:
-  version "2.27.0"
-  resolved "https://registry.yarnpkg.com/launchdarkly-react-client-sdk/-/launchdarkly-react-client-sdk-2.27.0.tgz#18a2f470e3af166d25d2252e4a14f092378fc2cb"
-  integrity sha512-I2mmY5OHbc8bHkfYlt131cRXjSolCzbMtt0lMeN7vC5vMWnjNnLCT08YRrqromnNgPNUtg/7kwPEUTOmUCFqiA==
-  dependencies:
-    hoist-non-react-statics "^3.3.2"
-    launchdarkly-js-client-sdk "2.22.1"
-    lodash.camelcase "^4.3.0"
 
 lazy-universal-dotenv@^3.0.1:
   version "3.0.1"
@@ -15782,13 +15689,6 @@ storybook-addon-apollo-client@4.0.13:
     "@storybook/components" "6.5.12"
     tslib "^2.4.0"
 
-storybook-addon-launchdarkly@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/storybook-addon-launchdarkly/-/storybook-addon-launchdarkly-1.0.2.tgz#ba128b094ae1a59d2c5cae64279f82cf4b8bf72a"
-  integrity sha512-iNLxsgocrqayjGUMJqokd020xOJ1VBXkXM2YPFLmUSURkTnXBGJWZ5zNykKJD11LJfq6DMtwB3CIQvlYugY+6g==
-  dependencies:
-    tslib "^2.3.0"
-
 storybook-addon-next-router@4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/storybook-addon-next-router/-/storybook-addon-next-router-4.0.1.tgz#b992dfe6df4df1f9f619ae801e3ca7cff14dcdeb"
@@ -16388,10 +16288,10 @@ tree-kill@^1.2.2:
   resolved "https://registry.yarnpkg.com/tree-kill/-/tree-kill-1.2.2.tgz#4ca09a9092c88b73a7cdc5e8a01b507b0790a0cc"
   integrity sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==
 
-trim-newlines@3.0.1, trim-newlines@^1.0.0, trim-newlines@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-3.0.1.tgz#260a5d962d8b752425b32f3a7db0dcacd176c144"
-  integrity sha512-c1PTsA3tYrIsLGkJkzHF+w9F2EyxfXGo4UyJc4pFL++FMjnq0HJS69T3M7d//gKrFKwy429bouPescbjecU+Zw==
+trim-newlines@4.0.2, trim-newlines@^1.0.0, trim-newlines@^3.0.0:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-4.0.2.tgz#d6aaaf6a0df1b4b536d183879a6b939489808c7c"
+  integrity sha512-GJtWyq9InR/2HRiLZgpIKv+ufIKrVrvjQWEj7PxAXNc5dwbNJkqhAUoAGgzRmULAnoOM5EIpveYd3J2VeSAIew==
 
 trim-trailing-lines@^1.0.0:
   version "1.1.4"

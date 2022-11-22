@@ -69,54 +69,6 @@ const AboutUs = () => {
                 </li>
               </ul>
             </div>
-            <h3 id="essential-reading">Essential Reading</h3>
-
-            <ul>
-              <li>
-                <LinkTo
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  href="https://www.spaceforce.mil/Portals/1/Space%20Capstone%20Publication_10%20Aug%202020.pdf">
-                  Space Capstone Publication: Spacepower. Doctrine for Space
-                  Forces
-                </LinkTo>
-                <span> (June 2020)</span>
-              </li>
-              <li>
-                <LinkTo
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  href="https://media.defense.gov/2020/Nov/09/2002531998/-1/-1/0/CSO%20PLANNING%20GUIDANCE.PDF">
-                  CSO’s Planning Guidance
-                </LinkTo>
-                <span> (November 2020)</span>
-              </li>
-
-              <li>
-                <LinkTo
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  href="/uploads/Guardian Ideal - FINAL - 1600 17Sept21.pdf">
-                  Guardian Ideal
-                </LinkTo>
-              </li>
-              <li>
-                <LinkTo
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  href="/uploads/US Space Force Enlisted Rank Insig Info Sheet (1).pdf">
-                  USSF Enlisted Rank and Insignia
-                </LinkTo>
-              </li>
-              <li>
-                <LinkTo
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  href="/uploads/USSF Health Wellness and Fitness Memo dated 16Mar22.pdf">
-                  USSF/S1 Health, Wellness and Fitness Memo (16 MAR 2022)
-                </LinkTo>
-              </li>
-            </ul>
           </div>
         </Grid>
         <Grid tablet={{ col: 4 }} className={styles.sidebar}>
@@ -170,10 +122,10 @@ AboutUs.getLayout = (page: React.ReactNode) =>
       <h1>About us</h1>
       <BreadcrumbNav
         navItems={[
-          { path: '/', label: <span>Service portal home</span> },
+          { path: '/', label: 'Service portal home' },
           {
             path: '/about-us',
-            label: <span>About Us</span>,
+            label: 'About Us',
             current: true,
           },
         ]}
