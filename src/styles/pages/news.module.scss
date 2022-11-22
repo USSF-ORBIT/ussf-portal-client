@@ -25,13 +25,6 @@
   border: 1px dashed var(--btn-box-border);
 
   :global(.usa-button) {
-    background-color: $theme-aurora-dark;
-    color: $black;
     margin: 1.4rem 0 1.4rem 0;
-
-    &:hover {
-      background-color: $theme-aurora-dark;
-      color: $black;
-    }
   }
 }
