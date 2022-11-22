@@ -13,6 +13,9 @@ const testArticle = {
   title:
     'Version 2.8.5 released! Includes MVP search experience and a way to filter the news.',
   publishedDate: '2022-05-17T13:44:39.796Z',
+  hero: {
+    url: '',
+  },
   body: {
     document: [
       {
