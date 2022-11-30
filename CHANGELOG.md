@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.11.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.10.0...4.11.0) (2022-11-30)
+
+
+### Features
+
+* Create USSF Documentation page ([#860](https://github.com/USSF-ORBIT/ussf-portal-client/issues/860)) ([6c5d6b3](https://github.com/USSF-ORBIT/ussf-portal-client/commit/6c5d6b34cde9c6e1fd6d26c1d8bdb7acae03df41))
+* UI modifications to the article template ([#856](https://github.com/USSF-ORBIT/ussf-portal-client/issues/856)) ([dc7402c](https://github.com/USSF-ORBIT/ussf-portal-client/commit/dc7402c6a0f4366ae4b758d97330e684f7452e18))
+
 ## [4.10.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.9.1...4.10.0) (2022-11-17)
 
 
