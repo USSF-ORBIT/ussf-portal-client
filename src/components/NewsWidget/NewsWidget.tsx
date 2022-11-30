@@ -14,7 +14,7 @@ import RemoveSectionModal from 'components/modals/RemoveSectionModal'
 import { useAnalytics } from 'stores/analyticsContext'
 
 // Load 2 items
-const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
+export const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
 
 const NewsWidget = ({ onRemove }: { onRemove: () => void }) => {
   const { items, fetchItems } = useRSSFeed(RSS_URL)
