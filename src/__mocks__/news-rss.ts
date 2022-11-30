@@ -133,9 +133,7 @@ const mockRssFeedOne = `<?xml version="1.0" encoding="utf-8"?>
     <atom:link href="http://www.spaceforce.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&amp;Site=1060&amp;max=10?ContentType=1&amp;Site=1060&amp;isdashboardselected=0&amp;max=10" rel="self" type="application/rss+xml" />
     <item>
       <link></link>
-      <description>This is an empty article
-
-</description>
+      <description>This is an empty article</description>
       <pubDate></pubDate>
       <title></title>
       <dc:creator>DoD News</dc:creator>
