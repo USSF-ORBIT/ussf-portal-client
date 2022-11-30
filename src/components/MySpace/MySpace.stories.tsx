@@ -1,7 +1,9 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
 import { ObjectId } from 'bson'
+import { mockRssFeedTwo } from '__mocks__/news-rss'
 import MySpace from './MySpace'
+import { RSS_URL } from '../NewsWidget/NewsWidget'
 import { GetMySpaceDocument } from 'operations/portal/queries/getMySpace.g'
 
 export default {
@@ -14,6 +16,18 @@ export default {
       </div>
     ),
   ],
+  parameters: {
+    mockData: [
+      {
+        url: RSS_URL,
+        method: 'GET',
+        status: 200,
+        response: () => {
+          return mockRssFeedTwo
+        },
+      },
+    ],
+  },
 } as Meta
 
 const exampleMySpaceData = [
