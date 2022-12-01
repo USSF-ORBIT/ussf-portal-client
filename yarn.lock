@@ -15668,7 +15668,7 @@ storybook-addon-apollo-client@4.0.13:
     "@storybook/components" "6.5.12"
     tslib "^2.4.0"
 
-storybook-addon-mock@^3.2.0:
+storybook-addon-mock@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/storybook-addon-mock/-/storybook-addon-mock-3.2.0.tgz#5832b1e49ff39ffab7a0ae8ec7de8bfdb8ddea45"
   integrity sha512-LaggsF/6Lt0AyHiotIEVQpwKfIiZ3KsNqtdXKVnIdOetjaD7GaOQeX0jIZiZUFX/i6QLmMuNoXFngqqkdVtfSg==
