@@ -6,6 +6,7 @@ import { useUser } from 'hooks/useUser'
 import { useEditThemeMutation } from 'operations/portal/mutations/editTheme.g'
 import { SessionUser } from 'types'
 import { useGetThemeQuery } from 'operations/portal/queries/getTheme.g'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const ThemeToggle = () => {
   const { data } = useGetThemeQuery()
