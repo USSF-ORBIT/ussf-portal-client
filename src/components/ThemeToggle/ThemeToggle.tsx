@@ -6,7 +6,6 @@ import { useUser } from 'hooks/useUser'
 import { useEditThemeMutation } from 'operations/portal/mutations/editTheme.g'
 import { SessionUser } from 'types'
 import { useGetThemeQuery } from 'operations/portal/queries/getTheme.g'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const ThemeToggle = () => {
   const { data } = useGetThemeQuery()
@@ -58,9 +57,6 @@ const ThemeToggle = () => {
     }
   }
 
-  const lightTheme = <FontAwesomeIcon icon="fa-solid fa-sun" /> + ' ' + 'light'
-  const darkTheme = <FontAwesomeIcon icon="fa-solid fa-moon" /> + ' ' + 'dark'
-
   return (
     <button
       type="button"
@@ -70,7 +66,7 @@ const ThemeToggle = () => {
       }}
       className={styles.toggleButton}
       data-testid="theme-toggle">
-      {theme === lightTheme ? darkTheme : lightTheme} mode
+      {theme === 'light' ? 'dark' : 'light'} mode
     </button>
   )
 }
