@@ -70,7 +70,7 @@ const ThemeToggle = () => {
       }}
       className={styles.toggleButton}
       data-testid="theme-toggle">
-      {theme === 'light' ? 'dark' : 'light'} mode
+      {theme === lightTheme ? darkTheme : lightTheme} mode
     </button>
   )
 }
