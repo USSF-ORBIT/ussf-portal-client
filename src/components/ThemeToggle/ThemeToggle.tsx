@@ -58,6 +58,9 @@ const ThemeToggle = () => {
     }
   }
 
+  const lightTheme = <FontAwesomeIcon icon="fa-solid fa-sun" /> + ' ' + 'light'
+  const darkTheme = <FontAwesomeIcon icon="fa-solid fa-moon" /> + ' ' + 'dark'
+
   return (
     <button
       type="button"
