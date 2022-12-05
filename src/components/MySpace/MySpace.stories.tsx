@@ -2,7 +2,12 @@ import React from 'react'
 import { Meta } from '@storybook/react'
 import { ObjectId } from 'bson'
 import MySpace from './MySpace'
+import { mockRssFeedTwo } from '__mocks__/news-rss'
 import { GetMySpaceDocument } from 'operations/portal/queries/getMySpace.g'
+import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
+
+// Load 2 items
+const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
 
 export default {
   title: 'Components/My Space',
@@ -14,6 +19,18 @@ export default {
       </div>
     ),
   ],
+  parameters: {
+    mockData: [
+      {
+        url: RSS_URL,
+        method: 'GET',
+        status: 200,
+        response: () => {
+          return mockRssFeedTwo
+        },
+      },
+    ],
+  },
 } as Meta
 
 const exampleMySpaceData = [
