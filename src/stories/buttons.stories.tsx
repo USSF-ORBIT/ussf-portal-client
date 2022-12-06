@@ -2,7 +2,7 @@ import React from 'react'
 import type { Meta } from '@storybook/react'
 
 export default {
-  title: 'Components/Buttons',
+  title: 'Base/Buttons',
 } as Meta
 
 export const Buttons = () => {
