@@ -4,7 +4,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import ThemeToggle from './ThemeToggle'
 
 export default {
-  title: 'Components/ThemeToggle',
+  title: 'Base/ThemeToggle',
   component: ThemeToggle,
   decorators: [
     (Story) => (
