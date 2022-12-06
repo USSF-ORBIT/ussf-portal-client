@@ -107,7 +107,7 @@ export const parameters = {
   },
   options: {
     storySort: {
-      order: ['Global', 'Layout', 'Components'],
+      order: ['Global', 'Navigation', 'Base', 'Components', 'Layout'],
     },
   },
   apolloClient: {
