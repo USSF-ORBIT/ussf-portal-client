@@ -194,7 +194,7 @@ export type RSSNewsItem = {
   image?: string
 }
 
-export type NewsListItemArticle = {
+export type NewsItemArticle = {
   id: string
   thumbnailSrc?: string
   publishDate: string

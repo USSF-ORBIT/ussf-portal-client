@@ -13,7 +13,7 @@ type StorybookArgTypes = {
 }
 
 export default {
-  title: 'Components/News',
+  title: 'Components/NewsWidget',
   component: NewsWidget,
   argTypes: {
     onRemove: { action: 'Remove this section' },

@@ -1,24 +1,24 @@
 import React from 'react'
 import classnames from 'classnames'
 import { Tag } from '@trussworks/react-uswds'
-import styles from './NewsListItem.module.scss'
+import styles from './NewsItem.module.scss'
 import colors from 'styles/sfds/colors.module.scss'
 
 import LinkTo from 'components/util/LinkTo/LinkTo'
-import type { NewsListItemArticle } from 'types'
+import type { NewsItemArticle } from 'types'
 
-const NewsListItem = ({
+const NewsItem = ({
   article,
   widget = false,
 }: {
-  article: NewsListItemArticle
+  article: NewsItemArticle
   widget?: boolean
 }) => {
   const { title, sourceLink, description, publishDate, sourceName } = article
 
   return (
     <article
-      className={classnames(styles.NewsListItem, {
+      className={classnames(styles.NewsItem, {
         [styles.newsWidgetItem]: widget,
       })}>
       <LinkTo
@@ -45,4 +45,4 @@ const NewsListItem = ({
   )
 }
 
-export default NewsListItem
+export default NewsItem
