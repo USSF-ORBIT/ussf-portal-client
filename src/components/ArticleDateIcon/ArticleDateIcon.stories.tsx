@@ -4,7 +4,7 @@ import { Meta } from '@storybook/react'
 import { ArticleDateIcon } from './ArticleDateIcon'
 
 export default {
-  title: 'Components/ArticleDateIcon',
+  title: 'Components/ArticleList/ArticleDateIcon',
   component: ArticleDateIcon,
   decorators: [
     (Story) => (
