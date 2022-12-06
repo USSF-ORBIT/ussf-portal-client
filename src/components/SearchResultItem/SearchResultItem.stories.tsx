@@ -5,7 +5,7 @@ import { SearchResultItem } from './SearchResultItem'
 import type { SearchResultRecord } from 'types/index'
 
 export default {
-  title: 'Components/SearchResultItem',
+  title: 'Components/SearchResults/SearchResultItem',
   component: SearchResultItem,
   decorators: [
     (Story) => (
