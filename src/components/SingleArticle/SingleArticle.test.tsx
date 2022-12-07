@@ -180,4 +180,14 @@ describe('SingleArticle component', () => {
     )
     expect(img).toHaveClass('hero')
   })
+
+  test('does not render an img tag if article has no hero url', async () => {
+    const noHero = { ...testArticle, hero: { url: undefined } }
+    render(<SingleArticle article={noHero} />)
+
+    const img = await screen.queryByRole('img', {
+      name: 'article hero graphic',
+    })
+    expect(img).not.toBeInTheDocument()
+  })
 })
