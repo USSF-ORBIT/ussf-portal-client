@@ -107,7 +107,14 @@ export const parameters = {
   },
   options: {
     storySort: {
-      order: ['Global', 'Navigation', 'Base', 'Components', 'Layout'],
+      order: [
+        'USSF Design System',
+        'Global',
+        'Navigation',
+        'Base',
+        'Components',
+        'Layout',
+      ],
     },
   },
   apolloClient: {
