@@ -39,6 +39,7 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
     <article className={styles.SingleArticle}>
       <div>
         {heroImg}
+        <h2>{title}</h2>
         <div className={styles.tagAndLabelContainer}>
           {category === 'InternalNews' ? (
             <Category category={CONTENT_CATEGORIES.INTERNAL_NEWS} />
@@ -64,8 +65,6 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
               )
             })}
         </div>
-
-        <h2>{title}</h2>
 
         <dl className={styles.metadata}>
           <div>
