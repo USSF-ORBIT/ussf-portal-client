@@ -15,7 +15,7 @@ const testArticle = {
   category: 'InternalNews',
   publishedDate: '2022-05-17T13:44:39.796Z',
   hero: {
-    url: '',
+    url: 'http://cms.example.com/images/image.png',
   },
   body: {
     document: [
@@ -160,12 +160,24 @@ const testArticle = {
 }
 
 describe('SingleArticle component', () => {
-  it('renders the article', () => {
+  test('renders the article', () => {
     render(<SingleArticle article={testArticle} />)
 
     expect(screen.getByText('May 17, 2022')).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
       testArticle.title
     )
+  })
+
+  test("renders the article's hero image", () => {
+    render(<SingleArticle article={testArticle} />)
+
+    const img = screen.getByRole('img', { name: 'article hero graphic' })
+    expect(img).toBeInTheDocument()
+    expect(img).toHaveAttribute('src')
+    expect(img.getAttribute('src')).toEqual(
+      'http://cms.example.com/images/image.png'
+    )
+    expect(img).toHaveClass('hero')
   })
 })

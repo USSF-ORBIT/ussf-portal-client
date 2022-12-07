@@ -4,6 +4,12 @@
   margin-top: units(6);
   margin-bottom: units(4);
 
+  .hero {
+    width: 100%;
+    max-height: 340px;
+    object-fit: cover;
+  }
+
   h2 {
     margin-bottom: 0;
   }

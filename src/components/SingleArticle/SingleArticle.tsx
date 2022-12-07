@@ -30,6 +30,7 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   return (
     <article className={styles.SingleArticle}>
       <div>
+        <img src={url} alt="article hero graphic" className={styles.hero} />
         <div className={styles.tagAndLabelContainer}>
           {category === 'InternalNews' ? (
             <Category category={CONTENT_CATEGORIES.INTERNAL_NEWS} />
