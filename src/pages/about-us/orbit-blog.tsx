@@ -23,7 +23,7 @@ const PortalNews = ({
   return !user ? (
     <Loader />
   ) : (
-    <div>
+    <div className={styles.listContainer}>
       <div className={styles.pageTitle}>
         <h2>Production team blog & announcements</h2>
         <h3>
