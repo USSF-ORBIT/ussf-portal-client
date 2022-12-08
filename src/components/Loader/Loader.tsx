@@ -10,12 +10,7 @@ const Loader = () => (
       <div className={styles.planet}>
         <img src="/assets/images/earth.svg" alt=" " />
       </div>
-      <div className={styles.rocket}>
-        <div className={styles.flame}></div>
-        <div className={styles.flame}></div>
-        <div className={styles.flame}></div>
-        <div className={styles.flame}></div>
-      </div>
+      <div className={styles.rocket}></div>
     </div>
   </div>
 )
