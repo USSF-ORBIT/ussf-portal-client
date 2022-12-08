@@ -3,7 +3,12 @@
 $rocket-image: url('/assets/images/rocket.png');
 
 .loader {
-  background: color('gray-cool-3');
+  background: linear-gradient(
+    180deg,
+    #000000 6.36%,
+    #0f305a 73.55%,
+    #555f92 111.89%
+  );
   position: fixed;
   top: 0;
   left: 0;
