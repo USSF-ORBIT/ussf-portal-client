@@ -10,13 +10,12 @@ export default {
 export const Welcome = () => {
   return (
     <div
-      className="sfds"
+      className="sfds display-flex flex-column"
       style={{
         fontFamily: 'Sharp Sans',
-        display: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        padding: '40px',
+        width: '90%',
+        maxWidth: '800px',
+        margin: '40px auto',
       }}>
       <div>
         <svg
@@ -41,20 +40,107 @@ export const Welcome = () => {
           </a>
         </strong>
       </div>
-      <div className="display-flex flex-align-center padding-top-4">
-        <div className="padding-1" style={{ width: '100px' }}>
+      <div className="display-flex flex-align-center flex-justify-center padding-top-4">
+        <div className="padding-1" style={{ width: '150px' }}>
           <Logo noText />
         </div>
-
-        <h1>USSF Portal Design System</h1>
+        <div>
+          <h1 className="margin-bottom-0">
+            US Space Force <br /> Design System
+          </h1>
+        </div>
       </div>
       <p>
         This is the design system for the client application for the new USSF
         portal website. It is a React application built with{' '}
         <a href="https://nextjs.org/">NextJS</a>. We&#39;re also using{' '}
         <a href="https://storybook.js.org/">Storybook</a> for building and
-        reviewing components.
+        reviewing components. We use the{' '}
+        <a
+          href="https://designsystem.digital.gov/"
+          target="_blank"
+          rel="noreferrer">
+          United States Web Design System (currently in its 2.0 version)
+        </a>{' '}
+        by including a library called{' '}
+        <a
+          href="https://github.com/trussworks/react-uswds"
+          target="_blank"
+          rel="noreferrer">
+          react-uswds
+        </a>{' '}
+        as a base.{' '}
+        <a
+          href="https://trussworks.github.io/react-uswds/?path=/story/*"
+          target="_blank"
+          rel="noreferrer">
+          React USWDS Storybook
+        </a>{' '}
+        components library shows these components in their un-customized state.
       </p>
+      <h2>Design System Organization</h2>
+
+      <ul>
+        <li>
+          <strong>Global</strong> is for our most top level brand styles,
+          assets, and building blocks. Here we can find USSF base styles and
+          things we see central to the USSF brand.
+        </li>
+        <li>
+          <strong>Navigation</strong> is for our persistant components we see on
+          every page, and includes navigation based components such as
+          navigation components such as page headers and footers
+        </li>
+        <li>
+          <p>
+            <strong>Base</strong> where simple components without a
+            corresponding parent component reside. These are our custom building
+            blocks specific to the USSF Design System. Before adding something
+            new here, please refer to{' '}
+            <a
+              href="https://github.com/trussworks/react-uswds"
+              target="_blank"
+              rel="noreferrer">
+              react-uswds
+            </a>{' '}
+            to ensure there is not an already existing component.
+          </p>
+
+          <ul>
+            <li>
+              <p>
+                If you do use a React USWDS component, you&#39;ll want to
+                display it here, so their output can be tracked in visual
+                regression testing. These components can be affected
+                unintentionall by incorrectly scoped css or by updates to the
+                uswds or react-uswds libraries. See pattern used for{' '}
+                <a
+                  href="https://github.com/USSF-ORBIT/ussf-portal-client/blob/main/src/stories/buttons.stories.tsx"
+                  target="_blank"
+                  rel="noreferrer">
+                  buttons.stories.tsx
+                </a>{' '}
+                for reference.
+              </p>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <p>
+            <strong>Components</strong> where more complex, custom components
+            go. If they have a corresponding child component (such as{' '}
+            <strong>ArticleList</strong> and <strong>ArticleListItem</strong>,
+            they get nested into that component using a folder.
+          </p>
+        </li>
+        <li>
+          <p>
+            <strong>Layouts</strong> is where our most complex components go.
+            They often combine several components into an even more complex one,
+            and these components may also be used for other things, too.
+          </p>
+        </li>
+      </ul>
       <h2 className="margin-bottom-0">Documentation</h2>
       <ul>
         <li>
@@ -70,15 +156,7 @@ export const Welcome = () => {
             href="https://github.com/USSF-ORBIT/ussf-portal-client/blob/main/docs/development.md"
             target="_blank"
             rel="noreferrer">
-            Development
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/USSF-ORBIT/ussf-portal-client/blob/main/docs/cms.md"
-            target="_blank"
-            rel="noreferrer">
-            Content Management
+            Development Documentation
           </a>
         </li>
       </ul>
