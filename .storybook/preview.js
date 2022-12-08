@@ -123,4 +123,17 @@ export const parameters = {
   viewport: {
     viewports: SFDS_VIEWPORTS,
   },
+  backgrounds: {
+    default: '#d9e8f6',
+    values: [
+      {
+        name: 'dark',
+        value: '#0f305a',
+      },
+      {
+        name: 'white',
+        value: '#FFFFFF',
+      },
+    ],
+  },
 }

@@ -5,6 +5,9 @@ import Logo from 'components/Logo/Logo'
 
 export default {
   title: 'Welcome',
+  parameters: {
+    happo: false,
+  },
 } as Meta
 
 export const Welcome = () => {
@@ -13,7 +16,7 @@ export const Welcome = () => {
       className="sfds display-flex flex-column"
       style={{
         fontFamily: 'Sharp Sans',
-        width: '90%',
+        width: '100%',
         maxWidth: '800px',
         margin: '40px auto',
       }}>
@@ -41,12 +44,12 @@ export const Welcome = () => {
         </strong>
       </div>
       <div className="display-flex flex-align-center flex-justify-center padding-top-4">
-        <div className="padding-1" style={{ width: '150px' }}>
+        <div className="margin-right-3" style={{ width: '150px' }}>
           <Logo noText />
         </div>
         <div>
-          <h1 className="margin-bottom-0">
-            US Space Force <br /> Design System
+          <h1 className="margin-y-0" style={{ maxWidth: '527px' }}>
+            United States Space Force Design System
           </h1>
         </div>
       </div>
