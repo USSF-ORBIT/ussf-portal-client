@@ -3,12 +3,7 @@
 $sate-image: url('/assets/images/satellite2.svg');
 
 .loader {
-  background: linear-gradient(
-    180deg,
-    #000000 6.36%,
-    #0f305a 73.55%,
-    #555f92 111.89%
-  );
+  background: linear-gradient(180deg, #000 6.36%, #0f305a 100%);
   position: fixed;
   top: 0;
   left: 0;
@@ -96,16 +91,22 @@ $sate-image: url('/assets/images/satellite2.svg');
   left: 40%;
 }
 
-/*--- rocket ---*/
-.rocket {
+/*--- satallite ---*/
+.sate {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: $sate-image no-repeat 65px center;
+  width: 400px;
+  height: 65px;
+  animation: 8s orbit infinite;
+  animation-timing-function: linear;
+}
+
+.sate div {
+  width: 65px;
+  height: 65px;
+  background: $sate-image no-repeat center;
   animation: 4s orbit infinite;
   animation-timing-function: linear;
+  animation-direction: reverse;
 }
 
 @keyframes orbit {
