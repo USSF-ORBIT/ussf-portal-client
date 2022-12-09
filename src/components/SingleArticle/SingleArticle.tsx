@@ -13,7 +13,7 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
     title,
     category,
     publishedDate,
-    hero: { url },
+    hero,
     body: { document },
     byline,
     location,
