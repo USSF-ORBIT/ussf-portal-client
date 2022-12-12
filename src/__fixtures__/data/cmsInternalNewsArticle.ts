@@ -5,6 +5,9 @@ export const cmsInternalNewsArticle = {
   category: 'InternalNews',
   title: 'USSF Internal News Article',
   status: 'Published',
+  hero: {
+    url: '',
+  },
   body: {
     document: [
       {

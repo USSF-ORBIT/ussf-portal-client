@@ -64,6 +64,9 @@ export type ArticleRecord = {
   title: string
   category: string
   publishedDate: string
+  hero?: {
+    url: string
+  }
   body: {
     document: Element[]
   }
