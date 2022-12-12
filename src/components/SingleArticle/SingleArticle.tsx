@@ -28,17 +28,16 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   })
   const publishedDateObj = new Date(publishedDate)
 
-  let heroImg = null
-  if (hero?.url && hero.url !== '') {
-    heroImg = (
-      <img src={hero.url} alt="article hero graphic" className={styles.hero} />
-    )
-  }
-
   return (
     <article className={styles.SingleArticle}>
       <div>
-        {heroImg}
+        {hero && (
+          <img
+            src={hero.url}
+            alt="article hero graphic"
+            className={styles.hero}
+          />
+        )}
         <h2>{title}</h2>
         <div className={styles.tagAndLabelContainer}>
           {category === 'InternalNews' ? (
