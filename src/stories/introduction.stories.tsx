@@ -115,7 +115,7 @@ export const Welcome = () => {
                 If you do use a React USWDS component, you&#39;ll want to
                 display it here, so their output can be tracked in visual
                 regression testing. These components can be affected
-                unintentionall by incorrectly scoped css or by updates to the
+                unintentionally by incorrectly scoped css or by updates to the
                 uswds or react-uswds libraries. See pattern used for{' '}
                 <a
                   href="https://github.com/USSF-ORBIT/ussf-portal-client/blob/main/src/stories/buttons.stories.tsx"
