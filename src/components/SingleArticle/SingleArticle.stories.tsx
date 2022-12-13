@@ -170,3 +170,11 @@ const testArticle = {
 export const ExampleSingleArticle = () => (
   <SingleArticle article={testArticle} />
 )
+
+const articleWithHero = {
+  ...testArticle,
+  hero: { url: '/assets/images/hero.jpeg' },
+}
+export const ExampleSingleArticleWithHero = () => (
+  <SingleArticle article={articleWithHero} />
+)
