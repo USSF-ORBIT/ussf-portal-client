@@ -5,6 +5,9 @@ export const cmsOrbitBlogArticle = {
   category: 'ORBITBlog',
   title: 'Announcing the dev blog',
   status: 'Published',
+  hero: {
+    url: '',
+  },
   body: {
     document: [
       {
