@@ -27,9 +27,18 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
     day: '2-digit',
   })
   const publishedDateObj = new Date(publishedDate)
+
   return (
     <article className={styles.SingleArticle}>
       <div>
+        {hero && (
+          <img
+            src={hero.url}
+            alt="article hero graphic"
+            className={styles.hero}
+          />
+        )}
+        <h2>{title}</h2>
         <div className={styles.tagAndLabelContainer}>
           {category === 'InternalNews' ? (
             <Category category={CONTENT_CATEGORIES.INTERNAL_NEWS} />
@@ -55,8 +64,6 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
               )
             })}
         </div>
-
-        <h2>{title}</h2>
 
         <dl className={styles.metadata}>
           <div>
