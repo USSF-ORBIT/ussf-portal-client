@@ -1,6 +1,10 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/sfds/sfdsDependencies';
 
+.listContainer {
+  max-width: 1220px;
+}
+
 .pageTitle {
   margin-top: units(6);
   margin-bottom: units(4);
