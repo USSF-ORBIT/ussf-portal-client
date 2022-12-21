@@ -12,7 +12,7 @@ type StorybookArgTypes = {
 }
 
 export default {
-  title: 'Components/Sections/Collections/CustomCollection',
+  title: 'Components/Collections/CustomCollection',
   component: CustomCollection,
   argTypes: {
     handleAddBookmark: { action: 'Add bookmark' },

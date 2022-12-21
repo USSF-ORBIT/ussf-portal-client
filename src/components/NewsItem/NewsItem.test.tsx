@@ -4,7 +4,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 
-import NewsListItem from './NewsListItem'
+import NewsItem from './NewsItem'
 
 const testArticle = {
   id: 'testArticle123',
@@ -17,10 +17,10 @@ const testArticle = {
   source: 'RSS',
 }
 
-describe('NewsListItem component', () => {
+describe('NewsItem component', () => {
   describe('displayed in a widget', () => {
     beforeEach(() => {
-      render(<NewsListItem article={testArticle} widget={true} />)
+      render(<NewsItem article={testArticle} widget={true} />)
     })
 
     it('renders the article contents', () => {

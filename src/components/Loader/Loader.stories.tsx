@@ -4,7 +4,7 @@ import { Meta } from '@storybook/react'
 import Loader from './Loader'
 
 export default {
-  title: 'Components/Loader',
+  title: 'Base/Loader',
   component: Loader,
   decorators: [
     (Story) => (

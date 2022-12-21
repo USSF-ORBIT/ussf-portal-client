@@ -1,11 +1,11 @@
 import React from 'react'
 import type { Meta } from '@storybook/react'
 
-import NewsListItem from './NewsListItem'
+import NewsItem from './NewsItem'
 
 export default {
-  title: 'Components/NewsListItem',
-  component: NewsListItem,
+  title: 'Components/NewsWidget/NewsItem',
+  component: NewsItem,
   decorators: [
     (Story) => (
       <div className="sfds">
@@ -28,12 +28,12 @@ const mockRSSArticle = {
   sourceName: 'SPACEFORCE.mil',
 }
 
-export const RSSArticle = () => <NewsListItem article={mockRSSArticle} />
+export const RSSArticle = () => <NewsItem article={mockRSSArticle} />
 
 export const RSSArticleNoImage = () => (
-  <NewsListItem article={{ ...mockRSSArticle, thumbnailSrc: '' }} />
+  <NewsItem article={{ ...mockRSSArticle, thumbnailSrc: '' }} />
 )
 
 export const RSSArticleWidget = () => (
-  <NewsListItem article={mockRSSArticle} widget={true} />
+  <NewsItem article={mockRSSArticle} widget={true} />
 )

@@ -1,26 +1,26 @@
 import React, { useRef } from 'react'
 import { Table, Button, Icon } from '@trussworks/react-uswds'
 import type { ObjectId } from 'bson'
-import styles from './BookmarkList.module.scss'
+import styles from './ApplicationsTable.module.scss'
 
 import type { BookmarkRecord, BookmarkRecords, Collection } from 'types'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
-type BookmarkListRowProps = {
+type ApplicationsTableRowProps = {
   bookmark: BookmarkRecord
   userCollectionOptions?: Collection[]
   handleAddToCollection: (b: BookmarkRecord, c?: ObjectId) => void
   canAddNewCollection?: boolean
 }
 
-const BookmarkListRow = ({
+const ApplicationsTableRow = ({
   bookmark,
   userCollectionOptions = [],
   handleAddToCollection,
   canAddNewCollection = true,
-}: BookmarkListRowProps) => {
+}: ApplicationsTableRowProps) => {
   const { id, url, label, description } = bookmark
   const dropdownEl = useRef<HTMLDivElement>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
@@ -92,7 +92,7 @@ const BookmarkListRow = ({
   )
 }
 
-type BookmarkListProps = {
+type ApplicationsTableProps = {
   bookmarks: BookmarkRecords
   userCollectionOptions?: Collection[]
   handleAddToCollection: (b: BookmarkRecord, c?: ObjectId) => void
@@ -100,13 +100,13 @@ type BookmarkListProps = {
   className?: string
 }
 
-const BookmarkList = ({
+const ApplicationsTable = ({
   bookmarks,
   userCollectionOptions = [],
   handleAddToCollection,
   canAddNewCollection = true,
   className = '',
-}: BookmarkListProps) => {
+}: ApplicationsTableProps) => {
   const filterInvalidBookmarks = (
     b: Partial<BookmarkRecord>
   ): b is BookmarkRecord => !(b.id === undefined || b.url === undefined)
@@ -123,7 +123,7 @@ const BookmarkList = ({
         </thead>
         <tbody className={styles.bmListTable}>
           {bookmarks.filter(filterInvalidBookmarks).map((b) => (
-            <BookmarkListRow
+            <ApplicationsTableRow
               key={`bookmark_${b.id}`}
               bookmark={b}
               userCollectionOptions={userCollectionOptions}
@@ -137,4 +137,4 @@ const BookmarkList = ({
   )
 }
 
-export default BookmarkList
+export default ApplicationsTable

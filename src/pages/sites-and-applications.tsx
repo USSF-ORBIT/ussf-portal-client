@@ -33,7 +33,7 @@ import Flash from 'components/util/Flash/Flash'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
-import BookmarkList from 'components/BookmarkList/BookmarkList'
+import ApplicationsTable from 'components/ApplicationsTable/ApplicationsTable'
 import SelectableCollection from 'components/SelectableCollection/SelectableCollection'
 import Tooltip from 'components/Tooltip/Tooltip'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
@@ -247,8 +247,8 @@ const SitesAndApplications = ({
             </Alert>
           )}
 
-          <BookmarkList
-            className={'sitesAndAppsBookmarkList'}
+          <ApplicationsTable
+            className={'sitesAndAppsApplicationsTable'}
             bookmarks={bookmarks}
             userCollectionOptions={userCollections}
             handleAddToCollection={handleAddToCollection}

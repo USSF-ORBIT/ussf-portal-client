@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import React from 'react'
 import { ObjectId } from 'mongodb'
-import BookmarkList from './BookmarkList'
+import ApplicationsTable from './ApplicationsTable'
 import type { Collection, BookmarkRecord, BookmarkRecords } from 'types'
 import { WIDGET_TYPES } from 'constants/index'
 
@@ -98,9 +98,9 @@ const testProps = {
   handleAddToCollection: jest.fn(),
 }
 
-describe('BookmarkList component', () => {
+describe('ApplicationsTable component', () => {
   it('renders a list of bookmark links', () => {
-    render(<BookmarkList {...testProps} />)
+    render(<ApplicationsTable {...testProps} />)
     expect(screen.getByRole('table')).toBeInTheDocument()
     expect(screen.getAllByRole('link')).toHaveLength(7)
     expect(
@@ -110,7 +110,7 @@ describe('BookmarkList component', () => {
 
   it('doesn’t render invalid bookmarks', () => {
     render(
-      <BookmarkList
+      <ApplicationsTable
         {...testProps}
         bookmarks={exampleInvalidBookmarks as BookmarkRecords}
       />
@@ -123,7 +123,7 @@ describe('BookmarkList component', () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
-      const { container } = render(<BookmarkList {...testProps} />)
+      const { container } = render(<ApplicationsTable {...testProps} />)
 
       expect(await axe(container)).toHaveNoViolations()
     })
@@ -134,7 +134,7 @@ describe('BookmarkList component', () => {
     const user = userEvent.setup()
 
     render(
-      <BookmarkList
+      <ApplicationsTable
         {...testProps}
         handleAddToCollection={mockAddToCollection}
         userCollectionOptions={exampleCollections}
@@ -168,7 +168,7 @@ describe('BookmarkList component', () => {
     const user = userEvent.setup()
 
     render(
-      <BookmarkList
+      <ApplicationsTable
         {...testProps}
         handleAddToCollection={mockAddToCollection}
         userCollectionOptions={exampleCollections}
@@ -194,7 +194,7 @@ describe('BookmarkList component', () => {
     const user = userEvent.setup()
 
     render(
-      <BookmarkList
+      <ApplicationsTable
         {...testProps}
         handleAddToCollection={mockAddToCollection}
         userCollectionOptions={exampleCollections}
@@ -229,7 +229,7 @@ describe('BookmarkList component', () => {
     const user = userEvent.setup()
 
     render(
-      <BookmarkList
+      <ApplicationsTable
         {...testProps}
         handleAddToCollection={mockAddToCollection}
         userCollectionOptions={exampleCollectionsWithLimit}

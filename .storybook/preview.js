@@ -107,7 +107,14 @@ export const parameters = {
   },
   options: {
     storySort: {
-      order: ['Global', 'Layout', 'Components'],
+      order: [
+        'USSF Design System',
+        'Global',
+        'Navigation',
+        'Base',
+        'Components',
+        'Layout',
+      ],
     },
   },
   apolloClient: {
@@ -115,5 +122,18 @@ export const parameters = {
   },
   viewport: {
     viewports: SFDS_VIEWPORTS,
+  },
+  backgrounds: {
+    default: '#d9e8f6',
+    values: [
+      {
+        name: 'dark',
+        value: '#0f305a',
+      },
+      {
+        name: 'white',
+        value: '#FFFFFF',
+      },
+    ],
   },
 }
