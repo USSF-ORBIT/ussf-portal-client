@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { useTheme } from 'next-themes'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import styles from './ThemeToggle.module.scss'
 import { useAnalytics } from 'stores/analyticsContext'
 import { useUser } from 'hooks/useUser'
 import { useEditThemeMutation } from 'operations/portal/mutations/editTheme.g'
 import { SessionUser } from 'types'
 import { useGetThemeQuery } from 'operations/portal/queries/getTheme.g'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 
 const lightTheme = (
   <>
@@ -79,7 +79,7 @@ const ThemeToggle = () => {
       }}
       className={styles.toggleButton}
       data-testid="theme-toggle">
-      {theme === lightTheme ? darkTheme : lightTheme} mode
+      {theme === 'light' ? darkTheme : lightTheme} mode
     </button>
   )
 }
