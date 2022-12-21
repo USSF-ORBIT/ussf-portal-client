@@ -82,71 +82,61 @@ export const Welcome = () => {
         components library shows these components in their un-customized state.
       </p>
       <h2>Design System Organization</h2>
-
       <ul>
-        <li>
+        <li className="padding-bottom-1">
           <strong>Global</strong> is for our most top level brand styles,
           assets, and building blocks. Here we can find USSF base styles and
           things we see central to the USSF brand.
         </li>
-        <li>
+        <li className="padding-bottom-1">
           <strong>Navigation</strong> is for our persistant components we see on
           every page, and includes navigation based components such as
           navigation components such as page headers and footers
         </li>
-        <li>
-          <p>
-            <strong>Base</strong> where simple components without a
-            corresponding parent component reside. These are our custom building
-            blocks specific to the USSF Design System. Before adding something
-            new here, please refer to{' '}
-            <a
-              href="https://github.com/trussworks/react-uswds"
-              target="_blank"
-              rel="noreferrer">
-              react-uswds
-            </a>{' '}
-            to ensure there is not an already existing component.
-          </p>
-
+        <li className="padding-bottom-1">
+          <strong>Base</strong> where simple components without a corresponding
+          parent component reside. These are our custom building blocks specific
+          to the USSF Design System. Before adding something new here, please
+          refer to{' '}
+          <a
+            href="https://github.com/trussworks/react-uswds"
+            target="_blank"
+            rel="noreferrer">
+            react-uswds
+          </a>{' '}
+          to ensure there is not an already existing component.
           <ul>
-            <li>
-              <p>
-                If you do use a React USWDS component, you&#39;ll want to
-                display it here, so their output can be tracked in visual
-                regression testing. These components can be affected
-                unintentionally by incorrectly scoped css or by updates to the
-                uswds or react-uswds libraries. See pattern used for{' '}
-                <a
-                  href="https://github.com/USSF-ORBIT/ussf-portal-client/blob/main/src/stories/buttons.stories.tsx"
-                  target="_blank"
-                  rel="noreferrer">
-                  buttons.stories.tsx
-                </a>{' '}
-                for reference.
-              </p>
+            <li className="padding-bottom-1">
+              If you do use a React USWDS component, you&#39;ll want to display
+              it here, so their output can be tracked in visual regression
+              testing. These components can be affected unintentionally by
+              incorrectly scoped css or by updates to the uswds or react-uswds
+              libraries. See pattern used for{' '}
+              <a
+                href="https://github.com/USSF-ORBIT/ussf-portal-client/blob/main/src/stories/buttons.stories.tsx"
+                target="_blank"
+                rel="noreferrer">
+                buttons.stories.tsx
+              </a>{' '}
+              for reference.
             </li>
           </ul>
         </li>
-        <li>
-          <p>
-            <strong>Components</strong> where more complex, custom components
-            go. If they have a corresponding child component (such as{' '}
-            <strong>ArticleList</strong> and <strong>ArticleListItem</strong>,
-            they get nested into that component using a folder.
-          </p>
+        <li className="padding-bottom-1">
+          <strong>Components</strong> where more complex, custom components go.
+          If they have a corresponding child component (such as{' '}
+          <strong>ArticleList</strong> and <strong>ArticleListItem</strong>,
+          they get nested into that component using a folder.
         </li>
-        <li>
-          <p>
-            <strong>Layouts</strong> is where our most complex components go.
-            They often combine several components into an even more complex one,
-            and these components may also be used for other things, too.
-          </p>
+        <li className="padding-bottom-1">
+          <strong>Layouts</strong> is where our most complex components go. They
+          often combine several components into an even more complex one, and
+          these components may also be used for other things, too.
         </li>
       </ul>
       <h2 className="margin-bottom-0">Documentation</h2>
       <ul>
-        <li>
+        <li className="padding-bottom-1">
           <a
             href="https://www.figma.com/file/8TK1fwvmOzysa73fwQebl8/Space-Force-Design-System-V0.1?node-id=616%3A3406&t=r8AaE7Bht8vIIwvK-1"
             target="_blank"
@@ -154,7 +144,7 @@ export const Welcome = () => {
             Figma Project
           </a>
         </li>
-        <li>
+        <li className="padding-bottom-1">
           <a
             href="https://github.com/USSF-ORBIT/ussf-portal-client/blob/main/docs/development.md"
             target="_blank"
