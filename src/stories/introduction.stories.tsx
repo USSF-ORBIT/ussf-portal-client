@@ -53,7 +53,7 @@ export const Welcome = () => {
           </h1>
         </div>
       </div>
-      <p>
+      <p className="line-height-sans-4">
         This is the design system for the client application for the new USSF
         portal website. It is a React application built with{' '}
         <a href="https://nextjs.org/">NextJS</a>. We&#39;re also using{' '}
@@ -81,19 +81,19 @@ export const Welcome = () => {
         </a>{' '}
         components library shows these components in their un-customized state.
       </p>
-      <h2>Design System Organization</h2>
+      <h2 className="margin-bottom-0">Design System Organization</h2>
       <ul>
-        <li className="padding-bottom-1">
+        <li className="padding-bottom-1 line-height-sans-4">
           <strong>Global</strong> is for our most top level brand styles,
           assets, and building blocks. Here we can find USSF base styles and
           things we see central to the USSF brand.
         </li>
-        <li className="padding-bottom-1">
+        <li className="padding-bottom-1 line-height-sans-4">
           <strong>Navigation</strong> is for our persistant components we see on
           every page, and includes navigation based components such as
           navigation components such as page headers and footers
         </li>
-        <li className="padding-bottom-1">
+        <li className="padding-bottom-1 line-height-sans-4">
           <strong>Base</strong> where simple components without a corresponding
           parent component reside. These are our custom building blocks specific
           to the USSF Design System. Before adding something new here, please
@@ -106,7 +106,7 @@ export const Welcome = () => {
           </a>{' '}
           to ensure there is not an already existing component.
           <ul>
-            <li className="padding-bottom-1">
+            <li className="padding-bottom-1 line-height-sans-4">
               If you do use a React USWDS component, you&#39;ll want to display
               it here, so their output can be tracked in visual regression
               testing. These components can be affected unintentionally by
@@ -122,13 +122,13 @@ export const Welcome = () => {
             </li>
           </ul>
         </li>
-        <li className="padding-bottom-1">
+        <li className="padding-bottom-1 line-height-sans-4">
           <strong>Components</strong> where more complex, custom components go.
           If they have a corresponding child component (such as{' '}
           <strong>ArticleList</strong> and <strong>ArticleListItem</strong>,
           they get nested into that component using a folder.
         </li>
-        <li className="padding-bottom-1">
+        <li className="padding-bottom-1 line-height-sans-4">
           <strong>Layouts</strong> is where our most complex components go. They
           often combine several components into an even more complex one, and
           these components may also be used for other things, too.
@@ -136,7 +136,7 @@ export const Welcome = () => {
       </ul>
       <h2 className="margin-bottom-0">Documentation</h2>
       <ul>
-        <li className="padding-bottom-1">
+        <li className="padding-bottom-1 line-height-sans-4">
           <a
             href="https://www.figma.com/file/8TK1fwvmOzysa73fwQebl8/Space-Force-Design-System-V0.1?node-id=616%3A3406&t=r8AaE7Bht8vIIwvK-1"
             target="_blank"
@@ -144,7 +144,7 @@ export const Welcome = () => {
             Figma Project
           </a>
         </li>
-        <li className="padding-bottom-1">
+        <li className="padding-bottom-1 line-height-sans-4">
           <a
             href="https://github.com/USSF-ORBIT/ussf-portal-client/blob/main/docs/development.md"
             target="_blank"
