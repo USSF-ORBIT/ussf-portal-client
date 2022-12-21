@@ -11,7 +11,7 @@ jobs:
     if: github.event.label.name == format('type{0} storybook component', ':')
     steps:
       - name: Check out repository
-        uses: actions/checkout@bf085276cecdb0cc76fbbe0687a5a0e786646936
+        uses: actions/checkout@3ba5ee6fac7e0e30e2ea884e236f282d3a775891
 
       - name: Trigger Netlify build
         id: deploy-storybook-to-netlify
@@ -26,7 +26,7 @@ jobs:
         continue-on-error: false
 
       - name: Post Storybook URL
-        uses: thollander/actions-comment-pull-request@8a3fad13c20088e9eb0805666b9fe49509d2fec8 # v1.6.0
+        uses: thollander/actions-comment-pull-request@4159e62bc85fec21089efb305e83a9e7113074e8 # v2.3.0
         with:
           GITHUB_TOKEN: '${{github.token}}'
           message: '🎉 View this branch in Storybook - [${{ steps.deploy-storybook-to-netlify.outputs.NETLIFY_PREVIEW_URL }}](${{ steps.deploy-storybook-to-netlify.outputs.NETLIFY_PREVIEW_URL }})'
