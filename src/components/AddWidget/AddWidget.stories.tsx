@@ -10,7 +10,7 @@ type StorybookArgTypes = {
 }
 
 export default {
-  title: 'Components/AddWidget',
+  title: 'Base/AddWidget',
   component: AddWidget,
   argTypes: {
     handleSelectCollection: { action: 'Select collection from template' },

@@ -8,7 +8,7 @@ import RemoveCustomCollectionModal from './RemoveCustomCollectionModal'
 import RemoveSectionModal from './RemoveSectionModal'
 
 export default {
-  title: 'Components/Modals',
+  title: 'Layouts/Modals',
   decorators: [
     (Story) => {
       return (

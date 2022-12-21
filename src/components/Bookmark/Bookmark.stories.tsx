@@ -8,7 +8,7 @@ type StorybookArgTypes = {
 }
 
 export default {
-  title: 'Components/Bookmark',
+  title: 'Components/Collections/Bookmark',
   component: Bookmark,
   argTypes: { onDelete: { action: 'Deleted' }, onEdit: { action: 'Edited' } },
   decorators: [

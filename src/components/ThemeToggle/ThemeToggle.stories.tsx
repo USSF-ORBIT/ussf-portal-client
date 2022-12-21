@@ -21,7 +21,7 @@ const mockContext = {
 }
 
 export default {
-  title: 'Components/ThemeToggle',
+  title: 'Base/ThemeToggle',
   component: ThemeToggle,
   decorators: [
     (Story) => (

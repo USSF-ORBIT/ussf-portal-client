@@ -10,7 +10,7 @@ import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
 
 export default {
-  title: 'Components/My Space',
+  title: 'Layouts/My Space',
   component: MySpace,
   decorators: [
     (Story) => (

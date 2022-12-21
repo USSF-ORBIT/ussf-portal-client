@@ -4,7 +4,7 @@ import { Tag, Label, Category } from './Tag'
 import { CONTENT_CATEGORIES } from 'constants/index'
 
 export default {
-  title: 'Components/Tag',
+  title: 'Base/Tag',
   component: Tag,
   decorators: [
     (Story) => (
