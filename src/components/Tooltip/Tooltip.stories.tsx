@@ -5,7 +5,7 @@ import { Icon } from '@trussworks/react-uswds'
 import Tooltip from './Tooltip'
 
 export default {
-  title: 'Components/Tooltip',
+  title: 'Base/Tooltip',
   component: Tooltip,
   decorators: [
     (Story) => (

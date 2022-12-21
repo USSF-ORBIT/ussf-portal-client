@@ -4,7 +4,7 @@ import NewsCarouselItem from './NewsCarouselItem'
 import type { ArticleListItemRecord } from 'types'
 
 export default {
-  title: 'Components/NewsCarouselItem',
+  title: 'Components/NewsCarousel/NewsCarouselItem',
   component: NewsCarouselItem,
   decorators: [
     (Story) => (

@@ -4,7 +4,7 @@ import Header from './Header'
 import HeaderWithoutNav from './HeaderWithoutNav'
 
 export default {
-  title: 'Layout/Header',
+  title: 'Navigation/Header',
   component: Header,
 } as Meta
 

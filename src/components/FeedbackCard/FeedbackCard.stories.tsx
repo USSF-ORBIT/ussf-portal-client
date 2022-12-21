@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react'
 import FeedbackCard from './FeedbackCard'
 
 export default {
-  title: 'Components/FeedbackCard',
+  title: 'Base/FeedbackCard',
   component: FeedbackCard,
   decorators: [
     (Story) => (

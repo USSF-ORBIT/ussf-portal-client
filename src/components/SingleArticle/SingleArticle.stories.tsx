@@ -4,7 +4,7 @@ import { Meta } from '@storybook/react'
 import { SingleArticle } from './SingleArticle'
 
 export default {
-  title: 'Components/SingleArticle',
+  title: 'Layouts/SingleArticle',
   component: SingleArticle,
   decorators: [
     (Story) => (

@@ -3,7 +3,7 @@ import { Meta } from '@storybook/react'
 import PageNav from './PageNav'
 
 export default {
-  title: 'Components/PageNav',
+  title: 'Navigation/PageNav',
   component: PageNav,
   decorators: [
     (Story) => (

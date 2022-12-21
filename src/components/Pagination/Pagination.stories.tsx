@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import Pagination from './Pagination'
 
 export default {
-  title: 'Components/Pagination',
+  title: 'Base/Pagination',
   component: Pagination,
   argTypes: {
     currentPage: { control: 'number' },

@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react'
 import EPubsCard from './EPubsCard'
 
 export default {
-  title: 'Components/EPubsCard',
+  title: 'Base/EPubsCard',
   component: EPubsCard,
   decorators: [
     (Story) => (
