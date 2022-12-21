@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.12.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.10.0...4.12.0) (2022-12-13)
+
+
+### Features
+
+* Add support for hero image in articles ([#862](https://github.com/USSF-ORBIT/ussf-portal-client/issues/862)) ([56721db](https://github.com/USSF-ORBIT/ussf-portal-client/commit/56721dbff4bfd6562ac40464d3b16330c8807df1))
+* add USSF Guardian Commitment Poster to docs page ([#888](https://github.com/USSF-ORBIT/ussf-portal-client/issues/888)) ([07fb472](https://github.com/USSF-ORBIT/ussf-portal-client/commit/07fb47231ba570386ed6835300ac92a14c8ecdc1))
+* Create USSF Documentation page ([#860](https://github.com/USSF-ORBIT/ussf-portal-client/issues/860)) ([6c5d6b3](https://github.com/USSF-ORBIT/ussf-portal-client/commit/6c5d6b34cde9c6e1fd6d26c1d8bdb7acae03df41))
+* Display hero image in article layout ([#884](https://github.com/USSF-ORBIT/ussf-portal-client/issues/884)) ([b2201ac](https://github.com/USSF-ORBIT/ussf-portal-client/commit/b2201acd23ac5cf2864afd4f1c29473792a231f8))
+* UI modifications to the article template ([#856](https://github.com/USSF-ORBIT/ussf-portal-client/issues/856)) ([dc7402c](https://github.com/USSF-ORBIT/ussf-portal-client/commit/dc7402c6a0f4366ae4b758d97330e684f7452e18))
+
+
+### Bug Fixes
+
+* **deps:** update dependency axios to v1 ([#851](https://github.com/USSF-ORBIT/ussf-portal-client/issues/851)) ([de30320](https://github.com/USSF-ORBIT/ussf-portal-client/commit/de30320226380de2a1c46661e1c69c347bb19126))
+
+
+### Security Improvements
+
+* **deps:** update node.js to v14.21.1 ([#849](https://github.com/USSF-ORBIT/ussf-portal-client/issues/849)) ([46aba91](https://github.com/USSF-ORBIT/ussf-portal-client/commit/46aba915689498117bb948dad1f53faf56fcabc7))
+
 ## [4.11.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.10.0...4.11.0) (2022-11-30)
 
 

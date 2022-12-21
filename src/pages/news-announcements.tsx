@@ -37,7 +37,7 @@ const NewsAnnouncements = ({
   return !user ? (
     <Loader />
   ) : (
-    <div>
+    <div className={styles.listContainer}>
       {announcements.length > 0 && (
         <section>
           <Announcement announcements={announcements} />
