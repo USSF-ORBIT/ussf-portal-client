@@ -45,6 +45,25 @@
     margin-top: 0;
     font-family: 'Trebuchet MS';
   }
+
+  :global(.usa-combo-box__list-option) {
+    outline: 0;
+    &:hover {
+      background: var(--dropdown-menu-bg-hover);
+      color: var(--link-primary-hover);
+      outline: 0;
+    }
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 1;
+      color: var(--dropdown-menu-disabled-text);
+
+      &:hover {
+        color: var(--dropdown-menu-disabled-text);
+        background-color: var(--dropdown-menu-bg);
+      }
+    }
+  }
 }
 
 .addLinkWarning {
