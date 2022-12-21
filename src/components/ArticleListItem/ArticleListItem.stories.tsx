@@ -6,7 +6,7 @@ import { ArticleListItem } from './ArticleListItem'
 import type { ArticleListItemRecord } from 'types'
 
 export default {
-  title: 'Components/ArticleListItem',
+  title: 'Components/ArticleList/ArticleListItem',
   component: ArticleListItem,
   decorators: [
     (Story) => (

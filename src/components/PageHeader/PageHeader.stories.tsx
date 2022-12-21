@@ -12,7 +12,7 @@ import PersonalData from 'components/PersonalData/PersonalData'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 
 export default {
-  title: 'Layout/PageHeader',
+  title: 'Navigation/PageHeader',
   component: PageHeader,
   decorators: [
     (Story) => (

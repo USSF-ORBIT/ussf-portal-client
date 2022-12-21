@@ -6,7 +6,7 @@ import styles from './NewsWidget.module.scss'
 import { WidgetWithSettings } from 'components/Widget/Widget'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { useRSSFeed } from 'hooks/useRSSFeed'
-import NewsListItem from 'components/NewsListItem/NewsListItem'
+import NewsItem from 'components/NewsItem/NewsItem'
 import type { RSSNewsItem } from 'types'
 import { validateNewsItems, formatRssToArticle } from 'helpers/index'
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
@@ -61,7 +61,7 @@ const NewsWidget = ({ onRemove }: { onRemove: () => void }) => {
           .filter(validateNewsItems)
           .map((item) => formatRssToArticle(item as Required<RSSNewsItem>))
           .map((item, i) => (
-            <NewsListItem
+            <NewsItem
               key={`newsWidgetItem_${i}_${item.id}`}
               article={item}
               widget={true}

@@ -21,7 +21,7 @@ const mockContext = {
 }
 
 export default {
-  title: 'Components/PersonalData',
+  title: 'Base/PersonalData',
   decorators: [
     (Story) => (
       <div className="sfds">

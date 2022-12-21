@@ -1,6 +1,6 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
-import BookmarkList from './BookmarkList'
+import ApplicationsTable from './ApplicationsTable'
 import type { BookmarkRecord } from 'types/index'
 
 type StorybookArgTypes = {
@@ -8,8 +8,8 @@ type StorybookArgTypes = {
 }
 
 export default {
-  title: 'Components/BookmarkList',
-  component: BookmarkList,
+  title: 'Components/ApplicationsTable',
+  component: ApplicationsTable,
   argTypes: {
     handleAddToCollection: { action: 'Add to collection' },
   },
@@ -52,8 +52,8 @@ const exampleBookmarks: BookmarkRecord[] = [
   },
 ]
 
-export const ExampleBookmarkList = (argTypes: StorybookArgTypes) => (
-  <BookmarkList
+export const ExampleApplicationsTable = (argTypes: StorybookArgTypes) => (
+  <ApplicationsTable
     bookmarks={exampleBookmarks}
     handleAddToCollection={argTypes.handleAddToCollection}
   />

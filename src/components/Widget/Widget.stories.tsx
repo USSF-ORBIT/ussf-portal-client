@@ -5,7 +5,7 @@ import { Button } from '@trussworks/react-uswds'
 import Widget, { WidgetWithSettings } from './Widget'
 
 export default {
-  title: 'Components/Sections/Section',
+  title: 'Base/Section',
   component: Widget,
   decorators: [
     (Story) => (
