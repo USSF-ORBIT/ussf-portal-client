@@ -84,7 +84,7 @@ export const getServerSideProps: GetServerSideProps = async (
   })
   // Calculate total pages
   // If NaN, return 1 page
-  const totalPages = Math.ceil(articlesCount / articlesPerPage) || 1
+  const totalPages = Math.floor(articlesCount / articlesPerPage) || 1
 
   // If a page number is requested that's out of range, return 404
   if (currentPage > totalPages) {
