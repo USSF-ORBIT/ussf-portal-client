@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 
 type ModalContextType = {
   toggleDisplay: boolean
@@ -30,4 +30,8 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <ModalContext.Provider value={context}>{children}</ModalContext.Provider>
   )
+}
+export const useModalContext = () => {
+  const context = useContext(ModalContext)
+  return context
 }

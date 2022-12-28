@@ -9,6 +9,8 @@ import PageHeader from 'components/PageHeader/PageHeader'
 import PageNav from 'components/PageNav/PageNav'
 import FeedbackCard from 'components/FeedbackCard/FeedbackCard'
 import Footer from 'components/Footer/Footer'
+import CustomModal from 'components/CustomModal/CustomModal'
+import { useModalContext } from 'stores/modalContext'
 
 const DefaultLayout = ({
   displayFeedbackCard = true,
@@ -17,6 +19,7 @@ const DefaultLayout = ({
   displayFeedbackCard?: boolean
   children: React.ReactNode
 }) => {
+  const { toggleDisplay } = useModalContext()
   const navItems = [
     { path: '/', label: 'My Space' },
     {
@@ -53,6 +56,8 @@ const DefaultLayout = ({
           </GridContainer>
         </main>
         <Footer />
+
+        {toggleDisplay && <CustomModal />}
       </div>
     </>
   )
