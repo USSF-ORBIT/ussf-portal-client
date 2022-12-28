@@ -4,12 +4,16 @@ type ModalContextType = {
   toggleDisplay: boolean
   component: React.ReactNode | null
   handleToggleDisplayModal: () => void
+  setComponent: (componentUpdate: React.ReactNode) => void
 }
 
 const ModalContext = createContext<ModalContextType>({
   toggleDisplay: false,
   component: null,
   handleToggleDisplayModal: () => {
+    return
+  },
+  setComponent: () => {
     return
   },
 })
@@ -21,10 +25,17 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     setToggleDisplay((prevDisplayState) => !prevDisplayState)
   }
 
+  let component
+  const setComponent = (componentUpdate: React.ReactNode) => {
+    component = componentUpdate
+    return
+  }
+
   const context = {
     toggleDisplay,
-    component: null,
+    component,
     handleToggleDisplayModal,
+    setComponent,
   }
 
   return (
