@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useRef, useState } from 'react'
 import { ModalRef } from '@trussworks/react-uswds'
 import { useAnalytics } from 'stores/analyticsContext'
+import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
 import { useRemoveWidgetMutation } from 'operations/portal/mutations/removeWidget.g'
 import { Widget } from 'types/index'
 
@@ -50,6 +51,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const modalRef = useRef<ModalRef>(null)
   const { trackEvent } = useAnalytics()
 
+  const [handleRemoveCollection] = useRemoveCollectionMutation()
   const [handleRemoveWidget] = useRemoveWidgetMutation()
 
   const closeModal = () => {
@@ -73,6 +75,23 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       variables: { _id: widgetState.widget._id },
       refetchQueries: [`getMySpace`],
     })
+
+    // Clear out widgetState
+
+    closeModal()
+  }
+
+  const handleDeleteCollection = () => {
+    trackEvent('Collection settings', 'Delete collection', widgetState.title)
+    handleRemoveCollection({
+      variables: {
+        _id: widgetState._id,
+      },
+      refetchQueries: [`getMySpace`],
+    })
+
+    // Clear out widgetState
+
     closeModal()
   }
 
@@ -82,8 +101,13 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const onDelete = () => {
-    if (modalId == 'removeSectionModal') {
-      handleRemoveSection()
+    switch (modalId) {
+      case 'removeSectionModal':
+        handleRemoveSection()
+        break
+      case 'removeCustomCollectionModal':
+        handleDeleteCollection()
+        break
     }
   }
 

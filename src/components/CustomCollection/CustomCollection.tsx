@@ -29,23 +29,24 @@ import type {
   Bookmark as BookmarkType,
   BookmarkRecord,
   BookmarkRecords,
+  WidgetType,
 } from 'types/index'
 import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
-import RemoveCustomCollectionModal from 'components/modals/RemoveCustomCollectionModal'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 import { useAnalytics } from 'stores/analyticsContext'
+import { useModalContext } from 'stores/modalContext'
 
 // TODO - refactor this component to use WidgetWithSettings
 
 type PropTypes = {
   _id: ObjectId
   title?: string
+  type?: WidgetType
   bookmarks?: BookmarkType[]
   bookmarkOptions?: BookmarkRecords
   handleRemoveBookmark: (_id: ObjectId, cmsId?: string) => void
   handleAddBookmark: (url: string, label?: string, cmsId?: string) => void
-  handleRemoveCollection: () => void
   handleEditCollection: (title: string, bookmarks?: BookmarkType[]) => void
   handleEditBookmark: (_id: ObjectId, url?: string, label?: string) => void
 }
@@ -55,21 +56,22 @@ const MAXIMUM_BOOKMARKS_PER_COLLECTION = 10
 const CustomCollection = ({
   _id,
   title = '',
+  type,
   bookmarks = [],
   bookmarkOptions = [],
   handleRemoveBookmark,
   handleAddBookmark,
-  handleRemoveCollection,
   handleEditCollection,
   handleEditBookmark,
 }: PropTypes) => {
   const addCustomLinkModal = useRef<ModalRef>(null)
-  const deleteCollectionModal = useRef<ModalRef>(null)
+  // const deleteCollectionModal = useRef<ModalRef>(null)
   const linkInput = useRef<ComboBoxRef>(null)
 
   const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
   const [isEditingTitle, setEditingTitle] = useState(false)
   const { trackEvent } = useAnalytics()
+  const { updateModalText, updateWidget, modalRef } = useModalContext()
 
   // Collection settings dropdown state
   const dropdownEl = useRef<HTMLDivElement>(null)
@@ -253,20 +255,22 @@ const CustomCollection = ({
   /** Delete collection */
   // Show confirmation before deleting a collection
   const handleConfirmDeleteCollection = () => {
-    deleteCollectionModal.current?.toggleModal(undefined, true)
+    // deleteCollectionModal.current?.toggleModal(undefined, true)
+    updateModalText({
+      headingText:
+        'Are you sure you’d like to delete this collection from My Space?',
+      descriptionText: 'This action cannot be undone.',
+    })
+
+    const widget = {
+      _id: _id,
+      title: title,
+      type: type,
+    }
+    updateWidget('removeCustomCollectionModal', widget)
+
+    modalRef?.current?.toggleModal(undefined, true)
     setIsDropdownOpen(false)
-  }
-
-  // After confirming delete, trigger the mutation and close the modal
-  const handleDeleteCollection = () => {
-    trackEvent('Collection settings', 'Delete collection', title)
-    handleRemoveCollection()
-    deleteCollectionModal.current?.toggleModal(undefined, false)
-  }
-
-  // Cancel deleting a collection
-  const handleCancelDeleteCollection = () => {
-    deleteCollectionModal.current?.toggleModal(undefined, false)
   }
 
   /** Edit collection */
@@ -372,11 +376,6 @@ const CustomCollection = ({
           </Button>
         </DropdownMenu>
       )}
-      <RemoveCustomCollectionModal
-        modalRef={deleteCollectionModal}
-        onCancel={handleCancelDeleteCollection}
-        onDelete={handleDeleteCollection}
-      />
     </>
   )
 
