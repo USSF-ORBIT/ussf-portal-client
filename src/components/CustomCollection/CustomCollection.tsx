@@ -47,6 +47,7 @@ type PropTypes = {
   bookmarkOptions?: BookmarkRecords
   handleRemoveBookmark: (_id: ObjectId, cmsId?: string) => void
   handleAddBookmark: (url: string, label?: string, cmsId?: string) => void
+  handleRemoveCollection: () => void
   handleEditCollection: (title: string, bookmarks?: BookmarkType[]) => void
   handleEditBookmark: (_id: ObjectId, url?: string, label?: string) => void
 }
@@ -61,6 +62,7 @@ const CustomCollection = ({
   bookmarkOptions = [],
   handleRemoveBookmark,
   handleAddBookmark,
+  handleRemoveCollection,
   handleEditCollection,
   handleEditBookmark,
 }: PropTypes) => {
