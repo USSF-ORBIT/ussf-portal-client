@@ -13,7 +13,6 @@ import { useGetMySpaceQuery } from 'operations/portal/queries/getMySpace.g'
 import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
 import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
 import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
-import { useRemoveWidgetMutation } from 'operations/portal/mutations/removeWidget.g'
 
 import {
   MySpaceWidget,
@@ -44,7 +43,6 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const mySpace = (data?.mySpace || []) as MySpaceWidget[]
 
   const [handleAddWidget] = useAddWidgetMutation()
-  const [handleRemoveWidget] = useRemoveWidgetMutation()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
   const [handleRemoveCollection] = useRemoveCollectionMutation()
@@ -109,16 +107,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                 key={`widget_${widget._id}`}
                 tabletLg={{ col: 6 }}
                 desktopLg={{ col: 4 }}>
-                {widget.type === 'News' && (
-                  <NewsWidget
-                    onRemove={() => {
-                      handleRemoveWidget({
-                        variables: { _id: widget._id },
-                        refetchQueries: [`getMySpace`],
-                      })
-                    }}
-                  />
-                )}
+                {widget.type === 'News' && <NewsWidget widget={widget} />}
 
                 {isCollection(widget) && (
                   <CustomCollection

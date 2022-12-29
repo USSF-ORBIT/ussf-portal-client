@@ -1,11 +1,16 @@
 import React, { createContext, useContext, useRef, useState } from 'react'
 import { ModalRef } from '@trussworks/react-uswds'
+import { useAnalytics } from 'stores/analyticsContext'
+import { useRemoveWidgetMutation } from 'operations/portal/mutations/removeWidget.g'
+import { Widget } from 'types/index'
 
 type ModalContextType = {
   modalId: string
   modalRef: React.RefObject<ModalRef> | null
   modalHeadingText: string
   closeModal: () => void
+  onDelete: () => void
+  updateWidget: (modalId: string, widget: Widget) => void
   updateModalText: ({
     headingText,
     descriptionText,
@@ -23,6 +28,12 @@ const ModalContext = createContext<ModalContextType>({
   closeModal: () => {
     return
   },
+  onDelete: () => {
+    return
+  },
+  updateWidget: () => {
+    return
+  },
   updateModalText: () => {
     return
   },
@@ -32,8 +43,14 @@ const ModalContext = createContext<ModalContextType>({
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [modalHeadingText, setModalHeadingText] = useState('')
   const [additionalText, setAdditionalText] = useState('')
+  const [modalId, setModalId] = useState('')
+  const [widgetState, setWidgetState] = useState()
+
   // const [bookmarkObj, setBookmarkObj] = useState({})
   const modalRef = useRef<ModalRef>(null)
+  const { trackEvent } = useAnalytics()
+
+  const [handleRemoveWidget] = useRemoveWidgetMutation()
 
   const closeModal = () => {
     modalRef.current?.toggleModal(undefined, false)
@@ -50,11 +67,33 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     setAdditionalText(descriptionText)
   }
 
+  const handleRemoveSection = () => {
+    trackEvent('Section settings', 'Remove this section', 'News')
+    handleRemoveWidget({
+      variables: { _id: widgetState.widget._id },
+      refetchQueries: [`getMySpace`],
+    })
+    closeModal()
+  }
+
+  const updateWidget = (modalId: string, widget: Widget) => {
+    setModalId(modalId)
+    setWidgetState(widget)
+  }
+
+  const onDelete = () => {
+    if (modalId == 'removeSectionModal') {
+      handleRemoveSection()
+    }
+  }
+
   const context = {
     modalId: '',
     modalRef,
     modalHeadingText,
     closeModal,
+    onDelete,
+    updateWidget,
     updateModalText,
     additionalText,
   }

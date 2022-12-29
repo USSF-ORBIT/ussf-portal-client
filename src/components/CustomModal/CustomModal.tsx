@@ -12,11 +12,11 @@ import { useModalContext } from 'stores/modalContext'
 
 const CustomModal = ({ ...props }) => {
   const {
-    modalId,
     modalRef,
     modalHeadingText,
     additionalText,
     closeModal,
+    onDelete,
     // bookmark,
     // customLinkLabel,
   } = useModalContext()
@@ -42,10 +42,7 @@ const CustomModal = ({ ...props }) => {
 
         <ModalFooter>
           <ButtonGroup>
-            <Button
-              type="submit"
-              data-close-modal
-              onClick={() => console.log('delete')}>
+            <Button type="submit" data-close-modal onClick={onDelete}>
               Delete
             </Button>
             <Button
