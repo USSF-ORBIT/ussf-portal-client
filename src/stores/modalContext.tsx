@@ -1,41 +1,62 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useRef, useState } from 'react'
+import { ModalRef } from '@trussworks/react-uswds'
 
 type ModalContextType = {
-  toggleDisplay: boolean
-  component: React.ReactNode | null
-  handleToggleDisplayModal: () => void
-  setComponent: (componentUpdate: React.ReactNode) => void
+  modalId: string
+  modalRef: React.RefObject<ModalRef> | null
+  modalHeadingText: string
+  closeModal: () => void
+  updateModalText: ({
+    headingText,
+    descriptionText,
+  }: {
+    headingText: string
+    descriptionText: string
+  }) => void
+  additionalText?: string
 }
 
 const ModalContext = createContext<ModalContextType>({
-  toggleDisplay: false,
-  component: null,
-  handleToggleDisplayModal: () => {
+  modalId: '',
+  modalRef: null,
+  modalHeadingText: '',
+  closeModal: () => {
     return
   },
-  setComponent: () => {
+  updateModalText: () => {
     return
   },
+  additionalText: '',
 })
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
-  const [toggleDisplay, setToggleDisplay] = useState(false)
+  const [modalHeadingText, setModalHeadingText] = useState('')
+  const [additionalText, setAdditionalText] = useState('')
+  // const [bookmarkObj, setBookmarkObj] = useState({})
+  const modalRef = useRef<ModalRef>(null)
 
-  const handleToggleDisplayModal = () => {
-    setToggleDisplay((prevDisplayState) => !prevDisplayState)
+  const closeModal = () => {
+    modalRef.current?.toggleModal(undefined, false)
   }
 
-  let component
-  const setComponent = (componentUpdate: React.ReactNode) => {
-    component = componentUpdate
-    return
+  const updateModalText = ({
+    headingText,
+    descriptionText = '',
+  }: {
+    headingText: string
+    descriptionText: string
+  }) => {
+    setModalHeadingText(headingText)
+    setAdditionalText(descriptionText)
   }
 
   const context = {
-    toggleDisplay,
-    component,
-    handleToggleDisplayModal,
-    setComponent,
+    modalId: '',
+    modalRef,
+    modalHeadingText,
+    closeModal,
+    updateModalText,
+    additionalText,
   }
 
   return (
