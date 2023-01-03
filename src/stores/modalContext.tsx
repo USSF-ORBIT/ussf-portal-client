@@ -16,7 +16,7 @@ type ModalContextType = {
   modalHeadingText: string
   closeModal: () => void
   onDelete: () => void
-  onSave?: () => void
+  onSave: (url: string, label: string) => void
   updateWidget: (widget: Widget) => void
   updateModalText: ({
     headingText,
@@ -49,6 +49,9 @@ const ModalContext = createContext<ModalContextType>({
     return
   },
   onDelete: () => {
+    return
+  },
+  onSave: () => {
     return
   },
   updateWidget: () => {
@@ -98,28 +101,6 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     setAdditionalText(descriptionText)
   }
 
-  const handleRemoveSection = () => {
-    trackEvent('Section settings', 'Remove this section', 'News')
-    handleRemoveWidget({
-      variables: { _id: widgetState?.widget._id },
-      refetchQueries: [`getMySpace`],
-    })
-
-    closeModal()
-  }
-
-  const handleDeleteCollection = () => {
-    trackEvent('Collection settings', 'Delete collection', widgetState?.title)
-    handleRemoveCollection({
-      variables: {
-        _id: widgetState?._id,
-      },
-      refetchQueries: [`getMySpace`],
-    })
-
-    closeModal()
-  }
-
   const handleSaveCustomLink = (url: string, label: string) => {
     trackEvent(
       'Add link',
@@ -159,6 +140,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const updateWidget = (widget: Widget) => {
+    console.log('context: ', widget)
     setWidgetState(widget)
   }
 
@@ -180,10 +162,26 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const onDelete = () => {
     switch (modalId) {
       case 'removeSectionModal':
-        handleRemoveSection()
+        trackEvent('Section settings', 'Remove this section', 'News')
+        handleRemoveWidget({
+          variables: { _id: widgetState?.widget._id },
+          refetchQueries: [`getMySpace`],
+        })
+        closeModal()
         break
       case 'removeCustomCollectionModal':
-        handleDeleteCollection()
+        trackEvent(
+          'Collection settings',
+          'Delete collection',
+          widgetState?.title
+        )
+        handleRemoveCollection({
+          variables: {
+            _id: widgetState?._id,
+          },
+          refetchQueries: [`getMySpace`],
+        })
+        closeModal()
         break
       case 'editCustomLinkModal':
         handleRemoveBookmark({

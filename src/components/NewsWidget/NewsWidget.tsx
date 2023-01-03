@@ -16,11 +16,7 @@ import { Widget } from 'types/index'
 // Load 2 items
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
 
-type NewsWidgetProps = {
-  widget: Widget
-}
-
-const NewsWidget = (widget: NewsWidgetProps) => {
+const NewsWidget = (widget: Widget) => {
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
   const { items, fetchItems } = useRSSFeed(RSS_URL)
