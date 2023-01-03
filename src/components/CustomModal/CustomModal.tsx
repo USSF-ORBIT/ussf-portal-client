@@ -40,9 +40,6 @@ const CustomModal = ({ ...props }) => {
         modalRoot="#modal-root">
         <ModalHeading id="MODAL-HEADING">{modalHeadingText}</ModalHeading>
 
-        {/* <a href="#">tab</a>
-        <a href="#">tab</a> */}
-
         {additionalText && (
           <div className="usa-prose">
             <p id={`MODAL-ID-description`}>{additionalText}</p>

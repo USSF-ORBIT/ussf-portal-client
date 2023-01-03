@@ -8,7 +8,6 @@ import styles from './MySpace.module.scss'
 import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
 import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
 import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget.g'
-// import { useEditBookmarkMutation } from 'operations/portal/mutations/editBookmark.g'
 import { useGetMySpaceQuery } from 'operations/portal/queries/getMySpace.g'
 import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
 import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
@@ -48,7 +47,6 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const [handleRemoveCollection] = useRemoveCollectionMutation()
   const [handleEditCollection] = useEditCollectionMutation()
   const [handleAddCollection] = useAddCollectionMutation()
-  // const [handleEditBookmark] = useEditBookmarkMutation()
 
   if (error) return <p>Error</p>
 
@@ -186,17 +184,6 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                         refetchQueries: [`getMySpace`],
                       })
                     }}
-                    // handleEditBookmark={(id, url, label) => {
-                    //   handleEditBookmark({
-                    //     variables: {
-                    //       _id: id,
-                    //       collectionId: widget._id,
-                    //       url,
-                    //       label,
-                    //     },
-                    //     refetchQueries: [`getMySpace`],
-                    //   })
-                    // }}
                   />
                 )}
               </Grid>

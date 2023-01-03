@@ -47,7 +47,6 @@ type PropTypes = {
   handleAddBookmark: (url: string, label?: string, cmsId?: string) => void
   handleRemoveCollection: () => void
   handleEditCollection: (title: string, bookmarks?: BookmarkType[]) => void
-  handleEditBookmark: (_id: ObjectId, url?: string, label?: string) => void
 }
 
 const MAXIMUM_BOOKMARKS_PER_COLLECTION = 10
