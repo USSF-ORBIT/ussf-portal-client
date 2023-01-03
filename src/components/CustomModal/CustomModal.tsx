@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {
   Modal,
   ModalHeading,
@@ -8,6 +8,7 @@ import {
 } from '@trussworks/react-uswds'
 import styles from '../modals/modal.module.scss'
 import ModalPortal from 'components/util/ModalPortal'
+import { CustomBookmarkForm } from 'components/CustomCollection/CustomBookmark/CustomBookmarkForm'
 import { useModalContext } from 'stores/modalContext'
 
 const CustomModal = ({ ...props }) => {
@@ -16,10 +17,15 @@ const CustomModal = ({ ...props }) => {
     modalHeadingText,
     additionalText,
     closeModal,
+    onSave,
     onDelete,
-    // bookmark,
-    // customLinkLabel,
+    bookmark,
+    customLinkLabel,
+    showAddWarning,
   } = useModalContext()
+
+  const nameInputRef = useRef<HTMLInputElement>(null)
+  const urlInputRef = useRef<HTMLInputElement>(null)
 
   return (
     <ModalPortal>
@@ -34,39 +40,42 @@ const CustomModal = ({ ...props }) => {
         modalRoot="#modal-root">
         <ModalHeading id="MODAL-HEADING">{modalHeadingText}</ModalHeading>
 
+        {/* <a href="#">tab</a>
+        <a href="#">tab</a> */}
+
         {additionalText && (
           <div className="usa-prose">
             <p id={`MODAL-ID-description`}>{additionalText}</p>
           </div>
         )}
 
-        <ModalFooter>
-          <ButtonGroup>
-            <Button type="submit" data-close-modal onClick={onDelete}>
-              Delete
-            </Button>
-            <Button
-              type="button"
-              data-close-modal
-              unstyled
-              className="padding-105 text-center"
-              onClick={closeModal}>
-              Cancel
-            </Button>
-          </ButtonGroup>
-        </ModalFooter>
-
-        {/* {bookmark ||
-          customLinkLabel && (
-            <CustomBookmarkForm
-              onSave={onSave}
-              onCancel={onCancel}
-              label={customLinkLabel}
-              showAddWarning={showAddWarning}
-              nameInputRef={nameInputRef}
-              urlInputRef={urlInputRef}
-            />
-          )} */}
+        {bookmark || customLinkLabel ? (
+          <CustomBookmarkForm
+            onSave={onSave}
+            onCancel={closeModal}
+            onDelete={bookmark ? onDelete : null}
+            label={bookmark ? bookmark.label : customLinkLabel}
+            showAddWarning={showAddWarning}
+            nameInputRef={nameInputRef}
+            urlInputRef={urlInputRef}
+          />
+        ) : (
+          <ModalFooter>
+            <ButtonGroup>
+              <Button type="submit" data-close-modal onClick={onDelete}>
+                Delete
+              </Button>
+              <Button
+                type="button"
+                data-close-modal
+                unstyled
+                className="padding-105 text-center"
+                onClick={closeModal}>
+                Cancel
+              </Button>
+            </ButtonGroup>
+          </ModalFooter>
+        )}
       </Modal>
     </ModalPortal>
   )

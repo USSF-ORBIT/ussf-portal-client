@@ -21,7 +21,8 @@ type NewsWidgetProps = {
 }
 
 const NewsWidget = (widget: NewsWidgetProps) => {
-  const { updateModalText, modalRef, updateWidget } = useModalContext()
+  const { updateModalId, updateModalText, modalRef, updateWidget } =
+    useModalContext()
   const { items, fetchItems } = useRSSFeed(RSS_URL)
 
   useEffect(() => {
@@ -31,12 +32,13 @@ const NewsWidget = (widget: NewsWidgetProps) => {
   /** Remove section */
   // Show confirmation modal
   const handleConfirmRemoveSection = () => {
+    updateModalId('removeSectionModal')
     updateModalText({
       headingText: 'Are you sure you’d like to delete this section?',
       descriptionText:
         'You can re-add it to your My Space from the Add Section menu.',
     })
-    updateWidget('removeSectionModal', widget)
+    updateWidget(widget)
 
     modalRef?.current?.toggleModal(undefined, true)
   }

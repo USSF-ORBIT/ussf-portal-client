@@ -4,7 +4,6 @@ import type { ObjectId } from 'bson'
 import {
   Button,
   Label,
-  ModalRef,
   Icon,
   ComboBox,
   ComboBoxOption,
@@ -66,14 +65,21 @@ const CustomCollection = ({
   handleEditCollection,
   handleEditBookmark,
 }: PropTypes) => {
-  const addCustomLinkModal = useRef<ModalRef>(null)
+  // const addCustomLinkModal = useRef<ModalRef>(null)
   // const deleteCollectionModal = useRef<ModalRef>(null)
   const linkInput = useRef<ComboBoxRef>(null)
 
   const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
   const [isEditingTitle, setEditingTitle] = useState(false)
   const { trackEvent } = useAnalytics()
-  const { updateModalText, updateWidget, modalRef } = useModalContext()
+  const {
+    updateModalId,
+    updateModalText,
+    updateWidget,
+    updateCustomLinkLabel,
+    // handleOnSave,
+    modalRef,
+  } = useModalContext()
 
   // Collection settings dropdown state
   const dropdownEl = useRef<HTMLDivElement>(null)
@@ -109,23 +115,38 @@ const CustomCollection = ({
 
   // Open Add Custom Link modal
   const openCustomLinkModal = () => {
-    addCustomLinkModal.current?.toggleModal(undefined, true)
+    updateModalId('addCustomLinkModal')
+    updateModalText({
+      headingText: 'Add a custom link',
+    })
+
+    const widget = {
+      _id: _id,
+      title: title,
+      type: type,
+    }
+    updateWidget(widget)
+
+    updateCustomLinkLabel(customLabel, showAddWarning, isAddingLink)
+
+    modalRef?.current?.toggleModal(undefined, true)
   }
 
   // Cancel out of Add Custom Link modal
-  const handleCancel = () => {
-    setIsAddingLink(false)
-    addCustomLinkModal.current?.toggleModal(undefined, false)
-  }
+  // const handleCancel = () => {
+  //   setIsAddingLink(false)
+  //   addCustomLinkModal.current?.toggleModal(undefined, false)
+  // }
 
   // Save a custom link from the modal
-  const handleSaveCustomLink = (url: string, label: string) => {
-    trackEvent('Add link', 'Save custom link', `${title} / ${label} / ${url}`)
-    handleAddBookmark(url, label)
-    setIsAddingLink(false)
+  // const handleSaveCustomLink = (url: string, label: string) => {
+  //   trackEvent('Add link', 'Save custom link', `${title} / ${label} / ${url}`)
+  //   handleAddBookmark(url, label)
+  //   // Copy this state into modalContext? Update both the local state here and what is in context?
+  //   setIsAddingLink(false)
 
-    addCustomLinkModal.current?.toggleModal(undefined, false)
-  }
+  //   modalRef?.current?.toggleModal(undefined, false)
+  // }
 
   // Save an existing link from the ComboBox
   const handleSelectChange = (value: string | undefined) => {
@@ -258,6 +279,8 @@ const CustomCollection = ({
   // Show confirmation before deleting a collection
   const handleConfirmDeleteCollection = () => {
     // deleteCollectionModal.current?.toggleModal(undefined, true)
+    updateModalId('removeCustomCollectionModal')
+
     updateModalText({
       headingText:
         'Are you sure you’d like to delete this collection from My Space?',
@@ -269,7 +292,7 @@ const CustomCollection = ({
       title: title,
       type: type,
     }
-    updateWidget('removeCustomCollectionModal', widget)
+    updateWidget(widget)
 
     modalRef?.current?.toggleModal(undefined, true)
     setIsDropdownOpen(false)
@@ -482,13 +505,13 @@ const CustomCollection = ({
           </div>
         )}
       </Droppable>
-      <AddCustomLinkModal
+      {/* <AddCustomLinkModal
         modalRef={addCustomLinkModal}
         onCancel={handleCancel}
         onSave={handleSaveCustomLink}
         showAddWarning={showAddWarning}
         customLinkLabel={customLabel}
-      />
+      /> */}
     </DragDropContext>
   )
 }
