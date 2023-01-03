@@ -55,6 +55,7 @@ const CustomModal = ({ ...props }) => {
             onCancel={closeModal}
             onDelete={bookmark ? onDelete : null}
             label={bookmark ? bookmark.label : customLinkLabel}
+            url={bookmark?.url}
             showAddWarning={showAddWarning}
             nameInputRef={nameInputRef}
             urlInputRef={urlInputRef}

@@ -30,7 +30,6 @@ import type {
   BookmarkRecords,
   WidgetType,
 } from 'types/index'
-import AddCustomLinkModal from 'components/modals/AddCustomLinkModal'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 import { useAnalytics } from 'stores/analyticsContext'
@@ -63,10 +62,7 @@ const CustomCollection = ({
   handleAddBookmark,
   handleRemoveCollection,
   handleEditCollection,
-  handleEditBookmark,
 }: PropTypes) => {
-  // const addCustomLinkModal = useRef<ModalRef>(null)
-  // const deleteCollectionModal = useRef<ModalRef>(null)
   const linkInput = useRef<ComboBoxRef>(null)
 
   const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
@@ -131,22 +127,6 @@ const CustomCollection = ({
 
     modalRef?.current?.toggleModal(undefined, true)
   }
-
-  // Cancel out of Add Custom Link modal
-  // const handleCancel = () => {
-  //   setIsAddingLink(false)
-  //   addCustomLinkModal.current?.toggleModal(undefined, false)
-  // }
-
-  // Save a custom link from the modal
-  // const handleSaveCustomLink = (url: string, label: string) => {
-  //   trackEvent('Add link', 'Save custom link', `${title} / ${label} / ${url}`)
-  //   handleAddBookmark(url, label)
-  //   // Copy this state into modalContext? Update both the local state here and what is in context?
-  //   setIsAddingLink(false)
-
-  //   modalRef?.current?.toggleModal(undefined, false)
-  // }
 
   // Save an existing link from the ComboBox
   const handleSelectChange = (value: string | undefined) => {
@@ -278,7 +258,6 @@ const CustomCollection = ({
   /** Delete collection */
   // Show confirmation before deleting a collection
   const handleConfirmDeleteCollection = () => {
-    // deleteCollectionModal.current?.toggleModal(undefined, true)
     updateModalId('removeCustomCollectionModal')
 
     updateModalText({
@@ -486,12 +465,7 @@ const CustomCollection = ({
                             <CustomBookmark
                               key={`bookmark_${bookmark._id}`}
                               bookmark={bookmark}
-                              onSave={(label, url) => {
-                                handleEditBookmark(bookmark._id, url, label)
-                              }}
-                              onDelete={() =>
-                                handleRemoveBookmark(bookmark._id)
-                              }
+                              widgetId={_id}
                             />
                           </div>
                         </div>
@@ -505,13 +479,6 @@ const CustomCollection = ({
           </div>
         )}
       </Droppable>
-      {/* <AddCustomLinkModal
-        modalRef={addCustomLinkModal}
-        onCancel={handleCancel}
-        onSave={handleSaveCustomLink}
-        showAddWarning={showAddWarning}
-        customLinkLabel={customLabel}
-      /> */}
     </DragDropContext>
   )
 }

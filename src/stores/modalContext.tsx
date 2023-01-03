@@ -4,6 +4,8 @@ import { useAnalytics } from 'stores/analyticsContext'
 import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
 import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
 import { useRemoveWidgetMutation } from 'operations/portal/mutations/removeWidget.g'
+import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
+import { useEditBookmarkMutation } from 'operations/portal/mutations/editBookmark.g'
 import { Widget, Bookmark as BookmarkType } from 'types/index'
 
 // Try to clean this up
@@ -25,6 +27,7 @@ type ModalContextType = {
   }) => void
   additionalText?: string
   bookmark?: BookmarkType
+  updateBookmark?: (bookmark: BookmarkType) => void
   customLinkLabel?: string
   updateCustomLinkLabel?: (
     customLinkLabel: string,
@@ -63,18 +66,24 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [modalId, setModalId] = useState('')
   const [customLinkLabel, setCustomLinkLabel] = useState('')
   const [showAddWarning, setShowAddWarning] = useState(false)
-  const [widgetState, setWidgetState] = useState()
+  const [widgetState, setWidgetState] = useState<Widget | null>()
+  const [bookmark, setBookmark] = useState<BookmarkType | null>()
   const [isAddingLink, setIsAddingLink] = useState(false)
 
-  // const [bookmarkObj, setBookmarkObj] = useState({})
   const modalRef = useRef<ModalRef>(null)
   const { trackEvent } = useAnalytics()
 
   const [handleAddBookmark] = useAddBookmarkMutation()
   const [handleRemoveCollection] = useRemoveCollectionMutation()
   const [handleRemoveWidget] = useRemoveWidgetMutation()
+  const [handleRemoveBookmark] = useRemoveBookmarkMutation()
+  const [handleEditBookmark] = useEditBookmarkMutation()
 
   const closeModal = () => {
+    setWidgetState(null)
+    setBookmark(null)
+    setCustomLinkLabel('')
+    setModalId('')
     modalRef.current?.toggleModal(undefined, false)
   }
 
@@ -92,25 +101,21 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const handleRemoveSection = () => {
     trackEvent('Section settings', 'Remove this section', 'News')
     handleRemoveWidget({
-      variables: { _id: widgetState.widget._id },
+      variables: { _id: widgetState?.widget._id },
       refetchQueries: [`getMySpace`],
     })
-
-    // Clear out widgetState
 
     closeModal()
   }
 
   const handleDeleteCollection = () => {
-    trackEvent('Collection settings', 'Delete collection', widgetState.title)
+    trackEvent('Collection settings', 'Delete collection', widgetState?.title)
     handleRemoveCollection({
       variables: {
-        _id: widgetState._id,
+        _id: widgetState?._id,
       },
       refetchQueries: [`getMySpace`],
     })
-
-    // Clear out widgetState
 
     closeModal()
   }
@@ -119,12 +124,11 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     trackEvent(
       'Add link',
       'Save custom link',
-      `${widgetState.title} / ${label} / ${url}`
+      `${widgetState?.title} / ${label} / ${url}`
     )
-    console.log('Saving...')
     handleAddBookmark({
       variables: {
-        collectionId: widgetState._id,
+        collectionId: widgetState?._id,
         url,
         label,
       },
@@ -137,12 +141,29 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     closeModal()
   }
 
+  const handleEditCustomLink = (url: string, label: string) => {
+    handleEditBookmark({
+      variables: {
+        _id: bookmark?._id,
+        collectionId: widgetState?._id,
+        url,
+        label,
+      },
+      refetchQueries: [`getMySpace`],
+    })
+    closeModal()
+  }
+
   const updateModalId = (modalId: string) => {
     setModalId(modalId)
   }
 
   const updateWidget = (widget: Widget) => {
     setWidgetState(widget)
+  }
+
+  const updateBookmark = (bookmark: BookmarkType) => {
+    setBookmark(bookmark)
   }
 
   const updateCustomLinkLabel = (
@@ -164,19 +185,20 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       case 'removeCustomCollectionModal':
         handleDeleteCollection()
         break
+      case 'editCustomLinkModal':
+        handleRemoveBookmark({
+          variables: {
+            _id: bookmark?._id,
+            collectionId: widgetState?._id,
+          },
+          refetchQueries: [`getMySpace`],
+        })
+        closeModal()
+        break
       default:
         return null
     }
   }
-
-  // const onSave = () => {
-  //   switch (modalId) {
-  //     case 'addCustomLinkModal':
-  //       return handleSaveCustomLink
-  //     default:
-  //       return null
-  //   }
-  // }
 
   const context = {
     modalId: '',
@@ -192,7 +214,12 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     updateCustomLinkLabel,
     showAddWarning,
     isAddingLink,
-    onSave: handleSaveCustomLink, // this works but returning from the switch doesn't???
+    onSave:
+      modalId === 'addCustomLinkModal'
+        ? handleSaveCustomLink
+        : handleEditCustomLink,
+    bookmark,
+    updateBookmark,
   }
 
   return (
