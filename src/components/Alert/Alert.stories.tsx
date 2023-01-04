@@ -3,7 +3,7 @@ import { Meta } from '@storybook/react'
 import { Alert } from '@trussworks/react-uswds'
 
 export default {
-  title: 'Components/Alert',
+  title: 'Base/Alert',
   component: Alert,
   decorators: [
     (Story) => (

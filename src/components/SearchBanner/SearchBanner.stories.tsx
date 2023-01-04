@@ -3,7 +3,7 @@ import { Meta } from '@storybook/react'
 import { SearchBanner } from './SearchBanner'
 
 export default {
-  title: 'Components/SearchBanner',
+  title: 'Base/SearchBanner',
   component: SearchBanner,
   decorators: [
     (Story) => (

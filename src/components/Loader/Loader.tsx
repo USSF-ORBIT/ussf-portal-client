@@ -8,19 +8,10 @@ const Loader = () => (
 
     <div className={styles.container}>
       <div className={styles.planet}>
-        <div className={styles.circle}></div>
-        <div className={styles.circle}></div>
-        <div className={styles.circle}></div>
-        <div className={styles.circle}></div>
-        <div className={styles.circle}></div>
-        <div className={styles.circle}></div>
-        <div className={styles.circle}></div>
+        <img src="/assets/images/earth.svg" alt=" " />
       </div>
-      <div className={styles.rocket}>
-        <div className={styles.flame}></div>
-        <div className={styles.flame}></div>
-        <div className={styles.flame}></div>
-        <div className={styles.flame}></div>
+      <div className={styles.sate}>
+        <div></div>
       </div>
     </div>
   </div>
