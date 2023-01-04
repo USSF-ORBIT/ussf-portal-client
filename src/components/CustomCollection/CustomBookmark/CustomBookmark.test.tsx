@@ -17,6 +17,8 @@ const testBookmark = {
   label: 'Webmail',
 }
 
+const testWidgetId = ObjectId()
+
 const testHandlers = {
   onSave: jest.fn(),
   onDelete: jest.fn(),
@@ -29,7 +31,11 @@ describe('CustomBookmark component', () => {
 
   it('renders a bookmark with an edit handler', async () => {
     renderWithModalRoot(
-      <CustomBookmark bookmark={testBookmark} {...testHandlers} />
+      <CustomBookmark
+        bookmark={testBookmark}
+        widgetId={testWidgetId}
+        {...testHandlers}
+      />
     )
     await screen.findByText(testBookmark.label)
 
@@ -45,7 +51,13 @@ describe('CustomBookmark component', () => {
       url: 'https://example.com',
     }
 
-    render(<CustomBookmark bookmark={testBookmarkNoLabel} {...testHandlers} />)
+    render(
+      <CustomBookmark
+        bookmark={testBookmarkNoLabel}
+        widgetId={testWidgetId}
+        {...testHandlers}
+      />
+    )
     await screen.findByText(testBookmarkNoLabel.url)
 
     expect(screen.getByRole('link')).toHaveTextContent(testBookmarkNoLabel.url)
@@ -55,7 +67,11 @@ describe('CustomBookmark component', () => {
     const user = userEvent.setup()
 
     renderWithModalRoot(
-      <CustomBookmark bookmark={testBookmark} {...testHandlers} />
+      <CustomBookmark
+        bookmark={testBookmark}
+        widgetId={testWidgetId}
+        {...testHandlers}
+      />
     )
 
     const editButton = await screen.findByRole('button', {
@@ -76,7 +92,11 @@ describe('CustomBookmark component', () => {
     const user = userEvent.setup()
 
     renderWithModalRoot(
-      <CustomBookmark bookmark={testBookmark} {...testHandlers} />
+      <CustomBookmark
+        bookmark={testBookmark}
+        widgetId={testWidgetId}
+        {...testHandlers}
+      />
     )
 
     const editButton = await screen.findByRole('button', {
@@ -97,7 +117,11 @@ describe('CustomBookmark component', () => {
     const user = userEvent.setup()
 
     renderWithModalRoot(
-      <CustomBookmark bookmark={testBookmark} {...testHandlers} />
+      <CustomBookmark
+        bookmark={testBookmark}
+        widgetId={testWidgetId}
+        {...testHandlers}
+      />
     )
 
     const editButton = await screen.findByRole('button', {

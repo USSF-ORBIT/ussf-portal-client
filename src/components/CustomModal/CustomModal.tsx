@@ -50,7 +50,7 @@ const CustomModal = ({ ...props }) => {
           <CustomBookmarkForm
             onSave={onSave}
             onCancel={closeModal}
-            onDelete={bookmark ? onDelete : null}
+            onDelete={onDelete}
             label={bookmark ? bookmark.label : customLinkLabel}
             url={bookmark?.url}
             showAddWarning={showAddWarning}

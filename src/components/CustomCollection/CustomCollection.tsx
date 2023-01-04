@@ -54,7 +54,6 @@ const MAXIMUM_BOOKMARKS_PER_COLLECTION = 10
 const CustomCollection = ({
   _id,
   title = '',
-  type,
   bookmarks = [],
   bookmarkOptions = [],
   handleRemoveBookmark,
@@ -115,12 +114,7 @@ const CustomCollection = ({
       headingText: 'Add a custom link',
     })
 
-    const widget = {
-      _id: _id,
-      title: title,
-      type: type,
-    }
-    updateWidget(widget)
+    updateWidget({ _id: _id, title: title, type: 'Collection' })
 
     updateCustomLinkLabel(customLabel, showAddWarning, isAddingLink)
 
@@ -265,12 +259,7 @@ const CustomCollection = ({
       descriptionText: 'This action cannot be undone.',
     })
 
-    const widget = {
-      _id: _id,
-      title: title,
-      type: type,
-    }
-    updateWidget(widget)
+    updateWidget({ _id: _id, title: title, type: 'Collection' })
 
     modalRef?.current?.toggleModal(undefined, true)
     setIsDropdownOpen(false)
@@ -465,6 +454,7 @@ const CustomCollection = ({
                               key={`bookmark_${bookmark._id}`}
                               bookmark={bookmark}
                               widgetId={_id}
+                              collectionTitle={title}
                             />
                           </div>
                         </div>

@@ -26,10 +26,10 @@ type ModalContextType = {
     descriptionText?: string
   }) => void
   additionalText?: string
-  bookmark?: BookmarkType
-  updateBookmark?: (bookmark: BookmarkType) => void
+  bookmark?: BookmarkType | null
+  updateBookmark: (bookmark: BookmarkType) => void
   customLinkLabel?: string
-  updateCustomLinkLabel?: (
+  updateCustomLinkLabel: (
     customLinkLabel: string,
     showAddWarning: boolean,
     isAddingLink: boolean
@@ -55,6 +55,12 @@ const ModalContext = createContext<ModalContextType>({
     return
   },
   updateWidget: () => {
+    return
+  },
+  updateBookmark: () => {
+    return
+  },
+  updateCustomLinkLabel: () => {
     return
   },
   updateModalText: () => {
@@ -140,7 +146,6 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const updateWidget = (widget: Widget) => {
-    console.log('context: ', widget)
     setWidgetState(widget)
   }
 
@@ -164,7 +169,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       case 'removeSectionModal':
         trackEvent('Section settings', 'Remove this section', 'News')
         handleRemoveWidget({
-          variables: { _id: widgetState?.widget._id },
+          variables: { _id: widgetState?._id },
           refetchQueries: [`getMySpace`],
         })
         closeModal()

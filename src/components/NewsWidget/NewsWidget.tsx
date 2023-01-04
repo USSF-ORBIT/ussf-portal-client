@@ -16,7 +16,11 @@ import { Widget } from 'types/index'
 // Load 2 items
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
 
-const NewsWidget = (widget: Widget) => {
+type NewsWidgetProps = {
+  widget: Widget
+}
+
+const NewsWidget = (widget: NewsWidgetProps) => {
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
   const { items, fetchItems } = useRSSFeed(RSS_URL)
@@ -34,7 +38,14 @@ const NewsWidget = (widget: Widget) => {
       descriptionText:
         'You can re-add it to your My Space from the Add Section menu.',
     })
-    updateWidget(widget)
+
+    const widgetState: Widget = {
+      _id: widget.widget._id,
+      title: widget.widget.title,
+      type: 'News',
+    }
+
+    updateWidget(widgetState)
 
     modalRef?.current?.toggleModal(undefined, true)
   }

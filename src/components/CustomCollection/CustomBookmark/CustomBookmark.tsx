@@ -10,9 +10,11 @@ import { useModalContext } from 'stores/modalContext'
 export const CustomBookmark = ({
   bookmark,
   widgetId,
+  collectionTitle,
 }: {
   bookmark: BookmarkType
   widgetId: ObjectId
+  collectionTitle: string
 }) => {
   const { url, label } = bookmark
   const {
@@ -29,7 +31,9 @@ export const CustomBookmark = ({
       headingText: 'Edit custom link',
     })
 
-    updateWidget({ _id: widgetId })
+    // The collectionTitle isn't needed here, but adding it in to maintain the Widget type
+    // while performing operations against the bookmark
+    updateWidget({ _id: widgetId, title: collectionTitle, type: 'Collection' })
     updateBookmark(bookmark)
 
     modalRef?.current?.toggleModal(undefined, true)
