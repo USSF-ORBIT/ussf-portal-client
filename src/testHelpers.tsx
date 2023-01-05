@@ -4,21 +4,34 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 
 import { testUser1 } from './__fixtures__/authUsers'
 import { AuthContext, AuthContextType } from 'stores/authContext'
+import { ModalProvider } from 'stores/modalContext'
 
 export const renderWithModalRoot = (
-  ui: React.ReactElement,
-  options: RenderOptions = {}
+  component: React.ReactElement,
+  options: RenderOptions = {},
+  mocks: readonly MockedResponse<Record<string, unknown>>[] = []
 ) => {
   const modalContainer = document.createElement('div')
   modalContainer.setAttribute('id', 'modal-root')
 
-  return render(ui, {
+  const wrapper = ({ children }: { children: React.ReactNode }) => {
+    return (
+      <MockedProvider
+        mocks={mocks}
+        addTypename={false}
+        defaultOptions={{
+          watchQuery: { fetchPolicy: 'no-cache' },
+          query: { fetchPolicy: 'no-cache' },
+        }}>
+        <ModalProvider>{children}</ModalProvider>
+      </MockedProvider>
+    )
+  }
+
+  return render(component, {
     ...options,
     container: document.body.appendChild(modalContainer),
-    // modal seems to trigger the legacy mode for React
-    // there is a warning that the test isn't setup to use act when this is removed
-    // so eventually we need to update it.
-    legacyRoot: true,
+    wrapper,
   })
 }
 

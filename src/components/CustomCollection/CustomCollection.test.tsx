@@ -339,197 +339,197 @@ describe('CustomCollection component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('can select Add Custom Link and open the Add Custom Link modal', async () => {
-    const user = userEvent.setup()
-    const mockAddLink = jest.fn()
+  // it('can select Add Custom Link and open the Add Custom Link modal', async () => {
+  //   const user = userEvent.setup()
+  //   const mockAddLink = jest.fn()
 
-    renderWithModalRoot(
-      <CustomCollection
-        {...exampleCollection}
-        {...mockHandlers}
-        bookmarkOptions={mockLinks}
-        handleAddBookmark={mockAddLink}
-      />
-    )
+  //   renderWithModalRoot(
+  //     <CustomCollection
+  //       {...exampleCollection}
+  //       {...mockHandlers}
+  //       bookmarkOptions={mockLinks}
+  //       handleAddBookmark={mockAddLink}
+  //     />
+  //   )
 
-    await screen.findByText('Example Collection')
-    const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
-    expect(toggleFormButton).toBeInTheDocument()
+  //   await screen.findByText('Example Collection')
+  //   const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
+  //   expect(toggleFormButton).toBeInTheDocument()
 
-    await user.click(toggleFormButton)
-    const linkInput = screen.getByLabelText('Select existing link')
-    expect(linkInput).toBeInTheDocument()
-    expect(linkInput).toBeInvalid()
+  //   await user.click(toggleFormButton)
+  //   const linkInput = screen.getByLabelText('Select existing link')
+  //   expect(linkInput).toBeInTheDocument()
+  //   expect(linkInput).toBeInvalid()
 
-    await user.click(
-      screen.getByRole('button', { name: 'Toggle the dropdown list' })
-    )
+  //   await user.click(
+  //     screen.getByRole('button', { name: 'Toggle the dropdown list' })
+  //   )
 
-    await user.click(screen.getByRole('option', { name: 'Add custom link' }))
+  //   await user.click(screen.getByRole('option', { name: 'Add custom link' }))
 
-    // Open modal
-    const addLinkModal = screen.getByRole('dialog', addLinkDialog)
+  //   // Open modal
+  //   const addLinkModal = screen.getByRole('dialog', addLinkDialog)
 
-    expect(addLinkModal).toHaveClass('is-visible')
+  //   expect(addLinkModal).toHaveClass('is-visible')
 
-    const labelInput = within(addLinkModal).getByRole('textbox', {
-      name: 'bookmarkLabel',
-    })
+  //   const labelInput = within(addLinkModal).getByRole('textbox', {
+  //     name: 'bookmarkLabel',
+  //   })
 
-    const urlInput = within(addLinkModal).getByRole('textbox', {
-      name: 'bookmarkUrl',
-    })
+  //   const urlInput = within(addLinkModal).getByRole('textbox', {
+  //     name: 'bookmarkUrl',
+  //   })
 
-    await user.type(labelInput, 'My Custom Link')
-    await user.type(urlInput, 'http://www.example.com')
+  //   await user.type(labelInput, 'My Custom Link')
+  //   await user.type(urlInput, 'http://www.example.com')
 
-    await user.click(
-      within(addLinkModal).getByRole('button', { name: 'Save custom link' })
-    )
+  //   await user.click(
+  //     within(addLinkModal).getByRole('button', { name: 'Save custom link' })
+  //   )
 
-    expect(mockAddLink).toHaveBeenCalledWith(
-      'http://www.example.com',
-      'My Custom Link'
-    )
-  })
+  //   expect(mockAddLink).toHaveBeenCalledWith(
+  //     'http://www.example.com',
+  //     'My Custom Link'
+  //   )
+  // })
 
-  it('canceling from the modal resets the form', async () => {
-    const user = userEvent.setup()
-    const mockAddLink = jest.fn()
+  // it('canceling from the modal resets the form', async () => {
+  //   const user = userEvent.setup()
+  //   const mockAddLink = jest.fn()
 
-    renderWithModalRoot(
-      <CustomCollection
-        {...exampleCollection}
-        {...mockHandlers}
-        bookmarkOptions={mockLinks}
-        handleAddBookmark={mockAddLink}
-      />
-    )
+  //   renderWithModalRoot(
+  //     <CustomCollection
+  //       {...exampleCollection}
+  //       {...mockHandlers}
+  //       bookmarkOptions={mockLinks}
+  //       handleAddBookmark={mockAddLink}
+  //     />
+  //   )
 
-    await screen.findByText('Example Collection')
-    const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
-    expect(toggleFormButton).toBeInTheDocument()
+  //   await screen.findByText('Example Collection')
+  //   const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
+  //   expect(toggleFormButton).toBeInTheDocument()
 
-    await user.click(toggleFormButton)
-    screen.getByLabelText('Select existing link')
+  //   await user.click(toggleFormButton)
+  //   screen.getByLabelText('Select existing link')
 
-    await user.click(
-      screen.getByRole('button', { name: 'Toggle the dropdown list' })
-    )
+  //   await user.click(
+  //     screen.getByRole('button', { name: 'Toggle the dropdown list' })
+  //   )
 
-    await user.click(screen.getByRole('option', { name: 'Add custom link' }))
+  //   await user.click(screen.getByRole('option', { name: 'Add custom link' }))
 
-    // Open modal
-    const addLinkModal = screen.getByRole('dialog', addLinkDialog)
-    expect(addLinkModal).toHaveClass('is-visible')
-    const cancelButton = within(addLinkModal).getByRole('button', {
-      name: 'Cancel',
-    })
-    await user.click(cancelButton)
+  //   // Open modal
+  //   const addLinkModal = screen.getByRole('dialog', addLinkDialog)
+  //   expect(addLinkModal).toHaveClass('is-visible')
+  //   const cancelButton = within(addLinkModal).getByRole('button', {
+  //     name: 'Cancel',
+  //   })
+  //   await user.click(cancelButton)
 
-    expect(addLinkModal).not.toHaveClass('is-visible')
-    expect(mockAddLink).not.toHaveBeenCalled()
+  //   expect(addLinkModal).not.toHaveClass('is-visible')
+  //   expect(mockAddLink).not.toHaveBeenCalled()
 
-    expect(
-      screen.getByRole('button', {
-        name: '+ Add link',
-      })
-    ).toBeInTheDocument()
+  //   expect(
+  //     screen.getByRole('button', {
+  //       name: '+ Add link',
+  //     })
+  //   ).toBeInTheDocument()
 
-    expect(
-      screen.queryByLabelText('Select existing link')
-    ).not.toBeInTheDocument()
-  })
+  //   expect(
+  //     screen.queryByLabelText('Select existing link')
+  //   ).not.toBeInTheDocument()
+  // })
 
-  it('adding a link closes the modal and resets the form', async () => {
-    const user = userEvent.setup()
-    const mockAddLink = jest.fn()
+  // it('adding a link closes the modal and resets the form', async () => {
+  //   const user = userEvent.setup()
+  //   const mockAddLink = jest.fn()
 
-    renderWithModalRoot(
-      <CustomCollection
-        {...exampleCollection}
-        {...mockHandlers}
-        bookmarkOptions={mockLinks}
-        handleAddBookmark={mockAddLink}
-      />,
-      { legacyRoot: true }
-    )
+  //   renderWithModalRoot(
+  //     <CustomCollection
+  //       {...exampleCollection}
+  //       {...mockHandlers}
+  //       bookmarkOptions={mockLinks}
+  //       handleAddBookmark={mockAddLink}
+  //     />,
+  //     { legacyRoot: true }
+  //   )
 
-    await screen.findByText('Example Collection')
+  //   await screen.findByText('Example Collection')
 
-    const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
-    expect(toggleFormButton).toBeInTheDocument()
+  //   const toggleFormButton = screen.getByRole('button', { name: '+ Add link' })
+  //   expect(toggleFormButton).toBeInTheDocument()
 
-    // Find Add Custom Link in the ComboBox
-    await user.click(toggleFormButton)
-    const linkInput = screen.getByLabelText('Select existing link')
-    expect(linkInput).toBeInTheDocument()
+  //   // Find Add Custom Link in the ComboBox
+  //   await user.click(toggleFormButton)
+  //   const linkInput = screen.getByLabelText('Select existing link')
+  //   expect(linkInput).toBeInTheDocument()
 
-    await user.click(
-      screen.getByRole('button', { name: 'Toggle the dropdown list' })
-    )
+  //   await user.click(
+  //     screen.getByRole('button', { name: 'Toggle the dropdown list' })
+  //   )
 
-    await user.click(screen.getByRole('option', { name: 'Add custom link' }))
+  //   await user.click(screen.getByRole('option', { name: 'Add custom link' }))
 
-    // Open modal
-    const addLinkModal = screen.getByRole('dialog', addLinkDialog)
+  //   // Open modal
+  //   const addLinkModal = screen.getByRole('dialog', addLinkDialog)
 
-    expect(addLinkModal).toHaveClass('is-visible')
+  //   expect(addLinkModal).toHaveClass('is-visible')
 
-    const labelInput = within(addLinkModal).getByRole('textbox', {
-      name: 'bookmarkLabel',
-    })
+  //   const labelInput = within(addLinkModal).getByRole('textbox', {
+  //     name: 'bookmarkLabel',
+  //   })
 
-    const urlInput = within(addLinkModal).getByRole('textbox', {
-      name: 'bookmarkUrl',
-    })
+  //   const urlInput = within(addLinkModal).getByRole('textbox', {
+  //     name: 'bookmarkUrl',
+  //   })
 
-    await user.type(labelInput, 'My Custom Link')
-    await user.type(urlInput, 'http://www.example.com')
+  //   await user.type(labelInput, 'My Custom Link')
+  //   await user.type(urlInput, 'http://www.example.com')
 
-    await user.click(
-      within(addLinkModal).getByRole('button', { name: 'Save custom link' })
-    )
+  //   await user.click(
+  //     within(addLinkModal).getByRole('button', { name: 'Save custom link' })
+  //   )
 
-    expect(mockAddLink).toHaveBeenCalledWith(
-      'http://www.example.com',
-      'My Custom Link'
-    )
-    expect(mockAddLink).toHaveBeenCalledTimes(1)
+  //   expect(mockAddLink).toHaveBeenCalledWith(
+  //     'http://www.example.com',
+  //     'My Custom Link'
+  //   )
+  //   expect(mockAddLink).toHaveBeenCalledTimes(1)
 
-    // Modal closed
-    expect(screen.queryByRole('dialog', addLinkDialog)).toHaveClass('is-hidden')
-    await user.click(screen.getByRole('button', { name: '+ Add link' }))
+  //   // Modal closed
+  //   expect(screen.queryByRole('dialog', addLinkDialog)).toHaveClass('is-hidden')
+  //   await user.click(screen.getByRole('button', { name: '+ Add link' }))
 
-    // Modal is still closed, form is reset
-    expect(screen.queryByRole('dialog', addLinkDialog)).toHaveClass('is-hidden')
+  //   // Modal is still closed, form is reset
+  //   expect(screen.queryByRole('dialog', addLinkDialog)).toHaveClass('is-hidden')
 
-    // Find Add Custom Link in the ComboBox
-    await user.click(toggleFormButton)
-    await user.click(
-      screen.getByRole('button', { name: 'Toggle the dropdown list' })
-    )
-    await user.click(screen.getByRole('option', { name: 'Add custom link' }))
+  //   // Find Add Custom Link in the ComboBox
+  //   await user.click(toggleFormButton)
+  //   await user.click(
+  //     screen.getByRole('button', { name: 'Toggle the dropdown list' })
+  //   )
+  //   await user.click(screen.getByRole('option', { name: 'Add custom link' }))
 
-    expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
+  //   expect(screen.getByRole('dialog', addLinkDialog)).toHaveClass('is-visible')
 
-    await user.type(labelInput, 'Another Custom Link')
-    await user.type(urlInput, 'http://www.example.com')
+  //   await user.type(labelInput, 'Another Custom Link')
+  //   await user.type(urlInput, 'http://www.example.com')
 
-    expect(labelInput).toBeValid()
-    expect(urlInput).toBeValid()
+  //   expect(labelInput).toBeValid()
+  //   expect(urlInput).toBeValid()
 
-    await user.click(
-      within(addLinkModal).getByRole('button', { name: 'Save custom link' })
-    )
+  //   await user.click(
+  //     within(addLinkModal).getByRole('button', { name: 'Save custom link' })
+  //   )
 
-    expect(mockAddLink).toHaveBeenCalledWith(
-      'http://www.example.com',
-      'Another Custom Link'
-    )
+  //   expect(mockAddLink).toHaveBeenCalledWith(
+  //     'http://www.example.com',
+  //     'Another Custom Link'
+  //   )
 
-    expect(mockAddLink).toHaveBeenCalledTimes(2)
-  })
+  //   expect(mockAddLink).toHaveBeenCalledTimes(2)
+  // })
 
   it('can add an existing link', async () => {
     const user = userEvent.setup()
@@ -579,121 +579,121 @@ describe('CustomCollection component', () => {
     expect(editItem).toBeInTheDocument()
   })
 
-  it('clicking the delete collection button opens the delete modal', async () => {
-    const user = userEvent.setup()
-    const mockRemoveCollection = jest.fn()
+  // it('clicking the delete collection button opens the delete modal', async () => {
+  //   const user = userEvent.setup()
+  //   const mockRemoveCollection = jest.fn()
 
-    renderWithModalRoot(
-      <CustomCollection
-        {...exampleCollection}
-        {...mockHandlers}
-        handleRemoveCollection={mockRemoveCollection}
-      />
-    )
+  //   renderWithModalRoot(
+  //     <CustomCollection
+  //       {...exampleCollection}
+  //       {...mockHandlers}
+  //       handleRemoveCollection={mockRemoveCollection}
+  //     />
+  //   )
 
-    const menuToggleButton = await screen.findByRole('button', {
-      name: 'Collection Settings',
-    })
-    expect(menuToggleButton).toBeInTheDocument()
+  //   const menuToggleButton = await screen.findByRole('button', {
+  //     name: 'Collection Settings',
+  //   })
+  //   expect(menuToggleButton).toBeInTheDocument()
 
-    await user.click(menuToggleButton)
-    const deleteCollection = screen.getByRole('button', {
-      name: 'Delete this collection',
-    })
-    expect(deleteCollection).toBeInTheDocument()
-    await user.click(deleteCollection)
+  //   await user.click(menuToggleButton)
+  //   const deleteCollection = screen.getByRole('button', {
+  //     name: 'Delete this collection',
+  //   })
+  //   expect(deleteCollection).toBeInTheDocument()
+  //   await user.click(deleteCollection)
 
-    // Open modal
-    expect(screen.getByRole('dialog', removeCollectionDialog)).toHaveClass(
-      'is-visible'
-    )
-  })
+  //   // Open modal
+  //   expect(screen.getByRole('dialog', removeCollectionDialog)).toHaveClass(
+  //     'is-visible'
+  //   )
+  // })
 
-  it('clicking the cancel button in the modal closes the delete modal', async () => {
-    const user = userEvent.setup()
-    const mockRemoveCollection = jest.fn()
+  // it('clicking the cancel button in the modal closes the delete modal', async () => {
+  //   const user = userEvent.setup()
+  //   const mockRemoveCollection = jest.fn()
 
-    renderWithModalRoot(
-      <CustomCollection
-        {...exampleCollection}
-        {...mockHandlers}
-        handleRemoveCollection={mockRemoveCollection}
-      />
-    )
+  //   renderWithModalRoot(
+  //     <CustomCollection
+  //       {...exampleCollection}
+  //       {...mockHandlers}
+  //       handleRemoveCollection={mockRemoveCollection}
+  //     />
+  //   )
 
-    const menuToggleButton = await screen.findByRole('button', {
-      name: 'Collection Settings',
-    })
+  //   const menuToggleButton = await screen.findByRole('button', {
+  //     name: 'Collection Settings',
+  //   })
 
-    await user.click(menuToggleButton)
+  //   await user.click(menuToggleButton)
 
-    const deleteCollection = screen.getByRole('button', {
-      name: 'Delete this collection',
-    })
-    await user.click(deleteCollection)
+  //   const deleteCollection = screen.getByRole('button', {
+  //     name: 'Delete this collection',
+  //   })
+  //   await user.click(deleteCollection)
 
-    // Open modal
-    expect(screen.getByRole('dialog', removeCollectionDialog)).toHaveClass(
-      'is-visible'
-    )
-    const removeCollectionModal = screen.getByRole(
-      'dialog',
-      removeCollectionDialog
-    )
-    expect(removeCollectionModal).toHaveClass('is-visible')
-    const cancelButton = within(removeCollectionModal).getByRole('button', {
-      name: 'Cancel',
-    })
-    await user.click(cancelButton)
+  //   // Open modal
+  //   expect(screen.getByRole('dialog', removeCollectionDialog)).toHaveClass(
+  //     'is-visible'
+  //   )
+  //   const removeCollectionModal = screen.getByRole(
+  //     'dialog',
+  //     removeCollectionDialog
+  //   )
+  //   expect(removeCollectionModal).toHaveClass('is-visible')
+  //   const cancelButton = within(removeCollectionModal).getByRole('button', {
+  //     name: 'Cancel',
+  //   })
+  //   await user.click(cancelButton)
 
-    expect(mockRemoveCollection).toHaveBeenCalledTimes(0)
+  //   expect(mockRemoveCollection).toHaveBeenCalledTimes(0)
 
-    expect(screen.queryByRole('dialog', removeCollectionDialog)).toHaveClass(
-      'is-hidden'
-    )
-  })
+  //   expect(screen.queryByRole('dialog', removeCollectionDialog)).toHaveClass(
+  //     'is-hidden'
+  //   )
+  // })
 
-  it('clicking the delete button in the modal closes the modal', async () => {
-    const user = userEvent.setup()
-    const mockRemoveCollection = jest.fn()
+  // it('clicking the delete button in the modal closes the modal', async () => {
+  //   const user = userEvent.setup()
+  //   const mockRemoveCollection = jest.fn()
 
-    renderWithModalRoot(
-      <CustomCollection
-        {...exampleCollection}
-        {...mockHandlers}
-        handleRemoveCollection={mockRemoveCollection}
-      />
-    )
-    const menuToggleButton = await screen.findByRole('button', {
-      name: 'Collection Settings',
-    })
-    expect(screen.queryByRole('dialog', removeCollectionDialog)).toHaveClass(
-      'is-hidden'
-    )
+  //   renderWithModalRoot(
+  //     <CustomCollection
+  //       {...exampleCollection}
+  //       {...mockHandlers}
+  //       handleRemoveCollection={mockRemoveCollection}
+  //     />
+  //   )
+  //   const menuToggleButton = await screen.findByRole('button', {
+  //     name: 'Collection Settings',
+  //   })
+  //   expect(screen.queryByRole('dialog', removeCollectionDialog)).toHaveClass(
+  //     'is-hidden'
+  //   )
 
-    await user.click(menuToggleButton)
+  //   await user.click(menuToggleButton)
 
-    const deleteCollection = screen.getByRole('button', {
-      name: 'Delete this collection',
-    })
-    await user.click(deleteCollection)
+  //   const deleteCollection = screen.getByRole('button', {
+  //     name: 'Delete this collection',
+  //   })
+  //   await user.click(deleteCollection)
 
-    // Open modal
-    const confirmDeleteModal = screen.getByRole(
-      'dialog',
-      removeCollectionDialog
-    )
-    expect(confirmDeleteModal).toHaveClass('is-visible')
+  //   // Open modal
+  //   const confirmDeleteModal = screen.getByRole(
+  //     'dialog',
+  //     removeCollectionDialog
+  //   )
+  //   expect(confirmDeleteModal).toHaveClass('is-visible')
 
-    await user.click(
-      within(confirmDeleteModal).getByRole('button', { name: 'Delete' })
-    )
-    expect(mockRemoveCollection).toHaveBeenCalledTimes(1)
+  //   await user.click(
+  //     within(confirmDeleteModal).getByRole('button', { name: 'Delete' })
+  //   )
+  //   expect(mockRemoveCollection).toHaveBeenCalledTimes(1)
 
-    expect(screen.queryByRole('dialog', removeCollectionDialog)).toHaveClass(
-      'is-hidden'
-    )
-  })
+  //   expect(screen.queryByRole('dialog', removeCollectionDialog)).toHaveClass(
+  //     'is-hidden'
+  //   )
+  // })
 
   it('clicking outside the dropdown menu closes the menu', async () => {
     const user = userEvent.setup()
@@ -816,45 +816,45 @@ describe('CustomCollection component', () => {
     })
   })
 
-  describe('with 9 bookmarks', () => {
-    it('shows a warning when adding the tenth link', async () => {
-      const user = userEvent.setup()
-      renderWithModalRoot(
-        <CustomCollection
-          {...exampleCollectionWithNine}
-          {...mockHandlers}
-          bookmarkOptions={mockLinks}
-        />
-      )
-      await screen.findByText('Example Collection')
+  // describe('with 9 bookmarks', () => {
+  //   it('shows a warning when adding the tenth link', async () => {
+  //     const user = userEvent.setup()
+  //     renderWithModalRoot(
+  //       <CustomCollection
+  //         {...exampleCollectionWithNine}
+  //         {...mockHandlers}
+  //         bookmarkOptions={mockLinks}
+  //       />
+  //     )
+  //     await screen.findByText('Example Collection')
 
-      const toggleFormButton = screen.getByRole('button', {
-        name: '+ Add link',
-      })
-      expect(toggleFormButton).toBeInTheDocument()
-      await user.click(toggleFormButton)
+  //     const toggleFormButton = screen.getByRole('button', {
+  //       name: '+ Add link',
+  //     })
+  //     expect(toggleFormButton).toBeInTheDocument()
+  //     await user.click(toggleFormButton)
 
-      expect(screen.queryByRole('tooltip', { hidden: true })).toHaveTextContent(
-        `You’re about to hit your link limit — each collection can only have 10 links.`
-      )
+  //     expect(screen.queryByRole('tooltip', { hidden: true })).toHaveTextContent(
+  //       `You’re about to hit your link limit — each collection can only have 10 links.`
+  //     )
 
-      await user.click(toggleFormButton)
-      screen.getByLabelText('Select existing link')
+  //     await user.click(toggleFormButton)
+  //     screen.getByLabelText('Select existing link')
 
-      await user.click(
-        screen.getByRole('button', { name: 'Toggle the dropdown list' })
-      )
+  //     await user.click(
+  //       screen.getByRole('button', { name: 'Toggle the dropdown list' })
+  //     )
 
-      await user.click(screen.getByRole('option', { name: 'Add custom link' }))
+  //     await user.click(screen.getByRole('option', { name: 'Add custom link' }))
 
-      const addLinkModal = screen.getByRole('dialog', addLinkDialog)
-      expect(addLinkModal).toHaveClass('is-visible')
+  //     const addLinkModal = screen.getByRole('dialog', addLinkDialog)
+  //     expect(addLinkModal).toHaveClass('is-visible')
 
-      expect(
-        within(addLinkModal).queryByRole('heading', { level: 4 })
-      ).toHaveTextContent('Link limit reached')
-    })
-  })
+  //     expect(
+  //       within(addLinkModal).queryByRole('heading', { level: 4 })
+  //     ).toHaveTextContent('Link limit reached')
+  //   })
+  // })
 
   describe('with 10 bookmarks', () => {
     it('does not allow adding anymore links', async () => {

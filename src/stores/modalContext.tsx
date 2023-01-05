@@ -38,7 +38,7 @@ type ModalContextType = {
   isAddingLink?: boolean
 }
 
-const ModalContext = createContext<ModalContextType>({
+export const ModalContext = createContext<ModalContextType>({
   modalId: '',
   updateModalId: () => {
     return
