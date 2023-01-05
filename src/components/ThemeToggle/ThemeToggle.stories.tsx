@@ -42,7 +42,7 @@ export const WithUser = () => <ThemeToggle />
 export const NoUser = () => <ThemeToggle />
 
 NoUser.decorators = [
-  (Story) => (
+  (Story: any) => (
     <AuthContext.Provider value={{ ...mockContext, user: null }}>
       <div className="sfds">
         <Story />
