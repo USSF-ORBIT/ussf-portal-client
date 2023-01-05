@@ -5,6 +5,7 @@ services:
   redis:
     container_name: portal_redis
     image: redis:6.2
+    restart: always
     ports:
       - '6379:6379'
   # Portal-specific services
