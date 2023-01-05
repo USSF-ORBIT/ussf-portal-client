@@ -1,6 +1,6 @@
 ##--------- Stage: builder ---------##
 
-FROM node:14.21.1-slim AS builder
+FROM node:18.11.0-slim AS builder
 
 RUN apt-get update \
   && apt-get dist-upgrade -y \
@@ -36,7 +36,7 @@ COPY . .
 ##--------- Stage: e2e ---------##
 
 # E2E image for running tests (same as prod but without certs)
-FROM gcr.io/distroless/nodejs:14 AS e2e
+FROM gcr.io/distroless/nodejs:18 AS e2e
 # The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
 # FROM gcr.io/distroless/nodejs:16-debug-arm64 AS e2e
 
@@ -65,7 +65,7 @@ CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
 ##--------- Stage: build-env ---------##
 
 # Production image, copy all the files and run next
-FROM node:14.21.1-slim AS build-env
+FROM node:18.11.0-slim AS build-env
 
 WORKDIR /app
 
@@ -84,7 +84,7 @@ RUN apt-get update \
 
 ##--------- Stage: runner ---------##
 
-FROM gcr.io/distroless/nodejs:14 AS runner
+FROM gcr.io/distroless/nodejs:18 AS runner
 # The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
 # FROM gcr.io/distroless/nodejs:16-debug-arm64 AS runner
 
