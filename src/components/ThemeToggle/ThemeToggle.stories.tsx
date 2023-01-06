@@ -1,6 +1,7 @@
 import React from 'react'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta } from '@storybook/react'
 
+import { ThemeProvider } from 'next-themes'
 import { testUser1 } from '../../__fixtures__/authUsers'
 
 import ThemeToggle from './ThemeToggle'
@@ -26,9 +27,11 @@ export default {
   decorators: [
     (Story) => (
       <AuthContext.Provider value={mockContext}>
-        <div className="sfds">
-          <Story />
-        </div>
+        <ThemeProvider enableSystem={false} attribute={'data-color-theme'}>
+          <div className="sfds">
+            <Story />
+          </div>
+        </ThemeProvider>
       </AuthContext.Provider>
     ),
   ],
