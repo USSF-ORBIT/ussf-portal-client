@@ -28,6 +28,7 @@ const mockArticles: ArticleListItemRecord[] = [
     ],
     publishedDate: 'Aug 03, 2022',
     preview: "It's a thing",
+    hero: { url: '/assets/images/hero.jpeg' },
   },
   {
     id: '2',
