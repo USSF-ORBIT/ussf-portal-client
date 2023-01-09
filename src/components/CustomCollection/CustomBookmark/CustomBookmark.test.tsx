@@ -19,11 +19,6 @@ const testBookmark = {
 
 const testWidgetId = ObjectId()
 
-// const testHandlers = {
-//   onSave: jest.fn(),
-//   onDelete: jest.fn(),
-// }
-
 const testCollectionTitle = 'Test Collection Title'
 
 describe('CustomBookmark component', () => {
