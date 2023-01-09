@@ -287,60 +287,60 @@ describe('My Space Component', () => {
     expect(bookmarkRemoved).toBe(true)
   })
 
-  // it('handles the add bookmark operation', async () => {
-  //   const user = userEvent.setup()
+  it('handles the add bookmark operation', async () => {
+    const user = userEvent.setup()
 
-  //   let bookmarkAdded = false
-  //   const addBookmarkMock = [
-  //     ...getMySpaceMock,
-  //     {
-  //       request: {
-  //         query: AddBookmarkDocument,
-  //         variables: {
-  //           collectionId: getMySpaceMock[0].result.data.mySpace[0]._id,
-  //           url: 'https://mypay.dfas.mil/#/',
-  //           label: 'MyPay',
-  //           cmsId: '2',
-  //         },
-  //       },
-  //       result: () => {
-  //         bookmarkAdded = true
-  //         return {
-  //           data: {
-  //             addBookmark: {
-  //               _id: ObjectId(),
-  //               cmsId: '2',
-  //               url: 'https://mypay.dfas.mil/#/',
-  //               label: 'MyPay',
-  //             },
-  //           },
-  //         }
-  //       },
-  //     },
-  //   ]
-  //   renderWithModalRoot(
-  //     <MockedProvider mocks={addBookmarkMock} addTypename={false}>
-  //       <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-  //     </MockedProvider>
-  //   )
+    let bookmarkAdded = false
+    const addBookmarkMock = [
+      ...getMySpaceMock,
+      {
+        request: {
+          query: AddBookmarkDocument,
+          variables: {
+            collectionId: getMySpaceMock[0].result.data.mySpace[0]._id,
+            url: 'https://mypay.dfas.mil/#/',
+            label: 'MyPay',
+            cmsId: '2',
+          },
+        },
+        result: () => {
+          bookmarkAdded = true
+          return {
+            data: {
+              addBookmark: {
+                _id: ObjectId(),
+                cmsId: '2',
+                url: 'https://mypay.dfas.mil/#/',
+                label: 'MyPay',
+              },
+            },
+          }
+        },
+      },
+    ]
+    renderWithModalRoot(
+      <MockedProvider mocks={addBookmarkMock} addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
+      </MockedProvider>
+    )
 
-  //   const addLinkButtons = await screen.findAllByRole('button', {
-  //     name: '+ Add link',
-  //   })
+    const addLinkButtons = await screen.findAllByRole('button', {
+      name: '+ Add link',
+    })
 
-  //   const addLinkButton = addLinkButtons[0]
-  //   await user.click(addLinkButton)
+    const addLinkButton = addLinkButtons[0]
+    await user.click(addLinkButton)
 
-  //   await user.click(
-  //     screen.getByRole('button', { name: 'Toggle the dropdown list' })
-  //   )
-  //   await user.click(screen.getByRole('option', { name: 'MyPay' }))
+    await user.click(
+      screen.getByRole('button', { name: 'Toggle the dropdown list' })
+    )
+    await user.click(screen.getByRole('option', { name: 'MyPay' }))
 
-  //   await act(
-  //     async () => await new Promise((resolve) => setTimeout(resolve, 0))
-  //   ) // wait for response
-  //   expect(bookmarkAdded).toBe(true)
-  // })
+    await act(
+      async () => await new Promise((resolve) => setTimeout(resolve, 0))
+    ) // wait for response
+    expect(bookmarkAdded).toBe(true)
+  })
 
   it('handles the edit collection title operation', async () => {
     const user = userEvent.setup()
@@ -400,62 +400,75 @@ describe('My Space Component', () => {
     expect(collectionEdited).toBe(true)
   })
 
-  // it('handles the remove collection operation', async () => {
-  //   const user = userEvent.setup()
+  it('handles the remove collection operation', async () => {
+    const user = userEvent.setup()
+    const mockUpdateModalId = jest.fn()
+    const mockUpdateModalText = jest.fn()
+    const mockUpdateWidget = jest.fn()
 
-  //   let collectionRemoved = false
-  //   const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
-  //   const removeCollectionMock = [
-  //     ...getMySpaceMock,
-  //     {
-  //       request: {
-  //         query: RemoveCollectionDocument,
-  //         variables: {
-  //           _id: collectionId,
-  //         },
-  //       },
-  //       result: () => {
-  //         collectionRemoved = true
-  //         return {
-  //           data: {
-  //             removeCollection: {
-  //               _id: collectionId,
-  //             },
-  //           },
-  //         }
-  //       },
-  //     },
-  //   ]
-  //   renderWithModalRoot(
-  //     <MockedProvider mocks={removeCollectionMock} addTypename={false}>
-  //       <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-  //     </MockedProvider>
-  //   )
+    let collectionRemoved = false
+    const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
+    const removeCollectionMock = [
+      ...getMySpaceMock,
+      {
+        request: {
+          query: RemoveCollectionDocument,
+          variables: {
+            _id: collectionId,
+          },
+        },
+        result: () => {
+          collectionRemoved = true
+          return {
+            data: {
+              removeCollection: {
+                _id: collectionId,
+              },
+            },
+          }
+        },
+      },
+    ]
+    renderWithModalRoot(
+      <MockedProvider mocks={removeCollectionMock} addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
+      </MockedProvider>,
+      {
+        updateModalId: mockUpdateModalId,
+        updateModalText: mockUpdateModalText,
+        updateWidget: mockUpdateWidget,
+      }
+    )
 
-  //   const dropdownMenu = await screen.findAllByRole('button', {
-  //     name: 'Collection Settings',
-  //   })
+    const dropdownMenu = await screen.findAllByRole('button', {
+      name: 'Collection Settings',
+    })
 
-  //   await user.click(dropdownMenu[0])
-  //   await user.click(
-  //     screen.getByRole('button', { name: 'Delete this collection' })
-  //   )
-  //   const removeCollectionModals = screen.getAllByRole('dialog', {
-  //     name: 'Are you sure you’d like to delete this collection from My Space?',
-  //   })
+    await user.click(dropdownMenu[0])
+    await user.click(
+      screen.getByRole('button', { name: 'Delete this collection' })
+    )
 
-  //   const removeCollectionModal = removeCollectionModals[0]
-  //   expect(removeCollectionModal).toHaveClass('is-visible')
-  //   await user.click(
-  //     within(removeCollectionModal).getByRole('button', { name: 'Delete' })
-  //   )
+    expect(mockUpdateModalId).toHaveBeenCalledWith(
+      'removeCustomCollectionModal'
+    )
+    expect(mockUpdateModalText).toHaveBeenCalledWith({
+      headingText:
+        'Are you sure you’d like to delete this collection from My Space?',
+      descriptionText: 'This action cannot be undone.',
+    })
+    expect(mockUpdateWidget).toHaveBeenCalled()
 
-  //   await act(
-  //     async () => await new Promise((resolve) => setTimeout(resolve, 0))
-  //   ) // wait for response
+    // screen.debug()
+    // const deleteButton = await screen.findAllByTestId('button', {})
+    // await user.click(deleteButton[0])
 
-  //   expect(collectionRemoved).toBe(true)
-  // })
+    // await act(
+    //   async () => await new Promise((resolve) => setTimeout(resolve, 0))
+    // ) // wait for response
+
+    // expect(collectionRemoved).toBe(true)
+  })
 
   it('handles the add collection operation', async () => {
     const user = userEvent.setup()
@@ -503,71 +516,89 @@ describe('My Space Component', () => {
     expect(collectionAdded).toBe(true)
   })
 
-  // it('handles the edit bookmark operation', async () => {
-  //   const user = userEvent.setup()
+  it('handles the edit bookmark operation', async () => {
+    const user = userEvent.setup()
+    const mockUpdateModalId = jest.fn()
+    const mockUpdateModalText = jest.fn()
+    const mockUpdateWidget = jest.fn()
+    const mockUpdateBookmark = jest.fn()
 
-  //   let bookmarkEdited = false
-  //   const bookmarkId =
-  //     getMySpaceMock[0].result.data.mySpace[0].bookmarks?.[0]._id
-  //   const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
-  //   const editBookmarkMock = [
-  //     ...getMySpaceMock,
-  //     {
-  //       request: {
-  //         query: EditBookmarkDocument,
-  //         variables: {
-  //           _id: bookmarkId,
-  //           collectionId: collectionId,
-  //           url: 'https://www.yahoo.com',
-  //           label: 'Yahoo',
-  //         },
-  //       },
-  //       result: () => {
-  //         bookmarkEdited = true
-  //         return {
-  //           data: {
-  //             editBookmark: {
-  //               _id: bookmarkId,
-  //               url: 'https://www.yahoo.com',
-  //               label: 'Yahoo',
-  //             },
-  //           },
-  //         }
-  //       },
-  //     },
-  //   ]
+    let bookmarkEdited = false
+    const bookmarkId =
+      getMySpaceMock[0].result.data.mySpace[0].bookmarks?.[0]._id
+    const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
+    const editBookmarkMock = [
+      ...getMySpaceMock,
+      {
+        request: {
+          query: EditBookmarkDocument,
+          variables: {
+            _id: bookmarkId,
+            collectionId: collectionId,
+            url: 'https://www.yahoo.com',
+            label: 'Yahoo',
+          },
+        },
+        result: () => {
+          bookmarkEdited = true
+          return {
+            data: {
+              editBookmark: {
+                _id: bookmarkId,
+                url: 'https://www.yahoo.com',
+                label: 'Yahoo',
+              },
+            },
+          }
+        },
+      },
+    ]
 
-  //   renderWithModalRoot(
-  //     <MockedProvider mocks={editBookmarkMock} addTypename={false}>
-  //       <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-  //     </MockedProvider>
-  //   )
+    renderWithModalRoot(
+      <MockedProvider mocks={editBookmarkMock} addTypename={false}>
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
+      </MockedProvider>,
+      {
+        updateModalId: mockUpdateModalId,
+        updateModalText: mockUpdateModalText,
+        updateWidget: mockUpdateWidget,
+        updateBookmark: mockUpdateBookmark,
+      }
+    )
 
-  //   const editButton = await screen.findByRole('button', {
-  //     name: 'Edit this link',
-  //   })
-  //   await user.click(editButton)
+    const editButton = await screen.findByRole('button', {
+      name: 'Edit this link',
+    })
+    await user.click(editButton)
 
-  //   const editModal = await screen.findByRole('dialog', {
-  //     name: 'Edit custom link',
-  //   })
+    expect(mockUpdateModalId).toHaveBeenCalledWith('editCustomLinkModal')
+    expect(mockUpdateModalText).toHaveBeenCalledWith({
+      headingText: 'Edit custom link',
+    })
+    expect(mockUpdateWidget).toHaveBeenCalled()
+    expect(mockUpdateBookmark).toHaveBeenCalled()
 
-  //   expect(editModal).toBeVisible()
-  //   const nameInput = within(editModal).getByLabelText('Name')
-  //   const urlInput = within(editModal).getByLabelText('URL')
+    // const editModal = await screen.findByRole('dialog', {
+    //   name: 'Edit custom link',
+    // })
+    // const editModal = container.querySelector('#modal-root')
 
-  //   await user.clear(nameInput)
-  //   await user.clear(urlInput)
-  //   await user.type(nameInput, 'Yahoo')
-  //   await user.type(urlInput, '{clear}https://www.yahoo.com')
-  //   await user.click(
-  //     within(editModal).getByRole('button', { name: 'Save custom link' })
-  //   )
+    // expect(editModal).toBeVisible()
+    // const nameInput = within(editModal).getByLabelText('Name')
+    // const urlInput = within(editModal).getByLabelText('URL')
 
-  //   await act(
-  //     async () => await new Promise((resolve) => setTimeout(resolve, 0))
-  //   )
+    // await user.clear(nameInput)
+    // await user.clear(urlInput)
+    // await user.type(nameInput, 'Yahoo')
+    // await user.type(urlInput, '{clear}https://www.yahoo.com')
+    // await user.click(
+    //   within(editModal).getByRole('button', { name: 'Save custom link' })
+    // )
 
-  //   expect(bookmarkEdited).toBe(true)
-  // })
+    // await act(
+    //   async () => await new Promise((resolve) => setTimeout(resolve, 0))
+    // )
+
+    // expect(bookmarkEdited).toBe(true)
+  })
 })
