@@ -28,7 +28,7 @@ export const defaultMockModalContext = {
 
 export const renderWithModalRoot = (
   component: React.ReactElement,
-  options: RenderOptions = {},
+  // options: RenderOptions = {},
   value: Partial<ModalContextType> = {},
   mocks: readonly MockedResponse<Record<string, unknown>>[] = []
 ) => {
@@ -57,7 +57,7 @@ export const renderWithModalRoot = (
   }
 
   return render(component, {
-    ...options,
+    // ...options,
     container: document.body.appendChild(modalContainer),
     wrapper,
   })

@@ -63,80 +63,36 @@ describe('NewsWidget component', () => {
     expect(removeButton).toBeInTheDocument()
   })
 
-  // it('clicking the cancel button in the modal closes the confirmation modal', async () => {
-  //   const user = userEvent.setup()
-  //   renderWithModalRoot(<NewsWidget widget={mockNewsWidget} />)
+  it('clicking in settings to remove section passes correct values to modalContext', async () => {
+    const user = userEvent.setup()
+    const mockUpdateModalId = jest.fn()
+    const mockUpdateModalText = jest.fn()
+    const mockUpdateWidget = jest.fn()
 
-  //   await user.click(
-  //     screen.getByRole('button', {
-  //       name: 'Section Settings',
-  //     })
-  //   )
+    renderWithModalRoot(<NewsWidget widget={mockNewsWidget} />, {
+      updateModalId: mockUpdateModalId,
+      updateModalText: mockUpdateModalText,
+      updateWidget: mockUpdateWidget,
+    })
 
-  //   await user.click(
-  //     await screen.findByRole('button', {
-  //       name: 'Remove this section',
-  //     })
-  //   )
+    await user.click(
+      screen.getByRole('button', {
+        name: 'Section Settings',
+      })
+    )
 
-  //   // Open modal
-  //   const confirmationModal = screen.getByRole('dialog', {
-  //     name: 'Are you sure you’d like to delete this section?',
-  //   })
+    await user.click(
+      await screen.findByRole('button', {
+        name: 'Remove this section',
+      })
+    )
 
-  //   expect(confirmationModal).toHaveClass('is-visible')
-  //   const cancelButton = within(confirmationModal).getByRole('button', {
-  //     name: 'Cancel',
-  //   })
-  //   await user.click(cancelButton)
-
-  //   expect(mockHandleRemove).toHaveBeenCalledTimes(0)
-  //   expect(
-  //     screen.getByRole('dialog', {
-  //       name: 'Are you sure you’d like to delete this section?',
-  //     })
-  //   ).toHaveClass('is-hidden')
-  // })
-
-  // it('clicking the confirm button in the modal calls the remove handler and closes the confirmation modal', async () => {
-  //   const user = userEvent.setup()
-  //   renderWithModalRoot(<NewsWidget widget={mockNewsWidget} />)
-
-  //   expect(
-  //     screen.getByRole('dialog', {
-  //       name: 'Are you sure you’d like to delete this section?',
-  //     })
-  //   ).toHaveClass('is-hidden')
-
-  //   await user.click(
-  //     screen.getByRole('button', {
-  //       name: 'Section Settings',
-  //     })
-  //   )
-
-  //   await user.click(
-  //     await screen.findByRole('button', {
-  //       name: 'Remove this section',
-  //     })
-  //   )
-
-  //   // Open modal
-  //   const confirmationModal = screen.getByRole('dialog', {
-  //     name: 'Are you sure you’d like to delete this section?',
-  //   })
-
-  //   expect(confirmationModal).toHaveClass('is-visible')
-  //   await user.click(
-  //     within(confirmationModal).getByRole('button', {
-  //       name: 'Delete',
-  //     })
-  //   )
-
-  //   expect(mockHandleRemove).toHaveBeenCalledTimes(1)
-  //   expect(
-  //     screen.getByRole('dialog', {
-  //       name: 'Are you sure you’d like to delete this section?',
-  //     })
-  //   ).toHaveClass('is-hidden')
-  // })
+    expect(mockUpdateModalId).toHaveBeenCalledWith('removeSectionModal')
+    expect(mockUpdateModalText).toHaveBeenCalledWith({
+      headingText: 'Are you sure you’d like to delete this section?',
+      descriptionText:
+        'You can re-add it to your My Space from the Add Section menu.',
+    })
+    expect(mockUpdateWidget).toHaveBeenCalled()
+  })
 })
