@@ -24,8 +24,6 @@ const mockNewsWidget: Widget = {
 }
 
 describe('NewsWidget component', () => {
-  // const mockHandleRemove = jest.fn()
-
   mockedAxios.get.mockImplementation(() => {
     return Promise.resolve({ data: mockRssFeedTen })
   })
@@ -64,48 +62,6 @@ describe('NewsWidget component', () => {
 
     expect(removeButton).toBeInTheDocument()
   })
-
-  // it('clicking the remove section button opens the confirmation modal', async () => {
-  //   const user = userEvent.setup()
-  //   renderWithModalRoot(<NewsWidget widget={mockNewsWidget} />)
-
-  //   await user.click(
-  //     screen.getByRole('button', {
-  //       name: 'Section Settings',
-  //     })
-  //   )
-
-  //   const removeButton = await screen.findByRole('button', {
-  //     name: 'Remove this section',
-  //   })
-
-  //   expect(removeButton).toBeInTheDocument()
-
-  //   await user.click(removeButton)
-
-  //   expect(screen.getByTestId('modal-header')).toBeVisible()
-
-  // expect(
-  //   screen.getByText(
-  //     'You can re-add it to your My Space from the Add Section menu.'
-  //   )
-  // ).toBeVisible()
-
-  //   expect(
-  //     screen.findAllByText(
-  //       'You can re-add it to your My Space from the Add Section menu.'
-  //     )
-  //   )[0].toBeVisible()
-
-  // Open modal
-  // expect(
-  //   screen.getByRole('dialog', {
-  //     name: 'Are you sure you’d like to delete this section?',
-  //   })
-  // ).toBeVisible()
-
-  // expect(mockHandleRemove).not.toHaveBeenCalled()
-  // })
 
   // it('clicking the cancel button in the modal closes the confirmation modal', async () => {
   //   const user = userEvent.setup()
