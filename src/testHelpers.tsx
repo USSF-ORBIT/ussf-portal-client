@@ -1,18 +1,44 @@
 import React from 'react'
 import { render, RenderOptions } from '@testing-library/react'
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { ModalRef } from '@trussworks/react-uswds'
 
 import { testUser1 } from './__fixtures__/authUsers'
 import { AuthContext, AuthContextType } from 'stores/authContext'
-import { ModalProvider } from 'stores/modalContext'
+import { ModalContext, ModalContextType } from 'stores/modalContext'
+
+export const defaultMockModalContext = {
+  modalId: '',
+  updateModalId: jest.fn(),
+  modalRef: jest.spyOn(React, 'useRef'),
+  modalHeadingText: '',
+  closeModal: jest.fn(),
+  onDelete: jest.fn(),
+  onSave: jest.fn(),
+  updateWidget: jest.fn(),
+  updateModalText: jest.fn(),
+  additionalText: '',
+  // bookmark?: BookmarkType | null
+  updateBookmark: jest.fn(),
+  customLinkLabel: '',
+  updateCustomLinkLabel: jest.fn(),
+  showAddWarning: false,
+  isAddingLink: false,
+}
 
 export const renderWithModalRoot = (
   component: React.ReactElement,
   options: RenderOptions = {},
+  value: Partial<ModalContextType> = {},
   mocks: readonly MockedResponse<Record<string, unknown>>[] = []
 ) => {
   const modalContainer = document.createElement('div')
   modalContainer.setAttribute('id', 'modal-root')
+
+  const contextValue = {
+    ...defaultMockModalContext,
+    ...value,
+  }
 
   const wrapper = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -23,7 +49,9 @@ export const renderWithModalRoot = (
           watchQuery: { fetchPolicy: 'no-cache' },
           query: { fetchPolicy: 'no-cache' },
         }}>
-        <ModalProvider>{children}</ModalProvider>
+        <ModalContext.Provider value={contextValue}>
+          {children}
+        </ModalContext.Provider>
       </MockedProvider>
     )
   }

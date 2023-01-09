@@ -9,7 +9,7 @@ import { useEditBookmarkMutation } from 'operations/portal/mutations/editBookmar
 import { Widget, Bookmark as BookmarkType } from 'types/index'
 
 // Try to clean this up
-type ModalContextType = {
+export type ModalContextType = {
   modalId: string
   updateModalId: (modalId: string) => void
   modalRef: React.RefObject<ModalRef> | null
