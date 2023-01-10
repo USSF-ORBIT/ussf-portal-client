@@ -11,7 +11,7 @@ import CustomModal from 'components/CustomModal/CustomModal'
 import { Widget } from 'types'
 
 describe('Modal context', () => {
-  it('checks updateModalId, updateModalText, and updateWidget', async () => {
+  it('test flow for removing News section', async () => {
     const user = userEvent.setup()
 
     const TestComponent = () => {
@@ -54,14 +54,25 @@ describe('Modal context', () => {
       </ModalProvider>
     )
 
-    const updateButton = screen.getByRole('button', { name: 'Update modalId' })
-    expect(updateButton).toBeInTheDocument()
+    const openModalButton = screen.getByRole('button', {
+      name: 'Update modalId',
+    })
+    expect(openModalButton).toBeInTheDocument()
 
-    await user.click(updateButton)
+    screen.debug()
+
+    await user.click(openModalButton)
 
     expect(
       screen.getByText('Are you sure you’d like to delete this section?')
     ).toBeInTheDocument()
+
+    const deleteButton = screen.getByText('Delete')
+    await user.click(deleteButton)
+
+    expect(deleteButton).toBeInTheDocument()
+
+    expect(screen.getByText('FAIL')).toBeInTheDocument()
   })
 })
 
