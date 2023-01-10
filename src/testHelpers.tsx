@@ -1,8 +1,6 @@
 import React from 'react'
-import { render, RenderOptions } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
-import { ModalRef } from '@trussworks/react-uswds'
-
 import { testUser1 } from './__fixtures__/authUsers'
 import { AuthContext, AuthContextType } from 'stores/authContext'
 import { ModalContext, ModalContextType } from 'stores/modalContext'
