@@ -1,6 +1,6 @@
 # Default owners for everything
 
-* @abbyoung @esacteksab @gidjin @minhlai
+* @USSF-ORBIT/code-owners
 
 # Require design / frontend reviews on Storybook
 
@@ -9,7 +9,7 @@
 
 # Github settings
 
-.github/settings.yml @abbyoung @esacteksab @gidjin @minhlai
+.github/settings.yml @USSF-ORBIT/code-owners
 
 # CODEOWNERS prevent renovate automerge since it will automatically ask for review
 
