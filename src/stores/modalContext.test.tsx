@@ -15,8 +15,13 @@ describe('Modal context', () => {
     const user = userEvent.setup()
 
     const TestComponent = () => {
-      const { modalRef, updateModalId, updateModalText, updateWidget } =
-        useModalContext()
+      const {
+        modalId,
+        modalRef,
+        updateModalId,
+        updateModalText,
+        updateWidget,
+      } = useModalContext()
 
       const setupFunc = () => {
         updateModalId('removeSectionModal')
@@ -40,6 +45,7 @@ describe('Modal context', () => {
       return (
         <div>
           <div id="modal-root" className="sfds" />
+          <h1>{modalId || 'No modalId'}</h1>
           <button type="button" onClick={setupFunc}>
             Update modalId
           </button>
@@ -59,7 +65,7 @@ describe('Modal context', () => {
     })
     expect(openModalButton).toBeInTheDocument()
 
-    screen.debug()
+    // screen.debug()
 
     await user.click(openModalButton)
 
@@ -67,12 +73,16 @@ describe('Modal context', () => {
       screen.getByText('Are you sure you’d like to delete this section?')
     ).toBeInTheDocument()
 
-    const deleteButton = screen.getByText('Delete')
-    await user.click(deleteButton)
+    const cancelButton = screen.getByText('Cancel')
 
-    expect(deleteButton).toBeInTheDocument()
+    // Clicking the cancel button in the modal runs the closeModal()
+    // function, which clears out the state. Thus, we expect that modalId has been
+    // removed, and the text 'No modalId' displays.
+    await user.click(cancelButton)
 
-    expect(screen.getByText('FAIL')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'No modalId'
+    )
   })
 })
 
