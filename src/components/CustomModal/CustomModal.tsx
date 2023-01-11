@@ -22,6 +22,7 @@ const CustomModal = ({ ...props }) => {
     bookmark,
     customLinkLabel,
     showAddWarning,
+    isAddingLink,
   } = useModalContext()
 
   const nameInputRef = useRef<HTMLInputElement>(null)
@@ -46,7 +47,7 @@ const CustomModal = ({ ...props }) => {
           </div>
         )}
 
-        {bookmark || customLinkLabel ? (
+        {bookmark || isAddingLink ? (
           <CustomBookmarkForm
             onSave={onSave}
             onCancel={closeModal}
