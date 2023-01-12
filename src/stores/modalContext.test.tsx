@@ -209,12 +209,25 @@ describe('Modal context', () => {
       editBookmarkMock
     )
 
+    // Open modal
     const editButton = screen.getByRole('button', {
       name: 'Edit link',
     })
     expect(editButton).toBeInTheDocument()
 
     await user.click(editButton)
+
+    // Update label and save
+    const nameInput = screen.getByLabelText('Name')
+    await user.clear(nameInput)
+    await user.type(nameInput, 'Updated Label')
+
+    const saveButton = screen.getByText('Save custom link')
+    expect(saveButton).toBeInTheDocument()
+
+    await user.click(saveButton)
+
+    // Need an assertion?
   })
 })
 

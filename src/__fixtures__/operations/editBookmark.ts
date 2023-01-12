@@ -5,7 +5,7 @@ import { Bookmark } from 'types'
 export const mockBookmark: Bookmark = {
   _id: ObjectId(),
   url: 'example.com',
-  label: 'Updated Label',
+  label: 'Custom Label',
 }
 
 export const editBookmarkMock = [
@@ -14,7 +14,7 @@ export const editBookmarkMock = [
       query: EditBookmarkDocument,
       variables: {
         _id: mockBookmark._id,
-        label: mockBookmark.label,
+        label: 'Updated Label',
         url: mockBookmark.url,
         collectionId: ObjectId(),
       },
@@ -22,7 +22,7 @@ export const editBookmarkMock = [
     result: {
       data: {
         _id: mockBookmark._id,
-        label: mockBookmark.label,
+        label: 'Updated Label',
         url: mockBookmark.url,
       },
     },
