@@ -8,6 +8,8 @@ export const mockBookmark: Bookmark = {
   label: 'Custom Label',
 }
 
+export const mockCollectionIdForEditBookmark = ObjectId()
+
 export const editBookmarkMock = [
   {
     request: {
@@ -16,7 +18,7 @@ export const editBookmarkMock = [
         _id: mockBookmark._id,
         label: 'Updated Label',
         url: mockBookmark.url,
-        collectionId: ObjectId(),
+        collectionId: mockCollectionIdForEditBookmark,
       },
     },
     result: {

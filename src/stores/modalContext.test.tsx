@@ -12,6 +12,7 @@ import { Widget } from 'types'
 import {
   editBookmarkMock,
   mockBookmark,
+  mockCollectionIdForEditBookmark,
 } from '__fixtures__/operations/editBookmark'
 import {
   addBookmarkMock,
@@ -21,6 +22,10 @@ import {
   removeWidgetMock,
   mockWidget,
 } from '__fixtures__/operations/removeWidget'
+import {
+  removeCollectionMock,
+  mockCollection,
+} from '__fixtures__/operations/removeCollection'
 
 describe('Modal context', () => {
   afterEach(cleanup)
@@ -180,7 +185,7 @@ describe('Modal context', () => {
         })
 
         updateWidget({
-          _id: ObjectId(),
+          _id: mockCollectionIdForEditBookmark,
           title: 'Test Collection',
           type: 'Collection',
         })
@@ -210,12 +215,12 @@ describe('Modal context', () => {
     )
 
     // Open modal
-    const editButton = screen.getByRole('button', {
+    const openModalButton = screen.getByRole('button', {
       name: 'Edit link',
     })
-    expect(editButton).toBeInTheDocument()
+    expect(openModalButton).toBeInTheDocument()
 
-    await user.click(editButton)
+    await user.click(openModalButton)
 
     // Update label and save
     const nameInput = screen.getByLabelText('Name')
@@ -228,6 +233,54 @@ describe('Modal context', () => {
     await user.click(saveButton)
 
     // Need an assertion?
+  })
+
+  it('tests removing a custom collection', async () => {
+    const user = userEvent.setup()
+
+    const TestComponent = () => {
+      const { modalRef, updateModalId, updateModalText, updateWidget } =
+        useModalContext()
+
+      const setupFunc = () => {
+        updateModalId('removeCustomCollectionModal')
+        updateModalText({
+          headingText:
+            'Are you sure you’d like to delete this collection from My Space?',
+          descriptionText: 'This action cannot be undone.',
+        })
+
+        updateWidget(mockCollection)
+
+        modalRef?.current?.toggleModal(undefined, true)
+      }
+
+      return (
+        <div>
+          <div id="modal-root" className="sfds" />
+          <button type="button" onClick={setupFunc}>
+            Remove collection
+          </button>
+          <CustomModal />
+        </div>
+      )
+    }
+
+    renderWithAuthAndApollo(
+      <ModalProvider>
+        <TestComponent />
+      </ModalProvider>,
+      {},
+      removeCollectionMock
+    )
+
+    // Open modal
+    const openModalButton = screen.getByRole('button', {
+      name: 'Remove collection',
+    })
+    expect(openModalButton).toBeInTheDocument()
+
+    await user.click(openModalButton)
   })
 })
 
