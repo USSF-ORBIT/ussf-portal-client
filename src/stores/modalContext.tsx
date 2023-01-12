@@ -89,6 +89,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [handleEditBookmark] = useEditBookmarkMutation()
 
   const closeModal = () => {
+    console.log('Closing')
     setWidgetState(null)
     setBookmark(null)
     setCustomLinkLabel('')
@@ -142,6 +143,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const updateModalId = (modalId: string) => {
+    console.log('Hello: ', modalId)
     setModalId(modalId)
   }
 

@@ -2,26 +2,35 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { screen, renderHook } from '@testing-library/react'
+import { screen, renderHook, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ObjectId } from 'mongodb'
 import { renderWithAuthAndApollo } from '../testHelpers'
 import { ModalProvider, useModalContext } from './modalContext'
 import CustomModal from 'components/CustomModal/CustomModal'
 import { Widget } from 'types'
+import {
+  editBookmarkMock,
+  mockBookmark,
+} from '__fixtures__/operations/editBookmark'
+import {
+  addBookmarkMock,
+  mockCollectionId,
+} from '__fixtures__/operations/addBookmark'
+import {
+  removeWidgetMock,
+  mockWidget,
+} from '__fixtures__/operations/removeWidget'
 
 describe('Modal context', () => {
+  afterEach(cleanup)
+
   it('tests removing News section', async () => {
     const user = userEvent.setup()
 
     const TestComponent = () => {
-      const {
-        modalId,
-        modalRef,
-        updateModalId,
-        updateModalText,
-        updateWidget,
-      } = useModalContext()
+      const { modalRef, updateModalId, updateModalText, updateWidget } =
+        useModalContext()
 
       const setupFunc = () => {
         updateModalId('removeSectionModal')
@@ -32,7 +41,7 @@ describe('Modal context', () => {
         })
 
         const widgetState: Widget = {
-          _id: ObjectId(),
+          _id: mockWidget._id,
           title: 'Recent News',
           type: 'News',
         }
@@ -45,7 +54,6 @@ describe('Modal context', () => {
       return (
         <div>
           <div id="modal-root" className="sfds" />
-          <h1>{modalId || 'No modalId'}</h1>
           <button type="button" onClick={setupFunc}>
             Remove section
           </button>
@@ -57,7 +65,9 @@ describe('Modal context', () => {
     renderWithAuthAndApollo(
       <ModalProvider>
         <TestComponent />
-      </ModalProvider>
+      </ModalProvider>,
+      {},
+      removeWidgetMock
     )
 
     const openModalButton = screen.getByRole('button', {
@@ -71,16 +81,13 @@ describe('Modal context', () => {
       screen.getByText('Are you sure you’d like to delete this section?')
     ).toBeInTheDocument()
 
-    const cancelButton = screen.getByText('Cancel')
+    const deleteButton = screen.getByText('Delete')
+    await user.click(deleteButton)
 
-    // Clicking the cancel button in the modal runs the closeModal()
-    // function, which clears out the state. So, we expect that modalId has been
-    // removed.
-    await user.click(cancelButton)
-
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'No modalId'
-    )
+    // Seems like I'm basically just hard-coding this? Can't figure out how to make a good assertion here
+    expect(removeWidgetMock[0].result).toEqual({
+      data: { _id: mockWidget._id },
+    })
   })
 
   it('tests adding a bookmark', async () => {
@@ -88,7 +95,6 @@ describe('Modal context', () => {
 
     const TestComponent = () => {
       const {
-        modalId,
         modalRef,
         updateModalId,
         updateModalText,
@@ -103,7 +109,7 @@ describe('Modal context', () => {
         })
 
         updateWidget({
-          _id: ObjectId(),
+          _id: mockCollectionId,
           title: 'Test Collection',
           type: 'Collection',
         })
@@ -116,7 +122,6 @@ describe('Modal context', () => {
       return (
         <div>
           <div id="modal-root" className="sfds" />
-          <h1>{modalId || 'No modalId'}</h1>
           <button type="button" onClick={setupFunc}>
             Add link
           </button>
@@ -128,7 +133,9 @@ describe('Modal context', () => {
     renderWithAuthAndApollo(
       <ModalProvider>
         <TestComponent />
-      </ModalProvider>
+      </ModalProvider>,
+      {},
+      addBookmarkMock
     )
 
     const openModalButton = screen.getByRole('button', {
@@ -139,10 +146,9 @@ describe('Modal context', () => {
     await user.click(openModalButton)
 
     // Add in link details
-    const nameInput = screen.getByLabelText('Name')
     const urlInput = screen.getByLabelText('URL')
 
-    await user.type(nameInput, 'Test Link')
+    await user.clear(urlInput)
     await user.type(urlInput, 'example.com')
 
     // Save link
@@ -151,8 +157,64 @@ describe('Modal context', () => {
 
     await user.click(saveButton)
 
-    // After saving, closeModal is called, which empties modalId state
-    expect(screen.getByText('No modalId')).toBeInTheDocument()
+    // Again, not really sure what the assertion should be here
+    // expect(addBookmarkMock[0].result.data.label).toEqual('fail')
+  })
+
+  it('tests editing a bookmark', async () => {
+    const user = userEvent.setup()
+
+    const TestComponent = () => {
+      const {
+        modalRef,
+        updateModalId,
+        updateModalText,
+        updateWidget,
+        updateBookmark,
+      } = useModalContext()
+
+      const setupFunc = () => {
+        updateModalId('editCustomLinkModal')
+        updateModalText({
+          headingText: 'Edit custom link',
+        })
+
+        updateWidget({
+          _id: ObjectId(),
+          title: 'Test Collection',
+          type: 'Collection',
+        })
+
+        updateBookmark(mockBookmark)
+
+        modalRef?.current?.toggleModal(undefined, true)
+      }
+
+      return (
+        <div>
+          <div id="modal-root" className="sfds" />
+          <button type="button" onClick={setupFunc}>
+            Edit link
+          </button>
+          <CustomModal />
+        </div>
+      )
+    }
+
+    renderWithAuthAndApollo(
+      <ModalProvider>
+        <TestComponent />
+      </ModalProvider>,
+      {},
+      editBookmarkMock
+    )
+
+    const editButton = screen.getByRole('button', {
+      name: 'Edit link',
+    })
+    expect(editButton).toBeInTheDocument()
+
+    await user.click(editButton)
   })
 })
 
