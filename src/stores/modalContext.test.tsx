@@ -25,6 +25,11 @@ import {
   removeCollectionMock,
   mockCollection,
 } from '__fixtures__/operations/removeCollection'
+import {
+  removeBookmarkMock,
+  mockRemoveBookmark,
+  mockRemoveBookmarkCollectionId,
+} from '__fixtures__/operations/removeBookmark'
 
 describe('Modal context', () => {
   afterEach(cleanup)
@@ -224,12 +229,77 @@ describe('Modal context', () => {
     // Update label and save
     const nameInput = screen.getByLabelText('Name')
     await user.clear(nameInput)
-    await user.type(nameInput, 'Updated Label')
+    await user.type(nameInput, 'Custom Label')
 
     const saveButton = screen.getByText('Save custom link')
     expect(saveButton).toBeInTheDocument()
 
     await user.click(saveButton)
+
+    // Need an assertion?
+  })
+
+  it('tests removing a bookmark while editing', async () => {
+    const user = userEvent.setup()
+
+    const TestComponent = () => {
+      const {
+        modalRef,
+        updateModalId,
+        updateModalText,
+        updateWidget,
+        updateBookmark,
+      } = useModalContext()
+
+      const setupFunc = () => {
+        updateModalId('editCustomLinkModal')
+        updateModalText({
+          headingText: 'Edit custom link',
+        })
+
+        updateWidget({
+          _id: mockRemoveBookmarkCollectionId,
+          title: 'Test Collection',
+          type: 'Collection',
+        })
+
+        updateBookmark(mockRemoveBookmark)
+
+        modalRef?.current?.toggleModal(undefined, true)
+      }
+
+      return (
+        <div>
+          <div id="modal-root" className="sfds" />
+          <button type="button" onClick={setupFunc}>
+            Edit link
+          </button>
+          <CustomModal />
+        </div>
+      )
+    }
+
+    renderWithAuthAndApollo(
+      <ModalProvider>
+        <TestComponent />
+      </ModalProvider>,
+      {},
+      removeBookmarkMock
+    )
+
+    // Open modal
+    const openModalButton = screen.getByRole('button', {
+      name: 'Edit link',
+    })
+    expect(openModalButton).toBeInTheDocument()
+
+    await user.click(openModalButton)
+
+    // Delete bookmark
+    const deleteButton = screen.getByText('Delete')
+    expect(deleteButton).toBeInTheDocument()
+
+    await user.click(deleteButton)
 
     // Need an assertion?
   })

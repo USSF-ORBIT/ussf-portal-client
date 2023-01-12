@@ -16,9 +16,9 @@ export const editBookmarkMock = [
       query: EditBookmarkDocument,
       variables: {
         _id: mockBookmark._id,
-        label: 'Updated Label',
-        url: mockBookmark.url,
         collectionId: mockCollectionIdForEditBookmark,
+        url: mockBookmark.url,
+        label: mockBookmark.label,
       },
     },
     result: {
