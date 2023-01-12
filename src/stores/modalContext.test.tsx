@@ -4,7 +4,6 @@
 import React from 'react'
 import { screen, renderHook, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ObjectId } from 'mongodb'
 import { renderWithAuthAndApollo } from '../testHelpers'
 import { ModalProvider, useModalContext } from './modalContext'
 import CustomModal from 'components/CustomModal/CustomModal'
@@ -281,6 +280,11 @@ describe('Modal context', () => {
     expect(openModalButton).toBeInTheDocument()
 
     await user.click(openModalButton)
+
+    const deleteButton = screen.getByText('Delete')
+    expect(deleteButton).toBeInTheDocument()
+
+    await user.click(deleteButton)
   })
 })
 
