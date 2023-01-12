@@ -40,30 +40,37 @@ export type ModalContextType = {
 
 export const ModalContext = createContext<ModalContextType>({
   modalId: '',
-  updateModalId: () => {
+  updateModalId: /* istanbul ignore next */ () => {
     return
   },
   modalRef: null,
   modalHeadingText: '',
-  closeModal: () => {
+
+  closeModal: /* istanbul ignore next */ () => {
     return
   },
-  onDelete: () => {
+
+  onDelete: /* istanbul ignore next */ () => {
     return
   },
-  onSave: () => {
+
+  onSave: /* istanbul ignore next */ () => {
     return
   },
-  updateWidget: () => {
+
+  updateWidget: /* istanbul ignore next */ () => {
     return
   },
-  updateBookmark: () => {
+
+  updateBookmark: /* istanbul ignore next */ () => {
     return
   },
-  updateCustomLinkLabel: () => {
+
+  updateCustomLinkLabel: /* istanbul ignore next */ () => {
     return
   },
-  updateModalText: () => {
+
+  updateModalText: /* istanbul ignore next */ () => {
     return
   },
   additionalText: '',
