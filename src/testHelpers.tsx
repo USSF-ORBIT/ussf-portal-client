@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { render } from '@testing-library/react'
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { testUser1 } from './__fixtures__/authUsers'
@@ -16,17 +16,15 @@ export const defaultMockModalContext = {
   updateWidget: jest.fn(),
   updateModalText: jest.fn(),
   additionalText: '',
-  // bookmark?: BookmarkType | null
   updateBookmark: jest.fn(),
   customLinkLabel: '',
   updateCustomLinkLabel: jest.fn(),
   showAddWarning: false,
-  isAddingLink: false,
+  isAddingLinkContext: false,
 }
 
 export const renderWithModalRoot = (
   component: React.ReactElement,
-  // options: RenderOptions = {},
   value: Partial<ModalContextType> = {},
   mocks: readonly MockedResponse<Record<string, unknown>>[] = []
 ) => {

@@ -12,7 +12,7 @@ import { Widget, Bookmark as BookmarkType } from 'types/index'
 export type ModalContextType = {
   modalId: string
   updateModalId: (modalId: string) => void
-  modalRef: React.RefObject<ModalRef> | null
+  modalRef: React.RefObject<ModalRef> | null | any
   modalHeadingText: string
   closeModal: () => void
   onDelete: () => void
