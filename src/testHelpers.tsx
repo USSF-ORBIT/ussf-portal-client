@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { render } from '@testing-library/react'
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { testUser1 } from './__fixtures__/authUsers'
