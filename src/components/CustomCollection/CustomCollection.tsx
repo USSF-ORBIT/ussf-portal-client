@@ -71,7 +71,7 @@ const CustomCollection = ({
     updateModalText,
     updateWidget,
     updateCustomLinkLabel,
-    // handleOnSave,
+    isAddingLinkContext,
     modalRef,
   } = useModalContext()
 
@@ -94,6 +94,14 @@ const CustomCollection = ({
       setCustomLabel('')
     }
   }, [isAddingLink])
+
+  useEffect(() => {
+    // If a modal closes, isAddingLinkContext will be set to false, which
+    // will trigger this to run and close the dropdown
+    if (!isAddingLinkContext && isAddingLink) {
+      setIsAddingLink(false)
+    }
+  }, [isAddingLinkContext])
 
   useEffect(() => {
     // If there is no title, prompt user to enter one

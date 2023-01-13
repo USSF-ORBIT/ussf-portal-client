@@ -35,7 +35,7 @@ export type ModalContextType = {
     isAddingLink: boolean
   ) => void
   showAddWarning?: boolean
-  isAddingLink?: boolean
+  isAddingLinkContext: boolean
 }
 
 export const ModalContext = createContext<ModalContextType>({
@@ -45,35 +45,29 @@ export const ModalContext = createContext<ModalContextType>({
   },
   modalRef: null,
   modalHeadingText: '',
-
   closeModal: /* istanbul ignore next */ () => {
     return
   },
-
   onDelete: /* istanbul ignore next */ () => {
     return
   },
-
   onSave: /* istanbul ignore next */ () => {
     return
   },
-
   updateWidget: /* istanbul ignore next */ () => {
     return
   },
-
   updateBookmark: /* istanbul ignore next */ () => {
     return
   },
-
   updateCustomLinkLabel: /* istanbul ignore next */ () => {
     return
   },
-
   updateModalText: /* istanbul ignore next */ () => {
     return
   },
   additionalText: '',
+  isAddingLinkContext: false,
 })
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
@@ -84,7 +78,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [showAddWarning, setShowAddWarning] = useState(false)
   const [widgetState, setWidgetState] = useState<Widget | null>()
   const [bookmark, setBookmark] = useState<BookmarkType | null>()
-  const [isAddingLink, setIsAddingLink] = useState(false)
+  const [isAddingLinkContext, setIsAddingLinkContext] = useState(false)
 
   const modalRef = useRef<ModalRef>(null)
   const { trackEvent } = useAnalytics()
@@ -100,6 +94,9 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     setBookmark(null)
     setCustomLinkLabel('')
     setModalId('')
+    if (isAddingLinkContext) {
+      setIsAddingLinkContext(false)
+    }
     modalRef.current?.toggleModal(undefined, false)
   }
 
@@ -129,9 +126,6 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       refetchQueries: [`getMySpace`],
     })
 
-    // Not sure about setting this here because it creates 2 sources of truth. Could
-    // become problematic
-    // setIsAddingLink(false)
     closeModal()
   }
 
@@ -165,10 +159,9 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     showAddWarning = false,
     isAddingLink = false
   ) => {
-    // All of these are related exclusively to adding a custom link
     setCustomLinkLabel(customLinkLabel)
     setShowAddWarning(showAddWarning)
-    setIsAddingLink(isAddingLink)
+    setIsAddingLinkContext(isAddingLink)
   }
 
   const onDelete = () => {
@@ -223,7 +216,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     customLinkLabel,
     updateCustomLinkLabel,
     showAddWarning,
-    isAddingLink,
+    isAddingLinkContext,
     onSave:
       modalId === 'addCustomLinkModal'
         ? handleSaveCustomLink
