@@ -55,6 +55,9 @@ export type ArticleListItemRecord = {
   sourceName?: string
   sourceLink?: string
   labels?: LabelRecord[]
+  hero?: {
+    url: string
+  }
 }
 
 /* ArticleRecord is the complete article used when viewing the single article page */

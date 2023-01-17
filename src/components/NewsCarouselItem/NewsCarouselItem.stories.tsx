@@ -33,3 +33,11 @@ const mockArticle: ArticleListItemRecord = {
 export const DefaultNewsCarouselItem = () => (
   <NewsCarouselItem article={mockArticle} />
 )
+
+const articleWithHero = {
+  ...mockArticle,
+  hero: { url: '/assets/images/hero.jpeg' },
+}
+export const NewsCarouselItemWithHero = () => (
+  <NewsCarouselItem article={articleWithHero} />
+)
