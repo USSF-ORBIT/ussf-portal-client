@@ -1,10 +1,9 @@
 import React from 'react'
-
+import { Pagination } from '@trussworks/react-uswds'
 import styles from './ArticleList.module.scss'
 
 import type { ArticleListItemRecord } from 'types'
 import { ArticleListItem } from 'components/ArticleListItem/ArticleListItem'
-import Pagination from 'components/Pagination/Pagination'
 
 type ArticleListProps = {
   articles: ArticleListItemRecord[]

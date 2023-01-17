@@ -1,6 +1,6 @@
 import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import Pagination from './Pagination'
+import { Pagination } from '@trussworks/react-uswds'
 
 export default {
   title: 'Base/Pagination',
