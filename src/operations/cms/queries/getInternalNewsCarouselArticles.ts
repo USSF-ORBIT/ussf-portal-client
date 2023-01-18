@@ -20,6 +20,9 @@ export const GET_INTERNAL_NEWS_CAROUSEL_ARTICLES = gql`
         name
         type
       }
+      hero {
+        url
+      }
     }
   }
 `
