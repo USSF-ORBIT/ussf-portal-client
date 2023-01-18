@@ -15,7 +15,7 @@ jobs:
 
       - name: Trigger Netlify build
         id: deploy-storybook-to-netlify
-        uses: jsmrcaga/action-netlify-deploy@d885259ff7079f1e030aef5aaca95269916aea08 # v1.8.1
+        uses: jsmrcaga/action-netlify-deploy@4fcfeb85d65e4b5dd117b7a495bd269448f25e20 # v1.8.2
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_DEPLOY_TO_PROD: false
@@ -26,7 +26,7 @@ jobs:
         continue-on-error: false
 
       - name: Post Storybook URL
-        uses: thollander/actions-comment-pull-request@4159e62bc85fec21089efb305e83a9e7113074e8 # v2.3.0
+        uses: thollander/actions-comment-pull-request@632cf9ce90574d125be56b5f3405cda41a84e2fd # v2.3.1
         with:
           GITHUB_TOKEN: '${{github.token}}'
           message: '🎉 View this branch in Storybook - [${{ steps.deploy-storybook-to-netlify.outputs.NETLIFY_PREVIEW_URL }}](${{ steps.deploy-storybook-to-netlify.outputs.NETLIFY_PREVIEW_URL }})'
