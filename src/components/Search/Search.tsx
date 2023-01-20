@@ -1,30 +1,23 @@
 import React from 'react'
-import classnames from 'classnames'
+import { withLDConsumer } from 'launchdarkly-react-client-sdk'
+import { LDFlagSet } from 'launchdarkly-js-client-sdk'
 import styles from './Search.module.scss'
 // import LinkTo from 'components/util/LinkTo/LinkTo'
 
-const Search = ({ disabled }: { disabled?: boolean }) => {
-  const disableClass = classnames({
-    [styles.disabled]: disabled,
-  })
-
+const Search = ({ flags }: { flags?: LDFlagSet }) => {
   // TODO - re-add filter dropdown & suggested terms as future work
 
   return (
-    <div className={styles.search}>
-      {disabled && (
-        <div className={styles.comingSoon}>
-          <h4>Search coming soon!</h4>
-        </div>
-      )}
-
-      <div className={disableClass}>
-        <form
-          className="usa-search usa-search--big"
-          role="search"
-          method="get"
-          action="/search">
-          {/*
+    <>
+      {flags && flags.searchComponent ? (
+        <div className={styles.search}>
+          <div>
+            <form
+              className="usa-search usa-search--big"
+              role="search"
+              method="get"
+              action="/search">
+              {/*
           <label className="usa-sr-only" htmlFor="options">
             Search Options
           </label>
@@ -40,24 +33,23 @@ const Search = ({ disabled }: { disabled?: boolean }) => {
           </select>
       */}
 
-          <label className="usa-sr-only" htmlFor="q">
-            Search
-          </label>
-          <input
-            className="usa-input"
-            id="q"
-            type="search"
-            name="q"
-            placeholder="What are you looking for today?"
-            disabled={disabled}
-          />
+              <label className="usa-sr-only" htmlFor="q">
+                Search
+              </label>
+              <input
+                className="usa-input"
+                id="q"
+                type="search"
+                name="q"
+                placeholder="What are you looking for today?"
+              />
 
-          <button className="usa-button" type="submit" disabled={disabled}>
-            <span className="usa-search__submit-text">Search</span>
-          </button>
-        </form>
+              <button className="usa-button" type="submit">
+                <span className="usa-search__submit-text">Search</span>
+              </button>
+            </form>
 
-        {/*
+            {/*
         <div className={styles.suggestedTerms}>
           <h3>Are you looking for:</h3>
           <ul>
@@ -87,9 +79,11 @@ const Search = ({ disabled }: { disabled?: boolean }) => {
           </ul>
         </div>
     */}
-      </div>
-    </div>
+          </div>
+        </div>
+      ) : null}
+    </>
   )
 }
 
-export default Search
+export default withLDConsumer()(Search)

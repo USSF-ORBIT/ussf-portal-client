@@ -5,13 +5,7 @@ import styles from './PageHeader.module.scss'
 
 import Search from 'components/Search/Search'
 
-const PageHeader = ({
-  disableSearch,
-  children,
-}: {
-  disableSearch?: boolean
-  children: React.ReactNode
-}) => {
+const PageHeader = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className={styles.PageHeader}>
       <GridContainer>
@@ -20,7 +14,7 @@ const PageHeader = ({
             {children}
           </Grid>
           <Grid col="auto" desktop={{ col: 6 }}>
-            <Search disabled={disableSearch} />
+            <Search />
           </Grid>
         </Grid>
       </GridContainer>
