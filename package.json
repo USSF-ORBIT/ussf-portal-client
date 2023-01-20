@@ -86,7 +86,6 @@
     "react-slick": "0.29.0",
     "redis": "3.1.2",
     "slick-carousel": "1.8.1",
-    "storybook-addon-launchdarkly": "1.0.2",
     "uswds": "2.13.3",
     "yup": "0.32.11"
   },
@@ -153,6 +152,7 @@
     "sass-loader": "13.1.0",
     "standard-version": "9.5.0",
     "storybook-addon-apollo-client": "4.0.13",
+    "storybook-addon-launchdarkly": "1.0.2",
     "storybook-addon-mock": "3.2.0",
     "storybook-addon-next-router": "4.0.1",
     "storybook-css-modules-preset": "1.1.1",

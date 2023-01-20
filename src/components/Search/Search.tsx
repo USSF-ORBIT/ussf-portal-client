@@ -1,23 +1,19 @@
 import React from 'react'
-import { withLDConsumer } from 'launchdarkly-react-client-sdk'
-import { LDFlagSet } from 'launchdarkly-js-client-sdk'
 import styles from './Search.module.scss'
 // import LinkTo from 'components/util/LinkTo/LinkTo'
 
-const Search = ({ flags }: { flags?: LDFlagSet }) => {
+const Search = () => {
   // TODO - re-add filter dropdown & suggested terms as future work
 
   return (
-    <>
-      {flags && flags.searchComponent ? (
-        <div className={styles.search}>
-          <div>
-            <form
-              className="usa-search usa-search--big"
-              role="search"
-              method="get"
-              action="/search">
-              {/*
+    <div className={styles.search}>
+      <div>
+        <form
+          className="usa-search usa-search--big"
+          role="search"
+          method="get"
+          action="/search">
+          {/*
           <label className="usa-sr-only" htmlFor="options">
             Search Options
           </label>
@@ -33,23 +29,23 @@ const Search = ({ flags }: { flags?: LDFlagSet }) => {
           </select>
       */}
 
-              <label className="usa-sr-only" htmlFor="q">
-                Search
-              </label>
-              <input
-                className="usa-input"
-                id="q"
-                type="search"
-                name="q"
-                placeholder="What are you looking for today?"
-              />
+          <label className="usa-sr-only" htmlFor="q">
+            Search
+          </label>
+          <input
+            className="usa-input"
+            id="q"
+            type="search"
+            name="q"
+            placeholder="What are you looking for today?"
+          />
 
-              <button className="usa-button" type="submit">
-                <span className="usa-search__submit-text">Search</span>
-              </button>
-            </form>
+          <button className="usa-button" type="submit">
+            <span className="usa-search__submit-text">Search</span>
+          </button>
+        </form>
 
-            {/*
+        {/*
         <div className={styles.suggestedTerms}>
           <h3>Are you looking for:</h3>
           <ul>
@@ -79,11 +75,9 @@ const Search = ({ flags }: { flags?: LDFlagSet }) => {
           </ul>
         </div>
     */}
-          </div>
-        </div>
-      ) : null}
-    </>
+      </div>
+    </div>
   )
 }
 
-export default withLDConsumer()(Search)
+export default Search

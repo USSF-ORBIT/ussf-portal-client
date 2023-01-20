@@ -29,14 +29,8 @@ export const PortalHome = () => (
   </PageHeader>
 )
 
-export const PortalHomeDisabledSearch = () => (
-  <PageHeader disableSearch>
-    <PersonalData />
-  </PageHeader>
-)
-
 export const NewsAndAnnouncements = () => (
-  <PageHeader disableSearch>
+  <PageHeader>
     <div>
       <h1>News &amp; Announcements</h1>
       <BreadcrumbBar>
