@@ -29,16 +29,6 @@ export const PortalHome = () => (
   </PageHeader>
 )
 
-export const SearchOff: StoryObj = {
-  parameters: {
-    launchdarkly: {
-      flags: {
-        searchComponent: false,
-      },
-    },
-  },
-}
-
 export const SearchOn: StoryObj = {
   parameters: {
     launchdarkly: {
