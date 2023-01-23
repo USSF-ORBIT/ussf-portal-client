@@ -88,6 +88,10 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [showAddWarning, setShowAddWarning] = useState(false)
   const [widgetState, setWidgetState] = useState<Widget | null>()
   const [bookmark, setBookmark] = useState<BookmarkType | null>()
+
+  // In CustomCollection.tsx there is an isAddingLink state that controls
+  // the visibility of a dropdown. isAddingLinkContext mirrors that value,
+  // and is evaluated in a useEffect to close the dropdown if a modal is closed.
   const [isAddingLinkContext, setIsAddingLinkContext] = useState(false)
 
   const modalRef = useRef<ModalRef>(null)
