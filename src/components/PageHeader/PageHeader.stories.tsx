@@ -4,7 +4,7 @@ import {
   Breadcrumb,
   BreadcrumbLink,
 } from '@trussworks/react-uswds'
-import type { Meta } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 
 import PageHeader from './PageHeader'
 
@@ -28,6 +28,26 @@ export const PortalHome = () => (
     <PersonalData />
   </PageHeader>
 )
+
+export const SearchOff: StoryObj = {
+  parameters: {
+    launchdarkly: {
+      flags: {
+        searchComponent: false,
+      },
+    },
+  },
+}
+
+export const SearchOn: StoryObj = {
+  parameters: {
+    launchdarkly: {
+      flags: {
+        searchComponent: true,
+      },
+    },
+  },
+}
 
 export const NewsAndAnnouncements = () => (
   <PageHeader>

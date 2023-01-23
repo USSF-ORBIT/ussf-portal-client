@@ -1,5 +1,5 @@
 import React from 'react'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta } from '@storybook/react'
 import Search from './Search'
 
 export default {
@@ -15,13 +15,3 @@ export default {
 } as Meta
 
 export const Enabled = () => <Search />
-
-export const SearchOff: StoryObj = {
-  parameters: {
-    launchdarkly: {
-      flags: {
-        searchComponent: false,
-      },
-    },
-  },
-}

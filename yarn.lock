@@ -15838,7 +15838,7 @@ storybook-addon-apollo-client@4.0.13:
     "@storybook/components" "6.5.12"
     tslib "^2.4.0"
 
-storybook-addon-launchdarkly@^1.0.2:
+storybook-addon-launchdarkly@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/storybook-addon-launchdarkly/-/storybook-addon-launchdarkly-1.0.2.tgz#ba128b094ae1a59d2c5cae64279f82cf4b8bf72a"
   integrity sha512-iNLxsgocrqayjGUMJqokd020xOJ1VBXkXM2YPFLmUSURkTnXBGJWZ5zNykKJD11LJfq6DMtwB3CIQvlYugY+6g==
