@@ -28,6 +28,9 @@ const CustomModal = ({ ...props }) => {
   const nameInputRef = useRef<HTMLInputElement>(null)
   const urlInputRef = useRef<HTMLInputElement>(null)
 
+  // TO DO - id, aria-labelledby, and aria-describedby were previously combined w/ the
+  // modalId of each modal component to create a unique value (e.g. aria-labelledby=addCustomLinkModal-heading).
+  // Now that we only have one modal component, do we need just one unique value? Or something similar to before?
   return (
     <ModalPortal>
       <Modal

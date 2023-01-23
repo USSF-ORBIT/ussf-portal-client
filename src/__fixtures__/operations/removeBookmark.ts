@@ -16,7 +16,6 @@ export const removeBookmarkMock = [
       variables: {
         _id: mockRemoveBookmark._id,
         collectionId: mockRemoveBookmarkCollectionId,
-        // cmsId: null,
       },
     },
     result: {

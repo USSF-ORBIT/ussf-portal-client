@@ -458,16 +458,6 @@ describe('My Space Component', () => {
       descriptionText: 'This action cannot be undone.',
     })
     expect(mockUpdateWidget).toHaveBeenCalled()
-
-    // screen.debug()
-    // const deleteButton = await screen.findAllByTestId('button', {})
-    // await user.click(deleteButton[0])
-
-    // await act(
-    //   async () => await new Promise((resolve) => setTimeout(resolve, 0))
-    // ) // wait for response
-
-    // expect(collectionRemoved).toBe(true)
   })
 
   it('handles the add collection operation', async () => {
@@ -577,28 +567,5 @@ describe('My Space Component', () => {
     })
     expect(mockUpdateWidget).toHaveBeenCalled()
     expect(mockUpdateBookmark).toHaveBeenCalled()
-
-    // const editModal = await screen.findByRole('dialog', {
-    //   name: 'Edit custom link',
-    // })
-    // const editModal = container.querySelector('#modal-root')
-
-    // expect(editModal).toBeVisible()
-    // const nameInput = within(editModal).getByLabelText('Name')
-    // const urlInput = within(editModal).getByLabelText('URL')
-
-    // await user.clear(nameInput)
-    // await user.clear(urlInput)
-    // await user.type(nameInput, 'Yahoo')
-    // await user.type(urlInput, '{clear}https://www.yahoo.com')
-    // await user.click(
-    //   within(editModal).getByRole('button', { name: 'Save custom link' })
-    // )
-
-    // await act(
-    //   async () => await new Promise((resolve) => setTimeout(resolve, 0))
-    // )
-
-    // expect(bookmarkEdited).toBe(true)
   })
 })

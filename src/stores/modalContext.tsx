@@ -8,7 +8,17 @@ import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBoo
 import { useEditBookmarkMutation } from 'operations/portal/mutations/editBookmark.g'
 import { Widget, Bookmark as BookmarkType } from 'types/index'
 
-// Try to clean this up
+// TO DO - A few things...
+// 1. Find a way to use callbacks for the handlers in this file (e.g. handleSaveCustomLink). We want
+// to have that logic originate from the component that is calling to open a modal, if we can.
+// 2. Refactor the various useState calls in ModalProvider. A lot of them could be consolidated into
+// a larger state object. Example: modalHeadingText, additionalText, and modalId could all be combined
+// into one state object, and as a result, each of their respective  handler functions could be combined into one as well.
+// 3. Refactor ModalContextType to match updates mentioned in the above point.
+
+// modalRef had to be given an 'any' type, else it would cause
+// a ton of tests to fail. The mocked ref that is causing the issue
+// is in testHelpers.tsx on line 11.
 export type ModalContextType = {
   modalId: string
   updateModalId: (modalId: string) => void
