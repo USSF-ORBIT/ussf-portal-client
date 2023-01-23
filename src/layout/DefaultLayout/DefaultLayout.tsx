@@ -35,7 +35,7 @@ const DefaultLayout = ({
         <GovBanner tld=".mil" />
         <Header />
         <main id="main-content">
-          <PageHeader disableSearch>
+          <PageHeader>
             <PersonalData />
           </PageHeader>
 

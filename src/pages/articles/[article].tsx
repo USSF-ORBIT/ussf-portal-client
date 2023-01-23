@@ -12,7 +12,7 @@ import { SingleArticle } from 'components/SingleArticle/SingleArticle'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 
 const ORBITBlogArticleHeader = () => (
-  <PageHeader disableSearch>
+  <PageHeader>
     <div>
       <h1>ORBIT Blog</h1>
       <BreadcrumbNav
@@ -31,7 +31,7 @@ const ORBITBlogArticleHeader = () => (
 )
 
 const InternalNewsArticleHeader = () => (
-  <PageHeader disableSearch>
+  <PageHeader>
     <div>
       <h1>News</h1>
       <BreadcrumbNav
