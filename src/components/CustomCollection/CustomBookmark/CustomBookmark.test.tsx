@@ -60,12 +60,13 @@ describe('CustomBookmark component', () => {
     expect(screen.getByRole('link')).toHaveTextContent(testBookmarkNoLabel.url)
   })
 
-  it('can save the bookmark', async () => {
+  it('calls each function associated with editing a bookmark', async () => {
     const user = userEvent.setup()
     const mockUpdateModalId = jest.fn()
     const mockUpdateModalText = jest.fn()
     const mockUpdateWidget = jest.fn()
     const mockUpdateBookmark = jest.fn()
+    const mockModalRef = jest.spyOn(React, 'useRef')
 
     renderWithModalRoot(
       <CustomBookmark
@@ -78,6 +79,7 @@ describe('CustomBookmark component', () => {
         updateModalText: mockUpdateModalText,
         updateWidget: mockUpdateWidget,
         updateBookmark: mockUpdateBookmark,
+        modalRef: mockModalRef,
       }
     )
 
@@ -91,7 +93,13 @@ describe('CustomBookmark component', () => {
       headingText: 'Edit custom link',
     })
 
-    expect(mockUpdateWidget).toHaveBeenCalled()
-    expect(mockUpdateBookmark).toHaveBeenCalled()
+    expect(mockUpdateWidget).toHaveBeenCalledWith({
+      _id: testWidgetId,
+      title: testCollectionTitle,
+      type: 'Collection',
+    })
+    expect(mockUpdateBookmark).toHaveBeenCalledWith(testBookmark)
+
+    expect(mockModalRef).toHaveBeenCalled()
   })
 })
