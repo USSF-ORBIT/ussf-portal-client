@@ -93,7 +93,6 @@ describe('Modal context', () => {
     const deleteButton = screen.getByText('Delete')
     await user.click(deleteButton)
 
-    // Seems like I'm basically just hard-coding this? Can't figure out how to make a good assertion here
     expect(removeWidgetMock[0].result).toEqual({
       data: { _id: mockWidget._id },
     })
@@ -166,8 +165,7 @@ describe('Modal context', () => {
 
     await user.click(saveButton)
 
-    // Again, not really sure what the assertion should be here
-    // expect(addBookmarkMock[0].result.data.label).toEqual('fail')
+    expect(addBookmarkMock[0].result.data.label).toEqual('My Custom Label')
   })
 
   it('tests editing a bookmark', async () => {
@@ -236,7 +234,7 @@ describe('Modal context', () => {
 
     await user.click(saveButton)
 
-    // Need an assertion?
+    expect(editBookmarkMock[0].result.data.label).toEqual('Updated Label')
   })
 
   it('tests removing a bookmark while editing', async () => {
@@ -301,7 +299,9 @@ describe('Modal context', () => {
 
     await user.click(deleteButton)
 
-    // Need an assertion?
+    expect(removeBookmarkMock[0].result.data._id).toEqual(
+      mockRemoveBookmark._id
+    )
   })
 
   it('tests removing a custom collection', async () => {
@@ -355,6 +355,8 @@ describe('Modal context', () => {
     expect(deleteButton).toBeInTheDocument()
 
     await user.click(deleteButton)
+
+    expect(removeCollectionMock[0].result.data._id).toEqual(mockCollection._id)
   })
 })
 
