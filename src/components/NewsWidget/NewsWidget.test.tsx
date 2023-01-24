@@ -5,9 +5,11 @@ import React from 'react'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
+import { ObjectId } from 'mongodb'
 
 import { renderWithModalRoot } from '../../testHelpers'
 import NewsWidget from './NewsWidget'
+import { Widget } from 'types/index'
 
 import { mockRssFeedTen } from '__mocks__/news-rss'
 
@@ -15,9 +17,13 @@ jest.mock('axios')
 
 const mockedAxios = axios as jest.Mocked<typeof axios>
 
-describe('NewsWidget component', () => {
-  const mockHandleRemove = jest.fn()
+const mockNewsWidget: Widget = {
+  _id: ObjectId(),
+  title: 'Recent News',
+  type: 'News',
+}
 
+describe('NewsWidget component', () => {
   mockedAxios.get.mockImplementation(() => {
     return Promise.resolve({ data: mockRssFeedTen })
   })
@@ -27,7 +33,7 @@ describe('NewsWidget component', () => {
   })
 
   it('renders a widget that displays RSS items and a link to the News page', async () => {
-    render(<NewsWidget onRemove={mockHandleRemove} />)
+    render(<NewsWidget widget={mockNewsWidget} />)
 
     expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
       'Recent News'
@@ -42,7 +48,7 @@ describe('NewsWidget component', () => {
 
   it('renders a settings menu', async () => {
     const user = userEvent.setup()
-    render(<NewsWidget onRemove={mockHandleRemove} />)
+    render(<NewsWidget widget={mockNewsWidget} />)
 
     user.click(
       screen.getByRole('button', {
@@ -57,37 +63,17 @@ describe('NewsWidget component', () => {
     expect(removeButton).toBeInTheDocument()
   })
 
-  it('clicking the remove section button opens the confirmation modal', async () => {
+  it('clicking in settings to remove section passes correct values to modalContext', async () => {
     const user = userEvent.setup()
-    renderWithModalRoot(<NewsWidget onRemove={mockHandleRemove} />)
+    const mockUpdateModalId = jest.fn()
+    const mockUpdateModalText = jest.fn()
+    const mockUpdateWidget = jest.fn()
 
-    await user.click(
-      screen.getByRole('button', {
-        name: 'Section Settings',
-      })
-    )
-
-    const removeButton = await screen.findByRole('button', {
-      name: 'Remove this section',
+    renderWithModalRoot(<NewsWidget widget={mockNewsWidget} />, {
+      updateModalId: mockUpdateModalId,
+      updateModalText: mockUpdateModalText,
+      updateWidget: mockUpdateWidget,
     })
-
-    expect(removeButton).toBeInTheDocument()
-
-    await user.click(removeButton)
-
-    // Open modal
-    expect(
-      screen.getByRole('dialog', {
-        name: 'Are you sure you’d like to delete this section?',
-      })
-    ).toHaveClass('is-visible')
-
-    expect(mockHandleRemove).not.toHaveBeenCalled()
-  })
-
-  it('clicking the cancel button in the modal closes the confirmation modal', async () => {
-    const user = userEvent.setup()
-    renderWithModalRoot(<NewsWidget onRemove={mockHandleRemove} />)
 
     await user.click(
       screen.getByRole('button', {
@@ -101,64 +87,12 @@ describe('NewsWidget component', () => {
       })
     )
 
-    // Open modal
-    const confirmationModal = screen.getByRole('dialog', {
-      name: 'Are you sure you’d like to delete this section?',
+    expect(mockUpdateModalId).toHaveBeenCalledWith('removeSectionModal')
+    expect(mockUpdateModalText).toHaveBeenCalledWith({
+      headingText: 'Are you sure you’d like to delete this section?',
+      descriptionText:
+        'You can re-add it to your My Space from the Add Section menu.',
     })
-
-    expect(confirmationModal).toHaveClass('is-visible')
-    const cancelButton = within(confirmationModal).getByRole('button', {
-      name: 'Cancel',
-    })
-    await user.click(cancelButton)
-
-    expect(mockHandleRemove).toHaveBeenCalledTimes(0)
-    expect(
-      screen.getByRole('dialog', {
-        name: 'Are you sure you’d like to delete this section?',
-      })
-    ).toHaveClass('is-hidden')
-  })
-
-  it('clicking the confirm button in the modal calls the remove handler and closes the confirmation modal', async () => {
-    const user = userEvent.setup()
-    renderWithModalRoot(<NewsWidget onRemove={mockHandleRemove} />)
-
-    expect(
-      screen.getByRole('dialog', {
-        name: 'Are you sure you’d like to delete this section?',
-      })
-    ).toHaveClass('is-hidden')
-
-    await user.click(
-      screen.getByRole('button', {
-        name: 'Section Settings',
-      })
-    )
-
-    await user.click(
-      await screen.findByRole('button', {
-        name: 'Remove this section',
-      })
-    )
-
-    // Open modal
-    const confirmationModal = screen.getByRole('dialog', {
-      name: 'Are you sure you’d like to delete this section?',
-    })
-
-    expect(confirmationModal).toHaveClass('is-visible')
-    await user.click(
-      within(confirmationModal).getByRole('button', {
-        name: 'Delete',
-      })
-    )
-
-    expect(mockHandleRemove).toHaveBeenCalledTimes(1)
-    expect(
-      screen.getByRole('dialog', {
-        name: 'Are you sure you’d like to delete this section?',
-      })
-    ).toHaveClass('is-hidden')
+    expect(mockUpdateWidget).toHaveBeenCalled()
   })
 })

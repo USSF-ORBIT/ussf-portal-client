@@ -1,24 +1,61 @@
 import React from 'react'
-import { render, RenderOptions } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
-
 import { testUser1 } from './__fixtures__/authUsers'
 import { AuthContext, AuthContextType } from 'stores/authContext'
+import { ModalContext, ModalContextType } from 'stores/modalContext'
+
+export const defaultMockModalContext = {
+  modalId: '',
+  updateModalId: jest.fn(),
+  modalRef: jest.spyOn(React, 'useRef'),
+  modalHeadingText: '',
+  closeModal: jest.fn(),
+  onDelete: jest.fn(),
+  onSave: jest.fn(),
+  updateWidget: jest.fn(),
+  updateModalText: jest.fn(),
+  additionalText: '',
+  updateBookmark: jest.fn(),
+  customLinkLabel: '',
+  updateCustomLinkLabel: jest.fn(),
+  showAddWarning: false,
+  isAddingLinkContext: false,
+}
 
 export const renderWithModalRoot = (
-  ui: React.ReactElement,
-  options: RenderOptions = {}
+  component: React.ReactElement,
+  value: Partial<ModalContextType> = {},
+  mocks: readonly MockedResponse<Record<string, unknown>>[] = []
 ) => {
   const modalContainer = document.createElement('div')
   modalContainer.setAttribute('id', 'modal-root')
 
-  return render(ui, {
-    ...options,
+  const contextValue = {
+    ...defaultMockModalContext,
+    ...value,
+  }
+
+  const wrapper = ({ children }: { children: React.ReactNode }) => {
+    return (
+      <MockedProvider
+        mocks={mocks}
+        addTypename={false}
+        defaultOptions={{
+          watchQuery: { fetchPolicy: 'no-cache' },
+          query: { fetchPolicy: 'no-cache' },
+        }}>
+        <ModalContext.Provider value={contextValue}>
+          {children}
+        </ModalContext.Provider>
+      </MockedProvider>
+    )
+  }
+
+  return render(component, {
+    // ...options,
     container: document.body.appendChild(modalContainer),
-    // modal seems to trigger the legacy mode for React
-    // there is a warning that the test isn't setup to use act when this is removed
-    // so eventually we need to update it.
-    legacyRoot: true,
+    wrapper,
   })
 }
 

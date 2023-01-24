@@ -12,13 +12,13 @@ export type AuthContextType = {
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
-  setUser: () => {
+  setUser: /* istanbul ignore next */ () => {
     return
   },
-  logout: () => {
+  logout: /* istanbul ignore next */ () => {
     return
   },
-  login: () => {
+  login: /* istanbul ignore next */ () => {
     return
   },
 })

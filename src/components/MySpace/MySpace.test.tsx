@@ -402,6 +402,9 @@ describe('My Space Component', () => {
 
   it('handles the remove collection operation', async () => {
     const user = userEvent.setup()
+    const mockUpdateModalId = jest.fn()
+    const mockUpdateModalText = jest.fn()
+    const mockUpdateWidget = jest.fn()
 
     let collectionRemoved = false
     const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
@@ -429,7 +432,12 @@ describe('My Space Component', () => {
     renderWithModalRoot(
       <MockedProvider mocks={removeCollectionMock} addTypename={false}>
         <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-      </MockedProvider>
+      </MockedProvider>,
+      {
+        updateModalId: mockUpdateModalId,
+        updateModalText: mockUpdateModalText,
+        updateWidget: mockUpdateWidget,
+      }
     )
 
     const dropdownMenu = await screen.findAllByRole('button', {
@@ -440,21 +448,16 @@ describe('My Space Component', () => {
     await user.click(
       screen.getByRole('button', { name: 'Delete this collection' })
     )
-    const removeCollectionModals = screen.getAllByRole('dialog', {
-      name: 'Are you sure you’d like to delete this collection from My Space?',
-    })
 
-    const removeCollectionModal = removeCollectionModals[0]
-    expect(removeCollectionModal).toHaveClass('is-visible')
-    await user.click(
-      within(removeCollectionModal).getByRole('button', { name: 'Delete' })
+    expect(mockUpdateModalId).toHaveBeenCalledWith(
+      'removeCustomCollectionModal'
     )
-
-    await act(
-      async () => await new Promise((resolve) => setTimeout(resolve, 0))
-    ) // wait for response
-
-    expect(collectionRemoved).toBe(true)
+    expect(mockUpdateModalText).toHaveBeenCalledWith({
+      headingText:
+        'Are you sure you’d like to delete this collection from My Space?',
+      descriptionText: 'This action cannot be undone.',
+    })
+    expect(mockUpdateWidget).toHaveBeenCalled()
   })
 
   it('handles the add collection operation', async () => {
@@ -505,6 +508,10 @@ describe('My Space Component', () => {
 
   it('handles the edit bookmark operation', async () => {
     const user = userEvent.setup()
+    const mockUpdateModalId = jest.fn()
+    const mockUpdateModalText = jest.fn()
+    const mockUpdateWidget = jest.fn()
+    const mockUpdateBookmark = jest.fn()
 
     let bookmarkEdited = false
     const bookmarkId =
@@ -540,7 +547,13 @@ describe('My Space Component', () => {
     renderWithModalRoot(
       <MockedProvider mocks={editBookmarkMock} addTypename={false}>
         <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-      </MockedProvider>
+      </MockedProvider>,
+      {
+        updateModalId: mockUpdateModalId,
+        updateModalText: mockUpdateModalText,
+        updateWidget: mockUpdateWidget,
+        updateBookmark: mockUpdateBookmark,
+      }
     )
 
     const editButton = await screen.findByRole('button', {
@@ -548,26 +561,11 @@ describe('My Space Component', () => {
     })
     await user.click(editButton)
 
-    const editModal = await screen.findByRole('dialog', {
-      name: 'Edit custom link',
+    expect(mockUpdateModalId).toHaveBeenCalledWith('editCustomLinkModal')
+    expect(mockUpdateModalText).toHaveBeenCalledWith({
+      headingText: 'Edit custom link',
     })
-
-    expect(editModal).toBeVisible()
-    const nameInput = within(editModal).getByLabelText('Name')
-    const urlInput = within(editModal).getByLabelText('URL')
-
-    await user.clear(nameInput)
-    await user.clear(urlInput)
-    await user.type(nameInput, 'Yahoo')
-    await user.type(urlInput, '{clear}https://www.yahoo.com')
-    await user.click(
-      within(editModal).getByRole('button', { name: 'Save custom link' })
-    )
-
-    await act(
-      async () => await new Promise((resolve) => setTimeout(resolve, 0))
-    )
-
-    expect(bookmarkEdited).toBe(true)
+    expect(mockUpdateWidget).toHaveBeenCalled()
+    expect(mockUpdateBookmark).toHaveBeenCalled()
   })
 })

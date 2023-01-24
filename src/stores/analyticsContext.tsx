@@ -22,10 +22,10 @@ export type AnalyticsContextType = {
 }
 
 export const AnalyticsContext = createContext<AnalyticsContextType>({
-  push: () => {
+  push: /* istanbul ignore next */ () => {
     return
   },
-  trackEvent: () => {
+  trackEvent: /* istanbul ignore next */ () => {
     return
   },
 })
