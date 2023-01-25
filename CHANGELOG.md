@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.13.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.12.1...4.13.0) (2023-01-25)
+
+
+### Features
+
+* display hero image in news carousel ([#901](https://github.com/USSF-ORBIT/ussf-portal-client/issues/901)) ([34fefac](https://github.com/USSF-ORBIT/ussf-portal-client/commit/34fefaca76bec59bc9caf707b8878984582680c0))
+
+
+### Bug Fixes
+
+* **deps:** update dependency micro to v10 ([#879](https://github.com/USSF-ORBIT/ussf-portal-client/issues/879)) ([c538652](https://github.com/USSF-ORBIT/ussf-portal-client/commit/c5386522d8a333dac0f15380f6792cfa62c36eca))
+
 ### [4.12.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.12.0...4.12.1) (2023-01-11)
 
 
