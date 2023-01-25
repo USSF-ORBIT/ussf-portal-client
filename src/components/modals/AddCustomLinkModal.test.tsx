@@ -36,7 +36,7 @@ describe('AddCustomLinkModal', () => {
     const deleteLinkButton = screen.queryByRole('button', {
       name: 'Delete',
     })
-    expect(deleteLinkButton).not.toBeInTheDocument()
+    expect(deleteLinkButton).toBeInTheDocument()
   })
 
   it('can cancel out of the modal', async () => {

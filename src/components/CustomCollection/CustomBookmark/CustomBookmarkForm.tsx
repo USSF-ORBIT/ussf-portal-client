@@ -10,6 +10,7 @@ import {
   Alert,
   ErrorMessage,
 } from '@trussworks/react-uswds'
+import { useModalContext } from 'stores/modalContext'
 
 type CustomBookmarkFormProps = {
   onSave: (url: string, label: string) => void
@@ -33,6 +34,8 @@ export const CustomBookmarkForm = ({
 }: CustomBookmarkFormProps) => {
   // #TODO: Integrate Formik into our forms following the
   // wrapper component pattern used in other Truss projects
+
+  const { isAddingLinkContext } = useModalContext()
 
   const formik = useFormik({
     initialValues: {
@@ -147,7 +150,7 @@ export const CustomBookmarkForm = ({
           onClick={handleOnCancel}>
           Cancel
         </Button>
-        {onDelete && (
+        {isAddingLinkContext ? null : (
           <Button
             type="button"
             data-close-modal

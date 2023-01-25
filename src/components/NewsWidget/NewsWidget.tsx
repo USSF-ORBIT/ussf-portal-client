@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import { Button, ModalRef } from '@trussworks/react-uswds'
+import React, { useEffect } from 'react'
+import { Button } from '@trussworks/react-uswds'
 
 import styles from './NewsWidget.module.scss'
 
@@ -10,16 +10,20 @@ import NewsItem from 'components/NewsItem/NewsItem'
 import type { RSSNewsItem } from 'types'
 import { validateNewsItems, formatRssToArticle } from 'helpers/index'
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
-import RemoveSectionModal from 'components/modals/RemoveSectionModal'
-import { useAnalytics } from 'stores/analyticsContext'
+import { useModalContext } from 'stores/modalContext'
+import { Widget } from 'types/index'
 
 // Load 2 items
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
 
-const NewsWidget = ({ onRemove }: { onRemove: () => void }) => {
+type NewsWidgetProps = {
+  widget: Widget
+}
+
+const NewsWidget = (widget: NewsWidgetProps) => {
+  const { updateModalId, updateModalText, modalRef, updateWidget } =
+    useModalContext()
   const { items, fetchItems } = useRSSFeed(RSS_URL)
-  const removeSectionModal = useRef<ModalRef>(null)
-  const { trackEvent } = useAnalytics()
 
   useEffect(() => {
     fetchItems()
@@ -28,19 +32,22 @@ const NewsWidget = ({ onRemove }: { onRemove: () => void }) => {
   /** Remove section */
   // Show confirmation modal
   const handleConfirmRemoveSection = () => {
-    removeSectionModal.current?.toggleModal(undefined, true)
-  }
+    updateModalId('removeSectionModal')
+    updateModalText({
+      headingText: 'Are you sure you’d like to delete this section?',
+      descriptionText:
+        'You can re-add it to your My Space from the Add Section menu.',
+    })
 
-  // After confirming remove, trigger the mutation and close the modal
-  const handleRemoveSection = () => {
-    trackEvent('Section settings', 'Remove this section', 'News')
-    onRemove()
-    removeSectionModal.current?.toggleModal(undefined, false)
-  }
+    const widgetState: Widget = {
+      _id: widget.widget._id,
+      title: widget.widget.title,
+      type: 'News',
+    }
 
-  // Cancel removing
-  const handleCancelRemoveSection = () => {
-    removeSectionModal.current?.toggleModal(undefined, false)
+    updateWidget(widgetState)
+
+    modalRef?.current?.toggleModal(undefined, true)
   }
 
   return (
@@ -76,11 +83,6 @@ const NewsWidget = ({ onRemove }: { onRemove: () => void }) => {
           </LinkTo>
         </div>
       </WidgetWithSettings>
-      <RemoveSectionModal
-        modalRef={removeSectionModal}
-        onCancel={handleCancelRemoveSection}
-        onDelete={handleRemoveSection}
-      />
     </>
   )
 }
