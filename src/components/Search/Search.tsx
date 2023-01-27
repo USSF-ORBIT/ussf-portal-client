@@ -1,13 +1,23 @@
 import React from 'react'
+import classnames from 'classnames'
 import styles from './Search.module.scss'
 // import LinkTo from 'components/util/LinkTo/LinkTo'
 
-const Search = () => {
+const Search = ({ disabled }: { disabled?: boolean }) => {
+  const disableClass = classnames({
+    [styles.disabled]: disabled,
+  })
+
   // TODO - re-add filter dropdown & suggested terms as future work
 
   return (
     <div className={styles.search}>
-      <div>
+      {disabled && (
+        <div className={styles.comingSoon}>
+          <h4>Search coming soon!</h4>
+        </div>
+      )}
+      <div className={disableClass}>
         <form
           className="usa-search usa-search--big"
           role="search"
@@ -38,9 +48,10 @@ const Search = () => {
             type="search"
             name="q"
             placeholder="What are you looking for today?"
+            disabled={disabled}
           />
 
-          <button className="usa-button" type="submit">
+          <button className="usa-button" type="submit" disabled={disabled}>
             <span className="usa-search__submit-text">Search</span>
           </button>
         </form>
