@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.13.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.12.1...4.13.0) (2023-01-25)
+
+
+### Features
+
+* display hero image in news carousel ([#901](https://github.com/USSF-ORBIT/ussf-portal-client/issues/901)) ([34fefac](https://github.com/USSF-ORBIT/ussf-portal-client/commit/34fefaca76bec59bc9caf707b8878984582680c0))
+
+
+### Bug Fixes
+
+* **deps:** update dependency micro to v10 ([#879](https://github.com/USSF-ORBIT/ussf-portal-client/issues/879)) ([c538652](https://github.com/USSF-ORBIT/ussf-portal-client/commit/c5386522d8a333dac0f15380f6792cfa62c36eca))
+
+### [4.12.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.12.0...4.12.1) (2023-01-11)
+
+
+### Bug Fixes
+
+* add mock user for ThemeToggle story ([#889](https://github.com/USSF-ORBIT/ussf-portal-client/issues/889)) ([5961890](https://github.com/USSF-ORBIT/ussf-portal-client/commit/59618903d2e65c12d1a61cceb8f963abcdb2cfbb))
+* design: adds icons into theme toggle ([#895](https://github.com/USSF-ORBIT/ussf-portal-client/issues/895)) ([f72da84](https://github.com/USSF-ORBIT/ussf-portal-client/commit/f72da84642bc22ea861b36d2a3d7416c22a08478))
+* design: updates page loader animation ([#886](https://github.com/USSF-ORBIT/ussf-portal-client/issues/886)) ([6f7472e](https://github.com/USSF-ORBIT/ussf-portal-client/commit/6f7472e7d68b7672a69fd3349b5d4d8abb2fa4de))
+
+
+### Security Improvements
+
+* **deps:** Upgrade node 18 ([#881](https://github.com/USSF-ORBIT/ussf-portal-client/issues/881)) ([0ce1398](https://github.com/USSF-ORBIT/ussf-portal-client/commit/0ce1398b17ce30e43146e50c0cb59a45c9467e79))
+
 ## [4.12.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.10.0...4.12.0) (2022-12-13)
 
 

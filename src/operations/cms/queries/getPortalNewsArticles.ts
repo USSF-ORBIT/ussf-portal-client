@@ -19,6 +19,8 @@ export const GET_PORTAL_NEWS_ARTICLES = gql`
 
 export const GET_ARTICLES_COUNT = gql`
   query GetArticlesCount {
-    articlesCount
+    articlesCount(
+      where: { status: { equals: Published }, category: { equals: ORBITBlog } }
+    )
   }
 `

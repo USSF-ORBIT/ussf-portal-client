@@ -17,8 +17,14 @@
     rgba(101, 114, 180, 1) 100%
   );
 
-  .carouselImage {
+  .ussfLogo {
     width: 50%;
+  }
+
+  .hero {
+    width: 100%;
+    max-height: 534px;
+    object-fit: cover;
   }
 }
 

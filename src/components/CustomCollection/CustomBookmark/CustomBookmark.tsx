@@ -1,38 +1,42 @@
-import React, { useRef } from 'react'
-import { ModalRef } from '@trussworks/react-uswds'
+import React from 'react'
+import type { ObjectId } from 'bson'
 
 import styles from '../CustomCollection.module.scss'
 
 import Bookmark from 'components/Bookmark/Bookmark'
 import type { Bookmark as BookmarkType } from 'types/index'
-import EditCustomLinkModal from 'components/modals/EditCustomLinkModal'
+import { useModalContext } from 'stores/modalContext'
 
 export const CustomBookmark = ({
   bookmark,
-  onSave,
-  onDelete,
+  widgetId,
+  collectionTitle,
 }: {
   bookmark: BookmarkType
-  onSave: (url: string, label: string) => void
-  onDelete: () => void
+  widgetId: ObjectId
+  collectionTitle: string
 }) => {
-  const editCustomLinkModal = useRef<ModalRef>(null)
   const { url, label } = bookmark
+  const {
+    updateModalId,
+    updateModalText,
+    modalRef,
+    updateBookmark,
+    updateWidget,
+  } = useModalContext()
 
-  const handleEditLink = () =>
-    editCustomLinkModal.current?.toggleModal(undefined, true)
+  const handleEditLink = () => {
+    updateModalId('editCustomLinkModal')
+    updateModalText({
+      headingText: 'Edit custom link',
+    })
 
-  const handleSaveLink = (label: string, url: string) => {
-    editCustomLinkModal.current?.toggleModal(undefined, false)
-    onSave(url, label)
-  }
+    // The collectionTitle isn't needed here, but adding it in to maintain the Widget type
+    // while performing operations against the bookmark
+    updateWidget({ _id: widgetId, title: collectionTitle, type: 'Collection' })
+    updateBookmark(bookmark)
 
-  const handleCancel = () =>
-    editCustomLinkModal.current?.toggleModal(undefined, false)
-
-  const handleDeleteLink = () => {
-    editCustomLinkModal.current?.toggleModal(undefined, false)
-    onDelete()
+    modalRef?.current?.toggleModal(undefined, true)
   }
 
   return (
@@ -43,14 +47,6 @@ export const CustomBookmark = ({
         className={styles.customLink}>
         <span className={styles.customLinkText}>{label || url}</span>
       </Bookmark>
-
-      <EditCustomLinkModal
-        bookmark={bookmark}
-        modalRef={editCustomLinkModal}
-        onCancel={handleCancel}
-        onSave={handleSaveLink}
-        onDelete={handleDeleteLink}
-      />
     </>
   )
 }

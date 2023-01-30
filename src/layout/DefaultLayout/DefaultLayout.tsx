@@ -9,6 +9,7 @@ import PageHeader from 'components/PageHeader/PageHeader'
 import PageNav from 'components/PageNav/PageNav'
 import FeedbackCard from 'components/FeedbackCard/FeedbackCard'
 import Footer from 'components/Footer/Footer'
+import CustomModal from 'components/CustomModal/CustomModal'
 
 const DefaultLayout = ({
   displayFeedbackCard = true,
@@ -53,6 +54,8 @@ const DefaultLayout = ({
           </GridContainer>
         </main>
         <Footer />
+
+        <CustomModal />
       </div>
     </>
   )

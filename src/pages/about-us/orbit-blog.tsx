@@ -7,7 +7,10 @@ import type { ArticleListItemRecord } from 'types'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
-import { GET_PORTAL_NEWS_ARTICLES } from 'operations/cms/queries/getPortalNewsArticles'
+import {
+  GET_PORTAL_NEWS_ARTICLES,
+  GET_ARTICLES_COUNT,
+} from 'operations/cms/queries/getPortalNewsArticles'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 import styles from 'styles/pages/news.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
@@ -76,11 +79,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const {
     data: { articlesCount },
   } = await client.query({
-    query: gql`
-      query articlesCount {
-        articlesCount
-      }
-    `,
+    query: GET_ARTICLES_COUNT,
   })
   // Calculate total pages
   // If NaN, return 1 page

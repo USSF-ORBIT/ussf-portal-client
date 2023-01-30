@@ -8,12 +8,10 @@ import styles from './MySpace.module.scss'
 import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
 import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
 import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget.g'
-import { useEditBookmarkMutation } from 'operations/portal/mutations/editBookmark.g'
 import { useGetMySpaceQuery } from 'operations/portal/queries/getMySpace.g'
 import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
 import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
 import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
-import { useRemoveWidgetMutation } from 'operations/portal/mutations/removeWidget.g'
 
 import {
   MySpaceWidget,
@@ -44,13 +42,11 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const mySpace = (data?.mySpace || []) as MySpaceWidget[]
 
   const [handleAddWidget] = useAddWidgetMutation()
-  const [handleRemoveWidget] = useRemoveWidgetMutation()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
   const [handleRemoveCollection] = useRemoveCollectionMutation()
   const [handleEditCollection] = useEditCollectionMutation()
   const [handleAddCollection] = useAddCollectionMutation()
-  const [handleEditBookmark] = useEditBookmarkMutation()
 
   if (error) return <p>Error</p>
 
@@ -109,21 +105,13 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                 key={`widget_${widget._id}`}
                 tabletLg={{ col: 6 }}
                 desktopLg={{ col: 4 }}>
-                {widget.type === 'News' && (
-                  <NewsWidget
-                    onRemove={() => {
-                      handleRemoveWidget({
-                        variables: { _id: widget._id },
-                        refetchQueries: [`getMySpace`],
-                      })
-                    }}
-                  />
-                )}
+                {widget.type === 'News' && <NewsWidget widget={widget} />}
 
                 {isCollection(widget) && (
                   <CustomCollection
                     _id={widget._id}
                     title={widget.title}
+                    type={widget.type}
                     bookmarks={widget.bookmarks || []}
                     bookmarkOptions={bookmarks}
                     handleRemoveCollection={() => {
@@ -192,17 +180,6 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                           url,
                           label,
                           cmsId: id,
-                        },
-                        refetchQueries: [`getMySpace`],
-                      })
-                    }}
-                    handleEditBookmark={(id, url, label) => {
-                      handleEditBookmark({
-                        variables: {
-                          _id: id,
-                          collectionId: widget._id,
-                          url,
-                          label,
                         },
                         refetchQueries: [`getMySpace`],
                       })
