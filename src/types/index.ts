@@ -106,6 +106,33 @@ export type SearchResultRecord = {
   labels?: LabelRecord[] // Article.labels { id name type }
 }
 
+/* Single Document is a type displayed on the Documents Page */
+export type DocumentType = {
+  id: string
+  title: string
+  file: {
+    url: string
+  }
+  createdAt: string
+  updatedAt: string
+}
+/* Document Section can contain Documents */
+export type DocumentSectionType = {
+  id: string
+  title: string
+  document: DocumentType[]
+  createdAt: string
+  updatedAt: string
+}
+
+/* Document Page can contain Document Sections */
+export type DocumentPageType = {
+  id: string
+  pageTitle: string
+  sections: DocumentSectionType[]
+  createdAt: string
+  updatedAt: string
+}
 /**
  * *****************************
  * Types for Portal Data
