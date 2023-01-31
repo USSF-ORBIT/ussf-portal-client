@@ -113,16 +113,16 @@ export type DocumentType = {
   file: {
     url: string
   }
-  createdAt: string
-  updatedAt: string
+  createdAt?: string
+  updatedAt?: string
 }
 /* Document Section can contain Documents */
 export type DocumentSectionType = {
   id: string
   title: string
   document: DocumentType[]
-  createdAt: string
-  updatedAt: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 /* Document Page can contain Document Sections */
@@ -130,8 +130,8 @@ export type DocumentPageType = {
   id: string
   pageTitle: string
   sections: DocumentSectionType[]
-  createdAt: string
-  updatedAt: string
+  createdAt?: string
+  updatedAt?: string
 }
 /**
  * *****************************

@@ -9,11 +9,20 @@ import { axe } from 'jest-axe'
 import axios from 'axios'
 import { renderWithAuth } from '../../testHelpers'
 import USSFDocumentation from 'pages/ussf-documentation'
+import { DocumentPageType } from 'types'
 
 const mockReplace = jest.fn()
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
+}))
+
+jest.mock('../../lib/keystoneClient', () => ({
+  client: {
+    query: () => {
+      return
+    },
+  },
 }))
 
 jest.mock('axios')
@@ -29,12 +38,32 @@ mockedUseRouter.mockReturnValue({
   replace: mockReplace,
 })
 
+const testPage: DocumentPageType = {
+  id: 'any',
+  pageTitle: 'Official USSF Documentation',
+  sections: [
+    {
+      id: '12345678',
+      title: 'Section 1',
+      document: [
+        {
+          id: '87654321',
+          title: 'Document 1',
+          file: {
+            url: 'http://localhost:3000/test.pdf',
+          },
+        },
+      ],
+    },
+  ],
+}
+const pageData = [testPage]
 describe('USSF Documentation page', () => {
   describe('without a user', () => {
     it('renders the loader while fetching the user', () => {
       renderWithAuth(
         <MockedProvider>
-          <USSFDocumentation />
+          <USSFDocumentation documentsPage={testPage} />
         </MockedProvider>,
         { user: null }
       )
@@ -45,7 +74,7 @@ describe('USSF Documentation page', () => {
     it('redirects to the login page if not logged in', async () => {
       renderWithAuth(
         <MockedProvider>
-          <USSFDocumentation />
+          <USSFDocumentation documentsPage={testPage} />
         </MockedProvider>,
         { user: null }
       )
@@ -57,22 +86,27 @@ describe('USSF Documentation page', () => {
   })
 
   describe('when logged in', () => {
-    it('renders the settings page', () => {
+    it('renders the documentation page', () => {
       renderWithAuth(
         <MockedProvider>
-          <USSFDocumentation />
+          <USSFDocumentation documentsPage={testPage} />
         </MockedProvider>
       )
 
-      expect(screen.getAllByText('Official USSF documentation')).toHaveLength(1)
+      expect(screen.getAllByText(`${testPage.pageTitle}`)).toHaveLength(1)
 
-      expect(screen.getAllByText('Essential Reading')).toHaveLength(1)
+      expect(screen.getAllByText(`${testPage.sections[0].title}`)).toHaveLength(
+        1
+      )
+      expect(
+        screen.getAllByText(`${testPage.sections[0].document[0].title}`)
+      ).toHaveLength(1)
     })
 
     it('has no a11y violations', async () => {
       const html = renderWithAuth(
         <MockedProvider>
-          <USSFDocumentation />
+          <USSFDocumentation documentsPage={testPage} />
         </MockedProvider>
       )
 
@@ -86,11 +120,11 @@ describe('USSF Documentation page', () => {
     it('makes the call to get user', () => {
       renderWithAuth(
         <MockedProvider>
-          <USSFDocumentation />
+          <USSFDocumentation documentsPage={testPage} />
         </MockedProvider>
       )
 
-      expect(axios.get).toHaveBeenLastCalledWith('/api/auth/user')
+      expect(axios.get).toHaveBeenCalledWith('/api/auth/user')
     })
   })
 })
