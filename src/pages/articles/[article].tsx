@@ -1,7 +1,6 @@
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 
 import { GridContainer } from '@trussworks/react-uswds'
-
 import { client } from 'lib/keystoneClient'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'

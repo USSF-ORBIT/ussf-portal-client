@@ -6,7 +6,7 @@ import {
 } from '@keystone-6/fields-document/component-blocks'
 
 /**
- * This file is a copy of component-blocks.tsx in the
+ * This file is a copy of callToAction.tsx in the
  * CMS repo, and is needed here to infer prop types.
  */
 
