@@ -9,7 +9,7 @@ import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/ussf-documentation.module.scss'
 import Loader from 'components/Loader/Loader'
 import { GET_DOCUMENTS_PAGE } from 'operations/cms/queries/getDocumentsPage'
-import { DocumentType, DocumentSectionType, DocumentPageType } from 'types'
+import { DocumentType, DocumentPageType } from 'types'
 
 const USSFDocumentation = ({
   documentsPage,
@@ -24,14 +24,15 @@ const USSFDocumentation = ({
       <h2>{documentsPage.pageTitle}</h2>
       <Grid row gap="lg">
         {sections &&
-          sections.map((s: DocumentSectionType) => (
-            <Grid col={8} className={styles.accordion} key={s.id}>
+          sections.map((s, i) => (
+            <Grid col={8} key={s.id} className={styles.accordionGrid}>
               <Accordion
+                className={styles.accordion}
                 bordered
                 items={[
                   {
                     title: s.title,
-                    expanded: true,
+                    expanded: i === 0 ? true : false,
                     id: `${s.id}`,
                     headingLevel: 'h3',
 
