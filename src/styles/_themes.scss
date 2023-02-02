@@ -187,6 +187,10 @@ $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg
   --accordion-content-border: #{$grey};
   --accordion-plus-btn-img-path: #{$accordion-light-plus-icon-path};
   --accordion-minus-btn-img-path: #{$accordion-light-minus-icon-path};
+
+  // Search
+  --search-input-text-color: #{$theme-black};
+  --search-button-text: #{$theme-white};
 }
 
 /* ------------------------------------ */
@@ -393,4 +397,8 @@ $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg
   --accordion-content-border: #{$theme-spacebase-darkest};
   --accordion-plus-btn-img-path: #{$accordion-dark-plus-icon-path};
   --accordion-minus-btn-img-path: #{$accordion-dark-minus-icon-path};
+
+  // Search
+  --search-input-text-color: #{$theme-black};
+  --search-button-text: #{$theme-white};
 }

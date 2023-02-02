@@ -23,7 +23,7 @@ const PageLayout = ({
         <GovBanner tld=".mil" />
         <Header />
         <main id="main-content">
-          <PageHeader disableSearch>{header}</PageHeader>
+          <PageHeader>{header}</PageHeader>
 
           <GridContainer>
             {/* PAGE CONTENT */}

@@ -17,7 +17,6 @@ const Search = ({ disabled }: { disabled?: boolean }) => {
           <h4>Search coming soon!</h4>
         </div>
       )}
-
       <div className={disableClass}>
         <form
           className="usa-search usa-search--big"
