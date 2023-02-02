@@ -57,7 +57,7 @@ const testPage: DocumentPageType = {
     },
   ],
 }
-const pageData = [testPage]
+
 describe('USSF Documentation page', () => {
   describe('without a user', () => {
     it('renders the loader while fetching the user', () => {
