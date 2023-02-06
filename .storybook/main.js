@@ -14,6 +14,7 @@ module.exports = {
     'storybook-addon-next-router',
     'storybook-theme-toggle',
     'storybook-addon-mock',
+    'storybook-addon-launchdarkly',
   ],
   typescript: {
     check: false,

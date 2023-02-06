@@ -16,6 +16,7 @@ const requireVars = [
   'SESSION_SECRET',
   'SESSION_DOMAIN',
   'KEYSTONE_URL',
+  'LAUNCHDARKLY_SDK_CLIENT_SIDE_ID',
 ]
 
 function startup() {
