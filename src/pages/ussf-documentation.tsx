@@ -1,4 +1,6 @@
 import React from 'react'
+import { withLDConsumer } from 'launchdarkly-react-client-sdk'
+import { LDFlagSet } from 'launchdarkly-js-client-sdk'
 import { Accordion, Grid } from '@trussworks/react-uswds'
 import { InferGetServerSidePropsType } from 'next'
 import { client } from '../lib/keystoneClient'
@@ -13,76 +15,85 @@ import { DocumentType, DocumentPageType, DocumentSectionType } from 'types'
 
 const USSFDocumentation = ({
   documentsPage,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  flags,
+}: InferGetServerSidePropsType<typeof getServerSideProps> & {
+  flags?: LDFlagSet
+}) => {
   const { user } = useUser()
-  const sections = documentsPage?.sections
 
   // Previously hardcoded documents
   // We're leaving these as a backup until the switch to
   // CMS-only content is complete
   // #TODO: Remove these links and the documents stored in the repo
-  const staticLinks: DocumentSectionType[] = [
-    {
-      id: '',
-      title: 'Essential Reading',
-      document: [
-        {
-          // Generating random ids so iterator in component is happy
-          // These are not stored anywhere and mean nothing.
-          id: '16ced46f-9523-4b18-b778-c9e6f9dced3e',
-          title:
-            'Space Capstone Publication: Spacepower. Doctrine for Space Forces',
-          file: {
-            url: 'https://www.spaceforce.mil/Portals/1/Space%20Capstone%20Publication_10%20Aug%202020.pdf',
+  const staticPage: DocumentPageType = {
+    id: '',
+    pageTitle: 'USSF Documentation',
+    sections: [
+      {
+        id: '',
+        title: 'Essential Reading',
+        document: [
+          {
+            // Generating random ids so iterator in component is happy
+            // These are not stored anywhere and mean nothing.
+            id: '16ced46f-9523-4b18-b778-c9e6f9dced3e',
+            title:
+              'Space Capstone Publication: Spacepower. Doctrine for Space Forces',
+            file: {
+              url: 'https://www.spaceforce.mil/Portals/1/Space%20Capstone%20Publication_10%20Aug%202020.pdf',
+            },
           },
-        },
-        {
-          id: '8d619762-6ecd-47df-92a2-c172d95c488c',
-          title: 'CSO’s Planning Guidance',
-          file: {
-            url: 'https://media.defense.gov/2020/Nov/09/2002531998/-1/-1/0/CSO%20PLANNING%20GUIDANCE.PDF',
+          {
+            id: '8d619762-6ecd-47df-92a2-c172d95c488c',
+            title: 'CSO’s Planning Guidance',
+            file: {
+              url: 'https://media.defense.gov/2020/Nov/09/2002531998/-1/-1/0/CSO%20PLANNING%20GUIDANCE.PDF',
+            },
           },
-        },
-        {
-          id: '39a31099-e760-4bcb-9726-781ce2a7ac4b',
-          title: ' Guardian Ideal',
-          file: {
-            url: '/uploads/Guardian Ideal - FINAL - 1600 17Sept21.pdf',
+          {
+            id: '39a31099-e760-4bcb-9726-781ce2a7ac4b',
+            title: ' Guardian Ideal',
+            file: {
+              url: '/uploads/Guardian Ideal - FINAL - 1600 17Sept21.pdf',
+            },
           },
-        },
-        {
-          id: '983504a5-e3d1-43aa-af88-28ba0a7345ba',
-          title: 'USSF Enlisted Rank and Insignia',
-          file: {
-            url: '/uploads/US Space Force Enlisted Rank Insig Info Sheet (1).pdf',
+          {
+            id: '983504a5-e3d1-43aa-af88-28ba0a7345ba',
+            title: 'USSF Enlisted Rank and Insignia',
+            file: {
+              url: '/uploads/US Space Force Enlisted Rank Insig Info Sheet (1).pdf',
+            },
           },
-        },
-        {
-          id: '272a5b6b-bc30-4775-887e-eeece78b214d',
-          title: ' USSF/S1 Health, Wellness and Fitness Memo (16 MAR 2022)',
-          file: {
-            url: '/uploads/USSF Health Wellness and Fitness Memo dated 16Mar22.pdf',
+          {
+            id: '272a5b6b-bc30-4775-887e-eeece78b214d',
+            title: ' USSF/S1 Health, Wellness and Fitness Memo (16 MAR 2022)',
+            file: {
+              url: '/uploads/USSF Health Wellness and Fitness Memo dated 16Mar22.pdf',
+            },
           },
-        },
-        {
-          id: '20accc42-3e4a-4d21-9fd8-3fcc2ed4531b',
-          title: 'USSF Guardian Commitment Poster',
-          file: {
-            url: '/uploads/USSF Guardian Commitment Poster.pdf',
+          {
+            id: '20accc42-3e4a-4d21-9fd8-3fcc2ed4531b',
+            title: 'USSF Guardian Commitment Poster',
+            file: {
+              url: '/uploads/USSF Guardian Commitment Poster.pdf',
+            },
           },
-        },
-      ],
-    },
-  ]
+        ],
+      },
+    ],
+  }
+
+  // LaunchDarkly toggle for cms vs static data
+  const data = flags && flags.documentationPage ? documentsPage : staticPage
 
   return !user ? (
     <Loader />
   ) : (
     <div>
-      <h2>{documentsPage?.pageTitle || 'USSF Documentation'}</h2>
+      <h2>{(data && data.pageTitle) || staticPage.pageTitle}</h2>
       <Grid row gap="lg">
-        {(sections || staticLinks) &&
-          (sections || staticLinks).map((s: DocumentSectionType, i: number) => (
+        {data?.sections &&
+          data.sections.map((s: DocumentSectionType, i: number) => (
             <Grid col={8} key={s.id} className={styles.accordionGrid}>
               <Accordion
                 className={styles.accordion}
@@ -121,7 +132,7 @@ const USSFDocumentation = ({
   )
 }
 
-export default USSFDocumentation
+export default withLDConsumer()(USSFDocumentation)
 
 USSFDocumentation.getLayout = (page: React.ReactNode) =>
   withDefaultLayout(page, false)
