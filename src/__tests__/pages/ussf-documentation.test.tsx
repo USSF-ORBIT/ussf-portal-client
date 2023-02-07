@@ -10,19 +10,14 @@ import axios from 'axios'
 import { renderWithAuth } from '../../testHelpers'
 import USSFDocumentation from 'pages/ussf-documentation'
 import { DocumentPageType } from 'types'
+import type { LDFlagSet } from 'launchdarkly-js-client-sdk'
+import { getServerSideProps } from 'pages/ussf-documentation'
+import { gql } from 'apollo-server-core'
 
 const mockReplace = jest.fn()
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
-}))
-
-jest.mock('../../lib/keystoneClient', () => ({
-  client: {
-    query: () => {
-      return
-    },
-  },
 }))
 
 jest.mock('axios')
@@ -38,9 +33,14 @@ mockedUseRouter.mockReturnValue({
   replace: mockReplace,
 })
 
-const testPage: DocumentPageType = {
+// LaunchDarkly flag to test correct content display
+const mockFlags: LDFlagSet = {
+  documentationPage: true,
+}
+
+const mockTestPage: DocumentPageType = {
   id: 'any',
-  pageTitle: 'Official USSF Documentation',
+  pageTitle: 'Test Documentation',
   sections: [
     {
       id: '12345678',
@@ -58,12 +58,75 @@ const testPage: DocumentPageType = {
   ],
 }
 
+jest.mock('../../lib/keystoneClient', () => ({
+  client: {
+    query: () => {
+      return {
+        data: {
+          documentsPages: [mockTestPage],
+        },
+      }
+    },
+  },
+}))
+
+// Mock the Apollo Client query response to test getServerSideProps
+const cmsDocumentationPageMock = [
+  {
+    request: {
+      query: gql`
+        query getDocumentsPage {
+          documentsPages {
+            id
+            pageTitle
+            sections {
+              id
+              title
+              document {
+                title
+                file {
+                  url
+                }
+              }
+            }
+          }
+        }
+      `,
+    },
+    result: {
+      data: {
+        documentPages: [
+          {
+            id: '1',
+            pageTitle: 'Test Documentation',
+            sections: [
+              {
+                id: '12345678',
+                title: 'Section 1',
+                document: [
+                  {
+                    id: '87654321',
+                    title: 'Document 1',
+                    file: {
+                      url: 'http://localhost:3000/test.pdf',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
+  },
+]
+
 describe('USSF Documentation page', () => {
   describe('without a user', () => {
     it('renders the loader while fetching the user', () => {
       renderWithAuth(
         <MockedProvider>
-          <USSFDocumentation documentsPage={testPage} />
+          <USSFDocumentation documentsPage={mockTestPage} />
         </MockedProvider>,
         { user: null }
       )
@@ -74,7 +137,7 @@ describe('USSF Documentation page', () => {
     it('redirects to the login page if not logged in', async () => {
       renderWithAuth(
         <MockedProvider>
-          <USSFDocumentation documentsPage={testPage} />
+          <USSFDocumentation documentsPage={mockTestPage} />
         </MockedProvider>,
         { user: null }
       )
@@ -86,27 +149,41 @@ describe('USSF Documentation page', () => {
   })
 
   describe('when logged in', () => {
-    it('renders the documentation page', () => {
+    it('renders the documentation page from the cms', () => {
+      // If LaunchDarkly flag is passed in, the CMS content will render
       renderWithAuth(
-        <MockedProvider>
-          <USSFDocumentation documentsPage={testPage} />
+        <MockedProvider mocks={cmsDocumentationPageMock}>
+          <USSFDocumentation documentsPage={mockTestPage} flags={mockFlags} />
         </MockedProvider>
       )
 
-      expect(screen.getAllByText(`${testPage.pageTitle}`)).toHaveLength(1)
+      expect(screen.getAllByText(`${mockTestPage.pageTitle}`)).toHaveLength(1)
 
-      expect(screen.getAllByText(`${testPage.sections[0].title}`)).toHaveLength(
-        1
-      )
       expect(
-        screen.getAllByText(`${testPage.sections[0].document[0].title}`)
+        screen.getAllByText(`${mockTestPage.sections[0].title}`)
       ).toHaveLength(1)
+      expect(
+        screen.getAllByText(`${mockTestPage.sections[0].document[0].title}`)
+      ).toHaveLength(1)
+    })
+
+    it('renders the documentation page from static content', () => {
+      // If LaunchDarkly flag is *not* passed in, the static content will render
+      renderWithAuth(
+        <MockedProvider mocks={cmsDocumentationPageMock}>
+          <USSFDocumentation documentsPage={mockTestPage} />
+        </MockedProvider>
+      )
+
+      expect(screen.getAllByText(`USSF Documentation`)).toHaveLength(1)
+      expect(screen.getAllByText(`Essential Reading`)).toHaveLength(1)
+      expect(screen.getAllByText(`Guardian Ideal`)).toHaveLength(1)
     })
 
     it('has no a11y violations', async () => {
       const html = renderWithAuth(
-        <MockedProvider>
-          <USSFDocumentation documentsPage={testPage} />
+        <MockedProvider mocks={cmsDocumentationPageMock}>
+          <USSFDocumentation documentsPage={mockTestPage} />
         </MockedProvider>
       )
 
@@ -120,11 +197,24 @@ describe('USSF Documentation page', () => {
     it('makes the call to get user', () => {
       renderWithAuth(
         <MockedProvider>
-          <USSFDocumentation documentsPage={testPage} />
+          <USSFDocumentation documentsPage={mockTestPage} />
         </MockedProvider>
       )
 
       expect(axios.get).toHaveBeenCalledWith('/api/auth/user')
     })
+  })
+})
+
+describe('getServerSideProps', () => {
+  it('should call cms api for documents page', async () => {
+    const response = await getServerSideProps()
+    expect(response).toEqual(
+      expect.objectContaining({
+        props: {
+          documentsPage: mockTestPage,
+        },
+      })
+    )
   })
 })
