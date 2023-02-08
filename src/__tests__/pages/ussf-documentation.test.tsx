@@ -3,17 +3,18 @@
  */
 
 import { screen, waitFor, act } from '@testing-library/react'
-import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
 import axios from 'axios'
-import { renderWithAuth } from '../../testHelpers'
-import USSFDocumentation from 'pages/ussf-documentation'
-import { DocumentPageType } from 'types'
-import type { LDFlagSet } from 'launchdarkly-js-client-sdk'
-import { getServerSideProps } from 'pages/ussf-documentation'
 import { gql } from 'apollo-server-core'
-import { staticPage } from 'pages/ussf-documentation'
+import { mockFlags, resetLDMocks } from 'jest-launchdarkly-mock'
+import { renderWithAuthAndApollo } from '../../testHelpers'
+import { DocumentPageType } from 'types'
+import USSFDocumentation, {
+  getServerSideProps,
+  staticPage,
+} from 'pages/ussf-documentation'
+
 const mockReplace = jest.fn()
 
 jest.mock('next/router', () => ({
@@ -32,11 +33,6 @@ mockedUseRouter.mockReturnValue({
   push: jest.fn(),
   replace: mockReplace,
 })
-
-// LaunchDarkly flag to test correct content display
-const mockFlags: LDFlagSet = {
-  documentationPage: true,
-}
 
 const mockTestPage: DocumentPageType = {
   id: 'any',
@@ -124,22 +120,22 @@ const cmsDocumentationPageMock = [
 describe('USSF Documentation page', () => {
   describe('without a user', () => {
     it('renders the loader while fetching the user', () => {
-      renderWithAuth(
-        <MockedProvider>
-          <USSFDocumentation documentsPage={mockTestPage} />
-        </MockedProvider>,
-        { user: null }
+      renderWithAuthAndApollo(
+        <USSFDocumentation documentsPage={mockTestPage} />,
+        { user: null },
+        cmsDocumentationPageMock
       )
-
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
     it('redirects to the login page if not logged in', async () => {
-      renderWithAuth(
-        <MockedProvider>
-          <USSFDocumentation documentsPage={mockTestPage} />
-        </MockedProvider>,
-        { user: null }
+      renderWithAuthAndApollo(
+        <USSFDocumentation documentsPage={mockTestPage} />,
+        { user: null },
+        cmsDocumentationPageMock
+      )
+      renderWithAuthAndApollo(
+        <USSFDocumentation documentsPage={mockTestPage} />
       )
 
       await waitFor(() => {
@@ -151,10 +147,14 @@ describe('USSF Documentation page', () => {
   describe('when logged in', () => {
     it('renders the documentation page from the cms', () => {
       // If LaunchDarkly flag is passed in, the CMS content will render
-      renderWithAuth(
-        <MockedProvider mocks={cmsDocumentationPageMock}>
-          <USSFDocumentation documentsPage={mockTestPage} flags={mockFlags} />
-        </MockedProvider>
+      mockFlags({
+        documentationPage: true,
+      })
+
+      renderWithAuthAndApollo(
+        <USSFDocumentation documentsPage={mockTestPage} />,
+        {},
+        cmsDocumentationPageMock
       )
 
       expect(screen.getAllByText(`${mockTestPage.pageTitle}`)).toHaveLength(1)
@@ -169,10 +169,12 @@ describe('USSF Documentation page', () => {
 
     it('renders the documentation page from static content', () => {
       // If LaunchDarkly flag is *not* passed in, the static content will render
-      renderWithAuth(
-        <MockedProvider mocks={cmsDocumentationPageMock}>
-          <USSFDocumentation documentsPage={mockTestPage} />
-        </MockedProvider>
+      resetLDMocks()
+
+      renderWithAuthAndApollo(
+        <USSFDocumentation documentsPage={mockTestPage} />,
+        {},
+        cmsDocumentationPageMock
       )
 
       expect(screen.getAllByText(`${staticPage.pageTitle}`)).toHaveLength(1)
@@ -185,10 +187,10 @@ describe('USSF Documentation page', () => {
     })
 
     it('has no a11y violations', async () => {
-      const html = renderWithAuth(
-        <MockedProvider mocks={cmsDocumentationPageMock}>
-          <USSFDocumentation documentsPage={mockTestPage} />
-        </MockedProvider>
+      const html = renderWithAuthAndApollo(
+        <USSFDocumentation documentsPage={mockTestPage} />,
+        {},
+        cmsDocumentationPageMock
       )
 
       // Bug with NextJS Link + axe :(
@@ -199,10 +201,10 @@ describe('USSF Documentation page', () => {
     })
 
     it('makes the call to get user', () => {
-      renderWithAuth(
-        <MockedProvider>
-          <USSFDocumentation documentsPage={mockTestPage} />
-        </MockedProvider>
+      renderWithAuthAndApollo(
+        <USSFDocumentation documentsPage={mockTestPage} />,
+        {},
+        cmsDocumentationPageMock
       )
 
       expect(axios.get).toHaveBeenCalledWith('/api/auth/user')

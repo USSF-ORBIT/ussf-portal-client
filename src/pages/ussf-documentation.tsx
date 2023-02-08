@@ -1,8 +1,7 @@
 import React from 'react'
-import { withLDConsumer } from 'launchdarkly-react-client-sdk'
-import { LDFlagSet } from 'launchdarkly-js-client-sdk'
 import { Accordion, Grid } from '@trussworks/react-uswds'
 import { InferGetServerSidePropsType } from 'next'
+import { useFlags } from 'launchdarkly-react-client-sdk'
 import { client } from '../lib/keystoneClient'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import EPubsCard from 'components/EPubsCard/EPubsCard'
@@ -76,13 +75,11 @@ export const staticPage: DocumentPageType = {
 }
 const USSFDocumentation = ({
   documentsPage,
-  flags,
-}: InferGetServerSidePropsType<typeof getServerSideProps> & {
-  flags?: LDFlagSet
-}) => {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
 
   // LaunchDarkly toggle for cms vs static data
+  const flags = useFlags()
   const data = flags && flags.documentationPage ? documentsPage : staticPage
 
   return !user ? (
@@ -90,10 +87,11 @@ const USSFDocumentation = ({
   ) : (
     <div>
       <h2>{data && data.pageTitle}</h2>
+
       <Grid row gap="lg">
         {data?.sections &&
           data.sections.map((s: DocumentSectionType, i: number) => (
-            <Grid col={8} key={s.id} className={styles.accordionGrid}>
+            <Grid col={12} key={s.id} className={styles.accordionGrid}>
               <Accordion
                 className={styles.accordion}
                 bordered
@@ -122,19 +120,19 @@ const USSFDocumentation = ({
               />
             </Grid>
           ))}
-
-        <Grid col={4}>
-          <EPubsCard title="Looking for a general form or documentation outside of the USSF?" />
-        </Grid>
       </Grid>
     </div>
   )
 }
 
-export default withLDConsumer()(USSFDocumentation)
+const rightSidebar = (
+  <EPubsCard title="Looking for a general form or documentation outside of the USSF?" />
+)
+
+export default USSFDocumentation
 
 USSFDocumentation.getLayout = (page: React.ReactNode) =>
-  withDefaultLayout(page, false)
+  withDefaultLayout(page, false, rightSidebar)
 
 export async function getServerSideProps() {
   let pageData = null
