@@ -13,7 +13,7 @@ import { DocumentPageType } from 'types'
 import type { LDFlagSet } from 'launchdarkly-js-client-sdk'
 import { getServerSideProps } from 'pages/ussf-documentation'
 import { gql } from 'apollo-server-core'
-
+import { staticPage } from 'pages/ussf-documentation'
 const mockReplace = jest.fn()
 
 jest.mock('next/router', () => ({
@@ -175,9 +175,13 @@ describe('USSF Documentation page', () => {
         </MockedProvider>
       )
 
-      expect(screen.getAllByText(`USSF Documentation`)).toHaveLength(1)
-      expect(screen.getAllByText(`Essential Reading`)).toHaveLength(1)
-      expect(screen.getAllByText(`Guardian Ideal`)).toHaveLength(1)
+      expect(screen.getAllByText(`${staticPage.pageTitle}`)).toHaveLength(1)
+      expect(
+        screen.getAllByText(`${staticPage.sections[0].title}`)
+      ).toHaveLength(1)
+      expect(
+        screen.getAllByText(`${staticPage.sections[0].document[0].title}`)
+      ).toHaveLength(1)
     })
 
     it('has no a11y violations', async () => {
