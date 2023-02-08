@@ -10,6 +10,7 @@ import PageHeader from 'components/PageHeader/PageHeader'
 import { GET_ARTICLE } from 'operations/cms/queries/getArticle'
 import { SingleArticle } from 'components/SingleArticle/SingleArticle'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
+import { DateTime } from 'luxon'
 
 const ORBITBlogArticleHeader = () => (
   <PageHeader>
@@ -82,7 +83,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     variables: { slug },
   })
 
-  if (!article || article.status !== 'Published') {
+  if (
+    !article ||
+    article.status !== 'Published' ||
+    DateTime.fromISO(article.publishedDate) > DateTime.now()
+  ) {
     return {
       notFound: true,
     }
