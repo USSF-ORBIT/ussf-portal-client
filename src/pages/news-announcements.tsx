@@ -12,7 +12,7 @@ import { useUser } from 'hooks/useUser'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { useRSSFeed } from 'hooks/useRSSFeed'
 import styles from 'styles/pages/news.module.scss'
-import type { RSSNewsItem } from 'types'
+import type { RSSNewsItem, AnnouncementRecord } from 'types'
 import { validateNewsItems, formatToArticleListItem } from 'helpers/index'
 import { GET_ANNOUNCEMENTS } from 'operations/cms/queries/getAnnouncements'
 import { GET_INTERNAL_NEWS_CAROUSEL_ARTICLES } from 'operations/cms/queries/getInternalNewsCarouselArticles'
@@ -128,7 +128,7 @@ NewsAnnouncements.getLayout = (page: React.ReactNode) =>
   )
 
 export async function getServerSideProps() {
-  const {
+  let {
     data: { announcements },
   } = await client.query({
     query: GET_ANNOUNCEMENTS,
@@ -145,6 +145,13 @@ export async function getServerSideProps() {
       publishedDate: DateTime.now(),
     },
   })
+
+  // Filter announcements array to only contain announcements with
+  // a publish date up until now.
+  announcements = announcements.filter(
+    (a: AnnouncementRecord) =>
+      DateTime.fromISO(a.publishedDate) < DateTime.now()
+  )
 
   return {
     props: {
