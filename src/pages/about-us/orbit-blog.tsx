@@ -1,6 +1,7 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { Context, gql } from '@apollo/client'
 
+import { DateTime } from 'luxon'
 import { client } from '../../lib/keystoneClient'
 
 import type { ArticleListItemRecord } from 'types'
@@ -74,12 +75,17 @@ export const getServerSideProps: GetServerSideProps = async (
 
   const articlesPerPage = 10
 
+  const currentDateTime = DateTime.now()
+
   // Get total number of articles from CMS to determine
   // total number of pages
   const {
     data: { articlesCount },
   } = await client.query({
     query: GET_ARTICLES_COUNT,
+    variables: {
+      publishedDate: currentDateTime,
+    },
   })
   // Calculate total pages
   // If NaN, return 1 page
@@ -100,6 +106,7 @@ export const getServerSideProps: GetServerSideProps = async (
     variables: {
       skip: (currentPage - 1) * articlesPerPage,
       take: articlesPerPage,
+      publishedDate: currentDateTime,
     },
   })
 
