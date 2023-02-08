@@ -1,6 +1,7 @@
 import { InferGetServerSidePropsType } from 'next'
 import React, { useEffect } from 'react'
 import { Grid } from '@trussworks/react-uswds'
+import { DateTime } from 'luxon'
 import { client } from '../lib/keystoneClient'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import Announcement from 'components/Announcement/Announcement'
@@ -11,14 +12,13 @@ import { useUser } from 'hooks/useUser'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { useRSSFeed } from 'hooks/useRSSFeed'
 import styles from 'styles/pages/news.module.scss'
-import type { RSSNewsItem } from 'types'
+import type { RSSNewsItem, AnnouncementRecord } from 'types'
 import { validateNewsItems, formatToArticleListItem } from 'helpers/index'
 import { GET_ANNOUNCEMENTS } from 'operations/cms/queries/getAnnouncements'
 import { GET_INTERNAL_NEWS_CAROUSEL_ARTICLES } from 'operations/cms/queries/getInternalNewsCarouselArticles'
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
-import { DateTime } from 'luxon'
 
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=4`
 
@@ -128,7 +128,7 @@ NewsAnnouncements.getLayout = (page: React.ReactNode) =>
   )
 
 export async function getServerSideProps() {
-  const {
+  let {
     data: { announcements },
   } = await client.query({
     query: GET_ANNOUNCEMENTS,
@@ -142,6 +142,13 @@ export async function getServerSideProps() {
       publishedDate: DateTime.now(),
     },
   })
+
+  // Filter announcements array to only contain announcements with
+  // a publish date up until now.
+  announcements = announcements.filter(
+    (a: AnnouncementRecord) =>
+      DateTime.fromISO(a.publishedDate) < DateTime.now()
+  )
 
   return {
     props: {
