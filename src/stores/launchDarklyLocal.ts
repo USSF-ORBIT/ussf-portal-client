@@ -3,4 +3,4 @@
  * Add flags as needed and set them, though you will likely need to restart your dev
  * server to see changes.
  */
-export default { searchComponent: true }
+export default { searchComponent: true, documentationPage: true }
