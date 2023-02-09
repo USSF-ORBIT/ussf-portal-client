@@ -27,6 +27,6 @@ const ArticleLayout = ({ children }: { children: React.ReactNode }) => {
 
 export default ArticleLayout
 
-export const withArticleLayout = (page: React.ReactNode) => {
-  return <ArticleLayout>{page}</ArticleLayout>
-}
+export const withArticleLayout = (page: React.ReactNode) => (
+  <ArticleLayout>{page}</ArticleLayout>
+)
