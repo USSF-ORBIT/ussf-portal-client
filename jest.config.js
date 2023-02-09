@@ -25,6 +25,7 @@ module.exports = {
     '^stores/(.*)': '<rootDir>/src/stores/$1',
     '^types/(.*)': '<rootDir>/src/types/$1',
   },
+  setupFiles: ['jest-launchdarkly-mock'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   preset: '@shelf/jest-mongodb',
   coverageThreshold: {
