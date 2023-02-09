@@ -1,8 +1,6 @@
 import React from 'react'
 import { GovBanner, GridContainer, Grid } from '@trussworks/react-uswds'
-
 import styles from './DefaultLayout.module.scss'
-
 import Header from 'components/Header/Header'
 import PersonalData from 'components/PersonalData/PersonalData'
 import PageHeader from 'components/PageHeader/PageHeader'
@@ -13,9 +11,11 @@ import CustomModal from 'components/CustomModal/CustomModal'
 
 const DefaultLayout = ({
   displayFeedbackCard = true,
+  rightSidebar = undefined,
   children,
 }: {
   displayFeedbackCard?: boolean
+  rightSidebar?: JSX.Element
   children: React.ReactNode
 }) => {
   const navItems = [
@@ -42,6 +42,7 @@ const DefaultLayout = ({
 
           <GridContainer>
             <Grid row gap>
+              {/* LEFT SIDEBAR */}
               <Grid tablet={{ col: displayFeedbackCard ? 3 : 2 }}>
                 <PageNav navItems={navItems} />
                 {displayFeedbackCard && <FeedbackCard />}
@@ -50,6 +51,8 @@ const DefaultLayout = ({
                 {/* PAGE CONTENT */}
                 {children}
               </Grid>
+              {/* RIGHT SIDEBAR */}
+              {rightSidebar && <Grid tablet={{ col: 4 }}>{rightSidebar}</Grid>}
             </Grid>
           </GridContainer>
         </main>
@@ -65,9 +68,14 @@ export default DefaultLayout
 
 export const withDefaultLayout = (
   page: React.ReactNode,
-  displayFeedbackCard?: boolean
-) => (
-  <DefaultLayout displayFeedbackCard={displayFeedbackCard}>
-    {page}
-  </DefaultLayout>
-)
+  displayFeedbackCard?: boolean,
+  rightSidebar?: JSX.Element
+) => {
+  return (
+    <DefaultLayout
+      displayFeedbackCard={displayFeedbackCard}
+      rightSidebar={rightSidebar}>
+      {page}
+    </DefaultLayout>
+  )
+}
