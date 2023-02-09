@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.14.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.13.0...4.14.0) (2023-02-08)
+
+
+### Features
+
+* Add LaunchDarkly back and put Search behind feature flag ([#912](https://github.com/USSF-ORBIT/ussf-portal-client/issues/912)) ([f235860](https://github.com/USSF-ORBIT/ussf-portal-client/commit/f2358601aa09f8b2c90f8b467821450e305d925c))
+
 ## [4.13.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.12.1...4.13.0) (2023-01-25)
 
 
