@@ -1,5 +1,6 @@
 import { InferGetServerSidePropsType } from 'next'
 
+import { DateTime } from 'luxon'
 import { client } from '../lib/keystoneClient'
 
 import type { ArticleListItemRecord } from 'types'
@@ -65,6 +66,9 @@ export async function getServerSideProps() {
     data: { articles },
   }: { data: { articles: ArticleListItemRecord[] } } = await client.query({
     query: GET_INTERNAL_NEWS_ARTICLES,
+    variables: {
+      publishedDate: DateTime.now(),
+    },
   })
 
   return {

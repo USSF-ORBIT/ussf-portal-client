@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import type { GetServerSidePropsContext } from 'next'
 
+import { DateTime } from 'luxon'
 import { renderWithAuth } from '../../testHelpers'
 import { client } from '../../lib/keystoneClient'
 
@@ -73,6 +74,28 @@ describe('Single article getServerSideProps', () => {
     mockedKeystoneClient.query.mockResolvedValueOnce({
       data: {
         article: { ...mockOrbitBlogArticle, status: 'Draft' },
+      },
+      loading: false,
+      errors: [],
+      networkStatus: 7,
+    })
+
+    const response = await getServerSideProps(testContext)
+
+    expect(response).toEqual({
+      notFound: true,
+    })
+  })
+
+  it('returns not found if the query returns an article published in the future', async () => {
+    const futureDate = DateTime.now().plus({ weeks: 2 })
+    mockedKeystoneClient.query.mockResolvedValueOnce({
+      data: {
+        article: {
+          ...mockOrbitBlogArticle,
+          status: 'Published',
+          publishedDate: futureDate.toISO(),
+        },
       },
       loading: false,
       errors: [],

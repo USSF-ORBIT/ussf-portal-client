@@ -1,9 +1,17 @@
 import { gql } from '@apollo/client'
 
 export const GET_PORTAL_NEWS_ARTICLES = gql`
-  query GetPortalNewsArticles($skip: Int, $take: Int) {
+  query GetPortalNewsArticles(
+    $skip: Int
+    $take: Int
+    $publishedDate: DateTime
+  ) {
     articles(
-      where: { status: { equals: Published }, category: { equals: ORBITBlog } }
+      where: {
+        status: { equals: Published }
+        publishedDate: { lte: $publishedDate }
+        category: { equals: ORBITBlog }
+      }
       orderBy: [{ publishedDate: desc }]
       skip: $skip
       take: $take
@@ -18,9 +26,13 @@ export const GET_PORTAL_NEWS_ARTICLES = gql`
 `
 
 export const GET_ARTICLES_COUNT = gql`
-  query GetArticlesCount {
+  query GetArticlesCount($publishedDate: DateTime) {
     articlesCount(
-      where: { status: { equals: Published }, category: { equals: ORBITBlog } }
+      where: {
+        status: { equals: Published }
+        publishedDate: { lte: $publishedDate }
+        category: { equals: ORBITBlog }
+      }
     )
   }
 `

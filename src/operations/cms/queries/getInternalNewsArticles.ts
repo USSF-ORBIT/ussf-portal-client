@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client'
 
 export const GET_INTERNAL_NEWS_ARTICLES = gql`
-  query GetInternalNewsArticles {
+  query GetInternalNewsArticles($publishedDate: DateTime) {
     articles(
       where: {
         status: { equals: Published }
+        publishedDate: { lte: $publishedDate }
         category: { equals: InternalNews }
       }
       orderBy: [{ publishedDate: desc }]
