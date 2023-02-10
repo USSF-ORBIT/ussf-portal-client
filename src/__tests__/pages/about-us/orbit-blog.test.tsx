@@ -34,22 +34,7 @@ mockedAxios.get.mockImplementationOnce(() => {
   return Promise.reject()
 })
 
-const mockReplace = jest.fn()
-
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}))
-
-const mockedUseRouter = useRouter as jest.Mock
-
-mockedUseRouter.mockReturnValue({
-  route: '',
-  pathname: '',
-  query: '',
-  asPath: '',
-  push: jest.fn(),
-  replace: mockReplace,
-})
+const mockRouter = useRouter()
 
 describe('ORBIT Blog page', () => {
   const testContext = {
@@ -82,7 +67,7 @@ describe('ORBIT Blog page', () => {
 
     it('redirects to the login page if not logged in', async () => {
       await waitFor(() => {
-        expect(mockReplace).toHaveBeenCalledWith('/login')
+        expect(mockRouter.replace).toHaveBeenCalledWith('/login')
       })
     })
   })

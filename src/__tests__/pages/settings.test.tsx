@@ -13,24 +13,9 @@ import { renderWithAuth } from '../../testHelpers'
 
 import Settings from 'pages/settings'
 
-const mockReplace = jest.fn()
-
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}))
-
 jest.mock('axios')
 
-const mockedUseRouter = useRouter as jest.Mock
-
-mockedUseRouter.mockReturnValue({
-  route: '',
-  pathname: '',
-  query: '',
-  asPath: '',
-  push: jest.fn(),
-  replace: mockReplace,
-})
+const mockRouter = useRouter()
 
 describe('Settings page', () => {
   describe('without a user', () => {
@@ -49,7 +34,7 @@ describe('Settings page', () => {
 
     it('redirects to the login page if not logged in', async () => {
       await waitFor(() => {
-        expect(mockReplace).toHaveBeenCalledWith('/login')
+        expect(mockRouter.replace).toHaveBeenCalledWith('/login')
       })
     })
   })
