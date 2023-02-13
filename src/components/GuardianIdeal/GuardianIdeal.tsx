@@ -2,11 +2,10 @@ import React, { useRef } from 'react'
 import Slider from 'react-slick'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from '../NewsCarousel/NewsCarousel.module.scss'
-import NewsCarouselItem from 'components/NewsCarouselItem/NewsCarouselItem'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { ArticleListItemRecord } from 'types'
 import GuardianIdealItem from './GuardianIdealItem'
+import { ArticleListItemRecord } from 'types'
 
 const CustomEllipse = ({ onClick }: any) => {
   return (
