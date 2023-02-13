@@ -189,7 +189,7 @@ $dark-gradient: linear-gradient(
   // Breadcrumbs
   --breadcrumbs-link: #{$theme-aurora-base};
   --breadcrumbs-link-hover: #{$theme-aurora-lighter};
-  --breadcrumbs-edit-display-name: #{$theme-aurora-base};
+  --breadcrumbs-edit-display-name: var(--link-primary);
 
   // Accordion
   --accordion-title: #1b1b1b;
