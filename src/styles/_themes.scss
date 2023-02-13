@@ -82,7 +82,7 @@ $dark-gradient: linear-gradient(
   --btn-delete-bg-hover: #{$state-error-lighter};
 
   // Sites & Apps
-  --btn-sort-bg: transparent;
+  --btn-sort-bg: rgba(255, 255, 255, 0.5);
   --btn-sort-border: #a9aeb1;
   --btn-sort-text: $theme-ultraviolet-base;
   --btn-sort-hover-bg: #{$theme-ultraviolet-dark};
