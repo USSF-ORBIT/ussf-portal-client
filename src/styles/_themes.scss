@@ -186,8 +186,8 @@ $dark-gradient: linear-gradient(
   --alert-info-bg: #{$state-info-lighter};
 
   // Breadcrumbs
-  --breadcrumbs-link: #{$theme-aurora-base};
-  --breadcrumbs-link-hover: #{$theme-aurora-lighter};
+  --breadcrumbs-link: #{$theme-ultraviolet-base};
+  --breadcrumbs-link-hover: var(--link-primary);
   --breadcrumbs-edit-display-name: var(--link-primary);
 
   // Accordion
@@ -394,9 +394,9 @@ $dark-gradient: linear-gradient(
     saturate(2653%) hue-rotate(178deg) brightness(118%) contrast(100%);
 
   // Breadcrumbs
-  --breadcrumbs-link: #{$white};
+  --breadcrumbs-link: #{$theme-mars-light};
   --breadcrumbs-link-hover: #{$white};
-  --breadcrumbs-edit-display-name: #{$theme-aurora-base};
+  --breadcrumbs-edit-display-name: #{$theme-mars-light};
 
   // Footer
   --footer-bg: #{$black};
