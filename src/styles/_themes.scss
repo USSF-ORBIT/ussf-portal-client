@@ -9,6 +9,12 @@ $accordion-light-minus-icon-path: url('/vendor/img/usa-icons/remove.svg');
 $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg');
 
 $light-gradient: linear-gradient(180deg, #fffcf5 40%, #a0a8b6 100%);
+$dark-gradient: linear-gradient(
+  180deg,
+  #070f1d 7.28%,
+  #112548 67.92%,
+  #6572b4 128.09%
+);
 
 // This file contains css properties use throughout the
 // code base for each corresponding theme.
@@ -220,6 +226,8 @@ $light-gradient: linear-gradient(180deg, #fffcf5 40%, #a0a8b6 100%);
       #0f305a 73.55%,
       #555f92 111.89%
     )};
+  --body-gradient: #{$dark-gradient};
+  --body-img: #{$dark-bg-img};
   --mySpaceBg: rgba(10, 22, 43, 0.4);
   --text: #{$white};
   --header-image: none;
