@@ -37,6 +37,7 @@ $dark-gradient: linear-gradient(
   --body-img: #{$light-bg-img};
   --bg: #{$white};
   --background-fill: rgba(254, 252, 245, 0.4);
+  --background-fill-alert: rgb(255, 248, 231, 0.6);
   --text: #{$theme-black};
 
   // Buttons
@@ -228,6 +229,7 @@ $dark-gradient: linear-gradient(
   --body-gradient: #{$dark-gradient};
   --body-img: #{$dark-bg-img};
   --background-fill: rgba(10, 22, 43, 0.4);
+  --background-fill-alert: rgba(200, 255, 211, 0.6);
   --text: #{$white};
   --header-image: none;
 
