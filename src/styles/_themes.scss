@@ -8,6 +8,8 @@ $accordion-dark-plus-icon-path: url('/vendor/img/usa-icons-bg/add--white.svg');
 $accordion-light-minus-icon-path: url('/vendor/img/usa-icons/remove.svg');
 $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg');
 
+$light-gradient: linear-gradient(180deg, #fffcf5 0%, #a0a8b6 100%);
+
 // This file contains css properties use throughout the
 // code base for each corresponding theme.
 // Loaded in next.config.js under sassOptions
@@ -25,6 +27,7 @@ $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg
 
   // Layout
   --body-bg: #{$white};
+  --body-gradient: #{$light-gradient};
   --bg: #{$white};
   --mySpaceBg: rgba(255, 255, 255, 0.75);
   --text: #{$theme-black};
