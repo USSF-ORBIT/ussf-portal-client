@@ -1,10 +1,13 @@
 import { gql } from '@apollo/client'
 
 export const GET_ANNOUNCEMENTS = gql`
-  query GetAnnouncements {
+  query GetAnnouncements($publishedDate: DateTime) {
     announcements(
       take: 5
-      where: { status: { equals: Published } }
+      where: {
+        status: { equals: Published }
+        publishedDate: { lte: $publishedDate }
+      }
       orderBy: [{ publishedDate: desc }]
     ) {
       id
