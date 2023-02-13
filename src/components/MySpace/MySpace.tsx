@@ -12,7 +12,7 @@ import { useGetMySpaceQuery } from 'operations/portal/queries/getMySpace.g'
 import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
 import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
 import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
-
+import GuardianIdealCarousel from 'components/GuardianIdeal/GuardianIdeal'
 import {
   MySpaceWidget,
   BookmarkRecords,
@@ -26,7 +26,7 @@ import NewsWidget from 'components/NewsWidget/NewsWidget'
 import CustomCollection from 'components/CustomCollection/CustomCollection'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import AddWidget from 'components/AddWidget/AddWidget'
-
+import { GuardianIdealPillars } from 'components/GuardianIdeal/GuardianIdealPillars'
 import { useAnalytics } from 'stores/analyticsContext'
 
 /** Type guards */
@@ -98,6 +98,10 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
             </Grid>
           )}
 
+          {/* Guardian Ideal Carousel, if showing */}
+          <Grid className={styles.guardianIdeal}>
+            <GuardianIdealCarousel articles={GuardianIdealPillars} />
+          </Grid>
           {data &&
             data.mySpace &&
             data.mySpace.map((widget: Widget) => (
