@@ -2,8 +2,8 @@
 @import 'styles/sfds/sfdsDependencies';
 
 .PageHeader {
-  color: $theme-white;
-  background: var(--header-image);
+  color: var(--text);
+  //background: var(--header-image);
   background-position: bottom -240px center;
   background-size: cover;
   @include u-padding-bottom(4);
