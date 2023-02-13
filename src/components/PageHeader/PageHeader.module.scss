@@ -9,10 +9,19 @@
     text-transform: uppercase;
     margin-bottom: 0;
   }
-
+  li {
+    color: var(--text);
+  }
+  :global(.usa-breadcrumb__list-item:not(:last-child)::after) {
+    background: var(--text);
+  }
   a,
-  :global(.usa-breadcrumb__link) {
-    color: $theme-aurora-base;
+  :global(.usa-breadcrumb__link),
+  :global(.usa-link) {
+    color: var(--breadcrumbs-link);
+    &:visited {
+      color: var(--breadcrumbs-link);
+    }
   }
 
   :global(.grid-row) {
