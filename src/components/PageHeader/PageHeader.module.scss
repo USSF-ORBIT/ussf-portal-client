@@ -3,9 +3,6 @@
 
 .PageHeader {
   color: var(--text);
-  //background: var(--header-image);
-  background-position: bottom -240px center;
-  background-size: cover;
   @include u-padding-bottom(4);
 
   @include at-media('tablet') {
