@@ -13,7 +13,7 @@
   }
 
   main {
-    background: var(--body-bg);
+    background: var(--body-bg), var(--body-gradient), var(--body-img);
     color: var(--text);
     flex: 1;
     padding-bottom: units(7);
