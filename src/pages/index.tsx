@@ -5,7 +5,7 @@ import MySpace from 'components/MySpace/MySpace'
 import Announcement from 'components/Announcement/Announcement'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
-import type { BookmarkRecords, AnnouncementRecord } from 'types/index'
+import type { BookmarkRecords } from 'types/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import { GET_ANNOUNCEMENTS } from 'operations/cms/queries/getAnnouncements'
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
@@ -43,7 +43,7 @@ export async function getServerSideProps() {
     query: GET_KEYSTONE_BOOKMARKS,
   })
 
-  let {
+  const {
     data: { announcements },
   } = await client.query({
     query: GET_ANNOUNCEMENTS,
@@ -53,13 +53,6 @@ export async function getServerSideProps() {
   })
 
   const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
-
-  // Filter announcements array to only contain announcements with
-  // a publish date up until now.
-  announcements = announcements.filter(
-    (a: AnnouncementRecord) =>
-      DateTime.fromISO(a.publishedDate) < DateTime.now()
-  )
 
   return {
     props: {

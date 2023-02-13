@@ -128,7 +128,7 @@ NewsAnnouncements.getLayout = (page: React.ReactNode) =>
   )
 
 export async function getServerSideProps() {
-  let {
+  const {
     data: { announcements },
   } = await client.query({
     query: GET_ANNOUNCEMENTS,
@@ -145,13 +145,6 @@ export async function getServerSideProps() {
       publishedDate: DateTime.now(),
     },
   })
-
-  // Filter announcements array to only contain announcements with
-  // a publish date up until now.
-  announcements = announcements.filter(
-    (a: AnnouncementRecord) =>
-      DateTime.fromISO(a.publishedDate) < DateTime.now()
-  )
 
   return {
     props: {
