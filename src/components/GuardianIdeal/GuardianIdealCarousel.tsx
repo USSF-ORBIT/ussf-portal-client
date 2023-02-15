@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import Slider from 'react-slick'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import styles from '../NewsCarousel/NewsCarousel.module.scss'
+import styles from './GuardianIdealCarousel.module.scss'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import GuardianIdealItem from './GuardianIdealItem'
@@ -25,10 +25,11 @@ const GuardianIdealCarousel = ({
 }: {
   articles: ArticleListItemRecord[]
 }) => {
-  const sliderRef = useRef<Slider>(null)
+  const sliderRef = useRef(null)
 
   const settings = {
     dots: true,
+    fade: true,
     accessibility: true,
     adaptiveHeight: true,
     infinite: true,
@@ -39,15 +40,7 @@ const GuardianIdealCarousel = ({
     dotsClass: `slick-dots ${styles.dots}`,
     appendDots: (dots: React.ReactNode) => {
       return (
-        <div
-          style={{
-            bottom: '-40px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingLeft: '8rem',
-            paddingRight: '8rem',
-          }}>
+        <div>
           <button
             type="button"
             className={styles.carouselArrow}
@@ -62,7 +55,6 @@ const GuardianIdealCarousel = ({
           <ul
             style={{
               margin: '0px',
-              paddingLeft: '0px',
             }}>
             {' '}
             {dots}{' '}

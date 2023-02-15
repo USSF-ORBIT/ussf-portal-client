@@ -2,7 +2,7 @@ import type { ArticleListItemRecord } from 'types'
 export const GuardianIdealPillars: ArticleListItemRecord[] = [
   {
     id: '849eb02a-ac3d-4dfd-a95d-5a4868d9d9b5',
-    title: 'CHARACTER',
+    title: 'Connect in a Collaborative Environment',
     labels: [
       {
         id: 'label1',
@@ -12,11 +12,11 @@ export const GuardianIdealPillars: ArticleListItemRecord[] = [
     ],
     publishedDate: '',
     preview:
-      'We defend the Constitution and serve the nation. Consequently, high moral character and ethical standards are the foundation of our personal and professional lives. We embrace the virtues of integrity, grit, honesty, authenticity, and trustworthiness. We are fully accountable for our decisions, actions, and inactions. We honor our obligations to our mission, our fellow Guardians, and our loved ones.',
+      'The purpose of this objective is to set the conditions to create a fearless organizational culture so all individuals can contribute to their full potential.',
   },
   {
     id: 'f9a97504-bc2e-4996-b3a5-331b53fba3c8',
-    title: 'CONNECTION',
+    title: 'Lead Digital Enablement',
     labels: [
       {
         id: 'label2', // this should be changed
@@ -26,34 +26,48 @@ export const GuardianIdealPillars: ArticleListItemRecord[] = [
     ],
     publishedDate: '',
     preview:
-      'We are connected by a common purpose greater than ourselves. We are stronger together than we are individually. We seek out diversity and engage inclusively knowing that harnessing different perspectives fuels innovation. We strengthen our teams and security of our nation by treating everyone with dignity, empathy, and respect. Our approach allows us to tap into the best that each person has to offer.',
+      'Digital fluency is foundational to being a Guardian. Full-spectrum digital enablement will allow us to realize the tenets of the CSO’s Planning Guidance to empower Space Force to be a lean and agile military service.',
   },
   {
     id: '494bae34-695f-4b20-acb2-99d9ff85c6fe',
-    title: 'COMMITMENT',
+    title: 'Generate and Engage Talent',
     labels: [
       {
-        id: 'label2',
+        id: 'label3',
         name: 'Guardian Ideal',
         type: 'Source',
       },
     ],
     publishedDate: '',
     preview:
-      'We are committed to the pursuit of mastery of ourselves, our profession, and our domain, knowing this is a lifelong journey and not a destination. We see the opportunities to learn and grow with the help of our team where others see challenges and obstacles, we will make best use of the diverse and unique strengths of our teammates to achieve feats considered impossible by our adversaries.',
+      'One of the most important focus areas of the Space Force is the effort to find the best and most diverse talent we need to advance our mission contributing to the joint warfight.',
   },
   {
     id: '8399eb62-233e-46c0-96b0-a84d0d4b0b15',
-    title: 'COURAGE',
+    title: 'Develop and Employ Talent',
     labels: [
       {
-        id: 'label2',
+        id: 'label4',
         name: 'Guardian Ideal',
         type: 'Source',
       },
     ],
     publishedDate: '',
     preview:
-      'We do what needs to be done and say what needs to be said because it is right. We are steadfast and we hold to our convictions. We have the power to choose regardless of circumstance. We are biased toward action, accepting risk when necessary to secure and defend our domain. We act and speak fearlessly knowing our teammates and leadership are unwavering in their support.',
+      'Our model for talent development and employment moves beyond generalized development to an individualized approach that provides every Guardian what they need, when they need it.',
+  },
+  {
+    id: '9499eb62-233e-46c0-96b0-a84d0d4b1c16',
+    title: 'Integrate Resiliency',
+    labels: [
+      {
+        id: 'label5',
+        name: 'Guardian Ideal',
+        type: 'Source',
+      },
+    ],
+    publishedDate: '',
+    preview:
+      'We view resiliency as more than a set of discrete programs; it is integral to how we connect, engage, develop, and care for our Guardians and their families. Our approach emphasizes proactivity and prevention over reaction, starting with the existing resiliency pillars of mental, physical, social, and spiritual.',
   },
 ]

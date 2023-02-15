@@ -12,7 +12,7 @@ import { useGetMySpaceQuery } from 'operations/portal/queries/getMySpace.g'
 import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
 import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
 import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
-import GuardianIdealCarousel from 'components/GuardianIdeal/GuardianIdeal'
+import GuardianIdealCarousel from 'components/GuardianIdeal/GuardianIdealCarousel'
 import {
   MySpaceWidget,
   BookmarkRecords,
