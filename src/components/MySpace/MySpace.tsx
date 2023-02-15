@@ -59,6 +59,12 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     })
   }
 
+  const addGuardianIdeal = () => {
+    trackEvent('Add section', 'Add Guardian Ideal section')
+
+    console.log('Add the actual query')
+  }
+
   const addNewCollection = () => {
     trackEvent('Add section', 'Create new collection')
 
@@ -202,6 +208,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                 handleCreateCollection={addNewCollection}
                 handleSelectCollection={selectCollections}
                 handleAddNews={addNewsWidget}
+                handleAddGuardianIdeal={addGuardianIdeal}
                 canAddNews={canAddNews}
                 canAddCollection={canAddCollections}
               />
