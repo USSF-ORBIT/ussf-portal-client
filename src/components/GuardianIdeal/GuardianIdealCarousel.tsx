@@ -25,7 +25,7 @@ const GuardianIdealCarousel = ({
 }: {
   articles: ArticleListItemRecord[]
 }) => {
-  const sliderRef = useRef(null)
+  const sliderRef = useRef<Slider>(null)
 
   const settings = {
     dots: true,
