@@ -30,6 +30,10 @@ export const CONTENT_CATEGORIES = {
     value: 'Application',
     label: 'Application',
   },
+  GUARDIANIDEAL: {
+    value: 'GuardianIdeal',
+    label: 'Guardian Ideal',
+  },
 } as const
 
 /**

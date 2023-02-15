@@ -2,6 +2,8 @@ import { Grid } from '@trussworks/react-uswds'
 import React from 'react'
 import styles from './GuardianIdealItem.module.scss'
 import { ArticleListItemRecord } from 'types'
+import { Category } from 'components/Tag/Tag'
+import { CONTENT_CATEGORIES } from 'constants/index'
 
 const GuardianIdealItem = ({ article }: { article: ArticleListItemRecord }) => {
   return (
@@ -23,6 +25,7 @@ const GuardianIdealItem = ({ article }: { article: ArticleListItemRecord }) => {
       </Grid>
       <Grid col={'fill'} className={styles.gridContainer}>
         <Grid className={styles.textContainer}>
+          <Category category={CONTENT_CATEGORIES.GUARDIANIDEAL} />
           <h1 className={styles.articleTitle}>{article.title}</h1>
           <div className={styles.articlePreview}>{article.preview}</div>
         </Grid>
