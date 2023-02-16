@@ -140,7 +140,7 @@ export type DocumentPageType = {
  * */
 
 /*  WidgetType is stored in MongoDB to identify the type of widget  */
-export type WidgetType = 'Collection' | 'News'
+export type WidgetType = 'Collection' | 'GuardianIdeal' | 'News'
 
 /*  Widget refers to an existing widget in MongoDB, created and managed in a user's MySpace */
 export type Widget = {
