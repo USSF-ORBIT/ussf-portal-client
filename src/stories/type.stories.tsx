@@ -264,24 +264,6 @@ export const Links = () => {
           </a>
           .
         </p>
-
-        <div className="usa-dark-background padding-1 display-inline-block">
-          <p>
-            This is{' '}
-            <a className="usa-link" href="javascript:void(0);">
-              a text link on a dark background
-            </a>
-            .
-          </p>
-          <p>
-            <a
-              className="usa-link usa-link--alt usa-link--external"
-              href="https://i.giphy.com/media/WPzQF6ruiIIVzHNlwX/source.gif">
-              This
-            </a>{' '}
-            is an alternate external text link on a dark background.
-          </p>
-        </div>
       </section>
     </div>
   )
