@@ -1,4 +1,6 @@
 import React, { useRef } from 'react'
+import { withLDConsumer } from 'launchdarkly-react-client-sdk'
+import { LDFlagSet } from 'launchdarkly-js-client-sdk'
 import Slider from 'react-slick'
 import { Button } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -26,9 +28,11 @@ const CustomEllipse = ({ onClick }: any) => {
 const GuardianIdealCarousel = ({
   articles,
   widget,
+  flags,
 }: {
   articles: ArticleListItemRecord[]
   widget: Widget
+  flags?: LDFlagSet
 }) => {
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
@@ -103,27 +107,31 @@ const GuardianIdealCarousel = ({
   }
 
   return (
-    <WidgetWithSettings
-      className={styles.guardianIdealCarousel}
-      settingsItems={[
-        <Button
-          key="newsWidgetSettingsMenu_remove"
-          type="button"
-          className={styles.collectionSettingsDropdown}
-          onClick={handleConfirmRemoveSection}>
-          Remove Guardian Ideal section
-        </Button>,
-      ]}>
-      <Slider
-        ref={sliderRef}
-        className={styles.carouselContainer}
-        {...settings}>
-        {articles.map((article: ArticleListItemRecord, index: number) => {
-          return <GuardianIdealItem key={index} article={article} />
-        })}
-      </Slider>
-    </WidgetWithSettings>
+    <>
+      {flags && flags.guardianIdealCarousel && (
+        <WidgetWithSettings
+          className={styles.guardianIdealCarousel}
+          settingsItems={[
+            <Button
+              key="newsWidgetSettingsMenu_remove"
+              type="button"
+              className={styles.collectionSettingsDropdown}
+              onClick={handleConfirmRemoveSection}>
+              Remove Guardian Ideal section
+            </Button>,
+          ]}>
+          <Slider
+            ref={sliderRef}
+            className={styles.carouselContainer}
+            {...settings}>
+            {articles.map((article: ArticleListItemRecord, index: number) => {
+              return <GuardianIdealItem key={index} article={article} />
+            })}
+          </Slider>
+        </WidgetWithSettings>
+      )}
+    </>
   )
 }
 
-export default GuardianIdealCarousel
+export default withLDConsumer()(GuardianIdealCarousel)
