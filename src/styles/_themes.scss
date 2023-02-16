@@ -1,10 +1,20 @@
 @import 'styles/sfds/_colors.scss';
 
 $hero-image: url('/assets/images/hero.jpeg');
+$light-bg-img: url('/assets/images/lightbg.png');
+$dark-bg-img: url('/assets/images/darkbg.png');
 $accordion-light-plus-icon-path: url('/vendor/img/usa-icons/add.svg');
 $accordion-dark-plus-icon-path: url('/vendor/img/usa-icons-bg/add--white.svg');
 $accordion-light-minus-icon-path: url('/vendor/img/usa-icons/remove.svg');
 $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg');
+
+$light-gradient: linear-gradient(180deg, #fffcf5 40%, #a0a8b6 100%);
+$dark-gradient: linear-gradient(
+  180deg,
+  #070f1d 7.28%,
+  #112548 67.92%,
+  #6572b4 128.09%
+);
 
 // This file contains css properties use throughout the
 // code base for each corresponding theme.
@@ -23,10 +33,12 @@ $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg
 
   // Layout
   --body-bg: #{$white};
+  --body-gradient: #{$light-gradient};
+  --body-img: #{$light-bg-img};
   --bg: #{$white};
-  --mySpaceBg: rgba(255, 255, 255, 0.75);
+  --background-fill: rgba(254, 252, 245, 0.4);
+  --background-fill-alert: rgb(255, 248, 231, 0.6);
   --text: #{$theme-black};
-  --header-image: #{$black $hero-image no-repeat};
 
   // Buttons
   --btn-primary-text: #{$theme-white};
@@ -71,7 +83,7 @@ $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg
   --btn-delete-bg-hover: #{$state-error-lighter};
 
   // Sites & Apps
-  --btn-sort-bg: transparent;
+  --btn-sort-bg: rgba(255, 255, 255, 0.5);
   --btn-sort-border: #a9aeb1;
   --btn-sort-text: $theme-ultraviolet-base;
   --btn-sort-hover-bg: #{$theme-ultraviolet-dark};
@@ -175,9 +187,9 @@ $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg
   --alert-info-bg: #{$state-info-lighter};
 
   // Breadcrumbs
-  --breadcrumbs-link: #{$theme-aurora-base};
-  --breadcrumbs-link-hover: #{$theme-aurora-lighter};
-  --breadcrumbs-edit-display-name: #{$theme-aurora-base};
+  --breadcrumbs-link: #{$theme-ultraviolet-base};
+  --breadcrumbs-link-hover: var(--link-primary);
+  --breadcrumbs-edit-display-name: var(--link-primary);
 
   // Accordion
   --accordion-title: #1b1b1b;
@@ -214,7 +226,10 @@ $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg
       #0f305a 73.55%,
       #555f92 111.89%
     )};
-  --mySpaceBg: rgba(10, 22, 43, 0.4);
+  --body-gradient: #{$dark-gradient};
+  --body-img: #{$dark-bg-img};
+  --background-fill: rgba(10, 22, 43, 0.4);
+  --background-fill-alert: rgba(200, 255, 211, 0.6);
   --text: #{$white};
   --header-image: none;
 
@@ -381,9 +396,9 @@ $accordion-dark-minus-icon-path: url('/vendor/img/usa-icons-bg/remove--white.svg
     saturate(2653%) hue-rotate(178deg) brightness(118%) contrast(100%);
 
   // Breadcrumbs
-  --breadcrumbs-link: #{$white};
+  --breadcrumbs-link: #{$theme-mars-light};
   --breadcrumbs-link-hover: #{$white};
-  --breadcrumbs-edit-display-name: #{$theme-aurora-base};
+  --breadcrumbs-edit-display-name: #{$theme-mars-light};
 
   // Footer
   --footer-bg: #{$black};
