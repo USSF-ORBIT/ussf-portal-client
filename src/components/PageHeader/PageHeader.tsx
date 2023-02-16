@@ -23,11 +23,7 @@ const PageHeader = ({
           </Grid>
 
           <Grid col="auto" desktop={{ col: 6 }}>
-            {flags && flags.searchComponent ? (
-              <Search />
-            ) : (
-              <Search disabled={true} />
-            )}
+            {flags?.searchComponent ? <Search /> : <Search disabled={true} />}
           </Grid>
         </Grid>
       </GridContainer>
