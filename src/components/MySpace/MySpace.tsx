@@ -117,7 +117,10 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
               <React.Fragment key={`widget_${widget._id}`}>
                 {widget.type === 'GuardianIdeal' ? (
                   <Grid className={styles.guardianIdeal}>
-                    <GuardianIdealCarousel articles={GuardianIdealPillars} />
+                    <GuardianIdealCarousel
+                      articles={GuardianIdealPillars}
+                      widget={widget}
+                    />
                   </Grid>
                 ) : (
                   <Grid tabletLg={{ col: 6 }} desktopLg={{ col: 4 }}>

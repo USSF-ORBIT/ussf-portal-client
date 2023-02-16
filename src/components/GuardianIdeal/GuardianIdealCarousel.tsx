@@ -7,7 +7,8 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import GuardianIdealItem from './GuardianIdealItem'
 import { WidgetWithSettings } from 'components/Widget/Widget'
-import { ArticleListItemRecord } from 'types'
+import { ArticleListItemRecord, Widget } from 'types'
+import { useModalContext } from 'stores/modalContext'
 
 const CustomEllipse = ({ onClick }: any) => {
   return (
@@ -24,9 +25,13 @@ const CustomEllipse = ({ onClick }: any) => {
 
 const GuardianIdealCarousel = ({
   articles,
+  widget,
 }: {
   articles: ArticleListItemRecord[]
+  widget: Widget
 }) => {
+  const { updateModalId, updateModalText, modalRef, updateWidget } =
+    useModalContext()
   const sliderRef = useRef<Slider>(null)
 
   const settings = {
@@ -79,7 +84,22 @@ const GuardianIdealCarousel = ({
   }
 
   const handleConfirmRemoveSection = () => {
-    console.log('Remove Guardian Ideal')
+    updateModalId('removeSectionModal')
+    updateModalText({
+      headingText: 'Are you sure you’d like to delete this section?',
+      descriptionText:
+        'You can re-add it to your My Space from the Add Section menu.',
+    })
+
+    const widgetState: Widget = {
+      _id: widget._id,
+      title: widget.title,
+      type: 'GuardianIdeal',
+    }
+
+    updateWidget(widgetState)
+
+    modalRef?.current?.toggleModal(undefined, true)
   }
 
   return (
