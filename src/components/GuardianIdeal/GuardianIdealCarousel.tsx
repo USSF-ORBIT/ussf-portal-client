@@ -1,10 +1,12 @@
 import React, { useRef } from 'react'
 import Slider from 'react-slick'
+import { Button } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from './GuardianIdealCarousel.module.scss'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import GuardianIdealItem from './GuardianIdealItem'
+import { WidgetWithSettings } from 'components/Widget/Widget'
 import { ArticleListItemRecord } from 'types'
 
 const CustomEllipse = ({ onClick }: any) => {
@@ -76,12 +78,31 @@ const GuardianIdealCarousel = ({
     customPaging: () => <CustomEllipse />,
   }
 
+  const handleConfirmRemoveSection = () => {
+    console.log('Remove Guardian Ideal')
+  }
+
   return (
-    <Slider ref={sliderRef} className={styles.carouselContainer} {...settings}>
-      {articles.map((article: ArticleListItemRecord, index: number) => {
-        return <GuardianIdealItem key={index} article={article} />
-      })}
-    </Slider>
+    <WidgetWithSettings
+      className={styles.guardianIdealCarousel}
+      settingsItems={[
+        <Button
+          key="newsWidgetSettingsMenu_remove"
+          type="button"
+          className={styles.collectionSettingsDropdown}
+          onClick={handleConfirmRemoveSection}>
+          Remove this section
+        </Button>,
+      ]}>
+      <Slider
+        ref={sliderRef}
+        className={styles.carouselContainer}
+        {...settings}>
+        {articles.map((article: ArticleListItemRecord, index: number) => {
+          return <GuardianIdealItem key={index} article={article} />
+        })}
+      </Slider>
+    </WidgetWithSettings>
   )
 }
 

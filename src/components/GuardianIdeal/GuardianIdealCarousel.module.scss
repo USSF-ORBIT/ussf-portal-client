@@ -1,14 +1,26 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/sfds/sfdsDependencies';
 
-.widgetContainer {
-  margin-bottom: 10rem;
+// Override styles for Widget
+.guardianIdealCarousel {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+
+  &:nth-child(1) {
+    background-color: $news-carousel;
+  }
+
+  :nth-child(1) > button > svg {
+    color: $white;
+  }
 }
 
 .carouselContainer {
   width: 100%;
   background-color: $news-carousel;
   border-radius: 4px;
+  margin-top: 0 !important;
 
   .dots {
     button.newsCarouselEllipse {
