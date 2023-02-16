@@ -111,7 +111,7 @@ const GuardianIdealCarousel = ({
           type="button"
           className={styles.collectionSettingsDropdown}
           onClick={handleConfirmRemoveSection}>
-          Remove this section
+          Remove Guardian Ideal section
         </Button>,
       ]}>
       <Slider
