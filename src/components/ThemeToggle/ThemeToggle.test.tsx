@@ -12,8 +12,24 @@ import ThemeToggle from './ThemeToggle'
 
 import * as analyticsHooks from 'stores/analyticsContext'
 
+jest.mock('next/router', () => ({
+  useRouter: jest.fn().mockReturnValue({
+    route: '',
+    pathname: '',
+    query: '',
+    asPath: '',
+    replace: jest.fn(),
+  }),
+}))
+
 describe('ThemeToggle component', () => {
-  it('renders the component', () => {
+  test('renders nothing if no user', async () => {
+    renderWithAuthAndApollo(<ThemeToggle />, { user: null })
+
+    expect(screen.queryByTestId('theme-toggle')).toBeNull()
+  })
+
+  test('renders the component', () => {
     const user = userEvent.setup()
 
     renderWithAuthAndApollo(<ThemeToggle />, {}, editThemeMock)
@@ -49,7 +65,7 @@ describe('calling hook functions', () => {
     )
   })
 
-  it('calls trackEvent when the toggle is clicked', async () => {
+  test('calls trackEvent when the toggle is clicked', async () => {
     const user = userEvent.setup()
     const toggle = screen.getByTestId('theme-toggle')
     await user.click(toggle)
@@ -62,7 +78,7 @@ describe('calling hook functions', () => {
     )
   })
 
-  it('calls setTheme when the toggle is clicked', async () => {
+  test('calls setTheme when the toggle is clicked', async () => {
     const user = userEvent.setup()
     const toggle = screen.getByTestId('theme-toggle')
     await user.click(toggle)
@@ -74,7 +90,7 @@ describe('calling hook functions', () => {
     expect(setItemMock).toHaveBeenLastCalledWith('theme', 'light')
   })
 
-  it('calls handleEditThemeMutation when the toggle is clicked', async () => {
+  test('calls handleEditThemeMutation when the toggle is clicked', async () => {
     const user = userEvent.setup()
     const toggle = screen.getByTestId('theme-toggle')
     await user.click(toggle)

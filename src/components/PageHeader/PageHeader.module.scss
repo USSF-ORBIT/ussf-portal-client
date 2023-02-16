@@ -2,29 +2,26 @@
 @import 'styles/sfds/sfdsDependencies';
 
 .PageHeader {
-  color: $theme-white;
-  background: var(--header-image);
-  background-position: bottom -240px center;
-  background-size: cover;
+  color: var(--text);
   @include u-padding-bottom(4);
-
-  @include at-media('tablet') {
-    background-size: 2000px auto;
-    background-position: bottom -120px center;
-  }
-
-  @media (min-width: 2000px) {
-    background-size: cover;
-  }
 
   h1 {
     text-transform: uppercase;
     margin-bottom: 0;
   }
-
+  li {
+    color: var(--text);
+  }
+  :global(.usa-breadcrumb__list-item:not(:last-child)::after) {
+    background: var(--text);
+  }
   a,
+  :global(.usa-breadcrumb__link),
   :global(.usa-link) {
-    color: $theme-aurora-base;
+    color: var(--breadcrumbs-link);
+    &:visited {
+      color: var(--breadcrumbs-link);
+    }
   }
 
   :global(.grid-row) {

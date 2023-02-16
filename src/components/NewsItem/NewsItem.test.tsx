@@ -23,7 +23,7 @@ describe('NewsItem component', () => {
       render(<NewsItem article={testArticle} widget={true} />)
     })
 
-    it('renders the article contents', () => {
+    test('renders the article contents', () => {
       expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent(
         testArticle.title
       )
@@ -39,6 +39,20 @@ describe('NewsItem component', () => {
           name: `${testArticle.publishDate} // ${testArticle.title}`,
         })
       ).toHaveAttribute('href', testArticle.sourceLink)
+
+      expect(screen.getByRole('article')).toHaveClass('NewsItem')
+      expect(screen.getByRole('article')).toHaveClass('newsWidgetItem')
+    })
+  })
+
+  describe('displayed not in a widget', () => {
+    // The above tests covers the basiscs, this just ensures that if widget is false
+    // the class is appropriately rendered.
+    test('renders the article contents', () => {
+      render(<NewsItem article={testArticle} />)
+
+      expect(screen.getByRole('article')).toHaveClass('NewsItem')
+      expect(screen.getByRole('article')).not.toHaveClass('newsWidgetItem')
     })
   })
 })
