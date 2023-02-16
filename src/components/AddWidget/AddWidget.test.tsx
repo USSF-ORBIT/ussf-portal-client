@@ -14,6 +14,7 @@ describe('AddWidget component', () => {
     handleSelectCollection: jest.fn(),
     handleCreateCollection: jest.fn(),
     handleAddNews: jest.fn(),
+    handleAddGuardianIdeal: jest.fn(),
   }
 
   it('renders an add widget menu', () => {
