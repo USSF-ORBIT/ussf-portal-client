@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
-import { withLDConsumer } from 'launchdarkly-react-client-sdk'
-import { LDFlagSet } from 'launchdarkly-js-client-sdk'
+// import { withLDConsumer } from 'launchdarkly-react-client-sdk'
+// import { LDFlagSet } from 'launchdarkly-js-client-sdk'
+import { useFlags } from 'launchdarkly-react-client-sdk'
 import Slider from 'react-slick'
 import { Button } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -28,15 +29,15 @@ const CustomEllipse = ({ onClick }: any) => {
 const GuardianIdealCarousel = ({
   articles,
   widget,
-  flags,
 }: {
   articles: ArticleListItemRecord[]
   widget: Widget
-  flags?: LDFlagSet
 }) => {
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
+
   const sliderRef = useRef<Slider>(null)
+  const flags = useFlags()
 
   const settings = {
     dots: true,
@@ -134,4 +135,4 @@ const GuardianIdealCarousel = ({
   )
 }
 
-export default withLDConsumer()(GuardianIdealCarousel)
+export default GuardianIdealCarousel

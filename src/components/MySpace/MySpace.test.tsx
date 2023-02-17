@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { act, screen, render, within } from '@testing-library/react'
+import { act, screen, render } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
@@ -9,6 +9,7 @@ import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
 import { ObjectId } from 'mongodb'
 import { renderWithModalRoot } from '../../testHelpers'
+import '../../__mocks__/mockMatchMedia'
 
 import {
   getMySpaceMock,
