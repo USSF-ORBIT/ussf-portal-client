@@ -6,9 +6,10 @@
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
+  background: transparent !important;
 
   &:nth-child(1) > div:not(:global(.slick-slider)) {
-    background-color: transparent;
+    // background: transparent;
     display: flex;
     justify-content: end;
     position: relative;
