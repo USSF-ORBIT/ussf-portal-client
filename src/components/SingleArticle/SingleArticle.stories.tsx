@@ -1,6 +1,7 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
 
+import type { ArticleRecord } from '../../types'
 import { SingleArticle } from './SingleArticle'
 
 export default {
@@ -15,16 +16,14 @@ export default {
   ],
 } as Meta
 
-const testArticle = {
+const testArticle: ArticleRecord = {
   id: 'testArticleId123',
   slug: 'test-article',
   title:
     'Version 2.8.5 released! Includes MVP search experience and a way to filter the news.',
   category: 'InternalNews',
   publishedDate: '2022-05-17T13:44:39.796Z',
-  hero: {
-    url: '',
-  },
+  status: 'Published',
   body: {
     document: [
       {
@@ -177,4 +176,12 @@ const articleWithHero = {
 }
 export const ExampleSingleArticleWithHero = () => (
   <SingleArticle article={articleWithHero} />
+)
+
+const articleInPreviewMode = {
+  ...testArticle,
+  status: 'Draft',
+}
+export const ExampleSingleArticleInPreviewMode = () => (
+  <SingleArticle article={articleInPreviewMode} />
 )
