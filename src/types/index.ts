@@ -60,13 +60,18 @@ export type ArticleListItemRecord = {
   }
 }
 
+/* PublishableItemType is any item that has publishedDate and status */
+export type PublishableItemType = {
+  publishedDate: string
+  status: 'Draft' | 'Published' | 'Archived'
+}
+
 /* ArticleRecord is the complete article used when viewing the single article page */
-export type ArticleRecord = {
+export type ArticleRecord = PublishableItemType & {
   id: string
   slug: string
   title: string
   category: string
-  publishedDate: string
   hero?: {
     url: string
   }

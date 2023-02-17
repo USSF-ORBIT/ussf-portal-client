@@ -1,10 +1,15 @@
+import { DateTime } from 'luxon'
+
 import {
   validateNewsItems,
   formatRssToArticle,
   formatToArticleListItem,
+  isPublished,
+  isCmsUser,
 } from './index'
 
-import type { RSSNewsItem } from 'types'
+import type { RSSNewsItem, PublishableItemType, SessionUser } from 'types'
+import { testUser1, cmsAdmin, cmsUser } from '__fixtures__/authUsers'
 
 describe('validateNewsItems', () => {
   it('returns true if the object has all required properties', () => {
@@ -84,5 +89,62 @@ describe('formatToArticleListItem', () => {
     }
 
     expect(formatToArticleListItem(rssItem)).toStrictEqual(articeItem)
+  })
+})
+
+describe('isPublished', () => {
+  test('returns true if article is published in the past', () => {
+    const publishedArticle: PublishableItemType = {
+      publishedDate: '2022-05-17T13:44:39.796Z',
+      status: 'Published',
+    }
+
+    expect(isPublished(publishedArticle)).toBe(true)
+  })
+
+  test('returns false if article is published in the future', () => {
+    const unpublishedArticle: PublishableItemType = {
+      publishedDate: DateTime.now().plus({ weeks: 2 }).toISO(),
+      status: 'Published',
+    }
+    expect(isPublished(unpublishedArticle)).toBe(false)
+  })
+
+  test('returns false if article is not published', () => {
+    const unpublishedArticle: PublishableItemType = {
+      publishedDate: DateTime.now().plus({ weeks: 2 }).toISO(),
+      status: 'Draft',
+    }
+    expect(isPublished(unpublishedArticle)).toBe(false)
+  })
+
+  test('returns false if article is not published even if publishedDate is in past', () => {
+    const unpublishedArticle: PublishableItemType = {
+      publishedDate: DateTime.now().minus({ weeks: 2 }).toISO(),
+      status: 'Draft',
+    }
+    expect(isPublished(unpublishedArticle)).toBe(false)
+  })
+
+  test('returns false if article is undefined', () => {
+    expect(isPublished(undefined)).toBe(false)
+  })
+})
+
+describe('isCmsUser', () => {
+  test('returns true if user is in CMS_User group', () => {
+    expect(isCmsUser(cmsUser)).toBe(true)
+  })
+
+  test('returns true if user is in CMS_Admin group', () => {
+    expect(isCmsUser(cmsAdmin)).toBe(true)
+  })
+
+  test('returns false if user is not in CMS_Admin or CMS_User group', () => {
+    expect(isCmsUser(testUser1)).toBe(false)
+  })
+
+  test('returns false if article is undefined', () => {
+    expect(isCmsUser(undefined)).toBe(false)
   })
 })
