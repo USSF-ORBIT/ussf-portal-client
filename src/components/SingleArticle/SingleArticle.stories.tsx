@@ -178,7 +178,7 @@ export const ExampleSingleArticleWithHero = () => (
   <SingleArticle article={articleWithHero} />
 )
 
-const articleInPreviewMode = {
+const articleInPreviewMode: ArticleRecord = {
   ...testArticle,
   status: 'Draft',
 }
