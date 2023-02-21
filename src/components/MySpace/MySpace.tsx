@@ -210,22 +210,23 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
               </React.Fragment>
             ))}
 
-          {!loading && (canAddCollections || canAddNews) && (
-            <Grid
-              key={`widget_addNew`}
-              tabletLg={{ col: 6 }}
-              desktopLg={{ col: 4 }}>
-              <AddWidget
-                handleCreateCollection={addNewCollection}
-                handleSelectCollection={selectCollections}
-                handleAddNews={addNewsWidget}
-                handleAddGuardianIdeal={addGuardianIdeal}
-                canAddNews={canAddNews}
-                canAddCollection={canAddCollections}
-                canAddGuardianIdeal={canAddGuardianIdeal}
-              />
-            </Grid>
-          )}
+          {!loading &&
+            (canAddCollections || canAddNews || canAddGuardianIdeal) && (
+              <Grid
+                key={`widget_addNew`}
+                tabletLg={{ col: 6 }}
+                desktopLg={{ col: 4 }}>
+                <AddWidget
+                  handleCreateCollection={addNewCollection}
+                  handleSelectCollection={selectCollections}
+                  handleAddNews={addNewsWidget}
+                  handleAddGuardianIdeal={addGuardianIdeal}
+                  canAddNews={canAddNews}
+                  canAddCollection={canAddCollections}
+                  canAddGuardianIdeal={canAddGuardianIdeal}
+                />
+              </Grid>
+            )}
         </Grid>
       </div>
     </div>
