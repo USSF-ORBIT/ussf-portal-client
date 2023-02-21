@@ -3,20 +3,20 @@
 
 .breadcrumbs {
   :global(.usa-breadcrumb__list-item:not(:last-child)::after) {
-    background-color: $theme-white;
+    background-color: var(--text);
   }
   li {
-    color: $theme-white;
+    color: var(--text);
   }
   a li,
   a {
-    color: $theme-aurora-base;
+    color: var(--breadcrumbs-link);
     &:hover,
     &:focus {
-      color: $theme-aurora-lighter;
+      color: var(--breadcrumbs-link-hover);
     }
     &:visited {
-      color: $theme-aurora-base;
+      color: var(--breadcrumbs-link);
     }
   }
 }

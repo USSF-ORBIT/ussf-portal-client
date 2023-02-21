@@ -2,6 +2,7 @@
 @import 'styles/sfds/sfdsDependencies';
 
 .epubs {
+  background: var(--background-fill);
   border: 1px solid $light-gray;
   border-radius: 8px;
   padding: units(2);

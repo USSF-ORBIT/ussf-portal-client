@@ -26,6 +26,7 @@
 }
 
 .widgetContainer {
+  background: var(--background-fill);
   border: 1px solid var(--widget-border);
   padding: 3px;
   border-radius: 4px;

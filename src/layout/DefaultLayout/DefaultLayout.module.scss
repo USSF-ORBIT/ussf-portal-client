@@ -13,7 +13,11 @@
   }
 
   main {
-    background: var(--body-bg);
+    background: var(--body-img), var(--body-gradient);
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     color: var(--text);
     flex: 1;
     padding-bottom: units(7);
