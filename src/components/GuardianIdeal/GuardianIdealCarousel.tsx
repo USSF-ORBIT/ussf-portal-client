@@ -54,6 +54,7 @@ const GuardianIdealCarousel = ({
           <button
             type="button"
             className={styles.carouselArrow}
+            aria-label="previous guardian ideal"
             data-testid="slick-prev"
             onClick={() => {
               if (sliderRef.current) {
@@ -72,6 +73,7 @@ const GuardianIdealCarousel = ({
           <button
             type="button"
             className={styles.carouselArrow}
+            aria-label="next guardian ideal"
             data-testid="slick-next"
             onClick={() => {
               if (sliderRef.current) {
