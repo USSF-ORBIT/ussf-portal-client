@@ -194,6 +194,62 @@ describe('AddWidget component', () => {
     expect(mockAddNews).not.toHaveBeenCalled()
   })
 
+  test('handles Add Guardian Ideal section button', async () => {
+    const user = userEvent.setup()
+    const mockAddGuardianIdeal = jest.fn()
+
+    render(
+      <AddWidget {...testProps} handleAddGuardianIdeal={mockAddGuardianIdeal} />
+    )
+
+    const menuButton = screen.getByRole('button', { name: 'Add section' })
+    expect(menuButton).toBeInTheDocument()
+
+    await user.click(menuButton)
+
+    expect(
+      screen.getByRole('button', { name: 'Add Guardian Ideal section' })
+    ).toBeInTheDocument()
+    await user.click(
+      screen.getByRole('button', { name: 'Add Guardian Ideal section' })
+    )
+
+    expect(mockAddGuardianIdeal).toHaveBeenCalled()
+    expect(
+      screen.queryByRole('button', { name: 'Add Guardian Ideal section' })
+    ).not.toBeInTheDocument()
+  })
+
+  test('the Add Guardian Ideal section button is disabled if the user cannot add it', async () => {
+    const user = userEvent.setup()
+    const mockAddGuardianIdeal = jest.fn()
+
+    render(
+      <AddWidget
+        {...testProps}
+        handleAddNews={mockAddGuardianIdeal}
+        canAddGuardianIdeal={false}
+      />
+    )
+
+    const menuButton = screen.getByRole('button', { name: 'Add section' })
+    expect(menuButton).toBeInTheDocument()
+
+    await user.click(menuButton)
+
+    expect(
+      screen.getByRole('button', { name: 'Add Guardian Ideal section' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Add Guardian Ideal section' })
+    ).toBeDisabled()
+
+    await user.click(
+      screen.getByRole('button', { name: 'Add Guardian Ideal section' })
+    )
+    expect(mockAddGuardianIdeal).not.toHaveBeenCalled()
+  })
+
   it('has no a11y violations', async () => {
     const { container } = render(<AddWidget {...testProps} />)
     expect(await axe(container)).toHaveNoViolations()
