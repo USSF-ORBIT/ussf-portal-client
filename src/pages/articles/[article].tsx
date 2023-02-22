@@ -1,7 +1,6 @@
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
-
 import { GridContainer } from '@trussworks/react-uswds'
-
+import { DateTime } from 'luxon'
 import { client } from 'lib/keystoneClient'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
@@ -10,7 +9,6 @@ import PageHeader from 'components/PageHeader/PageHeader'
 import { GET_ARTICLE } from 'operations/cms/queries/getArticle'
 import { SingleArticle } from 'components/SingleArticle/SingleArticle'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
-import { DateTime } from 'luxon'
 
 const ORBITBlogArticleHeader = () => (
   <PageHeader>
