@@ -19,7 +19,6 @@ import { GET_INTERNAL_NEWS_CAROUSEL_ARTICLES } from 'operations/cms/queries/getI
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
-import { DateTime } from 'luxon'
 
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=4`
 
