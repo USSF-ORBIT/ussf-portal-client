@@ -12,10 +12,12 @@ import CustomModal from 'components/CustomModal/CustomModal'
 const DefaultLayout = ({
   displayFeedbackCard = true,
   rightSidebar = undefined,
+  secondaryNav,
   children,
 }: {
   displayFeedbackCard?: boolean
   rightSidebar?: JSX.Element
+  secondaryNav?: any
   children: React.ReactNode
 }) => {
   const navItems = [
@@ -44,7 +46,7 @@ const DefaultLayout = ({
             <Grid row gap>
               {/* LEFT SIDEBAR */}
               <Grid tablet={{ col: displayFeedbackCard ? 3 : 2 }}>
-                <PageNav navItems={navItems} />
+                <PageNav navItems={secondaryNav.links} />
                 {displayFeedbackCard && <FeedbackCard />}
               </Grid>
               <Grid tablet={{ col: true }}>
@@ -69,12 +71,14 @@ export default DefaultLayout
 export const withDefaultLayout = (
   page: React.ReactNode,
   displayFeedbackCard?: boolean,
-  rightSidebar?: JSX.Element
+  rightSidebar?: JSX.Element,
+  secondaryNav?: any
 ) => {
   return (
     <DefaultLayout
       displayFeedbackCard={displayFeedbackCard}
-      rightSidebar={rightSidebar}>
+      rightSidebar={rightSidebar}
+      secondaryNav={secondaryNav}>
       {page}
     </DefaultLayout>
   )

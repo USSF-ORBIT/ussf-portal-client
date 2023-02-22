@@ -24,17 +24,17 @@ const NavLink = ({
   const pathProp = as || href
   const linkPath =
     typeof pathProp === 'string' ? pathProp : pathProp?.pathname || ''
+  // #TODO this is throwing errors with the data from the cms
+  // const isActive = pathToRegexp(linkPath, [], {
+  //   sensitive: true,
+  //   end: !!exact,
+  // }).test(asPath)
 
-  const isActive = pathToRegexp(linkPath, [], {
-    sensitive: true,
-    end: !!exact,
-  }).test(asPath)
+  // const classes = classnames(className, {
+  //   [activeClass]: isActive,
+  // })
 
-  const classes = classnames(className, {
-    [activeClass]: isActive,
-  })
-
-  return <LinkTo {...otherProps} className={classes} />
+  return <LinkTo {...otherProps} />
 }
 
 export default NavLink

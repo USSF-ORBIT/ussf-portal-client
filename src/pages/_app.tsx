@@ -20,6 +20,7 @@ import { ModalProvider } from 'stores/modalContext'
 import DefaultLayout from 'layout/DefaultLayout/DefaultLayout'
 import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
 import { LaunchDarkly } from 'stores/launchDarklyContext'
+import { GET_SECONDARY_NAV } from 'operations/cms/queries/getSecondaryNav'
 
 config.autoAddCss = false
 
@@ -40,7 +41,7 @@ const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
 
   const getLayout =
     Component.getLayout ||
-    ((page: ReactNode) => <DefaultLayout>{page}</DefaultLayout>)
+    ((page: ReactNode, pageProps: any) => <DefaultLayout>{page}</DefaultLayout>) //#TODO this is where something needs to happen
 
   return (
     <ApolloProvider client={client}>
@@ -166,7 +167,7 @@ const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
                   <meta name="msapplication-TileColor" content="#da532c" />
                   <meta name="theme-color" content="#ffffff" />
                 </Head>
-                {getLayout(<Component {...pageProps} />)}
+                {getLayout(<Component {...pageProps} />, pageProps)}
               </ModalProvider>
             </ThemeProvider>
           </LaunchDarkly>

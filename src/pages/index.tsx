@@ -10,6 +10,7 @@ import type { BookmarkRecords } from 'types/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import { GET_ANNOUNCEMENTS } from 'operations/cms/queries/getAnnouncements'
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
+import { GET_SECONDARY_NAV } from 'operations/cms/queries/getSecondaryNav'
 import styles from 'styles/pages/home.module.scss'
 
 const Home = ({
@@ -37,7 +38,9 @@ const Home = ({
 
 export default Home
 
-Home.getLayout = withDefaultLayout
+Home.getLayout = (page: React.ReactNode, pageProps: any) => {
+  return withDefaultLayout(page, false, undefined, pageProps.secondaryNav)
+}
 
 export async function getServerSideProps() {
   const { data: cmsBookmarks } = await client.query({
@@ -50,12 +53,19 @@ export async function getServerSideProps() {
     query: GET_ANNOUNCEMENTS,
   })
 
+  const {
+    data: { secondaryNav },
+  } = await client.query({
+    query: GET_SECONDARY_NAV,
+  })
+
   const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
 
   return {
     props: {
       bookmarks,
       announcements,
+      secondaryNav,
     },
   }
 }
