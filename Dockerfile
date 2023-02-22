@@ -1,6 +1,6 @@
 ##--------- Stage: builder ---------##
 
-FROM node:18.11.0-slim AS builder
+FROM node:18.14.2-slim AS builder
 
 RUN apt-get update \
   && apt-get dist-upgrade -y \
@@ -65,7 +65,7 @@ CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
 ##--------- Stage: build-env ---------##
 
 # Production image, copy all the files and run next
-FROM node:18.11.0-slim AS build-env
+FROM node:18.14.2-slim AS build-env
 
 WORKDIR /app
 
