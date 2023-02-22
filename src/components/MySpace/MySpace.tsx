@@ -118,7 +118,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                 {widget.type === 'GuardianIdeal' ? (
                   <Grid className={styles.guardianIdeal}>
                     <GuardianIdealCarousel
-                      articles={GuardianIdealPillars}
+                      ideals={GuardianIdealPillars}
                       widget={widget}
                     />
                   </Grid>

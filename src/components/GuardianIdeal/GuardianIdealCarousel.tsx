@@ -1,6 +1,4 @@
 import React, { useRef } from 'react'
-// import { withLDConsumer } from 'launchdarkly-react-client-sdk'
-// import { LDFlagSet } from 'launchdarkly-js-client-sdk'
 import { useFlags } from 'launchdarkly-react-client-sdk'
 import Slider from 'react-slick'
 import { Button } from '@trussworks/react-uswds'
@@ -10,7 +8,7 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import GuardianIdealItem from './GuardianIdealItem'
 import { WidgetWithSettings } from 'components/Widget/Widget'
-import { ArticleListItemRecord, Widget } from 'types'
+import { IdealListItem, Widget } from 'types'
 import { useModalContext } from 'stores/modalContext'
 
 const CustomEllipse = ({ onClick }: any) => {
@@ -27,10 +25,10 @@ const CustomEllipse = ({ onClick }: any) => {
 }
 
 const GuardianIdealCarousel = ({
-  articles,
+  ideals,
   widget,
 }: {
-  articles: ArticleListItemRecord[]
+  ideals: IdealListItem[]
   widget: Widget
 }) => {
   const { updateModalId, updateModalText, modalRef, updateWidget } =
@@ -125,8 +123,8 @@ const GuardianIdealCarousel = ({
             ref={sliderRef}
             className={styles.carouselContainer}
             {...settings}>
-            {articles.map((article: ArticleListItemRecord, index: number) => {
-              return <GuardianIdealItem key={index} article={article} />
+            {ideals.map((ideal: IdealListItem, index: number) => {
+              return <GuardianIdealItem key={index} ideal={ideal} />
             })}
           </Slider>
         </WidgetWithSettings>

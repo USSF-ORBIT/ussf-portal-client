@@ -44,6 +44,18 @@ type Element = {
   [key: string]: unknown
 }
 
+/* IdealListItem is used for the Guardian Ideals */
+export type IdealListItem = {
+  id: string
+  title: string
+  body: string
+  publishedDate: string
+  labels?: LabelRecord[]
+  hero?: {
+    url: string
+  }
+}
+
 /* ArticleListItemRecord is used when querying multiple articles from the CMS */
 export type ArticleListItemRecord = {
   id: string

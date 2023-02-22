@@ -1,6 +1,6 @@
-import { ArticleListItemRecord } from 'types'
+import { IdealListItem } from 'types'
 
-export const mockIdeals: ArticleListItemRecord[] = [
+export const mockIdeals: IdealListItem[] = [
   {
     id: 'testId1',
     title: 'Connect in a Collaborative Environment',
@@ -12,8 +12,7 @@ export const mockIdeals: ArticleListItemRecord[] = [
       },
     ],
     publishedDate: '',
-    preview:
-      'The purpose of this objective is to set the conditions to create a fearless organizational culture so all individuals can contribute to their full potential.',
+    body: 'The purpose of this objective is to set the conditions to create a fearless organizational culture so all individuals can contribute to their full potential.',
   },
   {
     id: 'testId2',
@@ -26,8 +25,7 @@ export const mockIdeals: ArticleListItemRecord[] = [
       },
     ],
     publishedDate: '',
-    preview:
-      'Digital fluency is foundational to being a Guardian. Full-spectrum digital enablement will allow us to realize the tenets of the CSO’s Planning Guidance to empower Space Force to be a lean and agile military service.',
+    body: 'Digital fluency is foundational to being a Guardian. Full-spectrum digital enablement will allow us to realize the tenets of the CSO’s Planning Guidance to empower Space Force to be a lean and agile military service.',
   },
   {
     id: 'testId3',
@@ -40,7 +38,6 @@ export const mockIdeals: ArticleListItemRecord[] = [
       },
     ],
     publishedDate: '',
-    preview:
-      'One of the most important focus areas of the Space Force is the effort to find the best and most diverse talent we need to advance our mission contributing to the joint warfight.',
+    body: 'One of the most important focus areas of the Space Force is the effort to find the best and most diverse talent we need to advance our mission contributing to the joint warfight.',
   },
 ]

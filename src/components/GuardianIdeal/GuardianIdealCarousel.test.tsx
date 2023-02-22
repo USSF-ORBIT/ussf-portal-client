@@ -27,7 +27,7 @@ describe('GuardianIdealCarousel component', () => {
 
     render(
       <GuardianIdealCarousel
-        articles={mockIdeals}
+        ideals={mockIdeals}
         widget={mockGuardianIdealWidget}
       />
     )
@@ -58,7 +58,7 @@ describe('GuardianIdealCarousel component', () => {
 
     renderWithModalRoot(
       <GuardianIdealCarousel
-        articles={mockIdeals}
+        ideals={mockIdeals}
         widget={mockGuardianIdealWidget}
       />,
       {

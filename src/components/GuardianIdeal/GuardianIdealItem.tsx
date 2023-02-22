@@ -1,18 +1,18 @@
 import { Grid } from '@trussworks/react-uswds'
 import React from 'react'
 import styles from './GuardianIdealItem.module.scss'
-import { ArticleListItemRecord } from 'types'
+import { IdealListItem } from 'types'
 import { Category } from 'components/Tag/Tag'
 import { CONTENT_CATEGORIES } from 'constants/index'
 
-const GuardianIdealItem = ({ article }: { article: ArticleListItemRecord }) => {
+const GuardianIdealItem = ({ ideal }: { ideal: IdealListItem }) => {
   return (
     <Grid row className={styles.carouselItemContainer}>
       <Grid col={5} className={styles.imageContainer}>
-        {article.hero ? (
+        {ideal.hero ? (
           <img
-            src={article.hero.url}
-            alt="article hero graphic"
+            src={ideal.hero.url}
+            alt="guardian ideal hero graphic"
             className={styles.hero}
           />
         ) : (
@@ -26,8 +26,8 @@ const GuardianIdealItem = ({ article }: { article: ArticleListItemRecord }) => {
       <Grid col={'fill'} className={styles.gridContainer}>
         <Grid className={styles.textContainer}>
           <Category category={CONTENT_CATEGORIES.GUARDIANIDEAL} />
-          <h1 className={styles.articleTitle}>{article.title}</h1>
-          <div className={styles.articlePreview}>{article.preview}</div>
+          <h1 className={styles.guardianIdealTitle}>{ideal.title}</h1>
+          <div className={styles.guardianIdealBody}>{ideal.body}</div>
         </Grid>
       </Grid>
     </Grid>
