@@ -14,6 +14,8 @@ import { cmsOrbitBlogArticle as mockOrbitBlogArticle } from '../../__fixtures__/
 import { cmsInternalNewsArticle } from '../../__fixtures__/data/cmsInternalNewsArticle'
 
 import SingleArticlePage, { getServerSideProps } from 'pages/articles/[article]'
+import { testUser1, cmsUser } from '__fixtures__/authUsers'
+import { getSession } from 'lib/session'
 
 jest.mock('../../lib/keystoneClient', () => ({
   client: {
@@ -56,6 +58,15 @@ mockedUseRouter.mockReturnValue({
   replace: mockReplace,
 })
 
+jest.mock('lib/session', () => ({
+  getSession: jest.fn(),
+}))
+
+const mockedGetSession = getSession as jest.Mock
+mockedGetSession.mockImplementationOnce(() =>
+  Promise.resolve({ passport: { user: testUser1 } })
+)
+
 describe('Single article getServerSideProps', () => {
   const testContext = {
     query: { article: 'test-article-slug' },
@@ -66,6 +77,30 @@ describe('Single article getServerSideProps', () => {
     expect(response).toEqual({
       props: {
         article: mockOrbitBlogArticle,
+      },
+    })
+  })
+
+  it('returns found if the query returns an unpublished article but user is a cms user', async () => {
+    const draftArticle = { ...mockOrbitBlogArticle, status: 'Draft' }
+    mockedKeystoneClient.query.mockResolvedValueOnce({
+      data: {
+        article: draftArticle,
+      },
+      loading: false,
+      errors: [],
+      networkStatus: 7,
+    })
+
+    mockedGetSession.mockImplementationOnce(() =>
+      Promise.resolve({ passport: { user: cmsUser } })
+    )
+
+    const response = await getServerSideProps(testContext)
+
+    expect(response).toEqual({
+      props: {
+        article: draftArticle,
       },
     })
   })
