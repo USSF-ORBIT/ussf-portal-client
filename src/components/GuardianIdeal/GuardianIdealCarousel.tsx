@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import { useFlags } from 'launchdarkly-react-client-sdk'
 import Slider from 'react-slick'
 import { Button } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -35,7 +34,6 @@ const GuardianIdealCarousel = ({
     useModalContext()
 
   const sliderRef = useRef<Slider>(null)
-  const flags = useFlags()
 
   const settings = {
     dots: true,
@@ -108,30 +106,26 @@ const GuardianIdealCarousel = ({
   }
 
   return (
-    <>
-      {flags && flags.guardianIdealCarousel && (
-        <WidgetWithSettings
-          className={styles.guardianIdealCarousel}
-          settingsItems={[
-            <Button
-              key="newsWidgetSettingsMenu_remove"
-              type="button"
-              className={styles.collectionSettingsDropdown}
-              onClick={handleConfirmRemoveSection}>
-              Remove Guardian Ideal section
-            </Button>,
-          ]}>
-          <Slider
-            ref={sliderRef}
-            className={styles.carouselContainer}
-            {...settings}>
-            {ideals.map((ideal: IdealListItem, index: number) => {
-              return <GuardianIdealItem key={index} ideal={ideal} />
-            })}
-          </Slider>
-        </WidgetWithSettings>
-      )}
-    </>
+    <WidgetWithSettings
+      className={styles.guardianIdealCarousel}
+      settingsItems={[
+        <Button
+          key="newsWidgetSettingsMenu_remove"
+          type="button"
+          className={styles.collectionSettingsDropdown}
+          onClick={handleConfirmRemoveSection}>
+          Remove Guardian Ideal section
+        </Button>,
+      ]}>
+      <Slider
+        ref={sliderRef}
+        className={styles.carouselContainer}
+        {...settings}>
+        {ideals.map((ideal: IdealListItem, index: number) => {
+          return <GuardianIdealItem key={index} ideal={ideal} />
+        })}
+      </Slider>
+    </WidgetWithSettings>
   )
 }
 

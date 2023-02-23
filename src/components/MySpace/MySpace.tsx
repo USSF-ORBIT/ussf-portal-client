@@ -1,4 +1,5 @@
 import React from 'react'
+import { useFlags } from 'launchdarkly-react-client-sdk'
 import { Grid } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
 import { gql } from '@apollo/client'
@@ -38,6 +39,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const router = useRouter()
   const { trackEvent } = useAnalytics()
   const { loading, error, data } = useGetMySpaceQuery()
+  const flags = useFlags()
 
   const mySpace = (data?.mySpace || []) as MySpaceWidget[]
 
@@ -115,14 +117,17 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
             data.mySpace &&
             data.mySpace.map((widget: Widget) => (
               <React.Fragment key={`widget_${widget._id}`}>
-                {widget.type === 'GuardianIdeal' ? (
-                  <Grid className={styles.guardianIdeal}>
-                    <GuardianIdealCarousel
-                      ideals={GuardianIdealPillars}
-                      widget={widget}
-                    />
-                  </Grid>
-                ) : (
+                {widget.type === 'GuardianIdeal' &&
+                  flags.guardianIdealCarousel && (
+                    <Grid className={styles.guardianIdeal}>
+                      <GuardianIdealCarousel
+                        ideals={GuardianIdealPillars}
+                        widget={widget}
+                      />
+                    </Grid>
+                  )}
+
+                {widget.type !== 'GuardianIdeal' && (
                   <Grid tabletLg={{ col: 6 }} desktopLg={{ col: 4 }}>
                     {widget.type === 'News' && <NewsWidget widget={widget} />}
 

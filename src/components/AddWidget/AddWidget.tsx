@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import { Button, Icon } from '@trussworks/react-uswds'
+import { useFlags } from 'launchdarkly-react-client-sdk'
 
 import styles from './AddWidget.module.scss'
 
@@ -28,6 +29,7 @@ const AddWidget = ({
     dropdownEl,
     false
   )
+  const flags = useFlags()
 
   const menuOnClick = () => {
     setIsDropdownOpen((state) => !state)
@@ -85,15 +87,17 @@ const AddWidget = ({
           }}>
           Add news section
         </Button>
-        <Button
-          disabled={!canAddGuardianIdeal}
-          type="button"
-          onClick={() => {
-            handleAddGuardianIdeal()
-            setIsDropdownOpen(false)
-          }}>
-          Add Guardian Ideal section
-        </Button>
+        {flags && flags.guardianIdealCarousel && (
+          <Button
+            disabled={!canAddGuardianIdeal}
+            type="button"
+            onClick={() => {
+              handleAddGuardianIdeal()
+              setIsDropdownOpen(false)
+            }}>
+            Add Guardian Ideal section
+          </Button>
+        )}
       </DropdownMenu>
     </div>
   )
