@@ -4,6 +4,7 @@
 
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
+import { mockFlags } from 'jest-launchdarkly-mock'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 
@@ -197,6 +198,10 @@ describe('AddWidget component', () => {
   test('handles Add Guardian Ideal section button', async () => {
     const user = userEvent.setup()
     const mockAddGuardianIdeal = jest.fn()
+
+    mockFlags({
+      guardianIdealCarousel: true,
+    })
 
     render(
       <AddWidget {...testProps} handleAddGuardianIdeal={mockAddGuardianIdeal} />

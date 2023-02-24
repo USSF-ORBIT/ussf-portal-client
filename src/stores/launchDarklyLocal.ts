@@ -6,5 +6,5 @@
 export default {
   searchComponent: true,
   documentationPage: true,
-  guardianIdealCarousel: false,
+  guardianIdealCarousel: true,
 }
