@@ -14,6 +14,7 @@ const testArticle: ArticleRecord = {
     'Version 2.8.5 released! Includes MVP search experience and a way to filter the news.',
   category: 'InternalNews',
   publishedDate: '2022-05-17T13:44:39.796Z',
+  status: 'Published',
   hero: {
     url: 'http://cms.example.com/images/image.png',
   },
@@ -170,6 +171,8 @@ describe('SingleArticle component', () => {
   test('renders the article', () => {
     render(<SingleArticle article={testArticle} />)
 
+    const banner = screen.queryByText('Unpublished Article Preview')
+    expect(banner).toBeNull()
     expect(screen.getByText('May 17, 2022')).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
       testArticle.title
@@ -196,5 +199,14 @@ describe('SingleArticle component', () => {
       name: 'article hero graphic',
     })
     expect(img).not.toBeInTheDocument()
+  })
+
+  test('renders the unpublished article preview banner if article is not published', () => {
+    const unpublished: ArticleRecord = { ...testArticle, status: 'Draft' }
+    render(<SingleArticle article={unpublished} />)
+
+    const banner = screen.getByText('Unpublished Article Preview')
+    expect(banner).toBeVisible()
+    expect(banner).toHaveClass('previewBanner')
   })
 })

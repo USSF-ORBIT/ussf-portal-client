@@ -1,6 +1,13 @@
 // Pure functions that can be executed anywhere (NodeJS, browser)
+import { DateTime } from 'luxon'
 
-import type { RSSNewsItem, NewsItemArticle, ArticleListItemRecord } from 'types'
+import type {
+  RSSNewsItem,
+  NewsItemArticle,
+  ArticleListItemRecord,
+  PublishableItemType,
+  SessionUser,
+} from 'types'
 
 /** Validate items from an RSS feed by checking for required attributes */
 export const validateNewsItems = (item: RSSNewsItem): boolean => {
@@ -36,4 +43,30 @@ export const formatToArticleListItem = (
     source: 'RSS',
     sourceName: 'SPACEFORCE.mil',
   }
+}
+
+/** check if an object with publishedDate and status is Published */
+export const isPublished = (
+  publishableItem: PublishableItemType | undefined
+) => {
+  if (
+    publishableItem &&
+    publishableItem.status === 'Published' &&
+    DateTime.fromISO(publishableItem.publishedDate) <= DateTime.now()
+  ) {
+    return true
+  }
+  return false
+}
+
+/** check if a user is in the CMS user groups */
+export const isCmsUser = (user: SessionUser | undefined) => {
+  if (
+    user &&
+    (user.attributes.userGroups.includes('PORTAL_CMS_Users') ||
+      user.attributes.userGroups.includes('PORTAL_CMS_Admins'))
+  ) {
+    return true
+  }
+  return false
 }

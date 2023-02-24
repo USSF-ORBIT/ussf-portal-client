@@ -7,6 +7,7 @@ import { Category, Label } from 'components/Tag/Tag'
 import type { ArticleRecord } from 'types'
 import { CONTENT_CATEGORIES } from 'constants/index'
 import colors from 'styles/sfds/colors.module.scss'
+import { isPublished } from 'helpers/index'
 
 export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   const {
@@ -30,6 +31,9 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
 
   return (
     <article className={styles.SingleArticle}>
+      {!isPublished(article) && (
+        <h2 className={styles.previewBanner}>Unpublished Article Preview</h2>
+      )}
       <div>
         {hero && (
           <img
