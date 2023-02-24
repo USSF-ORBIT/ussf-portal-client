@@ -19,3 +19,19 @@ export const testUser1: SessionUser = {
       '/C=US/O=U.S. Government/OU=DoD/OU=PKI/OU=CONTRACTOR/CN=CAMPBELL.BERNADETTE.5244446289',
   },
 }
+
+export const cmsAdmin = {
+  ...testUser1,
+  attributes: {
+    ...testUser1.attributes,
+    userGroups: [...testUser1.attributes.userGroups, 'PORTAL_CMS_Admins'],
+  },
+}
+
+export const cmsUser = {
+  ...testUser1,
+  attributes: {
+    ...testUser1.attributes,
+    userGroups: [...testUser1.attributes.userGroups, 'PORTAL_CMS_Users'],
+  },
+}
