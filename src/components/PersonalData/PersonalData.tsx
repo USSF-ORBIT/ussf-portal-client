@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import {
   Breadcrumb,
@@ -8,22 +8,17 @@ import {
 import styles from './PersonalData.module.scss'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 import { useGetDisplayNameQuery } from 'operations/portal/queries/getDisplayName.g'
-import { useUser } from 'hooks/useUser'
 
 const PersonalData = () => {
-  const { user } = useUser()
+  const [greeting, setGreeting] = useState<string>('Welcome!')
+  const { data } = useGetDisplayNameQuery()
   const router = useRouter()
 
-  const { data } = useGetDisplayNameQuery()
-
-  let userDisplayName
-  if (data?.displayName) {
-    userDisplayName = data.displayName
-  } else if (user) {
-    userDisplayName = `${user.attributes.givenname} ${user.attributes.surname}`
-  }
-
-  const greeting = userDisplayName ? `Welcome, ${userDisplayName}` : 'Welcome!'
+  useEffect(() => {
+    if (data) {
+      setGreeting(`Welcome, ${data.displayName}`)
+    }
+  }, [data])
 
   const currentPage = router.pathname
 
