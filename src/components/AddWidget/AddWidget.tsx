@@ -87,7 +87,7 @@ const AddWidget = ({
           }}>
           Add news section
         </Button>
-        {flags && flags.guardianIdealCarousel && (
+        {flags && flags?.guardianIdealCarousel && (
           <Button
             disabled={!canAddGuardianIdeal}
             type="button"

@@ -118,7 +118,8 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
             data.mySpace.map((widget: Widget) => {
               if (
                 widget.type === 'GuardianIdeal' &&
-                flags.guardianIdealCarousel
+                flags &&
+                flags?.guardianIdealCarousel
               ) {
                 return (
                   <Grid
