@@ -20,7 +20,7 @@ const EditDisplayName = ({
 
   const updateDisplayName = () => {
     if (!user) {
-      return
+      return null
     }
     handleEditDisplayName(user.userId, currentDisplayName)
     setSubmissionStatus(true)
