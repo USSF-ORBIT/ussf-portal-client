@@ -1,12 +1,13 @@
-export const cmsInternalNewsArticle = {
-  __typename: 'Article',
+import type { ArticleRecord } from 'types'
+export const cmsInternalNewsArticle: ArticleRecord = {
+  // __typename: 'Article',
   id: 'cl3buldda0247riyt6h85cpgc',
   slug: 'ussf-internal-news-article',
   category: 'InternalNews',
   title: 'USSF Internal News Article',
   status: 'Published',
   hero: {
-    url: '',
+    url: 'http://cms.example.com/images/image.png',
   },
   body: {
     document: [

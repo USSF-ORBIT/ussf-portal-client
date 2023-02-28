@@ -11,13 +11,13 @@ export const ArticleDateIcon = ({ date }: { date: Date }) => {
 
   try {
     const dateParts = dateFormatter.formatToParts(date)
-    const { value: month } = dateParts.find((i) => i.type === 'month') || {}
-    const { value: day } = dateParts.find((i) => i.type === 'day') || {}
 
-    if (month === undefined || day === undefined) {
-      // TODO throw error
-      return null
-    }
+    const { value: month } = dateParts.find(
+      (i) => i.type === 'month'
+    ) as Intl.DateTimeFormatPart
+    const { value: day } = dateParts.find(
+      (i) => i.type === 'day'
+    ) as Intl.DateTimeFormatPart
 
     return (
       <time dateTime={date.toLocaleString()} className={styles.ArticleDateIcon}>
@@ -27,6 +27,7 @@ export const ArticleDateIcon = ({ date }: { date: Date }) => {
     )
   } catch (e) {
     // TODO error boundary
+    console.log('there was an error')
     return null
   }
 }

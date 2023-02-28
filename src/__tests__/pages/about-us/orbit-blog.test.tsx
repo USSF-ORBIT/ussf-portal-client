@@ -10,6 +10,7 @@ import { GetServerSidePropsContext } from 'next'
 
 import { renderWithAuth } from '../../../testHelpers'
 import { cmsPortalNewsArticlesMock as mockOrbitBlogArticles } from '../../../__fixtures__/data/cmsPortalNewsArticles'
+import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import OrbitBlog, { getServerSideProps } from 'pages/about-us/orbit-blog'
 
 jest.mock('../../../lib/keystoneClient', () => ({
@@ -69,6 +70,34 @@ describe('ORBIT Blog page', () => {
       },
     })
   })
+
+  it('returns not found if query is incorrect', async () => {
+    const errorContext = {
+      query: {
+        page: 100,
+      },
+    } as unknown as GetServerSidePropsContext
+    const response = await getServerSideProps(errorContext)
+    expect(response).toEqual({
+      notFound: true,
+    })
+  })
+  it('returns 1 if no query or an invalid param', async () => {
+    const defaultContext = {
+      query: {
+        page: 'invalid',
+      },
+    } as unknown as GetServerSidePropsContext
+    const response = await getServerSideProps(defaultContext)
+
+    expect(response).toEqual({
+      props: {
+        articles: mockOrbitBlogArticles,
+        currentPage: 1,
+        totalPages: 1,
+      },
+    })
+  })
   describe('without a user', () => {
     beforeEach(() => {
       renderWithAuth(<OrbitBlog articles={mockOrbitBlogArticles} />, {
@@ -113,6 +142,25 @@ describe('ORBIT Blog page', () => {
       await act(async () => {
         expect(await axe(html.container)).toHaveNoViolations()
       })
+    })
+
+    it('withLayout returns correct title and navigation', async () => {
+      const result = OrbitBlog.getLayout('page')
+
+      expect(result.props.header.props.children).toEqual([
+        // eslint-disable-next-line
+        <h1>ORBIT Blog</h1>,
+        // this is inexplicably throwing a lint error for missing key
+        // even though this exactly the data passed to withLayout
+        // eslint-disable-next-line
+        <BreadcrumbNav
+          navItems={[
+            { label: 'Service portal home', path: '/' },
+            { label: 'About Us', path: '/about-us' },
+            { current: true, label: 'ORBIT Blog', path: '/orbit-blog' },
+          ]}
+        />,
+      ])
     })
   })
 })
