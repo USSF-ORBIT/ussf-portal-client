@@ -8,6 +8,7 @@ import 'slick-carousel/slick/slick-theme.css'
 import GuardianIdealItem from './GuardianIdealItem'
 import { WidgetWithSettings } from 'components/Widget/Widget'
 import { IdealListItem, Widget } from 'types'
+import { useAnalytics } from 'stores/analyticsContext'
 import { useModalContext } from 'stores/modalContext'
 
 const CustomEllipse = ({ onClick }: any) => {
@@ -32,7 +33,7 @@ const GuardianIdealCarousel = ({
 }) => {
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
-
+  const { trackEvent } = useAnalytics()
   const sliderRef = useRef<Slider>(null)
 
   const settings = {
@@ -87,6 +88,12 @@ const GuardianIdealCarousel = ({
   }
 
   const handleConfirmRemoveSection = () => {
+    trackEvent(
+      'Guardian Ideal Carousel',
+      'Click on remove Ideal carousel',
+      'Remove Ideal'
+    )
+
     updateModalId('removeSectionModal')
     updateModalText({
       headingText: 'Are you sure you’d like to delete this section?',
