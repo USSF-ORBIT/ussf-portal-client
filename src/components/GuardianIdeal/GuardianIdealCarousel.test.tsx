@@ -80,7 +80,9 @@ describe('GuardianIdealCarousel component', () => {
       })
     )
 
-    expect(mockUpdateModalId).toHaveBeenCalledWith('removeSectionModal')
+    expect(mockUpdateModalId).toHaveBeenCalledWith(
+      'removeGuardianIdealSectionModal'
+    )
     expect(mockUpdateModalText).toHaveBeenCalledWith({
       headingText: 'Are you sure you’d like to delete this section?',
       descriptionText:
