@@ -35,6 +35,14 @@ function isCollection(widget: MySpaceWidget): widget is Collection {
   return widget.type === WIDGET_TYPES.COLLECTION
 }
 
+function isGuardianIdeal(widget: Widget): widget is Collection {
+  return widget.type === WIDGET_TYPES.GUARDIANIDEAL
+}
+
+function isNewsWidget(widget: Widget): widget is Collection {
+  return widget.type === WIDGET_TYPES.NEWS
+}
+
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const router = useRouter()
   const { trackEvent } = useAnalytics()
@@ -117,7 +125,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
             data.mySpace &&
             data.mySpace.map((widget: Widget) => {
               if (
-                widget.type === 'GuardianIdeal' &&
+                isGuardianIdeal(widget) &&
                 flags &&
                 flags?.guardianIdealCarousel
               ) {
@@ -133,7 +141,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                 )
               }
 
-              if (widget.type === 'News') {
+              if (isNewsWidget(widget)) {
                 return (
                   <Grid
                     key={`widget_${widget._id}`}
