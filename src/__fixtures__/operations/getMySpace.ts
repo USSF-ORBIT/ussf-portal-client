@@ -74,6 +74,7 @@ export const getMySpaceMock = [
 
 const mockCollection = {
   __typename: 'Collection',
+  _id: ObjectId(),
   title: 'Example Collection',
   type: 'Collection',
   bookmarks: [
@@ -94,6 +95,11 @@ const maxCollections = Array.from({ length: 25 }, (x, i) => {
     _id: ObjectId(),
   }
 })
+
+const mockCollectionWithGuardianIdeal = [
+  { _id: ObjectId(), title: 'Guardian Ideal', type: 'GuardianIdeal' },
+  mockCollection,
+]
 
 export const getMySpaceMaximumCollectionsMock = [
   {
@@ -116,6 +122,19 @@ export const getMySpaceMaximumCollectionsWithNewsMock = [
     result: {
       data: {
         mySpace: [...maxCollections, mockNews],
+      },
+    },
+  },
+]
+
+export const getMySpaceCollectionsWithGuardianIdealMock = [
+  {
+    request: {
+      query: GetMySpaceDocument,
+    },
+    result: {
+      data: {
+        mySpace: mockCollectionWithGuardianIdeal,
       },
     },
   },
