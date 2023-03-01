@@ -56,6 +56,11 @@ const GuardianIdealCarousel = ({
             aria-label="previous guardian ideal"
             data-testid="slick-prev"
             onClick={() => {
+              trackEvent(
+                'Guardian Ideal Carousel',
+                'View next/previous',
+                'Click next/previous'
+              )
               if (sliderRef.current) {
                 return sliderRef.current.slickPrev()
               }
@@ -75,6 +80,11 @@ const GuardianIdealCarousel = ({
             aria-label="next guardian ideal"
             data-testid="slick-next"
             onClick={() => {
+              trackEvent(
+                'Guardian Ideal Carousel',
+                'View next/previous',
+                'Click next/previous'
+              )
               if (sliderRef.current) {
                 return sliderRef.current.slickNext()
               }
