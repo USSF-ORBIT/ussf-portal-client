@@ -70,7 +70,11 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   }
 
   const addGuardianIdeal = () => {
-    // trackEvent('Add section', 'Add Guardian Ideal section')
+    trackEvent(
+      'Guardian Ideal Carousel',
+      'Click on add Ideal carousel',
+      'Add Ideal'
+    )
 
     handleAddWidget({
       variables: { title: 'Ideal Title', type: AddWidgetType.GuardianIdeal },
