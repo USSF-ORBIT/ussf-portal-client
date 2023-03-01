@@ -98,13 +98,7 @@ const GuardianIdealCarousel = ({
   }
 
   const handleConfirmRemoveSection = () => {
-    trackEvent(
-      'Guardian Ideal Carousel',
-      'Click on remove Ideal carousel',
-      'Remove Ideal'
-    )
-
-    updateModalId('removeSectionModal')
+    updateModalId('removeGuardianIdealSectionModal')
     updateModalText({
       headingText: 'Are you sure you’d like to delete this section?',
       descriptionText:
