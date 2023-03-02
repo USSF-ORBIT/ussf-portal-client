@@ -34,6 +34,7 @@ const GuardianIdealCarousel = ({
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
   const { trackEvent } = useAnalytics()
+
   const sliderRef = useRef<Slider>(null)
 
   const settings = {
