@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import { Button, Icon } from '@trussworks/react-uswds'
+import { useFlags } from 'launchdarkly-react-client-sdk'
 
 import styles from './AddWidget.module.scss'
 
@@ -10,20 +11,25 @@ const AddWidget = ({
   handleSelectCollection,
   handleCreateCollection,
   handleAddNews,
+  handleAddGuardianIdeal,
   canAddNews = true,
   canAddCollection = true,
+  canAddGuardianIdeal = true,
 }: {
   handleSelectCollection: () => void
   handleCreateCollection: () => void
   handleAddNews: () => void
+  handleAddGuardianIdeal: () => void
   canAddNews?: boolean
   canAddCollection?: boolean
+  canAddGuardianIdeal?: boolean
 }) => {
   const dropdownEl = useRef<HTMLDivElement>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
     dropdownEl,
     false
   )
+  const flags = useFlags()
 
   const menuOnClick = () => {
     setIsDropdownOpen((state) => !state)
@@ -81,6 +87,17 @@ const AddWidget = ({
           }}>
           Add news section
         </Button>
+        {flags && flags?.guardianIdealCarousel && (
+          <Button
+            disabled={!canAddGuardianIdeal}
+            type="button"
+            onClick={() => {
+              handleAddGuardianIdeal()
+              setIsDropdownOpen(false)
+            }}>
+            Add Guardian Ideal section
+          </Button>
+        )}
       </DropdownMenu>
     </div>
   )
