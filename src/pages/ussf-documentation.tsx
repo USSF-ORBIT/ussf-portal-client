@@ -125,7 +125,7 @@ const USSFDocumentation = ({
   )
 }
 
-export const rightSidebar = (
+const rightSidebar = (
   <EPubsCard title="Looking for a general form or documentation outside of the USSF?" />
 )
 

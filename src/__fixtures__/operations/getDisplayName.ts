@@ -4,14 +4,11 @@ export const getDisplayNameMock = [
   {
     request: {
       query: GetDisplayNameDocument,
-      variables: {},
     },
-    result: () => {
-      return {
-        data: {
-          displayName: 'BERNADETTE CAMPBELL',
-        },
-      }
+    result: {
+      data: {
+        displayName: 'BERNADETTE CAMPBELL',
+      },
     },
   },
 ]

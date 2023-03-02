@@ -1,6 +1,5 @@
 import type { ArticleRecord } from 'types'
 export const cmsInternalNewsArticle: ArticleRecord = {
-  // __typename: 'Article',
   id: 'cl3buldda0247riyt6h85cpgc',
   slug: 'ussf-internal-news-article',
   category: 'InternalNews',

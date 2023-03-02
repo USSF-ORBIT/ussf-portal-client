@@ -2,13 +2,11 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { screen, waitFor, render } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 
 import { renderWithAuthAndApollo } from '../../testHelpers'
 
 import DefaultLayout, { withDefaultLayout } from './DefaultLayout'
-import { getThemeMock } from '__fixtures__/operations/getTheme'
-import { getDisplayNameMock } from '__fixtures__/operations/getDisplayName'
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -52,9 +50,7 @@ describe('DefaultLayout component', () => {
     renderWithAuthAndApollo(
       <DefaultLayout>
         <h1>Test Page</h1>
-      </DefaultLayout>,
-      {},
-      [getDisplayNameMock[0], getThemeMock[0]]
+      </DefaultLayout>
     )
     // need to wait for the query to finish so waiting for banner to display
     await waitFor(() =>

@@ -14,8 +14,6 @@ import '../../__mocks__/mockMatchMedia'
 import NewsAnnouncements, { getServerSideProps } from 'pages/news-announcements'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 
-// const mockArticles = cmsPortalNewsArticlesMock
-// const mockAnnouncements = cmsAnnouncementsMock
 jest.mock('../../lib/keystoneClient', () => ({
   client: {
     query: () => {
