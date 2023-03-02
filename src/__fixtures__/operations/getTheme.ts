@@ -4,11 +4,12 @@ export const getThemeMock = [
   {
     request: {
       query: GetThemeDocument,
+      variables: {},
     },
-    result: jest.fn(() => ({
+    result: {
       data: {
         theme: 'dark',
       },
-    })),
+    },
   },
 ]
