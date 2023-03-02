@@ -2,11 +2,13 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, render } from '@testing-library/react'
 
 import { renderWithAuthAndApollo } from '../../testHelpers'
 
 import DefaultLayout, { withDefaultLayout } from './DefaultLayout'
+import { getThemeMock } from '__fixtures__/operations/getTheme'
+import { getDisplayNameMock } from '__fixtures__/operations/getDisplayName'
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -17,12 +19,42 @@ jest.mock('next/router', () => ({
   }),
 }))
 
+describe('DefaultLayout component options', () => {
+  beforeAll(async () => {
+    const sidebar = (
+      <div>
+        <h2>Sidebar</h2>
+      </div>
+    )
+    renderWithAuthAndApollo(
+      <DefaultLayout displayFeedbackCard={false} rightSidebar={sidebar}>
+        <h1>Test Page</h1>
+      </DefaultLayout>
+    )
+    // need to wait for the query to finish so waiting for banner to display
+    await waitFor(() =>
+      expect(screen.getByTestId('govBanner')).toBeInTheDocument()
+    )
+  })
+  it('renders the sidebar', async () => {
+    const sidebar = screen.getByRole('heading', { name: 'Sidebar', level: 2 })
+    expect(sidebar).toBeVisible()
+  })
+  it('does not render the feedback card', async () => {
+    expect(
+      screen.queryByRole('heading', { name: 'Got feedback?' })
+    ).not.toBeInTheDocument()
+  })
+})
+
 describe('DefaultLayout component', () => {
   beforeEach(async () => {
     renderWithAuthAndApollo(
       <DefaultLayout>
         <h1>Test Page</h1>
-      </DefaultLayout>
+      </DefaultLayout>,
+      {},
+      [getDisplayNameMock[0], getThemeMock[0]]
     )
     // need to wait for the query to finish so waiting for banner to display
     await waitFor(() =>

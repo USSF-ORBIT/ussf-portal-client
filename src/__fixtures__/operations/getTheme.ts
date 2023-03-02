@@ -6,10 +6,12 @@ export const getThemeMock = [
       query: GetThemeDocument,
       variables: {},
     },
-    result: {
-      data: {
-        theme: 'dark',
-      },
+    result: () => {
+      return {
+        data: {
+          theme: 'dark',
+        },
+      }
     },
   },
 ]
