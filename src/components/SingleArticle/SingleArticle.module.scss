@@ -20,6 +20,14 @@
     margin-top: units(3);
   }
 
+  h2.previewBanner {
+    position: sticky;
+    top: 0;
+    text-align: center;
+    background: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+  }
+
   .tagAndLabelContainer {
     display: flex;
     align-items: center;

@@ -3,12 +3,17 @@
  */
 
 import { screen, waitFor, act } from '@testing-library/react'
-import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
 import axios from 'axios'
-import { renderWithAuth } from '../../testHelpers'
-import USSFDocumentation from 'pages/ussf-documentation'
+import { gql } from 'apollo-server-core'
+import { mockFlags, resetLDMocks } from 'jest-launchdarkly-mock'
+import { renderWithAuthAndApollo } from '../../testHelpers'
+import { DocumentPageType } from 'types'
+import USSFDocumentation, {
+  getServerSideProps,
+  staticPage,
+} from 'pages/ussf-documentation'
 
 const mockReplace = jest.fn()
 
@@ -29,25 +34,108 @@ mockedUseRouter.mockReturnValue({
   replace: mockReplace,
 })
 
+const mockTestPage: DocumentPageType = {
+  id: 'any',
+  pageTitle: 'Test Documentation',
+  sections: [
+    {
+      id: '12345678',
+      title: 'Section 1',
+      document: [
+        {
+          id: '87654321',
+          title: 'Document 1',
+          file: {
+            url: 'http://localhost:3000/test.pdf',
+          },
+        },
+      ],
+    },
+  ],
+}
+
+jest.mock('../../lib/keystoneClient', () => ({
+  client: {
+    query: () => {
+      return {
+        data: {
+          documentsPages: [mockTestPage],
+        },
+      }
+    },
+  },
+}))
+
+// Mock the Apollo Client query response to test getServerSideProps
+const cmsDocumentationPageMock = [
+  {
+    request: {
+      query: gql`
+        query getDocumentsPage {
+          documentsPages {
+            id
+            pageTitle
+            sections {
+              id
+              title
+              document {
+                title
+                file {
+                  url
+                }
+              }
+            }
+          }
+        }
+      `,
+    },
+    result: {
+      data: {
+        documentPages: [
+          {
+            id: '1',
+            pageTitle: 'Test Documentation',
+            sections: [
+              {
+                id: '12345678',
+                title: 'Section 1',
+                document: [
+                  {
+                    id: '87654321',
+                    title: 'Document 1',
+                    file: {
+                      url: 'http://localhost:3000/test.pdf',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
+  },
+]
+
 describe('USSF Documentation page', () => {
   describe('without a user', () => {
     it('renders the loader while fetching the user', () => {
-      renderWithAuth(
-        <MockedProvider>
-          <USSFDocumentation />
-        </MockedProvider>,
-        { user: null }
+      renderWithAuthAndApollo(
+        <USSFDocumentation documentsPage={mockTestPage} />,
+        { user: null },
+        cmsDocumentationPageMock
       )
-
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
     it('redirects to the login page if not logged in', async () => {
-      renderWithAuth(
-        <MockedProvider>
-          <USSFDocumentation />
-        </MockedProvider>,
-        { user: null }
+      renderWithAuthAndApollo(
+        <USSFDocumentation documentsPage={mockTestPage} />,
+        { user: null },
+        cmsDocumentationPageMock
+      )
+      renderWithAuthAndApollo(
+        <USSFDocumentation documentsPage={mockTestPage} />
       )
 
       await waitFor(() => {
@@ -57,23 +145,52 @@ describe('USSF Documentation page', () => {
   })
 
   describe('when logged in', () => {
-    it('renders the settings page', () => {
-      renderWithAuth(
-        <MockedProvider>
-          <USSFDocumentation />
-        </MockedProvider>
+    it('renders the documentation page from the cms', () => {
+      // If LaunchDarkly flag is passed in, the CMS content will render
+      mockFlags({
+        documentationPage: true,
+      })
+
+      renderWithAuthAndApollo(
+        <USSFDocumentation documentsPage={mockTestPage} />,
+        {},
+        cmsDocumentationPageMock
       )
 
-      expect(screen.getAllByText('Official USSF documentation')).toHaveLength(1)
+      expect(screen.getAllByText(`${mockTestPage.pageTitle}`)).toHaveLength(1)
 
-      expect(screen.getAllByText('Essential Reading')).toHaveLength(1)
+      expect(
+        screen.getAllByText(`${mockTestPage.sections[0].title}`)
+      ).toHaveLength(1)
+      expect(
+        screen.getAllByText(`${mockTestPage.sections[0].document[0].title}`)
+      ).toHaveLength(1)
+    })
+
+    it('renders the documentation page from static content', () => {
+      // If LaunchDarkly flag is *not* passed in, the static content will render
+      resetLDMocks()
+
+      renderWithAuthAndApollo(
+        <USSFDocumentation documentsPage={mockTestPage} />,
+        {},
+        cmsDocumentationPageMock
+      )
+
+      expect(screen.getAllByText(`${staticPage.pageTitle}`)).toHaveLength(1)
+      expect(
+        screen.getAllByText(`${staticPage.sections[0].title}`)
+      ).toHaveLength(1)
+      expect(
+        screen.getAllByText(`${staticPage.sections[0].document[0].title}`)
+      ).toHaveLength(1)
     })
 
     it('has no a11y violations', async () => {
-      const html = renderWithAuth(
-        <MockedProvider>
-          <USSFDocumentation />
-        </MockedProvider>
+      const html = renderWithAuthAndApollo(
+        <USSFDocumentation documentsPage={mockTestPage} />,
+        {},
+        cmsDocumentationPageMock
       )
 
       // Bug with NextJS Link + axe :(
@@ -84,13 +201,26 @@ describe('USSF Documentation page', () => {
     })
 
     it('makes the call to get user', () => {
-      renderWithAuth(
-        <MockedProvider>
-          <USSFDocumentation />
-        </MockedProvider>
+      renderWithAuthAndApollo(
+        <USSFDocumentation documentsPage={mockTestPage} />,
+        {},
+        cmsDocumentationPageMock
       )
 
-      expect(axios.get).toHaveBeenLastCalledWith('/api/auth/user')
+      expect(axios.get).toHaveBeenCalledWith('/api/auth/user')
     })
+  })
+})
+
+describe('getServerSideProps', () => {
+  it('should call cms api for documents page', async () => {
+    const response = await getServerSideProps()
+    expect(response).toEqual(
+      expect.objectContaining({
+        props: {
+          documentsPage: mockTestPage,
+        },
+      })
+    )
   })
 })

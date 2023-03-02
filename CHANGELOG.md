@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.15.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.14.0...4.15.0) (2023-02-23)
+
+
+### Features
+
+* Connect documents page to cms ([#921](https://github.com/USSF-ORBIT/ussf-portal-client/issues/921)) ([616f5ee](https://github.com/USSF-ORBIT/ussf-portal-client/commit/616f5eee6419820c01016ce5da3cb7221356ab88))
+* Display current announcements ([#924](https://github.com/USSF-ORBIT/ussf-portal-client/issues/924)) ([4ad1f8d](https://github.com/USSF-ORBIT/ussf-portal-client/commit/4ad1f8d477f14e59aaa069a1cff882a32b8e459b)), closes [#912](https://github.com/USSF-ORBIT/ussf-portal-client/issues/912) [#925](https://github.com/USSF-ORBIT/ussf-portal-client/issues/925) [#912](https://github.com/USSF-ORBIT/ussf-portal-client/issues/912) [#921](https://github.com/USSF-ORBIT/ussf-portal-client/issues/921)
+* Support article scheduling ([#922](https://github.com/USSF-ORBIT/ussf-portal-client/issues/922)) ([d4dc1a4](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d4dc1a4be8dba4884b78e5749d1fd28cc3eb3ed2))
+* support preview of unpublished articles by keystone cms users ([#934](https://github.com/USSF-ORBIT/ussf-portal-client/issues/934)) ([55615b7](https://github.com/USSF-ORBIT/ussf-portal-client/commit/55615b79f550d30445325961ba32e0bc9702b1fb))
+
+## [4.14.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.13.0...4.14.0) (2023-02-08)
+
+
+### Features
+
+* Add LaunchDarkly back and put Search behind feature flag ([#912](https://github.com/USSF-ORBIT/ussf-portal-client/issues/912)) ([f235860](https://github.com/USSF-ORBIT/ussf-portal-client/commit/f2358601aa09f8b2c90f8b467821450e305d925c))
+
 ## [4.13.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.12.1...4.13.0) (2023-01-25)
 
 

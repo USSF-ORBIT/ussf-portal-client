@@ -1,40 +1,50 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/sfds/sfdsDependencies';
 
-.accordion {
-  > h3 > button {
-    background-color: var(--accordion-btn-bg);
-    color: var(--accordion-title);
+.accordionGrid {
+  :global(.usa-accordion--bordered .usa-accordion__heading) {
+    margin-top: 0.5rem;
+  }
 
-    &:hover {
-      background-color: var(--accordion-btn-bg-hover);
+  .accordion {
+    > h3 > button {
+      background-color: var(--accordion-btn-bg);
       color: var(--accordion-title);
+
+      &:hover {
+        background-color: var(--accordion-btn-bg-hover);
+        color: var(--accordion-title);
+      }
+    }
+
+    :global(.usa-accordion--bordered .usa-accordion__heading) {
+      margin-top: 0.5rem;
+    }
+
+    :global(.usa-accordion__button[aria-expanded='false']) {
+      background-image: var(--accordion-plus-btn-img-path),
+        linear-gradient(transparent, transparent);
+      background-repeat: no-repeat;
+      background-size: 1.5rem;
+    }
+
+    :global(.usa-accordion__button) {
+      background-image: var(--accordion-minus-btn-img-path),
+        linear-gradient(transparent, transparent);
+      background-repeat: no-repeat;
+      background-size: 1.5rem;
+    }
+
+    :global(> div.usa-accordion__content) {
+      background-color: var(--accordion-content-bg);
+      border-bottom: 0.25rem solid var(--accordion-content-border);
+      border-left: 0.25rem solid var(--accordion-content-border);
+      border-right: 0.25rem solid var(--accordion-content-border);
     }
   }
 
-  :global(.usa-accordion__button[aria-expanded='false']) {
-    background-image: var(--accordion-plus-btn-img-path),
-      linear-gradient(transparent, transparent);
-    background-repeat: no-repeat;
-    background-size: 1.5rem;
+  .accordionContent {
+    display: flex;
+    flex-direction: column;
   }
-
-  :global(.usa-accordion__button) {
-    background-image: var(--accordion-minus-btn-img-path),
-      linear-gradient(transparent, transparent);
-    background-repeat: no-repeat;
-    background-size: 1.5rem;
-  }
-
-  :global(> div.usa-accordion__content) {
-    background-color: var(--accordion-content-bg);
-    border-bottom: 0.25rem solid var(--accordion-content-border);
-    border-left: 0.25rem solid var(--accordion-content-border);
-    border-right: 0.25rem solid var(--accordion-content-border);
-  }
-}
-
-.accordionContent {
-  display: flex;
-  flex-direction: column;
 }

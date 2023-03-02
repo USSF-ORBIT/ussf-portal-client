@@ -1,7 +1,8 @@
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
-
 import { GridContainer } from '@trussworks/react-uswds'
+import { DateTime } from 'luxon'
 import { client } from 'lib/keystoneClient'
+import { getSession } from 'lib/session'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
 import { withArticleLayout } from 'layout/DefaultLayout/ArticleLayout'
@@ -9,6 +10,7 @@ import PageHeader from 'components/PageHeader/PageHeader'
 import { GET_ARTICLE } from 'operations/cms/queries/getArticle'
 import { SingleArticle } from 'components/SingleArticle/SingleArticle'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
+import { isCmsUser, isPublished } from 'helpers/index'
 
 const ORBITBlogArticleHeader = () => (
   <PageHeader>
@@ -74,6 +76,9 @@ SingleArticlePage.getLayout = (page: React.ReactNode) => withArticleLayout(page)
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { article: slug } = context.query
 
+  const session = await getSession(context.req, context.res)
+  const user = session?.passport?.user
+
   const {
     data: { article },
   } = await client.query({
@@ -81,7 +86,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     variables: { slug },
   })
 
-  if (!article || article.status !== 'Published') {
+  // if article is not published return 404
+  // unless the current user is a CMS user or admin
+  // then allow them to see any article
+  if (!isPublished(article) && !isCmsUser(user)) {
     return {
       notFound: true,
     }

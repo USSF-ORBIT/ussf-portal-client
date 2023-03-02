@@ -2,7 +2,7 @@
 @import 'styles/sfds/sfdsDependencies';
 
 .SearchBanner {
-  background-color: $theme-cosmiclatte-base;
+  background-color: var(--background-fill-alert);
   border: 1px solid $theme-cosmiclatte-darker;
   border-radius: 6px;
   text-align: center;

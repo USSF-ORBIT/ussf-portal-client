@@ -1,6 +1,7 @@
 import { InferGetServerSidePropsType } from 'next'
 import React, { useEffect } from 'react'
 import { Grid } from '@trussworks/react-uswds'
+import { DateTime } from 'luxon'
 import { client } from '../lib/keystoneClient'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import Announcement from 'components/Announcement/Announcement'
@@ -131,12 +132,18 @@ export async function getServerSideProps() {
     data: { announcements },
   } = await client.query({
     query: GET_ANNOUNCEMENTS,
+    variables: {
+      publishedDate: DateTime.now(),
+    },
   })
 
   const {
     data: { articles },
   } = await client.query({
     query: GET_INTERNAL_NEWS_CAROUSEL_ARTICLES,
+    variables: {
+      publishedDate: DateTime.now(),
+    },
   })
 
   return {

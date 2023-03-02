@@ -42,7 +42,7 @@ describe('LaunchDarkly', () => {
     expect(consoleSpy).not.toHaveBeenCalled()
   })
 
-  it('does not call sysinfo but throws no errors if localfile', async () => {
+  it('does call sysinfo but throws no errors if localfile', async () => {
     mockedAxios.get.mockImplementation(() => {
       return Promise.resolve({ data: { clientSideID: 'localfile' } })
     })
@@ -59,7 +59,7 @@ describe('LaunchDarkly', () => {
     expect(consoleSpy).not.toHaveBeenCalled()
   })
 
-  it('logs error if clientSideID is not in response', async () => {
+  it('logs error if clientSideID is not in response from sysinfo', async () => {
     mockedAxios.get.mockImplementation(() => {
       return Promise.resolve({ data: { something: 'not clientSideID' } })
     })
@@ -80,12 +80,11 @@ describe('LaunchDarkly', () => {
     )
   })
 
-  it('logs error axios get fails', async () => {
-    const expectedLDError =
-      '[LaunchDarkly] Environment not found. Double check that you specified a valid environment/client-side ID. Please see https://docs.launchdarkly.com/sdk/client-side/javascript#initializing-the-client for instructions on SDK initialization.'
+  it('logs error axios call to sysinfo fails', async () => {
+    const expectedError = 'something went wrong with axios call'
 
     mockedAxios.get.mockImplementation(() => {
-      return Promise.reject()
+      return Promise.reject(expectedError)
     })
 
     render(
@@ -98,7 +97,7 @@ describe('LaunchDarkly', () => {
     expect(childComponent).not.toBeInTheDocument()
     expect(mockedAxios.get).toHaveBeenCalledWith(expectedEndpoint)
     await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalledWith(expectedLDError)
+      expect(consoleSpy).toHaveBeenCalledWith(expectedError)
     })
   })
 })

@@ -1,6 +1,7 @@
 @import 'styles/uswdsDependencies';
 
 .FeedbackCard {
+  background: var(--background-fill);
   border: 1px solid #929292;
   border-radius: 8px;
   padding: units(3);

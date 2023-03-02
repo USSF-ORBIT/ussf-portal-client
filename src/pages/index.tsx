@@ -1,7 +1,6 @@
 import { InferGetServerSidePropsType } from 'next'
-
+import { DateTime } from 'luxon'
 import { client } from '../lib/keystoneClient'
-
 import MySpace from 'components/MySpace/MySpace'
 import Announcement from 'components/Announcement/Announcement'
 import Loader from 'components/Loader/Loader'
@@ -48,6 +47,9 @@ export async function getServerSideProps() {
     data: { announcements },
   } = await client.query({
     query: GET_ANNOUNCEMENTS,
+    variables: {
+      publishedDate: DateTime.now(),
+    },
   })
 
   const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords

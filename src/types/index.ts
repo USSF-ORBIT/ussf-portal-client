@@ -60,13 +60,18 @@ export type ArticleListItemRecord = {
   }
 }
 
+/* PublishableItemType is any item that has publishedDate and status */
+export type PublishableItemType = {
+  publishedDate: string
+  status: 'Draft' | 'Published' | 'Archived'
+}
+
 /* ArticleRecord is the complete article used when viewing the single article page */
-export type ArticleRecord = {
+export type ArticleRecord = PublishableItemType & {
   id: string
   slug: string
   title: string
   category: string
-  publishedDate: string
   hero?: {
     url: string
   }
@@ -106,6 +111,33 @@ export type SearchResultRecord = {
   labels?: LabelRecord[] // Article.labels { id name type }
 }
 
+/* Single Document is a type displayed on the Documents Page */
+export type DocumentType = {
+  id: string
+  title: string
+  file: {
+    url: string
+  }
+  createdAt?: string
+  updatedAt?: string
+}
+/* Document Section can contain Documents */
+export type DocumentSectionType = {
+  id: string
+  title: string
+  document: DocumentType[]
+  createdAt?: string
+  updatedAt?: string
+}
+
+/* Document Page can contain Document Sections */
+export type DocumentPageType = {
+  id: string
+  pageTitle: string
+  sections: DocumentSectionType[]
+  createdAt?: string
+  updatedAt?: string
+}
 /**
  * *****************************
  * Types for Portal Data
