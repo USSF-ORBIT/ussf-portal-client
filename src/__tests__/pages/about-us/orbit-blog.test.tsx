@@ -147,12 +147,13 @@ describe('ORBIT Blog page', () => {
     it('withLayout returns correct title and navigation', async () => {
       const result = OrbitBlog.getLayout('page')
 
+      // this array is inexplicably throwing a lint error for missing keys
+      // even though the data matches what we pass in to withLayout()
       expect(result.props.header.props.children).toEqual([
-        // eslint-disable-next-line
+        // eslint-disable-next-line react/jsx-key
         <h1>ORBIT Blog</h1>,
-        // this is inexplicably throwing a lint error for missing key
-        // even though this exactly the data passed to withLayout
-        // eslint-disable-next-line
+
+        // eslint-disable-next-line react/jsx-key
         <BreadcrumbNav
           navItems={[
             { label: 'Service portal home', path: '/' },
