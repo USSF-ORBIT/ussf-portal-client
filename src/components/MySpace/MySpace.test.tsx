@@ -1,19 +1,22 @@
 /**
  * @jest-environment jsdom
  */
-import { act, screen, render, within } from '@testing-library/react'
+import { act, screen, render, waitFor } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
+import { mockFlags } from 'jest-launchdarkly-mock'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { axe } from 'jest-axe'
 import { MockedProvider } from '@apollo/client/testing'
 import { ObjectId } from 'mongodb'
-import { renderWithModalRoot } from '../../testHelpers'
+import { renderWithModalRoot, renderWithAuthAndApollo } from '../../testHelpers'
+import '../../__mocks__/mockMatchMedia'
 
 import {
   getMySpaceMock,
   getMySpaceMaximumCollectionsMock,
   getMySpaceMaximumCollectionsWithNewsMock,
+  getMySpaceCollectionsWithGuardianIdealMock,
 } from '../../__fixtures__/operations/getMySpace'
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import MySpace from './MySpace'
@@ -194,6 +197,24 @@ describe('My Space Component', () => {
         name: 'Create new collection',
       })
     ).toBeDisabled()
+  })
+
+  it('displays the Guardian Ideal widget', async () => {
+    mockFlags({
+      guardianIdealCarousel: true,
+    })
+
+    renderWithAuthAndApollo(
+      <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />,
+      {},
+      getMySpaceCollectionsWithGuardianIdealMock
+    )
+
+    await waitFor(() =>
+      expect(
+        screen.getByText('Connect in a Collaborative Environment')
+      ).toBeInTheDocument()
+    )
   })
 
   it('does not render the add widget component if there are 25 collections and news', async () => {

@@ -81,4 +81,8 @@
   &.Application {
     background-color: $category-application-lighttheme;
   }
+  &.GuardianIdeal {
+    background-color: $theme-cosmiclatte-darkest;
+    color: $theme-cosmiclatte-lightest;
+  }
 }

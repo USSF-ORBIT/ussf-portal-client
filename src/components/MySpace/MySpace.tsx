@@ -1,4 +1,5 @@
 import React from 'react'
+import { useFlags } from 'launchdarkly-react-client-sdk'
 import { Grid } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
 import { gql } from '@apollo/client'
@@ -12,7 +13,7 @@ import { useGetMySpaceQuery } from 'operations/portal/queries/getMySpace.g'
 import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
 import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
 import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
-
+import GuardianIdealCarousel from 'components/GuardianIdeal/GuardianIdealCarousel'
 import {
   MySpaceWidget,
   BookmarkRecords,
@@ -26,7 +27,7 @@ import NewsWidget from 'components/NewsWidget/NewsWidget'
 import CustomCollection from 'components/CustomCollection/CustomCollection'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import AddWidget from 'components/AddWidget/AddWidget'
-
+import { GuardianIdealPillars } from 'components/GuardianIdeal/GuardianIdealPillars'
 import { useAnalytics } from 'stores/analyticsContext'
 
 /** Type guards */
@@ -34,10 +35,19 @@ function isCollection(widget: MySpaceWidget): widget is Collection {
   return widget.type === WIDGET_TYPES.COLLECTION
 }
 
+function isGuardianIdeal(widget: Widget): widget is Collection {
+  return widget.type === WIDGET_TYPES.GUARDIANIDEAL
+}
+
+function isNewsWidget(widget: Widget): widget is Collection {
+  return widget.type === WIDGET_TYPES.NEWS
+}
+
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const router = useRouter()
   const { trackEvent } = useAnalytics()
   const { loading, error, data } = useGetMySpaceQuery()
+  const flags = useFlags()
 
   const mySpace = (data?.mySpace || []) as MySpaceWidget[]
 
@@ -59,6 +69,15 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     })
   }
 
+  const addGuardianIdeal = () => {
+    // trackEvent('Add section', 'Add Guardian Ideal section')
+
+    handleAddWidget({
+      variables: { title: 'Ideal Title', type: AddWidgetType.GuardianIdeal },
+      refetchQueries: ['getMySpace'],
+    })
+  }
+
   const addNewCollection = () => {
     trackEvent('Add section', 'Create new collection')
 
@@ -74,6 +93,10 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
 
   const canAddNews: boolean =
     mySpace && mySpace.filter((w) => w.type === WIDGET_TYPES.NEWS).length < 1
+
+  const canAddGuardianIdeal: boolean =
+    mySpace &&
+    mySpace.filter((w) => w.type === WIDGET_TYPES.GUARDIANIDEAL).length < 1
 
   const selectCollections = () => {
     trackEvent('Add section', 'Select collection from template')
@@ -100,109 +123,142 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
 
           {data &&
             data.mySpace &&
-            data.mySpace.map((widget: Widget) => (
-              <Grid
-                key={`widget_${widget._id}`}
-                tabletLg={{ col: 6 }}
-                desktopLg={{ col: 4 }}>
-                {widget.type === 'News' && <NewsWidget widget={widget} />}
+            data.mySpace.map((widget: Widget) => {
+              if (
+                isGuardianIdeal(widget) &&
+                flags &&
+                flags?.guardianIdealCarousel
+              ) {
+                return (
+                  <Grid
+                    key={`widget_${widget._id}`}
+                    className={styles.guardianIdeal}>
+                    <GuardianIdealCarousel
+                      ideals={GuardianIdealPillars}
+                      widget={widget}
+                    />
+                  </Grid>
+                )
+              }
 
-                {isCollection(widget) && (
-                  <CustomCollection
-                    _id={widget._id}
-                    title={widget.title}
-                    type={widget.type}
-                    bookmarks={widget.bookmarks || []}
-                    bookmarkOptions={bookmarks}
-                    handleRemoveCollection={() => {
-                      handleRemoveCollection({
-                        variables: {
-                          _id: widget._id,
-                        },
-                        refetchQueries: [`getMySpace`],
-                      })
-                    }}
-                    handleEditCollection={(
-                      title: string,
-                      bookmarks?: Bookmark[]
-                    ) => {
-                      handleEditCollection({
-                        variables: {
-                          _id: widget._id,
-                          title,
-                          bookmarks,
-                        },
-                        optimisticResponse: {
-                          editCollection: {
+              if (isNewsWidget(widget)) {
+                return (
+                  <Grid
+                    key={`widget_${widget._id}`}
+                    tabletLg={{ col: 6 }}
+                    desktopLg={{ col: 4 }}>
+                    <NewsWidget widget={widget} />
+                  </Grid>
+                )
+              }
+
+              if (isCollection(widget)) {
+                return (
+                  <Grid
+                    key={`widget_${widget._id}`}
+                    tabletLg={{ col: 6 }}
+                    desktopLg={{ col: 4 }}>
+                    <CustomCollection
+                      _id={widget._id}
+                      key={`widget_${widget._id}`}
+                      title={widget.title}
+                      type={widget.type}
+                      bookmarks={widget.bookmarks || []}
+                      bookmarkOptions={bookmarks}
+                      handleRemoveCollection={() => {
+                        handleRemoveCollection({
+                          variables: {
+                            _id: widget._id,
+                          },
+                          refetchQueries: [`getMySpace`],
+                        })
+                      }}
+                      handleEditCollection={(
+                        title: string,
+                        bookmarks?: Bookmark[]
+                      ) => {
+                        handleEditCollection({
+                          variables: {
                             _id: widget._id,
                             title,
-                            bookmarks: bookmarks || widget.bookmarks,
+                            bookmarks,
                           },
-                        },
-                        update(cache, result) {
-                          if (result.data?.editCollection) {
-                            const { editCollection } = result.data
-                            cache.writeFragment({
-                              id: `Collection:${editCollection._id}`,
-                              fragment: gql`
-                                fragment collectionData on Collection {
-                                  _id
-                                  title
-                                  bookmarks {
+                          optimisticResponse: {
+                            editCollection: {
+                              _id: widget._id,
+                              title,
+                              bookmarks: bookmarks || widget.bookmarks,
+                            },
+                          },
+                          update(cache, result) {
+                            if (result.data?.editCollection) {
+                              const { editCollection } = result.data
+                              cache.writeFragment({
+                                id: `Collection:${editCollection._id}`,
+                                fragment: gql`
+                                  fragment collectionData on Collection {
                                     _id
-                                    url
-                                    label
-                                    cmsId
-                                    isRemoved
+                                    title
+                                    bookmarks {
+                                      _id
+                                      url
+                                      label
+                                      cmsId
+                                      isRemoved
+                                    }
                                   }
-                                }
-                              `,
-                              data: editCollection,
-                            })
-                          }
-                        },
-                      })
-                    }}
-                    handleRemoveBookmark={(_id, cmsId) => {
-                      handleRemoveBookmark({
-                        variables: {
-                          _id,
-                          collectionId: widget._id,
-                          cmsId,
-                        },
-                        refetchQueries: [`getMySpace`],
-                      })
-                    }}
-                    handleAddBookmark={(url, label, id) => {
-                      handleAddBookmark({
-                        variables: {
-                          collectionId: widget._id,
-                          url,
-                          label,
-                          cmsId: id,
-                        },
-                        refetchQueries: [`getMySpace`],
-                      })
-                    }}
-                  />
-                )}
-              </Grid>
-            ))}
+                                `,
+                                data: editCollection,
+                              })
+                            }
+                          },
+                        })
+                      }}
+                      handleRemoveBookmark={(_id, cmsId) => {
+                        handleRemoveBookmark({
+                          variables: {
+                            _id,
+                            collectionId: widget._id,
+                            cmsId,
+                          },
+                          refetchQueries: [`getMySpace`],
+                        })
+                      }}
+                      handleAddBookmark={(url, label, id) => {
+                        handleAddBookmark({
+                          variables: {
+                            collectionId: widget._id,
+                            url,
+                            label,
+                            cmsId: id,
+                          },
+                          refetchQueries: [`getMySpace`],
+                        })
+                      }}
+                    />
+                  </Grid>
+                )
+              }
+              return null
+            })}
 
-          {!loading && (canAddCollections || canAddNews) && (
-            <Grid
-              key={`widget_addNew`}
-              tabletLg={{ col: 6 }}
-              desktopLg={{ col: 4 }}>
-              <AddWidget
-                handleCreateCollection={addNewCollection}
-                handleSelectCollection={selectCollections}
-                handleAddNews={addNewsWidget}
-                canAddNews={canAddNews}
-                canAddCollection={canAddCollections}
-              />
-            </Grid>
-          )}
+          {!loading &&
+            (canAddCollections || canAddNews || canAddGuardianIdeal) && (
+              <Grid
+                key={`widget_addNew`}
+                tabletLg={{ col: 6 }}
+                desktopLg={{ col: 4 }}>
+                <AddWidget
+                  handleCreateCollection={addNewCollection}
+                  handleSelectCollection={selectCollections}
+                  handleAddNews={addNewsWidget}
+                  handleAddGuardianIdeal={addGuardianIdeal}
+                  canAddNews={canAddNews}
+                  canAddCollection={canAddCollections}
+                  canAddGuardianIdeal={canAddGuardianIdeal}
+                />
+              </Grid>
+            )}
         </Grid>
       </div>
     </div>
