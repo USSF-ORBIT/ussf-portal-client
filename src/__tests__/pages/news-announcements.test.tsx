@@ -130,7 +130,7 @@ describe('News page', () => {
         <h1>News & Announcements</h1>,
         // this is inexplicably throwing a lint error for missing key
         // even though this exactly the data passed to withLayout
-        // eslint-disable-next-line
+        // eslint-disable-next-line react/jsx-key
         <BreadcrumbNav
           navItems={[
             { label: 'Service portal home', path: '/' },

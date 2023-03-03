@@ -4,13 +4,12 @@
 
 import { act, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup'
 import { axe } from 'jest-axe'
 import React from 'react'
 import { renderWithAuthAndApollo } from '../../testHelpers'
-import { getThemeMock } from '__fixtures__/operations/getTheme'
-
 import Header from './Header'
-import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup'
+import { getThemeMock } from '__fixtures__/operations/getTheme'
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({

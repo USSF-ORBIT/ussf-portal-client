@@ -1,6 +1,5 @@
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import { GridContainer } from '@trussworks/react-uswds'
-import { DateTime } from 'luxon'
 import { client } from 'lib/keystoneClient'
 import { getSession } from 'lib/session'
 import { useUser } from 'hooks/useUser'
