@@ -1,13 +1,22 @@
 import type { ArticleRecord } from 'types'
 export const cmsInternalNewsArticle: ArticleRecord = {
-  id: 'cl3buldda0247riyt6h85cpgc',
-  slug: 'ussf-internal-news-article',
+  id: 'testArticleId123',
+  slug: 'test-article',
+  title:
+    'Version 2.8.5 released! Includes MVP search experience and a way to filter the news.',
   category: 'InternalNews',
-  title: 'USSF Internal News Article',
+  publishedDate: '2022-05-17T13:44:39.796Z',
   status: 'Published',
   hero: {
     url: 'http://cms.example.com/images/image.png',
   },
+  labels: [
+    {
+      id: 'label1',
+      name: 'Test Label',
+      type: 'Source',
+    },
+  ],
   body: {
     document: [
       {
@@ -148,5 +157,4 @@ export const cmsInternalNewsArticle: ArticleRecord = {
       },
     ],
   },
-  publishedDate: '2022-05-18T17:18:40.802Z',
 }

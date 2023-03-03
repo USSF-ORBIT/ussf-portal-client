@@ -1,0 +1,76 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+// Override the styles for the WidgetWithSettings component
+.guardianIdealCarousel {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+
+  &:nth-child(1) > div:not(:global(.slick-slider)) {
+    // background: transparent;
+    display: flex;
+    justify-content: end;
+    position: relative;
+    z-index: 999;
+    top: 30px;
+    right: 15px;
+  }
+
+  :nth-child(1) > button > svg {
+    color: $white;
+  }
+}
+
+.carouselContainer {
+  width: 100%;
+  background-color: $news-carousel;
+  border-radius: 4px;
+  margin-top: 0 !important;
+
+  .dots {
+    button.newsCarouselEllipse {
+      width: 16.17px;
+      height: 16px;
+      border-radius: 50px;
+      background: $theme-spacebase-lightest;
+    }
+
+    button::before {
+      color: transparent;
+    }
+  }
+
+  > :global(
+      .slick-dots li.slick-active div.news-carousel-container button::before
+    ) {
+    color: transparent;
+    background: $theme-aurora-dark;
+    width: 16.17px;
+    height: 16px;
+    border-radius: 50px;
+  }
+
+  > :global(.slick-dots) {
+    width: 60%;
+    right: 0%;
+    bottom: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  > :global(.slick-dots ul) {
+    padding: 0 2rem 0 2rem;
+  }
+}
+
+.carouselArrow {
+  background: transparent;
+  color: $theme-spacebase-lightest;
+  border: none;
+  &:hover {
+    cursor: pointer;
+  }
+}

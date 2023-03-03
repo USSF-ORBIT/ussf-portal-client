@@ -4,7 +4,6 @@
 
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-
 import { SingleArticle } from './SingleArticle'
 import type { ArticleRecord, LabelRecord } from 'types'
 import { cmsInternalNewsArticle as testArticle } from '__fixtures__/data/cmsInternalNewsArticle'

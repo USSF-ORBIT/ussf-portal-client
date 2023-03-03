@@ -60,6 +60,20 @@ describe('My Space model', () => {
     expect(all).toHaveLength(2)
   })
 
+  it('can add a Guardian Ideal widget', async () => {
+    const created = (await MySpaceModel.addWidget(
+      { userId: testUserId, title: 'Ideal title', type: 'GuardianIdeal' },
+      { db }
+    )) as Widget
+
+    expect(created.title).toEqual('Ideal title')
+    expect(created.type).toEqual('GuardianIdeal')
+    expect(created).toHaveProperty('_id')
+
+    const all = await MySpaceModel.get({ userId: testUserId }, { db })
+    expect(all).toHaveLength(3)
+  })
+
   it('cannot add a News widget if there already is one', async () => {
     expect(
       MySpaceModel.addWidget(
@@ -67,6 +81,15 @@ describe('My Space model', () => {
         { db }
       )
     ).rejects.toThrow(new Error('You can only have one News section'))
+  })
+
+  it('cannot add a Guardian Ideal widget if there already is one', async () => {
+    expect(
+      MySpaceModel.addWidget(
+        { userId: testUserId, title: 'Ideal title', type: 'GuardianIdeal' },
+        { db }
+      )
+    ).rejects.toThrow(new Error('You can only have one Guardian Ideal section'))
   })
 
   it('throws an error if widget cannot be added', async () => {

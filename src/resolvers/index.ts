@@ -96,6 +96,7 @@ const resolvers = {
   Widget: {
     __resolveType(widget: Widget) {
       if (widget.type === 'Collection') return 'Collection'
+      if (widget.type === 'GuardianIdeal') return 'GuardianIdeal'
       if (widget.type === 'News') return 'NewsWidget'
       return null // GraphQL Error
     },
