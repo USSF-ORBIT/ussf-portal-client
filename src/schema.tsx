@@ -13,6 +13,7 @@ export const typeDefs = gql`
 
   enum WidgetType {
     Collection
+    GuardianIdeal
     News
   }
 
@@ -31,6 +32,12 @@ export const typeDefs = gql`
   }
 
   type NewsWidget implements Widget {
+    _id: OID!
+    title: String!
+    type: WidgetType!
+  }
+
+  type GuardianIdeal implements Widget {
     _id: OID!
     title: String!
     type: WidgetType!

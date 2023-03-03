@@ -11,26 +11,31 @@ import React from 'react'
 import Widget, { WidgetWithSettings } from './Widget'
 
 describe('Widget component', () => {
-  let html: RenderResult
-
-  beforeEach(() => {
-    html = render(
+  it('renders Widget', () => {
+    render(
       <Widget header={<h3>Example section</h3>}>
         Example section contents
       </Widget>
     )
-  })
 
-  it('renders a heading', () => {
     const heading = screen.getByRole('heading', { level: 3 })
+
     expect(heading).toHaveTextContent('Example section')
+    expect(screen.getByText('Example section contents')).toBeInTheDocument()
   })
 
-  it('render its children', async () => {
+  it('renders Widget without heading', () => {
+    render(<Widget>Example section contents</Widget>)
+
     expect(screen.getByText('Example section contents')).toBeInTheDocument()
   })
 
   it('has no a11y violations', async () => {
+    const html = render(
+      <Widget header={<h3>Example section</h3>}>
+        Example section contents
+      </Widget>
+    )
     expect(await axe(html.container)).toHaveNoViolations()
   })
 })

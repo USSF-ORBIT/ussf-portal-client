@@ -8,7 +8,7 @@ import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
 type WidgetProps = {
-  header: ReactNode
+  header?: ReactNode
   children: ReactNode | ReactNode[]
   className?: string
 }

@@ -43,6 +43,15 @@ export const MySpaceModel = {
       if (newsWidget) throw new Error('You can only have one News section')
     }
 
+    if (type === 'GuardianIdeal') {
+      const allWidgets = await this.get({ userId }, { db })
+      const guardianIdealWidget = allWidgets.find(
+        (s: Widget) => s.type === 'GuardianIdeal'
+      )
+      if (guardianIdealWidget)
+        throw new Error('You can only have one Guardian Ideal section')
+    }
+
     const created: Widget = {
       _id: ObjectId(),
       title,
@@ -50,9 +59,20 @@ export const MySpaceModel = {
     }
 
     try {
-      await db
-        .collection('users')
-        .updateOne({ userId }, { $push: { mySpace: created } })
+      // For now, if the type is GuardianIdeal, we want it at the front of the
+      // user collection array.
+      if (type === 'GuardianIdeal') {
+        await db
+          .collection('users')
+          .updateOne(
+            { userId },
+            { $push: { mySpace: { $each: [created], $position: 0 } } }
+          )
+      } else {
+        await db
+          .collection('users')
+          .updateOne({ userId }, { $push: { mySpace: created } })
+      }
 
       return created
     } catch (e) {

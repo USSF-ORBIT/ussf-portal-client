@@ -4,9 +4,8 @@
 
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-
 import { SingleArticle } from './SingleArticle'
-import type { ArticleRecord } from 'types'
+import { ArticleRecord } from 'types'
 
 const testArticle: ArticleRecord = {
   id: 'testArticleId123',
@@ -19,6 +18,13 @@ const testArticle: ArticleRecord = {
   hero: {
     url: 'http://cms.example.com/images/image.png',
   },
+  labels: [
+    {
+      id: 'label1',
+      name: 'Test Label',
+      type: 'Source',
+    },
+  ],
   body: {
     document: [
       {
