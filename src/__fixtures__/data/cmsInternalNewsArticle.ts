@@ -2,10 +2,9 @@ import type { ArticleRecord } from 'types'
 export const cmsInternalNewsArticle: ArticleRecord = {
   id: 'testArticleId123',
   slug: 'test-article',
-  title:
-    'Version 2.8.5 released! Includes MVP search experience and a way to filter the news.',
+
   category: 'InternalNews',
-  publishedDate: '2022-05-17T13:44:39.796Z',
+  title: 'USSF Internal News Article',
   status: 'Published',
   hero: {
     url: 'http://cms.example.com/images/image.png',
@@ -157,4 +156,5 @@ export const cmsInternalNewsArticle: ArticleRecord = {
       },
     ],
   },
+  publishedDate: '2022-05-18T17:18:40.802Z',
 }
