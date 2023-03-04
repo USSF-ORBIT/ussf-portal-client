@@ -27,7 +27,6 @@ export const ArticleDateIcon = ({ date }: { date: Date }) => {
     )
   } catch (e) {
     // TODO error boundary
-    console.log('there was an error')
     return null
   }
 }
