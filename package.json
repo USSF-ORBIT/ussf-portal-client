@@ -165,12 +165,8 @@
     "util": "0.12.5"
   },
   "resolutions": {
-    "ansi-regex": "5.0.1",
     "trim": "0.0.3",
-    "webpack": "5.75.0",
     "glob-parent": "6.0.2",
-    "parse-url": "8.1.0",
-    "trim-newlines": "4.0.2",
     "@xmldom/xmldom": "0.8.6"
   },
   "browserslist": [
