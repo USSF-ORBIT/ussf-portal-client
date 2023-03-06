@@ -165,7 +165,6 @@
     "util": "0.12.5"
   },
   "resolutions": {
-    "glob-parent": "6.0.2",
     "@xmldom/xmldom": "0.8.6"
   },
   "browserslist": [
