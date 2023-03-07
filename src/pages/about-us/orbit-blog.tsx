@@ -1,5 +1,5 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { Context, gql } from '@apollo/client'
+import { Context } from '@apollo/client'
 
 import { DateTime } from 'luxon'
 import { client } from '../../lib/keystoneClient'

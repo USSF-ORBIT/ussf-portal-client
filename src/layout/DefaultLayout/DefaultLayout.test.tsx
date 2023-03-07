@@ -17,6 +17,34 @@ jest.mock('next/router', () => ({
   }),
 }))
 
+describe('DefaultLayout component options', () => {
+  beforeAll(async () => {
+    const sidebar = (
+      <div>
+        <h2>Sidebar</h2>
+      </div>
+    )
+    renderWithAuthAndApollo(
+      <DefaultLayout displayFeedbackCard={false} rightSidebar={sidebar}>
+        <h1>Test Page</h1>
+      </DefaultLayout>
+    )
+    // need to wait for the query to finish so waiting for banner to display
+    await waitFor(() =>
+      expect(screen.getByTestId('govBanner')).toBeInTheDocument()
+    )
+  })
+  it('renders the sidebar', async () => {
+    const sidebar = screen.getByRole('heading', { name: 'Sidebar', level: 2 })
+    expect(sidebar).toBeVisible()
+  })
+  it('does not render the feedback card', async () => {
+    expect(
+      screen.queryByRole('heading', { name: 'Got feedback?' })
+    ).not.toBeInTheDocument()
+  })
+})
+
 describe('DefaultLayout component', () => {
   beforeEach(async () => {
     renderWithAuthAndApollo(
