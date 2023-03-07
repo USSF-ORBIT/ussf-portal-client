@@ -12,7 +12,6 @@ describe('ArticleDateIcon component', () => {
   it('renders the given date', async () => {
     const testDate = new Date('May 16 2022')
     render(<ArticleDateIcon date={testDate} />)
-
     expect(screen.getByText('May')).toBeInTheDocument()
     expect(screen.getByText('16')).toBeInTheDocument()
   })
@@ -25,8 +24,10 @@ describe('ArticleDateIcon component', () => {
 
   it('renders null if the given date is invalid', async () => {
     const invalidDate = 'May 16 2022' as unknown as Date
-    render(<ArticleDateIcon date={invalidDate} />)
+    const result = render(<ArticleDateIcon date={invalidDate} />)
 
     expect(screen.queryByText('May')).not.toBeInTheDocument()
+    // Check that null was returned
+    expect(result.container.childElementCount).toBe(0)
   })
 })

@@ -42,10 +42,9 @@
     }
   }
 
-  > :global(.slick-dots
-      li.slick-active
-      div.news-carousel-container
-      button::before) {
+  > :global(
+      .slick-dots li.slick-active div.news-carousel-container button::before
+    ) {
     color: transparent;
     background: $theme-aurora-dark;
     width: 16.17px;

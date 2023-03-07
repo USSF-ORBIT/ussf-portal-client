@@ -7,16 +7,22 @@ import axios from 'axios'
 
 import { renderWithAuth } from '../../testHelpers'
 
-import { cmsAnnouncementsMock } from '../../__fixtures__/data/cmsAnnouncments'
-import { cmsPortalNewsArticlesMock } from '../../__fixtures__/data/cmsPortalNewsArticles'
+import { cmsAnnouncementsMock as mockAnnouncements } from '../../__fixtures__/data/cmsAnnouncments'
+import { cmsPortalNewsArticlesMock as mockArticles } from '../../__fixtures__/data/cmsPortalNewsArticles'
 import { mockRssFeedTen } from '__mocks__/news-rss'
 import '../../__mocks__/mockMatchMedia'
-import NewsAnnouncements from 'pages/news-announcements'
+import NewsAnnouncements, { getServerSideProps } from 'pages/news-announcements'
+import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 
 jest.mock('../../lib/keystoneClient', () => ({
   client: {
     query: () => {
-      return
+      return {
+        data: {
+          announcements: mockAnnouncements,
+          articles: mockArticles,
+        },
+      }
     },
   },
 }))
@@ -60,8 +66,8 @@ describe('News page', () => {
 
       renderWithAuth(
         <NewsAnnouncements
-          announcements={cmsAnnouncementsMock}
-          articles={cmsPortalNewsArticlesMock}
+          announcements={mockAnnouncements}
+          articles={mockArticles}
         />,
         { user: null }
       )
@@ -84,6 +90,16 @@ describe('News page', () => {
       mockedAxios.get.mockClear()
     })
 
+    it('returns correct props from getServerSideProps', async () => {
+      const response = await getServerSideProps()
+
+      expect(response).toEqual({
+        props: {
+          announcements: mockAnnouncements,
+          articles: mockArticles,
+        },
+      })
+    })
     it('renders the page title and RSS items', async () => {
       mockedAxios.get.mockImplementation(() => {
         return Promise.resolve({ data: mockRssFeedTen })
@@ -91,8 +107,8 @@ describe('News page', () => {
 
       renderWithAuth(
         <NewsAnnouncements
-          announcements={cmsAnnouncementsMock}
-          articles={cmsPortalNewsArticlesMock}
+          announcements={mockAnnouncements}
+          articles={mockArticles}
         />
       )
 
@@ -104,6 +120,29 @@ describe('News page', () => {
 
       const allArticles = await screen.findAllByRole('article')
       expect(allArticles[0]).toContainHTML('article')
+    })
+
+    it('withLayout returns correct title and navigation', async () => {
+      const result = NewsAnnouncements.getLayout('page')
+
+      // this array is inexplicably throwing a lint error for missing keys
+      // even though the data matches what we pass in to withLayout()
+      expect(result.props.header.props.children).toEqual([
+        // eslint-disable-next-line react/jsx-key
+        <h1>News & Announcements</h1>,
+
+        // eslint-disable-next-line react/jsx-key
+        <BreadcrumbNav
+          navItems={[
+            { label: 'Service portal home', path: '/' },
+            {
+              current: true,
+              label: 'News & Announcements',
+              path: '/news-announcements',
+            },
+          ]}
+        />,
+      ])
     })
   })
 })

@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { fireEvent, screen } from '@testing-library/react'
+import { fireEvent, screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { renderWithAuth } from '../../testHelpers'
@@ -13,40 +13,77 @@ describe('EditDisplayName component', () => {
     handleEditDisplayName: jest.fn(),
   }
 
-  beforeEach(() => {
-    renderWithAuth(
-      <EditDisplayName
-        userDisplayName="Test Name"
-        handleEditDisplayName={mockHandlers.handleEditDisplayName}
-      />
-    )
+  describe('Without auth', () => {
+    beforeEach(() => {
+      render(
+        <EditDisplayName
+          userDisplayName="Test Name"
+          handleEditDisplayName={mockHandlers.handleEditDisplayName}
+        />
+      )
+    })
+
+    it('returns null if no user is present when trying to update', async () => {
+      const textInput = screen.getAllByTestId('nameInput')[0]
+      fireEvent.change(textInput, { target: { value: 'My New Name' } })
+      expect(textInput).toHaveValue('My New Name')
+
+      const saveButton = screen.getAllByTestId('saveButton')[0]
+      fireEvent.click(saveButton)
+      expect(mockHandlers.handleEditDisplayName).not.toBeCalled()
+    })
   })
+  describe('With auth', () => {
+    beforeEach(() => {
+      renderWithAuth(
+        <EditDisplayName
+          userDisplayName="Test Name"
+          handleEditDisplayName={mockHandlers.handleEditDisplayName}
+        />
+      )
+    })
 
-  it('renders the component', async () => {
-    expect(await screen.getAllByText('Update name and rank:')).toHaveLength(1)
+    it('renders the component', async () => {
+      expect(screen.getAllByText('Update name and rank:')).toHaveLength(1)
 
-    expect(
-      await screen.getAllByText('Current welcome display title:')
-    ).toHaveLength(1)
+      expect(
+        screen.getAllByText('Current welcome display title:')
+      ).toHaveLength(1)
 
-    expect(await screen.getAllByText('Update name')).toHaveLength(1)
+      expect(screen.getAllByText('Update name')).toHaveLength(1)
 
-    const inputField = screen.getByTestId('nameInput')
-    fireEvent.change(inputField, { target: { value: 'Test Name' } })
-    expect(inputField).toHaveValue('Test Name')
-  })
+      const inputField = screen.getByTestId('nameInput')
+      fireEvent.change(inputField, { target: { value: 'Test Name' } })
+      expect(inputField).toHaveValue('Test Name')
+    })
 
-  it('saves a new display name', async () => {
-    const user = userEvent.setup()
-    const textInput = screen.getAllByTestId('nameInput')[0]
-    fireEvent.change(textInput, { target: { value: 'My New Name' } })
+    it('saves a new display name', async () => {
+      const user = userEvent.setup()
+      const textInput = screen.getAllByTestId('nameInput')[0]
+      fireEvent.change(textInput, { target: { value: 'My New Name' } })
 
-    expect(textInput).toHaveValue('My New Name')
-    expect(textInput).toHaveAttribute('value', 'My New Name')
+      expect(textInput).toHaveValue('My New Name')
+      expect(textInput).toHaveAttribute('value', 'My New Name')
 
-    const saveButton = screen.getAllByTestId('saveButton')[0]
-    await user.click(saveButton)
+      const saveButton = screen.getAllByTestId('saveButton')[0]
+      await user.click(saveButton)
 
-    expect(mockHandlers.handleEditDisplayName).toHaveBeenCalled()
+      expect(mockHandlers.handleEditDisplayName).toHaveBeenCalled()
+    })
+
+    it('resets display name when clicking cancel', async () => {
+      const user = userEvent.setup()
+      const textInput = screen.getAllByTestId('nameInput')[0]
+      fireEvent.change(textInput, { target: { value: 'My New Name' } })
+
+      expect(textInput).toHaveValue('My New Name')
+      expect(textInput).toHaveAttribute('value', 'My New Name')
+
+      const cancelButton = screen.getByRole('button', { name: 'Cancel' })
+
+      await user.click(cancelButton)
+
+      expect(textInput).toHaveAttribute('value', '')
+    })
   })
 })
