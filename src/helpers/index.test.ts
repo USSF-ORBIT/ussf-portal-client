@@ -8,7 +8,7 @@ import {
   isCmsUser,
 } from './index'
 
-import type { RSSNewsItem, PublishableItemType, SessionUser } from 'types'
+import type { RSSNewsItem, PublishableItemType } from 'types'
 import { testUser1, cmsAdmin, cmsUser } from '__fixtures__/authUsers'
 
 describe('validateNewsItems', () => {

@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { render, screen, RenderResult, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import React, { createRef } from 'react'
 import { axe } from 'jest-axe'
 import userEvent from '@testing-library/user-event'
@@ -23,7 +23,7 @@ afterEach(() => {
 
 describe('CustomBookmarkForm component', () => {
   it('renders the CustomBookmarkForm component', async () => {
-    const html = render(
+    render(
       <CustomBookmarkForm
         {...testHandlers}
         nameInputRef={mockNameRef}
@@ -40,7 +40,7 @@ describe('CustomBookmarkForm component', () => {
 
   it('validates the bookmarkLabel field', async () => {
     const user = userEvent.setup()
-    const html = render(
+    render(
       <CustomBookmarkForm
         {...testHandlers}
         nameInputRef={mockNameRef}
@@ -67,7 +67,7 @@ describe('CustomBookmarkForm component', () => {
 
   it('validates the bookmarkUrl field', async () => {
     const user = userEvent.setup()
-    const html = render(
+    render(
       <CustomBookmarkForm
         {...testHandlers}
         nameInputRef={mockNameRef}
@@ -114,7 +114,7 @@ describe('CustomBookmarkForm component', () => {
 
   it('can cancel the form', async () => {
     const user = userEvent.setup()
-    const html = render(
+    render(
       <CustomBookmarkForm
         {...testHandlers}
         nameInputRef={mockNameRef}
@@ -157,7 +157,7 @@ describe('CustomBookmarkForm component', () => {
 describe('CustomBookmarkForm component, Add Custom Link', () => {
   it('can save a valid form', async () => {
     const user = userEvent.setup()
-    const html = render(
+    render(
       <CustomBookmarkForm
         {...testHandlers}
         nameInputRef={mockNameRef}
@@ -189,7 +189,7 @@ describe('CustomBookmarkForm component, Add Custom Link', () => {
 
   it('reverts the value of text when cancelling', async () => {
     const user = userEvent.setup()
-    const html = render(
+    render(
       <CustomBookmarkForm
         {...testHandlers}
         nameInputRef={mockNameRef}
@@ -224,7 +224,7 @@ describe('CustomBookmarkForm component, Add Custom Link', () => {
 describe('CustomBookmarkForm component, Edit Custom Link', () => {
   it('can delete a bookmark using the form', async () => {
     const user = userEvent.setup()
-    const html = render(
+    render(
       <CustomBookmarkForm
         {...testHandlers}
         nameInputRef={mockNameRef}
