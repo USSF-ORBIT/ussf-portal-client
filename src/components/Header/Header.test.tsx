@@ -2,15 +2,14 @@
  * @jest-environment jsdom
  */
 
-import { act, screen } from '@testing-library/react'
+import { act, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup'
 import { axe } from 'jest-axe'
 import React from 'react'
-
 import { renderWithAuthAndApollo } from '../../testHelpers'
-import { editThemeMock } from '../../__fixtures__/operations/editTheme'
-
 import Header from './Header'
+import { getThemeMock } from '__fixtures__/operations/getTheme'
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -24,31 +23,44 @@ jest.mock('next/router', () => ({
 const mockLogout = jest.fn()
 
 describe('Header component', () => {
+  let user: UserEvent
+  beforeEach(() => {
+    renderWithAuthAndApollo(<Header />, { logout: mockLogout }, getThemeMock)
+    user = userEvent.setup()
+  })
   it('renders the USSF portal header', () => {
-    renderWithAuthAndApollo(<Header />, {}, editThemeMock)
-
     expect(
       screen.getByRole('img', { name: 'United States Space Force Logo' })
     ).toHaveAttribute('alt', 'United States Space Force Logo')
     expect(screen.getAllByRole('link')).toHaveLength(2)
   })
+  it('can open the About Us dropdown on click and close on mouse leave', async () => {
+    const dropdown = screen.getByTestId('nav-about-us-dropdown')
+    const aboutTheUSSF = screen.getByTestId('nav-about-ussf')
 
-  it('can click an item from the About Us dropdown', async () => {
-    const user = userEvent.setup()
-    renderWithAuthAndApollo(<Header />, {}, editThemeMock)
+    await user.click(dropdown)
+    expect(screen.getByRole('link', { name: 'About the USSF' })).toBeVisible()
 
+    fireEvent.mouseLeave(dropdown)
+    expect(aboutTheUSSF).not.toBeVisible()
+  })
+
+  it('can mouse over items from the About Us dropdown', async () => {
     const aboutTheUSSF = screen.getByTestId('nav-about-ussf')
     expect(aboutTheUSSF).not.toBeVisible()
 
     const dropdown = screen.getByTestId('nav-about-us-dropdown')
     await user.click(dropdown)
     expect(aboutTheUSSF).toBeVisible()
+
+    // Mouse over items, and mouse away to close the menu
+    fireEvent.mouseEnter(aboutTheUSSF)
+    expect(aboutTheUSSF).toBeVisible()
+    fireEvent.mouseLeave(aboutTheUSSF)
+    expect(aboutTheUSSF).not.toBeVisible()
   })
 
   it('can toggle navigation on smaller screen sizes', async () => {
-    const user = userEvent.setup()
-    renderWithAuthAndApollo(<Header />, {}, editThemeMock)
-
     const nav = screen.getByRole('navigation')
     expect(nav).not.toHaveClass('is-visible')
 
@@ -61,9 +73,6 @@ describe('Header component', () => {
   })
 
   it('can click the overlay to close the mobile navigation', async () => {
-    const user = userEvent.setup()
-    renderWithAuthAndApollo(<Header />, {}, editThemeMock)
-
     const nav = screen.getByRole('navigation')
     expect(nav).not.toHaveClass('is-visible')
 
@@ -76,8 +85,6 @@ describe('Header component', () => {
   })
 
   it('renders the logout button', async () => {
-    const user = userEvent.setup()
-    renderWithAuthAndApollo(<Header />, { logout: mockLogout }, editThemeMock)
     const logoutButton = screen.getByRole('button', { name: 'Log out' })
     expect(logoutButton).toBeInTheDocument()
     await user.click(logoutButton)
@@ -91,7 +98,7 @@ describe('Header component', () => {
       const { container } = renderWithAuthAndApollo(
         <Header />,
         {},
-        editThemeMock
+        getThemeMock
       )
       expect(await axe(container)).toHaveNoViolations()
     })
