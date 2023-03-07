@@ -10,6 +10,7 @@ import type { ArticleRecord } from 'types'
 import { CONTENT_CATEGORIES } from 'constants/index'
 import colors from 'styles/sfds/colors.module.scss'
 import { isPublished } from 'helpers/index'
+import { getYouTubeEmbedId } from 'helpers/index'
 
 export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   const {
@@ -35,9 +36,8 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
     typeof componentBlocks
   > = {
     embedVideo: (props: any) => {
-      // We are receiving a YouTube link from the CMS, so we need to get the last section of the url.
-      // If there is a link, we split the url by '/' and get the last part to add to our embed link below.
-      const youtubeLink = props.link ? props.link.split('/').pop() : null
+      // We are receiving a YouTube link from the CMS, so we need to parse the embedId
+      const embedId = getYouTubeEmbedId(props.link)
       return (
         <>
           {props.videoTitle && <h2>{props.videoTitle}</h2>}
@@ -46,7 +46,7 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
               title={props.videoTitle}
               width="420"
               height="315"
-              src={`https://youtube.com/embed/${youtubeLink}`}></iframe>
+              src={`https://youtube.com/embed/${embedId}`}></iframe>
           )}
         </>
       )
