@@ -8,12 +8,12 @@ module.exports = {
     chrome: new RemoteBrowserTarget('chrome', {
       viewport: '1024x768',
     }),
-    // edge: new RemoteBrowserTarget('edge', {
-    //   viewport: '1024x768',
-    // }),
-    // firefox: new RemoteBrowserTarget('firefox', {
-    //   viewport: '1024x768',
-    // }),
+    edge: new RemoteBrowserTarget('edge', {
+      viewport: '1024x768',
+    }),
+    firefox: new RemoteBrowserTarget('firefox', {
+      viewport: '1024x768',
+    }),
   },
   plugins: [
     happoPluginStorybook({
