@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.16.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.15.0...4.16.0) (2023-03-09)
+
+
+### Features
+
+* Display video in an article ([#923](https://github.com/USSF-ORBIT/ussf-portal-client/issues/923)) ([d1a0797](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d1a0797e46d50f34d10157d85982991785abd11b)), closes [#941](https://github.com/USSF-ORBIT/ussf-portal-client/issues/941)
+* Guardian Ideal carousel ([#938](https://github.com/USSF-ORBIT/ussf-portal-client/issues/938)) ([aa645da](https://github.com/USSF-ORBIT/ussf-portal-client/commit/aa645da5dd4ef9476ef0cabe7e8e50bc4f1691d9))
+
+
+### Bug Fixes
+
+* update dod cas cert name ([#950](https://github.com/USSF-ORBIT/ussf-portal-client/issues/950)) ([119a3b6](https://github.com/USSF-ORBIT/ussf-portal-client/commit/119a3b680346267df1beab238e60be93474ef48d))
+
 ## [4.15.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.14.0...4.15.0) (2023-02-23)
 
 
