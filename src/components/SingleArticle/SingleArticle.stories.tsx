@@ -55,6 +55,24 @@ const testArticle: ArticleRecord = {
         ],
       },
       {
+        type: 'component-block',
+        props: {
+          link: 'https://www.youtube.com/watch?v=x619VW65l1Y',
+          videoTitle: 'Test Video Title',
+        },
+        children: [
+          {
+            type: 'component-inline-prop',
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+        ],
+        component: 'embedVideo',
+      },
+      {
         type: 'paragraph',
         children: [
           {

@@ -1,13 +1,16 @@
 import React from 'react'
 import { DocumentRenderer } from '@keystone-6/document-renderer'
+import { InferRenderersForComponentBlocks } from '@keystone-6/fields-document/component-blocks'
 import { Tag } from '@trussworks/react-uswds'
 import tagStyles from '../Tag/Tag.module.scss'
 import styles from './SingleArticle.module.scss'
+import { componentBlocks } from 'components/ComponentBlocks/embedVideo'
 import { Category, Label } from 'components/Tag/Tag'
 import type { ArticleRecord } from 'types'
 import { CONTENT_CATEGORIES } from 'constants/index'
 import colors from 'styles/sfds/colors.module.scss'
 import { isPublished } from 'helpers/index'
+import { getYouTubeEmbedId } from 'helpers/index'
 
 export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   const {
@@ -28,6 +31,27 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
     day: '2-digit',
   })
   const publishedDateObj = new Date(publishedDate)
+
+  const componentBlockRenderers: InferRenderersForComponentBlocks<
+    typeof componentBlocks
+  > = {
+    embedVideo: (props: any) => {
+      // We are receiving a YouTube link from the CMS, so we need to parse the embedId
+      const embedId = getYouTubeEmbedId(props.link)
+      return (
+        <>
+          {props.videoTitle && <h2>{props.videoTitle}</h2>}
+          {props.link && (
+            <iframe
+              title={props.videoTitle}
+              width="420"
+              height="315"
+              src={`https://youtube.com/embed/${embedId}`}></iframe>
+          )}
+        </>
+      )
+    },
+  }
 
   return (
     <article className={styles.SingleArticle}>
@@ -94,7 +118,10 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
           )}
         </dl>
       </div>
-      <DocumentRenderer document={document} />
+      <DocumentRenderer
+        document={document}
+        componentBlocks={componentBlockRenderers}
+      />
     </article>
   )
 }
