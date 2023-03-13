@@ -32,7 +32,7 @@ const NewsWidget = (widget: NewsWidgetProps) => {
   /** Remove section */
   // Show confirmation modal
   const handleConfirmRemoveSection = () => {
-    updateModalId('removeSectionModal')
+    updateModalId('removeNewsSectionModal')
     updateModalText({
       headingText: 'Are you sure you’d like to delete this section?',
       descriptionText:

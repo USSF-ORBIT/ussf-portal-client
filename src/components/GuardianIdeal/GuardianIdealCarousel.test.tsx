@@ -12,6 +12,7 @@ import { renderWithModalRoot } from '../../testHelpers'
 import GuardianIdealCarousel from './GuardianIdealCarousel'
 import { Widget } from 'types/index'
 import { mockIdeals } from '__fixtures__/data/guardianIdeals'
+import * as analyticsHooks from 'stores/analyticsContext'
 
 const mockGuardianIdealWidget: Widget = {
   _id: ObjectId(),
@@ -80,12 +81,56 @@ describe('GuardianIdealCarousel component', () => {
       })
     )
 
-    expect(mockUpdateModalId).toHaveBeenCalledWith('removeSectionModal')
+    expect(mockUpdateModalId).toHaveBeenCalledWith(
+      'removeGuardianIdealSectionModal'
+    )
     expect(mockUpdateModalText).toHaveBeenCalledWith({
       headingText: 'Are you sure you’d like to delete this section?',
       descriptionText:
         'You can re-add it to your My Space from the Add Section menu.',
     })
     expect(mockUpdateWidget).toHaveBeenCalled()
+  })
+
+  test('calls trackEvent when next/previous is clicked', async () => {
+    const user = userEvent.setup()
+    const mockTrackEvents = jest.fn()
+
+    jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
+      return { push: jest.fn(), trackEvent: mockTrackEvents }
+    })
+
+    mockFlags({
+      guardianIdealCarousel: true,
+    })
+
+    render(
+      <GuardianIdealCarousel
+        ideals={mockIdeals}
+        widget={mockGuardianIdealWidget}
+      />
+    )
+
+    // Click previous
+    const prev = screen.getByTestId('slick-prev')
+    await user.click(prev)
+
+    expect(mockTrackEvents).toHaveBeenCalledTimes(1)
+    expect(mockTrackEvents).toHaveBeenCalledWith(
+      'Guardian Ideal Carousel',
+      'View next/previous',
+      'Click next/previous'
+    )
+
+    // Click next
+    const next = screen.getByTestId('slick-next')
+    await user.click(next)
+
+    expect(mockTrackEvents).toHaveBeenCalledTimes(2)
+    expect(mockTrackEvents).toHaveBeenCalledWith(
+      'Guardian Ideal Carousel',
+      'View next/previous',
+      'Click next/previous'
+    )
   })
 })
