@@ -87,7 +87,7 @@ describe('NewsWidget component', () => {
       })
     )
 
-    expect(mockUpdateModalId).toHaveBeenCalledWith('removeSectionModal')
+    expect(mockUpdateModalId).toHaveBeenCalledWith('removeNewsSectionModal')
     expect(mockUpdateModalText).toHaveBeenCalledWith({
       headingText: 'Are you sure you’d like to delete this section?',
       descriptionText:

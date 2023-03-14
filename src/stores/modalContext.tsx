@@ -180,8 +180,20 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 
   const onDelete = () => {
     switch (modalId) {
-      case 'removeSectionModal':
+      case 'removeNewsSectionModal':
         trackEvent('Section settings', 'Remove this section', 'News')
+        handleRemoveWidget({
+          variables: { _id: widgetState?._id },
+          refetchQueries: [`getMySpace`],
+        })
+        closeModal()
+        break
+      case 'removeGuardianIdealSectionModal':
+        trackEvent(
+          'Guardian Ideal Carousel',
+          'Click on remove Ideal carousel',
+          'Remove Ideal'
+        )
         handleRemoveWidget({
           variables: { _id: widgetState?._id },
           refetchQueries: [`getMySpace`],
