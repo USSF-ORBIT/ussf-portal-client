@@ -8,6 +8,7 @@ type StorybookArgTypes = {
   handleCreateCollection: () => void
   handleAddNews: () => void
   handleAddGuardianIdeal: () => void
+  handleAddFeaturedApps: () => void
 }
 
 export default {
@@ -18,6 +19,7 @@ export default {
     handleCreateCollection: { action: 'Create new collection' },
     handleAddNews: { action: 'Add news section' },
     handleAddGuardianIdeal: { action: 'Add Guardian Ideal section' },
+    handleAddFeaturedApps: { action: 'Add Featured Apps' },
   },
   decorators: [
     (Story) => (

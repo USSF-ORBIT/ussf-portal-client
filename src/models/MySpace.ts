@@ -52,6 +52,15 @@ export const MySpaceModel = {
         throw new Error('You can only have one Guardian Ideal section')
     }
 
+    if (type === 'FeaturedApps') {
+      const allWidgets = await this.get({ userId }, { db })
+      const featuredAppsWidget = allWidgets.find(
+        (s: Widget) => s.type === 'FeaturedApps'
+      )
+      if (featuredAppsWidget)
+        throw new Error('You can only have one Featured Shortcuts section')
+    }
+
     const created: Widget = {
       _id: ObjectId(),
       title,
@@ -86,6 +95,7 @@ export const MySpaceModel = {
     { _id, userId }: DeleteWidgetInput,
     { db }: Context
   ): Promise<{ _id: ObjectIdType; type: WidgetType }> {
+    console.log('🚗Delete widget is called')
     try {
       const result = await db
         .collection('users')

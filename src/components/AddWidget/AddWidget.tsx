@@ -12,17 +12,21 @@ const AddWidget = ({
   handleCreateCollection,
   handleAddNews,
   handleAddGuardianIdeal,
+  handleAddFeaturedApps,
   canAddNews = true,
   canAddCollection = true,
   canAddGuardianIdeal = true,
+  canAddFeaturedApps = true,
 }: {
   handleSelectCollection: () => void
   handleCreateCollection: () => void
   handleAddNews: () => void
   handleAddGuardianIdeal: () => void
+  handleAddFeaturedApps: () => void
   canAddNews?: boolean
   canAddCollection?: boolean
   canAddGuardianIdeal?: boolean
+  canAddFeaturedApps?: boolean
 }) => {
   const dropdownEl = useRef<HTMLDivElement>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
@@ -98,6 +102,15 @@ const AddWidget = ({
             Add Guardian Ideal section
           </Button>
         )}
+        <Button
+          disabled={!canAddFeaturedApps}
+          type="button"
+          onClick={() => {
+            handleAddFeaturedApps()
+            setIsDropdownOpen(false)
+          }}>
+          Add Featured Apps section
+        </Button>
       </DropdownMenu>
     </div>
   )

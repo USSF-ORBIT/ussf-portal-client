@@ -200,6 +200,18 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         })
         closeModal()
         break
+      case 'removeFeaturedAppsSectionModal':
+        trackEvent(
+          'Featured Apps Section',
+          'Click on remove Featured Apps',
+          'Remove Featured Apps'
+        )
+        handleRemoveWidget({
+          variables: { _id: widgetState?._id },
+          refetchQueries: [`getMySpace`],
+        })
+        closeModal()
+        break
       case 'removeCustomCollectionModal':
         trackEvent(
           'Collection settings',

@@ -29,6 +29,7 @@ import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import AddWidget from 'components/AddWidget/AddWidget'
 import { GuardianIdealPillars } from 'components/GuardianIdeal/GuardianIdealPillars'
 import { useAnalytics } from 'stores/analyticsContext'
+import FeaturedShortcuts from 'components/FeaturedShortcuts/FeaturedShorcuts'
 
 /** Type guards */
 function isCollection(widget: MySpaceWidget): widget is Collection {
@@ -41,6 +42,10 @@ function isGuardianIdeal(widget: Widget): widget is Collection {
 
 function isNewsWidget(widget: Widget): widget is Collection {
   return widget.type === WIDGET_TYPES.NEWS
+}
+
+function isFeaturedApps(widget: Widget): widget is Collection {
+  return widget.type === WIDGET_TYPES.FEATUREDAPPS
 }
 
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
@@ -82,6 +87,22 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     })
   }
 
+  const addFeaturedApps = () => {
+    trackEvent(
+      'Featured Apps',
+      'Click on add Featured Apps',
+      'Add Featured Apps'
+    )
+
+    handleAddWidget({
+      variables: {
+        title: 'Featured Shortcuts',
+        type: AddWidgetType.FeaturedApps,
+      },
+      refetchQueries: ['getMySpace'],
+    })
+  }
+
   const addNewCollection = () => {
     trackEvent('Add section', 'Create new collection')
 
@@ -101,6 +122,10 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const canAddGuardianIdeal: boolean =
     mySpace &&
     mySpace.filter((w) => w.type === WIDGET_TYPES.GUARDIANIDEAL).length < 1
+
+  const canAddFeaturedApps: boolean =
+    mySpace &&
+    mySpace.filter((w) => w.type === WIDGET_TYPES.FEATUREDAPPS).length < 1
 
   const selectCollections = () => {
     trackEvent('Add section', 'Select collection from template')
@@ -139,6 +164,19 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                     className={styles.guardianIdeal}>
                     <GuardianIdealCarousel
                       ideals={GuardianIdealPillars}
+                      widget={widget}
+                    />
+                  </Grid>
+                )
+              }
+
+              if (isFeaturedApps(widget)) {
+                return (
+                  <Grid
+                    key={`widget_${widget._id}`}
+                    className={styles.guardianIdeal}>
+                    <FeaturedShortcuts
+                      apps={[{ title: 'Appy', icon: 'icon.png' }]}
                       widget={widget}
                     />
                   </Grid>
@@ -247,7 +285,10 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
             })}
 
           {!loading &&
-            (canAddCollections || canAddNews || canAddGuardianIdeal) && (
+            (canAddCollections ||
+              canAddNews ||
+              canAddGuardianIdeal ||
+              canAddFeaturedApps) && (
               <Grid
                 key={`widget_addNew`}
                 tabletLg={{ col: 6 }}
@@ -257,9 +298,11 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                   handleSelectCollection={selectCollections}
                   handleAddNews={addNewsWidget}
                   handleAddGuardianIdeal={addGuardianIdeal}
+                  handleAddFeaturedApps={addFeaturedApps}
                   canAddNews={canAddNews}
                   canAddCollection={canAddCollections}
                   canAddGuardianIdeal={canAddGuardianIdeal}
+                  canAddFeaturedApps={canAddFeaturedApps}
                 />
               </Grid>
             )}

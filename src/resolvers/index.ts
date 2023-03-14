@@ -98,6 +98,7 @@ const resolvers = {
       if (widget.type === 'Collection') return 'Collection'
       if (widget.type === 'GuardianIdeal') return 'GuardianIdeal'
       if (widget.type === 'News') return 'NewsWidget'
+      if (widget.type === 'FeaturedApps') return 'FeaturedApps'
       return null // GraphQL Error
     },
   },
