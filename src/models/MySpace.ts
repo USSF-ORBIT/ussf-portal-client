@@ -78,12 +78,10 @@ export const MySpaceModel = {
             { $push: { mySpace: { $each: [created], $position: 0 } } }
           )
       } else if (type === 'FeaturedShortcuts') {
-        await db
-          .collection('users')
-          .updateOne(
-            { userId },
-            { $push: { mySpace: { $each: [created], $position: 1 } } }
-          )
+        await db.collection('users').updateOne(
+          { userId },
+          { $push: { mySpace: { $each: [created], $position: 0 } } } //#TODO need to figure out best way to organize order of widgets
+        )
       } else {
         await db
           .collection('users')

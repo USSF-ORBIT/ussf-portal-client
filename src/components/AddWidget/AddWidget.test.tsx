@@ -261,7 +261,7 @@ describe('AddWidget component', () => {
     const mockAddFeaturedShortcuts = jest.fn()
 
     mockFlags({
-      featuredShortcutsSection: true,
+      featuredShortcuts: true,
     })
 
     render(
@@ -292,6 +292,10 @@ describe('AddWidget component', () => {
   test('the Add Featured Shortcuts section button is disabled if the user cannot add it', async () => {
     const user = userEvent.setup()
     const mockAddFeaturedShortcuts = jest.fn()
+    mockFlags({
+      featuredShortcuts: true,
+    })
+
     render(
       <AddWidget
         {...testProps}

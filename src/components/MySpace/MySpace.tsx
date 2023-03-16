@@ -171,7 +171,11 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                 )
               }
 
-              if (isFeaturedShortcuts(widget)) {
+              if (
+                isFeaturedShortcuts(widget) &&
+                flags &&
+                flags?.featuredShortcuts
+              ) {
                 return (
                   <Grid
                     key={`widget_${widget._id}`}
