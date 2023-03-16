@@ -51,13 +51,13 @@ const FeaturedShortcuts = ({
           Remove Featured Shortcuts section
         </Button>,
       ]}>
-      <ul className={styles.featuredShortcutsRow + ' grid-row grid-gap'}>
+      <ul className={styles.featuredShortcutsRow}>
         {featuredShortcuts.map((a) => {
           return (
             // #TODO fix missing grid gap between columns
             <li
               key={'widget_shortcut_' + a.title}
-              className={styles.featuredShortcutsItem + ' grid-col-3'}>
+              className={styles.featuredShortcutsItem}>
               <LinkTo href={a.url}>
                 <img src={a.icon} alt="" />
                 {a.title}
