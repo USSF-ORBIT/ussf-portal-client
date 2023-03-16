@@ -30,6 +30,7 @@ import AddWidget from 'components/AddWidget/AddWidget'
 import { GuardianIdealPillars } from 'components/GuardianIdeal/GuardianIdealPillars'
 import { useAnalytics } from 'stores/analyticsContext'
 import FeaturedShortcuts from 'components/FeaturedShortcuts/FeaturedShorcuts'
+import { featuredShortcutItems } from 'components/FeaturedShortcuts/FeaturedShortcutItems'
 
 /** Type guards */
 function isCollection(widget: MySpaceWidget): widget is Collection {
@@ -44,7 +45,7 @@ function isNewsWidget(widget: Widget): widget is Collection {
   return widget.type === WIDGET_TYPES.NEWS
 }
 
-function isFeaturedApps(widget: Widget): widget is Collection {
+function isFeaturedShortcuts(widget: Widget): widget is Collection {
   return widget.type === WIDGET_TYPES.FEATUREDAPPS
 }
 
@@ -87,17 +88,17 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     })
   }
 
-  const addFeaturedApps = () => {
+  const addFeaturedShortcuts = () => {
     trackEvent(
-      'Featured Apps',
-      'Click on add Featured Apps',
-      'Add Featured Apps'
+      'Featured Shortcuts',
+      'Click on add Featured Shortcuts',
+      'Add Featured Shortcuts'
     )
 
     handleAddWidget({
       variables: {
         title: 'Featured Shortcuts',
-        type: AddWidgetType.FeaturedApps,
+        type: AddWidgetType.FeaturedShortcuts,
       },
       refetchQueries: ['getMySpace'],
     })
@@ -123,7 +124,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     mySpace &&
     mySpace.filter((w) => w.type === WIDGET_TYPES.GUARDIANIDEAL).length < 1
 
-  const canAddFeaturedApps: boolean =
+  const canAddFeaturedShortcuts: boolean =
     mySpace &&
     mySpace.filter((w) => w.type === WIDGET_TYPES.FEATUREDAPPS).length < 1
 
@@ -170,13 +171,13 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                 )
               }
 
-              if (isFeaturedApps(widget)) {
+              if (isFeaturedShortcuts(widget)) {
                 return (
                   <Grid
                     key={`widget_${widget._id}`}
-                    className={styles.guardianIdeal}>
+                    className={styles.featuredShortcuts}>
                     <FeaturedShortcuts
-                      apps={[{ title: 'Appy', icon: 'icon.png' }]}
+                      featuredShortcuts={featuredShortcutItems}
                       widget={widget}
                     />
                   </Grid>
@@ -288,7 +289,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
             (canAddCollections ||
               canAddNews ||
               canAddGuardianIdeal ||
-              canAddFeaturedApps) && (
+              canAddFeaturedShortcuts) && (
               <Grid
                 key={`widget_addNew`}
                 tabletLg={{ col: 6 }}
@@ -298,11 +299,11 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                   handleSelectCollection={selectCollections}
                   handleAddNews={addNewsWidget}
                   handleAddGuardianIdeal={addGuardianIdeal}
-                  handleAddFeaturedApps={addFeaturedApps}
+                  handleAddFeaturedShortcuts={addFeaturedShortcuts}
                   canAddNews={canAddNews}
                   canAddCollection={canAddCollections}
                   canAddGuardianIdeal={canAddGuardianIdeal}
-                  canAddFeaturedApps={canAddFeaturedApps}
+                  canAddFeaturedShortcuts={canAddFeaturedShortcuts}
                 />
               </Grid>
             )}

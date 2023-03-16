@@ -8,7 +8,7 @@ type StorybookArgTypes = {
   handleCreateCollection: () => void
   handleAddNews: () => void
   handleAddGuardianIdeal: () => void
-  handleAddFeaturedApps: () => void
+  handleAddFeaturedShortcuts: () => void
 }
 
 export default {
@@ -19,7 +19,7 @@ export default {
     handleCreateCollection: { action: 'Create new collection' },
     handleAddNews: { action: 'Add news section' },
     handleAddGuardianIdeal: { action: 'Add Guardian Ideal section' },
-    handleAddFeaturedApps: { action: 'Add Featured Apps' },
+    handleAddFeaturedShortcuts: { action: 'Add Featured Shortcuts' },
   },
   decorators: [
     (Story) => (
@@ -36,6 +36,7 @@ export const DefaultAddWidget = (argTypes: StorybookArgTypes) => (
     handleCreateCollection={argTypes.handleCreateCollection}
     handleAddNews={argTypes.handleAddNews}
     handleAddGuardianIdeal={argTypes.handleAddGuardianIdeal}
+    handleAddFeaturedShortcuts={argTypes.handleAddFeaturedShortcuts}
   />
 )
 
@@ -45,6 +46,7 @@ export const AddCollectionDisabled = (argTypes: StorybookArgTypes) => (
     handleCreateCollection={argTypes.handleCreateCollection}
     handleAddNews={argTypes.handleAddNews}
     handleAddGuardianIdeal={argTypes.handleAddGuardianIdeal}
+    handleAddFeaturedShortcuts={argTypes.handleAddFeaturedShortcuts}
     canAddCollection={false}
   />
 )
@@ -55,6 +57,7 @@ export const NewsSectionDisabled = (argTypes: StorybookArgTypes) => (
     handleCreateCollection={argTypes.handleCreateCollection}
     handleAddNews={argTypes.handleAddNews}
     handleAddGuardianIdeal={argTypes.handleAddGuardianIdeal}
+    handleAddFeaturedShortcuts={argTypes.handleAddFeaturedShortcuts}
     canAddNews={false}
   />
 )

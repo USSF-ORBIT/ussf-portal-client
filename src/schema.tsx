@@ -15,7 +15,7 @@ export const typeDefs = gql`
     Collection
     GuardianIdeal
     News
-    FeaturedApps
+    FeaturedShortcuts
   }
 
   interface Widget {
@@ -44,9 +44,10 @@ export const typeDefs = gql`
     type: WidgetType!
   }
 
-  type FeaturedApps implements Widget {
+  type FeaturedShortcuts implements Widget {
     _id: OID!
     title: String!
+    url: String!
     type: WidgetType!
   }
 

@@ -200,11 +200,11 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         })
         closeModal()
         break
-      case 'removeFeaturedAppsSectionModal':
+      case 'removeFeaturedShortcutsSectionModal':
         trackEvent(
-          'Featured Apps Section',
-          'Click on remove Featured Apps',
-          'Remove Featured Apps'
+          'Featured Shortcuts Section',
+          'Click on remove Featured Shortcuts',
+          'Remove Featured Shortcuts'
         )
         handleRemoveWidget({
           variables: { _id: widgetState?._id },

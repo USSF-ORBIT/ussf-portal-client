@@ -52,12 +52,12 @@ export const MySpaceModel = {
         throw new Error('You can only have one Guardian Ideal section')
     }
 
-    if (type === 'FeaturedApps') {
+    if (type === 'FeaturedShortcuts') {
       const allWidgets = await this.get({ userId }, { db })
-      const featuredAppsWidget = allWidgets.find(
-        (s: Widget) => s.type === 'FeaturedApps'
+      const featuredShortcutsWidget = allWidgets.find(
+        (s: Widget) => s.type === 'FeaturedShortcuts'
       )
-      if (featuredAppsWidget)
+      if (featuredShortcutsWidget)
         throw new Error('You can only have one Featured Shortcuts section')
     }
 
@@ -77,6 +77,13 @@ export const MySpaceModel = {
             { userId },
             { $push: { mySpace: { $each: [created], $position: 0 } } }
           )
+      } else if (type === 'FeaturedShortcuts') {
+        await db
+          .collection('users')
+          .updateOne(
+            { userId },
+            { $push: { mySpace: { $each: [created], $position: 1 } } }
+          )
       } else {
         await db
           .collection('users')
@@ -95,7 +102,6 @@ export const MySpaceModel = {
     { _id, userId }: DeleteWidgetInput,
     { db }: Context
   ): Promise<{ _id: ObjectIdType; type: WidgetType }> {
-    console.log('🚗Delete widget is called')
     try {
       const result = await db
         .collection('users')

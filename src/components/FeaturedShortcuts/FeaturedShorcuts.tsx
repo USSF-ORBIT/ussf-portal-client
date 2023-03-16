@@ -1,30 +1,27 @@
-import { Grid } from '@trussworks/react-uswds'
+import { Grid, GridContainer } from '@trussworks/react-uswds'
 import React from 'react'
 import { Widget } from 'types'
+import LinkTo from 'components/util/LinkTo/LinkTo'
 import { Button } from '@trussworks/react-uswds'
 import { WidgetWithSettings } from 'components/Widget/Widget'
-import styles from '../GuardianIdeal/GuardianIdealCarousel.module.scss'
+import styles from './FeaturedShortcuts.module.scss'
 import { useAnalytics } from 'stores/analyticsContext'
 import { useModalContext } from 'stores/modalContext'
-
-type Apps = {
-  title: string
-  icon: string
-}[]
+import type { featuredShortcutItems } from 'types'
 
 const FeaturedShortcuts = ({
-  apps,
+  featuredShortcuts,
   widget,
 }: {
   widget: Widget
-  apps: Apps
+  featuredShortcuts: featuredShortcutItems
 }) => {
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
   const { trackEvent } = useAnalytics()
 
   const handleConfirmRemoveSection = () => {
-    updateModalId('removeFeaturedAppsSectionModal')
+    updateModalId('removeFeaturedShortcutsSectionModal')
     updateModalText({
       headingText: 'Are you sure you’d like to delete this section?',
       descriptionText:
@@ -34,7 +31,7 @@ const FeaturedShortcuts = ({
     const widgetState: Widget = {
       _id: widget._id,
       title: widget.title,
-      type: 'FeaturedApps',
+      type: 'FeaturedShortcuts',
     }
 
     updateWidget(widgetState)
@@ -44,22 +41,30 @@ const FeaturedShortcuts = ({
 
   return (
     <WidgetWithSettings
-      className={styles.guardianIdealCarousel}
+      header={<h3>Featured Shortcuts</h3>}
       settingsItems={[
         <Button
           key="newsWidgetSettingsMenu_remove"
           type="button"
-          className={styles.collectionSettingsDropdown}
           onClick={handleConfirmRemoveSection}>
-          Remove Featured Apps section
+          Remove Featured Shortcuts section
         </Button>,
       ]}>
-      <Grid row>
-        <h3>Featured Shortcuts</h3>
-        <ul>
-          <li>LeaveWeb</li>
-        </ul>
-      </Grid>
+      <ul className={styles.featuredShortcutsRow + ' grid-row grid-gap'}>
+        {featuredShortcuts.map((a) => {
+          return (
+            // #TODO fix missing grid gap between columns
+            <li
+              key={'widget_shortcut_' + a.title}
+              className={styles.featuredShortcutsItem + ' grid-col-3'}>
+              <LinkTo href={a.url}>
+                <img src={a.icon} alt="" />
+                {a.title}
+              </LinkTo>
+            </li>
+          )
+        })}
+      </ul>
     </WidgetWithSettings>
   )
 }
