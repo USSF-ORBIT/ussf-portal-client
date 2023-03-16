@@ -13,8 +13,8 @@
   flex-wrap: wrap;
   margin-left: -6px;
   margin-right: -6px;
+  margin-bottom: 8px;
   .featuredShortcutsItem {
-    min-width: 200px;
     height: 100px;
     margin: 6px;
     flex-grow: 1;
@@ -43,6 +43,23 @@
         height: 100%;
         width: 100%;
       }
+    }
+    @media (max-width: 1550px) {
+      font-size: 18px;
+      height: 76px;
+      width: calc(25% - 24px);
+
+      :global {
+        img {
+          max-width: 44px;
+          margin-left: 0.5rem;
+          margin-right: 0.5rem;
+        }
+      }
+    }
+    @media (max-width: 1157px) {
+      width: calc(50% - 24px);
+      min-width: 176px;
     }
   }
 }
