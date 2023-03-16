@@ -1,6 +1,12 @@
 @import 'styles/uswdsDependencies';
 @import 'styles/sfds/sfdsDependencies';
 
+.featuredShortcuts {
+  :global(.grid-row.grid-gap) {
+    margin: 22px 0;
+  }
+}
+
 .featuredShortcutsRow {
   padding: 0;
   .featuredShortcutsItem {

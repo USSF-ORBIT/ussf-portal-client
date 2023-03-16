@@ -42,6 +42,7 @@ const FeaturedShortcuts = ({
   return (
     <WidgetWithSettings
       header={<h3>Featured Shortcuts</h3>}
+      className={styles.featuredShortcuts}
       settingsItems={[
         <Button
           key="newsWidgetSettingsMenu_remove"
