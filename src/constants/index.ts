@@ -4,7 +4,7 @@ export const WIDGET_TYPES = {
   COLLECTION: 'Collection',
   NEWS: 'News',
   GUARDIANIDEAL: 'GuardianIdeal',
-  FEATUREDAPPS: 'FeaturedShortcuts',
+  FEATUREDSHORTCUTS: 'FeaturedShortcuts',
 } as const
 
 export const MAXIMUM_COLLECTIONS = 25
@@ -36,7 +36,7 @@ export const CONTENT_CATEGORIES = {
     value: 'GuardianIdeal',
     label: 'Guardian Ideal',
   },
-  FEATUREDAPPS: {
+  FEATUREDSHORTCUTS: {
     value: 'FeaturedShortcuts',
     label: 'FeaturedShortcuts',
   },

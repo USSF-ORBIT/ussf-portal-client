@@ -1,13 +1,11 @@
-import { Grid, GridContainer } from '@trussworks/react-uswds'
 import React from 'react'
-import { Widget } from 'types'
+import type { Widget, featuredShortcutItems } from 'types'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { Button } from '@trussworks/react-uswds'
 import { WidgetWithSettings } from 'components/Widget/Widget'
 import styles from './FeaturedShortcuts.module.scss'
 import { useAnalytics } from 'stores/analyticsContext'
 import { useModalContext } from 'stores/modalContext'
-import type { featuredShortcutItems } from 'types'
 
 const FeaturedShortcuts = ({
   featuredShortcuts,
@@ -54,7 +52,6 @@ const FeaturedShortcuts = ({
       <ul className={styles.featuredShortcutsRow}>
         {featuredShortcuts.map((a) => {
           return (
-            // #TODO fix missing grid gap between columns
             <li
               key={'widget_shortcut_' + a.title}
               className={styles.featuredShortcutsItem}>

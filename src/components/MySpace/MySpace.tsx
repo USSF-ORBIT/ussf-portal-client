@@ -46,7 +46,7 @@ function isNewsWidget(widget: Widget): widget is Collection {
 }
 
 function isFeaturedShortcuts(widget: Widget): widget is Collection {
-  return widget.type === WIDGET_TYPES.FEATUREDAPPS
+  return widget.type === WIDGET_TYPES.FEATUREDSHORTCUTS
 }
 
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
@@ -126,7 +126,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
 
   const canAddFeaturedShortcuts: boolean =
     mySpace &&
-    mySpace.filter((w) => w.type === WIDGET_TYPES.FEATUREDAPPS).length < 1
+    mySpace.filter((w) => w.type === WIDGET_TYPES.FEATUREDSHORTCUTS).length < 1
 
   const selectCollections = () => {
     trackEvent('Add section', 'Select collection from template')
