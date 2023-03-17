@@ -36,7 +36,17 @@ export const MySpaceModel = {
     { userId, title, type }: AddWidgetInput,
     { db }: Context
   ): Promise<Widget> {
-    // For now, can only have one News widget
+    // Fetch all widgets so we can add new widgets in the correct order
+    const allWidgets = await this.get({ userId }, { db })
+    const guardianIdealWidget = allWidgets.find(
+      (s: Widget) => s.type === 'GuardianIdeal'
+    )
+    const featuredShortcutsWidget = allWidgets.find(
+      (s: Widget) => s.type === 'FeaturedShortcuts'
+    )
+
+    // For now, can only have one each of News, Guardian Ideal,
+    // and Featured Shortcuts widgets
     if (type === 'News') {
       const allWidgets = await this.get({ userId }, { db })
       const newsWidget = allWidgets.find((s: Widget) => s.type === 'News')
@@ -44,10 +54,6 @@ export const MySpaceModel = {
     }
 
     if (type === 'GuardianIdeal') {
-      const allWidgets = await this.get({ userId }, { db })
-      const guardianIdealWidget = allWidgets.find(
-        (s: Widget) => s.type === 'GuardianIdeal'
-      )
       if (guardianIdealWidget)
         throw new Error('You can only have one Guardian Ideal section')
     }
@@ -68,20 +74,25 @@ export const MySpaceModel = {
     }
 
     try {
-      // For now, if the type is GuardianIdeal, we want it at the front of the
-      // user collection array.
+      // Guardian Ideal should be before collections, after Featured Shortcuts
       if (type === 'GuardianIdeal') {
+        const position = featuredShortcutsWidget ? 1 : 0
+
+        await db
+          .collection('users')
+          .updateOne(
+            { userId },
+            { $push: { mySpace: { $each: [created], $position: position } } }
+          )
+      } else if (type === 'FeaturedShortcuts') {
+        // FeaturedShortcuts should be displayed first,
+        // insert at beginning of array
         await db
           .collection('users')
           .updateOne(
             { userId },
             { $push: { mySpace: { $each: [created], $position: 0 } } }
           )
-      } else if (type === 'FeaturedShortcuts') {
-        await db.collection('users').updateOne(
-          { userId },
-          { $push: { mySpace: { $each: [created], $position: 0 } } } //#TODO need to figure out best way to organize order of widgets
-        )
       } else {
         await db
           .collection('users')
