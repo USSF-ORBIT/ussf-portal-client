@@ -55,7 +55,7 @@ const FeaturedShortcuts = ({
             <li
               key={'widget_shortcut_' + a.title}
               className={styles.featuredShortcutsItem}>
-              <LinkTo href={a.url}>
+              <LinkTo href={a.url} target="_blank">
                 <img src={a.icon} alt="" />
                 {a.title}
               </LinkTo>
