@@ -35,3 +35,11 @@ export const cmsUser = {
     userGroups: [...testUser1.attributes.userGroups, 'PORTAL_CMS_Users'],
   },
 }
+
+export const superAdmin = {
+  ...testUser1,
+  attributes: {
+    ...testUser1.attributes,
+    userGroups: [...testUser1.attributes.userGroups, 'PORTAL_Super_Admins'],
+  },
+}

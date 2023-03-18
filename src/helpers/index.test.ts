@@ -6,11 +6,13 @@ import {
   formatToArticleListItem,
   isPublished,
   isCmsUser,
+  isCmsAdmin,
+  isSuperAdmin,
   getYouTubeEmbedId,
 } from './index'
 
 import type { RSSNewsItem, PublishableItemType } from 'types'
-import { testUser1, cmsAdmin, cmsUser } from '__fixtures__/authUsers'
+import { testUser1, cmsAdmin, cmsUser, superAdmin } from '__fixtures__/authUsers'
 
 describe('validateNewsItems', () => {
   it('returns true if the object has all required properties', () => {
@@ -132,6 +134,20 @@ describe('isPublished', () => {
   })
 })
 
+describe('isSuperAdmin', () => {
+  test('returns true if user is in PORTAL_Super_Admins group', () => {
+    expect(isSuperAdmin(superAdmin)).toBe(true)
+  })
+
+  test('returns false if user is not in PORTAL_Super_Admins group', () => {
+    expect(isSuperAdmin(testUser1)).toBe(false)
+  })
+
+  test('returns false if article is undefined', () => {
+    expect(isSuperAdmin(undefined)).toBe(false)
+  })
+})
+
 describe('isCmsUser', () => {
   test('returns true if user is in CMS_User group', () => {
     expect(isCmsUser(cmsUser)).toBe(true)
@@ -150,6 +166,24 @@ describe('isCmsUser', () => {
   })
 })
 
+describe('isCmsAdmin', () => {
+  test('returns false if user is in CMS_User group', () => {
+    expect(isCmsAdmin(cmsUser)).toBe(false)
+  })
+
+  test('returns true if user is in CMS_Admin group', () => {
+    expect(isCmsAdmin(cmsAdmin)).toBe(true)
+  })
+
+  test('returns false if user is not in CMS_Admin or CMS_User group', () => {
+    expect(isCmsAdmin(testUser1)).toBe(false)
+  })
+
+  test('returns false if article is undefined', () => {
+    expect(isCmsAdmin(undefined)).toBe(false)
+  })
+})
+
 describe('getYouTubeEmbedId', () => {
   it('returns embed ID from url string', () => {
     // Randomly generated alpha-num id
@@ -163,5 +197,8 @@ describe('getYouTubeEmbedId', () => {
     urls.map((url) => {
       expect(getYouTubeEmbedId(url)).toBe(testId)
     })
+  })
+  it('ee returns embed ID from url string', () => {
+    expect(getYouTubeEmbedId("")).toBe("")
   })
 })

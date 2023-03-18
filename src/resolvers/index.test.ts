@@ -22,6 +22,7 @@ import { EditDisplayNameDocument } from 'operations/portal/mutations/editDisplay
 import { GetDisplayNameDocument } from 'operations/portal/queries/getDisplayName.g'
 import { EditThemeDocument } from 'operations/portal/mutations/editTheme.g'
 import { GetThemeDocument } from 'operations/portal/queries/getTheme.g'
+import { GetAllUsersDocument } from 'operations/portal/queries/getAllUsers.g'
 
 let server: ApolloServer
 let connection: typeof MongoClient
@@ -115,6 +116,7 @@ describe('GraphQL resolvers', () => {
         EditThemeDocument,
         { userId: `${testWidgetId}`, theme: 'light' },
       ],
+      ['users', GetAllUsersDocument, { userId: `${testWidgetId}` }]
     ])(
       'the %s operation returns an authentication error',
       async (_name, op, variables: VariableValues = {}) => {
@@ -153,6 +155,23 @@ describe('GraphQL resolvers', () => {
       // Reset db before each test
       await db.collection('users').deleteMany({})
       await db.collection('users').insertOne(newPortalUser)
+    })
+
+    describe('getAllUsers', () => {
+      it('returns all users', async () => {
+        const result = await server.executeOperation({
+          query: GetMySpaceDocument,
+        })
+
+        const expectedData = [ newPortalUser ]
+
+        console.log(result.data)
+        expect(result.errors).toBeUndefined()
+
+        expect(JSON.stringify(result.data)).toEqual(
+          JSON.stringify(expectedData)
+        )
+      })
     })
 
     describe('getMySpace', () => {

@@ -15,6 +15,10 @@ type EditTheme = {
 }
 
 const UserModel = {
+  async findAll({ db }: Context) {
+    const foundUsers = await db.collection('users').find().toArray()
+    return foundUsers
+  },
   async findOne(userId: string, { db }: Context) {
     const foundUser = await db.collection('users').findOne({ userId })
     return foundUser

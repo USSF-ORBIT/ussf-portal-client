@@ -44,18 +44,6 @@ type Element = {
   [key: string]: unknown
 }
 
-/* IdealListItem is used for the Guardian Ideals */
-export type IdealListItem = {
-  id: string
-  title: string
-  body: string
-  publishedDate: string
-  labels?: LabelRecord[]
-  hero?: {
-    url: string
-  }
-}
-
 /* ArticleListItemRecord is used when querying multiple articles from the CMS */
 export type ArticleListItemRecord = {
   id: string
@@ -157,7 +145,7 @@ export type DocumentPageType = {
  * */
 
 /*  WidgetType is stored in MongoDB to identify the type of widget  */
-export type WidgetType = 'Collection' | 'GuardianIdeal' | 'News'
+export type WidgetType = 'Collection' | 'News'
 
 /*  Widget refers to an existing widget in MongoDB, created and managed in a user's MySpace */
 export type Widget = {

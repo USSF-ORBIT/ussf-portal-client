@@ -1,0 +1,16 @@
+query getAllUsers {
+  users {
+    userId
+    displayName
+    theme
+    mySpace {
+      title
+      type
+      bookmarks {
+        url
+        label
+        isRemoved
+      }
+    }
+  }
+}

@@ -59,6 +59,25 @@ export const isPublished = (
   return false
 }
 
+/** check if a user is in the Super Admin user group */
+export const isSuperAdmin = (user: SessionUser | undefined) => {
+  if (
+    user &&
+    user.attributes.userGroups.includes('PORTAL_Super_Admins')
+  ) {
+    return true
+  }
+  return false
+}
+
+/** check if a user is in the CMS admin group */
+export const isCmsAdmin = (user: SessionUser | undefined) => {
+  if (user && user.attributes.userGroups.includes('PORTAL_CMS_Admins')) {
+    return true
+  }
+  return false
+}
+
 /** check if a user is in the CMS user groups */
 export const isCmsUser = (user: SessionUser | undefined) => {
   if (
@@ -74,7 +93,7 @@ export const isCmsUser = (user: SessionUser | undefined) => {
 /** Extract YouTube embed ID from url */
 export const getYouTubeEmbedId = (url: string) => {
   let embedId = ''
-  const parsedUrl = (url || '')
+  const parsedUrl = url
     .replace(/(>|<)/gi, '')
     .split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/)
   if (parsedUrl[2] !== undefined) {

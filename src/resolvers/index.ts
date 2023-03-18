@@ -5,9 +5,10 @@ import type { ObjectId as ObjectIdType } from 'bson'
 import { BookmarkModel } from '../models/Bookmark'
 import UserModel from '../models/User'
 import { CollectionModel } from '../models/Collection'
+import { isSuperAdmin } from 'helpers/index'
 
 import { MySpaceModel } from 'models/MySpace'
-import { Widget, PortalUser, WidgetType, Bookmark } from 'types'
+import { Widget, PortalUser, WidgetType, Bookmark, SAMLUser } from 'types'
 
 export const ObjectIdScalar = new GraphQLScalarType({
   name: 'OID',
@@ -41,7 +42,7 @@ export const ObjectIdScalar = new GraphQLScalarType({
 
 type PortalUserContext = {
   db: typeof MongoClient
-  user: PortalUser
+  user: PortalUser & SAMLUser
 }
 
 type AddWidgetInput = {
@@ -105,7 +106,7 @@ const resolvers = {
   Query: {
     mySpace: async (
       _: undefined,
-      args: undefined,
+      _args: undefined,
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
@@ -118,7 +119,7 @@ const resolvers = {
     },
     collections: async (
       _: undefined,
-      args: undefined,
+      _args: undefined,
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
@@ -128,6 +129,23 @@ const resolvers = {
       }
 
       return CollectionModel.getAll({ userId: user.userId }, { db })
+    },
+    users: async (
+      _: undefined,
+      _args: undefined,
+      { db, user }: PortalUserContext
+    ) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      console.log("-----------------------------")
+      console.log(isSuperAdmin(user))
+      console.log("-----------------------------")
+
+      return UserModel.findAll({ db })
     },
     displayName: async (
       _: undefined,

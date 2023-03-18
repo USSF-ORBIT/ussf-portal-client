@@ -26,15 +26,15 @@ describe('User model', () => {
   })
 
   it('can create and find a new user', async () => {
+    const displayName = 'Floyd King'
     const expectedUser = {
       _id: expect.anything(),
       userId: 'testUserId',
       mySpace: [exampleCollection1],
-      displayName: 'Floyd King',
+      displayName,
       theme: 'light',
     }
 
-    const displayName = 'Floyd King'
     await User.createOne(
       'testUserId',
       [exampleCollection],
@@ -58,6 +58,37 @@ describe('User model', () => {
 
     const foundUser = await User.findOne(testUserId, { db })
     expect(foundUser).toEqual(null)
+  })
+
+  it('returns all users', async () => {
+    const expectedUser1 = {
+      _id: expect.anything(),
+      userId: 'testUserId',
+      mySpace: [exampleCollection1],
+      displayName: 'Floyd King',
+      theme: 'light',
+    }
+    const expectedUser2 = {
+      _id: expect.anything(),
+      userId: 'testUserId2',
+      mySpace: [],
+      displayName: 'Example Person 2',
+      theme: 'dark',
+    }
+
+    await User.createOne('testUserId2', [], 'Example Person 2', 'dark', { db })
+    const allUsers = await User.findAll({ db })
+    expect(allUsers.length).toEqual(2)
+    expect(allUsers[0].userId).toBe(expectedUser1.userId)
+    expect(allUsers[0].displayName).toBe(expectedUser1.displayName)
+    expect(allUsers[0].theme).toBe(expectedUser1.theme)
+    expect(allUsers[0].mySpace[0].title).toContain(
+      expectedUser1.mySpace[0].title
+    )
+    expect(allUsers[1].userId).toBe(expectedUser2.userId)
+    expect(allUsers[1].displayName).toBe(expectedUser2.displayName)
+    expect(allUsers[1].theme).toBe(expectedUser2.theme)
+    expect(allUsers[1].mySpace.length).toEqual(0)
   })
 
   describe('displayName', () => {

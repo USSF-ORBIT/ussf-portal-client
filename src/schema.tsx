@@ -48,6 +48,7 @@ export const typeDefs = gql`
     mySpace: [Widget!]!
     displayName: String!
     theme: String!
+    users: [User!]!
   }
 
   type User {
