@@ -7,24 +7,10 @@ import {
 } from '@trussworks/react-uswds'
 import styles from './PersonalData.module.scss'
 import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
-import { useGetDisplayNameQuery } from 'operations/portal/queries/getDisplayName.g'
-import { useUser } from 'hooks/useUser'
 
-const PersonalData = () => {
-  const { user } = useUser()
+const PersonalData = ({ userDisplayName }: { userDisplayName: string }) => {
   const router = useRouter()
-
-  const { data } = useGetDisplayNameQuery()
-
-  let userDisplayName
-  if (data?.displayName) {
-    userDisplayName = data.displayName
-  } else if (user) {
-    userDisplayName = `${user.attributes.givenname} ${user.attributes.surname}`
-  }
-
   const greeting = userDisplayName ? `Welcome, ${userDisplayName}` : 'Welcome!'
-
   const currentPage = router.pathname
 
   return (
