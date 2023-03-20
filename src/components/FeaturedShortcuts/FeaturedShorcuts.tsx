@@ -1,10 +1,9 @@
 import React from 'react'
-import type { Widget, featuredShortcutItems } from 'types'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import { Button } from '@trussworks/react-uswds'
-import { WidgetWithSettings } from 'components/Widget/Widget'
+import type { Widget, featuredShortcutItems } from 'types'
 import styles from './FeaturedShortcuts.module.scss'
-import { useAnalytics } from 'stores/analyticsContext'
+import LinkTo from 'components/util/LinkTo/LinkTo'
+import { WidgetWithSettings } from 'components/Widget/Widget'
 import { useModalContext } from 'stores/modalContext'
 
 const FeaturedShortcuts = ({
@@ -16,7 +15,6 @@ const FeaturedShortcuts = ({
 }) => {
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
-  const { trackEvent } = useAnalytics()
 
   const handleConfirmRemoveSection = () => {
     updateModalId('removeFeaturedShortcutsSectionModal')
