@@ -7,7 +7,6 @@ import type { RenderResult } from '@testing-library/react'
 import React from 'react'
 import { axe } from 'jest-axe'
 import { renderWithAuthAndApollo } from '../../testHelpers'
-import { getDisplayNameMock } from '../../__fixtures__/operations/getDisplayName'
 import PersonalData from './PersonalData'
 
 jest.mock('next/router', () => ({
@@ -37,9 +36,7 @@ describe('Personal Data component', () => {
   describe('when logged in', () => {
     beforeEach(() => {
       html = renderWithAuthAndApollo(
-        <PersonalData userDisplayName="BERNADETTE CAMPBELL" />,
-        {},
-        getDisplayNameMock
+        <PersonalData userDisplayName="BERNADETTE CAMPBELL" />
       )
     })
 
