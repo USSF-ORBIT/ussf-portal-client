@@ -91,7 +91,7 @@ const AddWidget = ({
           }}>
           Add news section
         </Button>
-        {flags && flags?.guardianIdealCarousel && (
+        {flags?.guardianIdealCarousel && (
           <Button
             disabled={!canAddGuardianIdeal}
             type="button"
@@ -102,7 +102,7 @@ const AddWidget = ({
             Add Guardian Ideal section
           </Button>
         )}
-        {flags && flags?.featuredShortcuts && (
+        {flags?.featuredShortcuts && (
           <Button
             disabled={!canAddFeaturedShortcuts}
             type="button"

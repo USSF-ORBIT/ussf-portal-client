@@ -154,11 +154,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
           {data &&
             data.mySpace &&
             data.mySpace.map((widget: Widget) => {
-              if (
-                isGuardianIdeal(widget) &&
-                flags &&
-                flags?.guardianIdealCarousel
-              ) {
+              if (isGuardianIdeal(widget) && flags?.guardianIdealCarousel) {
                 return (
                   <Grid
                     key={`widget_${widget._id}`}
@@ -171,11 +167,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                 )
               }
 
-              if (
-                isFeaturedShortcuts(widget) &&
-                flags &&
-                flags?.featuredShortcuts
-              ) {
+              if (isFeaturedShortcuts(widget) && flags?.featuredShortcuts) {
                 return (
                   <Grid
                     key={`widget_${widget._id}`}
