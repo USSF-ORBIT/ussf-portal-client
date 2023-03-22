@@ -3,10 +3,9 @@
  */
 import React from 'react'
 import { screen, waitFor } from '@testing-library/react'
-
 import { renderWithAuthAndApollo } from '../../testHelpers'
-
 import DefaultLayout, { withDefaultLayout } from './DefaultLayout'
+import { getUserMock } from '__fixtures__/operations/getUser'
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -27,7 +26,9 @@ describe('DefaultLayout component options', () => {
     renderWithAuthAndApollo(
       <DefaultLayout displayFeedbackCard={false} rightSidebar={sidebar}>
         <h1>Test Page</h1>
-      </DefaultLayout>
+      </DefaultLayout>,
+      {},
+      getUserMock
     )
     // need to wait for the query to finish so waiting for banner to display
     await waitFor(() =>
@@ -50,7 +51,9 @@ describe('DefaultLayout component', () => {
     renderWithAuthAndApollo(
       <DefaultLayout>
         <h1>Test Page</h1>
-      </DefaultLayout>
+      </DefaultLayout>,
+      {},
+      getUserMock
     )
     // need to wait for the query to finish so waiting for banner to display
     await waitFor(() =>
@@ -94,7 +97,7 @@ describe('DefaultLayout component', () => {
 describe('withDefaultLayout HOC', () => {
   it('renders children inside of the default layout', async () => {
     const TestPage = () => <div>My page</div>
-    renderWithAuthAndApollo(withDefaultLayout(<TestPage />))
+    renderWithAuthAndApollo(withDefaultLayout(<TestPage />), {}, getUserMock)
     await waitFor(() => {
       expect(screen.getByText('My page')).toBeInTheDocument()
     })

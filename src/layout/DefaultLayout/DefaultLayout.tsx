@@ -8,6 +8,8 @@ import PageNav from 'components/PageNav/PageNav'
 import FeedbackCard from 'components/FeedbackCard/FeedbackCard'
 import Footer from 'components/Footer/Footer'
 import CustomModal from 'components/CustomModal/CustomModal'
+import Loader from 'components/Loader/Loader'
+import { useGetUserQuery } from 'operations/portal/queries/getUser.g'
 
 const DefaultLayout = ({
   displayFeedbackCard = true,
@@ -27,7 +29,11 @@ const DefaultLayout = ({
     { path: '/ussf-documentation', label: 'USSF documentation' },
   ]
 
-  return (
+  const { data } = useGetUserQuery()
+
+  return !data ? (
+    <Loader />
+  ) : (
     <>
       <a className="usa-skipnav" href="#main-content">
         Skip to main content
@@ -37,7 +43,7 @@ const DefaultLayout = ({
         <Header />
         <main id="main-content">
           <PageHeader>
-            <PersonalData />
+            <PersonalData userDisplayName={data.displayName} />
           </PageHeader>
 
           <GridContainer>
