@@ -7,11 +7,10 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { ObjectId } from 'mongodb'
 import '../../__mocks__/mockMatchMedia'
-import { mockFlags } from 'jest-launchdarkly-mock'
 import { renderWithModalRoot } from '../../testHelpers'
 import FeaturedShortcuts from './FeaturedShorcuts'
-import { Widget } from 'types/index'
 import { featuredShortcutItems } from './FeaturedShortcutItems'
+import { Widget } from 'types/index'
 
 const mockFeaturedShortcutsWidget: Widget = {
   _id: ObjectId(),

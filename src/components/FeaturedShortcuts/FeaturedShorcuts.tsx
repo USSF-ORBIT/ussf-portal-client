@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from '@trussworks/react-uswds'
-import type { Widget, featuredShortcutItems } from 'types'
 import styles from './FeaturedShortcuts.module.scss'
+import type { Widget, featuredShortcutItems } from 'types'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { WidgetWithSettings } from 'components/Widget/Widget'
 import { useModalContext } from 'stores/modalContext'
