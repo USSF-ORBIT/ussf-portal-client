@@ -157,7 +157,11 @@ export type DocumentPageType = {
  * */
 
 /*  WidgetType is stored in MongoDB to identify the type of widget  */
-export type WidgetType = 'Collection' | 'GuardianIdeal' | 'News'
+export type WidgetType =
+  | 'Collection'
+  | 'GuardianIdeal'
+  | 'News'
+  | 'FeaturedShortcuts'
 
 /*  Widget refers to an existing widget in MongoDB, created and managed in a user's MySpace */
 export type Widget = {
@@ -194,6 +198,13 @@ export interface Collection extends Widget {
 /*  MySpaceWidget represents a user's MySpace and is used when displaying their content */
 export type MySpaceWidget = Widget | Collection
 export type MySpace = MySpaceWidget[]
+
+/* Featured Shortcut Items represents items appearing in Featured Shortcuts widget */
+export type featuredShortcutItems = {
+  title: string
+  icon: string
+  url: string
+}[]
 
 /**
  * ***********************

@@ -9,8 +9,7 @@ import { Category, Label } from 'components/Tag/Tag'
 import type { ArticleRecord } from 'types'
 import { CONTENT_CATEGORIES } from 'constants/index'
 import colors from 'styles/sfds/colors.module.scss'
-import { isPublished } from 'helpers/index'
-import { getYouTubeEmbedId } from 'helpers/index'
+import { isPublished, getYouTubeEmbedId } from 'helpers/index'
 
 export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   const {

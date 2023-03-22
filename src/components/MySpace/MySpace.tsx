@@ -29,6 +29,8 @@ import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import AddWidget from 'components/AddWidget/AddWidget'
 import { GuardianIdealPillars } from 'components/GuardianIdeal/GuardianIdealPillars'
 import { useAnalytics } from 'stores/analyticsContext'
+import FeaturedShortcuts from 'components/FeaturedShortcuts/FeaturedShorcuts'
+import { featuredShortcutItems } from 'components/FeaturedShortcuts/FeaturedShortcutItems'
 
 /** Type guards */
 function isCollection(widget: MySpaceWidget): widget is Collection {
@@ -41,6 +43,10 @@ function isGuardianIdeal(widget: Widget): widget is Collection {
 
 function isNewsWidget(widget: Widget): widget is Collection {
   return widget.type === WIDGET_TYPES.NEWS
+}
+
+function isFeaturedShortcuts(widget: Widget): widget is Collection {
+  return widget.type === WIDGET_TYPES.FEATUREDSHORTCUTS
 }
 
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
@@ -82,6 +88,22 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     })
   }
 
+  const addFeaturedShortcuts = () => {
+    trackEvent(
+      'Featured Shortcuts',
+      'Click on add Featured Shortcuts',
+      'Add Featured Shortcuts'
+    )
+
+    handleAddWidget({
+      variables: {
+        title: 'Featured Shortcuts',
+        type: AddWidgetType.FeaturedShortcuts,
+      },
+      refetchQueries: ['getMySpace'],
+    })
+  }
+
   const addNewCollection = () => {
     trackEvent('Add section', 'Create new collection')
 
@@ -101,6 +123,10 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const canAddGuardianIdeal: boolean =
     mySpace &&
     mySpace.filter((w) => w.type === WIDGET_TYPES.GUARDIANIDEAL).length < 1
+
+  const canAddFeaturedShortcuts: boolean =
+    mySpace &&
+    mySpace.filter((w) => w.type === WIDGET_TYPES.FEATUREDSHORTCUTS).length < 1
 
   const selectCollections = () => {
     trackEvent('Add section', 'Select collection from template')
@@ -128,17 +154,26 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
           {data &&
             data.mySpace &&
             data.mySpace.map((widget: Widget) => {
-              if (
-                isGuardianIdeal(widget) &&
-                flags &&
-                flags?.guardianIdealCarousel
-              ) {
+              if (isGuardianIdeal(widget) && flags?.guardianIdealCarousel) {
                 return (
                   <Grid
                     key={`widget_${widget._id}`}
                     className={styles.guardianIdeal}>
                     <GuardianIdealCarousel
                       ideals={GuardianIdealPillars}
+                      widget={widget}
+                    />
+                  </Grid>
+                )
+              }
+
+              if (isFeaturedShortcuts(widget) && flags?.featuredShortcuts) {
+                return (
+                  <Grid
+                    key={`widget_${widget._id}`}
+                    className={styles.featuredShortcuts}>
+                    <FeaturedShortcuts
+                      featuredShortcuts={featuredShortcutItems}
                       widget={widget}
                     />
                   </Grid>
@@ -247,7 +282,10 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
             })}
 
           {!loading &&
-            (canAddCollections || canAddNews || canAddGuardianIdeal) && (
+            (canAddCollections ||
+              canAddNews ||
+              canAddGuardianIdeal ||
+              canAddFeaturedShortcuts) && (
               <Grid
                 key={`widget_addNew`}
                 tabletLg={{ col: 6 }}
@@ -257,9 +295,11 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                   handleSelectCollection={selectCollections}
                   handleAddNews={addNewsWidget}
                   handleAddGuardianIdeal={addGuardianIdeal}
+                  handleAddFeaturedShortcuts={addFeaturedShortcuts}
                   canAddNews={canAddNews}
                   canAddCollection={canAddCollections}
                   canAddGuardianIdeal={canAddGuardianIdeal}
+                  canAddFeaturedShortcuts={canAddFeaturedShortcuts}
                 />
               </Grid>
             )}
