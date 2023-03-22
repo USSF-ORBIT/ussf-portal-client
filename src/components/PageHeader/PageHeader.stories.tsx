@@ -25,7 +25,7 @@ export default {
 
 export const PortalHome = () => (
   <PageHeader>
-    <PersonalData />
+    <PersonalData userDisplayName="Test Name" />
   </PageHeader>
 )
 

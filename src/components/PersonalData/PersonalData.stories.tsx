@@ -31,7 +31,7 @@ export default {
   ],
 } as Meta
 
-export const WithUser = () => <PersonalData />
+export const WithUser = () => <PersonalData userDisplayName="Test Name" />
 
 WithUser.decorators = [
   (Story: any) => (
@@ -43,7 +43,7 @@ WithUser.decorators = [
   ),
 ]
 
-export const NoUser = () => <PersonalData />
+export const NoUser = () => <PersonalData userDisplayName="Test Name" />
 
 NoUser.decorators = [
   (Story: any) => (
