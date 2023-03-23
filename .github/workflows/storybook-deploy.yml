@@ -47,9 +47,11 @@ jobs:
       - name: Generate GraphQL types
         run: yarn generate
 
-      - name: Build and Deploy Storybook site
-        uses: bitovi/github-actions-react-to-ghp@v1.2.0
+      - name: Build Storybook
+        run: yarn storybook:build --modern
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          checkout: false # code is already checked out
-          path: storybook-static
-          build_command: yarn storybook:build --modern
+          clean: true
+          folder: storybook-static # The folder the action should deploy.
