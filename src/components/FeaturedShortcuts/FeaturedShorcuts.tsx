@@ -37,12 +37,12 @@ const FeaturedShortcuts = ({
     modalRef?.current?.toggleModal(undefined, true)
   }
 
-  const handleEventTracking = (clickedShortcut) => {
+  const handleEventTracking = (clickedShortcutTitle: string) => {
     trackEvent(
       'Featured Shortcuts',
       'Click on a featured shortcut',
       'Click icon',
-      clickedShortcut.title
+      clickedShortcutTitle
     )
   }
 
@@ -67,7 +67,7 @@ const FeaturedShortcuts = ({
               <LinkTo
                 href={a.url}
                 target="_blank"
-                onClick={() => handleEventTracking(a)}>
+                onClick={() => handleEventTracking(a.title)}>
                 <img src={a.icon} alt="" />
                 {a.title}
               </LinkTo>
