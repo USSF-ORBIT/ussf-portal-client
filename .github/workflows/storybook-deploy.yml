@@ -6,6 +6,7 @@ on:
       - 'docs/**'
       - '**.md**'
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   deploy-storybook:
