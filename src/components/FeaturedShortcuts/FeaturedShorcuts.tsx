@@ -67,7 +67,8 @@ const FeaturedShortcuts = ({
               <LinkTo
                 href={a.url}
                 target="_blank"
-                onClick={() => handleEventTracking(a.title)}>
+                onClick={() => handleEventTracking(a.title)}
+                data-testid="featured-shortcut-link">
                 <img src={a.icon} alt="" />
                 {a.title}
               </LinkTo>
