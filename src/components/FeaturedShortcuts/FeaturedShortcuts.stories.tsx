@@ -1,7 +1,7 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
 import FeaturedShortcuts from './FeaturedShorcuts'
-import { featuredShortcutItems } from 'components/FeaturedShortcuts/FeaturedShortcutItems'
+import { featuredShortcutItems } from './FeaturedShortcutItems'
 
 export default {
   title: 'Components/Widgets/FeaturedShortcuts',
@@ -9,5 +9,5 @@ export default {
 } as Meta
 
 export const FeaturedShorcutsWidget = () => (
-  <FeaturedShortcuts featuredShortcuts={featuredShortcutItems} />
+  <FeaturedShortcuts featuredShortcuts={featuredShortcutItems} widget />
 )

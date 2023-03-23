@@ -48,6 +48,7 @@
         &:hover,
         &:focus {
           background: var(--shortcut-hover-bg);
+          border-radius: 4px;
         }
       }
     }
