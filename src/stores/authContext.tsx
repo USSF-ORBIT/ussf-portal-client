@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useState } from 'react'
 import axios from 'axios'
 
-import { SessionUser } from 'types'
+import { SessionUser, PortalUser } from 'types'
 
 export type AuthContextType = {
   user: SessionUser | null
-  userInfo: any
+  userInfo: PortalUser | null
   setUser: React.Dispatch<React.SetStateAction<SessionUser | null>>
-  setMongoUserInfo: any
+  setMongoUserInfo: (userInfo: PortalUser) => void
   logout: () => void
   login: () => void
 }
@@ -31,9 +31,9 @@ export const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<SessionUser | null>(null)
-  const [userInfo, setUserInfo] = useState(null)
+  const [userInfo, setUserInfo] = useState<PortalUser | null>(null)
 
-  const setMongoUserInfo = (userData: any) => {
+  const setMongoUserInfo = (userData: PortalUser) => {
     setUserInfo(userData)
   }
 

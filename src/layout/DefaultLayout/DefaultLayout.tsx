@@ -12,6 +12,7 @@ import CustomModal from 'components/CustomModal/CustomModal'
 import Loader from 'components/Loader/Loader'
 import { useGetUserQuery } from 'operations/portal/queries/getUser.g'
 import { useAuthContext } from 'stores/authContext'
+import { PortalUser } from 'types'
 
 const DefaultLayout = ({
   displayFeedbackCard = true,
@@ -33,7 +34,7 @@ const DefaultLayout = ({
     { path: '/ussf-documentation', label: 'USSF documentation' },
   ]
 
-  const { data } = useGetUserQuery()
+  const { data }: PortalUser | any = useGetUserQuery()
 
   useEffect(() => {
     setMongoUserInfo(data)

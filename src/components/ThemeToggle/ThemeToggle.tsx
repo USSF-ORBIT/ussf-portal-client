@@ -68,12 +68,12 @@ const ThemeToggle = () => {
     <button
       type="button"
       onClick={() => {
-        const newTheme = userInfo.theme === 'light' ? 'dark' : 'light'
+        const newTheme = userInfo?.theme === 'light' ? 'dark' : 'light'
         handleThemeChangeAndTracking(user, newTheme)
       }}
       className={styles.toggleButton}
       data-testid="theme-toggle">
-      {userInfo.theme === 'light' ? darkTheme : lightTheme} mode
+      {userInfo?.theme === 'light' ? darkTheme : lightTheme} mode
     </button>
   )
 }
