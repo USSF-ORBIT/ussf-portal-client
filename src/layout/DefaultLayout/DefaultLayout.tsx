@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { GovBanner, GridContainer, Grid } from '@trussworks/react-uswds'
 import styles from './DefaultLayout.module.scss'
 import Header from 'components/Header/Header'
@@ -10,6 +10,7 @@ import Footer from 'components/Footer/Footer'
 import CustomModal from 'components/CustomModal/CustomModal'
 import Loader from 'components/Loader/Loader'
 import { useGetUserQuery } from 'operations/portal/queries/getUser.g'
+import { useAuthContext } from 'stores/authContext'
 
 const DefaultLayout = ({
   displayFeedbackCard = true,
@@ -20,6 +21,7 @@ const DefaultLayout = ({
   rightSidebar?: JSX.Element
   children: React.ReactNode
 }) => {
+  const { setMongoUserInfo } = useAuthContext()
   const navItems = [
     { path: '/', label: 'My Space' },
     {
@@ -30,6 +32,11 @@ const DefaultLayout = ({
   ]
 
   const { data } = useGetUserQuery()
+
+  useEffect(() => {
+    setMongoUserInfo(data)
+    // Try to set theme here?
+  }, [data])
 
   return !data ? (
     <Loader />

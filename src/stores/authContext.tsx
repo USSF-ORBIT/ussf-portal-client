@@ -5,14 +5,20 @@ import { SessionUser } from 'types'
 
 export type AuthContextType = {
   user: SessionUser | null
+  userInfo: any
   setUser: React.Dispatch<React.SetStateAction<SessionUser | null>>
+  setMongoUserInfo: any
   logout: () => void
   login: () => void
 }
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
+  userInfo: null,
   setUser: /* istanbul ignore next */ () => {
+    return
+  },
+  setMongoUserInfo: /* istanbul ignore next */ () => {
     return
   },
   logout: /* istanbul ignore next */ () => {
@@ -25,6 +31,11 @@ export const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<SessionUser | null>(null)
+  const [userInfo, setUserInfo] = useState(null)
+
+  const setMongoUserInfo = (userData: any) => {
+    setUserInfo(userData)
+  }
 
   const login = () => {
     // Initiate SAML flow
@@ -46,7 +57,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const context = {
     user,
+    userInfo,
     setUser,
+    setMongoUserInfo,
     logout,
     login,
   }

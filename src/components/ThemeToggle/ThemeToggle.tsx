@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import styles from './ThemeToggle.module.scss'
 import { useAnalytics } from 'stores/analyticsContext'
+import { useAuthContext } from 'stores/authContext'
 import { useUser } from 'hooks/useUser'
 import { useEditThemeMutation } from 'operations/portal/mutations/editTheme.g'
 import { SessionUser } from 'types'
@@ -24,8 +25,12 @@ const ThemeToggle = () => {
   const { data } = useGetThemeQuery()
   const { theme, setTheme } = useTheme()
   const { trackEvent } = useAnalytics()
+  const { userInfo } = useAuthContext()
   const { user } = useUser()
   const [handleEditThemeMutation] = useEditThemeMutation()
+
+  // Use memoization?
+  console.log(userInfo)
 
   useEffect(() => {
     if (data) {
