@@ -22,7 +22,7 @@ const DefaultLayout = ({
   rightSidebar?: JSX.Element
   children: React.ReactNode
 }) => {
-  const { setMongoUserInfo } = useAuthContext()
+  const { setMongoUserInfo, userInfo } = useAuthContext()
   const { setTheme } = useTheme()
   const navItems = [
     { path: '/', label: 'My Space' },
@@ -37,7 +37,9 @@ const DefaultLayout = ({
 
   useEffect(() => {
     setMongoUserInfo(data)
-    setTheme(data?.theme)
+    if (data) {
+      setTheme(data.theme)
+    }
   }, [data])
 
   return !data ? (
