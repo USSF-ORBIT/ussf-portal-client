@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { GovBanner, GridContainer, Grid } from '@trussworks/react-uswds'
+import { useTheme } from 'next-themes'
 import styles from './DefaultLayout.module.scss'
 import Header from 'components/Header/Header'
 import PersonalData from 'components/PersonalData/PersonalData'
@@ -22,6 +23,7 @@ const DefaultLayout = ({
   children: React.ReactNode
 }) => {
   const { setMongoUserInfo } = useAuthContext()
+  const { setTheme } = useTheme()
   const navItems = [
     { path: '/', label: 'My Space' },
     {
@@ -35,7 +37,7 @@ const DefaultLayout = ({
 
   useEffect(() => {
     setMongoUserInfo(data)
-    // Try to set theme here?
+    setTheme(data?.theme)
   }, [data])
 
   return !data ? (
