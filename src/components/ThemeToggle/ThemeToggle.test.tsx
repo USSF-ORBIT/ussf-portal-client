@@ -2,14 +2,18 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ThemeProvider } from 'next-themes'
-import { mockUseTheme, renderWithAuthAndApollo } from '../../testHelpers'
+import { MockedProvider } from '@apollo/client/testing'
+import {
+  mockUseTheme,
+  renderWithAuth,
+  renderWithAuthAndApollo,
+} from '../../testHelpers'
 import { editThemeMock } from '../../__fixtures__/operations/editTheme'
-
 import ThemeToggle from './ThemeToggle'
-
+import { GetThemeDocument } from 'operations/portal/queries/getTheme.g'
 import * as analyticsHooks from 'stores/analyticsContext'
 
 jest.mock('next/router', () => ({
@@ -111,5 +115,31 @@ describe('calling hook functions', () => {
     // only need to check that the function was called the expected number of times
     // the expected parameters are defined in the mock
     expect(editThemeMock[0].newData).toHaveBeenCalledTimes(3)
+  })
+
+  test('throws an error', async () => {
+    const consoleSpy = jest.spyOn(console, 'error')
+
+    const errorMock = [
+      {
+        request: {
+          query: GetThemeDocument,
+        },
+        error: new Error('Test error'),
+      },
+    ]
+
+    renderWithAuth(
+      <MockedProvider mocks={errorMock} addTypename={false}>
+        <ThemeToggle />
+      </MockedProvider>
+    )
+
+    waitFor(() =>
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Error updating theme: error in handleThemeChangeAndTracking',
+        errorMock[0].error
+      )
+    )
   })
 })
