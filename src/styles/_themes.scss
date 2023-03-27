@@ -151,6 +151,10 @@ $dark-gradient: linear-gradient(
   --btn-box-border: #{$neutral-gray};
   --date-icon-bg: #{$theme-cosmiclatte-lighter};
 
+  //Featured Shortcuts
+  --shortcut-hover-bg: #{$grey};
+  --shortcut-border: var(--widget-border);
+
   // Tags
   --tag-source-bg: #{$label-source-lighttheme-bg};
   --tag-source-text: #{$white};
@@ -326,6 +330,10 @@ $dark-gradient: linear-gradient(
   --btn-box-bg: #{$theme-spacebase-light};
   --btn-box-border: #{$neutral-gray-800};
   --date-icon-bg: #{$theme-cosmiclatte-lightest};
+
+  //Featured Shortcuts
+  --shortcut-hover-bg: #{$theme-ultraviolet-darkest};
+  --shortcut-border: #{$theme-aurora-base};
 
   // Tags
   --tag-source-bg: #{$label-source-darktheme-bg};
