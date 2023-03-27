@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.17.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.16.0...4.17.0) (2023-03-22)
+
+
+### Features
+
+* Featured Shortcuts component ([#956](https://github.com/USSF-ORBIT/ussf-portal-client/issues/956)) ([73258c1](https://github.com/USSF-ORBIT/ussf-portal-client/commit/73258c10299c361a8faf8d98e987841a87db15da))
+* Guardian Ideal event tracking ([#944](https://github.com/USSF-ORBIT/ussf-portal-client/issues/944)) ([02afe2d](https://github.com/USSF-ORBIT/ussf-portal-client/commit/02afe2ddbc5f0049ed938f5c9b6ca9862783c352))
+
+
+### Bug Fixes
+
+* Duplicate user bug ([#958](https://github.com/USSF-ORBIT/ussf-portal-client/issues/958)) ([d3be39b](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d3be39b1d827a3430d2505863ec62ad2d429d253))
+
 ## [4.16.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.15.0...4.16.0) (2023-03-09)
 
 
