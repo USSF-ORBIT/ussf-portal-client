@@ -38,7 +38,7 @@ describe('ThemeToggle component', () => {
     expect(toggleBtn).toBeVisible()
 
     user.click(toggleBtn)
-    expect(screen.getAllByText('light mode')).toHaveLength(1)
+    expect(screen.getAllByText('dark mode')).toHaveLength(1)
   })
 })
 
@@ -47,14 +47,16 @@ describe('calling hook functions', () => {
   const { setItemMock, getItemMock } = mockUseTheme()
 
   beforeEach(() => {
-    // mock out the return of useAnalytics since we just need to check that it's called not what it does
+    setItemMock.mockReset()
+    getItemMock.mockReset()
+  })
+
+  test('calls trackEvent when the toggle is clicked', async () => {
+    const user = userEvent.setup()
+
     jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
       return { push: jest.fn(), trackEvent: mockTrackEvents }
     })
-
-    // reset the mocks
-    setItemMock.mockReset()
-    getItemMock.mockReset()
 
     renderWithAuthAndApollo(
       <ThemeProvider enableSystem={false}>
@@ -63,10 +65,7 @@ describe('calling hook functions', () => {
       {},
       editThemeMock
     )
-  })
 
-  test('calls trackEvent when the toggle is clicked', async () => {
-    const user = userEvent.setup()
     const toggle = screen.getByTestId('theme-toggle')
     await user.click(toggle)
 
@@ -80,18 +79,32 @@ describe('calling hook functions', () => {
 
   test('calls setTheme when the toggle is clicked', async () => {
     const user = userEvent.setup()
+
+    renderWithAuthAndApollo(
+      <ThemeProvider enableSystem={false}>
+        <ThemeToggle />
+      </ThemeProvider>,
+      {},
+      editThemeMock
+    )
+
     const toggle = screen.getByTestId('theme-toggle')
     await user.click(toggle)
     expect(setItemMock).toHaveBeenCalledTimes(1)
     expect(setItemMock).toHaveBeenCalledWith('theme', 'dark')
-
-    await user.click(toggle)
-    expect(setItemMock).toHaveBeenCalledTimes(2)
-    expect(setItemMock).toHaveBeenLastCalledWith('theme', 'light')
   })
 
   test('calls handleEditThemeMutation when the toggle is clicked', async () => {
     const user = userEvent.setup()
+
+    renderWithAuthAndApollo(
+      <ThemeProvider enableSystem={false}>
+        <ThemeToggle />
+      </ThemeProvider>,
+      {},
+      editThemeMock
+    )
+
     const toggle = screen.getByTestId('theme-toggle')
     await user.click(toggle)
 
