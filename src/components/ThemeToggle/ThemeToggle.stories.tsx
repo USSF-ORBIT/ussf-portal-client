@@ -2,7 +2,7 @@ import React from 'react'
 import { Meta } from '@storybook/react'
 
 import { ThemeProvider } from 'next-themes'
-import { testUser1 } from '../../__fixtures__/authUsers'
+import { testPortalUser1, testUser1 } from '../../__fixtures__/authUsers'
 
 import ThemeToggle from './ThemeToggle'
 
@@ -10,7 +10,11 @@ import { AuthContext } from 'stores/authContext'
 
 const mockContext = {
   user: testUser1,
+  portalUser: testPortalUser1,
   setUser: () => {
+    return
+  },
+  setMongoUserInfo: () => {
     return
   },
   logout: () => {
