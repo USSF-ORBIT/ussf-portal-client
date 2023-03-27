@@ -1,4 +1,5 @@
-import type { SessionUser } from 'types'
+import { ObjectId } from 'mongodb'
+import type { SessionUser, PortalUser } from 'types'
 
 export const testUser1: SessionUser = {
   userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
@@ -18,6 +19,52 @@ export const testUser1: SessionUser = {
     subject:
       '/C=US/O=U.S. Government/OU=DoD/OU=PKI/OU=CONTRACTOR/CN=CAMPBELL.BERNADETTE.5244446289',
   },
+}
+
+export const testPortalUser1: PortalUser = {
+  userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
+  mySpace: [
+    {
+      _id: ObjectId(),
+      cmsId: 'ckwz3u58s1835ql974leo1yll',
+      title: 'Example Collection',
+      type: 'Collection',
+      bookmarks: [
+        {
+          _id: ObjectId(),
+          cmsId: 'cktd7c0d30190w597qoftevq1',
+          url: 'https://afpcsecure.us.af.mil/',
+          label: 'vMPF',
+        },
+        {
+          _id: ObjectId(),
+          cmsId: 'cktd7ettn0457w597p7ja4uye',
+          url: 'https://leave.af.mil/profile',
+          label: 'LeaveWeb',
+        },
+        {
+          _id: ObjectId(),
+          cmsId: 'cktd7hjz30636w5977vu4la4c',
+          url: 'https://mypay.dfas.mil/#/',
+          label: 'MyPay',
+        },
+        {
+          _id: ObjectId(),
+          cmsId: 'ckwz3tphw1763ql97pia1zkvc',
+          url: 'https://webmail.apps.mil/',
+          label: 'Webmail',
+        },
+        {
+          _id: ObjectId(),
+          cmsId: 'ckwz3u4461813ql970wkd254m',
+          url: 'https://www.e-publishing.af.mil/',
+          label: 'e-Publications',
+        },
+      ],
+    },
+  ],
+  displayName: 'BERNADETTE CAMPBELL',
+  theme: 'light',
 }
 
 export const cmsAdmin = {

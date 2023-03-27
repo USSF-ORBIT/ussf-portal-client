@@ -5,16 +5,16 @@ import { SessionUser, PortalUser } from 'types'
 
 export type AuthContextType = {
   user: SessionUser | null
-  userInfo: PortalUser | null
+  portalUser: PortalUser | null
   setUser: React.Dispatch<React.SetStateAction<SessionUser | null>>
-  setMongoUserInfo: (userInfo: PortalUser) => void
+  setMongoUserInfo: (userData: PortalUser) => void
   logout: () => void
   login: () => void
 }
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
-  userInfo: null,
+  portalUser: null,
   setUser: /* istanbul ignore next */ () => {
     return
   },
@@ -31,10 +31,10 @@ export const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<SessionUser | null>(null)
-  const [userInfo, setUserInfo] = useState<PortalUser | null>(null)
+  const [portalUser, setPortalUser] = useState<PortalUser | null>(null)
 
   const setMongoUserInfo = (userData: PortalUser) => {
-    setUserInfo(userData)
+    setPortalUser(userData)
   }
 
   const login = () => {
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const context = {
     user,
-    userInfo,
+    portalUser,
     setUser,
     setMongoUserInfo,
     logout,

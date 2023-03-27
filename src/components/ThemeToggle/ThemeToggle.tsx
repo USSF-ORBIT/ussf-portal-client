@@ -23,7 +23,7 @@ const darkTheme = (
 const ThemeToggle = () => {
   const { setTheme } = useTheme()
   const { trackEvent } = useAnalytics()
-  const { userInfo } = useAuthContext()
+  const { portalUser } = useAuthContext()
   const { user } = useUser()
   const [handleEditThemeMutation] = useEditThemeMutation()
 
@@ -68,12 +68,12 @@ const ThemeToggle = () => {
     <button
       type="button"
       onClick={() => {
-        const newTheme = userInfo?.theme === 'light' ? 'dark' : 'light'
+        const newTheme = portalUser?.theme === 'light' ? 'dark' : 'light'
         handleThemeChangeAndTracking(user, newTheme)
       }}
       className={styles.toggleButton}
       data-testid="theme-toggle">
-      {userInfo?.theme === 'light' ? darkTheme : lightTheme} mode
+      {portalUser?.theme === 'light' ? darkTheme : lightTheme} mode
     </button>
   )
 }
