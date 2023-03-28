@@ -75,7 +75,7 @@ $dark-gradient: linear-gradient(
   --btn-theme-toggle-bg: #{$theme-ultraviolet-base};
   --btn-theme-toggle-text: #{$white};
   --btn-logout-primary-bg: #{$theme-mars-base};
-  --btn-logout-text: #{$white};
+  --btn-logout-text: #{$black};
   --btn-logout-hover: #{$theme-mars-dark};
 
   --btn-delete-text: #{$state-error-base};
@@ -263,7 +263,7 @@ $dark-gradient: linear-gradient(
   --btn-add-widget-icon-hover: #{$theme-spacebase-light};
 
   --btn-logout-primary-bg: #{$theme-mars-base};
-  --btn-logout-text: #{$white};
+  --btn-logout-text: #{$black};
   --btn-logout-hover: #{$theme-mars-dark};
 
   --btn-add-widget-border: #{$theme-spacebase-dark};
