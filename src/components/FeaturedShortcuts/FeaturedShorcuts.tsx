@@ -5,6 +5,7 @@ import type { Widget, featuredShortcutItems } from 'types'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { WidgetWithSettings } from 'components/Widget/Widget'
 import { useModalContext } from 'stores/modalContext'
+import { useAnalytics } from 'stores/analyticsContext'
 
 const FeaturedShortcuts = ({
   featuredShortcuts,
@@ -15,6 +16,7 @@ const FeaturedShortcuts = ({
 }) => {
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
+  const { trackEvent } = useAnalytics()
 
   const handleConfirmRemoveSection = () => {
     updateModalId('removeFeaturedShortcutsSectionModal')
@@ -35,6 +37,15 @@ const FeaturedShortcuts = ({
     modalRef?.current?.toggleModal(undefined, true)
   }
 
+  const handleEventTracking = (clickedShortcutTitle: string) => {
+    trackEvent(
+      'Featured Shortcuts',
+      'Click on a featured shortcut',
+      'Click icon',
+      clickedShortcutTitle
+    )
+  }
+
   return (
     <WidgetWithSettings
       header={<h3>Featured Shortcuts</h3>}
@@ -53,7 +64,11 @@ const FeaturedShortcuts = ({
             <li
               key={'widget_shortcut_' + a.title}
               className={styles.featuredShortcutsItem}>
-              <LinkTo href={a.url} target="_blank">
+              <LinkTo
+                href={a.url}
+                target="_blank"
+                onClick={() => handleEventTracking(a.title)}
+                data-testid="featured-shortcut-link">
                 <img src={a.icon} alt="" />
                 {a.title}
               </LinkTo>
