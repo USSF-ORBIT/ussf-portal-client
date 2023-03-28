@@ -202,11 +202,13 @@ export type MySpaceWidget = Widget | Collection
 export type MySpace = MySpaceWidget[]
 
 /* Featured Shortcut Items represents items appearing in Featured Shortcuts widget */
-export type featuredShortcutItems = {
+export type featuredShortcutItem = {
   title: string
   icon: string
   url: string
-}[]
+}
+
+export type featuredShortcutItems = featuredShortcutItem[]
 
 /**
  * ***********************

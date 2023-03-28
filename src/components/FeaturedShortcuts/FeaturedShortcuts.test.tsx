@@ -11,6 +11,7 @@ import { renderWithModalRoot } from '../../testHelpers'
 import FeaturedShortcuts from './FeaturedShorcuts'
 import { featuredShortcutItems } from './FeaturedShortcutItems'
 import { Widget } from 'types/index'
+import * as analyticsHooks from 'stores/analyticsContext'
 
 const mockFeaturedShortcutsWidget: Widget = {
   _id: ObjectId(),
@@ -69,5 +70,34 @@ describe('FeaturedShortcuts component', () => {
         'You can re-add it to your My Space from the Add Section menu.',
     })
     expect(mockUpdateWidget).toHaveBeenCalled()
+  })
+
+  test('calls trackEvent when a shortcut is clicked', async () => {
+    const user = userEvent.setup()
+    const mockTrackEvents = jest.fn()
+
+    jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
+      return { push: jest.fn(), trackEvent: mockTrackEvents }
+    })
+
+    render(
+      <FeaturedShortcuts
+        featuredShortcuts={featuredShortcutItems}
+        widget={mockFeaturedShortcutsWidget}
+      />
+    )
+
+    // Click the first featured shortcut - these values are currently static and
+    // placed in the file FeaturedShortcutItems.ts
+    const featuredShortcuts = screen.getAllByTestId('featured-shortcut-link')
+    await user.click(featuredShortcuts[0])
+
+    expect(mockTrackEvents).toHaveBeenCalledTimes(1)
+    expect(mockTrackEvents).toHaveBeenCalledWith(
+      'Featured Shortcuts',
+      'Click on a featured shortcut',
+      'Click icon',
+      'Webmail'
+    )
   })
 })
