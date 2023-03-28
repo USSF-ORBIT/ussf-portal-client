@@ -1,5 +1,6 @@
 import React from 'react'
 import type { Meta } from '@storybook/react'
+import { background } from '@storybook/theming'
 
 export default {
   title: 'Global/Typography',
@@ -243,6 +244,35 @@ export const Links = () => {
             a text link
           </a>{' '}
           on a light background.
+        </p>
+
+        <p>
+          This is{' '}
+          <a
+            className="usa-link usa-color-text-visited"
+            href="javascript:void(0);">
+            a visited link
+          </a>
+          .
+        </p>
+
+        <p>
+          This is a link that goes to an{' '}
+          <a
+            className="usa-link usa-link--external"
+            href="https://i.giphy.com/media/WPzQF6ruiIIVzHNlwX/source.gif">
+            external website
+          </a>
+          .
+        </p>
+      </section>
+      <section className="usa-dark-background">
+        <p>
+          This is{' '}
+          <a className="usa-link" href="javascript:void(0);">
+            a text link
+          </a>{' '}
+          on a dark background.
         </p>
 
         <p>
