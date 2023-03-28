@@ -1,9 +1,9 @@
 'use strict'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { runMigration } = require('../utils/mongodb')
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { ObjectId } = require('mongodb')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { runMigration } = require('../utils/mongodb')
 
 module.exports.up = runMigration(async (db) => {
   // If the first item in a user's MySpace is not FeaturedShortcuts, add it.
