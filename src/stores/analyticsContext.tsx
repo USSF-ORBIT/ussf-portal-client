@@ -13,7 +13,7 @@ type TrackFn = (
   category: string,
   action: string,
   name?: string | undefined,
-  value?: number | undefined
+  value?: number | string | undefined
 ) => void
 
 export type AnalyticsContextType = {
@@ -67,7 +67,7 @@ export const AnalyticsProvider = ({
     category: string,
     action: string,
     name?: string,
-    value?: number
+    value?: number | string
   ): void => {
     const pushParams: PushArgs = ['trackEvent', category, action]
     if (name !== undefined) {
