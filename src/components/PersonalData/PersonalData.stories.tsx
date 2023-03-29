@@ -13,7 +13,7 @@ const mockContext = {
   setUser: () => {
     return
   },
-  setMongoUserInfo: () => {
+  setPortalUser: () => {
     return
   },
   logout: () => {
