@@ -5,7 +5,7 @@ import CustomModal from './CustomModal'
 import { ModalProvider, useModalContext } from 'stores/modalContext'
 
 export default {
-  title: 'Layouts/Modal',
+  title: 'Layouts/Modals',
   decorators: [
     (Story) => {
       return (
@@ -108,6 +108,38 @@ export const RemoveCustomCollectionModal = () => {
       headingText:
         'Are you sure you’d like to delete this collection from My Space?',
       descriptionText: 'This action cannot be undone.',
+    })
+
+    updateWidget({
+      _id: new ObjectId('641dee649934af1088164f89'),
+      title: 'Title',
+      type: 'Collection',
+    })
+
+    modalRef?.current?.toggleModal(undefined, true)
+  }
+
+  return (
+    <>
+      <button type="button" onClick={openCustomLinkModal}>
+        Open modal
+      </button>
+      <CustomModal />
+    </>
+  )
+}
+
+export const RemoveSectionModal = () => {
+  const { updateModalId, updateModalText, modalRef, updateWidget } =
+    useModalContext()
+
+  const openCustomLinkModal = () => {
+    updateModalId('removeNewsSectionModal')
+
+    updateModalText({
+      headingText: 'Are you sure you’d like to delete this section?',
+      descriptionText:
+        'You can re-add it to your My Space from the Add Section menu.',
     })
 
     updateWidget({
