@@ -9,13 +9,13 @@ import { useAuthContext } from 'stores/authContext'
 import { PortalUser } from 'types'
 
 const ArticleLayout = ({ children }: { children: React.ReactNode }) => {
-  const { setMongoUserInfo } = useAuthContext()
+  const { setPortalUser } = useAuthContext()
   const { setTheme } = useTheme()
 
   const { data }: PortalUser | any = useGetUserQuery()
 
   useEffect(() => {
-    setMongoUserInfo(data)
+    setPortalUser(data)
     if (data) {
       setTheme(data.theme)
     }

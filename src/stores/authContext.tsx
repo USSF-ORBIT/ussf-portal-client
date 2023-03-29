@@ -7,7 +7,7 @@ export type AuthContextType = {
   user: SessionUser | null
   portalUser: PortalUser | null
   setUser: React.Dispatch<React.SetStateAction<SessionUser | null>>
-  setMongoUserInfo: (userData: PortalUser) => void
+  setPortalUser: (userData: PortalUser) => void
   logout: () => void
   login: () => void
 }
@@ -18,7 +18,7 @@ export const AuthContext = createContext<AuthContextType>({
   setUser: /* istanbul ignore next */ () => {
     return
   },
-  setMongoUserInfo: /* istanbul ignore next */ () => {
+  setPortalUser: /* istanbul ignore next */ () => {
     return
   },
   logout: /* istanbul ignore next */ () => {
@@ -32,10 +32,6 @@ export const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<SessionUser | null>(null)
   const [portalUser, setPortalUser] = useState<PortalUser | null>(null)
-
-  const setMongoUserInfo = (userData: PortalUser) => {
-    setPortalUser(userData)
-  }
 
   const login = () => {
     // Initiate SAML flow
@@ -59,7 +55,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     user,
     portalUser,
     setUser,
-    setMongoUserInfo,
+    setPortalUser,
     logout,
     login,
   }

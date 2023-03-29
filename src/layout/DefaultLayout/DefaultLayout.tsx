@@ -23,7 +23,7 @@ const DefaultLayout = ({
   rightSidebar?: JSX.Element
   children: React.ReactNode
 }) => {
-  const { setMongoUserInfo } = useAuthContext()
+  const { setPortalUser } = useAuthContext()
   const { setTheme } = useTheme()
   const navItems = [
     { path: '/', label: 'My Space' },
@@ -37,7 +37,7 @@ const DefaultLayout = ({
   const { data }: PortalUser | any = useGetUserQuery()
 
   useEffect(() => {
-    setMongoUserInfo(data)
+    setPortalUser(data)
     if (data) {
       setTheme(data.theme)
     }
