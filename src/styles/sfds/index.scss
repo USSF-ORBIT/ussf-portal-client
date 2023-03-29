@@ -150,9 +150,10 @@
     }
 
     a {
-      color: var(--breadcrumbs-link);
-      &:hover {
-        color: var(--breadcrumbs-link-hover);
+      color: var(--dark-bg-link);
+      &:hover,
+      &:focus {
+        color: var(--dark-bg-hover);
       }
     }
 
