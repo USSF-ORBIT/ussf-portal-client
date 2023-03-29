@@ -63,7 +63,7 @@ export const defaultMockAuthContext = {
   user: testUser1,
   portalUser: testPortalUser1,
   setUser: jest.fn(),
-  setMongoUserInfo: jest.fn(),
+  setPortalUser: jest.fn(),
   logout: jest.fn(),
   login: jest.fn(),
 }
