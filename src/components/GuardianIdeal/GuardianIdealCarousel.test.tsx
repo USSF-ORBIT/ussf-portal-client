@@ -22,10 +22,6 @@ const mockGuardianIdealWidget: Widget = {
 
 describe('GuardianIdealCarousel component', () => {
   test('renders the GuardianIdealCarousel component', () => {
-    mockFlags({
-      guardianIdealCarousel: true,
-    })
-
     render(
       <GuardianIdealCarousel
         ideals={mockIdeals}

@@ -16,6 +16,7 @@ describe('AddWidget component', () => {
     handleCreateCollection: jest.fn(),
     handleAddNews: jest.fn(),
     handleAddGuardianIdeal: jest.fn(),
+    handleAddFeaturedShortcuts: jest.fn(),
   }
 
   it('renders an add widget menu', () => {
@@ -253,6 +254,72 @@ describe('AddWidget component', () => {
       screen.getByRole('button', { name: 'Add Guardian Ideal section' })
     )
     expect(mockAddGuardianIdeal).not.toHaveBeenCalled()
+  })
+
+  test('handles Add Featured Shortcuts section button', async () => {
+    const user = userEvent.setup()
+    const mockAddFeaturedShortcuts = jest.fn()
+
+    mockFlags({
+      featuredShortcuts: true,
+    })
+
+    render(
+      <AddWidget
+        {...testProps}
+        handleAddFeaturedShortcuts={mockAddFeaturedShortcuts}
+      />
+    )
+
+    const menuButton = screen.getByRole('button', { name: 'Add section' })
+    expect(menuButton).toBeInTheDocument()
+
+    await user.click(menuButton)
+
+    expect(
+      screen.getByRole('button', { name: 'Add Featured Shortcuts section' })
+    ).toBeInTheDocument()
+    await user.click(
+      screen.getByRole('button', { name: 'Add Featured Shortcuts section' })
+    )
+
+    expect(mockAddFeaturedShortcuts).toHaveBeenCalled()
+    expect(
+      screen.queryByRole('button', { name: 'Add Featured Shortcuts section' })
+    ).not.toBeInTheDocument()
+  })
+
+  test('the Add Featured Shortcuts section button is disabled if the user cannot add it', async () => {
+    const user = userEvent.setup()
+    const mockAddFeaturedShortcuts = jest.fn()
+    mockFlags({
+      featuredShortcuts: true,
+    })
+
+    render(
+      <AddWidget
+        {...testProps}
+        handleAddFeaturedShortcuts={mockAddFeaturedShortcuts}
+        canAddFeaturedShortcuts={false}
+      />
+    )
+
+    const menuButton = screen.getByRole('button', { name: 'Add section' })
+    expect(menuButton).toBeInTheDocument()
+
+    await user.click(menuButton)
+
+    expect(
+      screen.getByRole('button', { name: 'Add Featured Shortcuts section' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Add Featured Shortcuts section' })
+    ).toBeDisabled()
+
+    await user.click(
+      screen.getByRole('button', { name: 'Add Featured Shortcuts section' })
+    )
+    expect(mockAddFeaturedShortcuts).not.toHaveBeenCalled()
   })
 
   it('has no a11y violations', async () => {

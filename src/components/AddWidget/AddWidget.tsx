@@ -12,17 +12,21 @@ const AddWidget = ({
   handleCreateCollection,
   handleAddNews,
   handleAddGuardianIdeal,
+  handleAddFeaturedShortcuts,
   canAddNews = true,
   canAddCollection = true,
   canAddGuardianIdeal = true,
+  canAddFeaturedShortcuts = true,
 }: {
   handleSelectCollection: () => void
   handleCreateCollection: () => void
   handleAddNews: () => void
   handleAddGuardianIdeal: () => void
+  handleAddFeaturedShortcuts: () => void
   canAddNews?: boolean
   canAddCollection?: boolean
   canAddGuardianIdeal?: boolean
+  canAddFeaturedShortcuts?: boolean
 }) => {
   const dropdownEl = useRef<HTMLDivElement>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
@@ -87,7 +91,7 @@ const AddWidget = ({
           }}>
           Add news section
         </Button>
-        {flags && flags?.guardianIdealCarousel && (
+        {flags?.guardianIdealCarousel && (
           <Button
             disabled={!canAddGuardianIdeal}
             type="button"
@@ -96,6 +100,17 @@ const AddWidget = ({
               setIsDropdownOpen(false)
             }}>
             Add Guardian Ideal section
+          </Button>
+        )}
+        {flags?.featuredShortcuts && (
+          <Button
+            disabled={!canAddFeaturedShortcuts}
+            type="button"
+            onClick={() => {
+              handleAddFeaturedShortcuts()
+              setIsDropdownOpen(false)
+            }}>
+            Add Featured Shortcuts section
           </Button>
         )}
       </DropdownMenu>

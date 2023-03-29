@@ -75,7 +75,7 @@ $dark-gradient: linear-gradient(
   --btn-theme-toggle-bg: #{$theme-ultraviolet-base};
   --btn-theme-toggle-text: #{$white};
   --btn-logout-primary-bg: #{$theme-mars-base};
-  --btn-logout-text: #{$white};
+  --btn-logout-text: #{$black};
   --btn-logout-hover: #{$theme-mars-dark};
 
   --btn-delete-text: #{$state-error-base};
@@ -151,6 +151,10 @@ $dark-gradient: linear-gradient(
   --btn-box-border: #{$neutral-gray};
   --date-icon-bg: #{$theme-cosmiclatte-lighter};
 
+  //Featured Shortcuts
+  --shortcut-hover-bg: #{$grey};
+  --shortcut-border: var(--widget-border);
+
   // Tags
   --tag-source-bg: #{$label-source-lighttheme-bg};
   --tag-source-text: #{$white};
@@ -190,6 +194,10 @@ $dark-gradient: linear-gradient(
   --breadcrumbs-link: #{$theme-ultraviolet-base};
   --breadcrumbs-link-hover: var(--link-primary);
   --breadcrumbs-edit-display-name: var(--link-primary);
+
+  // Dark bg links
+  --dark-bg-link: #{$theme-aurora-light};
+  --dark-bg-link-hover: #{$white};
 
   // Accordion
   --accordion-title: #1b1b1b;
@@ -259,7 +267,7 @@ $dark-gradient: linear-gradient(
   --btn-add-widget-icon-hover: #{$theme-spacebase-light};
 
   --btn-logout-primary-bg: #{$theme-mars-base};
-  --btn-logout-text: #{$white};
+  --btn-logout-text: #{$black};
   --btn-logout-hover: #{$theme-mars-dark};
 
   --btn-add-widget-border: #{$theme-spacebase-dark};
@@ -326,6 +334,10 @@ $dark-gradient: linear-gradient(
   --btn-box-bg: #{$theme-spacebase-light};
   --btn-box-border: #{$neutral-gray-800};
   --date-icon-bg: #{$theme-cosmiclatte-lightest};
+
+  //Featured Shortcuts
+  --shortcut-hover-bg: #{$theme-ultraviolet-darkest};
+  --shortcut-border: #{$theme-aurora-base};
 
   // Tags
   --tag-source-bg: #{$label-source-darktheme-bg};
@@ -399,6 +411,10 @@ $dark-gradient: linear-gradient(
   --breadcrumbs-link: #{$theme-mars-light};
   --breadcrumbs-link-hover: #{$white};
   --breadcrumbs-edit-display-name: #{$theme-mars-light};
+
+  // Dark bg links
+  --dark-bg-link: #{$theme-aurora-light};
+  --dark-bg-link-hover: #{$white};
 
   // Footer
   --footer-bg: #{$black};

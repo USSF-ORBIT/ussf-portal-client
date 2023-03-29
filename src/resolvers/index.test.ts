@@ -198,7 +198,7 @@ describe('GraphQL resolvers', () => {
     })
 
     describe('addWidget', () => {
-      it('adds a new widget to the user’s My Space', async () => {
+      it('adds a new News widget to the user’s My Space', async () => {
         const result = await server.executeOperation({
           query: AddWidgetDocument,
           variables: {
@@ -211,6 +211,44 @@ describe('GraphQL resolvers', () => {
           _id: expect.any(String),
           title: 'Recent news',
           type: 'News',
+        }
+
+        expect(result.errors).toBeUndefined()
+        expect(result.data).toMatchObject({ addWidget: expectedData })
+      })
+
+      it('adds a new FeaturedShortcuts widget to the user’s My Space', async () => {
+        const result = await server.executeOperation({
+          query: AddWidgetDocument,
+          variables: {
+            title: 'Featured Shortcuts',
+            type: 'FeaturedShortcuts',
+          },
+        })
+
+        const expectedData = {
+          _id: expect.any(String),
+          title: 'Featured Shortcuts',
+          type: 'FeaturedShortcuts',
+        }
+
+        expect(result.errors).toBeUndefined()
+        expect(result.data).toMatchObject({ addWidget: expectedData })
+      })
+
+      it('adds a new GuardianIdeal widget to the user’s My Space', async () => {
+        const result = await server.executeOperation({
+          query: AddWidgetDocument,
+          variables: {
+            title: 'Guardian Ideal',
+            type: 'GuardianIdeal',
+          },
+        })
+
+        const expectedData = {
+          _id: expect.any(String),
+          title: 'Guardian Ideal',
+          type: 'GuardianIdeal',
         }
 
         expect(result.errors).toBeUndefined()

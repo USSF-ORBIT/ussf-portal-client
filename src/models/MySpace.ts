@@ -36,20 +36,29 @@ export const MySpaceModel = {
     { userId, title, type }: AddWidgetInput,
     { db }: Context
   ): Promise<Widget> {
-    // For now, can only have one News widget
+    // Fetch all widgets so we can add new widgets in the correct order
+    const allWidgets = await this.get({ userId }, { db })
+    const guardianIdealWidget = allWidgets.find(
+      (s: Widget) => s.type === 'GuardianIdeal'
+    )
+    const featuredShortcutsWidget = allWidgets.find(
+      (s: Widget) => s.type === 'FeaturedShortcuts'
+    )
+
+    // For now, can only have one each of News, Guardian Ideal,
+    // and Featured Shortcuts widgets
     if (type === 'News') {
       const allWidgets = await this.get({ userId }, { db })
       const newsWidget = allWidgets.find((s: Widget) => s.type === 'News')
       if (newsWidget) throw new Error('You can only have one News section')
     }
 
-    if (type === 'GuardianIdeal') {
-      const allWidgets = await this.get({ userId }, { db })
-      const guardianIdealWidget = allWidgets.find(
-        (s: Widget) => s.type === 'GuardianIdeal'
-      )
-      if (guardianIdealWidget)
-        throw new Error('You can only have one Guardian Ideal section')
+    if (guardianIdealWidget && type === 'GuardianIdeal') {
+      throw new Error('You can only have one Guardian Ideal section')
+    }
+
+    if (featuredShortcutsWidget && type === 'FeaturedShortcuts') {
+      throw new Error('You can only have one Featured Shortcuts section')
     }
 
     const created: Widget = {
@@ -59,9 +68,19 @@ export const MySpaceModel = {
     }
 
     try {
-      // For now, if the type is GuardianIdeal, we want it at the front of the
-      // user collection array.
+      // Guardian Ideal should be before collections, after Featured Shortcuts
       if (type === 'GuardianIdeal') {
+        const position = featuredShortcutsWidget ? 1 : 0
+
+        await db
+          .collection('users')
+          .updateOne(
+            { userId },
+            { $push: { mySpace: { $each: [created], $position: position } } }
+          )
+      } else if (type === 'FeaturedShortcuts') {
+        // FeaturedShortcuts should be displayed first,
+        // insert at beginning of array
         await db
           .collection('users')
           .updateOne(
