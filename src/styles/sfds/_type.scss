@@ -1,5 +1,7 @@
-$sfds-heading-font: 'Sharp Sans', 'Trebuchet MS', sans-serif;
-$sfds-body-font: 'Trebuchet MS', sans-serif;
+$sfds-heading-font: 'Sharp Sans', 'Trebuchet MS', Lucida Grande,
+  Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;
+$sfds-body-font: 'Trebuchet MS', Lucida Grande, Lucida Sans Unicode, Lucida Sans,
+  Tahoma, sans-serif;
 
 @mixin heading-book {
   font-family: $sfds-heading-font;
