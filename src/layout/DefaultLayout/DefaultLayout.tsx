@@ -34,7 +34,7 @@ const DefaultLayout = ({
     { path: '/ussf-documentation', label: 'USSF documentation' },
   ]
 
-  const { loading, error, data }: PortalUser | any = useGetUserQuery()
+  const { loading, data }: PortalUser | any = useGetUserQuery()
 
   useEffect(() => {
     setPortalUser(data)
@@ -42,9 +42,6 @@ const DefaultLayout = ({
       setTheme(data.theme)
     }
   }, [data])
-
-  // Redirect on error?
-  // if (error) return <p>Error</p>
 
   return loading ? (
     <Loader />
