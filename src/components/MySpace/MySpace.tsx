@@ -63,8 +63,6 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const [handleEditCollection] = useEditCollectionMutation()
   const [handleAddCollection] = useAddCollectionMutation()
 
-  if (!portalUser) return <p>Error</p>
-
   const addNewsWidget = () => {
     trackEvent('Add section', 'Add news')
 
