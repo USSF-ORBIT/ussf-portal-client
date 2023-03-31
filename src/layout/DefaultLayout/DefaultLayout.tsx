@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { GovBanner, GridContainer, Grid } from '@trussworks/react-uswds'
+import { ApolloError } from 'apollo-server-micro'
 import { useTheme } from 'next-themes'
 import styles from './DefaultLayout.module.scss'
 import Header from 'components/Header/Header'
@@ -34,7 +35,7 @@ const DefaultLayout = ({
     { path: '/ussf-documentation', label: 'USSF documentation' },
   ]
 
-  const { loading, data }: PortalUser | any = useGetUserQuery()
+  const { loading, error, data }: PortalUser | any = useGetUserQuery()
 
   useEffect(() => {
     setPortalUser(data)
@@ -42,6 +43,8 @@ const DefaultLayout = ({
       setTheme(data.theme)
     }
   }, [data])
+
+  if (error) throw new ApolloError('getUser query failed', 'SERVER_ERROR')
 
   return loading ? (
     <Loader />
