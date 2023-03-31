@@ -168,6 +168,8 @@ export type Widget = {
   _id: ObjectId
   title: string
   type: WidgetType
+  // default indicates if the widget is automatically added for the user
+  default?: boolean
 }
 
 /*  BookmarkModelInput represents a bookmark as it is passed into MongoDB for updating  */
