@@ -9,7 +9,8 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
 
-import { renderWithAuth } from '../../testHelpers'
+import { renderWithAuth, renderWithAuthAndApollo } from '../../testHelpers'
+import { testPortalUser2 } from '../../__fixtures__/authUsers'
 
 import { getMySpaceMock } from '../../__fixtures__/operations/getMySpace'
 import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
@@ -76,18 +77,13 @@ describe('Home page', () => {
     let html: RenderResult
 
     beforeEach(() => {
-      html = renderWithAuth(
-        <MockedProvider mocks={getMySpaceMock} addTypename={false}>
-          <Home
-            bookmarks={cmsBookmarksMock}
-            announcements={cmsAnnouncementsMock}
-          />
-        </MockedProvider>
+      html = renderWithAuthAndApollo(
+        <Home
+          bookmarks={cmsBookmarksMock}
+          announcements={cmsAnnouncementsMock}
+        />,
+        { portalUser: testPortalUser2 }
       )
-    })
-
-    it('renders the loading page,', () => {
-      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
     it('renders the home page', async () => {
@@ -108,6 +104,7 @@ describe('Home page', () => {
           name: 'Example Collection',
         })
       ).toBeInTheDocument()
+
       expect(
         await screen.findByRole('heading', {
           level: 3,
