@@ -48,8 +48,7 @@
     .usa-nav__primary > .usa-nav__primary-item > a {
       color: $theme-white;
       font-weight: normal;
-      font-family: 'Trebuchet MS', Lucida Grande, Lucida Sans Unicode,
-        Lucida Sans, Tahoma, sans-serif;
+      font-family: $sfds-body-font;
 
       &:hover {
         background: $theme-spacebase-base;

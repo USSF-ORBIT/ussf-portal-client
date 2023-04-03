@@ -39,8 +39,7 @@
   }
 
   > div > a {
-    font-family: 'Trebuchet MS', Lucida Grande, Lucida Sans Unicode, Lucida Sans,
-      Tahoma, sans-serif;
+    font-family: $sfds-body-font;
     white-space: nowrap;
     color: var(--announcement-btn-text) !important;
   }

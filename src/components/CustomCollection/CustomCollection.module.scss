@@ -43,8 +43,7 @@
     box-sizing: border-box;
     border-radius: 4px;
     margin-top: 0;
-    font-family: 'Trebuchet MS', Lucida Grande, Lucida Sans Unicode, Lucida Sans,
-      Tahoma, sans-serif;
+    font-family: $sfds-body-font;
   }
 
   :global(.usa-combo-box__list-option) {
