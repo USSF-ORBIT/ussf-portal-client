@@ -48,7 +48,7 @@
     .usa-nav__primary > .usa-nav__primary-item > a {
       color: $theme-white;
       font-weight: normal;
-      font-family: 'Trebuchet MS', sans-serif;
+      font-family: $sfds-body-font;
 
       &:hover {
         background: $theme-spacebase-base;
