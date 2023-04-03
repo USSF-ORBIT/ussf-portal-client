@@ -22,7 +22,6 @@
     "start": "node -r ./startup/index.js node_modules/.bin/next start",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
-    "storybook:deploy": "storybook-to-ghpages",
     "format": "prettier --write .",
     "lint": "tsc --noEmit && eslint .",
     "prepare": "husky install",
