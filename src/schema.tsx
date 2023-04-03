@@ -28,7 +28,7 @@ export const typeDefs = gql`
     _id: OID!
     title: String!
     type: WidgetType!
-    bookmarks: [Bookmark]
+    bookmarks: [Bookmark!]
     cmsId: ID
   }
 
@@ -73,7 +73,7 @@ export const typeDefs = gql`
     editCollection(
       _id: OID!
       title: String
-      bookmarks: [BookmarkReorderInput]
+      bookmarks: [BookmarkReorderInput!]
     ): Collection
     removeCollection(_id: OID!): Collection
     addBookmark(
@@ -124,7 +124,7 @@ export const typeDefs = gql`
   input CollectionRecordInput {
     id: ID!
     title: String!
-    bookmarks: [BookmarkRecordInput]
+    bookmarks: [BookmarkRecordInput!]
     type: String
   }
 
