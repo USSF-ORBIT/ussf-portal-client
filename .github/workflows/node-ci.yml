@@ -11,6 +11,7 @@ on:
       - 'docs/**'
       - '**.md**'
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   lint-and-test:

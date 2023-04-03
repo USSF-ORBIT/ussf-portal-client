@@ -7,7 +7,8 @@ export default create({
   brandImage: '/img/ussf-logo-short.svg',
   brandTarget: '_self',
 
-  fontBase: '"Sharp Sans", "Trebuchet MS", sans-serif', //font needs to be loaded in via @fontface in manager-head.html
+  fontBase:
+    '"Sharp Sans", "Trebuchet MS", Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif', //font needs to be loaded in via @fontface in manager-head.html
 
   barBg: '#0e163b', //adddons and canvas toolbar bg
   appContentBg: '#0e163b', //addons  panel background
