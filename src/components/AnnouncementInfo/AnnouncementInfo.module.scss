@@ -39,7 +39,7 @@
   }
 
   > div > a {
-    font-family: 'Trebuchet MS';
+    font-family: $sfds-body-font;
     white-space: nowrap;
     color: var(--announcement-btn-text) !important;
   }

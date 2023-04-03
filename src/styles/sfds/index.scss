@@ -170,7 +170,7 @@
   .usa-button {
     color: var(--btn-primary-text);
     background-color: var(--btn-primary-bg);
-    font-family: 'Trebuchet MS', sans-serif;
+    font-family: $sfds-body-font;
     padding: 12px 24px;
 
     &:hover,
