@@ -7,6 +7,7 @@ import type {
   CollectionRecords,
   WidgetInputType,
 } from 'types/index'
+import { WIDGETS } from 'constants/index'
 
 type EditDisplayName = {
   userId: string
@@ -25,7 +26,6 @@ const UserModel = {
   },
   async createOne(
     userId: string,
-    widgets: WidgetInputType[],
     initCollections: CollectionRecords,
     displayName: string,
     theme: 'light' | 'dark',
@@ -37,6 +37,11 @@ const UserModel = {
       displayName,
       theme,
     }
+    // Default widgets when creating a new user
+    const widgets: WidgetInputType[] = [
+      WIDGETS.FEATUREDSHORTCUTS,
+      WIDGETS.GUARDIANIDEAL,
+    ]
 
     // Create user
     await db.collection('users').insertOne(newUser)

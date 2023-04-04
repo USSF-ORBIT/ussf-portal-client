@@ -17,7 +17,7 @@ import { client } from 'lib/keystoneClient'
 import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
 import User from 'models/User'
-import { EXAMPLE_COLLECTION_ID, WIDGETS } from 'constants/index'
+import { EXAMPLE_COLLECTION_ID } from 'constants/index'
 
 export const config: PageConfig = {
   api: { bodyParser: false },
@@ -92,16 +92,9 @@ export const apolloServer = new ApolloServer({
       if (!foundUser) {
         try {
           const initCollection = await getExampleCollection()
-          await User.createOne(
-            userId,
-            [WIDGETS.FEATUREDSHORTCUTS, WIDGETS.GUARDIANIDEAL],
-            [initCollection],
-            displayName,
-            'light',
-            {
-              db,
-            }
-          )
+          await User.createOne(userId, [initCollection], displayName, 'light', {
+            db,
+          })
         } catch (e) {
           // TODO log error
           // console.error('error in creating new user', e)
