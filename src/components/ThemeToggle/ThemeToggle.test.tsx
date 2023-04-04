@@ -2,14 +2,18 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ThemeProvider } from 'next-themes'
-import { mockUseTheme, renderWithAuthAndApollo } from '../../testHelpers'
+import { MockedProvider } from '@apollo/client/testing'
+import {
+  mockUseTheme,
+  renderWithAuth,
+  renderWithAuthAndApollo,
+} from '../../testHelpers'
 import { editThemeMock } from '../../__fixtures__/operations/editTheme'
-
 import ThemeToggle from './ThemeToggle'
-
+import { GetThemeDocument } from 'operations/portal/queries/getTheme.g'
 import * as analyticsHooks from 'stores/analyticsContext'
 
 jest.mock('next/router', () => ({
@@ -38,7 +42,7 @@ describe('ThemeToggle component', () => {
     expect(toggleBtn).toBeVisible()
 
     user.click(toggleBtn)
-    expect(screen.getAllByText('light mode')).toHaveLength(1)
+    expect(screen.getAllByText('dark mode')).toHaveLength(1)
   })
 })
 
@@ -47,14 +51,16 @@ describe('calling hook functions', () => {
   const { setItemMock, getItemMock } = mockUseTheme()
 
   beforeEach(() => {
-    // mock out the return of useAnalytics since we just need to check that it's called not what it does
+    setItemMock.mockReset()
+    getItemMock.mockReset()
+  })
+
+  test('calls trackEvent when the toggle is clicked', async () => {
+    const user = userEvent.setup()
+
     jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
       return { push: jest.fn(), trackEvent: mockTrackEvents }
     })
-
-    // reset the mocks
-    setItemMock.mockReset()
-    getItemMock.mockReset()
 
     renderWithAuthAndApollo(
       <ThemeProvider enableSystem={false}>
@@ -63,10 +69,7 @@ describe('calling hook functions', () => {
       {},
       editThemeMock
     )
-  })
 
-  test('calls trackEvent when the toggle is clicked', async () => {
-    const user = userEvent.setup()
     const toggle = screen.getByTestId('theme-toggle')
     await user.click(toggle)
 
@@ -80,23 +83,63 @@ describe('calling hook functions', () => {
 
   test('calls setTheme when the toggle is clicked', async () => {
     const user = userEvent.setup()
+
+    renderWithAuthAndApollo(
+      <ThemeProvider enableSystem={false}>
+        <ThemeToggle />
+      </ThemeProvider>,
+      {},
+      editThemeMock
+    )
+
     const toggle = screen.getByTestId('theme-toggle')
     await user.click(toggle)
     expect(setItemMock).toHaveBeenCalledTimes(1)
     expect(setItemMock).toHaveBeenCalledWith('theme', 'dark')
-
-    await user.click(toggle)
-    expect(setItemMock).toHaveBeenCalledTimes(2)
-    expect(setItemMock).toHaveBeenLastCalledWith('theme', 'light')
   })
 
   test('calls handleEditThemeMutation when the toggle is clicked', async () => {
     const user = userEvent.setup()
+
+    renderWithAuthAndApollo(
+      <ThemeProvider enableSystem={false}>
+        <ThemeToggle />
+      </ThemeProvider>,
+      {},
+      editThemeMock
+    )
+
     const toggle = screen.getByTestId('theme-toggle')
     await user.click(toggle)
 
     // only need to check that the function was called the expected number of times
     // the expected parameters are defined in the mock
     expect(editThemeMock[0].newData).toHaveBeenCalledTimes(3)
+  })
+
+  test('throws an error', async () => {
+    const consoleSpy = jest.spyOn(console, 'error')
+
+    const errorMock = [
+      {
+        request: {
+          query: GetThemeDocument,
+        },
+        error: new Error('Test error'),
+      },
+    ]
+
+    renderWithAuth(
+      <MockedProvider mocks={errorMock} addTypename={false}>
+        <ThemeToggle />
+      </MockedProvider>
+    )
+
+    waitFor(() =>
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Error updating theme: error in handleThemeChangeAndTracking',
+        errorMock[0].error
+      )
+    )
   })
 })

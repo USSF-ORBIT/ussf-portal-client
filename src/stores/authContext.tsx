@@ -1,18 +1,24 @@
 import React, { createContext, useContext, useState } from 'react'
 import axios from 'axios'
 
-import { SessionUser } from 'types'
+import { SessionUser, PortalUser } from 'types'
 
 export type AuthContextType = {
   user: SessionUser | null
+  portalUser: PortalUser | null
   setUser: React.Dispatch<React.SetStateAction<SessionUser | null>>
+  setPortalUser: (userData: PortalUser) => void
   logout: () => void
   login: () => void
 }
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
+  portalUser: null,
   setUser: /* istanbul ignore next */ () => {
+    return
+  },
+  setPortalUser: /* istanbul ignore next */ () => {
     return
   },
   logout: /* istanbul ignore next */ () => {
@@ -25,6 +31,7 @@ export const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<SessionUser | null>(null)
+  const [portalUser, setPortalUser] = useState<PortalUser | null>(null)
 
   const login = () => {
     // Initiate SAML flow
@@ -46,7 +53,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const context = {
     user,
+    portalUser,
     setUser,
+    setPortalUser,
     logout,
     login,
   }
