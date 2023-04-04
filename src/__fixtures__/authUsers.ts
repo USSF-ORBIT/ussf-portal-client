@@ -1,19 +1,25 @@
 import { ObjectId } from 'bson'
-import type { SessionUser, PortalUser, Collection } from 'types'
+import type {
+  SessionUser,
+  PortalUser,
+  Collection,
+  MySpaceWidget,
+  Widget,
+} from 'types'
 
-const mockNews = {
+const mockNews: MySpaceWidget = {
   _id: new ObjectId(),
   title: 'Recent News',
   type: 'News',
 }
 
-const mockGuardianIdeal = {
+const mockGuardianIdeal: Widget = {
   _id: new ObjectId(),
   title: 'Guardian Ideal',
   type: 'GuardianIdeal',
 }
 
-const mockFeaturedShortcuts = {
+const mockFeaturedShortcuts: Widget = {
   _id: new ObjectId(),
   title: 'Featured Shortcuts',
   type: 'FeaturedShortcuts',
@@ -123,23 +129,21 @@ export const portalUserMaxedOutCollection: PortalUser = {
         cmsId: `${i}`,
       })),
     },
-    {
-      _id: new ObjectId(),
-      title: 'Recent News',
-      type: 'News',
-    },
+    mockNews,
   ],
   displayName: 'BERNADETTE CAMPBELL',
   theme: 'light',
 }
 
-const mockCollectionWithGuardianIdeal: Collection[] = [
-  { _id: new ObjectId(), title: 'Guardian Ideal', type: 'GuardianIdeal' },
-]
+const mockCollectionWithGuardianIdeal: Widget = {
+  _id: new ObjectId(),
+  title: 'Guardian Ideal',
+  type: 'GuardianIdeal',
+}
 
 export const portalUserGuardianIdeal: PortalUser = {
   userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
-  mySpace: mockCollectionWithGuardianIdeal,
+  mySpace: [mockCollectionWithGuardianIdeal],
   displayName: 'BERNADETTE CAMPBELL',
   theme: 'dark',
 }
@@ -157,7 +161,7 @@ const mockCollection: Collection = {
   ],
 }
 
-const maxCollections = Array.from({ length: 25 }, (x, i) => {
+const maxCollections: Collection[] = Array.from({ length: 25 }, (x, i) => {
   return {
     ...mockCollection,
     title: 'Example Collection ' + i.toString(),
