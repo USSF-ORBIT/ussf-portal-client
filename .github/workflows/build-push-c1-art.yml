@@ -57,6 +57,13 @@ jobs:
           build-args: |
             BUILD=${{ github.sha }}
 
+      - name: Login to Dev Artifactory Container Registry
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # v2
+        with:
+          registry: ${{ secrets.C1_REGISTRY }}
+          username: ${{ secrets.C1_ART_USERNAME }}
+          password: ${{ secrets.C1_ARTIFACTORY_TOKEN }}
+
       - name: Push image to C1 Dev Artifactory
         id: push-c1-image
         env:
@@ -67,7 +74,5 @@ jobs:
           TEST_CERT: ${{ secrets.C1_TEST_SAML_CERT }}
           PROD_CERT: ${{ secrets.C1_PROD_SAML_CERT }}
         run: |
-          docker login -u portal -p ${{ secrets.C1_ARTIFACTORY_TOKEN }} $C1_REGISTRY
           docker push $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG
           echo "image=$C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
-          docker logout $C1_REGISTRY
