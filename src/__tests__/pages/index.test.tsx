@@ -4,15 +4,13 @@
 
 import { screen, waitFor, act } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
-import { MockedProvider } from '@apollo/client/testing'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
 
 import { renderWithAuth, renderWithAuthAndApollo } from '../../testHelpers'
-import { testPortalUser2 } from '../../__fixtures__/authUsers'
+import { portalUserMaxedOutCollection } from '../../__fixtures__/authUsers'
 
-import { getMySpaceMock } from '../../__fixtures__/operations/getMySpace'
 import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
 import { cmsAnnouncementsMock } from '../../__fixtures__/data/cmsAnnouncments'
 import '../../__mocks__/mockMatchMedia'
@@ -82,7 +80,7 @@ describe('Home page', () => {
           bookmarks={cmsBookmarksMock}
           announcements={cmsAnnouncementsMock}
         />,
-        { portalUser: testPortalUser2 }
+        { portalUser: portalUserMaxedOutCollection }
       )
     })
 

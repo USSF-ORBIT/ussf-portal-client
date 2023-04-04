@@ -1,10 +1,22 @@
 import { ObjectId } from 'bson'
-import type { SessionUser, PortalUser } from 'types'
+import type { SessionUser, PortalUser, Collection } from 'types'
 
 const mockNews = {
   _id: new ObjectId(),
   title: 'Recent News',
   type: 'News',
+}
+
+const mockGuardianIdeal = {
+  _id: new ObjectId(),
+  title: 'Guardian Ideal',
+  type: 'GuardianIdeal',
+}
+
+const mockFeaturedShortcuts = {
+  _id: new ObjectId(),
+  title: 'Featured Shortcuts',
+  type: 'FeaturedShortcuts',
 }
 
 export const testUser1: SessionUser = {
@@ -73,7 +85,7 @@ export const testPortalUser1: PortalUser = {
   theme: 'light',
 }
 
-export const testPortalUser2: PortalUser = {
+export const portalUserMaxedOutCollection: PortalUser = {
   userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
   mySpace: [
     {
@@ -111,10 +123,65 @@ export const testPortalUser2: PortalUser = {
         cmsId: `${i}`,
       })),
     },
-    { _id: new ObjectId(), title: 'Recent News', type: 'News' },
+    {
+      _id: new ObjectId(),
+      title: 'Recent News',
+      type: 'News',
+    },
   ],
   displayName: 'BERNADETTE CAMPBELL',
+  theme: 'light',
+}
+
+const mockCollectionWithGuardianIdeal: Collection[] = [
+  { _id: new ObjectId(), title: 'Guardian Ideal', type: 'GuardianIdeal' },
+]
+
+export const portalUserGuardianIdeal: PortalUser = {
+  userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
+  mySpace: mockCollectionWithGuardianIdeal,
+  displayName: 'BERNADETTE CAMPBELL',
   theme: 'dark',
+}
+
+const mockCollection: Collection = {
+  _id: new ObjectId(),
+  title: 'Example Collection',
+  type: 'Collection',
+  bookmarks: [
+    {
+      _id: new ObjectId(),
+      url: 'https://google.com',
+      label: 'Webmail',
+    },
+  ],
+}
+
+const maxCollections = Array.from({ length: 25 }, (x, i) => {
+  return {
+    ...mockCollection,
+    title: 'Example Collection ' + i.toString(),
+    _id: new ObjectId(),
+  }
+})
+
+export const portalUserCollectionLimit: PortalUser = {
+  userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
+  mySpace: maxCollections,
+  displayName: 'BERNADETTE CAMPBELL',
+  theme: 'light',
+}
+
+export const portalUserCollectionLimitWithAllAdditionalWidgets: PortalUser = {
+  userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
+  mySpace: [
+    ...maxCollections,
+    mockNews,
+    mockGuardianIdeal,
+    mockFeaturedShortcuts,
+  ],
+  displayName: 'BERNADETTE CAMPBELL',
+  theme: 'light',
 }
 
 export const cmsAdmin = {
