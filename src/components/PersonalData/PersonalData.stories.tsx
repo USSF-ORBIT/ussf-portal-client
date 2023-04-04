@@ -1,7 +1,7 @@
 import React from 'react'
 import type { Meta } from '@storybook/react'
 
-import { testUser1 } from '../../__fixtures__/authUsers'
+import { testUser1, testPortalUser1 } from '../../__fixtures__/authUsers'
 
 import PersonalData from './PersonalData'
 
@@ -9,7 +9,11 @@ import { AuthContext } from 'stores/authContext'
 
 const mockContext = {
   user: testUser1,
+  portalUser: testPortalUser1,
   setUser: () => {
+    return
+  },
+  setPortalUser: () => {
     return
   },
   logout: () => {

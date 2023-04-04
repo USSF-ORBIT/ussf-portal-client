@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTheme } from 'next-themes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import styles from './ThemeToggle.module.scss'
 import { useAnalytics } from 'stores/analyticsContext'
+import { useAuthContext } from 'stores/authContext'
 import { useUser } from 'hooks/useUser'
 import { useEditThemeMutation } from 'operations/portal/mutations/editTheme.g'
 import { SessionUser } from 'types'
-import { useGetThemeQuery } from 'operations/portal/queries/getTheme.g'
 
 const lightTheme = (
   <>
@@ -21,17 +21,11 @@ const darkTheme = (
 )
 
 const ThemeToggle = () => {
-  const { data } = useGetThemeQuery()
-  const { theme, setTheme } = useTheme()
+  const { setTheme } = useTheme()
   const { trackEvent } = useAnalytics()
+  const { portalUser } = useAuthContext()
   const { user } = useUser()
   const [handleEditThemeMutation] = useEditThemeMutation()
-
-  useEffect(() => {
-    if (data) {
-      setTheme(data.theme)
-    }
-  }, [data])
 
   // This is necessary to avoid a rehydration error since we render server side
   // See this blog for details: https://www.joshwcomeau.com/react/the-perils-of-rehydration/
@@ -56,7 +50,7 @@ const ThemeToggle = () => {
             userId: user.userId,
             theme: newTheme,
           },
-          refetchQueries: ['getTheme'],
+          refetchQueries: ['getUser'],
         })
       }
 
@@ -74,12 +68,12 @@ const ThemeToggle = () => {
     <button
       type="button"
       onClick={() => {
-        const newTheme = theme === 'light' ? 'dark' : 'light'
+        const newTheme = portalUser?.theme === 'light' ? 'dark' : 'light'
         handleThemeChangeAndTracking(user, newTheme)
       }}
       className={styles.toggleButton}
       data-testid="theme-toggle">
-      {theme === 'light' ? darkTheme : lightTheme} mode
+      {portalUser?.theme === 'light' ? darkTheme : lightTheme} mode
     </button>
   )
 }

@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { GovBanner, GridContainer, Grid } from '@trussworks/react-uswds'
+import { useTheme } from 'next-themes'
 import styles from './DefaultLayout.module.scss'
 import Header from 'components/Header/Header'
 import PersonalData from 'components/PersonalData/PersonalData'
@@ -10,6 +11,8 @@ import Footer from 'components/Footer/Footer'
 import CustomModal from 'components/CustomModal/CustomModal'
 import Loader from 'components/Loader/Loader'
 import { useGetUserQuery } from 'operations/portal/queries/getUser.g'
+import { useAuthContext } from 'stores/authContext'
+import { PortalUser } from 'types'
 
 const DefaultLayout = ({
   displayFeedbackCard = true,
@@ -20,6 +23,8 @@ const DefaultLayout = ({
   rightSidebar?: JSX.Element
   children: React.ReactNode
 }) => {
+  const { setPortalUser } = useAuthContext()
+  const { setTheme } = useTheme()
   const navItems = [
     { path: '/', label: 'My Space' },
     {
@@ -29,7 +34,14 @@ const DefaultLayout = ({
     { path: '/ussf-documentation', label: 'USSF documentation' },
   ]
 
-  const { data } = useGetUserQuery()
+  const { data }: PortalUser | any = useGetUserQuery()
+
+  useEffect(() => {
+    setPortalUser(data)
+    if (data) {
+      setTheme(data.theme)
+    }
+  }, [data])
 
   return !data ? (
     <Loader />
