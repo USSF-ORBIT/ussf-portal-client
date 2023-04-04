@@ -96,11 +96,6 @@ const maxCollections = Array.from({ length: 25 }, (x, i) => {
   }
 })
 
-const mockCollectionWithGuardianIdeal = [
-  { _id: ObjectId(), title: 'Guardian Ideal', type: 'GuardianIdeal' },
-  mockCollection,
-]
-
 export const getMySpaceMaximumCollectionsMock = [
   {
     request: {
@@ -109,32 +104,6 @@ export const getMySpaceMaximumCollectionsMock = [
     result: {
       data: {
         mySpace: maxCollections,
-      },
-    },
-  },
-]
-
-export const getMySpaceMaximumCollectionsWithNewsMock = [
-  {
-    request: {
-      query: GetMySpaceDocument,
-    },
-    result: {
-      data: {
-        mySpace: [...maxCollections, mockNews],
-      },
-    },
-  },
-]
-
-export const getMySpaceCollectionsWithGuardianIdealMock = [
-  {
-    request: {
-      query: GetMySpaceDocument,
-    },
-    result: {
-      data: {
-        mySpace: mockCollectionWithGuardianIdeal,
       },
     },
   },
