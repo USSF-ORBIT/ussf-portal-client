@@ -68,7 +68,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
 
     handleAddWidget({
       variables: { title: 'Recent news', type: AddWidgetType.News },
-      refetchQueries: ['getMySpace'],
+      refetchQueries: ['getUser'],
     })
   }
 
@@ -81,7 +81,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
 
     handleAddWidget({
       variables: { title: 'Ideal Title', type: AddWidgetType.GuardianIdeal },
-      refetchQueries: ['getMySpace'],
+      refetchQueries: ['getUser'],
     })
   }
 
@@ -97,7 +97,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
         title: 'Featured Shortcuts',
         type: AddWidgetType.FeaturedShortcuts,
       },
-      refetchQueries: ['getMySpace'],
+      refetchQueries: ['getUser'],
     })
   }
 
@@ -106,7 +106,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
 
     handleAddCollection({
       variables: { title: '', bookmarks: [] },
-      refetchQueries: [`getMySpace`],
+      refetchQueries: [`getUser`],
     })
   }
 
@@ -197,7 +197,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                           variables: {
                             _id: widget._id,
                           },
-                          refetchQueries: [`getMySpace`],
+                          refetchQueries: [`getUser`],
                         })
                       }}
                       handleEditCollection={(
@@ -248,7 +248,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                             collectionId: widget._id,
                             cmsId,
                           },
-                          refetchQueries: [`getMySpace`],
+                          refetchQueries: [`getUser`],
                         })
                       }}
                       handleAddBookmark={(url, label, id) => {
@@ -259,7 +259,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                             label,
                             cmsId: id,
                           },
-                          refetchQueries: [`getMySpace`],
+                          refetchQueries: [`getUser`],
                         })
                       }}
                     />
