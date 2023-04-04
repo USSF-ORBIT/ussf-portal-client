@@ -24,7 +24,8 @@ describe('My Space model', () => {
     // Clean up db
     await db.collection('users').deleteMany({})
 
-    // Create a test user (with one default collection)
+    // Create a test user
+    // MySpace Data: FeaturedShortcuts, GuardianIdeal, Example Collection
     const displayName = 'Floyd King'
     const theme = 'light'
     await User.createOne(testUserId, [exampleCollection], displayName, theme, {
