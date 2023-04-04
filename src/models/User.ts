@@ -1,8 +1,12 @@
 import { Context } from '@apollo/client'
 
 import { CollectionModel } from './Collection'
-
-import type { PortalUser, CollectionRecords } from 'types/index'
+import { MySpaceModel } from './MySpace'
+import type {
+  PortalUser,
+  CollectionRecords,
+  WidgetInputType,
+} from 'types/index'
 
 type EditDisplayName = {
   userId: string
@@ -21,6 +25,7 @@ const UserModel = {
   },
   async createOne(
     userId: string,
+    widgets: WidgetInputType[],
     initCollections: CollectionRecords,
     displayName: string,
     theme: 'light' | 'dark',
@@ -35,6 +40,14 @@ const UserModel = {
 
     // Create user
     await db.collection('users').insertOne(newUser)
+
+    // Add default widgets - FeaturedShortcuts, GuardianIdeal
+    for await (const w of widgets) {
+      await MySpaceModel.addWidget(
+        { userId, title: w.title, type: w.type },
+        { db }
+      )
+    }
 
     // Seed with initial collection(s) (records from CMS)
     await CollectionModel.addMany(
