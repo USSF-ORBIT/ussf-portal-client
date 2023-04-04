@@ -7,6 +7,7 @@ import type {
   BookmarkModelInput,
   Collection,
   CollectionRecords,
+  MySpaceWidget,
   PortalUser,
 } from 'types'
 import { WIDGET_TYPES } from 'constants/index'
@@ -44,7 +45,7 @@ export const CollectionModel = {
   async getAll(
     { userId }: GetAllInput,
     { db }: Context
-  ): Promise<Collection[]> {
+  ): Promise<MySpaceWidget[]> {
     try {
       const foundUser = (await db
         .collection('users')
