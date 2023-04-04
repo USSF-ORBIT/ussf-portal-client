@@ -70,7 +70,7 @@ describe('My Space Component', () => {
       )
     })
 
-    it('should render all widgets', async () => {
+    test('should render all widgets', async () => {
       expect(
         await screen.findByRole('heading', {
           level: 3,
@@ -93,13 +93,13 @@ describe('My Space Component', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the add widget component', async () => {
+    test('renders the add widget component', async () => {
       expect(
         await screen.findByRole('button', { name: 'Add section' })
       ).toBeInTheDocument()
     })
 
-    it('disables adding a news section if there is already a news section', async () => {
+    test('disables adding a news section if there is already a news section', async () => {
       const user = userEvent.setup()
 
       expect(
@@ -126,7 +126,7 @@ describe('My Space Component', () => {
       ).toBeEnabled()
     })
 
-    it('has no a11y violations', async () => {
+    test('has no a11y violations', async () => {
       // Bug with NextJS Link + axe :(
       // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
       await act(async () => {
@@ -135,7 +135,7 @@ describe('My Space Component', () => {
     })
   })
 
-  it('disables adding more collections if there are 25 collections', async () => {
+  test('disables adding more collections if there are 25 collections', async () => {
     const user = userEvent.setup()
 
     renderWithAuthAndApollo(
@@ -165,7 +165,7 @@ describe('My Space Component', () => {
     ).toBeDisabled()
   })
 
-  it('displays the Guardian Ideal widget', async () => {
+  test('displays the Guardian Ideal widget', async () => {
     mockFlags({
       guardianIdealCarousel: true,
     })
@@ -182,7 +182,7 @@ describe('My Space Component', () => {
     )
   })
 
-  it('does not render the add widget component if there are 25 collections, news, featured shortcuts, and guardian ideal', async () => {
+  test('does not render the add widget component if there are 25 collections, news, featured shortcuts, and guardian ideal', async () => {
     renderWithAuthAndApollo(
       <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />,
       { portalUser: portalUserCollectionLimitWithAllAdditionalWidgets }
@@ -193,7 +193,7 @@ describe('My Space Component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('navigates to Sites & Applications when adding new existing collections', async () => {
+  test('navigates to Sites & Applications when adding new existing collections', async () => {
     const user = userEvent.setup()
 
     render(
@@ -215,7 +215,7 @@ describe('My Space Component', () => {
     })
   })
 
-  it('handles the remove bookmark operation', async () => {
+  test('handles the remove bookmark operation', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime })
 
     let bookmarkRemoved = false
@@ -270,7 +270,7 @@ describe('My Space Component', () => {
     expect(bookmarkRemoved).toBe(true)
   })
 
-  it('handles the add bookmark operation', async () => {
+  test('handles the add bookmark operation', async () => {
     const user = userEvent.setup()
 
     let bookmarkAdded = false
@@ -325,7 +325,7 @@ describe('My Space Component', () => {
     expect(bookmarkAdded).toBe(true)
   })
 
-  it('handles the edit collection title operation', async () => {
+  test('handles the edit collection title operation', async () => {
     const user = userEvent.setup()
 
     let collectionEdited = false
@@ -381,7 +381,7 @@ describe('My Space Component', () => {
     expect(collectionEdited).toBe(true)
   })
 
-  it('handles the remove collection operation', async () => {
+  test('handles the remove collection operation', async () => {
     const user = userEvent.setup()
     const mockUpdateModalId = jest.fn()
     const mockUpdateModalText = jest.fn()
@@ -440,7 +440,7 @@ describe('My Space Component', () => {
     expect(mockUpdateWidget).toHaveBeenCalled()
   })
 
-  it('handles the add collection operation', async () => {
+  test('handles the add collection operation', async () => {
     const user = userEvent.setup()
 
     let collectionAdded = false
@@ -486,7 +486,7 @@ describe('My Space Component', () => {
     expect(collectionAdded).toBe(true)
   })
 
-  it('handles the edit bookmark operation', async () => {
+  test('handles the edit bookmark operation', async () => {
     const user = userEvent.setup()
     const mockUpdateModalId = jest.fn()
     const mockUpdateModalText = jest.fn()
