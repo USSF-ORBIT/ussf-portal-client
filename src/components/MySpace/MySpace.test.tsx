@@ -11,6 +11,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import { ObjectId } from 'mongodb'
 import { renderWithModalRoot, renderWithAuthAndApollo } from '../../testHelpers'
 import '../../__mocks__/mockMatchMedia'
+import type { Collection, MySpaceWidget } from '../../types/index'
 
 import { getMySpaceMock } from '../../__fixtures__/operations/getMySpace'
 import {
@@ -220,8 +221,11 @@ describe('My Space Component', () => {
 
     let bookmarkRemoved = false
 
-    const bookmarkId =
-      portalUserMaxedOutCollection.mySpace[0].bookmarks?.[1]._id
+    // Note: Leaving this as 'any' for now. MySpaceWidget is a union type between
+    // Widget and Collection, and since 'bookmarks' does not exist on Widget, it kept
+    // showing an error here.
+    const userMySpace: any = portalUserMaxedOutCollection.mySpace[0]
+    const bookmarkId = userMySpace.bookmarks?.[1]._id
 
     const collectionId = portalUserMaxedOutCollection.mySpace[0]._id
 
@@ -493,8 +497,11 @@ describe('My Space Component', () => {
     const mockUpdateWidget = jest.fn()
     const mockUpdateBookmark = jest.fn()
 
-    const bookmarkId =
-      portalUserMaxedOutCollection.mySpace[0].bookmarks?.[0]._id
+    // Note: Leaving this as 'any' for now. MySpaceWidget is a union type between
+    // Widget and Collection, and since 'bookmarks' does not exist on Widget, it kept
+    // showing an error here.
+    const userMySpace: any = portalUserMaxedOutCollection.mySpace[0]
+    const bookmarkId = userMySpace.bookmarks?.[0]._id
     const collectionId = portalUserMaxedOutCollection.mySpace[0]._id
     const editBookmarkMock = [
       {
