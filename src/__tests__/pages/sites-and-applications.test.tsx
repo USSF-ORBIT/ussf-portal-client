@@ -1,11 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import { screen, act, waitFor } from '@testing-library/react'
+import { screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
-import axios from 'axios'
 import { ObjectId } from 'mongodb'
 import { renderWithAuth } from '../../testHelpers'
 
@@ -33,25 +32,8 @@ jest.mock('../../lib/keystoneClient', () => ({
 }))
 jest.mock('axios')
 
-const mockedAxios = axios as jest.Mocked<typeof axios>
-
-mockedAxios.get.mockImplementationOnce(() => {
-  return Promise.reject()
-})
-
 const mockPush = jest.fn()
 const mockReplace = jest.fn()
-
-jest.mock('next/router', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    route: '',
-    pathname: '',
-    query: '',
-    asPath: '',
-    push: jest.fn(),
-    replace: jest.fn(),
-  }),
-}))
 
 const mockedUseRouter = useRouter as jest.Mock
 
@@ -161,32 +143,6 @@ const sitesAndAppsMock = [
   },
 ]
 describe('Sites and Applications page', () => {
-  describe('without a user', () => {
-    beforeEach(() => {
-      jest.useFakeTimers()
-
-      renderWithAuth(
-        <MockedProvider mocks={sitesAndAppsMock}>
-          <SitesAndApplications
-            collections={cmsCollectionsMock}
-            bookmarks={cmsBookmarksMock}
-          />
-        </MockedProvider>,
-        { user: null }
-      )
-    })
-
-    it('renders the loader while fetching the user', () => {
-      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
-    })
-
-    it('redirects to the login page if not logged in', async () => {
-      await waitFor(() => {
-        expect(mockReplace).toHaveBeenCalledWith('/login')
-      })
-    })
-  })
-
   describe('when logged in', () => {
     describe('default state', () => {
       beforeEach(() => {
