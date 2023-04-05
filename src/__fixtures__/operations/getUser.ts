@@ -14,3 +14,19 @@ export const getUserMock = [
     })),
   },
 ]
+
+export const getUserNoLoadingMock = [
+  {
+    request: {
+      query: GetUserDocument,
+    },
+    result: jest.fn(() => ({
+      data: {
+        displayName: 'BERNADETTE CAMPBELL',
+        mySpace: [],
+        theme: 'light',
+      },
+      loading: false,
+    })),
+  },
+]
