@@ -107,6 +107,24 @@ describe('My Space model', () => {
     expect(all).toHaveLength(4)
   })
 
+  it('can add a Featured Shortcut widget', async () => {
+    const created = (await MySpaceModel.addWidget(
+      {
+        userId: testUserId,
+        title: 'Featured Shortcuts',
+        type: 'FeaturedShortcuts',
+      },
+      { db }
+    )) as Widget
+
+    expect(created.title).toEqual('Featured Shortcuts')
+    expect(created.type).toEqual('FeaturedShortcuts')
+    expect(created).toHaveProperty('_id')
+
+    const all = await MySpaceModel.get({ userId: testUserId }, { db })
+    expect(all).toHaveLength(4)
+  })
+
   it('cannot add a News widget if there already is one', async () => {
     expect(
       MySpaceModel.addWidget(
@@ -127,6 +145,21 @@ describe('My Space model', () => {
         { db }
       )
     ).rejects.toThrow(new Error('You can only have one Guardian Ideal section'))
+  })
+
+  it('cannot add a Featured Shortcut widget if there already is one', async () => {
+    expect(
+      MySpaceModel.addWidget(
+        {
+          userId: testUserId,
+          title: 'Featured Shortcuts',
+          type: 'FeaturedShortcuts',
+        },
+        { db }
+      )
+    ).rejects.toThrow(
+      new Error('You can only have one Featured Shortcuts section')
+    )
   })
 
   it('throws an error if widget cannot be added', async () => {

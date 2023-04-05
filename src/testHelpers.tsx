@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
-import { testUser1 } from './__fixtures__/authUsers'
+import { testUser1, testPortalUser1 } from './__fixtures__/authUsers'
 import { AuthContext, AuthContextType } from 'stores/authContext'
 import { ModalContext, ModalContextType } from 'stores/modalContext'
 
@@ -61,7 +61,9 @@ export const renderWithModalRoot = (
 
 export const defaultMockAuthContext = {
   user: testUser1,
+  portalUser: testPortalUser1,
   setUser: jest.fn(),
+  setPortalUser: jest.fn(),
   logout: jest.fn(),
   login: jest.fn(),
 }

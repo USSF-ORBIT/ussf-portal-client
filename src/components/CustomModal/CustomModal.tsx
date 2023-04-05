@@ -6,7 +6,7 @@ import {
   ButtonGroup,
   Button,
 } from '@trussworks/react-uswds'
-import styles from '../modals/modal.module.scss'
+import styles from './CustomModal.module.scss'
 import ModalPortal from 'components/util/ModalPortal'
 import { CustomBookmarkForm } from 'components/CustomCollection/CustomBookmark/CustomBookmarkForm'
 import { useModalContext } from 'stores/modalContext'
