@@ -2,6 +2,7 @@
 repository:
   name: ussf-portal-client
   description: The USSF portal website
+  homepage: https://storybook.ussforbit.us
   private: false
   has_issues: true
   has_projects: true
