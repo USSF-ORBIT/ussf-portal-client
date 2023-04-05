@@ -108,6 +108,7 @@ export const parameters = {
   options: {
     storySort: {
       order: [
+        'Welcome',
         'USSF Design System',
         'Global',
         'Navigation',
