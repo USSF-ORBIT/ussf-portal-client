@@ -7,7 +7,6 @@ import type {
   BookmarkModelInput,
   Collection,
   CollectionRecords,
-  MySpaceWidget,
   PortalUser,
 } from 'types'
 import { WIDGET_TYPES } from 'constants/index'
