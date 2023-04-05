@@ -235,7 +235,7 @@ export interface SAMLUser {
 
 export type PortalUser = {
   userId: string
-  mySpace: MySpace
+  mySpace: Collection[]
   displayName: string
   theme: string
 }

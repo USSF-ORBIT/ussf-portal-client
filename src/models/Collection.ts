@@ -45,7 +45,7 @@ export const CollectionModel = {
   async getAll(
     { userId }: GetAllInput,
     { db }: Context
-  ): Promise<MySpaceWidget[]> {
+  ): Promise<Collection[]> {
     try {
       const foundUser = (await db
         .collection('users')
