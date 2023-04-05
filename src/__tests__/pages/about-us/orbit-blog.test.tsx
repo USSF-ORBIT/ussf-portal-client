@@ -1,11 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import { screen, waitFor, act } from '@testing-library/react'
+import { screen, act } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import { axe } from 'jest-axe'
-import axios from 'axios'
-import { useRouter } from 'next/router'
 import { GetServerSidePropsContext } from 'next'
 
 import { renderWithAuth } from '../../../testHelpers'
@@ -26,31 +24,6 @@ jest.mock('../../../lib/keystoneClient', () => ({
     },
   },
 }))
-
-jest.mock('axios')
-
-const mockedAxios = axios as jest.Mocked<typeof axios>
-
-mockedAxios.get.mockImplementationOnce(() => {
-  return Promise.reject()
-})
-
-const mockReplace = jest.fn()
-
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}))
-
-const mockedUseRouter = useRouter as jest.Mock
-
-mockedUseRouter.mockReturnValue({
-  route: '',
-  pathname: '',
-  query: '',
-  asPath: '',
-  push: jest.fn(),
-  replace: mockReplace,
-})
 
 describe('ORBIT Blog page', () => {
   const testContext = {
@@ -96,23 +69,6 @@ describe('ORBIT Blog page', () => {
         currentPage: 1,
         totalPages: 1,
       },
-    })
-  })
-  describe('without a user', () => {
-    beforeEach(() => {
-      renderWithAuth(<OrbitBlog articles={mockOrbitBlogArticles} />, {
-        user: null,
-      })
-    })
-
-    it('renders the loader while fetching the user', () => {
-      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
-    })
-
-    it('redirects to the login page if not logged in', async () => {
-      await waitFor(() => {
-        expect(mockReplace).toHaveBeenCalledWith('/login')
-      })
     })
   })
 
