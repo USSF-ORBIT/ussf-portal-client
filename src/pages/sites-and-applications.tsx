@@ -28,7 +28,6 @@ import { addCollectionsInput } from 'operations/helpers'
 
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
-import Loader from 'components/Loader/Loader'
 import Flash from 'components/util/Flash/Flash'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import Collection from 'components/Collection/Collection'
@@ -37,8 +36,6 @@ import ApplicationsTable from 'components/ApplicationsTable/ApplicationsTable'
 import SelectableCollection from 'components/SelectableCollection/SelectableCollection'
 import Tooltip from 'components/Tooltip/Tooltip'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
-
-import { useUser } from 'hooks/useUser'
 
 import { useAnalytics } from 'stores/analyticsContext'
 
@@ -59,7 +56,6 @@ const SitesAndApplications = ({
   bookmarks,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
-  const { user } = useUser()
   const { loading, error, data } = useGetMySpaceQuery()
   const { trackEvent } = useAnalytics()
 
@@ -186,9 +182,7 @@ const SitesAndApplications = ({
     }
   }
 
-  return !user ? (
-    <Loader />
-  ) : (
+  return (
     <>
       <h2 className={styles.pageTitle}>Sites &amp; Applications</h2>
 
