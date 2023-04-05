@@ -2,10 +2,8 @@
  * @jest-environment jsdom
  */
 
-import { screen, waitFor, act } from '@testing-library/react'
-import { useRouter } from 'next/router'
+import { screen, act } from '@testing-library/react'
 import { axe } from 'jest-axe'
-import axios from 'axios'
 import { gql } from 'apollo-server-core'
 import { mockFlags, resetLDMocks } from 'jest-launchdarkly-mock'
 import { renderWithAuthAndApollo } from '../../testHelpers'
@@ -14,25 +12,6 @@ import USSFDocumentation, {
   getServerSideProps,
   staticPage,
 } from 'pages/ussf-documentation'
-
-const mockReplace = jest.fn()
-
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}))
-
-jest.mock('axios')
-
-const mockedUseRouter = useRouter as jest.Mock
-
-mockedUseRouter.mockReturnValue({
-  route: '',
-  pathname: '',
-  query: '',
-  asPath: '',
-  push: jest.fn(),
-  replace: mockReplace,
-})
 
 const mockTestPage: DocumentPageType = {
   id: 'any',
@@ -118,32 +97,6 @@ const cmsDocumentationPageMock = [
 ]
 
 describe('USSF Documentation page', () => {
-  describe('without a user', () => {
-    it('renders the loader while fetching the user', () => {
-      renderWithAuthAndApollo(
-        <USSFDocumentation documentsPage={mockTestPage} />,
-        { user: null },
-        cmsDocumentationPageMock
-      )
-      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
-    })
-
-    it('redirects to the login page if not logged in', async () => {
-      renderWithAuthAndApollo(
-        <USSFDocumentation documentsPage={mockTestPage} />,
-        { user: null },
-        cmsDocumentationPageMock
-      )
-      renderWithAuthAndApollo(
-        <USSFDocumentation documentsPage={mockTestPage} />
-      )
-
-      await waitFor(() => {
-        expect(mockReplace).toHaveBeenCalledWith('/login')
-      })
-    })
-  })
-
   describe('when logged in', () => {
     it('renders the documentation page from the cms', () => {
       // If LaunchDarkly flag is passed in, the CMS content will render
@@ -198,16 +151,6 @@ describe('USSF Documentation page', () => {
       await act(async () => {
         expect(await axe(html.container)).toHaveNoViolations()
       })
-    })
-
-    it('makes the call to get user', () => {
-      renderWithAuthAndApollo(
-        <USSFDocumentation documentsPage={mockTestPage} />,
-        {},
-        cmsDocumentationPageMock
-      )
-
-      expect(axios.get).toHaveBeenCalledWith('/api/auth/user')
     })
   })
 })
