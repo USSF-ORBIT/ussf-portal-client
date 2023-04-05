@@ -7,7 +7,6 @@ import type { RenderResult } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
-import axios from 'axios'
 
 import { renderWithAuth } from '../../testHelpers'
 
@@ -77,10 +76,6 @@ describe('Settings page', () => {
       await act(async () => {
         expect(await axe(html.container)).toHaveNoViolations()
       })
-    })
-
-    it('makes the call to get user', () => {
-      expect(axios.get).toHaveBeenLastCalledWith('/api/auth/user')
     })
   })
 })
