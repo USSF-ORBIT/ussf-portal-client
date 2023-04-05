@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { GovBanner, GridContainer } from '@trussworks/react-uswds'
+import { ApolloError } from 'apollo-server-micro'
 import { useTheme } from 'next-themes'
 import styles from './DefaultLayout.module.scss'
 import Header from 'components/Header/Header'
@@ -8,6 +9,7 @@ import Footer from 'components/Footer/Footer'
 import { useGetUserQuery } from 'operations/portal/queries/getUser.g'
 import { useAuthContext } from 'stores/authContext'
 import { PortalUser } from 'types'
+import Loader from 'components/Loader/Loader'
 
 const PageLayout = ({
   header,
@@ -19,7 +21,7 @@ const PageLayout = ({
   const { setPortalUser } = useAuthContext()
   const { setTheme } = useTheme()
 
-  const { data }: PortalUser | any = useGetUserQuery()
+  const { loading, error, data }: PortalUser | any = useGetUserQuery()
 
   useEffect(() => {
     setPortalUser(data)
@@ -28,7 +30,11 @@ const PageLayout = ({
     }
   }, [data])
 
-  return (
+  if (error) throw new ApolloError('getUser query failed', 'SERVER_ERROR')
+
+  return loading ? (
+    <Loader />
+  ) : (
     <>
       <a className="usa-skipnav" href="#main-content">
         Skip to main content
