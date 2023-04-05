@@ -1,16 +1,10 @@
 import { Grid } from '@trussworks/react-uswds'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import LinkTo from 'components/util/LinkTo/LinkTo'
-import Loader from 'components/Loader/Loader'
-import { useUser } from 'hooks/useUser'
 import styles from 'styles/pages/aboutUs.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 const AboutUs = () => {
-  const { user } = useUser()
-
-  return !user ? (
-    <Loader />
-  ) : (
+  return (
     <div className={styles.aboutUsPage}>
       <div className={styles.pageTitle}>
         <h2>About the Space Force</h2>

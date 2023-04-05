@@ -5,8 +5,6 @@ import { DateTime } from 'luxon'
 import { client } from '../../lib/keystoneClient'
 
 import type { ArticleListItemRecord } from 'types'
-import Loader from 'components/Loader/Loader'
-import { useUser } from 'hooks/useUser'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import {
   GET_PORTAL_NEWS_ARTICLES,
@@ -22,11 +20,7 @@ const PortalNews = ({
   currentPage,
   totalPages,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { user } = useUser()
-
-  return !user ? (
-    <Loader />
-  ) : (
+  return (
     <div className={styles.listContainer}>
       <div className={styles.pageTitle}>
         <h2>Production team blog & announcements</h2>

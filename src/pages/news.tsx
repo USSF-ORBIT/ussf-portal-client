@@ -4,8 +4,6 @@ import { DateTime } from 'luxon'
 import { client } from '../lib/keystoneClient'
 
 import type { ArticleListItemRecord } from 'types'
-import Loader from 'components/Loader/Loader'
-import { useUser } from 'hooks/useUser'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import { GET_INTERNAL_NEWS_ARTICLES } from 'operations/cms/queries/getInternalNewsArticles'
 import { ArticleList } from 'components/ArticleList/ArticleList'
@@ -15,11 +13,7 @@ import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 const InternalNews = ({
   articles,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { user } = useUser()
-
-  return !user ? (
-    <Loader />
-  ) : (
+  return (
     <div>
       <div className={styles.pageTitle}>
         <h2>All USSF news</h2>

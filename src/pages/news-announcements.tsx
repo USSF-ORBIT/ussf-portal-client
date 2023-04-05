@@ -6,7 +6,6 @@ import { client } from '../lib/keystoneClient'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import Announcement from 'components/Announcement/Announcement'
 import NewsCarousel from 'components/NewsCarousel/NewsCarousel'
-import Loader from 'components/Loader/Loader'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import { useUser } from 'hooks/useUser'
 import LinkTo from 'components/util/LinkTo/LinkTo'
@@ -35,9 +34,7 @@ const NewsAnnouncements = ({
     }
   }, [user])
 
-  return !user ? (
-    <Loader />
-  ) : (
+  return (
     <div className={styles.listContainer}>
       {announcements.length > 0 && (
         <section>
