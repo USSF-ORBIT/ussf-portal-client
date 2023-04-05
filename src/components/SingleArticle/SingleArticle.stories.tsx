@@ -14,6 +14,11 @@ export default {
       </div>
     ),
   ],
+  parameters: {
+    happo: {
+      waitFor: () => document.querySelector('.html5-main-video'),
+    },
+  },
 } as Meta
 
 const testArticle: ArticleRecord = {
