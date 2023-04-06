@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { screen, waitFor } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import type { GetServerSidePropsContext } from 'next'
