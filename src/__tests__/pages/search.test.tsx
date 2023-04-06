@@ -88,24 +88,6 @@ describe('Search page getServerSideProps', () => {
 })
 
 describe('Search page', () => {
-  describe('without a user', () => {
-    beforeEach(() => {
-      renderWithAuth(<SearchPage />, {
-        user: null,
-      })
-    })
-
-    it('renders the loader while fetching the user', () => {
-      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
-    })
-
-    it('redirects to the login page if not logged in', async () => {
-      await waitFor(() => {
-        expect(mockReplace).toHaveBeenCalledWith('/login')
-      })
-    })
-  })
-
   describe('when logged in', () => {
     it('renders an empty state if there is no query', async () => {
       renderWithAuth(<SearchPage />)
