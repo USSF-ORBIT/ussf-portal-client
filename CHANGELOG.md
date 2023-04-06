@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.18.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.18.0...4.18.1) (2023-04-05)
+
+
+### Bug Fixes
+
+* design: adds background fill settings box  ([#973](https://github.com/USSF-ORBIT/ussf-portal-client/issues/973)) ([d63c948](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d63c94802bc81425c9664f6006a50e8067d88851))
+* design: sets Trebuchet as default font for all USWDS components ([#971](https://github.com/USSF-ORBIT/ussf-portal-client/issues/971)) ([3654c05](https://github.com/USSF-ORBIT/ussf-portal-client/commit/3654c05b933a8aec87fd06f3ae54bea4e38c6973))
+
 ## [4.18.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.17.0...4.18.0) (2023-03-31)
 
 
