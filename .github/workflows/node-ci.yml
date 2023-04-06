@@ -17,6 +17,13 @@ jobs:
   lint-and-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Run pull request stats
+        uses: flowwer-dev/pull-request-stats@master
+        with:
+          organization: 'ussf-orbit'
+          period: 14
+          charts: true
+          webhooks: ${{ secrets.STATS_WEBHOOK }}
       - name: Check out repository
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
         with:
