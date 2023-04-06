@@ -4,8 +4,9 @@
 
 # Require design / frontend reviews on Storybook
 
-/src/stories/ @USSF-ORBIT/design
+src/stories/ @USSF-ORBIT/design
 *.stories.tsx @USSF-ORBIT/design
+.storybook/ @USSF-ORBIT/design
 
 # Github settings
 
