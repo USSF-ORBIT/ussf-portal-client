@@ -45,8 +45,7 @@ describe('CustomBookmarkForm component', () => {
         {...testHandlers}
         nameInputRef={mockNameRef}
         urlInputRef={mockUrlRef}
-      />,
-      { legacyRoot: true }
+      />
     )
 
     // Input: On load, empty, untouched
