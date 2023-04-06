@@ -44,7 +44,8 @@ const DefaultLayout = ({
     }
   }, [data])
 
-  if (error) throw new ApolloError('getUser query failed', 'SERVER_ERROR')
+  if (!loading && error)
+    throw new ApolloError('getUser query failed', 'SERVER_ERROR')
 
   return loading ? (
     <Loader />
