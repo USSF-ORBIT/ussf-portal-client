@@ -60,12 +60,13 @@ describe('My Space model', () => {
     expect(created).toHaveProperty('_id')
 
     const all = await MySpaceModel.get({ userId: testUserId }, { db })
-    console.log(all)
+
     // Data: FeaturedShortcuts, GuardianIdeal, Example Collection, News
     expect(all).toHaveLength(4)
   })
 
   it('can remove default Guardian Ideal widget', async () => {
+    // Beginning Data: FeaturedShortcuts, GuardianIdeal, Example Collection, News
     let allSections = await MySpaceModel.get({ userId: testUserId }, { db })
 
     let guardianIdealWidget = allSections.find(
@@ -85,10 +86,12 @@ describe('My Space model', () => {
         (s) => s.type === WIDGET_TYPES.GUARDIANIDEAL
       )
       expect(guardianIdealWidget).toBe(undefined)
+      // End Data: FeaturedShortcuts, Example Collection, News
     }
   })
 
   it('can add a Guardian Ideal widget', async () => {
+    // Beginning Data: FeaturedShortcuts, Example Collection, News
     const created = (await MySpaceModel.addWidget(
       {
         userId: testUserId,
@@ -103,11 +106,37 @@ describe('My Space model', () => {
     expect(created).toHaveProperty('_id')
 
     const all = await MySpaceModel.get({ userId: testUserId }, { db })
-    // Data: FeaturedShortcuts, GuardianIdeal, Example Collection, News
+    // End: FeaturedShortcuts, GuardianIdeal, Example Collection, News
     expect(all).toHaveLength(4)
   })
 
+  it('can remove default Featured Shortcuts widget', async () => {
+    // Beginning Data: FeaturedShortcuts, GuardianIdeal, Example Collection, News
+    let allSections = await MySpaceModel.get({ userId: testUserId }, { db })
+
+    let featuredShortcutsWidget = allSections.find(
+      (s) => s.type === WIDGETS.FEATUREDSHORTCUTS.type
+    )
+
+    expect(featuredShortcutsWidget).toBeTruthy()
+
+    if (featuredShortcutsWidget) {
+      await MySpaceModel.deleteWidget(
+        { _id: featuredShortcutsWidget._id, userId: testUserId },
+        { db }
+      )
+
+      allSections = await MySpaceModel.get({ userId: testUserId }, { db })
+      featuredShortcutsWidget = allSections.find(
+        (s) => s.type === WIDGET_TYPES.FEATUREDSHORTCUTS
+      )
+      expect(featuredShortcutsWidget).toBe(undefined)
+      // End Data: GuardianIdeal, Example Collection, News
+    }
+  })
+
   it('can add a Featured Shortcut widget', async () => {
+    // Beginning Data: GuardianIdeal, Example Collection, News
     const created = (await MySpaceModel.addWidget(
       {
         userId: testUserId,
@@ -122,6 +151,7 @@ describe('My Space model', () => {
     expect(created).toHaveProperty('_id')
 
     const all = await MySpaceModel.get({ userId: testUserId }, { db })
+    // End Data: FeaturedShortcuts, GuardianIdeal, Example Collection, News
     expect(all).toHaveLength(4)
   })
 
@@ -171,6 +201,7 @@ describe('My Space model', () => {
     ).rejects.toThrow()
   })
   it('can remove a News widget', async () => {
+    // Beginning Data: FeaturedShortcuts, GuardianIdeal, Example Collection, News
     let allSections = await MySpaceModel.get({ userId: testUserId }, { db })
 
     let newsWidget = allSections.find((s) => s.type === 'News')
@@ -185,6 +216,7 @@ describe('My Space model', () => {
 
       allSections = await MySpaceModel.get({ userId: testUserId }, { db })
       newsWidget = allSections.find((s) => s.type === 'News')
+      // Beginning Data: FeaturedShortcuts, GuardianIdeal, Example Collection
       expect(newsWidget).toBe(undefined)
     }
   })
