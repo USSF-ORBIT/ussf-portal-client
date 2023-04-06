@@ -11,7 +11,6 @@ import FeedbackCard from 'components/FeedbackCard/FeedbackCard'
 import Footer from 'components/Footer/Footer'
 import CustomModal from 'components/CustomModal/CustomModal'
 import Loader from 'components/Loader/Loader'
-import { useUser } from 'hooks/useUser'
 import { useGetUserQuery } from 'operations/portal/queries/getUser.g'
 import { useAuthContext } from 'stores/authContext'
 import { PortalUser } from 'types'
@@ -25,7 +24,6 @@ const DefaultLayout = ({
   rightSidebar?: JSX.Element
   children: React.ReactNode
 }) => {
-  const { user } = useUser()
   const { setPortalUser } = useAuthContext()
   const { setTheme } = useTheme()
   const navItems = [
@@ -45,8 +43,6 @@ const DefaultLayout = ({
       setTheme(data.theme)
     }
   }, [data])
-
-  if (!user) throw new ApolloError('User not found', 'UNAUTHENTICATED')
 
   if (error) throw new ApolloError('getUser query failed', 'SERVER_ERROR')
 
