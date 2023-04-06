@@ -23,4 +23,4 @@ jobs:
           organization: 'ussf-orbit'
           period: 14
           charts: true
-          webhooks: ${{ secrets.STATS_WEBHOOK }}
+          webhook: ${{ secrets.STATS_WEBHOOK }}
