@@ -11,7 +11,7 @@ const BugReportFeedback = () => {
   return (
     <div>
       <p>
-        We’d love to hear it! Contact us at{' '}
+        Send us a message at{' '}
         <a
           href={`mailto:${FEEDBACK_EMAIL}?subject=${FEEDBACK_SUBJECT}`}
           target="_blank"
@@ -20,7 +20,7 @@ const BugReportFeedback = () => {
           onClick={() => trackEvent('Feedback', FEEDBACK_EMAIL)}>
           {FEEDBACK_EMAIL}
         </a>{' '}
-        to send us your thoughts or schedule an interview.
+        to report a bug or unexpected error.
       </p>
       <a
         href={`mailto:${FEEDBACK_EMAIL}?subject=${FEEDBACK_SUBJECT}`}
