@@ -12,6 +12,9 @@ jobs:
   deploy-storybook:
     runs-on: ubuntu-latest
     name: Deploy Storybook
+    environment:
+      name: github-pages
+      url: ${{ steps.build-publish.outputs.page_url }}
     steps:
       - name: Check out repository
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
@@ -44,7 +47,13 @@ jobs:
       - name: Generate GraphQL types
         run: yarn generate
 
-      - name: Deploy Storybook to Github page
-        run: yarn storybook:deploy --ci --source-branch=main
-        env:
-          GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
+      - name: Build Storybook
+        run: yarn storybook:build --modern
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          clean: true
+          clean-exclude: |
+            CNAME
+          folder: storybook-static # The folder the action should deploy.
