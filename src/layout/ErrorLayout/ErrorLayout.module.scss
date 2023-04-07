@@ -8,6 +8,7 @@ $hero-image: url('/assets/images/hero.jpeg');
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: $black;
 
   :global {
     // Dark theme gov banner
@@ -19,10 +20,6 @@ $hero-image: url('/assets/images/hero.jpeg');
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
-    background: $black $hero-image no-repeat;
-    background-position: bottom -90px center;
-    background-size: 2000px auto;
     padding-bottom: 100px;
 
     @include at-media('mobile-lg') {
@@ -48,10 +45,22 @@ $hero-image: url('/assets/images/hero.jpeg');
     }
 
     h1 {
-      color: $theme-cosmiclatte-base;
-      opacity: 0.35;
+      color: rgba($theme-cosmiclatte-base, 0.35);
       font-size: 140px;
-      margin: 0 0 -66px;
+      position: relative;
+      &:after {
+        content: ' ';
+        position: absolute;
+        width: 100vw;
+        height: 20vh;
+        bottom: 30px;
+        left: 0;
+        background: $hero-image;
+        background-repeat: no-repeat;
+        background-position: bottom -90px center;
+        background-size: 2000px auto;
+      }
+      //margin: 0 0 -66px;
 
       @include at-media('mobile-lg') {
         font-size: 230px;
