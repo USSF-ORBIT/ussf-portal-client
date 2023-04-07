@@ -9,6 +9,8 @@ import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/ussf-documentation.module.scss'
 import { GET_DOCUMENTS_PAGE } from 'operations/cms/queries/getDocumentsPage'
 import { DocumentType, DocumentPageType, DocumentSectionType } from 'types'
+import { useUser } from 'hooks/useUser'
+import Loader from 'components/Loader/Loader'
 
 // Export for easier unit testing
 // We're leaving these hardcoded docs as a backup until
@@ -74,11 +76,14 @@ export const staticPage: DocumentPageType = {
 const USSFDocumentation = ({
   documentsPage,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const { user } = useUser()
   // LaunchDarkly toggle for cms vs static data
   const flags = useFlags()
   const data = flags && flags.documentationPage ? documentsPage : staticPage
 
-  return (
+  return !user ? (
+    <Loader />
+  ) : (
     <div>
       <h2>{data && data.pageTitle}</h2>
 

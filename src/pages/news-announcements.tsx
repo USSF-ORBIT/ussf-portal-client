@@ -7,6 +7,7 @@ import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import Announcement from 'components/Announcement/Announcement'
 import NewsCarousel from 'components/NewsCarousel/NewsCarousel'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
+import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import { useRSSFeed } from 'hooks/useRSSFeed'
@@ -34,7 +35,9 @@ const NewsAnnouncements = ({
     }
   }, [user])
 
-  return (
+  return !user ? (
+    <Loader />
+  ) : (
     <div className={styles.listContainer}>
       {announcements.length > 0 && (
         <section>

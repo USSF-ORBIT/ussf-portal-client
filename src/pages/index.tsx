@@ -8,12 +8,18 @@ import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import { GET_ANNOUNCEMENTS } from 'operations/cms/queries/getAnnouncements'
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
 import styles from 'styles/pages/home.module.scss'
+import { useUser } from 'hooks/useUser'
+import Loader from 'components/Loader/Loader'
 
 const Home = ({
   bookmarks,
   announcements,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  return (
+  const { user } = useUser()
+
+  return !user ? (
+    <Loader />
+  ) : (
     <div className={styles.home}>
       {announcements.length > 0 && (
         <section>

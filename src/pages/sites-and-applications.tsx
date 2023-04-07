@@ -38,9 +38,11 @@ import Tooltip from 'components/Tooltip/Tooltip'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useAnalytics } from 'stores/analyticsContext'
+import { useUser } from 'hooks/useUser'
 
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
 import { GET_KEYSTONE_COLLECTIONS } from 'operations/cms/queries/getKeystoneCollections'
+import Loader from 'components/Loader/Loader'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
@@ -56,6 +58,7 @@ const SitesAndApplications = ({
   bookmarks,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
+  const { user } = useUser()
   const { loading, error, data } = useGetMySpaceQuery()
   const { trackEvent } = useAnalytics()
 
@@ -182,7 +185,9 @@ const SitesAndApplications = ({
     }
   }
 
-  return (
+  return !user ? (
+    <Loader />
+  ) : (
     <>
       <h2 className={styles.pageTitle}>Sites &amp; Applications</h2>
 

@@ -12,6 +12,8 @@ import { SearchResultRecord } from 'types/index'
 import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
 import styles from 'styles/pages/search.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
+import { useUser } from 'hooks/useUser'
+import Loader from 'components/Loader/Loader'
 
 // TODO - empty state (need design)
 
@@ -19,12 +21,15 @@ const Search = ({
   query,
   results = [],
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const { user } = useUser()
   const resultString =
     results.length === 1
       ? `There is 1 result`
       : `There are ${results.length} results`
 
-  return (
+  return !user ? (
+    <Loader />
+  ) : (
     <>
       <PageHeader>
         <div>
