@@ -106,4 +106,8 @@ $hero-image: url('/assets/images/hero-transparent.png');
       color: $theme-mars-lighter;
     }
   }
+
+  :global(.usa-button) {
+    margin-bottom: 16px;
+  }
 }

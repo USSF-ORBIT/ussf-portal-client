@@ -23,7 +23,7 @@ export default function Custom500() {
 
           <h3>
             That’s an internal server error. While we work on fixing that, let’s
-            get you back to business. Submit a report to us at{' '}
+            get you back to business. You may also submit a report to us at{' '}
             <a
               href={`mailto:${FEEDBACK_EMAIL}?subject=${FEEDBACK_SUBJECT}`}
               target="_blank"
