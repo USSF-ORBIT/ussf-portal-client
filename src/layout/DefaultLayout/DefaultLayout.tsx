@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GovBanner, GridContainer, Grid } from '@trussworks/react-uswds'
 import { useTheme } from 'next-themes'
 import styles from './DefaultLayout.module.scss'
@@ -25,6 +25,7 @@ const DefaultLayout = ({
 }) => {
   const { setPortalUser } = useAuthContext()
   const { setTheme } = useTheme()
+  const [displayName, setDisplayName] = useState<string>('')
   const navItems = [
     { path: '/', label: 'My Space' },
     {
@@ -39,6 +40,7 @@ const DefaultLayout = ({
   useEffect(() => {
     if (data) {
       setPortalUser(data)
+      setDisplayName(data.displayName)
       setTheme(data.theme)
     }
   }, [data])
@@ -55,7 +57,7 @@ const DefaultLayout = ({
         <Header />
         <main id="main-content">
           <PageHeader>
-            <PersonalData userDisplayName={data.displayName} />
+            <PersonalData userDisplayName={displayName} />
           </PageHeader>
 
           <GridContainer>
