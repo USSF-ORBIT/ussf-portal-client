@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { GovBanner } from '@trussworks/react-uswds'
-import { ApolloError } from 'apollo-server-micro'
 import { useTheme } from 'next-themes'
 import styles from './DefaultLayout.module.scss'
 import Header from 'components/Header/Header'
@@ -14,7 +13,7 @@ const ArticleLayout = ({ children }: { children: React.ReactNode }) => {
   const { setPortalUser } = useAuthContext()
   const { setTheme } = useTheme()
 
-  const { loading, error, data }: PortalUser | any = useGetUserQuery()
+  const { loading, data }: PortalUser | any = useGetUserQuery()
 
   useEffect(() => {
     setPortalUser(data)
@@ -22,8 +21,6 @@ const ArticleLayout = ({ children }: { children: React.ReactNode }) => {
       setTheme(data.theme)
     }
   }, [data])
-
-  if (error) throw new ApolloError('getUser query failed', 'SERVER_ERROR')
 
   return loading ? (
     <Loader />
