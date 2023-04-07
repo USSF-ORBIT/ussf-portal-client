@@ -56,7 +56,7 @@ describe('404 page', () => {
         'Looks like you’re a little lost'
       )
       expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
-        'That page doesn’t exist (or never did). Let’s get you back where you belong.'
+        'That page doesn’t exist (or never did). Let’s get you back where you belong, or send us a dispatch to notify us of an error in the system.'
       )
     })
 
