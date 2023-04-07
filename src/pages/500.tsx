@@ -49,9 +49,7 @@ export default function Custom500() {
           </div>
         </section>
       </GridContainer>
-      <div>
-        <h1>500</h1>
-      </div>
+      <h1>500</h1>
     </>
   )
 }

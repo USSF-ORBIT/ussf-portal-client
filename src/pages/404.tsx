@@ -45,9 +45,7 @@ export default function Custom404() {
           </div>
         </section>
       </GridContainer>
-      <div style={{ overflow: 'hidden' }}>
-        <h1>404</h1>
-      </div>
+      <h1>404</h1>
     </>
   )
 }
