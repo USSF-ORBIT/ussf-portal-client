@@ -69,5 +69,17 @@ describe('404 page', () => {
     it('makes the call to get user', () => {
       expect(axios.get).toHaveBeenLastCalledWith('/api/auth/user')
     })
+
+    it('renders feedback links', async () => {
+      const feedbackLink = screen.getByText('Contact Us')
+      expect(feedbackLink).toBeVisible()
+      expect(feedbackLink).toHaveAttribute('href')
+      expect(feedbackLink.getAttribute('href')).toContain(
+        'feedback@ussforbit.us'
+      )
+      expect(feedbackLink.getAttribute('href')).toContain(
+        'USSF portal feedback -- 404 page error'
+      )
+    })
   })
 })
