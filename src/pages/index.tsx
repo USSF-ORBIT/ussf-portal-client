@@ -3,8 +3,6 @@ import { DateTime } from 'luxon'
 import { client } from '../lib/keystoneClient'
 import MySpace from 'components/MySpace/MySpace'
 import Announcement from 'components/Announcement/Announcement'
-import Loader from 'components/Loader/Loader'
-import { useUser } from 'hooks/useUser'
 import type { BookmarkRecords } from 'types/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import { GET_ANNOUNCEMENTS } from 'operations/cms/queries/getAnnouncements'
@@ -15,11 +13,7 @@ const Home = ({
   bookmarks,
   announcements,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { user } = useUser()
-
-  return !user ? (
-    <Loader />
-  ) : (
+  return (
     <div className={styles.home}>
       {announcements.length > 0 && (
         <section>
