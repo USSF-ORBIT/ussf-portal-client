@@ -19,6 +19,7 @@ export default function Custom404() {
     <Loader />
   ) : (
     <>
+      <h1>404</h1>
       <GridContainer>
         <section>
           <Logo noText />
@@ -45,7 +46,6 @@ export default function Custom404() {
           </div>
         </section>
       </GridContainer>
-      <h1>404</h1>
     </>
   )
 }

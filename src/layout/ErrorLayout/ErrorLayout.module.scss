@@ -17,7 +17,7 @@ $hero-image: url('/assets/images/hero-transparent.png');
   main {
     flex: 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-content: space-between;
     padding-bottom: 100px;
     color: $theme-white;

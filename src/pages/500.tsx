@@ -14,6 +14,7 @@ export default function Custom500() {
 
   return (
     <>
+      <h1>500</h1>
       <GridContainer>
         <section>
           <Logo noText />
@@ -49,7 +50,6 @@ export default function Custom500() {
           </div>
         </section>
       </GridContainer>
-      <h1>500</h1>
     </>
   )
 }
