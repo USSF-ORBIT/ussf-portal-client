@@ -24,8 +24,8 @@ $hero-image: url('/assets/images/hero-transparent.png');
     text-align: center;
     position: relative;
 
-    section {
-      overflow: hidden;
+    :global(.grid-container) {
+      z-index: 20;
     }
 
     img {
@@ -35,9 +35,9 @@ $hero-image: url('/assets/images/hero-transparent.png');
     }
 
     h1 {
-      color: rgba($theme-cosmiclatte-base, 0.2);
+      color: rgba($theme-ultraviolet-lighter, 0.35);
       font-size: 140px;
-      margin: -66px 0 -66px;
+      margin: 0 0 -66px;
       &:after {
         content: ' ';
         position: absolute;
@@ -53,22 +53,24 @@ $hero-image: url('/assets/images/hero-transparent.png');
 
       @include at-media('mobile-lg') {
         font-size: 230px;
-        margin: -107px 0 -107px;
+        margin: 0 0 -107px;
       }
 
       @include at-media('tablet') {
         font-size: 320px;
-        margin: -150px 0 -150px;
+        margin: -40px 0 -150px;
       }
 
       @include at-media('desktop') {
         font-size: 460px;
-        margin: -215px 0 -215px;
+        margin: -325px 0 -215px;
+        color: rgba($theme-ultraviolet-lighter, 0.2);
       }
 
       @include at-media('desktop-lg') {
         font-size: 620px;
-        margin: -300px 0 -281px;
+        margin: -440px 0 -281px;
+        color: rgba($theme-ultraviolet-lighter, 0.2);
       }
     }
 
@@ -81,6 +83,7 @@ $hero-image: url('/assets/images/hero-transparent.png');
       font-size: 18px;
       line-height: 1.2;
       margin: 21px 0;
+      max-width: 640px;
     }
   }
 

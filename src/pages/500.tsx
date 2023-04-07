@@ -20,7 +20,7 @@ export default function Custom500() {
 
           <h2>Houston, we have a problem</h2>
 
-          <h3 className="width-tablet">
+          <h3>
             That’s an internal server error. While we work on fixing that, let’s
             get you back to business. Submit a report to us at{' '}
             <a

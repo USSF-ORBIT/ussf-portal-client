@@ -25,7 +25,7 @@ export default function Custom404() {
 
           <h2>Looks like you’re a little lost</h2>
 
-          <h3 className="width-tablet">
+          <h3>
             That page doesn’t exist (or never did). Let’s get you back where you
             belong, or send us a dispatch to notify us of an error in the
             system.
