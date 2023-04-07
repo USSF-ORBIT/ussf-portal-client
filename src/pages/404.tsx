@@ -7,8 +7,6 @@ import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import Logo from 'components/Logo/Logo'
 
-import { useAnalytics } from 'stores/analyticsContext'
-
 const FEEDBACK_EMAIL = 'feedback@ussforbit.us'
 const FEEDBACK_SUBJECT = 'USSF portal feedback -- 404 page error'
 
@@ -39,8 +37,7 @@ export default function Custom404() {
               href={`mailto:${FEEDBACK_EMAIL}?subject=${FEEDBACK_SUBJECT}`}
               target="_blank"
               rel="noreferrer noopener"
-              className="usa-button usa-button--outline usa-button--inverse"
-              onClick={() => trackEvent('Feedback', FEEDBACK_EMAIL)}>
+              className="usa-button usa-button--outline usa-button--inverse">
               Contact Us
             </a>
           </div>

@@ -37,8 +37,7 @@ const Error: NextPageWithLayout<Props> = ({ statusCode }: Props) => {
               href={`mailto:${FEEDBACK_EMAIL}?subject=${FEEDBACK_SUBJECT}`}
               target="_blank"
               rel="noreferrer noopener"
-              className="usa-link"
-              onClick={() => trackEvent('Feedback', FEEDBACK_EMAIL)}>
+              className="usa-link">
               {FEEDBACK_EMAIL}
             </a>{' '}
             to tell us about what happened that brought you here.
