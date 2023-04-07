@@ -40,7 +40,7 @@ export default function Custom404() {
               rel="noreferrer noopener"
               className="usa-button usa-button--outline usa-button--inverse"
               onClick={() => trackEvent('Feedback', FEEDBACK_EMAIL)}>
-              {FEEDBACK_EMAIL}
+              Contact Us
             </a>
           </div>
         </section>

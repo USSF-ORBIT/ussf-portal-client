@@ -97,4 +97,12 @@ $hero-image: url('/assets/images/hero.jpeg');
       display: block;
     }
   }
+
+  :global(.usa-link) {
+    color: $theme-mars-light;
+    &:hover,
+    &:focus {
+      color: $theme-mars-lighter;
+    }
+  }
 }
