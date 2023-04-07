@@ -49,7 +49,7 @@ export default function Custom500() {
           </div>
         </section>
       </GridContainer>
-      <div style={{ overflow: 'hidden' }}>
+      <div>
         <h1>500</h1>
       </div>
     </>
