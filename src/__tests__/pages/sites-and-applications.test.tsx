@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { screen, act } from '@testing-library/react'
+import { screen, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
@@ -161,6 +161,32 @@ const sitesAndAppsMock = [
   },
 ]
 describe('Sites and Applications page', () => {
+  describe('without a user', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+
+      renderWithAuth(
+        <MockedProvider mocks={sitesAndAppsMock}>
+          <SitesAndApplications
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
+          />
+        </MockedProvider>,
+        { user: null }
+      )
+    })
+
+    it('renders the loader while fetching the user', () => {
+      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
+    })
+
+    it('redirects to the login page if not logged in', async () => {
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith('/login')
+      })
+    })
+  })
+
   describe('when logged in', () => {
     describe('default state', () => {
       beforeEach(() => {
