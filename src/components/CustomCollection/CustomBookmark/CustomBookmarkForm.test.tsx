@@ -30,9 +30,8 @@ describe('CustomBookmarkForm component', () => {
         urlInputRef={mockUrlRef}
       />
     )
-    const label = await screen.findByLabelText('Name')
-    expect(label).toBeInTheDocument()
-    expect(screen.getByLabelText('URL')).toBeInTheDocument()
+    expect(await screen.findByLabelText('Name')).toBeInTheDocument()
+    expect(await screen.findByLabelText('URL')).toBeInTheDocument()
     expect(
       screen.getByRole('button', { name: 'Save custom link' })
     ).toBeInTheDocument()
@@ -45,13 +44,12 @@ describe('CustomBookmarkForm component', () => {
         {...testHandlers}
         nameInputRef={mockNameRef}
         urlInputRef={mockUrlRef}
-      />,
-      { legacyRoot: true }
+      />
     )
 
     // Input: On load, empty, untouched
     // Result: Valid
-    const labelInput = await screen.findByLabelText('Name')
+    const labelInput = screen.getByLabelText('Name')
     expect(labelInput).toBeValid()
 
     // Input: String
