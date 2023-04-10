@@ -8,6 +8,7 @@ $hero-image: url('/assets/images/hero-transparent.png');
   display: flex;
   flex-direction: column;
   background: $black;
+  min-height: 100vh;
 
   :global {
     // Dark theme gov banner
