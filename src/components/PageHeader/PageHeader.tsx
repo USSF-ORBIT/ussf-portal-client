@@ -1,19 +1,11 @@
 import React from 'react'
-import { withLDConsumer } from 'launchdarkly-react-client-sdk'
-import { LDFlagSet } from 'launchdarkly-js-client-sdk'
 import { GridContainer, Grid } from '@trussworks/react-uswds'
 
 import styles from './PageHeader.module.scss'
 
 import Search from 'components/Search/Search'
 
-const PageHeader = ({
-  children,
-  flags,
-}: {
-  children: React.ReactNode
-  flags?: LDFlagSet
-}) => {
+const PageHeader = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className={styles.PageHeader}>
       <GridContainer>
@@ -23,7 +15,7 @@ const PageHeader = ({
           </Grid>
 
           <Grid col="auto" desktop={{ col: 6 }}>
-            {flags?.searchComponent ? <Search /> : <Search disabled={true} />}
+            <Search />
           </Grid>
         </Grid>
       </GridContainer>
@@ -31,4 +23,4 @@ const PageHeader = ({
   )
 }
 
-export default withLDConsumer()(PageHeader)
+export default PageHeader
