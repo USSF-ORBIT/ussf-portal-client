@@ -2,10 +2,12 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react'
+import type { NextPage, NextPageContext } from 'next'
+import type { ReactElement, ReactNode } from 'react'
 import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/router'
 
-import Custom500 from 'pages/500'
+import CustomError from 'pages/_error'
 
 const mockBack = jest.fn()
 
@@ -24,13 +26,13 @@ mockedUseRouter.mockReturnValue({
   back: mockBack,
 })
 
-describe('500 page', () => {
+describe('custome error page', () => {
   beforeEach(() => {
-    render(<Custom500 />)
+    render(<CustomError statusCode={1024} />)
   })
 
-  it('renders the custom 500 page,', () => {
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('500')
+  it('renders the custom error page,', () => {
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('1024')
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
       'Houston, we have a problem'
     )
@@ -57,7 +59,7 @@ describe('500 page', () => {
     expect(feedbackLink).toHaveAttribute('href')
     expect(feedbackLink.getAttribute('href')).toContain('feedback@ussforbit.us')
     expect(feedbackLink.getAttribute('href')).toContain(
-      'USSF portal feedback -- 500 page error'
+      'USSF portal feedback -- 1024 page error'
     )
 
     const reportBugLink = screen.getByText('Report a bug')
@@ -67,7 +69,18 @@ describe('500 page', () => {
       'feedback@ussforbit.us'
     )
     expect(reportBugLink.getAttribute('href')).toContain(
-      'USSF portal feedback -- 500 page error'
+      'USSF portal feedback -- 1024 page error'
     )
+  })
+
+  it('tests getInitialProps', async () => {
+    const getInitialProps = CustomError.getInitialProps
+    expect(getInitialProps).toBeDefined()
+    expect(getInitialProps).toBeInstanceOf(Function)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore ignore getInitialProps being possibly undefined because we just checked it
+    const result = await getInitialProps({ res: { statusCode: 404 } })
+    expect(result).toBeDefined()
+    expect(result).toEqual({ statusCode: 404 })
   })
 })
