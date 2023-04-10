@@ -2,8 +2,6 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react'
-import type { NextPage, NextPageContext } from 'next'
-import type { ReactElement, ReactNode } from 'react'
 import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/router'
 
