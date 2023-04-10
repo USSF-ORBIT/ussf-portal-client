@@ -2,6 +2,8 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react'
+import type { NextPage, NextPageContext } from 'next'
+import type { ReactElement, ReactNode } from 'react'
 import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/router'
 
@@ -69,5 +71,16 @@ describe('custome error page', () => {
     expect(reportBugLink.getAttribute('href')).toContain(
       'USSF portal feedback -- 1024 page error'
     )
+  })
+
+  it('tests getInitialProps', async () => {
+    const getInitialProps = CustomError.getInitialProps
+    expect(getInitialProps).toBeDefined()
+    expect(getInitialProps).toBeInstanceOf(Function)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore ignore getInitialProps being possibly undefined because we just checked it
+    const result = await getInitialProps({ res: { statusCode: 404 } })
+    expect(result).toBeDefined()
+    expect(result).toEqual({ statusCode: 404 })
   })
 })
