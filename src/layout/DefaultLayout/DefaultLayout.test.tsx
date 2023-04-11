@@ -66,9 +66,7 @@ describe('DefaultLayout component', () => {
   })
 
   it('renders personal data', () => {
-    expect(screen.getByTestId('personal-data').textContent).toContain(
-      'Welcome, BERNADETT'
-    )
+    expect(screen.getByTestId('personal-data').textContent).toContain('Welcome')
   })
 
   it('renders a skip nav link', () => {

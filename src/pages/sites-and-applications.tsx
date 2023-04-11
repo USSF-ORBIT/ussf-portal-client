@@ -28,7 +28,6 @@ import { addCollectionsInput } from 'operations/helpers'
 
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
-import Loader from 'components/Loader/Loader'
 import Flash from 'components/util/Flash/Flash'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import Collection from 'components/Collection/Collection'
@@ -38,12 +37,12 @@ import SelectableCollection from 'components/SelectableCollection/SelectableColl
 import Tooltip from 'components/Tooltip/Tooltip'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
 
-import { useUser } from 'hooks/useUser'
-
 import { useAnalytics } from 'stores/analyticsContext'
+import { useUser } from 'hooks/useUser'
 
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
 import { GET_KEYSTONE_COLLECTIONS } from 'operations/cms/queries/getKeystoneCollections'
+import Loader from 'components/Loader/Loader'
 
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 

@@ -1,22 +1,86 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
 import { ObjectId } from 'bson'
+import { testUser1 } from '../../__fixtures__/authUsers'
 import MySpace from './MySpace'
 import { mockRssFeedTwo } from '__mocks__/news-rss'
-import { GetMySpaceDocument } from 'operations/portal/queries/getMySpace.g'
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
+import { AuthContext } from 'stores/authContext'
+import { Collection } from 'types'
 
 // Load 2 items
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
+
+const mockNewsWidget: any = {
+  _id: new ObjectId(),
+  title: 'Recent News',
+  type: 'News',
+}
+
+const exampleMySpaceData: Collection[] = [
+  {
+    _id: new ObjectId(),
+    title: 'Example Collection',
+    type: 'Collection',
+    bookmarks: [
+      {
+        _id: new ObjectId(),
+        url: 'https://google.com',
+        label: 'Webmail',
+        cmsId: 'a',
+        isRemoved: false,
+      },
+      {
+        _id: new ObjectId(),
+        url: 'https://mypay.dfas.mil/#/',
+        label: 'MyPay',
+        cmsId: 'b',
+        isRemoved: false,
+      },
+      {
+        _id: new ObjectId(),
+        url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+        label: 'vMPF',
+      },
+    ],
+  },
+  mockNewsWidget,
+]
+
+const examplePortalUser = {
+  userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
+  mySpace: exampleMySpaceData,
+  displayName: 'BERNIE',
+  theme: 'light',
+}
+
+const mockContext = {
+  user: testUser1,
+  portalUser: examplePortalUser,
+  setUser: () => {
+    return
+  },
+  setPortalUser: () => {
+    return
+  },
+  logout: () => {
+    return
+  },
+  login: () => {
+    return
+  },
+}
 
 export default {
   title: 'Layouts/My Space',
   component: MySpace,
   decorators: [
     (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
+      <AuthContext.Provider value={mockContext}>
+        <div className="sfds">
+          <Story />
+        </div>
+      </AuthContext.Provider>
     ),
   ],
   parameters: {
@@ -33,77 +97,4 @@ export default {
   },
 } as Meta
 
-const exampleMySpaceData = [
-  {
-    __typename: 'Collection',
-    _id: new ObjectId().toHexString(),
-    title: 'Example Collection',
-    type: 'Collection',
-    bookmarks: [
-      {
-        _id: new ObjectId().toHexString(),
-        url: 'https://google.com',
-        label: 'Webmail',
-        cmsId: 'a',
-        isRemoved: false,
-      },
-      {
-        _id: new ObjectId().toHexString(),
-        url: 'https://mypay.dfas.mil/#/',
-        label: 'MyPay',
-        cmsId: 'b',
-        isRemoved: false,
-      },
-      {
-        _id: new ObjectId().toHexString(),
-        url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-        label: 'vMPF',
-        cmsId: null,
-        isRemoved: false,
-      },
-    ],
-  },
-  {
-    __typename: 'NewsWidget',
-    _id: new ObjectId().toHexString(),
-    title: 'Recent News',
-    type: 'News',
-  },
-]
-
 export const ExampleMySpace = () => <MySpace bookmarks={[]} />
-
-ExampleMySpace.parameters = {
-  apolloClient: {
-    mocks: [
-      {
-        request: {
-          query: GetMySpaceDocument,
-        },
-        result: {
-          data: {
-            mySpace: exampleMySpaceData,
-          },
-        },
-      },
-    ],
-  },
-}
-
-export const Loading = () => <MySpace bookmarks={[]} />
-
-Loading.parameters = {
-  apolloClient: {
-    mocks: [
-      {
-        delay: 100000000000000,
-        request: {
-          query: GetMySpaceDocument,
-        },
-        result: {
-          data: {},
-        },
-      },
-    ],
-  },
-}

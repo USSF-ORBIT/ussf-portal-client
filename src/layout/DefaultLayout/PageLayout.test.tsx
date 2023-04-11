@@ -5,6 +5,10 @@ import React from 'react'
 import { waitFor, screen } from '@testing-library/react'
 
 import { renderWithAuthAndApollo } from '../../testHelpers'
+import {
+  getUserMock,
+  getUserNoLoadingMock,
+} from '../../__fixtures__/operations/getUser'
 
 import PageLayout, { withPageLayout } from './PageLayout'
 
@@ -22,7 +26,9 @@ describe('PageLayout component', () => {
     renderWithAuthAndApollo(
       <PageLayout header={<h1>Test Page</h1>}>
         <h2>Test Page</h2>
-      </PageLayout>
+      </PageLayout>,
+      {},
+      getUserMock
     )
 
     // need to wait for the query to finish so waiting for banner to display
@@ -53,7 +59,11 @@ describe('PageLayout component', () => {
 describe('withPageLayout HOC', () => {
   it('renders children inside of the page layout', async () => {
     const TestPage = () => <div>My page</div>
-    renderWithAuthAndApollo(withPageLayout(<h1>Test Page</h1>, <TestPage />))
+    renderWithAuthAndApollo(
+      withPageLayout(<h1>Test Page</h1>, <TestPage />),
+      {},
+      getUserNoLoadingMock
+    )
     await waitFor(() => expect(screen.getByText('My page')).toBeInTheDocument())
   })
 })

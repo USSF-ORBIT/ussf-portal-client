@@ -156,6 +156,11 @@ export type DocumentPageType = {
  * *****************************
  * */
 
+/* WidgetInputType is used when creating a new user and adding default widgets */
+export type WidgetInputType = {
+  title: string
+  type: WidgetType
+}
 /*  WidgetType is stored in MongoDB to identify the type of widget  */
 export type WidgetType =
   | 'Collection'
