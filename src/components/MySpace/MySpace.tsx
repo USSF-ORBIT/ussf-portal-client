@@ -83,7 +83,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
     )
 
     handleAddWidget({
-      variables: { title: 'Ideal Title', type: AddWidgetType.GuardianIdeal },
+      variables: { title: 'Guardian Ideal', type: AddWidgetType.GuardianIdeal },
       refetchQueries: ['getMySpace'],
     })
   }
