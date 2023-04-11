@@ -39,8 +39,9 @@ describe('Bookmark Model', () => {
     })
     const testUser = await User.findOne(testUserId, { db })
 
-    // Test user comes with an example collection
-    exampleCollectionId = testUser.mySpace[0]._id
+    // Test user comes with an example widgets
+    // Default MySpace: [FeaturedShortcuts, GuardianIdeal, Example Collection]
+    exampleCollectionId = testUser.mySpace[2]._id
   })
 
   afterAll(async () => {
