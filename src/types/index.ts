@@ -18,9 +18,7 @@ export type CMSBookmark = {
   id: string
   url: string
   label?: string
-  cmsId?: string
   description?: string
-  isRemoved?: boolean
 }
 
 /* CollectionRecord refers to canonical collections created and managed in CMS */
@@ -184,21 +182,21 @@ export type BookmarkModelInput = {
   label?: string
   cmsId?: string
 }
-/*  UserCreatedBookmark refers to an existing user-created object as it is stored in MongoDB 
-    It has the addition of isRemoved, which is used to determine if the bookmark is deleted or hidden */
-export type UserCreatedBookmark = {
+
+/*  MongoBookmark refers to an existing bookmark as it is stored in MongoDB. This includes
+    both user-created bookmarks and bookmarks that the user has added from the CMS.  */
+export type MongoBookmark = {
   _id: ObjectId
   url: string
   label?: string
+  cmsId?: string
+  isRemoved?: boolean
 }
-
-/* AllBookmarks refers to an array that contains both CMSBookmarks and UserCreatedBookmarks */
-export type AllBookmarks = (CMSBookmark | UserCreatedBookmark)[]
 
 /*  Collection refers to a user-created collection containing one or more bookmarks
     It represents both the input and result of creating and retrieving a collection from MongoDB  */
 export interface Collection extends Widget {
-  bookmarks: AllBookmarks
+  bookmarks: MongoBookmark[]
   cmsId?: string
   type: 'Collection'
 }
