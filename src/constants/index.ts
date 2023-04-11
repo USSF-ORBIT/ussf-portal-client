@@ -7,6 +7,17 @@ export const WIDGET_TYPES = {
   FEATUREDSHORTCUTS: 'FeaturedShortcuts',
 } as const
 
+export const WIDGETS = {
+  GUARDIANIDEAL: {
+    title: 'Guardian Ideal',
+    type: WIDGET_TYPES.GUARDIANIDEAL,
+  },
+  FEATUREDSHORTCUTS: {
+    title: 'Featured Shortcuts',
+    type: WIDGET_TYPES.FEATUREDSHORTCUTS,
+  },
+}
+
 export const MAXIMUM_COLLECTIONS = 25
 
 export const EXAMPLE_COLLECTION_ID = 'ckwz3u58s1835ql974leo1yll'
