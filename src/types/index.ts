@@ -13,21 +13,21 @@ export * from '../graphql.g'
  * *****************************
  * */
 
-/* BookmarkRecord refers to canonical bookmarks created and managed in CMS */
-export type BookmarkRecord = {
+/* CMSBookmark refers to canonical bookmarks created and managed in CMS */
+export type CMSBookmark = {
   id: string
   url: string
   label?: string
+  cmsId?: string
   description?: string
+  isRemoved?: boolean
 }
-
-export type BookmarkRecords = BookmarkRecord[]
 
 /* CollectionRecord refers to canonical collections created and managed in CMS */
 export type CollectionRecord = {
   id: string
   title: string
-  bookmarks: BookmarkRecords
+  bookmarks: CMSBookmark[]
 }
 export type CollectionRecords = readonly CollectionRecord[]
 
@@ -179,20 +179,21 @@ export type BookmarkModelInput = {
   label?: string
   cmsId?: string
 }
-/*  Bookmark refers to an existing user-created object as it is stored in MongoDB 
+/*  UserCreatedBookmark refers to an existing user-created object as it is stored in MongoDB 
     It has the addition of isRemoved, which is used to determine if the bookmark is deleted or hidden */
-export type Bookmark = {
+export type UserCreatedBookmark = {
   _id: ObjectId
   url: string
   label?: string
-  cmsId?: string
-  isRemoved?: boolean
 }
+
+/* AllBookmarks refers to an array that contains both CMSBookmarks and UserCreatedBookmarks */
+export type AllBookmarks = (CMSBookmark | UserCreatedBookmark)[]
 
 /*  Collection refers to a user-created collection containing one or more bookmarks
     It represents both the input and result of creating and retrieving a collection from MongoDB  */
 export interface Collection extends Widget {
-  bookmarks: Bookmark[]
+  bookmarks: AllBookmarks
   cmsId?: string
   type: 'Collection'
 }

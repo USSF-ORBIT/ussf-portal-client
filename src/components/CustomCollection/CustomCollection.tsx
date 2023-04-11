@@ -25,10 +25,10 @@ import styles from './CustomCollection.module.scss'
 import Tooltip from 'components/Tooltip/Tooltip'
 import Collection from 'components/Collection/Collection'
 import type {
-  Bookmark as BookmarkType,
-  BookmarkRecord,
-  BookmarkRecords,
+  UserCreatedBookmark,
   WidgetType,
+  CMSBookmark,
+  AllBookmarks,
 } from 'types/index'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
@@ -41,12 +41,15 @@ type PropTypes = {
   _id: ObjectId
   title?: string
   type?: WidgetType
-  bookmarks?: BookmarkType[]
-  bookmarkOptions?: BookmarkRecords
+  bookmarks?: AllBookmarks
+  bookmarkOptions?: CMSBookmark[]
   handleRemoveBookmark: (_id: ObjectId, cmsId?: string) => void
   handleAddBookmark: (url: string, label?: string, cmsId?: string) => void
   handleRemoveCollection: () => void
-  handleEditCollection: (title: string, bookmarks?: BookmarkType[]) => void
+  handleEditCollection: (
+    title: string,
+    bookmarks?: UserCreatedBookmark[]
+  ) => void
 }
 
 const MAXIMUM_BOOKMARKS_PER_COLLECTION = 10
@@ -83,8 +86,15 @@ const CustomCollection = ({
   )
 
   const [customLabel, setCustomLabel] = useState<string>('')
-  const visibleBookmarks = bookmarks.filter((b) => !b.isRemoved)
-  const removedBookmarks = bookmarks.filter((b) => b.isRemoved)
+
+  const visibleBookmarks: AllBookmarks = bookmarks.filter((b) => {
+    // Only return bookmarks that have an isRemoved value of false
+    if (!(b as CMSBookmark).isRemoved || (b as UserCreatedBookmark)) {
+      return b
+    }
+  })
+
+  const removedBookmarks: CMSBookmark[] = bookmarks.filter((b) => b.isRemoved)
 
   useEffect(() => {
     // Auto-focus on ComboBox when clicking Add Link
@@ -302,11 +312,10 @@ const CustomCollection = ({
 
     if (destination) {
       let copiedBookmarks = visibleBookmarks.map(
-        ({ _id, url, label, cmsId, isRemoved }) => ({
+        ({ _id, url, label, isRemoved }) => ({
           _id,
           url,
           label,
-          cmsId,
           isRemoved,
         })
       )
@@ -316,11 +325,10 @@ const CustomCollection = ({
 
       if (removedBookmarks.length > 0) {
         const removedBookmarksToAddBack = removedBookmarks.map(
-          ({ _id, url, label, cmsId, isRemoved }) => ({
+          ({ _id, url, label, isRemoved }) => ({
             _id,
             url,
             label,
-            cmsId,
             isRemoved,
           })
         )
@@ -332,9 +340,7 @@ const CustomCollection = ({
     }
   }
 
-  const findBookmark = (
-    bookmark: BookmarkType
-  ): BookmarkType | BookmarkRecord => {
+  const findBookmark = (bookmark: CMSBookmark): CMSBookmark => {
     const found = bookmarkOptions.filter((b) => b.id === bookmark.cmsId)
     return found.length > 0 ? found[0] : bookmark
   }
@@ -387,7 +393,7 @@ const CustomCollection = ({
             <Collection
               header={customCollectionHeader}
               footer={!isEditingTitle ? addLinkForm : null}>
-              {visibleBookmarks.map((bookmark: BookmarkType, index) =>
+              {visibleBookmarks.map((bookmark: CMSBookmark, index) =>
                 bookmark.cmsId ? (
                   <Draggable
                     draggableId={bookmark._id.toString()}
