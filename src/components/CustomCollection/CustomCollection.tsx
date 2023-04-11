@@ -88,13 +88,19 @@ const CustomCollection = ({
   const [customLabel, setCustomLabel] = useState<string>('')
 
   const visibleBookmarks: AllBookmarks = bookmarks.filter((b) => {
-    // Only return bookmarks that have an isRemoved value of false
-    if (!(b as CMSBookmark).isRemoved || (b as UserCreatedBookmark)) {
+    // Only return bookmarks that have an isRemoved value of false. This allows for both CMS
+    // and user-created bookmarks to be returned because isRemoved does not exist on UserCreatedBookmarks,
+    // so it will pass the below check
+    if (!(b as CMSBookmark).isRemoved) {
       return b
     }
   })
 
-  const removedBookmarks: CMSBookmark[] = bookmarks.filter((b) => b.isRemoved)
+  const removedBookmarks: AllBookmarks = bookmarks.filter((b) => {
+    if ((b as CMSBookmark).isRemoved) {
+      return b
+    }
+  })
 
   useEffect(() => {
     // Auto-focus on ComboBox when clicking Add Link
@@ -393,89 +399,92 @@ const CustomCollection = ({
             <Collection
               header={customCollectionHeader}
               footer={!isEditingTitle ? addLinkForm : null}>
-              {visibleBookmarks.map((bookmark: CMSBookmark, index) =>
-                bookmark.cmsId ? (
-                  <Draggable
-                    draggableId={bookmark._id.toString()}
-                    index={index}
-                    key={bookmark._id.toString()}>
-                    {(provided) => {
-                      // Overriding styles for element containing draggableProps
-                      const style = {
-                        display: 'flex',
-                        alignItems: 'center',
-                        ...provided.draggableProps.style,
-                      }
+              {visibleBookmarks.map(
+                (bookmark: CMSBookmark | UserCreatedBookmark, index) =>
+                  (bookmark as CMSBookmark).cmsId ? (
+                    <Draggable
+                      draggableId={bookmark._id.toString()}
+                      index={index}
+                      key={bookmark._id.toString()}>
+                      {(provided) => {
+                        // Overriding styles for element containing draggableProps
+                        const style = {
+                          display: 'flex',
+                          alignItems: 'center',
+                          ...provided.draggableProps.style,
+                        }
 
-                      return (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          style={style}>
-                          <span
-                            {...provided.dragHandleProps}
-                            aria-label="Drag Handle"
-                            className={styles.dragIconWrap}>
-                            <FontAwesomeIcon icon="grip-vertical" />
-                          </span>
-                          <div className={styles.dragBookmark}>
-                            <RemovableBookmark
-                              key={`bookmark_${bookmark._id}`}
-                              bookmark={findBookmark(bookmark)}
-                              handleRemove={() => {
-                                trackEvent(
-                                  'Remove link',
-                                  'Hide CMS link',
-                                  `${title} / ${bookmark.label || bookmark.url}`
-                                )
-                                handleRemoveBookmark(
-                                  bookmark._id,
-                                  bookmark.cmsId
-                                )
-                              }}
-                            />
+                        return (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            style={style}>
+                            <span
+                              {...provided.dragHandleProps}
+                              aria-label="Drag Handle"
+                              className={styles.dragIconWrap}>
+                              <FontAwesomeIcon icon="grip-vertical" />
+                            </span>
+                            <div className={styles.dragBookmark}>
+                              <RemovableBookmark
+                                key={`bookmark_${bookmark._id}`}
+                                bookmark={findBookmark(bookmark)}
+                                handleRemove={() => {
+                                  trackEvent(
+                                    'Remove link',
+                                    'Hide CMS link',
+                                    `${title} / ${
+                                      bookmark.label || bookmark.url
+                                    }`
+                                  )
+                                  handleRemoveBookmark(
+                                    bookmark._id,
+                                    bookmark.cmsId
+                                  )
+                                }}
+                              />
+                            </div>
                           </div>
-                        </div>
-                      )
-                    }}
-                  </Draggable>
-                ) : (
-                  <Draggable
-                    draggableId={bookmark._id.toString()}
-                    index={index}
-                    key={bookmark._id.toString()}>
-                    {(provided) => {
-                      // Overriding styles for element containing draggableProps
-                      const style = {
-                        display: 'flex',
-                        alignItems: 'center',
-                        ...provided.draggableProps.style,
-                      }
+                        )
+                      }}
+                    </Draggable>
+                  ) : (
+                    <Draggable
+                      draggableId={bookmark._id.toString()}
+                      index={index}
+                      key={bookmark._id.toString()}>
+                      {(provided) => {
+                        // Overriding styles for element containing draggableProps
+                        const style = {
+                          display: 'flex',
+                          alignItems: 'center',
+                          ...provided.draggableProps.style,
+                        }
 
-                      return (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          style={style}>
-                          <span
-                            {...provided.dragHandleProps}
-                            aria-label="Drag Handle"
-                            className={styles.dragIconWrap}>
-                            <FontAwesomeIcon icon="grip-vertical" />
-                          </span>
-                          <div className={styles.dragBookmark}>
-                            <CustomBookmark
-                              key={`bookmark_${bookmark._id}`}
-                              bookmark={bookmark}
-                              widgetId={_id}
-                              collectionTitle={title}
-                            />
+                        return (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            style={style}>
+                            <span
+                              {...provided.dragHandleProps}
+                              aria-label="Drag Handle"
+                              className={styles.dragIconWrap}>
+                              <FontAwesomeIcon icon="grip-vertical" />
+                            </span>
+                            <div className={styles.dragBookmark}>
+                              <CustomBookmark
+                                key={`bookmark_${bookmark._id}`}
+                                bookmark={bookmark}
+                                widgetId={_id}
+                                collectionTitle={title}
+                              />
+                            </div>
                           </div>
-                        </div>
-                      )
-                    }}
-                  </Draggable>
-                )
+                        )
+                      }}
+                    </Draggable>
+                  )
               )}
               {provided.placeholder}
             </Collection>
