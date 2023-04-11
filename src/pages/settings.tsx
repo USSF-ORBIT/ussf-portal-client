@@ -1,20 +1,18 @@
 import styles from 'styles/pages/settings.module.scss'
-import Loader from 'components/Loader/Loader'
 import EditDisplayName from 'components/EditDisplayName/EditDisplayName'
-import { useUser } from 'hooks/useUser'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import { useEditDisplayNameMutation } from 'operations/portal/mutations/editDisplayName.g'
-import { useGetDisplayNameQuery } from 'operations/portal/queries/getDisplayName.g'
+import { useAuthContext } from 'stores/authContext'
+import { useUser } from 'hooks/useUser'
+import Loader from 'components/Loader/Loader'
 
 const Settings = () => {
   const { user } = useUser()
+  const { portalUser } = useAuthContext()
 
   const [handleEditDisplayName] = useEditDisplayNameMutation()
 
-  const { error, data } = useGetDisplayNameQuery()
-  const userDisplayName = (data?.displayName || '') as string
-
-  if (error) return <p>Error</p>
+  const userDisplayName = (portalUser?.displayName || '') as string
 
   return !user ? (
     <Loader />
@@ -31,7 +29,7 @@ const Settings = () => {
                   userId,
                   displayName,
                 },
-                refetchQueries: [`getDisplayName`],
+                refetchQueries: [`getUser`],
               })
             }}
           />

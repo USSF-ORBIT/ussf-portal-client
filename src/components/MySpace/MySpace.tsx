@@ -9,7 +9,6 @@ import styles from './MySpace.module.scss'
 import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
 import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
 import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget.g'
-import { useGetMySpaceQuery } from 'operations/portal/queries/getMySpace.g'
 import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
 import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
 import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
@@ -25,10 +24,10 @@ import {
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import NewsWidget from 'components/NewsWidget/NewsWidget'
 import CustomCollection from 'components/CustomCollection/CustomCollection'
-import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import AddWidget from 'components/AddWidget/AddWidget'
 import { GuardianIdealPillars } from 'components/GuardianIdeal/GuardianIdealPillars'
 import { useAnalytics } from 'stores/analyticsContext'
+import { useAuthContext } from 'stores/authContext'
 import FeaturedShortcuts from 'components/FeaturedShortcuts/FeaturedShorcuts'
 import { featuredShortcutItems } from 'components/FeaturedShortcuts/FeaturedShortcutItems'
 
@@ -52,10 +51,10 @@ function isFeaturedShortcuts(widget: Widget): widget is Collection {
 const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const router = useRouter()
   const { trackEvent } = useAnalytics()
-  const { loading, error, data } = useGetMySpaceQuery()
+  const { portalUser } = useAuthContext()
   const flags = useFlags()
 
-  const mySpace = (data?.mySpace || []) as MySpaceWidget[]
+  const mySpace = (portalUser?.mySpace || []) as MySpaceWidget[]
 
   const [handleAddWidget] = useAddWidgetMutation()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
@@ -64,14 +63,12 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
   const [handleEditCollection] = useEditCollectionMutation()
   const [handleAddCollection] = useAddCollectionMutation()
 
-  if (error) return <p>Error</p>
-
   const addNewsWidget = () => {
     trackEvent('Add section', 'Add news')
 
     handleAddWidget({
       variables: { title: 'Recent news', type: AddWidgetType.News },
-      refetchQueries: ['getMySpace'],
+      refetchQueries: ['getUser'],
     })
   }
 
@@ -84,7 +81,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
 
     handleAddWidget({
       variables: { title: 'Guardian Ideal', type: AddWidgetType.GuardianIdeal },
-      refetchQueries: ['getMySpace'],
+      refetchQueries: ['getUser'],
     })
   }
 
@@ -100,7 +97,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
         title: 'Featured Shortcuts',
         type: AddWidgetType.FeaturedShortcuts,
       },
-      refetchQueries: ['getMySpace'],
+      refetchQueries: ['getUser'],
     })
   }
 
@@ -109,7 +106,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
 
     handleAddCollection({
       variables: { title: '', bookmarks: [] },
-      refetchQueries: [`getMySpace`],
+      refetchQueries: [`getUser`],
     })
   }
 
@@ -142,18 +139,9 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
       <div className={styles.widgetContainer}>
         <h2 className={styles.pageTitle}>My Space</h2>
         <Grid row gap={2}>
-          {loading && (
-            <Grid
-              key={`widget_loading`}
-              tabletLg={{ col: 6 }}
-              desktopLg={{ col: 4 }}>
-              <LoadingWidget />
-            </Grid>
-          )}
-
-          {data &&
-            data.mySpace &&
-            data.mySpace.map((widget: Widget) => {
+          {portalUser &&
+            portalUser.mySpace &&
+            portalUser.mySpace.map((widget: Widget) => {
               if (isGuardianIdeal(widget) && flags?.guardianIdealCarousel) {
                 return (
                   <Grid
@@ -209,7 +197,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                           variables: {
                             _id: widget._id,
                           },
-                          refetchQueries: [`getMySpace`],
+                          refetchQueries: [`getUser`],
                         })
                       }}
                       handleEditCollection={(
@@ -260,7 +248,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                             collectionId: widget._id,
                             cmsId,
                           },
-                          refetchQueries: [`getMySpace`],
+                          refetchQueries: [`getUser`],
                         })
                       }}
                       handleAddBookmark={(url, label, id) => {
@@ -271,7 +259,7 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
                             label,
                             cmsId: id,
                           },
-                          refetchQueries: [`getMySpace`],
+                          refetchQueries: [`getUser`],
                         })
                       }}
                     />
@@ -281,28 +269,27 @@ const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
               return null
             })}
 
-          {!loading &&
-            (canAddCollections ||
-              canAddNews ||
-              canAddGuardianIdeal ||
-              canAddFeaturedShortcuts) && (
-              <Grid
-                key={`widget_addNew`}
-                tabletLg={{ col: 6 }}
-                desktopLg={{ col: 4 }}>
-                <AddWidget
-                  handleCreateCollection={addNewCollection}
-                  handleSelectCollection={selectCollections}
-                  handleAddNews={addNewsWidget}
-                  handleAddGuardianIdeal={addGuardianIdeal}
-                  handleAddFeaturedShortcuts={addFeaturedShortcuts}
-                  canAddNews={canAddNews}
-                  canAddCollection={canAddCollections}
-                  canAddGuardianIdeal={canAddGuardianIdeal}
-                  canAddFeaturedShortcuts={canAddFeaturedShortcuts}
-                />
-              </Grid>
-            )}
+          {(canAddCollections ||
+            canAddNews ||
+            canAddGuardianIdeal ||
+            canAddFeaturedShortcuts) && (
+            <Grid
+              key={`widget_addNew`}
+              tabletLg={{ col: 6 }}
+              desktopLg={{ col: 4 }}>
+              <AddWidget
+                handleCreateCollection={addNewCollection}
+                handleSelectCollection={selectCollections}
+                handleAddNews={addNewsWidget}
+                handleAddGuardianIdeal={addGuardianIdeal}
+                handleAddFeaturedShortcuts={addFeaturedShortcuts}
+                canAddNews={canAddNews}
+                canAddCollection={canAddCollections}
+                canAddGuardianIdeal={canAddGuardianIdeal}
+                canAddFeaturedShortcuts={canAddFeaturedShortcuts}
+              />
+            </Grid>
+          )}
         </Grid>
       </div>
     </div>

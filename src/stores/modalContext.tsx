@@ -137,7 +137,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         url,
         label,
       },
-      refetchQueries: [`getMySpace`],
+      refetchQueries: [`getUser`],
     })
 
     closeModal()
@@ -151,7 +151,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         url,
         label,
       },
-      refetchQueries: [`getMySpace`],
+      refetchQueries: [`getUser`],
     })
     closeModal()
   }
@@ -184,7 +184,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         trackEvent('Section settings', 'Remove this section', 'News')
         handleRemoveWidget({
           variables: { _id: widgetState?._id },
-          refetchQueries: [`getMySpace`],
+          refetchQueries: [`getUser`],
         })
         closeModal()
         break
@@ -196,7 +196,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         )
         handleRemoveWidget({
           variables: { _id: widgetState?._id },
-          refetchQueries: [`getMySpace`],
+          refetchQueries: [`getUser`],
         })
         closeModal()
         break
@@ -208,7 +208,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         )
         handleRemoveWidget({
           variables: { _id: widgetState?._id },
-          refetchQueries: [`getMySpace`],
+          refetchQueries: [`getUser`],
         })
         closeModal()
         break
@@ -222,7 +222,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
           variables: {
             _id: widgetState?._id,
           },
-          refetchQueries: [`getMySpace`],
+          refetchQueries: [`getUser`],
         })
         closeModal()
         break
@@ -232,7 +232,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
             _id: bookmark?._id,
             collectionId: widgetState?._id,
           },
-          refetchQueries: [`getMySpace`],
+          refetchQueries: [`getUser`],
         })
         closeModal()
         break

@@ -98,6 +98,7 @@ describe('ORBIT Blog page', () => {
       },
     })
   })
+
   describe('without a user', () => {
     beforeEach(() => {
       renderWithAuth(<OrbitBlog articles={mockOrbitBlogArticles} />, {

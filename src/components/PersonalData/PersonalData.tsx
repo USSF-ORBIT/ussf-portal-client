@@ -14,8 +14,8 @@ const PersonalData = ({ userDisplayName }: { userDisplayName: string }) => {
   const currentPage = router.pathname
 
   return (
-    <div data-testid={'personal-data'} className={styles.personalData}>
-      <h2>{greeting}</h2>
+    <div className={styles.personalData}>
+      <h2 data-testid={'personal-data'}>{greeting}</h2>
 
       {currentPage != '/settings' && (
         <div>
