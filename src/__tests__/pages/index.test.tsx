@@ -4,14 +4,13 @@
 
 import { screen, waitFor, act } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
-import { MockedProvider } from '@apollo/client/testing'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
 
-import { renderWithAuth } from '../../testHelpers'
+import { renderWithAuth, renderWithAuthAndApollo } from '../../testHelpers'
+import { portalUserMaxedOutCollection } from '../../__fixtures__/authUsers'
 
-import { getMySpaceMock } from '../../__fixtures__/operations/getMySpace'
 import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
 import { cmsAnnouncementsMock } from '../../__fixtures__/data/cmsAnnouncments'
 import '../../__mocks__/mockMatchMedia'
@@ -76,18 +75,13 @@ describe('Home page', () => {
     let html: RenderResult
 
     beforeEach(() => {
-      html = renderWithAuth(
-        <MockedProvider mocks={getMySpaceMock} addTypename={false}>
-          <Home
-            bookmarks={cmsBookmarksMock}
-            announcements={cmsAnnouncementsMock}
-          />
-        </MockedProvider>
+      html = renderWithAuthAndApollo(
+        <Home
+          bookmarks={cmsBookmarksMock}
+          announcements={cmsAnnouncementsMock}
+        />,
+        { portalUser: portalUserMaxedOutCollection }
       )
-    })
-
-    it('renders the loading page,', () => {
-      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
     it('renders the home page', async () => {
@@ -108,6 +102,7 @@ describe('Home page', () => {
           name: 'Example Collection',
         })
       ).toBeInTheDocument()
+
       expect(
         await screen.findByRole('heading', {
           level: 3,

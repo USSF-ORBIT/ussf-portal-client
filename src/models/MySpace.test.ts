@@ -4,6 +4,7 @@ import User from './User'
 import { MySpaceModel } from './MySpace'
 
 import type { Widget } from 'types/index'
+import { WIDGETS, WIDGET_TYPES } from 'constants/index'
 import { exampleCollection } from '__fixtures__/newPortalUser'
 
 let connection: typeof MongoClient
@@ -23,7 +24,8 @@ describe('My Space model', () => {
     // Clean up db
     await db.collection('users').deleteMany({})
 
-    // Create a test user (with one default collection)
+    // Create a test user
+    // MySpace Data: FeaturedShortcuts, GuardianIdeal, Example Collection
     const displayName = 'Floyd King'
     const theme = 'light'
     await User.createOne(testUserId, [exampleCollection], displayName, theme, {
@@ -37,7 +39,8 @@ describe('My Space model', () => {
 
   it('can get all widgets in a user’s My Space', async () => {
     const all = await MySpaceModel.get({ userId: testUserId }, { db })
-    expect(all).toHaveLength(1)
+    // Data: FeaturedShortcuts, GuardianIdeal, Example Collection
+    expect(all).toHaveLength(3)
   })
 
   it('throws an error if user is not found', async () => {
@@ -57,24 +60,83 @@ describe('My Space model', () => {
     expect(created).toHaveProperty('_id')
 
     const all = await MySpaceModel.get({ userId: testUserId }, { db })
-    expect(all).toHaveLength(2)
+
+    // Data: FeaturedShortcuts, GuardianIdeal, Example Collection, News
+    expect(all).toHaveLength(4)
+  })
+
+  it('can remove default Guardian Ideal widget', async () => {
+    // Beginning Data: FeaturedShortcuts, GuardianIdeal, Example Collection, News
+    let allSections = await MySpaceModel.get({ userId: testUserId }, { db })
+
+    let guardianIdealWidget = allSections.find(
+      (s) => s.type === WIDGETS.GUARDIANIDEAL.type
+    )
+
+    expect(guardianIdealWidget).toBeTruthy()
+
+    if (guardianIdealWidget) {
+      await MySpaceModel.deleteWidget(
+        { _id: guardianIdealWidget._id, userId: testUserId },
+        { db }
+      )
+
+      allSections = await MySpaceModel.get({ userId: testUserId }, { db })
+      guardianIdealWidget = allSections.find(
+        (s) => s.type === WIDGET_TYPES.GUARDIANIDEAL
+      )
+      expect(guardianIdealWidget).toBe(undefined)
+      // End Data: FeaturedShortcuts, Example Collection, News
+    }
   })
 
   it('can add a Guardian Ideal widget', async () => {
+    // Beginning Data: FeaturedShortcuts, Example Collection, News
     const created = (await MySpaceModel.addWidget(
-      { userId: testUserId, title: 'Ideal title', type: 'GuardianIdeal' },
+      {
+        userId: testUserId,
+        title: WIDGETS.GUARDIANIDEAL.title,
+        type: WIDGETS.GUARDIANIDEAL.type,
+      },
       { db }
     )) as Widget
 
-    expect(created.title).toEqual('Ideal title')
-    expect(created.type).toEqual('GuardianIdeal')
+    expect(created.title).toEqual(WIDGETS.GUARDIANIDEAL.title)
+    expect(created.type).toEqual(WIDGETS.GUARDIANIDEAL.type)
     expect(created).toHaveProperty('_id')
 
     const all = await MySpaceModel.get({ userId: testUserId }, { db })
-    expect(all).toHaveLength(3)
+    // End: FeaturedShortcuts, GuardianIdeal, Example Collection, News
+    expect(all).toHaveLength(4)
+  })
+
+  it('can remove default Featured Shortcuts widget', async () => {
+    // Beginning Data: FeaturedShortcuts, GuardianIdeal, Example Collection, News
+    let allSections = await MySpaceModel.get({ userId: testUserId }, { db })
+
+    let featuredShortcutsWidget = allSections.find(
+      (s) => s.type === WIDGETS.FEATUREDSHORTCUTS.type
+    )
+
+    expect(featuredShortcutsWidget).toBeTruthy()
+
+    if (featuredShortcutsWidget) {
+      await MySpaceModel.deleteWidget(
+        { _id: featuredShortcutsWidget._id, userId: testUserId },
+        { db }
+      )
+
+      allSections = await MySpaceModel.get({ userId: testUserId }, { db })
+      featuredShortcutsWidget = allSections.find(
+        (s) => s.type === WIDGET_TYPES.FEATUREDSHORTCUTS
+      )
+      expect(featuredShortcutsWidget).toBe(undefined)
+      // End Data: GuardianIdeal, Example Collection, News
+    }
   })
 
   it('can add a Featured Shortcut widget', async () => {
+    // Beginning Data: GuardianIdeal, Example Collection, News
     const created = (await MySpaceModel.addWidget(
       {
         userId: testUserId,
@@ -89,6 +151,7 @@ describe('My Space model', () => {
     expect(created).toHaveProperty('_id')
 
     const all = await MySpaceModel.get({ userId: testUserId }, { db })
+    // End Data: FeaturedShortcuts, GuardianIdeal, Example Collection, News
     expect(all).toHaveLength(4)
   })
 
@@ -104,7 +167,11 @@ describe('My Space model', () => {
   it('cannot add a Guardian Ideal widget if there already is one', async () => {
     expect(
       MySpaceModel.addWidget(
-        { userId: testUserId, title: 'Ideal title', type: 'GuardianIdeal' },
+        {
+          userId: testUserId,
+          title: WIDGETS.GUARDIANIDEAL.title,
+          type: WIDGETS.GUARDIANIDEAL.type,
+        },
         { db }
       )
     ).rejects.toThrow(new Error('You can only have one Guardian Ideal section'))
@@ -134,6 +201,7 @@ describe('My Space model', () => {
     ).rejects.toThrow()
   })
   it('can remove a News widget', async () => {
+    // Beginning Data: FeaturedShortcuts, GuardianIdeal, Example Collection, News
     let allSections = await MySpaceModel.get({ userId: testUserId }, { db })
 
     let newsWidget = allSections.find((s) => s.type === 'News')
@@ -148,6 +216,7 @@ describe('My Space model', () => {
 
       allSections = await MySpaceModel.get({ userId: testUserId }, { db })
       newsWidget = allSections.find((s) => s.type === 'News')
+      // Beginning Data: FeaturedShortcuts, GuardianIdeal, Example Collection
       expect(newsWidget).toBe(undefined)
     }
   })

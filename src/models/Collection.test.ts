@@ -150,7 +150,8 @@ describe('Collection Model', () => {
       db,
     })
     const testUser = await User.findOne(testUserId, { db })
-    exampleCollectionId = testUser.mySpace[0]._id
+    // Default MySpace: [FeaturedShortcuts, GuardianIdeal, Example Collection]
+    exampleCollectionId = testUser.mySpace[2]._id
   })
 
   afterAll(async () => {

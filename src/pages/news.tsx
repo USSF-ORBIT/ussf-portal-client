@@ -4,13 +4,13 @@ import { DateTime } from 'luxon'
 import { client } from '../lib/keystoneClient'
 
 import type { ArticleListItemRecord } from 'types'
-import Loader from 'components/Loader/Loader'
-import { useUser } from 'hooks/useUser'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import { GET_INTERNAL_NEWS_ARTICLES } from 'operations/cms/queries/getInternalNewsArticles'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 import styles from 'styles/pages/news.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
+import { useUser } from 'hooks/useUser'
+import Loader from 'components/Loader/Loader'
 
 const InternalNews = ({
   articles,

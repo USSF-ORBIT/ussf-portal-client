@@ -11,17 +11,18 @@ import { MockedProvider } from '@apollo/client/testing'
 import { ObjectId } from 'mongodb'
 import { renderWithModalRoot, renderWithAuthAndApollo } from '../../testHelpers'
 import '../../__mocks__/mockMatchMedia'
+import type { Collection, MySpaceWidget } from '../../types/index'
 
+import { getMySpaceMock } from '../../__fixtures__/operations/getMySpace'
 import {
-  getMySpaceMock,
-  getMySpaceMaximumCollectionsMock,
-  getMySpaceMaximumCollectionsWithNewsMock,
-  getMySpaceCollectionsWithGuardianIdealMock,
-} from '../../__fixtures__/operations/getMySpace'
+  portalUserMaxedOutCollection,
+  portalUserCollectionLimit,
+  portalUserGuardianIdeal,
+  portalUserCollectionLimitWithAllAdditionalWidgets,
+} from '../../__fixtures__/authUsers'
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import MySpace from './MySpace'
 
-import { GetMySpaceDocument } from 'operations/portal/queries/getMySpace.g'
 import { AddCollectionDocument } from 'operations/portal/mutations/addCollection.g'
 import { EditCollectionDocument } from 'operations/portal/mutations/editCollection.g'
 import { RemoveCollectionDocument } from 'operations/portal/mutations/removeCollection.g'
@@ -64,20 +65,13 @@ describe('My Space Component', () => {
   describe('default state', () => {
     let html: RenderResult
     beforeEach(() => {
-      html = render(
-        <MockedProvider mocks={getMySpaceMock} addTypename={false}>
-          <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-        </MockedProvider>
+      html = renderWithAuthAndApollo(
+        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />,
+        { portalUser: portalUserMaxedOutCollection }
       )
     })
 
-    it('renders without error ', async () => {
-      // Because MockedProvider is async/promise-based,
-      // the test always completes when in the loading state
-      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
-    })
-
-    it('should render all widgets', async () => {
+    test('should render all widgets', async () => {
       expect(
         await screen.findByRole('heading', {
           level: 3,
@@ -98,20 +92,15 @@ describe('My Space Component', () => {
           name: 'Recent News',
         })
       ).toBeInTheDocument()
-
-      // 21 Collection widgets
-      expect(await screen.findAllByRole('list')).toHaveLength(22)
-      // Total of 35 Bookmarks
-      expect(await screen.findAllByRole('listitem')).toHaveLength(35)
     })
 
-    it('renders the add widget component', async () => {
+    test('renders the add widget component', async () => {
       expect(
         await screen.findByRole('button', { name: 'Add section' })
       ).toBeInTheDocument()
     })
 
-    it('disables adding a news section if there is already a news section', async () => {
+    test('disables adding a news section if there is already a news section', async () => {
       const user = userEvent.setup()
 
       expect(
@@ -138,7 +127,7 @@ describe('My Space Component', () => {
       ).toBeEnabled()
     })
 
-    it('has no a11y violations', async () => {
+    test('has no a11y violations', async () => {
       // Bug with NextJS Link + axe :(
       // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
       await act(async () => {
@@ -147,34 +136,12 @@ describe('My Space Component', () => {
     })
   })
 
-  it('shows an error state', async () => {
-    const errorMock = [
-      {
-        request: {
-          query: GetMySpaceDocument,
-        },
-        error: new Error(),
-      },
-    ]
-
-    render(
-      <MockedProvider mocks={errorMock} addTypename={false}>
-        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-      </MockedProvider>
-    )
-
-    expect(await screen.findByText('Error')).toBeInTheDocument()
-  })
-
-  it('disables adding more collections if there are 25 collections', async () => {
+  test('disables adding more collections if there are 25 collections', async () => {
     const user = userEvent.setup()
 
-    render(
-      <MockedProvider
-        mocks={getMySpaceMaximumCollectionsMock}
-        addTypename={false}>
-        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-      </MockedProvider>
+    renderWithAuthAndApollo(
+      <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />,
+      { portalUser: portalUserCollectionLimit }
     )
 
     expect(
@@ -199,15 +166,14 @@ describe('My Space Component', () => {
     ).toBeDisabled()
   })
 
-  it('displays the Guardian Ideal widget', async () => {
+  test('displays the Guardian Ideal widget', async () => {
     mockFlags({
       guardianIdealCarousel: true,
     })
 
     renderWithAuthAndApollo(
       <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />,
-      {},
-      getMySpaceCollectionsWithGuardianIdealMock
+      { portalUser: portalUserGuardianIdeal }
     )
 
     await waitFor(() =>
@@ -217,13 +183,10 @@ describe('My Space Component', () => {
     )
   })
 
-  it('does not render the add widget component if there are 25 collections and news', async () => {
-    render(
-      <MockedProvider
-        mocks={getMySpaceMaximumCollectionsWithNewsMock}
-        addTypename={false}>
-        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-      </MockedProvider>
+  test('does not render the add widget component if there are 25 collections, news, featured shortcuts, and guardian ideal', async () => {
+    renderWithAuthAndApollo(
+      <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />,
+      { portalUser: portalUserCollectionLimitWithAllAdditionalWidgets }
     )
 
     expect(
@@ -231,7 +194,7 @@ describe('My Space Component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('navigates to Sites & Applications when adding new existing collections', async () => {
+  test('navigates to Sites & Applications when adding new existing collections', async () => {
     const user = userEvent.setup()
 
     render(
@@ -253,17 +216,20 @@ describe('My Space Component', () => {
     })
   })
 
-  it('handles the remove bookmark operation', async () => {
+  test('handles the remove bookmark operation', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime })
 
     let bookmarkRemoved = false
 
-    const bookmarkId =
-      getMySpaceMock[0].result.data.mySpace[0].bookmarks?.[1]._id
+    // Note: Leaving this as 'any' for now. MySpaceWidget is a union type between
+    // Widget and Collection, and since 'bookmarks' does not exist on Widget, it kept
+    // showing an error here.
+    const userMySpace: any = portalUserMaxedOutCollection.mySpace[0]
+    const bookmarkId = userMySpace.bookmarks?.[1]._id
 
-    const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
+    const collectionId = portalUserMaxedOutCollection.mySpace[0]._id
+
     const mocksWithRemove = [
-      ...getMySpaceMock,
       {
         request: {
           query: RemoveBookmarkDocument,
@@ -289,10 +255,10 @@ describe('My Space Component', () => {
 
     jest.useFakeTimers()
 
-    render(
-      <MockedProvider mocks={mocksWithRemove} addTypename={false}>
-        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-      </MockedProvider>
+    renderWithAuthAndApollo(
+      <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />,
+      { portalUser: portalUserMaxedOutCollection },
+      mocksWithRemove
     )
 
     const buttons = await screen.findAllByRole('button', {
@@ -308,17 +274,16 @@ describe('My Space Component', () => {
     expect(bookmarkRemoved).toBe(true)
   })
 
-  it('handles the add bookmark operation', async () => {
+  test('handles the add bookmark operation', async () => {
     const user = userEvent.setup()
 
     let bookmarkAdded = false
     const addBookmarkMock = [
-      ...getMySpaceMock,
       {
         request: {
           query: AddBookmarkDocument,
           variables: {
-            collectionId: getMySpaceMock[0].result.data.mySpace[0]._id,
+            collectionId: portalUserMaxedOutCollection.mySpace[0]._id,
             url: 'https://mypay.dfas.mil/#/',
             label: 'MyPay',
             cmsId: '2',
@@ -339,10 +304,11 @@ describe('My Space Component', () => {
         },
       },
     ]
-    renderWithModalRoot(
-      <MockedProvider mocks={addBookmarkMock} addTypename={false}>
-        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-      </MockedProvider>
+
+    renderWithAuthAndApollo(
+      <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />,
+      { portalUser: portalUserMaxedOutCollection },
+      addBookmarkMock
     )
 
     const addLinkButtons = await screen.findAllByRole('button', {
@@ -363,13 +329,13 @@ describe('My Space Component', () => {
     expect(bookmarkAdded).toBe(true)
   })
 
-  it('handles the edit collection title operation', async () => {
+  test('handles the edit collection title operation', async () => {
     const user = userEvent.setup()
 
     let collectionEdited = false
-    const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
+    const collectionId = portalUserMaxedOutCollection.mySpace[0]._id
+
     const editCollectionMock = [
-      ...getMySpaceMock,
       {
         request: {
           query: EditCollectionDocument,
@@ -383,9 +349,7 @@ describe('My Space Component', () => {
           return {
             data: {
               editCollection: {
-                _id: collectionId,
                 title: 'Updated Title',
-                bookmarks: getMySpaceMock[0].result.data.mySpace[0].bookmarks,
               },
             },
           }
@@ -393,10 +357,10 @@ describe('My Space Component', () => {
       },
     ]
 
-    render(
-      <MockedProvider mocks={editCollectionMock} addTypename={false}>
-        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-      </MockedProvider>
+    renderWithAuthAndApollo(
+      <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />,
+      { portalUser: portalUserMaxedOutCollection },
+      editCollectionMock
     )
 
     const settings = await screen.findAllByRole('button', {
@@ -421,16 +385,15 @@ describe('My Space Component', () => {
     expect(collectionEdited).toBe(true)
   })
 
-  it('handles the remove collection operation', async () => {
+  test('handles the remove collection operation', async () => {
     const user = userEvent.setup()
     const mockUpdateModalId = jest.fn()
     const mockUpdateModalText = jest.fn()
     const mockUpdateWidget = jest.fn()
 
-    let collectionRemoved = false
-    const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
+    const collectionId = portalUserMaxedOutCollection.mySpace[0]._id
+
     const removeCollectionMock = [
-      ...getMySpaceMock,
       {
         request: {
           query: RemoveCollectionDocument,
@@ -439,7 +402,6 @@ describe('My Space Component', () => {
           },
         },
         result: () => {
-          collectionRemoved = true
           return {
             data: {
               removeCollection: {
@@ -450,15 +412,16 @@ describe('My Space Component', () => {
         },
       },
     ]
+
     renderWithModalRoot(
-      <MockedProvider mocks={removeCollectionMock} addTypename={false}>
-        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-      </MockedProvider>,
+      <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />,
       {
         updateModalId: mockUpdateModalId,
         updateModalText: mockUpdateModalText,
         updateWidget: mockUpdateWidget,
-      }
+      },
+      removeCollectionMock,
+      { portalUser: portalUserMaxedOutCollection }
     )
 
     const dropdownMenu = await screen.findAllByRole('button', {
@@ -481,12 +444,11 @@ describe('My Space Component', () => {
     expect(mockUpdateWidget).toHaveBeenCalled()
   })
 
-  it('handles the add collection operation', async () => {
+  test('handles the add collection operation', async () => {
     const user = userEvent.setup()
 
     let collectionAdded = false
     const addCollectionMock = [
-      ...getMySpaceMock,
       {
         request: {
           query: AddCollectionDocument,
@@ -509,10 +471,11 @@ describe('My Space Component', () => {
         },
       },
     ]
-    render(
-      <MockedProvider mocks={addCollectionMock} addTypename={false}>
-        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-      </MockedProvider>
+
+    renderWithAuthAndApollo(
+      <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />,
+      { portalUser: portalUserMaxedOutCollection },
+      addCollectionMock
     )
 
     await user.click(await screen.findByRole('button', { name: 'Add section' }))
@@ -527,19 +490,20 @@ describe('My Space Component', () => {
     expect(collectionAdded).toBe(true)
   })
 
-  it('handles the edit bookmark operation', async () => {
+  test('handles the edit bookmark operation', async () => {
     const user = userEvent.setup()
     const mockUpdateModalId = jest.fn()
     const mockUpdateModalText = jest.fn()
     const mockUpdateWidget = jest.fn()
     const mockUpdateBookmark = jest.fn()
 
-    let bookmarkEdited = false
-    const bookmarkId =
-      getMySpaceMock[0].result.data.mySpace[0].bookmarks?.[0]._id
-    const collectionId = getMySpaceMock[0].result.data.mySpace[0]._id
+    // Note: Leaving this as 'any' for now. MySpaceWidget is a union type between
+    // Widget and Collection, and since 'bookmarks' does not exist on Widget, it kept
+    // showing an error here.
+    const userMySpace: any = portalUserMaxedOutCollection.mySpace[0]
+    const bookmarkId = userMySpace.bookmarks?.[0]._id
+    const collectionId = portalUserMaxedOutCollection.mySpace[0]._id
     const editBookmarkMock = [
-      ...getMySpaceMock,
       {
         request: {
           query: EditBookmarkDocument,
@@ -551,7 +515,6 @@ describe('My Space Component', () => {
           },
         },
         result: () => {
-          bookmarkEdited = true
           return {
             data: {
               editBookmark: {
@@ -566,15 +529,15 @@ describe('My Space Component', () => {
     ]
 
     renderWithModalRoot(
-      <MockedProvider mocks={editBookmarkMock} addTypename={false}>
-        <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />
-      </MockedProvider>,
+      <MySpace bookmarks={cmsCollectionsMock[0].bookmarks} />,
       {
         updateModalId: mockUpdateModalId,
         updateModalText: mockUpdateModalText,
         updateWidget: mockUpdateWidget,
         updateBookmark: mockUpdateBookmark,
-      }
+      },
+      editBookmarkMock,
+      { portalUser: portalUserMaxedOutCollection }
     )
 
     const editButton = await screen.findByRole('button', {

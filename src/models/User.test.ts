@@ -5,6 +5,7 @@ import {
   exampleCollection,
   exampleCollection1,
 } from '__fixtures__/newPortalUser'
+import { WIDGETS } from 'constants/index'
 
 let connection: typeof MongoClient
 let db: typeof Db
@@ -29,7 +30,11 @@ describe('User model', () => {
     const expectedUser = {
       _id: expect.anything(),
       userId: 'testUserId',
-      mySpace: [exampleCollection1],
+      mySpace: [
+        WIDGETS.FEATUREDSHORTCUTS,
+        WIDGETS.GUARDIANIDEAL,
+        exampleCollection1,
+      ],
       displayName: 'Floyd King',
       theme: 'light',
     }
