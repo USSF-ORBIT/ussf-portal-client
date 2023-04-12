@@ -1,7 +1,6 @@
 import React from 'react'
 import { Accordion, Grid } from '@trussworks/react-uswds'
 import { InferGetServerSidePropsType } from 'next'
-import { useFlags } from 'launchdarkly-react-client-sdk'
 import { client } from '../lib/keystoneClient'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import EPubsCard from 'components/EPubsCard/EPubsCard'
@@ -78,18 +77,15 @@ const USSFDocumentation = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
   // LaunchDarkly toggle for cms vs static data
-  const flags = useFlags()
-  const data = flags && flags.documentationPage ? documentsPage : staticPage
-
   return !user ? (
     <Loader />
   ) : (
     <div>
-      <h2>{data && data.pageTitle}</h2>
+      <h2>{documentsPage && documentsPage.pageTitle}</h2>
 
       <Grid row gap="lg">
-        {data?.sections &&
-          data.sections.map((s: DocumentSectionType, i: number) => (
+        {documentsPage?.sections &&
+          documentsPage.sections.map((s: DocumentSectionType, i: number) => (
             <Grid col={12} key={s.id} className={styles.accordionGrid}>
               <Accordion
                 className={styles.accordion}
