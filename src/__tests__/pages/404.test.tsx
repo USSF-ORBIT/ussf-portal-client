@@ -56,7 +56,7 @@ describe('404 page', () => {
         'Looks like you’re a little lost'
       )
       expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
-        'That page doesn’t exist (or never did). Let’s get you back where you belong.'
+        'That page doesn’t exist (or never did). Let’s get you back where you belong, or send us a dispatch to notify us of an error in the system.'
       )
     })
 
@@ -68,6 +68,18 @@ describe('404 page', () => {
 
     it('makes the call to get user', () => {
       expect(axios.get).toHaveBeenLastCalledWith('/api/auth/user')
+    })
+
+    it('renders feedback links', async () => {
+      const feedbackLink = screen.getByText('Contact Us')
+      expect(feedbackLink).toBeVisible()
+      expect(feedbackLink).toHaveAttribute('href')
+      expect(feedbackLink.getAttribute('href')).toContain(
+        'feedback@ussforbit.us'
+      )
+      expect(feedbackLink.getAttribute('href')).toContain(
+        'USSF portal feedback -- 404 page error'
+      )
     })
   })
 })
