@@ -31,11 +31,11 @@ describe('500 page', () => {
 
   it('renders the custom 500 page,', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('500')
-    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
+    expect(screen.getByTestId('gridContainer')).toHaveTextContent(
       'Houston, we have a problem'
     )
-    expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
-      'That’s an internal server error. While we work on fixing that, let’s get you back to business. You may also submit a report to us at'
+    expect(screen.getByTestId('gridContainer')).toHaveTextContent(
+      'That’s an internal server error. While we work on fixing that, let’s get you back to business.You may also submit a report to us at'
     )
   })
 
