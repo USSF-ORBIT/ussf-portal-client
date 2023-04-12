@@ -300,10 +300,11 @@ const CustomCollection = ({
 
     if (destination) {
       let copiedBookmarks = visibleBookmarks.map(
-        ({ _id, url, label, isRemoved }) => ({
+        ({ _id, url, label, cmsId, isRemoved }) => ({
           _id,
           url,
           label,
+          cmsId,
           isRemoved,
         })
       )
@@ -313,10 +314,11 @@ const CustomCollection = ({
 
       if (removedBookmarks.length > 0) {
         const removedBookmarksToAddBack = removedBookmarks.map(
-          ({ _id, url, label, isRemoved }) => ({
+          ({ _id, url, label, cmsId, isRemoved }) => ({
             _id,
             url,
             label,
+            cmsId,
             isRemoved,
           })
         )
