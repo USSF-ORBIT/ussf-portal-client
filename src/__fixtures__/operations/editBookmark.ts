@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb'
 import { EditBookmarkDocument } from 'operations/portal/mutations/editBookmark.g'
-import { Bookmark } from 'types'
+import { MongoBookmark } from 'types'
 
-export const mockBookmark: Bookmark = {
+export const mockBookmark: MongoBookmark = {
   _id: ObjectId(),
   url: 'example.com',
   label: 'Custom Label',
