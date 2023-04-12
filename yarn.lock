@@ -5623,6 +5623,11 @@
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.6.tgz#250a7b16c3b91f672a24552ec64678eeb1d3a08d"
   integrity sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==
 
+"@types/webidl-conversions@*":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@types/webidl-conversions/-/webidl-conversions-7.0.0.tgz#2b8e60e33906459219aa587e9d1a612ae994cfe7"
+  integrity sha512-xTE1E+YF4aWPJJeUzaZI5DRntlkY3+BCVJi0axFptnjGmAoWxkyREIh/XMrfxVLejwQxMCfDXdICo0VLxThrog==
+
 "@types/webpack-env@^1.16.0":
   version "1.18.0"
   resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.18.0.tgz#ed6ecaa8e5ed5dfe8b2b3d00181702c9925f13fb"
@@ -5648,6 +5653,14 @@
     "@types/webpack-sources" "*"
     anymatch "^3.0.0"
     source-map "^0.6.0"
+
+"@types/whatwg-url@^8.0.0":
+  version "8.2.2"
+  resolved "https://registry.yarnpkg.com/@types/whatwg-url/-/whatwg-url-8.2.2.tgz#749d5b3873e845897ada99be4448041d4cc39e63"
+  integrity sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==
+  dependencies:
+    "@types/node" "*"
+    "@types/webidl-conversions" "*"
 
 "@types/ws@^8.0.0":
   version "8.5.3"
@@ -7521,7 +7534,7 @@ bson@*:
   dependencies:
     buffer "^5.6.0"
 
-bson@4.7.2:
+bson@4.7.2, bson@^4.4.0:
   version "4.7.2"
   resolved "https://registry.yarnpkg.com/bson/-/bson-4.7.2.tgz#320f4ad0eaf5312dd9b45dc369cc48945e2a5f2e"
   integrity sha512-Ry9wCtIZ5kGqkJoi6aD8KjxFZEx78guTQDnpXWiNthsxzrxAK/i8E6pCHAIZTbaEFWcOCvbecMukfK7XUvyLpQ==
@@ -14063,6 +14076,14 @@ module-details-from-path@^1.0.3:
   resolved "https://registry.yarnpkg.com/module-details-from-path/-/module-details-from-path-1.0.3.tgz#114c949673e2a8a35e9d35788527aa37b679da2b"
   integrity sha512-ySViT69/76t8VhE1xXHK6Ch4NcDd26gx0MzKXLO+F7NOtnqH68d9zF94nT8ZWSxXh8ELOERsnJO/sWt1xZYw5A==
 
+mongodb-connection-string-url@^1.0.0:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/mongodb-connection-string-url/-/mongodb-connection-string-url-1.1.2.tgz#a115902fee402b9b24a80c16ced94818daedad91"
+  integrity sha512-mp5lv4guWuykOpkwNNqQ0tKKytuJUjL/aC/bu/DqoJVWL5NSh4j/u+gJ+EiOdweLujHyq6JZZqcTVipHhL5xRg==
+  dependencies:
+    "@types/whatwg-url" "^8.0.0"
+    whatwg-url "^8.4.0"
+
 mongodb-memory-server-core@7.6.3:
   version "7.6.3"
   resolved "https://registry.yarnpkg.com/mongodb-memory-server-core/-/mongodb-memory-server-core-7.6.3.tgz#ba3ff2f50dc1cf5105683f15de54202976931af0"
@@ -14095,7 +14116,18 @@ mongodb-memory-server@7.6.3:
     mongodb-memory-server-core "7.6.3"
     tslib "^2.3.0"
 
-mongodb@3.7.3, mongodb@^3.7.3:
+mongodb@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.0.0.tgz#e97b1a98be44cac2e1832b35c21dbef695c0bab3"
+  integrity sha512-ZsqdUyeSeuP2rfWvHpihvQ3MRDXuzsKHmhr1/vtM37JWj6M4yZvIXYFp8OJ85dYI6FvB9KQ1x0Cy6DQinrjUwA==
+  dependencies:
+    bson "^4.4.0"
+    denque "^1.5.0"
+    mongodb-connection-string-url "^1.0.0"
+  optionalDependencies:
+    saslprep "^1.0.0"
+
+mongodb@^3.7.3:
   version "3.7.3"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.7.3.tgz#b7949cfd0adc4cc7d32d3f2034214d4475f175a5"
   integrity sha512-Psm+g3/wHXhjBEktkxXsFMZvd3nemI0r3IPsE0bU+4//PnvNWKkzhZcEsbPcYiWqe8XqXJJEg4Tgtr7Raw67Yw==
@@ -18964,7 +18996,7 @@ whatwg-url@^5.0.0:
     tr46 "~0.0.3"
     webidl-conversions "^3.0.0"
 
-whatwg-url@^8.0.0, whatwg-url@^8.5.0:
+whatwg-url@^8.0.0, whatwg-url@^8.4.0, whatwg-url@^8.5.0:
   version "8.7.0"
   resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-8.7.0.tgz#656a78e510ff8f3937bc0bcbe9f5c0ac35941b77"
   integrity sha512-gAojqb/m9Q8a5IV96E3fHJM70AzCkgt4uXYX2O7EmuyOnLrViCQlsEBmF9UQIu3/aeAIp2U17rtbpZWNntQqdg==
