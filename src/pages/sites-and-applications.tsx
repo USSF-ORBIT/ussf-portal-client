@@ -9,10 +9,9 @@ import type { ObjectId } from 'bson'
 import { client } from '../lib/keystoneClient'
 
 import type {
-  BookmarkRecords,
+  CMSBookmark,
   CollectionRecord,
   CollectionRecords,
-  BookmarkRecord,
   MySpaceWidget,
   Collection as CollectionType,
 } from 'types/index'
@@ -143,7 +142,7 @@ const SitesAndApplications = ({
   }
 
   const handleAddToCollection = (
-    bookmark: BookmarkRecord,
+    bookmark: CMSBookmark,
     collectionId?: ObjectId
   ) => {
     if (collectionId) {
@@ -384,7 +383,7 @@ export async function getServerSideProps() {
     fetchPolicy: 'no-cache',
   })
 
-  const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
+  const bookmarks = cmsBookmarks?.bookmarks as CMSBookmark[]
 
   return {
     props: {

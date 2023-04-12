@@ -1,5 +1,5 @@
 import type { AddCollectionsMutationVariables } from './portal/mutations/addCollections.g'
-import type { BookmarkRecord, CollectionRecord } from 'types/index'
+import type { CMSBookmark, CollectionRecord } from 'types/index'
 
 // Map Keystone Collection Record to Portal Collection
 // Used to prep data for gql mutation, so we return type AddCollectionsMutationVariables
@@ -10,7 +10,7 @@ export const addCollectionsInput = (
     return {
       id,
       title,
-      bookmarks: bookmarks.map(({ id, url, label }): BookmarkRecord => {
+      bookmarks: bookmarks.map(({ id, url, label }): CMSBookmark => {
         return { id, url, label }
       }),
     }

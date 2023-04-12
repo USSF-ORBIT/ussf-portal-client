@@ -6,12 +6,12 @@ import styles from './SelectableCollection.module.scss'
 
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
-import type { BookmarkRecords } from 'types/index'
+import type { CMSBookmark } from 'types/index'
 
 type SelectableCollectionProps = {
   id: string
   title?: string
-  bookmarks?: BookmarkRecords
+  bookmarks?: CMSBookmark[]
   onSelect: () => void
   isSelected: boolean
   disabled?: boolean

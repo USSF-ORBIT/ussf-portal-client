@@ -3,15 +3,15 @@ import { Table, Button, Icon } from '@trussworks/react-uswds'
 import type { ObjectId } from 'bson'
 import styles from './ApplicationsTable.module.scss'
 
-import type { BookmarkRecord, BookmarkRecords, Collection } from 'types'
+import type { CMSBookmark, Collection } from 'types'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
 type ApplicationsTableRowProps = {
-  bookmark: BookmarkRecord
+  bookmark: CMSBookmark
   userCollectionOptions?: Collection[]
-  handleAddToCollection: (b: BookmarkRecord, c?: ObjectId) => void
+  handleAddToCollection: (b: CMSBookmark, c?: ObjectId) => void
   canAddNewCollection?: boolean
 }
 
@@ -93,9 +93,9 @@ const ApplicationsTableRow = ({
 }
 
 type ApplicationsTableProps = {
-  bookmarks: BookmarkRecords
+  bookmarks: CMSBookmark[]
   userCollectionOptions?: Collection[]
-  handleAddToCollection: (b: BookmarkRecord, c?: ObjectId) => void
+  handleAddToCollection: (b: CMSBookmark, c?: ObjectId) => void
   canAddNewCollection?: boolean
   className?: string
 }
@@ -107,9 +107,8 @@ const ApplicationsTable = ({
   canAddNewCollection = true,
   className = '',
 }: ApplicationsTableProps) => {
-  const filterInvalidBookmarks = (
-    b: Partial<BookmarkRecord>
-  ): b is BookmarkRecord => !(b.id === undefined || b.url === undefined)
+  const filterInvalidBookmarks = (b: Partial<CMSBookmark>): b is CMSBookmark =>
+    !(b.id === undefined || b.url === undefined)
 
   return (
     <div className={className}>
