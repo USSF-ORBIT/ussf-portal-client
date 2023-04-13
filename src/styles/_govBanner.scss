@@ -20,6 +20,12 @@
       @include at-media('tablet') {
         @include set-link-from-bg($site-banner-bg, $site-banner-link-color);
       }
+      // Filters for SVG color changes
+      // Generated using https://codepen.io/sosuke/pen/Pjoqqp
+      &:after {
+        filter: invert(82%) sepia(21%) saturate(263%) hue-rotate(334deg)
+          brightness(105%) contrast(102%);
+      }
     }
   }
 
