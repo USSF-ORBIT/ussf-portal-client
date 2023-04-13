@@ -30,7 +30,6 @@
   }
 
   :global(.usa-tooltip > .usa-button) {
-    background-image: var(--bookmark-info-icon);
     background-position: center;
     background-repeat: no-repeat;
     background-color: transparent;
@@ -39,6 +38,10 @@
     height: 18px;
     padding: 0;
     margin-top: 11.5px;
+
+    svg {
+      color: var(--bookmark-info-icon-color);
+    }
   }
 
   &:hover,

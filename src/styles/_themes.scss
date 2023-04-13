@@ -110,7 +110,7 @@ $dark-gradient: linear-gradient(
   --icon: #{$theme-spacebase-light};
   --icon-hover: #{$theme-spacebase-base};
   --custom-link-icon: url('/assets/images/icon_custom-link.svg');
-  --bookmark-info-icon: url('/assets/images/icon_bookmark-description.svg');
+  --bookmark-info-icon-color: #233694;
 
   // Menus
   --dropdown-menu-bg: #{$white};
@@ -324,6 +324,7 @@ $dark-gradient: linear-gradient(
   --input-bg: #{$theme-white};
   --input-text: #{$theme-black};
   --custom-link-icon: url('/assets/images/icon_custom-link-dark.svg');
+  --bookmark-info-icon-color: var(--link-primary);
 
   // Widgets
   --widget-bg: #{$theme-spacebase-darker};
