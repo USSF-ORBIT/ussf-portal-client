@@ -11,7 +11,6 @@
 
   display: flex;
   flex-grow: 1;
-  overflow: hidden;
   text-overflow: ellipsis;
 
   > :global(.usa-link) {
@@ -28,6 +27,18 @@
       border: 4px var(--element-focus) solid;
       outline: none;
     }
+  }
+
+  :global(.usa-tooltip > .usa-button) {
+    background-image: var(--bookmark-info-icon);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    margin-top: 11.5px;
   }
 
   &:hover,

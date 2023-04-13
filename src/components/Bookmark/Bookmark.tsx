@@ -61,7 +61,7 @@ const Bookmark = ({
 
       {bookmarkDescription && isDescriptionDisplayed && (
         <Tooltip label={bookmarkDescription}>
-          <FontAwesomeIcon icon="times" />
+          <div />
         </Tooltip>
       )}
 
