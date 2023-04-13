@@ -45,7 +45,10 @@ export const RemovableBookmark = ({
       Undo remove <FontAwesomeIcon icon="undo-alt" />
     </button>
   ) : (
-    <Bookmark href={url} onDelete={handleDeleteBookmark}>
+    <Bookmark
+      href={url}
+      bookmarkDescription={bookmark.description}
+      onDelete={handleDeleteBookmark}>
       {label || url}
     </Bookmark>
   )

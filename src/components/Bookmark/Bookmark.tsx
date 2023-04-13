@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Tooltip } from '@trussworks/react-uswds'
 import classnames from 'classnames'
 import styles from './Bookmark.module.scss'
 import LinkTo, { PropTypes as LinkToProps } from 'components/util/LinkTo/LinkTo'
@@ -8,6 +9,7 @@ type PropTypes = LinkToProps & {
   onDelete?: (event: React.MouseEvent<HTMLButtonElement>) => void
   onEdit?: (event: React.MouseEvent<HTMLButtonElement>) => void
   disabled?: boolean
+  bookmarkDescription?: string
 }
 
 const Bookmark = ({
@@ -17,6 +19,7 @@ const Bookmark = ({
   onEdit,
   href,
   disabled,
+  bookmarkDescription,
   ...linkProps
 }: PropTypes) => {
   const linkClasses = classnames(
@@ -27,8 +30,20 @@ const Bookmark = ({
     className
   )
 
+  const [isDescriptionDisplayed, setDescriptionDisplayed] =
+    useState<boolean>(false)
+
+  const handleDescriptionDisplay = () => {
+    if (bookmarkDescription) {
+      setDescriptionDisplayed(true)
+    }
+  }
+
   return (
-    <div className={classnames(styles.bookmark, className)}>
+    <div
+      className={classnames(styles.bookmark, className)}
+      onMouseEnter={() => handleDescriptionDisplay()}
+      onMouseLeave={() => setDescriptionDisplayed(false)}>
       {disabled ? (
         <span className={linkClasses}>{children}</span>
       ) : (
@@ -42,6 +57,12 @@ const Bookmark = ({
           {children}
           <span className="usa-sr-only">(opens in a new window)</span>
         </LinkTo>
+      )}
+
+      {bookmarkDescription && isDescriptionDisplayed && (
+        <Tooltip label={bookmarkDescription}>
+          <FontAwesomeIcon icon="times" />
+        </Tooltip>
       )}
 
       {onDelete && (
