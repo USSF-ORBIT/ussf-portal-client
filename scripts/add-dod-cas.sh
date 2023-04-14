@@ -7,8 +7,16 @@
 
     # Extract the bundle
     cd /usr/local/share/ca-certificates
-    wget $bundle
+    wget --no-check-certificate $bundle
     unzip unclass-certificates_pkcs7_DoD.zip
+
+    # check that Checksums verify
+    output=$(cd certificates_pkcs7_v5_11_dod; openssl smime -verify -in /app/certificates_pkcs7_v5_11_dod.sha256 -inform DER -CAfile dod_pke_chain.pem | dos2unix | sha256sum -c)
+    echo $output
+    if [[ "$output" == *"FAILED"* ]]; then
+        echo "Checksum failed" >&2
+        exit 1
+    fi
 
     # Convert the PKCS#7 bundle into individual PEM files
     openssl pkcs7 -print_certs -in certificates_pkcs7_v5_11_dod/*_pem.p7b |
