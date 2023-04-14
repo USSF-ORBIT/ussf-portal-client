@@ -95,21 +95,21 @@ export const portalUserMaxedOutCollection: PortalUser = {
       bookmarks: [
         {
           _id: new ObjectId(),
-          url: 'https://google.com',
-          label: 'Webmail',
+          url: 'www.example.com',
+          label: 'MyVector',
           cmsId: '1',
         },
         {
           _id: new ObjectId(),
-          url: 'https://mypay.dfas.mil/#/',
+          url: 'www.example.com',
           label: 'MyPay',
-          cmsId: '2',
+          cmsId: '17',
         },
         {
           _id: new ObjectId(),
-          url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+          url: 'www.example.com',
           label: 'vMPF',
-          cmsId: '3',
+          cmsId: '7',
         },
       ],
     },
@@ -121,7 +121,7 @@ export const portalUserMaxedOutCollection: PortalUser = {
         _id: new ObjectId(),
         label: `Bookmark ${i}`,
         url: '#',
-        cmsId: `${i}`,
+        cmsId: `${i + 1}`,
       })),
     },
     mockNews,
@@ -151,7 +151,8 @@ const mockCollection: Collection = {
     {
       _id: new ObjectId(),
       url: 'https://google.com',
-      label: 'Webmail',
+      label: 'MyVector',
+      cmsId: '1',
     },
   ],
 }
