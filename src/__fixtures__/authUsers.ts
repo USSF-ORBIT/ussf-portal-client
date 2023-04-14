@@ -97,6 +97,7 @@ export const portalUserMaxedOutCollection: PortalUser = {
           _id: new ObjectId(),
           url: 'https://google.com',
           label: 'Webmail',
+          cmsId: '0',
         },
         {
           _id: new ObjectId(),
