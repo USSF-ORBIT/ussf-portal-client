@@ -9,7 +9,7 @@ const PageHeader = ({
   searchQuery,
   children,
 }: {
-  searchQuery: string
+  searchQuery?: string
   children: React.ReactNode
 }) => {
   return (
