@@ -19,7 +19,7 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
       break
     case 'Article': {
       const dateObj = date && new Date(date)
-      itemCategory = CONTENT_CATEGORIES.INTERNAL_NEWS
+      itemCategory = CONTENT_CATEGORIES.NEWS
       itemIcon = dateObj && <ArticleDateIcon date={dateObj} />
       break
     }

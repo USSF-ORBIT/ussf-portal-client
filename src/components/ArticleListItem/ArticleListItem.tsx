@@ -52,13 +52,7 @@ export const ArticleListItem = ({
             <span className={styles.previewText}>{preview}</span>
           </p>
           <Grid row gap={4} className={styles.categoryAndLabel}>
-            <Category
-              category={
-                source === 'RSS'
-                  ? CONTENT_CATEGORIES.EXTERNAL_NEWS
-                  : CONTENT_CATEGORIES.INTERNAL_NEWS
-              }
-            />
+            <Category category={CONTENT_CATEGORIES.NEWS} />
 
             {source === 'CMS' && labels && labels.length > 0 && (
               <>

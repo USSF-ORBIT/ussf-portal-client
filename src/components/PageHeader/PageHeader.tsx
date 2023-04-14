@@ -10,9 +10,11 @@ import Search from 'components/Search/Search'
 const PageHeader = ({
   children,
   flags,
+  searchQuery,
 }: {
   children: React.ReactNode
   flags?: LDFlagSet
+  searchQuery?: string
 }) => {
   return (
     <div className={styles.PageHeader}>
@@ -23,7 +25,11 @@ const PageHeader = ({
           </Grid>
 
           <Grid col="auto" desktop={{ col: 6 }}>
-            {flags?.searchComponent ? <Search /> : <Search disabled={true} />}
+            {flags?.searchComponent ? (
+              <Search query={searchQuery} />
+            ) : (
+              <Search disabled={true} />
+            )}
           </Grid>
         </Grid>
       </GridContainer>

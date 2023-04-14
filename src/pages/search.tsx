@@ -30,7 +30,7 @@ const Search = ({
 
   return (
     <>
-      <PageHeader>
+      <PageHeader searchQuery={query}>
         <div>
           <h1>Search</h1>
           <BreadcrumbNav

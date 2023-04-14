@@ -20,6 +20,10 @@ export const CONTENT_CATEGORIES = {
     value: 'InternalNews',
     label: 'Internal USSF News',
   },
+  NEWS: {
+    value: 'News',
+    label: 'USSF News',
+  },
   ANNOUNCEMENT: {
     value: 'Announcement',
     label: 'Announcement',

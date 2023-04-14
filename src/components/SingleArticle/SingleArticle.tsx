@@ -10,6 +10,7 @@ import type { ArticleRecord } from 'types'
 import { CONTENT_CATEGORIES } from 'constants/index'
 import colors from 'styles/sfds/colors.module.scss'
 import { isPublished, getYouTubeEmbedId } from 'helpers/index'
+import LinkTo from 'components/util/LinkTo/LinkTo'
 
 export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   const {
@@ -72,22 +73,22 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
           ) : (
             <Tag className={`${tagStyles.Category}`}>{category}</Tag>
           )}
-
           {labels &&
             labels.map((label) => {
               return (
-                <Label type={label.type} key={`${label.id}`}>
-                  {label.name}
-                </Label>
+                <LinkTo
+                  href={`/search?q=label%3A` + label.name}
+                  key={`${label.id}`}>
+                  <Label type={label.type}>{label.name}</Label>
+                </LinkTo>
               )
             })}
-
           {tags &&
             tags.map((tag) => {
               return (
-                <Tag key={`${tag.id}`} background={colors['theme-mars-base']}>
-                  {tag.name}
-                </Tag>
+                <LinkTo href={`/search?q=tag%3A` + tag.name} key={`${tag.id}`}>
+                  <Tag background={colors['theme-mars-base']}>{tag.name}</Tag>
+                </LinkTo>
               )
             })}
         </div>
