@@ -11,7 +11,6 @@ import { MockedProvider } from '@apollo/client/testing'
 import { ObjectId } from 'mongodb'
 import { renderWithModalRoot, renderWithAuthAndApollo } from '../../testHelpers'
 import '../../__mocks__/mockMatchMedia'
-import type { Collection, MySpaceWidget } from '../../types/index'
 
 import { getMySpaceMock } from '../../__fixtures__/operations/getMySpace'
 import {

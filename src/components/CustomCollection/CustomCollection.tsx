@@ -334,7 +334,8 @@ const CustomCollection = ({
     /* In order to keep urls, labels, etc related to bookmarks up-to-date, we manage them in the CMS. This 
         function looks at each bookmark in the users MySpace, uses the cmsId to find the corresponding bookmark
         that we have previously retrieved from the CMS, and that CMS bookmark is what we display. This ensures
-        that users have the most accurate bookmark information. */
+        that users have the most accurate bookmark information. We are NOT displaying the bookmark we get from
+        the db, it is merely used as a reference. */
     return bookmarkOptions.find((b) => b.id === bookmark.cmsId) as CMSBookmark
   }
 
