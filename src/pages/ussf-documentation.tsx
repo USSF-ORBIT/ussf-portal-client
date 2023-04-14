@@ -1,16 +1,15 @@
 import React from 'react'
 import { Accordion, Grid } from '@trussworks/react-uswds'
 import { InferGetServerSidePropsType } from 'next'
-import { useFlags } from 'launchdarkly-react-client-sdk'
 import { client } from '../lib/keystoneClient'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import EPubsCard from 'components/EPubsCard/EPubsCard'
-import { useUser } from 'hooks/useUser'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/ussf-documentation.module.scss'
-import Loader from 'components/Loader/Loader'
 import { GET_DOCUMENTS_PAGE } from 'operations/cms/queries/getDocumentsPage'
 import { DocumentType, DocumentPageType, DocumentSectionType } from 'types'
+import { useUser } from 'hooks/useUser'
+import Loader from 'components/Loader/Loader'
 
 // Export for easier unit testing
 // We're leaving these hardcoded docs as a backup until
@@ -77,20 +76,16 @@ const USSFDocumentation = ({
   documentsPage,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
-
   // LaunchDarkly toggle for cms vs static data
-  const flags = useFlags()
-  const data = flags && flags.documentationPage ? documentsPage : staticPage
-
   return !user ? (
     <Loader />
   ) : (
     <div>
-      <h2>{data && data.pageTitle}</h2>
+      <h2>{documentsPage && documentsPage.pageTitle}</h2>
 
       <Grid row gap="lg">
-        {data?.sections &&
-          data.sections.map((s: DocumentSectionType, i: number) => (
+        {documentsPage?.sections &&
+          documentsPage.sections.map((s: DocumentSectionType, i: number) => (
             <Grid col={12} key={s.id} className={styles.accordionGrid}>
               <Accordion
                 className={styles.accordion}

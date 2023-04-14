@@ -7,7 +7,6 @@ import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
 import axios from 'axios'
 import { gql } from 'apollo-server-core'
-import { mockFlags, resetLDMocks } from 'jest-launchdarkly-mock'
 import { renderWithAuthAndApollo } from '../../testHelpers'
 import { DocumentPageType } from 'types'
 import USSFDocumentation, {
@@ -146,11 +145,6 @@ describe('USSF Documentation page', () => {
 
   describe('when logged in', () => {
     it('renders the documentation page from the cms', () => {
-      // If LaunchDarkly flag is passed in, the CMS content will render
-      mockFlags({
-        documentationPage: true,
-      })
-
       renderWithAuthAndApollo(
         <USSFDocumentation documentsPage={mockTestPage} />,
         {},
@@ -164,25 +158,6 @@ describe('USSF Documentation page', () => {
       ).toHaveLength(1)
       expect(
         screen.getAllByText(`${mockTestPage.sections[0].document[0].title}`)
-      ).toHaveLength(1)
-    })
-
-    it('renders the documentation page from static content', () => {
-      // If LaunchDarkly flag is *not* passed in, the static content will render
-      resetLDMocks()
-
-      renderWithAuthAndApollo(
-        <USSFDocumentation documentsPage={mockTestPage} />,
-        {},
-        cmsDocumentationPageMock
-      )
-
-      expect(screen.getAllByText(`${staticPage.pageTitle}`)).toHaveLength(1)
-      expect(
-        screen.getAllByText(`${staticPage.sections[0].title}`)
-      ).toHaveLength(1)
-      expect(
-        screen.getAllByText(`${staticPage.sections[0].document[0].title}`)
       ).toHaveLength(1)
     })
 

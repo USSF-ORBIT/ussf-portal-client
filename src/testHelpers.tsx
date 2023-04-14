@@ -26,7 +26,8 @@ export const defaultMockModalContext = {
 export const renderWithModalRoot = (
   component: React.ReactElement,
   value: Partial<ModalContextType> = {},
-  mocks: readonly MockedResponse<Record<string, unknown>>[] = []
+  mocks: readonly MockedResponse<Record<string, unknown>>[] = [],
+  authValue: Partial<AuthContextType> = {}
 ) => {
   const modalContainer = document.createElement('div')
   modalContainer.setAttribute('id', 'modal-root')
@@ -36,19 +37,26 @@ export const renderWithModalRoot = (
     ...value,
   }
 
+  const authContextValue = {
+    ...defaultMockAuthContext,
+    ...authValue,
+  }
+
   const wrapper = ({ children }: { children: React.ReactNode }) => {
     return (
-      <MockedProvider
-        mocks={mocks}
-        addTypename={false}
-        defaultOptions={{
-          watchQuery: { fetchPolicy: 'no-cache' },
-          query: { fetchPolicy: 'no-cache' },
-        }}>
-        <ModalContext.Provider value={contextValue}>
-          {children}
-        </ModalContext.Provider>
-      </MockedProvider>
+      <AuthContext.Provider value={authContextValue}>
+        <MockedProvider
+          mocks={mocks}
+          addTypename={false}
+          defaultOptions={{
+            watchQuery: { fetchPolicy: 'no-cache' },
+            query: { fetchPolicy: 'no-cache' },
+          }}>
+          <ModalContext.Provider value={contextValue}>
+            {children}
+          </ModalContext.Provider>
+        </MockedProvider>
+      </AuthContext.Provider>
     )
   }
 

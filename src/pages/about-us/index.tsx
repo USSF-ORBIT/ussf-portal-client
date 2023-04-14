@@ -1,10 +1,11 @@
 import { Grid } from '@trussworks/react-uswds'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
 import LinkTo from 'components/util/LinkTo/LinkTo'
-import Loader from 'components/Loader/Loader'
-import { useUser } from 'hooks/useUser'
 import styles from 'styles/pages/aboutUs.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
+import { useUser } from 'hooks/useUser'
+import Loader from 'components/Loader/Loader'
+
 const AboutUs = () => {
   const { user } = useUser()
 

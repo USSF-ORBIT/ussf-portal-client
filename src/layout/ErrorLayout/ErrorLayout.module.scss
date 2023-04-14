@@ -2,11 +2,12 @@
 @import 'styles/govBanner';
 @import 'styles/sfds/sfdsDependencies';
 
-$hero-image: url('/assets/images/hero.jpeg');
+$hero-image: url('/assets/images/hero-transparent.png');
 
 .errorContainer {
   display: flex;
   flex-direction: column;
+  background: $black;
   min-height: 100vh;
 
   :global {
@@ -17,28 +18,15 @@ $hero-image: url('/assets/images/hero.jpeg');
   main {
     flex: 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-content: space-between;
-
-    background: $black $hero-image no-repeat;
-    background-position: bottom -90px center;
-    background-size: 2000px auto;
     padding-bottom: 100px;
-
-    @include at-media('mobile-lg') {
-      padding-bottom: 120px;
-    }
-
-    @include at-media('tablet') {
-      background-size: 2000px auto;
-      background-position: bottom -72px center;
-    }
-
     color: $theme-white;
     text-align: center;
+    position: relative;
 
-    section {
-      overflow: hidden;
+    :global(.grid-container) {
+      z-index: 20;
     }
 
     img {
@@ -48,10 +36,21 @@ $hero-image: url('/assets/images/hero.jpeg');
     }
 
     h1 {
-      color: $theme-cosmiclatte-base;
-      opacity: 0.35;
+      color: rgba($theme-ultraviolet-lighter, 0.35);
       font-size: 140px;
       margin: 0 0 -66px;
+      &:after {
+        content: ' ';
+        position: absolute;
+        width: 100vw;
+        height: 135px;
+        bottom: 0px;
+        left: 0;
+        background: $hero-image;
+        background-repeat: no-repeat;
+        background-position: bottom -90px center;
+        background-size: 2000px auto;
+      }
 
       @include at-media('mobile-lg') {
         font-size: 230px;
@@ -60,17 +59,19 @@ $hero-image: url('/assets/images/hero.jpeg');
 
       @include at-media('tablet') {
         font-size: 320px;
-        margin: 0 0 -150px;
+        margin: -40px 0 -150px;
       }
 
       @include at-media('desktop') {
         font-size: 460px;
-        margin: 0 0 -215px;
+        margin: -325px 0 -215px;
+        color: rgba($theme-ultraviolet-lighter, 0.2);
       }
 
       @include at-media('desktop-lg') {
-        font-size: 600px;
-        margin: 0 0 -281px;
+        font-size: 620px;
+        margin: -440px 0 -281px;
+        color: rgba($theme-ultraviolet-lighter, 0.2);
       }
     }
 
@@ -83,6 +84,7 @@ $hero-image: url('/assets/images/hero.jpeg');
       font-size: 18px;
       line-height: 1.2;
       margin: 21px 0;
+      max-width: 640px;
     }
   }
 
@@ -96,5 +98,17 @@ $hero-image: url('/assets/images/hero.jpeg');
     footer :global(.grid-row .grid-row) {
       display: block;
     }
+  }
+
+  :global(.usa-link) {
+    color: $theme-mars-light;
+    &:hover,
+    &:focus {
+      color: $theme-mars-lighter;
+    }
+  }
+
+  :global(.usa-button) {
+    margin-bottom: 16px;
   }
 }
