@@ -9,9 +9,6 @@
   text-transform: lowercase;
   display: inline-block;
   line-height: normal;
-
-  // 4px 12px
-  //padding: units('05') units('105');
 }
 
 .Label,
@@ -24,6 +21,10 @@
   line-height: normal;
   height: 23px;
   border-radius: 2px;
+
+  @media (max-width: 440px) {
+    height: auto;
+  }
 
   svg {
     margin-right: units('05');
@@ -59,9 +60,6 @@
   text-transform: uppercase;
   display: inline-block;
   line-height: normal;
-
-  // 6px 8px
-  padding: 3px units(1);
 
   &.ExternalNews {
     background-color: var(--category-externalnews-bg);

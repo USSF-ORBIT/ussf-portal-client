@@ -379,6 +379,12 @@
   /** Tags **/
   .usa-tag {
     padding: 3px units(1);
+    display: inline-flex;
+    height: 23px;
+    align-items: center;
+    @media (max-width: 440px) {
+      height: auto;
+    }
   }
 
   /** Forms **/
