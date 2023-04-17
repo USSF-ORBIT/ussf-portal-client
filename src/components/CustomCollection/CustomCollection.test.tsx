@@ -230,7 +230,13 @@ describe('CustomCollection component', () => {
   })
 
   it('renders the collection with delete or edit buttons', async () => {
-    render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
+    render(
+      <CustomCollection
+        {...exampleCollection}
+        {...mockHandlers}
+        bookmarkOptions={cmsBookmarksMock}
+      />
+    )
     await screen.findByText('Example Collection')
 
     expect(screen.getByRole('list')).toBeInTheDocument()
@@ -279,7 +285,7 @@ describe('CustomCollection component', () => {
     await user.click(
       screen.getByRole('button', { name: 'Toggle the dropdown list' })
     )
-    await user.click(screen.getByRole('option', { name: 'Test Bookmark 2' }))
+    await user.click(screen.getByRole('option', { name: 'SURF' }))
     expect(linkInput).toBeValid()
   })
 
@@ -378,13 +384,10 @@ describe('CustomCollection component', () => {
     await user.click(toggleFormButton)
     const linkInput = screen.getByLabelText('Select existing link')
     await user.click(linkInput)
-    await user.click(screen.getByRole('option', { name: 'Test Bookmark 2' }))
+    await user.click(screen.getByRole('option', { name: 'SURF' }))
 
-    expect(mockAddLink).toHaveBeenCalledWith(
-      'http://www.example.com/2',
-      'Test Bookmark 2',
-      'testBookmark2'
-    )
+    /* handleAddBookmark(url, label, cmsId) - these values are found in cmsBookmarksMock */
+    expect(mockAddLink).toHaveBeenCalledWith('www.example.com/2', 'SURF', '2')
   })
 
   it('renders the settings dropdown menu', async () => {
@@ -534,7 +537,7 @@ describe('CustomCollection component', () => {
     )
 
     expect(container.querySelector('a')?.getAttribute('href')).toEqual(
-      'http://www.example.com/1'
+      '/www.example.com/1'
     )
   })
 
