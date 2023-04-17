@@ -4,7 +4,7 @@
 .Tag,
 :global(.usa-tag).Tag {
   @include u-radius('lg');
-  @include u-font-size('body', 1);
+  font-size: 14px;
   background-color: $theme-ultraviolet-base;
   text-transform: lowercase;
   display: inline-block;
@@ -17,7 +17,7 @@
 .Label,
 :global(.usa-tag).Label {
   @include u-radius('md');
-  @include u-font-size('body', 1);
+  font-size: 14px;
   text-transform: none;
   display: inline-flex;
   align-items: center;
@@ -56,13 +56,13 @@
 .Category,
 :global(.usa-tag).Category {
   @include u-radius('sm');
-  @include u-font-size('body', 1);
+  font-size: 14px;
   text-transform: uppercase;
   display: inline-block;
   line-height: normal;
 
   // 6px 8px
-  padding: 6px units(1);
+  // padding: 6px units(1);
 
   &.ExternalNews {
     background-color: var(--category-externalnews-bg);
