@@ -130,6 +130,44 @@ export const portalUserMaxedOutCollection: PortalUser = {
   theme: 'light',
 }
 
+export const portalUserWithExampleCollection: PortalUser = {
+  userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
+  mySpace: [
+    {
+      _id: new ObjectId(),
+      title: 'Example Collection',
+      type: 'Collection',
+      bookmarks: [
+        {
+          _id: new ObjectId(),
+          url: 'www.example.com',
+          label: 'MyVector',
+          cmsId: '1',
+        },
+        {
+          _id: new ObjectId(),
+          url: 'www.example.com',
+          label: 'MyPay',
+          cmsId: '17',
+        },
+        {
+          _id: new ObjectId(),
+          url: 'www.example.com',
+          label: 'vMPF',
+          cmsId: '7',
+        },
+        {
+          _id: new ObjectId(),
+          url: 'www.custom.com',
+          label: 'CUSTOM LINK',
+        },
+      ],
+    },
+  ],
+  displayName: 'BERNADETTE CAMPBELL',
+  theme: 'light',
+}
+
 const mockCollectionWithGuardianIdeal: any = {
   _id: new ObjectId(),
   title: 'Guardian Ideal',
@@ -150,7 +188,7 @@ const mockCollection: Collection = {
   bookmarks: [
     {
       _id: new ObjectId(),
-      url: 'https://google.com',
+      url: 'www.example.com/1',
       label: 'MyVector',
       cmsId: '1',
     },

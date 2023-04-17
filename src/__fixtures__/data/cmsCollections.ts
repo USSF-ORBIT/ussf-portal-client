@@ -5,21 +5,18 @@ export const cmsCollectionsMock = [
     bookmarks: [
       {
         id: '1',
-        url: 'https://google.com',
-        label: 'Webmail',
-        description: 'Lorem ipsum',
+        url: 'www.example.com/1',
+        label: 'MyVector',
       },
       {
         id: '2',
-        url: 'https://mypay.dfas.mil/#/',
-        label: 'MyPay',
-        description: 'Lorem ipsum',
+        url: 'www.example.com/2',
+        label: 'SURF',
       },
       {
         id: '3',
-        url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-        label: 'vMPF',
-        description: 'Lorem ipsum',
+        url: 'www.example.com/3',
+        label: 'Orders',
       },
     ],
   },

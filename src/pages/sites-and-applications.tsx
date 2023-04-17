@@ -22,13 +22,11 @@ import {
   useAddCollectionMutation,
 } from 'operations/portal/mutations/addCollection.g'
 import { useAddCollectionsMutation } from 'operations/portal/mutations/addCollections.g'
-import { useGetMySpaceQuery } from 'operations/portal/queries/getMySpace.g'
 import { addCollectionsInput } from 'operations/helpers'
 
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import Flash from 'components/util/Flash/Flash'
-import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 import ApplicationsTable from 'components/ApplicationsTable/ApplicationsTable'
@@ -38,6 +36,7 @@ import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useAnalytics } from 'stores/analyticsContext'
 import { useUser } from 'hooks/useUser'
+import { useAuthContext } from 'stores/authContext'
 
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
 import { GET_KEYSTONE_COLLECTIONS } from 'operations/cms/queries/getKeystoneCollections'
@@ -58,7 +57,7 @@ const SitesAndApplications = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
   const { user } = useUser()
-  const { loading, error, data } = useGetMySpaceQuery()
+  const { portalUser } = useAuthContext()
   const { trackEvent } = useAnalytics()
 
   const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
@@ -77,9 +76,7 @@ const SitesAndApplications = ({
     }
   }, [router.query])
 
-  if (error) return <p>Error</p>
-
-  const mySpace = (data?.mySpace || []) as MySpaceWidget[]
+  const mySpace = (portalUser?.mySpace || []) as MySpaceWidget[]
 
   const userCollections =
     ((mySpace && mySpace.filter((w) => isCollection(w))) as CollectionType[]) ||
@@ -134,7 +131,7 @@ const SitesAndApplications = ({
 
     handleAddCollections({
       variables: addCollectionsInput(collectionObjs),
-      refetchQueries: [`getMySpace`],
+      refetchQueries: [`getUser`],
     })
     setSelectMode(false)
     setSelectedCollections([])
@@ -152,7 +149,7 @@ const SitesAndApplications = ({
           cmsId: bookmark.id,
           ...bookmark,
         },
-        refetchQueries: [`getMySpace`],
+        refetchQueries: [`getUser`],
       })
 
       const collection = userCollections.find((c) => c._id === collectionId)
@@ -178,7 +175,7 @@ const SitesAndApplications = ({
 
       handleAddCollection({
         variables: newCollection,
-        refetchQueries: [`getMySpace`],
+        refetchQueries: [`getUser`],
       })
       router.push('/')
     }
@@ -190,25 +187,23 @@ const SitesAndApplications = ({
     <>
       <h2 className={styles.pageTitle}>Sites &amp; Applications</h2>
 
-      {!loading && (
-        <div className={styles.toolbar}>
-          <button
-            type="button"
-            className={styles.sortButton}
-            disabled={sortBy === 'SORT_ALPHA' || selectMode}
-            onClick={() => handleSortClick('SORT_ALPHA')}>
-            <FontAwesomeIcon icon="list" /> Sort alphabetically
-          </button>
-          <button
-            type="button"
-            className={styles.sortButton}
-            disabled={sortBy === 'SORT_TYPE'}
-            onClick={() => handleSortClick('SORT_TYPE')}>
-            <FontAwesomeIcon icon="th-large" />
-            Sort by type
-          </button>
-        </div>
-      )}
+      <div className={styles.toolbar}>
+        <button
+          type="button"
+          className={styles.sortButton}
+          disabled={sortBy === 'SORT_ALPHA' || selectMode}
+          onClick={() => handleSortClick('SORT_ALPHA')}>
+          <FontAwesomeIcon icon="list" /> Sort alphabetically
+        </button>
+        <button
+          type="button"
+          className={styles.sortButton}
+          disabled={sortBy === 'SORT_TYPE'}
+          onClick={() => handleSortClick('SORT_TYPE')}>
+          <FontAwesomeIcon icon="th-large" />
+          Sort by type
+        </button>
+      </div>
 
       {flash && (
         <div className={styles.flash}>
@@ -216,18 +211,7 @@ const SitesAndApplications = ({
         </div>
       )}
 
-      {loading && (
-        <Grid row gap className={styles.widgets}>
-          <Grid
-            key={`collection_loading`}
-            tablet={{ col: 6 }}
-            desktop={{ col: 4 }}>
-            <LoadingWidget />
-          </Grid>
-        </Grid>
-      )}
-
-      {!loading && sortBy === 'SORT_ALPHA' && (
+      {sortBy === 'SORT_ALPHA' && (
         <div className={styles.sortAlpha}>
           {userCollections.some(
             (c) => c.bookmarks.filter((b) => !b.isRemoved).length >= 10
@@ -255,7 +239,7 @@ const SitesAndApplications = ({
         </div>
       )}
 
-      {!loading && sortBy === 'SORT_TYPE' && (
+      {sortBy === 'SORT_TYPE' && (
         <div className={widgetClasses}>
           <div className={styles.widgetToolbar}>
             {selectMode ? (

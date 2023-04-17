@@ -7,7 +7,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { ObjectId } from 'mongodb'
-import { renderWithAuth } from '../../testHelpers'
+import { renderWithAuth, renderWithAuthAndApollo } from '../../testHelpers'
 
 import {
   getMySpaceMock,
@@ -15,6 +15,11 @@ import {
 } from '../../__fixtures__/operations/getMySpace'
 import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
 import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
+import {
+  portalUserWithExampleCollection,
+  portalUserMaxedOutCollection,
+  portalUserCollectionLimit,
+} from '__fixtures__/authUsers'
 
 import { GetMySpaceDocument } from 'operations/portal/queries/getMySpace.g'
 import { AddCollectionDocument } from 'operations/portal/mutations/addCollection.g'
@@ -69,7 +74,6 @@ let bookmarkAdded = false
 let collectionsAdded = false
 
 const sitesAndAppsMock = [
-  ...getMySpaceMock,
   {
     request: {
       query: AddCollectionDocument,
@@ -191,22 +195,18 @@ describe('Sites and Applications page', () => {
     describe('default state', () => {
       beforeEach(() => {
         jest.useFakeTimers()
-        renderWithAuth(
-          <MockedProvider mocks={sitesAndAppsMock}>
-            <SitesAndApplications
-              collections={cmsCollectionsMock}
-              bookmarks={cmsBookmarksMock}
-            />
-          </MockedProvider>
+        renderWithAuthAndApollo(
+          <SitesAndApplications
+            collections={cmsCollectionsMock}
+            bookmarks={cmsBookmarksMock}
+          />,
+          { portalUser: portalUserWithExampleCollection },
+          sitesAndAppsMock
         )
       })
 
       afterEach(() => {
         jest.useRealTimers()
-      })
-
-      it('renders the loading state', () => {
-        expect(screen.getByText('Content is loading...')).toBeInTheDocument()
       })
 
       it('renders Sites & Applications content', async () => {
@@ -626,13 +626,12 @@ describe('Sites and Applications page', () => {
     })
 
     it('prevents adding more collections if the user already has 25', async () => {
-      renderWithAuth(
-        <MockedProvider mocks={getMySpaceMaximumCollectionsMock}>
-          <SitesAndApplications
-            collections={cmsCollectionsMock}
-            bookmarks={cmsBookmarksMock}
-          />
-        </MockedProvider>
+      renderWithAuthAndApollo(
+        <SitesAndApplications
+          collections={cmsCollectionsMock}
+          bookmarks={cmsBookmarksMock}
+        />,
+        { portalUser: portalUserCollectionLimit }
       )
 
       const selectBtn = await screen.findByRole('button', {
@@ -644,13 +643,12 @@ describe('Sites and Applications page', () => {
     it('prevents adding a bookmark to a new collection if the user already has 25', async () => {
       const user = userEvent.setup()
 
-      renderWithAuth(
-        <MockedProvider mocks={getMySpaceMaximumCollectionsMock}>
-          <SitesAndApplications
-            collections={cmsCollectionsMock}
-            bookmarks={cmsBookmarksMock}
-          />
-        </MockedProvider>
+      renderWithAuthAndApollo(
+        <SitesAndApplications
+          collections={cmsCollectionsMock}
+          bookmarks={cmsBookmarksMock}
+        />,
+        { portalUser: portalUserCollectionLimit }
       )
 
       await user.click(
@@ -670,28 +668,6 @@ describe('Sites and Applications page', () => {
       expect(
         screen.getByRole('button', { name: 'Add to new collection' })
       ).toBeDisabled()
-    })
-
-    it('shows an error state', async () => {
-      const errorMock = [
-        {
-          request: {
-            query: GetMySpaceDocument,
-          },
-          error: new Error(),
-        },
-      ]
-
-      renderWithAuth(
-        <MockedProvider mocks={errorMock} addTypename={false}>
-          <SitesAndApplications
-            collections={cmsCollectionsMock}
-            bookmarks={cmsBookmarksMock}
-          />
-        </MockedProvider>
-      )
-
-      expect(await screen.findByText('Error')).toBeInTheDocument()
     })
   })
 })
