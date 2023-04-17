@@ -87,7 +87,7 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
             tags.map((tag) => {
               return (
                 <LinkTo href={`/search?q=tag%3A` + tag.name} key={`${tag.id}`}>
-                  <Tag background={colors['theme-mars-base']}>{tag.name}</Tag>
+                  <Tag background={colors['theme-mars-darker']}>{tag.name}</Tag>
                 </LinkTo>
               )
             })}
