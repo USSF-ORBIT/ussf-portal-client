@@ -387,8 +387,9 @@ const CustomCollection = ({
             <Collection
               header={customCollectionHeader}
               footer={!isEditingTitle ? addLinkForm : null}>
-              {visibleBookmarks.map((bookmark: MongoBookmark, index) =>
-                bookmark.cmsId ? (
+              {visibleBookmarks.map((bookmark: MongoBookmark, index) => {
+                const foundBookmark = findBookmark(bookmark)
+                return bookmark.cmsId && foundBookmark ? (
                   <Draggable
                     draggableId={bookmark._id.toString()}
                     index={index}
@@ -415,7 +416,7 @@ const CustomCollection = ({
                           <div className={styles.dragBookmark}>
                             <RemovableBookmark
                               key={`bookmark_${bookmark._id}`}
-                              bookmark={findBookmark(bookmark)}
+                              bookmark={foundBookmark}
                               handleRemove={() => {
                                 trackEvent(
                                   'Remove link',
@@ -470,7 +471,7 @@ const CustomCollection = ({
                     }}
                   </Draggable>
                 )
-              )}
+              })}
               {provided.placeholder}
             </Collection>
           </div>
