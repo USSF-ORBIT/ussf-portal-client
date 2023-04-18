@@ -203,9 +203,27 @@ const maxCollections: Collection[] = Array.from({ length: 25 }, (x, i) => {
   }
 })
 
+const almostMaxCollections: Collection[] = Array.from(
+  { length: 22 },
+  (x, i) => {
+    return {
+      ...mockCollection,
+      title: 'Example Collection ' + i.toString(),
+      _id: new ObjectId(),
+    }
+  }
+)
+
 export const portalUserCollectionLimit: PortalUser = {
   userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
   mySpace: maxCollections,
+  displayName: 'BERNADETTE CAMPBELL',
+  theme: 'light',
+}
+
+export const portalUserAlmostAtCollectionLimit: PortalUser = {
+  userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
+  mySpace: almostMaxCollections,
   displayName: 'BERNADETTE CAMPBELL',
   theme: 'light',
 }
