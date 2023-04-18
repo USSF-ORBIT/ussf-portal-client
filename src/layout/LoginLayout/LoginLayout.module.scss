@@ -16,36 +16,6 @@
 .layoutLogin {
   :global {
     @include gov-banner;
-    .usa-banner {
-      background-color: color('base-lighter');
-      .usa-banner__inner,
-      .usa-banner__content {
-        max-width: 559px;
-        padding-left: 0;
-        padding-right: 0;
-      }
-      .usa-banner__button,
-      .usa-banner__button[aria-expanded='true'] {
-        color: color('primary');
-        &:hover {
-          color: color('primary-dark');
-          &:after {
-            background-color: color('primary');
-          }
-        }
-        &:after {
-          background-color: color('primary');
-        }
-      }
-      .usa-banner__header,
-      .usa-banner__content {
-        color: color('ink');
-      }
-    }
-
-    .usa-banner__header-text {
-      color: color('base-darker');
-    }
   }
 
   .page-site-notice {
