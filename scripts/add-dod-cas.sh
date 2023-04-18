@@ -14,8 +14,6 @@
     unzip unclass-certificates_pkcs7_DoD.zip
 
     # check that Checksums verify
-    # output=$(cd certificates_pkcs7_v5_11_dod; openssl smime -verify -in ../certificates_pkcs7_v5_11_dod.sha256 -inform DER -CAfile dod_pke_chain.pem | dos2unix | sha256sum -c)
-    # echo 123 >> certificates_pkcs7_v5_11_dod/certificates_pkcs7_v5_11_dod_dod_root_ca_5_der.p7b
     output=$(cd certificates_pkcs7_v5_11_dod; sha256sum -c --strict ../dod_ca_cert_bundle.sha256)
     echo $output
     if [[ "$output" == *"FAILED"* ]]; then
