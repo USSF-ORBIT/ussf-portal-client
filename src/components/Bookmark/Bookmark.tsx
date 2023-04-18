@@ -53,7 +53,10 @@ const Bookmark = ({
           className={linkClasses}
           rel="noreferrer noopener"
           target="_blank"
-          tabIndex={0}>
+          tabIndex={0}
+          onFocus={() => {
+            setDescriptionDisplayed(true)
+          }}>
           {children}
           <span className="usa-sr-only">(opens in a new window)</span>
         </LinkTo>
@@ -82,7 +85,10 @@ const Bookmark = ({
           type="button"
           onClick={onDelete}
           className={styles.delete}
-          aria-label="Remove this link">
+          aria-label="Remove this link"
+          onFocus={() => {
+            setDescriptionDisplayed(false)
+          }}>
           <FontAwesomeIcon icon="times" />
         </button>
       )}
