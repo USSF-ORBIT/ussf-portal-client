@@ -105,7 +105,7 @@ describe('isPublished', () => {
 
   test('returns false if article is published in the future', () => {
     const unpublishedArticle: PublishableItemType = {
-      publishedDate: DateTime.now().plus({ weeks: 2 }).toISO(),
+      publishedDate: DateTime.now().plus({ weeks: 2 }).toISO()!,
       status: 'Published',
     }
     expect(isPublished(unpublishedArticle)).toBe(false)
@@ -113,7 +113,7 @@ describe('isPublished', () => {
 
   test('returns false if article is not published', () => {
     const unpublishedArticle: PublishableItemType = {
-      publishedDate: DateTime.now().plus({ weeks: 2 }).toISO(),
+      publishedDate: DateTime.now().plus({ weeks: 2 }).toISO()!,
       status: 'Draft',
     }
     expect(isPublished(unpublishedArticle)).toBe(false)
@@ -121,7 +121,7 @@ describe('isPublished', () => {
 
   test('returns false if article is not published even if publishedDate is in past', () => {
     const unpublishedArticle: PublishableItemType = {
-      publishedDate: DateTime.now().minus({ weeks: 2 }).toISO(),
+      publishedDate: DateTime.now().minus({ weeks: 2 }).toISO()!,
       status: 'Draft',
     }
     expect(isPublished(unpublishedArticle)).toBe(false)
