@@ -21,7 +21,7 @@ import {
 import { AddCollectionDocument } from 'operations/portal/mutations/addCollection.g'
 import { AddCollectionsDocument } from 'operations/portal/mutations/addCollections.g'
 import { addCollectionsInput } from 'operations/helpers'
-
+import { AddBookmarkDocument } from 'operations/portal/mutations/addBookmark.g'
 import SitesAndApplications, {
   getServerSideProps,
 } from 'pages/sites-and-applications'
@@ -498,6 +498,76 @@ describe('Sites and Applications page', () => {
       })
 
       describe('selecting bookmarks', () => {
+        test('can add a bookmark to an existing collection', async () => {
+          const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+          })
+
+          let bookmarkAdded = false
+
+          const addBookmarkMock = [
+            {
+              request: {
+                query: AddBookmarkDocument,
+                variables: {
+                  url: mockCMSBookmarks[0].url,
+                  label: mockCMSBookmarks[0].label,
+                  collectionId: portalUserWithExampleCollection.mySpace[0]._id,
+                  cmsId: mockCMSBookmarks[0].id,
+                },
+              },
+              result: () => {
+                bookmarkAdded = true
+                return {
+                  data: {
+                    addBookmark: {
+                      _id: ObjectId(),
+                      url: mockCMSBookmarks[0].url,
+                      label: mockCMSBookmarks[0].label,
+                      cmsId: mockCMSBookmarks[0].id,
+                    },
+                  },
+                }
+              },
+            },
+          ]
+
+          renderWithAuthAndApollo(
+            <SitesAndApplications
+              collections={mockCMSCollections}
+              bookmarks={mockCMSBookmarks}
+            />,
+            { portalUser: portalUserWithExampleCollection },
+            addBookmarkMock
+          )
+
+          const sortAlpha = await screen.findByRole('button', {
+            name: 'Sort alphabetically',
+          })
+          await user.click(sortAlpha)
+
+          await user.click(
+            screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+          )
+
+          await user.click(
+            screen.getByRole('button', { name: 'Example Collection' })
+          )
+
+          const flashMessage = screen.getAllByRole('alert')[0]
+
+          expect(flashMessage).toHaveTextContent(
+            `You have successfully added “${mockCMSBookmarks[0].label}” to the “Example Collection” section.`
+          )
+
+          await act(async () => {
+            jest.runAllTimers()
+          })
+
+          expect(bookmarkAdded).toBe(true)
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+
         test('cannot add a bookmark to an existing collection with 10 links', async () => {
           const user = userEvent.setup({
             advanceTimers: jest.advanceTimersByTime,

@@ -145,9 +145,10 @@ const SitesAndApplications = ({
     if (collectionId) {
       handleAddBookmark({
         variables: {
+          url: bookmark.url,
+          label: bookmark.label,
           collectionId,
           cmsId: bookmark.id,
-          ...bookmark,
         },
         refetchQueries: [`getUser`],
       })
