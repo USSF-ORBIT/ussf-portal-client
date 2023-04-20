@@ -335,6 +335,7 @@ const SitesAndApplications = ({
                         <Bookmark
                           className={'sitesAndAppsBookmark'}
                           key={`bookmark_${bookmark.id}`}
+                          bookmarkDescription={bookmark.description}
                           href={bookmark.url}>
                           {bookmark.label}
                         </Bookmark>

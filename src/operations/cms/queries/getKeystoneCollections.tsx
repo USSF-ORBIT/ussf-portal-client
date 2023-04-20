@@ -14,6 +14,7 @@ export const GET_KEYSTONE_COLLECTIONS = gql`
         id
         url
         label
+        description
       }
     }
   }
