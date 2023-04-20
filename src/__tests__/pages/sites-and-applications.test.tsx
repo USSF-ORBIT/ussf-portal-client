@@ -378,12 +378,20 @@ describe('Sites and Applications page', () => {
           )
           expect(screen.getByText('1 collection selected')).toBeInTheDocument()
 
+          expect(
+            screen.getByText('(2 of 25 possible remaining)')
+          ).toBeInTheDocument()
+
           await user.click(
             screen.getByRole('button', {
               name: 'Select collection Example Collection 2',
             })
           )
           expect(screen.getByText('2 collections selected')).toBeInTheDocument()
+
+          expect(
+            screen.getByText('(1 of 25 possible remaining)')
+          ).toBeInTheDocument()
 
           expect(
             screen.getByRole('tooltip', {
