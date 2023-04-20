@@ -29,6 +29,8 @@ const testArticle: ArticleRecord = {
   category: 'InternalNews',
   publishedDate: '2022-05-17T13:44:39.796Z',
   status: 'Published',
+  labels: [{ id: '1', name: 'All Guardians', type: 'Audience' }],
+  tags: [{ id: '2', name: 'Tag Name' }],
   body: {
     document: [
       {

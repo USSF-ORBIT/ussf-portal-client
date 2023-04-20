@@ -4,27 +4,27 @@
 .Tag,
 :global(.usa-tag).Tag {
   @include u-radius('lg');
-  @include u-font-size('body', 1);
+  font-size: 14px;
   background-color: $theme-ultraviolet-base;
   text-transform: lowercase;
   display: inline-block;
   line-height: normal;
-
-  // 4px 12px
-  padding: units('05') units('105');
 }
 
 .Label,
 :global(.usa-tag).Label {
   @include u-radius('md');
-  @include u-font-size('body', 1);
+  font-size: 14px;
   text-transform: none;
   display: inline-flex;
   align-items: center;
   line-height: normal;
+  height: 23px;
+  border-radius: 2px;
 
-  // 1px 12px 1px 8px
-  padding: units(1px) units('105') units(1px) units(1);
+  @media (max-width: 440px) {
+    height: auto;
+  }
 
   svg {
     margin-right: units('05');
@@ -56,13 +56,10 @@
 .Category,
 :global(.usa-tag).Category {
   @include u-radius('sm');
-  @include u-font-size('body', 1);
+  font-size: 14px;
   text-transform: uppercase;
   display: inline-block;
   line-height: normal;
-
-  // 6px 8px
-  padding: 6px units(1);
 
   &.ExternalNews {
     background-color: var(--category-externalnews-bg);
