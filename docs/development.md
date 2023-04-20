@@ -108,6 +108,7 @@ Most commonly used during development:
   - Stop containers with `yarn services:down`
 - `yarn portal:up`: Starts all services, Client, _and_ Keystone CMS in Docker
   - Stop containers with `yarn services:down`
+  - Builds Client up to `e2e` stage. If you want to build the `runner` stage that is present in Production, you need to have a checksum file for verifying DoD PKI CA Certificates used in C1. Find these in the 1Password vault, create a file `dod_ca_cert_bundle.sha256` in `scripts/`, and paste the checksums there.
 - `yarn dev`: Starts NextJS server in development mode and watches for changed files
 - `yarn storybook`: Starts the Storybook component library on port 6006
 - `yarn test:watch`: Run Jest tests in watch mode
@@ -147,7 +148,7 @@ There are two separate Dockerfiles: `Dockerfile.dev`, which is used for running 
 
 ### Local Development with Docker
 
-You can spin up your Docker environment using Docker Compose. By running `yarn services:up`, it will use `docker-compose.services.yml` to create and run the services required for development. This does _not_ include Matomo (our analytics platform) since the portal does not require it to run.
+You can spin up your Docker environment using Docker Compose. By running `yarn services:up`, it will use `docker-compose.services.yml` to create and run the services required for development. This _does_ include Matomo (our analytics platform) for convienience though Portal does not require it to run.
 
 Services include:
 
@@ -166,7 +167,7 @@ Services include:
 3. Test SAML Identity Provider
 
 - Service for testing auth flow
-- Access on `localhost:8080`, `localhost:8443`
+- Access on `localhost:8080`
 - Log in with test user credentials:
   - username: user1
   - password: user1pass
@@ -181,6 +182,20 @@ Services include:
 
 - Stores Keystone CMS data
 - Persists volume `cms_data`
+
+6. Matomo
+
+- Tracks Portal user events
+- Uses Dockerfile from our [analytics repo](https://github.com/USSF-ORBIT/analytics) which should be checked out in  `../analytics/`.
+- Depends on mariadb
+- Persists volume `matomo_data`
+- Access at `localhost:8443`
+- Credentials are in the 1Password Vault
+
+
+7. MariaDB
+- Stores Matomo Data
+- Persists volume `mariadb_data`
 
 To run the app in detached development mode (with hot reloading):
 
@@ -231,6 +246,7 @@ If you want to run all services in docker to mimic a deployed environment as clo
 - Ensure no other `yarn dev` is running in this repo or cms repo
 - Run `yarn portal:up` will start everything
   - Client will be at http://localhost:3000
+    - See [note about how to build the production stage of this container.](#yarn-scripts)
   - CMS will be at http://localhost:3001
 - You can check things are running with `docker compose ps`
 - You can follow the logs with `docker compose logs -f`
