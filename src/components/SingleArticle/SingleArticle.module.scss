@@ -30,7 +30,13 @@
 
   .tagAndLabelContainer {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    a {
+      text-decoration: none;
+      &:not(:first-child) {
+        margin-left: units(1);
+      }
+    }
   }
 
   .metadata {

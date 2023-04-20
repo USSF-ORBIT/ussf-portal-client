@@ -80,7 +80,7 @@ describe('SearchResultItem component', () => {
         testArticleResult.title
       )
       expect(screen.queryByText(testArticleResult.preview)).toBeInTheDocument()
-      expect(screen.queryByText('Internal USSF News')).toHaveClass('usa-tag')
+      expect(screen.queryByText('USSF News')).toHaveClass('usa-tag')
 
       expect(await axe(container)).toHaveNoViolations()
     })
