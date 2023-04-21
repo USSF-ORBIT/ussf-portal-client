@@ -4,9 +4,8 @@
 import { screen, waitFor } from '@testing-library/react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-
 import { renderWithAuth } from '../../testHelpers'
-
+import * as analyticsHooks from 'stores/analyticsContext'
 import Custom404 from 'pages/404'
 
 const mockReplace = jest.fn()
@@ -80,6 +79,22 @@ describe('404 page', () => {
       expect(feedbackLink.getAttribute('href')).toContain(
         'USSF portal feedback -- 404 page error'
       )
+    })
+
+    test('calls trackEvent with the correct arguments', async () => {
+      const mockTrackEvents = jest.fn()
+      jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
+        return { push: jest.fn(), trackEvent: mockTrackEvents }
+      })
+      renderWithAuth(<Custom404 />)
+      await waitFor(() => {
+        expect(mockTrackEvents).toHaveBeenCalledWith(
+          'Error page',
+          'Page missing',
+          '404',
+          window.location.pathname
+        )
+      })
     })
   })
 })

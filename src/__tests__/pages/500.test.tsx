@@ -1,10 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/router'
-
+import * as analyticsHooks from 'stores/analyticsContext'
 import Custom500 from 'pages/500'
 
 const mockBack = jest.fn()
@@ -69,5 +69,21 @@ describe('500 page', () => {
     expect(reportBugLink.getAttribute('href')).toContain(
       'USSF portal feedback -- 500 page error'
     )
+  })
+
+  test('calls trackEvent with the correct arguments', async () => {
+    const mockTrackEvents = jest.fn()
+    jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
+      return { push: jest.fn(), trackEvent: mockTrackEvents }
+    })
+    render(<Custom500 />)
+    await waitFor(() => {
+      expect(mockTrackEvents).toHaveBeenCalledWith(
+        'Error page',
+        'Internal error',
+        '500',
+        window.location.pathname
+      )
+    })
   })
 })
