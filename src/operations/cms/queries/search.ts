@@ -15,6 +15,10 @@ export const SEARCH = gql`
           name
           type
         }
+        tags {
+          id
+          name
+        }
       }
     }
   }

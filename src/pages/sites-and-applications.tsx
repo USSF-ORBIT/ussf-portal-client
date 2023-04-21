@@ -145,9 +145,10 @@ const SitesAndApplications = ({
     if (collectionId) {
       handleAddBookmark({
         variables: {
+          url: bookmark.url,
+          label: bookmark.label,
           collectionId,
           cmsId: bookmark.id,
-          ...bookmark,
         },
         refetchQueries: [`getUser`],
       })
@@ -334,6 +335,7 @@ const SitesAndApplications = ({
                         <Bookmark
                           className={'sitesAndAppsBookmark'}
                           key={`bookmark_${bookmark.id}`}
+                          bookmarkDescription={bookmark.description}
                           href={bookmark.url}>
                           {bookmark.label}
                         </Bookmark>

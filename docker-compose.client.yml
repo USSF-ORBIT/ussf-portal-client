@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: runner
+      target: e2e
       args:
         BUILD: localbuild
     container_name: client

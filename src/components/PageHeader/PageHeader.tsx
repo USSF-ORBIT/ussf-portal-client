@@ -5,7 +5,13 @@ import styles from './PageHeader.module.scss'
 
 import Search from 'components/Search/Search'
 
-const PageHeader = ({ children }: { children: React.ReactNode }) => {
+const PageHeader = ({
+  searchQuery,
+  children,
+}: {
+  searchQuery?: string
+  children: React.ReactNode
+}) => {
   return (
     <div className={styles.PageHeader}>
       <GridContainer>
@@ -15,7 +21,7 @@ const PageHeader = ({ children }: { children: React.ReactNode }) => {
           </Grid>
 
           <Grid col="auto" desktop={{ col: 6 }}>
-            <Search />
+            <Search query={searchQuery} />
           </Grid>
         </Grid>
       </GridContainer>

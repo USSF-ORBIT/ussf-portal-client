@@ -21,7 +21,7 @@ import {
 import { AddCollectionDocument } from 'operations/portal/mutations/addCollection.g'
 import { AddCollectionsDocument } from 'operations/portal/mutations/addCollections.g'
 import { addCollectionsInput } from 'operations/helpers'
-
+import { AddBookmarkDocument } from 'operations/portal/mutations/addBookmark.g'
 import SitesAndApplications, {
   getServerSideProps,
 } from 'pages/sites-and-applications'
@@ -378,12 +378,20 @@ describe('Sites and Applications page', () => {
           )
           expect(screen.getByText('1 collection selected')).toBeInTheDocument()
 
+          expect(
+            screen.getByText('(2 of 25 possible remaining)')
+          ).toBeInTheDocument()
+
           await user.click(
             screen.getByRole('button', {
               name: 'Select collection Example Collection 2',
             })
           )
           expect(screen.getByText('2 collections selected')).toBeInTheDocument()
+
+          expect(
+            screen.getByText('(1 of 25 possible remaining)')
+          ).toBeInTheDocument()
 
           expect(
             screen.getByRole('tooltip', {
@@ -498,74 +506,75 @@ describe('Sites and Applications page', () => {
       })
 
       describe('selecting bookmarks', () => {
-        // test('can add a bookmark to an existing collection', async () => {
-        //   const user = userEvent.setup({
-        //     advanceTimers: jest.advanceTimersByTime,
-        //   })
+        test('can add a bookmark to an existing collection', async () => {
+          const user = userEvent.setup({
+            advanceTimers: jest.advanceTimersByTime,
+          })
 
-        //   // let bookmarkAdded = false
-        //   // const addBookmarkMock = [
-        //   //   {
-        //   //     request: {
-        //   //       query: AddBookmarkDocument,
-        //   //       variables: {
-        //   //         collectionId: portalUserWithExampleCollection.mySpace[0]._id,
-        //   //         url: 'www.example.com/15',
-        //   //         label: 'LeaveWeb',
-        //   //         cmsId: '15',
-        //   //       },
-        //   //     },
-        //   //     result: () => {
-        //   //       bookmarkAdded = true
-        //   //       return {
-        //   //         data: {
-        //   //           addBookmark: {
-        //   //             _id: ObjectId(),
-        //   //             cmsId: '15',
-        //   //             url: 'www.example.com/15',
-        //   //             label: 'LeaveWeb',
-        //   //           },
-        //   //         },
-        //   //       }
-        //   //     },
-        //   //   },
-        //   // ]
+          let bookmarkAdded = false
 
-        //   renderWithAuthAndApollo(
-        //     <SitesAndApplications
-        //       collections={mockCMSCollections}
-        //       bookmarks={mockCMSBookmarks}
-        //     />,
-        //     { portalUser: portalUserWithExampleCollection },
-        //     sitesAndAppsMock
-        //   )
+          const addBookmarkMock = [
+            {
+              request: {
+                query: AddBookmarkDocument,
+                variables: {
+                  url: mockCMSBookmarks[0].url,
+                  label: mockCMSBookmarks[0].label,
+                  collectionId: portalUserWithExampleCollection.mySpace[0]._id,
+                  cmsId: mockCMSBookmarks[0].id,
+                },
+              },
+              result: () => {
+                bookmarkAdded = true
+                return {
+                  data: {
+                    addBookmark: {
+                      _id: ObjectId(),
+                      url: mockCMSBookmarks[0].url,
+                      label: mockCMSBookmarks[0].label,
+                      cmsId: mockCMSBookmarks[0].id,
+                    },
+                  },
+                }
+              },
+            },
+          ]
 
-        //   const sortAlpha = await screen.findByRole('button', {
-        //     name: 'Sort alphabetically',
-        //   })
-        //   await user.click(sortAlpha)
+          renderWithAuthAndApollo(
+            <SitesAndApplications
+              collections={mockCMSCollections}
+              bookmarks={mockCMSBookmarks}
+            />,
+            { portalUser: portalUserWithExampleCollection },
+            addBookmarkMock
+          )
 
-        //   await user.click(
-        //     screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
-        //   )
+          const sortAlpha = await screen.findByRole('button', {
+            name: 'Sort alphabetically',
+          })
+          await user.click(sortAlpha)
 
-        //   await user.click(
-        //     screen.getByRole('button', { name: 'Example Collection' })
-        //   )
+          await user.click(
+            screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+          )
 
-        //   const flashMessage = screen.getAllByRole('alert')[0]
+          await user.click(
+            screen.getByRole('button', { name: 'Example Collection' })
+          )
 
-        //   expect(flashMessage).toHaveTextContent(
-        //     `You have successfully added “${mockCMSBookmarks[0].label}” to the “Example Collection” section.`
-        //   )
+          const flashMessage = screen.getAllByRole('alert')[0]
 
-        //   await act(async () => {
-        //     jest.runAllTimers()
-        //   })
+          expect(flashMessage).toHaveTextContent(
+            `You have successfully added “${mockCMSBookmarks[0].label}” to the “Example Collection” section.`
+          )
 
-        //   expect(bookmarkAdded).toBe(true)
-        //   expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        // })
+          await act(async () => {
+            jest.runAllTimers()
+          })
+
+          expect(bookmarkAdded).toBe(true)
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
 
         test('cannot add a bookmark to an existing collection with 10 links', async () => {
           const user = userEvent.setup({
