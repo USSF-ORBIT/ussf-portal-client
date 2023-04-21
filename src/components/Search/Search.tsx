@@ -3,7 +3,13 @@ import classnames from 'classnames'
 import styles from './Search.module.scss'
 // import LinkTo from 'components/util/LinkTo/LinkTo'
 
-const Search = ({ disabled }: { disabled?: boolean }) => {
+const Search = ({
+  disabled,
+  query,
+}: {
+  disabled?: boolean
+  query?: string
+}) => {
   const disableClass = classnames({
     [styles.disabled]: disabled,
   })
@@ -49,6 +55,7 @@ const Search = ({ disabled }: { disabled?: boolean }) => {
             name="q"
             placeholder="What are you looking for today?"
             disabled={disabled}
+            defaultValue={query}
           />
 
           <button className="usa-button" type="submit" disabled={disabled}>
