@@ -3,7 +3,7 @@ import { DateTime } from 'luxon'
 import { client } from '../lib/keystoneClient'
 import MySpace from 'components/MySpace/MySpace'
 import Announcement from 'components/Announcement/Announcement'
-import type { BookmarkRecords } from 'types/index'
+import type { CMSBookmark } from 'types/index'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import { GET_ANNOUNCEMENTS } from 'operations/cms/queries/getAnnouncements'
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
@@ -52,7 +52,7 @@ export async function getServerSideProps() {
     },
   })
 
-  const bookmarks = cmsBookmarks?.bookmarks as BookmarkRecords
+  const bookmarks = cmsBookmarks?.bookmarks as CMSBookmark[]
 
   return {
     props: {

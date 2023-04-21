@@ -7,7 +7,7 @@ import UserModel from '../models/User'
 import { CollectionModel } from '../models/Collection'
 
 import { MySpaceModel } from 'models/MySpace'
-import { Widget, PortalUser, WidgetType, Bookmark } from 'types'
+import { Widget, PortalUser, WidgetType, MongoBookmark } from 'types'
 
 export const ObjectIdScalar = new GraphQLScalarType({
   name: 'OID',
@@ -51,13 +51,13 @@ type AddWidgetInput = {
 
 type AddCollectionInput = {
   title: string
-  bookmarks: Bookmark[]
+  bookmarks: MongoBookmark[]
 }
 
 type EditCollectionInput = {
   _id: ObjectIdType
   title: string
-  bookmarks: Bookmark[]
+  bookmarks: MongoBookmark[]
 }
 
 type AddBookmarkInput = {

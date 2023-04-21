@@ -8,10 +8,10 @@ import { axe } from 'jest-axe'
 import React from 'react'
 import { ObjectId } from 'mongodb'
 import ApplicationsTable from './ApplicationsTable'
-import type { Collection, BookmarkRecord, BookmarkRecords } from 'types'
+import type { Collection, CMSBookmark } from 'types'
 import { WIDGET_TYPES } from 'constants/index'
 
-const exampleBookmarks: BookmarkRecord[] = [
+const exampleBookmarks: CMSBookmark[] = [
   { id: '1', label: 'Webmail', url: '#' },
   { id: '2', label: 'MyPay', url: '#' },
   { id: '3', label: 'vMPF', url: '#' },
@@ -112,7 +112,7 @@ describe('ApplicationsTable component', () => {
     render(
       <ApplicationsTable
         {...testProps}
-        bookmarks={exampleInvalidBookmarks as BookmarkRecords}
+        bookmarks={exampleInvalidBookmarks as CMSBookmark[]}
       />
     )
     expect(screen.getByRole('table')).toBeInTheDocument()

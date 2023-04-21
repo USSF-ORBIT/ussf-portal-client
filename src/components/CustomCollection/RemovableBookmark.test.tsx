@@ -10,7 +10,7 @@ import React from 'react'
 import { RemovableBookmark } from './RemovableBookmark'
 
 const testBookmark = {
-  _id: ObjectId(),
+  id: ObjectId(),
   url: 'https://google.com',
   label: 'Webmail',
 }
@@ -33,7 +33,7 @@ describe('RemovableBookmark component', () => {
 
   it('renders the bookmark URL if there is no label', () => {
     const testBookmarkNoLabel = {
-      _id: ObjectId(),
+      id: ObjectId(),
       url: 'https://example.com',
     }
 

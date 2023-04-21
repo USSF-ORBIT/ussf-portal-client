@@ -7,6 +7,7 @@ import { mockRssFeedTwo } from '__mocks__/news-rss'
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 import { AuthContext } from 'stores/authContext'
 import { Collection } from 'types'
+import { cmsBookmarksMock } from '__fixtures__/data/cmsBookmarks'
 
 // Load 2 items
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
@@ -25,22 +26,29 @@ const exampleMySpaceData: Collection[] = [
     bookmarks: [
       {
         _id: new ObjectId(),
-        url: 'https://google.com',
-        label: 'Webmail',
-        cmsId: 'a',
+        url: 'www.example.com/1',
+        label: 'MyVector',
+        cmsId: '1',
         isRemoved: false,
       },
       {
         _id: new ObjectId(),
-        url: 'https://mypay.dfas.mil/#/',
-        label: 'MyPay',
-        cmsId: 'b',
+        url: 'www.example.com/2',
+        label: 'SURF',
+        cmsId: '2',
         isRemoved: false,
       },
       {
         _id: new ObjectId(),
-        url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-        label: 'vMPF',
+        url: 'www.example.com/3',
+        label: 'Orders',
+        cmsId: '3',
+      },
+      {
+        _id: new ObjectId(),
+        url: 'www.example.com/4',
+        label: 'Custom Link',
+        cmsId: null,
       },
     ],
   },
@@ -97,4 +105,4 @@ export default {
   },
 } as Meta
 
-export const ExampleMySpace = () => <MySpace bookmarks={[]} />
+export const ExampleMySpace = () => <MySpace bookmarks={cmsBookmarksMock} />

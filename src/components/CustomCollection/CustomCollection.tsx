@@ -24,12 +24,7 @@ import styles from './CustomCollection.module.scss'
 
 import Tooltip from 'components/Tooltip/Tooltip'
 import Collection from 'components/Collection/Collection'
-import type {
-  Bookmark as BookmarkType,
-  BookmarkRecord,
-  BookmarkRecords,
-  WidgetType,
-} from 'types/index'
+import type { MongoBookmark, WidgetType, CMSBookmark } from 'types/index'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 import { useAnalytics } from 'stores/analyticsContext'
@@ -41,12 +36,12 @@ type PropTypes = {
   _id: ObjectId
   title?: string
   type?: WidgetType
-  bookmarks?: BookmarkType[]
-  bookmarkOptions?: BookmarkRecords
+  bookmarks?: MongoBookmark[]
+  bookmarkOptions?: CMSBookmark[]
   handleRemoveBookmark: (_id: ObjectId, cmsId?: string) => void
   handleAddBookmark: (url: string, label?: string, cmsId?: string) => void
   handleRemoveCollection: () => void
-  handleEditCollection: (title: string, bookmarks?: BookmarkType[]) => void
+  handleEditCollection: (title: string, bookmarks?: MongoBookmark[]) => void
 }
 
 const MAXIMUM_BOOKMARKS_PER_COLLECTION = 10
@@ -83,8 +78,11 @@ const CustomCollection = ({
   )
 
   const [customLabel, setCustomLabel] = useState<string>('')
-  const visibleBookmarks = bookmarks.filter((b) => !b.isRemoved)
-  const removedBookmarks = bookmarks.filter((b) => b.isRemoved)
+
+  const visibleBookmarks: MongoBookmark[] = bookmarks.filter(
+    (b) => !b.isRemoved
+  )
+  const removedBookmarks: MongoBookmark[] = bookmarks.filter((b) => b.isRemoved)
 
   useEffect(() => {
     // Auto-focus on ComboBox when clicking Add Link
@@ -332,11 +330,13 @@ const CustomCollection = ({
     }
   }
 
-  const findBookmark = (
-    bookmark: BookmarkType
-  ): BookmarkType | BookmarkRecord => {
-    const found = bookmarkOptions.filter((b) => b.id === bookmark.cmsId)
-    return found.length > 0 ? found[0] : bookmark
+  const findBookmark = (bookmark: MongoBookmark) => {
+    /* In order to keep urls, labels, etc related to bookmarks up-to-date, we manage them in the CMS. This 
+        function looks at each bookmark in the users MySpace, uses the cmsId to find the corresponding bookmark
+        that we have previously retrieved from the CMS, and that CMS bookmark is what we display. This ensures
+        that users have the most accurate bookmark information. We are NOT displaying the bookmark we get from
+        the db, it is merely used as a reference. */
+    return bookmarkOptions.find((b) => b.id === bookmark.cmsId) as CMSBookmark
   }
 
   const customCollectionHeader = (
@@ -387,8 +387,9 @@ const CustomCollection = ({
             <Collection
               header={customCollectionHeader}
               footer={!isEditingTitle ? addLinkForm : null}>
-              {visibleBookmarks.map((bookmark: BookmarkType, index) =>
-                bookmark.cmsId ? (
+              {visibleBookmarks.map((bookmark: MongoBookmark, index) => {
+                const foundBookmark = findBookmark(bookmark)
+                return bookmark.cmsId && foundBookmark ? (
                   <Draggable
                     draggableId={bookmark._id.toString()}
                     index={index}
@@ -415,7 +416,7 @@ const CustomCollection = ({
                           <div className={styles.dragBookmark}>
                             <RemovableBookmark
                               key={`bookmark_${bookmark._id}`}
-                              bookmark={findBookmark(bookmark)}
+                              bookmark={foundBookmark}
                               handleRemove={() => {
                                 trackEvent(
                                   'Remove link',
@@ -470,7 +471,7 @@ const CustomCollection = ({
                     }}
                   </Draggable>
                 )
-              )}
+              })}
               {provided.placeholder}
             </Collection>
           </div>

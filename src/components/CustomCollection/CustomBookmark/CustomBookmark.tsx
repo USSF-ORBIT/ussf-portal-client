@@ -4,7 +4,7 @@ import type { ObjectId } from 'bson'
 import styles from '../CustomCollection.module.scss'
 
 import Bookmark from 'components/Bookmark/Bookmark'
-import type { Bookmark as BookmarkType } from 'types/index'
+import type { MongoBookmark } from 'types/index'
 import { useModalContext } from 'stores/modalContext'
 
 export const CustomBookmark = ({
@@ -12,7 +12,7 @@ export const CustomBookmark = ({
   widgetId,
   collectionTitle,
 }: {
-  bookmark: BookmarkType
+  bookmark: MongoBookmark
   widgetId: ObjectId
   collectionTitle: string
 }) => {

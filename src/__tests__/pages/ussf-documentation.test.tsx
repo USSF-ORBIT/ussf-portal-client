@@ -9,10 +9,7 @@ import axios from 'axios'
 import { gql } from 'apollo-server-core'
 import { renderWithAuthAndApollo } from '../../testHelpers'
 import { DocumentPageType } from 'types'
-import USSFDocumentation, {
-  getServerSideProps,
-  staticPage,
-} from 'pages/ussf-documentation'
+import USSFDocumentation, { getServerSideProps } from 'pages/ussf-documentation'
 
 const mockReplace = jest.fn()
 
