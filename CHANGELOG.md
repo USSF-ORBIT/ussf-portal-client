@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.19.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.18.1...4.19.0) (2023-04-21)
+
+
+### Features
+
+* Add hover states to bookmarks ([#987](https://github.com/USSF-ORBIT/ussf-portal-client/issues/987)) ([2dc25db](https://github.com/USSF-ORBIT/ussf-portal-client/commit/2dc25dbe7d2e5a1e2e6c4dfa0b33cd7337276cba))
+* Add migration for default Guardian Ideal widget ([#977](https://github.com/USSF-ORBIT/ussf-portal-client/issues/977)) ([ce0eb97](https://github.com/USSF-ORBIT/ussf-portal-client/commit/ce0eb9767ef7210789e4715d7942eb86d7d41be1))
+* Clickable tags and labels on Single Article ([#997](https://github.com/USSF-ORBIT/ussf-portal-client/issues/997)) ([9438fc6](https://github.com/USSF-ORBIT/ussf-portal-client/commit/9438fc6c98619069204ca3216337456a1e2b02c4))
+* design: On error pages (and elsewhere) offer a bug report page ([#983](https://github.com/USSF-ORBIT/ussf-portal-client/issues/983)) ([2577c30](https://github.com/USSF-ORBIT/ussf-portal-client/commit/2577c3085e04920e8e24f34806e45216aa088013))
+* fully release docs page and search ([#985](https://github.com/USSF-ORBIT/ussf-portal-client/issues/985)) ([351058f](https://github.com/USSF-ORBIT/ussf-portal-client/commit/351058f8dab91bf6720c5416fc1b777f76e7d7df))
+
+
+### Bug Fixes
+
+* enable matomo to track local dev portal ([#964](https://github.com/USSF-ORBIT/ussf-portal-client/issues/964)) ([0140b90](https://github.com/USSF-ORBIT/ussf-portal-client/commit/0140b907a59744c55d0be9a0cd4f9cbe31648df2))
+* Styling on GovBanner makes text hard to read ([#986](https://github.com/USSF-ORBIT/ussf-portal-client/issues/986)) ([04cf5dd](https://github.com/USSF-ORBIT/ussf-portal-client/commit/04cf5ddd1c4a839e18ee5da271f3873395a4155b))
+
+
+### Documentation
+
+* update pr templates ([#999](https://github.com/USSF-ORBIT/ussf-portal-client/issues/999)) ([365fab8](https://github.com/USSF-ORBIT/ussf-portal-client/commit/365fab8e1b6021a5e59c70cc37828a352c0b77f3))
+
 ### [4.18.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.18.0...4.18.1) (2023-04-05)
 
 
