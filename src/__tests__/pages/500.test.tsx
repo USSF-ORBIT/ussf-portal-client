@@ -29,7 +29,7 @@ describe('500 page', () => {
     render(<Custom500 />)
   })
 
-  it('renders the custom 500 page,', () => {
+  test('renders the custom 500 page,', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('500')
     expect(screen.getByTestId('gridContainer')).toHaveTextContent(
       'Houston, we have a problem'
@@ -39,7 +39,7 @@ describe('500 page', () => {
     )
   })
 
-  it('renders a back button', async () => {
+  test('renders a back button', async () => {
     const user = userEvent.setup()
 
     const backButton = screen.getByRole('button', {
@@ -51,7 +51,7 @@ describe('500 page', () => {
     expect(mockBack).toHaveBeenCalled()
   })
 
-  it('renders feedback links', async () => {
+  test('renders feedback links', async () => {
     const feedbackLink = screen.getByText('feedback@ussforbit.us')
     expect(feedbackLink).toBeVisible()
     expect(feedbackLink).toHaveAttribute('href')
