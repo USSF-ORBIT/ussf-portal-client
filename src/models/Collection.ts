@@ -50,7 +50,9 @@ export const CollectionModel = {
         .collection('users')
         .findOne({ userId: userId })) as PortalUser
 
-      return foundUser.mySpace.filter((w) => w.type === WIDGET_TYPES.COLLECTION)
+      return foundUser.mySpace.filter(
+        (w) => w.type === WIDGET_TYPES.COLLECTION
+      ) as Collection[]
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('CollectionModel Error: error in getAll', e)
