@@ -1,19 +1,19 @@
 import { ObjectId } from 'bson'
-import type { SessionUser, PortalUser, Collection } from 'types'
+import type { SessionUser, PortalUser, Collection, Widget } from 'types'
 
-const mockNews: any = {
+const mockNews: Widget = {
   _id: new ObjectId(),
   title: 'Recent News',
   type: 'News',
 }
 
-const mockGuardianIdeal: any = {
+const mockGuardianIdeal: Widget = {
   _id: new ObjectId(),
   title: 'Guardian Ideal',
   type: 'GuardianIdeal',
 }
 
-const mockFeaturedShortcuts: any = {
+const mockFeaturedShortcuts: Widget = {
   _id: new ObjectId(),
   title: 'Featured Shortcuts',
   type: 'FeaturedShortcuts',
@@ -168,7 +168,7 @@ export const portalUserWithExampleCollection: PortalUser = {
   theme: 'light',
 }
 
-const mockCollectionWithGuardianIdeal: any = {
+const mockCollectionWithGuardianIdeal: Widget = {
   _id: new ObjectId(),
   title: 'Guardian Ideal',
   type: 'GuardianIdeal',
