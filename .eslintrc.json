@@ -35,7 +35,7 @@
     "jest"
   ],
   "rules": {
-    "no-console": "warn",
+    "no-console": "off",
     "security/detect-object-injection": "error",
     "import/no-useless-path-segments": "warn",
     "import/no-cycle": "error",
