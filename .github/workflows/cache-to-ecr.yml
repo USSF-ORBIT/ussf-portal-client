@@ -41,35 +41,36 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}
+            ${{ secrets.ECR_REGISTRY }}/docker-build-cache 
           tags: |
             type=sha,prefix=,format=long
           flavor: |
             latest=false
           
-      - uses: docker/setup-buildx-action@4b4e9c3e2d4531116a6f8ba8e71fc6e2cb6e6c8c # v2
+      - name: Docker setup buildx
+        uses: docker/setup-buildx-action@4b4e9c3e2d4531116a6f8ba8e71fc6e2cb6e6c8c # v2
         id: buildx
         with:
           install: true
 
-      - name: Build and push
+      - name: Build and push builder stage
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671 # v4
         with:
           context: .
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/portal-client:builder
+          tags: ${{ steps.login-ecr.outputs.registry }}/docker-build-cache:portal-client-builder
           labels: ${{ steps.meta.outputs.labels }}
           cache-to: type=inline
           target: builder
           build-args: |
             BUILD=${{ github.sha }}
             
-      - name: Build and push
+      - name: Build and push e2e stage
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671 # v4
         with:
           context: .
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/portal-client:e2e
+          tags: ${{ steps.login-ecr.outputs.registry }}/docker-build-cache:portal-client-e2e
           labels: ${{ steps.meta.outputs.labels }}
           cache-to: type=inline
           target: e2e
