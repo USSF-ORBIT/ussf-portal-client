@@ -22,6 +22,12 @@ export default {
 
 export const ExampleBookmark = () => <Bookmark href="#">Example</Bookmark>
 
+export const WithDescription = () => (
+  <Bookmark href="#" bookmarkDescription="My example description">
+    Lorem ipsum
+  </Bookmark>
+)
+
 export const WithLongText = () => (
   <Bookmark href="#">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod

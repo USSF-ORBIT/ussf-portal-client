@@ -6,7 +6,7 @@ import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeC
 import { useRemoveWidgetMutation } from 'operations/portal/mutations/removeWidget.g'
 import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
 import { useEditBookmarkMutation } from 'operations/portal/mutations/editBookmark.g'
-import { Widget, Bookmark as BookmarkType } from 'types/index'
+import { Widget, MongoBookmark } from 'types/index'
 
 // TO DO - A few things...
 // 1. Find a way to use callbacks for the handlers in this file (e.g. handleSaveCustomLink). We want
@@ -36,8 +36,8 @@ export type ModalContextType = {
     descriptionText?: string
   }) => void
   additionalText?: string
-  bookmark?: BookmarkType | null
-  updateBookmark: (bookmark: BookmarkType) => void
+  bookmark?: MongoBookmark | null
+  updateBookmark: (bookmark: MongoBookmark) => void
   customLinkLabel?: string
   updateCustomLinkLabel: (
     customLinkLabel: string,
@@ -87,7 +87,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [customLinkLabel, setCustomLinkLabel] = useState('')
   const [showAddWarning, setShowAddWarning] = useState(false)
   const [widgetState, setWidgetState] = useState<Widget | null>()
-  const [bookmark, setBookmark] = useState<BookmarkType | null>()
+  const [bookmark, setBookmark] = useState<MongoBookmark | null>()
 
   // In CustomCollection.tsx there is an isAddingLink state that controls
   // the visibility of a dropdown. isAddingLinkContext mirrors that value,
@@ -164,7 +164,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     setWidgetState(widget)
   }
 
-  const updateBookmark = (bookmark: BookmarkType) => {
+  const updateBookmark = (bookmark: MongoBookmark) => {
     setBookmark(bookmark)
   }
 

@@ -81,4 +81,25 @@ describe('custome error page', () => {
     expect(result).toBeDefined()
     expect(result).toEqual({ statusCode: 404 })
   })
+
+  it('tests getInitialProps with no statusCode', async () => {
+    const getInitialProps = CustomError.getInitialProps
+    expect(getInitialProps).toBeDefined()
+    expect(getInitialProps).toBeInstanceOf(Function)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore ignore getInitialProps being possibly undefined because we just checked it
+    const result = await getInitialProps({ res: {} })
+    expect(result).toBeDefined()
+    expect(result).toEqual({ statusCode: 404 })
+  })
+})
+
+describe('custom error page without status code', () => {
+  beforeEach(() => {
+    render(<CustomError />)
+  })
+
+  it('renders the custom error page,', () => {
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('500')
+  })
 })

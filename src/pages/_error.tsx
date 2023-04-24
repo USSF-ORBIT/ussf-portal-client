@@ -1,4 +1,4 @@
-import type { NextPage, NextPageContext } from 'next'
+import type { NextPage } from 'next'
 import type { ReactElement, ReactNode } from 'react'
 import { Button, GridContainer } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
@@ -63,8 +63,8 @@ const Error: NextPageWithLayout<Props> = ({ statusCode }: Props) => {
   )
 }
 
-Error.getInitialProps = ({ res, err }: NextPageContext) => {
-  const statusCode = res ? res.statusCode : err ? err.statusCode : 404
+Error.getInitialProps = ({ res, err = { statusCode: 404 } }) => {
+  const statusCode = res?.statusCode || err?.statusCode
   return { statusCode }
 }
 

@@ -2,6 +2,7 @@ import React from 'react'
 import { Meta } from '@storybook/react'
 import { ObjectId } from 'bson'
 import CustomCollection from './CustomCollection'
+import { cmsBookmarksMock } from '__fixtures__/data/cmsBookmarks'
 
 type StorybookArgTypes = {
   handleAddBookmark: () => void
@@ -9,6 +10,8 @@ type StorybookArgTypes = {
   handleRemoveCollection: () => void
   handleEditCollection: () => void
 }
+
+const firstTenCMSBookmarks = cmsBookmarksMock.slice(0, 10)
 
 export default {
   title: 'Components/Collections/CustomCollection',
@@ -35,12 +38,13 @@ export const ExampleCustomCollection = (argTypes: StorybookArgTypes) => (
     bookmarks={[
       {
         _id: new ObjectId(),
-        url: '#',
-        label: 'Webmail',
-        cmsId: 'cmsLink1',
+        url: 'www.example.com/1',
+        label: 'MyVector',
+        cmsId: '1',
       },
       { _id: new ObjectId(), url: '#', label: 'Custom Link' },
     ]}
+    bookmarkOptions={firstTenCMSBookmarks}
     handleAddBookmark={argTypes.handleAddBookmark}
     handleRemoveBookmark={argTypes.handleRemoveBookmark}
     handleRemoveCollection={argTypes.handleRemoveCollection}
@@ -55,21 +59,21 @@ export const WithNineLinks = (argTypes: StorybookArgTypes) => (
     bookmarks={[
       {
         _id: new ObjectId(),
-        url: 'https://google.com',
-        label: 'Webmail',
-        cmsId: 'cmsId1',
+        url: 'www.example.com/1',
+        label: 'MyVector',
+        cmsId: '1',
       },
       {
         _id: new ObjectId(),
-        url: 'https://mypay.dfas.mil/#/',
-        label: 'MyPay',
-        cmsId: 'cmsId2',
+        url: 'www.example.com/2',
+        label: 'SURF',
+        cmsId: '2',
       },
       {
         _id: new ObjectId(),
-        url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-        label: 'vMPF',
-        cmsId: 'cmsId3',
+        url: 'www.example.com/3',
+        label: 'Orders',
+        cmsId: '3',
       },
       {
         _id: new ObjectId(),
@@ -102,6 +106,7 @@ export const WithNineLinks = (argTypes: StorybookArgTypes) => (
         label: 'My Custom Link',
       },
     ]}
+    bookmarkOptions={firstTenCMSBookmarks}
     handleAddBookmark={argTypes.handleAddBookmark}
     handleRemoveBookmark={argTypes.handleRemoveBookmark}
     handleRemoveCollection={argTypes.handleRemoveCollection}
@@ -116,21 +121,21 @@ export const WithTenLinks = (argTypes: StorybookArgTypes) => (
     bookmarks={[
       {
         _id: new ObjectId(),
-        url: 'https://google.com',
-        label: 'Webmail',
-        cmsId: 'cmsId1',
+        url: 'www.example.com/1',
+        label: 'MyVector',
+        cmsId: '1',
       },
       {
         _id: new ObjectId(),
-        url: 'https://mypay.dfas.mil/#/',
-        label: 'MyPay',
-        cmsId: 'cmsId2',
+        url: 'www.example.com/2',
+        label: 'SURF',
+        cmsId: '2',
       },
       {
         _id: new ObjectId(),
-        url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-        label: 'vMPF',
-        cmsId: 'cmsId3',
+        url: 'www.example.com/3',
+        label: 'Orders',
+        cmsId: '3',
       },
       {
         _id: new ObjectId(),
@@ -168,6 +173,7 @@ export const WithTenLinks = (argTypes: StorybookArgTypes) => (
         label: 'My Custom Link',
       },
     ]}
+    bookmarkOptions={firstTenCMSBookmarks}
     handleAddBookmark={argTypes.handleAddBookmark}
     handleRemoveBookmark={argTypes.handleRemoveBookmark}
     handleRemoveCollection={argTypes.handleRemoveCollection}

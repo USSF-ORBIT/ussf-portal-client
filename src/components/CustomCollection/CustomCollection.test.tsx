@@ -10,32 +10,35 @@ import React from 'react'
 import { renderWithModalRoot } from '../../testHelpers'
 
 import CustomCollection from './CustomCollection'
+import { Collection } from 'types'
+import { cmsBookmarksMock } from '__fixtures__/data/cmsBookmarks'
 
-const exampleCollection = {
+const exampleCollection: Collection = {
   _id: ObjectId(),
   title: 'Example Collection',
+  type: 'Collection',
   bookmarks: [
     {
       _id: ObjectId(),
-      url: 'https://google.com',
-      label: 'Webmail',
-      cmsId: 'cmsId1',
+      url: 'www.example.com/1',
+      label: 'MyVector',
+      cmsId: '1',
     },
     {
       _id: ObjectId(),
-      url: 'https://mypay.dfas.mil/#/',
-      label: 'MyPay',
-      cmsId: 'cmsId2',
+      url: 'www.example.com/2',
+      label: 'SURF',
+      cmsId: '2',
     },
     {
       _id: ObjectId(),
-      url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-      label: 'vMPF',
-      cmsId: 'cmsId3',
+      url: 'www.example.com/3',
+      label: 'Orders',
+      cmsId: '3',
     },
     {
       _id: ObjectId(),
-      url: 'https://example.com',
+      url: 'www.example.com',
       label: 'My Custom Link',
     },
   ],
@@ -47,50 +50,50 @@ const exampleCollectionWithNine = {
   bookmarks: [
     {
       _id: ObjectId(),
-      url: 'https://google.com',
-      label: 'Webmail',
-      cmsId: 'cmsId1',
+      url: 'www.example.com/1',
+      label: 'MyVector',
+      cmsId: '1',
     },
     {
       _id: ObjectId(),
-      url: 'https://mypay.dfas.mil/#/',
-      label: 'MyPay',
-      cmsId: 'cmsId2',
+      url: 'www.example.com/2',
+      label: 'SURF',
+      cmsId: '2',
     },
     {
       _id: ObjectId(),
-      url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-      label: 'vMPF',
-      cmsId: 'cmsId3',
+      url: 'www.example.com/3',
+      label: 'Orders',
+      cmsId: '3',
     },
     {
       _id: ObjectId(),
-      url: 'https://example.com',
+      url: 'www.example.com',
       label: 'My Custom Link',
     },
     {
       _id: ObjectId(),
-      url: 'https://example.com',
+      url: 'www.example.com',
       label: 'My Custom Link',
     },
     {
       _id: ObjectId(),
-      url: 'https://example.com',
+      url: 'www.example.com',
       label: 'My Custom Link',
     },
     {
       _id: ObjectId(),
-      url: 'https://example.com',
+      url: 'www.example.com',
       label: 'My Custom Link',
     },
     {
       _id: ObjectId(),
-      url: 'https://example.com',
+      url: 'www.example.com',
       label: 'My Custom Link',
     },
     {
       _id: ObjectId(),
-      url: 'https://example.com',
+      url: 'www.example.com',
       label: 'My Custom Link',
     },
   ],
@@ -102,95 +105,59 @@ const exampleCollectionWithTen = {
   bookmarks: [
     {
       _id: ObjectId(),
-      url: 'https://google.com',
-      label: 'Webmail',
-      cmsId: 'cmsId1',
+      url: 'www.example.com/1',
+      label: 'MyVector',
+      cmsId: '1',
     },
     {
       _id: ObjectId(),
-      url: 'https://mypay.dfas.mil/#/',
-      label: 'MyPay',
-      cmsId: 'cmsId2',
+      url: 'www.example.com/2',
+      label: 'SURF',
+      cmsId: '2',
     },
     {
       _id: ObjectId(),
-      url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-      label: 'vMPF',
-      cmsId: 'cmsId3',
+      url: 'www.example.com/3',
+      label: 'Orders',
+      cmsId: '3',
     },
     {
       _id: ObjectId(),
-      url: 'https://example.com',
+      url: 'www.example.com',
       label: 'My Custom Link',
     },
     {
       _id: ObjectId(),
-      url: 'https://example.com',
+      url: 'www.example.com',
       label: 'My Custom Link',
     },
     {
       _id: ObjectId(),
-      url: 'https://example.com',
+      url: 'www.example.com',
       label: 'My Custom Link',
     },
     {
       _id: ObjectId(),
-      url: 'https://example.com',
+      url: 'www.example.com',
       label: 'My Custom Link',
     },
     {
       _id: ObjectId(),
-      url: 'https://example.com',
+      url: 'www.example.com',
       label: 'My Custom Link',
     },
     {
       _id: ObjectId(),
-      url: 'https://example.com',
+      url: 'www.example.com',
       label: 'My Custom Link',
     },
     {
       _id: ObjectId(),
-      url: 'https://example.com',
+      url: 'www.example.com',
       label: 'My Custom Link',
     },
   ],
 }
-
-const mockLinks = [
-  {
-    id: 'testBookmark1',
-    url: 'http://www.example.com/1',
-    label: 'Test Bookmark 1',
-  },
-  {
-    id: 'testBookmark2',
-    url: 'http://www.example.com/2',
-    label: 'Test Bookmark 2',
-  },
-  {
-    id: 'testBookmark3',
-    url: 'http://www.example.com/3',
-    label: 'Test Bookmark 3',
-  },
-  {
-    id: 'cmsId3',
-    label: 'vMPF',
-    url: 'https://afpcsecure.us.af.mil/',
-    __typename: 'Bookmark',
-  },
-  {
-    id: 'cmsId2',
-    label: 'MyPay',
-    url: 'https://mypay.dfas.mil/#/',
-    __typename: 'Bookmark',
-  },
-  {
-    id: 'cmsId1',
-    label: 'Webmail',
-    url: 'https://webmail.apps.mil/',
-    __typename: 'Bookmark',
-  },
-]
 
 describe('CustomCollection component', () => {
   const mockHandlers = {
@@ -215,7 +182,11 @@ describe('CustomCollection component', () => {
 
   it('renders the collection with DragDropContext', async () => {
     const { container } = render(
-      <CustomCollection {...exampleCollection} {...mockHandlers} />
+      <CustomCollection
+        {...exampleCollection}
+        {...mockHandlers}
+        bookmarkOptions={cmsBookmarksMock}
+      />
     )
     await screen.findByText('Example Collection')
     expect(
@@ -239,6 +210,7 @@ describe('CustomCollection component', () => {
       <CustomCollection
         {...exampleCollection}
         {...mockHandlers}
+        bookmarkOptions={cmsBookmarksMock}
         handleEditCollection={mockEditCollection}
       />
     )
@@ -258,7 +230,13 @@ describe('CustomCollection component', () => {
   })
 
   it('renders the collection with delete or edit buttons', async () => {
-    render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
+    render(
+      <CustomCollection
+        {...exampleCollection}
+        {...mockHandlers}
+        bookmarkOptions={cmsBookmarksMock}
+      />
+    )
     await screen.findByText('Example Collection')
 
     expect(screen.getByRole('list')).toBeInTheDocument()
@@ -291,7 +269,7 @@ describe('CustomCollection component', () => {
       <CustomCollection
         {...exampleCollection}
         {...mockHandlers}
-        bookmarkOptions={mockLinks}
+        bookmarkOptions={cmsBookmarksMock}
       />
     )
     await screen.findByText('Example Collection')
@@ -307,13 +285,19 @@ describe('CustomCollection component', () => {
     await user.click(
       screen.getByRole('button', { name: 'Toggle the dropdown list' })
     )
-    await user.click(screen.getByRole('option', { name: 'Test Bookmark 2' }))
+    await user.click(screen.getByRole('option', { name: 'SURF' }))
     expect(linkInput).toBeValid()
   })
 
   it('cancels Add Link action and resets form', async () => {
     const user = userEvent.setup()
-    render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
+    render(
+      <CustomCollection
+        {...exampleCollection}
+        {...mockHandlers}
+        bookmarkOptions={cmsBookmarksMock}
+      />
+    )
     await screen.findByText('Example Collection')
 
     await user.click(screen.getByRole('button', { name: '+ Add link' }))
@@ -343,7 +327,7 @@ describe('CustomCollection component', () => {
       <CustomCollection
         {...exampleCollection}
         {...mockHandlers}
-        bookmarkOptions={mockLinks}
+        bookmarkOptions={cmsBookmarksMock}
         handleAddBookmark={mockAddLink}
       />,
       {
@@ -389,7 +373,7 @@ describe('CustomCollection component', () => {
       <CustomCollection
         {...exampleCollection}
         {...mockHandlers}
-        bookmarkOptions={mockLinks}
+        bookmarkOptions={cmsBookmarksMock}
         handleAddBookmark={mockAddLink}
       />
     )
@@ -400,18 +384,21 @@ describe('CustomCollection component', () => {
     await user.click(toggleFormButton)
     const linkInput = screen.getByLabelText('Select existing link')
     await user.click(linkInput)
-    await user.click(screen.getByRole('option', { name: 'Test Bookmark 2' }))
+    await user.click(screen.getByRole('option', { name: 'SURF' }))
 
-    expect(mockAddLink).toHaveBeenCalledWith(
-      'http://www.example.com/2',
-      'Test Bookmark 2',
-      'testBookmark2'
-    )
+    /* handleAddBookmark(url, label, cmsId) - these values are found in cmsBookmarksMock */
+    expect(mockAddLink).toHaveBeenCalledWith('www.example.com/2', 'SURF', '2')
   })
 
   it('renders the settings dropdown menu', async () => {
     const user = userEvent.setup()
-    render(<CustomCollection {...exampleCollection} {...mockHandlers} />)
+    render(
+      <CustomCollection
+        {...exampleCollection}
+        {...mockHandlers}
+        bookmarkOptions={cmsBookmarksMock}
+      />
+    )
     const menuToggleButton = await screen.findByRole('button', {
       name: 'Collection Settings',
     })
@@ -436,7 +423,11 @@ describe('CustomCollection component', () => {
     const mockUpdateWidget = jest.fn()
 
     renderWithModalRoot(
-      <CustomCollection {...exampleCollection} {...mockHandlers} />,
+      <CustomCollection
+        {...exampleCollection}
+        {...mockHandlers}
+        bookmarkOptions={cmsBookmarksMock}
+      />,
       {
         updateModalId: mockUpdateModalId,
         updateModalText: mockUpdateModalText,
@@ -475,6 +466,7 @@ describe('CustomCollection component', () => {
       <CustomCollection
         {...exampleCollection}
         {...mockHandlers}
+        bookmarkOptions={cmsBookmarksMock}
         handleRemoveCollection={mockRemoveCollection}
       />
     )
@@ -510,6 +502,7 @@ describe('CustomCollection component', () => {
       <CustomCollection
         {...exampleCollection}
         {...mockHandlers}
+        bookmarkOptions={cmsBookmarksMock}
         handleRemoveCollection={mockRemoveCollection}
       />
     )
@@ -539,12 +532,12 @@ describe('CustomCollection component', () => {
       <CustomCollection
         {...exampleCollection}
         {...mockHandlers}
-        bookmarkOptions={mockLinks}
+        bookmarkOptions={cmsBookmarksMock}
       />
     )
 
     expect(container.querySelector('a')?.getAttribute('href')).toEqual(
-      'https://webmail.apps.mil/'
+      '/www.example.com/1'
     )
   })
 
@@ -563,6 +556,7 @@ describe('CustomCollection component', () => {
         <CustomCollection
           {...mockHandlers}
           _id={ObjectId()}
+          bookmarkOptions={cmsBookmarksMock}
           handleEditCollection={mockEditCollection}
         />
       )
@@ -578,6 +572,7 @@ describe('CustomCollection component', () => {
         <CustomCollection
           {...mockHandlers}
           _id={ObjectId()}
+          bookmarkOptions={cmsBookmarksMock}
           handleRemoveCollection={mockDeleteCollection}
         />
       )
@@ -595,7 +590,7 @@ describe('CustomCollection component', () => {
         <CustomCollection
           {...exampleCollectionWithNine}
           {...mockHandlers}
-          bookmarkOptions={mockLinks}
+          bookmarkOptions={cmsBookmarksMock}
         />
       )
       await screen.findByText('Example Collection')
@@ -618,7 +613,7 @@ describe('CustomCollection component', () => {
         <CustomCollection
           {...exampleCollectionWithTen}
           {...mockHandlers}
-          bookmarkOptions={mockLinks}
+          bookmarkOptions={cmsBookmarksMock}
         />
       )
 

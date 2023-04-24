@@ -1,7 +1,7 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
 import ApplicationsTable from './ApplicationsTable'
-import type { BookmarkRecord } from 'types/index'
+import type { CMSBookmark } from 'types/index'
 
 type StorybookArgTypes = {
   handleAddToCollection: () => void
@@ -22,7 +22,7 @@ export default {
   ],
 } as Meta
 
-const exampleBookmarks: BookmarkRecord[] = [
+const exampleBookmarks: CMSBookmark[] = [
   { id: '1', label: 'Webmail', url: '#' },
   { id: '2', label: 'MyPay', url: '#' },
   { id: '3', label: 'vMPF', url: '#' },

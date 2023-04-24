@@ -17,10 +17,10 @@ export default {
 
 export const ExampleCollection = () => (
   <Collection title="Example collection">
-    <Bookmark key="link1" href="#">
+    <Bookmark bookmarkDescription="Webmail description" key="link1" href="#">
       Webmail
     </Bookmark>
-    <Bookmark key="link2" href="#">
+    <Bookmark bookmarkDescription="MyPay description" key="link2" href="#">
       MyPay
     </Bookmark>
     <Bookmark key="link3" href="#">
@@ -37,7 +37,7 @@ export const ExampleCollection = () => (
 
 export const ExampleCollectionSingleBookmark = () => (
   <Collection title="Example collection">
-    <Bookmark key="link1" href="#">
+    <Bookmark bookmarkDescription="Webmail description" key="link1" href="#">
       Webmail
     </Bookmark>
   </Collection>

@@ -15,7 +15,7 @@ import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeC
 import GuardianIdealCarousel from 'components/GuardianIdeal/GuardianIdealCarousel'
 import {
   MySpaceWidget,
-  BookmarkRecords,
+  CMSBookmark,
   Collection,
   Widget,
   Bookmark,
@@ -48,7 +48,7 @@ function isFeaturedShortcuts(widget: Widget): widget is Collection {
   return widget.type === WIDGET_TYPES.FEATUREDSHORTCUTS
 }
 
-const MySpace = ({ bookmarks }: { bookmarks: BookmarkRecords }) => {
+const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
   const router = useRouter()
   const { trackEvent } = useAnalytics()
   const { portalUser } = useAuthContext()

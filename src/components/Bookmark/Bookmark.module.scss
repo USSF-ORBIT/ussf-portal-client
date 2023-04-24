@@ -11,7 +11,6 @@
 
   display: flex;
   flex-grow: 1;
-  overflow: hidden;
   text-overflow: ellipsis;
 
   > :global(.usa-link) {
@@ -27,6 +26,21 @@
       padding: units(1) units('105');
       border: 4px var(--element-focus) solid;
       outline: none;
+    }
+  }
+
+  :global(.usa-tooltip > .usa-button) {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    margin-top: 11.5px;
+
+    svg {
+      color: var(--bookmark-info-icon-color);
     }
   }
 

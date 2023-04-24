@@ -7,27 +7,34 @@ import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { ObjectId } from 'mongodb'
-import { renderWithAuth } from '../../testHelpers'
+import { renderWithAuth, renderWithAuthAndApollo } from '../../testHelpers'
 
+import { cmsBookmarksMock as mockCMSBookmarks } from '../../__fixtures__/data/cmsBookmarks'
+import { cmsCollectionsMock as mockCMSCollections } from '../../__fixtures__/data/cmsCollections'
 import {
-  getMySpaceMock,
-  getMySpaceMaximumCollectionsMock,
-} from '../../__fixtures__/operations/getMySpace'
-import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
-import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
+  portalUserWithExampleCollection,
+  portalUserMaxedOutCollection,
+  portalUserCollectionLimit,
+  portalUserAlmostAtCollectionLimit,
+} from '__fixtures__/authUsers'
 
-import { GetMySpaceDocument } from 'operations/portal/queries/getMySpace.g'
 import { AddCollectionDocument } from 'operations/portal/mutations/addCollection.g'
 import { AddCollectionsDocument } from 'operations/portal/mutations/addCollections.g'
-import { AddBookmarkDocument } from 'operations/portal/mutations/addBookmark.g'
 import { addCollectionsInput } from 'operations/helpers'
-
-import SitesAndApplications from 'pages/sites-and-applications'
+import { AddBookmarkDocument } from 'operations/portal/mutations/addBookmark.g'
+import SitesAndApplications, {
+  getServerSideProps,
+} from 'pages/sites-and-applications'
 
 jest.mock('../../lib/keystoneClient', () => ({
   client: {
     query: () => {
-      return
+      return {
+        data: {
+          collections: mockCMSCollections,
+          bookmarks: mockCMSBookmarks,
+        },
+      }
     },
   },
 }))
@@ -65,11 +72,9 @@ mockedUseRouter.mockReturnValue({
 })
 
 let collectionAdded = false
-let bookmarkAdded = false
 let collectionsAdded = false
 
 const sitesAndAppsMock = [
-  ...getMySpaceMock,
   {
     request: {
       query: AddCollectionDocument,
@@ -77,9 +82,9 @@ const sitesAndAppsMock = [
         title: '',
         bookmarks: [
           {
-            cmsId: cmsBookmarksMock[0].id,
-            url: cmsBookmarksMock[0].url,
-            label: cmsBookmarksMock[0].label,
+            cmsId: mockCMSBookmarks[0].id,
+            url: mockCMSBookmarks[0].url,
+            label: mockCMSBookmarks[0].label,
           },
         ],
       },
@@ -96,9 +101,9 @@ const sitesAndAppsMock = [
             bookmarks: [
               {
                 _id: ObjectId(),
-                cmsId: cmsBookmarksMock[0].id,
-                url: cmsBookmarksMock[0].url,
-                label: cmsBookmarksMock[0].label,
+                cmsId: mockCMSBookmarks[0].id,
+                url: mockCMSBookmarks[0].url,
+                label: mockCMSBookmarks[0].label,
               },
             ],
           },
@@ -110,15 +115,15 @@ const sitesAndAppsMock = [
     request: {
       query: AddCollectionsDocument,
       variables: addCollectionsInput([
-        cmsCollectionsMock[0],
-        cmsCollectionsMock[1],
+        mockCMSCollections[0],
+        mockCMSCollections[1],
       ]),
     },
     result: () => {
       collectionsAdded = true
       return {
         data: {
-          addCollections: cmsCollectionsMock.map((c) => ({
+          addCollections: mockCMSCollections.map((c) => ({
             _id: ObjectId(),
             title: c.title,
             cmsId: c.id,
@@ -134,31 +139,6 @@ const sitesAndAppsMock = [
       }
     },
   },
-  {
-    request: {
-      query: AddBookmarkDocument,
-      variables: {
-        collectionId: getMySpaceMock[0].result.data.mySpace[0]._id,
-        cmsId: cmsBookmarksMock[0].id,
-        url: cmsBookmarksMock[0].url,
-        label: cmsBookmarksMock[0].label,
-        id: cmsBookmarksMock[0].id,
-      },
-    },
-    result: () => {
-      bookmarkAdded = true
-      return {
-        data: {
-          addBookmark: {
-            _id: ObjectId(),
-            url: cmsBookmarksMock[0].url,
-            label: cmsBookmarksMock[0].label,
-            cmsId: cmsBookmarksMock[0].id,
-          },
-        },
-      }
-    },
-  },
 ]
 describe('Sites and Applications page', () => {
   describe('without a user', () => {
@@ -168,19 +148,19 @@ describe('Sites and Applications page', () => {
       renderWithAuth(
         <MockedProvider mocks={sitesAndAppsMock}>
           <SitesAndApplications
-            collections={cmsCollectionsMock}
-            bookmarks={cmsBookmarksMock}
+            collections={mockCMSCollections}
+            bookmarks={mockCMSBookmarks}
           />
         </MockedProvider>,
         { user: null }
       )
     })
 
-    it('renders the loader while fetching the user', () => {
+    test('renders the loader while fetching the user', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
-    it('redirects to the login page if not logged in', async () => {
+    test('redirects to the login page if not logged in', async () => {
       await waitFor(() => {
         expect(mockReplace).toHaveBeenCalledWith('/login')
       })
@@ -191,25 +171,22 @@ describe('Sites and Applications page', () => {
     describe('default state', () => {
       beforeEach(() => {
         jest.useFakeTimers()
-        renderWithAuth(
-          <MockedProvider mocks={sitesAndAppsMock}>
-            <SitesAndApplications
-              collections={cmsCollectionsMock}
-              bookmarks={cmsBookmarksMock}
-            />
-          </MockedProvider>
-        )
       })
 
       afterEach(() => {
         jest.useRealTimers()
       })
 
-      it('renders the loading state', () => {
-        expect(screen.getByText('Content is loading...')).toBeInTheDocument()
-      })
+      test('renders Sites & Applications content', async () => {
+        renderWithAuthAndApollo(
+          <SitesAndApplications
+            collections={mockCMSCollections}
+            bookmarks={mockCMSBookmarks}
+          />,
+          { portalUser: portalUserWithExampleCollection },
+          sitesAndAppsMock
+        )
 
-      it('renders Sites & Applications content', async () => {
         expect(
           await screen.findByRole('heading', { name: 'Sites & Applications' })
         ).toBeInTheDocument()
@@ -225,19 +202,37 @@ describe('Sites and Applications page', () => {
         ).toBeInTheDocument()
       })
 
-      it('sorts by type by default', async () => {
+      test('sorts by type by default', async () => {
+        renderWithAuthAndApollo(
+          <SitesAndApplications
+            collections={mockCMSCollections}
+            bookmarks={mockCMSBookmarks}
+          />,
+          { portalUser: portalUserWithExampleCollection },
+          sitesAndAppsMock
+        )
+
         const collections = await screen.findAllByRole('heading', { level: 3 })
-        expect(collections).toHaveLength(cmsCollectionsMock.length)
+        expect(collections).toHaveLength(mockCMSCollections.length)
         collections.forEach((c, i) => {
           // eslint-disable-next-line security/detect-object-injection
-          expect(collections[i]).toHaveTextContent(cmsCollectionsMock[i].title)
+          expect(collections[i]).toHaveTextContent(mockCMSCollections[i].title)
         })
       })
 
-      it('can toggle sort type', async () => {
+      test('can toggle sort type', async () => {
         const user = userEvent.setup({
           advanceTimers: jest.advanceTimersByTime,
         })
+
+        renderWithAuthAndApollo(
+          <SitesAndApplications
+            collections={mockCMSCollections}
+            bookmarks={mockCMSBookmarks}
+          />,
+          { portalUser: portalUserWithExampleCollection },
+          sitesAndAppsMock
+        )
 
         const sortAlphaBtn = await screen.findByRole('button', {
           name: 'Sort alphabetically',
@@ -252,29 +247,33 @@ describe('Sites and Applications page', () => {
         expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(0)
         expect(screen.getByRole('table')).toBeInTheDocument()
         expect(screen.getAllByRole('link')).toHaveLength(
-          cmsBookmarksMock.length
+          mockCMSBookmarks.length
         )
         expect(sortTypeBtn).not.toBeDisabled()
 
         await user.click(sortTypeBtn)
         expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(
-          cmsCollectionsMock.length
+          mockCMSCollections.length
         )
         expect(screen.queryByRole('table')).not.toBeInTheDocument()
         expect(sortAlphaBtn).not.toBeDisabled()
       })
 
       describe('selecting collections', () => {
-        beforeEach(async () => {
-          await screen.findByRole('button', {
-            name: 'Select multiple collections',
-          })
-        })
-
-        it('can enter select mode', async () => {
+        test('can enter select mode', async () => {
           const user = userEvent.setup({
             advanceTimers: jest.advanceTimersByTime,
           })
+
+          renderWithAuthAndApollo(
+            <SitesAndApplications
+              collections={mockCMSCollections}
+              bookmarks={mockCMSBookmarks}
+            />,
+            { portalUser: portalUserWithExampleCollection },
+            sitesAndAppsMock
+          )
+
           const selectBtn = screen.getByRole('button', {
             name: 'Select multiple collections',
           })
@@ -312,10 +311,19 @@ describe('Sites and Applications page', () => {
           ).toBeInTheDocument()
         })
 
-        it('can cancel out of select mode', async () => {
+        test('can cancel out of select mode', async () => {
           const user = userEvent.setup({
             advanceTimers: jest.advanceTimersByTime,
           })
+
+          renderWithAuthAndApollo(
+            <SitesAndApplications
+              collections={mockCMSCollections}
+              bookmarks={mockCMSBookmarks}
+            />,
+            { portalUser: portalUserWithExampleCollection },
+            sitesAndAppsMock
+          )
 
           expect(
             screen.queryByText('0 collections selected')
@@ -338,10 +346,19 @@ describe('Sites and Applications page', () => {
           ).not.toBeInTheDocument()
         })
 
-        it('can select multiple collections and add them', async () => {
+        test('can select multiple collections and add them', async () => {
           const user = userEvent.setup({
             advanceTimers: jest.advanceTimersByTime,
           })
+
+          renderWithAuthAndApollo(
+            <SitesAndApplications
+              collections={mockCMSCollections}
+              bookmarks={mockCMSBookmarks}
+            />,
+            { portalUser: portalUserAlmostAtCollectionLimit },
+            sitesAndAppsMock
+          )
 
           await user.click(
             screen.getByRole('button', {
@@ -361,12 +378,20 @@ describe('Sites and Applications page', () => {
           )
           expect(screen.getByText('1 collection selected')).toBeInTheDocument()
 
+          expect(
+            screen.getByText('(2 of 25 possible remaining)')
+          ).toBeInTheDocument()
+
           await user.click(
             screen.getByRole('button', {
               name: 'Select collection Example Collection 2',
             })
           )
           expect(screen.getByText('2 collections selected')).toBeInTheDocument()
+
+          expect(
+            screen.getByText('(1 of 25 possible remaining)')
+          ).toBeInTheDocument()
 
           expect(
             screen.getByRole('tooltip', {
@@ -389,60 +414,25 @@ describe('Sites and Applications page', () => {
           expect(collectionsAdded).toBe(true)
         })
 
-        it('cannot select more than the max number of collections', async () => {
+        test('cannot select more than the max number of collections', async () => {
           const user = userEvent.setup({
             advanceTimers: jest.advanceTimersByTime,
           })
+
+          renderWithAuthAndApollo(
+            <SitesAndApplications
+              collections={mockCMSCollections}
+              bookmarks={mockCMSBookmarks}
+            />,
+            { portalUser: portalUserCollectionLimit },
+            sitesAndAppsMock
+          )
 
           await user.click(
             screen.getByRole('button', {
               name: 'Select multiple collections',
             })
           )
-
-          expect(
-            screen.getByRole('button', { name: 'Add selected' })
-          ).toBeDisabled()
-          expect(screen.getByText('0 collections selected')).toBeInTheDocument()
-          expect(
-            screen.getByText('(3 of 25 possible remaining)')
-          ).toBeInTheDocument()
-
-          await user.click(
-            screen.getByRole('button', {
-              name: 'Select collection Example Collection 1',
-            })
-          )
-          expect(screen.getByText('1 collection selected')).toBeInTheDocument()
-          expect(
-            screen.getByText('(2 of 25 possible remaining)')
-          ).toBeInTheDocument()
-
-          await user.click(
-            screen.getByRole('button', {
-              name: 'Select collection Example Collection 2',
-            })
-          )
-          expect(screen.getByText('2 collections selected')).toBeInTheDocument()
-          expect(
-            screen.getByText('(1 of 25 possible remaining)')
-          ).toBeInTheDocument()
-
-          expect(
-            screen.queryByRole('button', {
-              name: 'Select collection Example Collection 4',
-            })
-          ).toBeInTheDocument()
-
-          await user.click(
-            screen.getByRole('button', {
-              name: 'Select collection Example Collection 3',
-            })
-          )
-          expect(screen.getByText('3 collections selected')).toBeInTheDocument()
-          expect(
-            screen.getByText('(0 of 25 possible remaining)')
-          ).toBeInTheDocument()
 
           expect(
             screen.getByRole('tooltip', {
@@ -459,10 +449,19 @@ describe('Sites and Applications page', () => {
           ).not.toBeInTheDocument()
         })
 
-        it('selecting the same collection twice removes it from the selection', async () => {
+        test('selecting the same collection twice removes test from the selection', async () => {
           const user = userEvent.setup({
             advanceTimers: jest.advanceTimersByTime,
           })
+
+          renderWithAuthAndApollo(
+            <SitesAndApplications
+              collections={mockCMSCollections}
+              bookmarks={mockCMSBookmarks}
+            />,
+            { portalUser: portalUserWithExampleCollection },
+            sitesAndAppsMock
+          )
 
           await user.click(
             screen.getByRole('button', {
@@ -507,10 +506,48 @@ describe('Sites and Applications page', () => {
       })
 
       describe('selecting bookmarks', () => {
-        it('can add a bookmark to an existing collection', async () => {
+        test('can add a bookmark to an existing collection', async () => {
           const user = userEvent.setup({
             advanceTimers: jest.advanceTimersByTime,
           })
+
+          let bookmarkAdded = false
+
+          const addBookmarkMock = [
+            {
+              request: {
+                query: AddBookmarkDocument,
+                variables: {
+                  url: mockCMSBookmarks[0].url,
+                  label: mockCMSBookmarks[0].label,
+                  collectionId: portalUserWithExampleCollection.mySpace[0]._id,
+                  cmsId: mockCMSBookmarks[0].id,
+                },
+              },
+              result: () => {
+                bookmarkAdded = true
+                return {
+                  data: {
+                    addBookmark: {
+                      _id: ObjectId(),
+                      url: mockCMSBookmarks[0].url,
+                      label: mockCMSBookmarks[0].label,
+                      cmsId: mockCMSBookmarks[0].id,
+                    },
+                  },
+                }
+              },
+            },
+          ]
+
+          renderWithAuthAndApollo(
+            <SitesAndApplications
+              collections={mockCMSCollections}
+              bookmarks={mockCMSBookmarks}
+            />,
+            { portalUser: portalUserWithExampleCollection },
+            addBookmarkMock
+          )
 
           const sortAlpha = await screen.findByRole('button', {
             name: 'Sort alphabetically',
@@ -521,16 +558,14 @@ describe('Sites and Applications page', () => {
             screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
           )
 
-          await act(async () => {
-            await user.click(
-              screen.getByRole('button', { name: 'Example Collection' })
-            )
-          })
+          await user.click(
+            screen.getByRole('button', { name: 'Example Collection' })
+          )
 
           const flashMessage = screen.getAllByRole('alert')[0]
 
           expect(flashMessage).toHaveTextContent(
-            `You have successfully added “${cmsBookmarksMock[0].label}” to the “Example Collection” section.`
+            `You have successfully added “${mockCMSBookmarks[0].label}” to the “Example Collection” section.`
           )
 
           await act(async () => {
@@ -541,10 +576,19 @@ describe('Sites and Applications page', () => {
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
 
-        it('cannot add a bookmark to an existing collection with 10 links', async () => {
+        test('cannot add a bookmark to an existing collection with 10 links', async () => {
           const user = userEvent.setup({
             advanceTimers: jest.advanceTimersByTime,
           })
+
+          renderWithAuthAndApollo(
+            <SitesAndApplications
+              collections={mockCMSCollections}
+              bookmarks={mockCMSBookmarks}
+            />,
+            { portalUser: portalUserMaxedOutCollection },
+            sitesAndAppsMock
+          )
 
           const sortAlpha = await screen.findByRole('button', {
             name: 'Sort alphabetically',
@@ -564,10 +608,19 @@ describe('Sites and Applications page', () => {
           ).toBeDisabled()
         })
 
-        it('can add a bookmark to a new collection', async () => {
+        test('can add a bookmark to a new collection', async () => {
           const user = userEvent.setup({
             advanceTimers: jest.advanceTimersByTime,
           })
+
+          renderWithAuthAndApollo(
+            <SitesAndApplications
+              collections={mockCMSCollections}
+              bookmarks={mockCMSBookmarks}
+            />,
+            { portalUser: portalUserWithExampleCollection },
+            sitesAndAppsMock
+          )
 
           const sortAlpha = await screen.findByRole('button', {
             name: 'Sort alphabetically',
@@ -590,7 +643,7 @@ describe('Sites and Applications page', () => {
       })
     })
 
-    it('enters select mode by default if a query param is specified', async () => {
+    test('enters select mode by default if a query param is specified', async () => {
       mockedUseRouter.mockReturnValueOnce({
         route: '',
         pathname: '/',
@@ -603,8 +656,8 @@ describe('Sites and Applications page', () => {
       renderWithAuth(
         <MockedProvider mocks={sitesAndAppsMock}>
           <SitesAndApplications
-            collections={cmsCollectionsMock}
-            bookmarks={cmsBookmarksMock}
+            collections={mockCMSCollections}
+            bookmarks={mockCMSBookmarks}
           />
         </MockedProvider>
       )
@@ -625,14 +678,13 @@ describe('Sites and Applications page', () => {
       ).toBeDisabled()
     })
 
-    it('prevents adding more collections if the user already has 25', async () => {
-      renderWithAuth(
-        <MockedProvider mocks={getMySpaceMaximumCollectionsMock}>
-          <SitesAndApplications
-            collections={cmsCollectionsMock}
-            bookmarks={cmsBookmarksMock}
-          />
-        </MockedProvider>
+    test('prevents adding more collections if the user already has 25', async () => {
+      renderWithAuthAndApollo(
+        <SitesAndApplications
+          collections={mockCMSCollections}
+          bookmarks={mockCMSBookmarks}
+        />,
+        { portalUser: portalUserCollectionLimit }
       )
 
       const selectBtn = await screen.findByRole('button', {
@@ -641,16 +693,15 @@ describe('Sites and Applications page', () => {
       expect(selectBtn).toBeDisabled()
     })
 
-    it('prevents adding a bookmark to a new collection if the user already has 25', async () => {
+    test('prevents adding a bookmark to a new collection if the user already has 25', async () => {
       const user = userEvent.setup()
 
-      renderWithAuth(
-        <MockedProvider mocks={getMySpaceMaximumCollectionsMock}>
-          <SitesAndApplications
-            collections={cmsCollectionsMock}
-            bookmarks={cmsBookmarksMock}
-          />
-        </MockedProvider>
+      renderWithAuthAndApollo(
+        <SitesAndApplications
+          collections={mockCMSCollections}
+          bookmarks={mockCMSBookmarks}
+        />,
+        { portalUser: portalUserCollectionLimit }
       )
 
       await user.click(
@@ -671,27 +722,18 @@ describe('Sites and Applications page', () => {
         screen.getByRole('button', { name: 'Add to new collection' })
       ).toBeDisabled()
     })
+  })
+})
 
-    it('shows an error state', async () => {
-      const errorMock = [
-        {
-          request: {
-            query: GetMySpaceDocument,
-          },
-          error: new Error(),
-        },
-      ]
+describe('getServerSideProps', () => {
+  it('returns the correct props from getServerSideProps', async () => {
+    const response = await getServerSideProps()
 
-      renderWithAuth(
-        <MockedProvider mocks={errorMock} addTypename={false}>
-          <SitesAndApplications
-            collections={cmsCollectionsMock}
-            bookmarks={cmsBookmarksMock}
-          />
-        </MockedProvider>
-      )
-
-      expect(await screen.findByText('Error')).toBeInTheDocument()
+    expect(response).toEqual({
+      props: {
+        collections: mockCMSCollections,
+        bookmarks: mockCMSBookmarks,
+      },
     })
   })
 })

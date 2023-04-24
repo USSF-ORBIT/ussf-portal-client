@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from './CustomCollection.module.scss'
 
 import Bookmark from 'components/Bookmark/Bookmark'
-import type { Bookmark as BookmarkType, BookmarkRecord } from 'types/index'
+import type { CMSBookmark } from 'types/index'
 
 const UNDO_TIMEOUT = 3000 // 3 seconds
 
@@ -12,7 +12,7 @@ export const RemovableBookmark = ({
   bookmark,
   handleRemove,
 }: {
-  bookmark: BookmarkType | BookmarkRecord
+  bookmark: CMSBookmark
   handleRemove: () => void
 }) => {
   const { url, label } = bookmark
@@ -45,7 +45,10 @@ export const RemovableBookmark = ({
       Undo remove <FontAwesomeIcon icon="undo-alt" />
     </button>
   ) : (
-    <Bookmark href={url} onDelete={handleDeleteBookmark}>
+    <Bookmark
+      href={url}
+      bookmarkDescription={bookmark.description}
+      onDelete={handleDeleteBookmark}>
       {label || url}
     </Bookmark>
   )

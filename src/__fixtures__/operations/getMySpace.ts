@@ -26,7 +26,7 @@ export const getMySpaceMock = [
                 _id: ObjectId(),
                 url: 'https://google.com',
                 label: 'Webmail',
-                cmsId: null,
+                cmsId: '0',
                 isRemoved: null,
               },
               {

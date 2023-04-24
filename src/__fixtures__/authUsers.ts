@@ -1,19 +1,19 @@
 import { ObjectId } from 'bson'
-import type { SessionUser, PortalUser, Collection } from 'types'
+import type { SessionUser, PortalUser, Collection, Widget } from 'types'
 
-const mockNews: any = {
+const mockNews: Widget = {
   _id: new ObjectId(),
   title: 'Recent News',
   type: 'News',
 }
 
-const mockGuardianIdeal: any = {
+const mockGuardianIdeal: Widget = {
   _id: new ObjectId(),
   title: 'Guardian Ideal',
   type: 'GuardianIdeal',
 }
 
-const mockFeaturedShortcuts: any = {
+const mockFeaturedShortcuts: Widget = {
   _id: new ObjectId(),
   title: 'Featured Shortcuts',
   type: 'FeaturedShortcuts',
@@ -95,20 +95,21 @@ export const portalUserMaxedOutCollection: PortalUser = {
       bookmarks: [
         {
           _id: new ObjectId(),
-          url: 'https://google.com',
-          label: 'Webmail',
-        },
-        {
-          _id: new ObjectId(),
-          url: 'https://mypay.dfas.mil/#/',
-          label: 'MyPay',
+          url: 'www.example.com',
+          label: 'MyVector',
           cmsId: '1',
         },
         {
           _id: new ObjectId(),
-          url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+          url: 'www.example.com',
+          label: 'MyPay',
+          cmsId: '17',
+        },
+        {
+          _id: new ObjectId(),
+          url: 'www.example.com',
           label: 'vMPF',
-          cmsId: '2',
+          cmsId: '7',
         },
       ],
     },
@@ -120,7 +121,7 @@ export const portalUserMaxedOutCollection: PortalUser = {
         _id: new ObjectId(),
         label: `Bookmark ${i}`,
         url: '#',
-        cmsId: `${i}`,
+        cmsId: `${i + 1}`,
       })),
     },
     mockNews,
@@ -129,7 +130,45 @@ export const portalUserMaxedOutCollection: PortalUser = {
   theme: 'light',
 }
 
-const mockCollectionWithGuardianIdeal: any = {
+export const portalUserWithExampleCollection: PortalUser = {
+  userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
+  mySpace: [
+    {
+      _id: new ObjectId(),
+      title: 'Example Collection',
+      type: 'Collection',
+      bookmarks: [
+        {
+          _id: new ObjectId(),
+          url: 'www.example.com',
+          label: 'MyVector',
+          cmsId: '1',
+        },
+        {
+          _id: new ObjectId(),
+          url: 'www.example.com',
+          label: 'MyPay',
+          cmsId: '17',
+        },
+        {
+          _id: new ObjectId(),
+          url: 'www.example.com',
+          label: 'vMPF',
+          cmsId: '7',
+        },
+        {
+          _id: new ObjectId(),
+          url: 'www.custom.com',
+          label: 'CUSTOM LINK',
+        },
+      ],
+    },
+  ],
+  displayName: 'BERNADETTE CAMPBELL',
+  theme: 'light',
+}
+
+const mockCollectionWithGuardianIdeal: Widget = {
   _id: new ObjectId(),
   title: 'Guardian Ideal',
   type: 'GuardianIdeal',
@@ -149,8 +188,9 @@ const mockCollection: Collection = {
   bookmarks: [
     {
       _id: new ObjectId(),
-      url: 'https://google.com',
-      label: 'Webmail',
+      url: 'www.example.com/1',
+      label: 'MyVector',
+      cmsId: '1',
     },
   ],
 }
@@ -163,9 +203,27 @@ const maxCollections: Collection[] = Array.from({ length: 25 }, (x, i) => {
   }
 })
 
+const almostMaxCollections: Collection[] = Array.from(
+  { length: 22 },
+  (x, i) => {
+    return {
+      ...mockCollection,
+      title: 'Example Collection ' + i.toString(),
+      _id: new ObjectId(),
+    }
+  }
+)
+
 export const portalUserCollectionLimit: PortalUser = {
   userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
   mySpace: maxCollections,
+  displayName: 'BERNADETTE CAMPBELL',
+  theme: 'light',
+}
+
+export const portalUserAlmostAtCollectionLimit: PortalUser = {
+  userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
+  mySpace: almostMaxCollections,
   displayName: 'BERNADETTE CAMPBELL',
   theme: 'light',
 }
