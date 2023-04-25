@@ -41,7 +41,7 @@
     "@fortawesome/free-solid-svg-icons": "6.3.0",
     "@fortawesome/react-fontawesome": "0.2.0",
     "@keystone-6/document-renderer": "1.1.2",
-    "@keystone-6/fields-document": "5.0.2",
+    "@keystone-6/fields-document": "7.0.0",
     "@next/bundle-analyzer": "12.3.4",
     "@opentelemetry/api": "1.1.0",
     "@opentelemetry/auto-instrumentations-node": "0.36.2",
