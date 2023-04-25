@@ -88,7 +88,7 @@ describe('custome error page', () => {
     expect(getInitialProps).toBeInstanceOf(Function)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore ignore getInitialProps being possibly undefined because we just checked it
-    const result = await getInitialProps({ res: {} })
+    const result = await getInitialProps({})
     expect(result).toBeDefined()
     expect(result).toEqual({ statusCode: 404 })
   })
