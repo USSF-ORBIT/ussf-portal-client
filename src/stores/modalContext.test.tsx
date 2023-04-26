@@ -34,7 +34,7 @@ import {
 describe('Modal context', () => {
   afterEach(cleanup)
 
-  it('tests removing News section', async () => {
+  it('tests removing News widget', async () => {
     const user = userEvent.setup()
 
     const TestComponent = () => {
@@ -42,11 +42,11 @@ describe('Modal context', () => {
         useModalContext()
 
       const setupFunc = () => {
-        updateModalId('removeSectionModal')
+        updateModalId('removeWidgetModal')
         updateModalText({
-          headingText: 'Are you sure you’d like to delete this section?',
+          headingText: 'Are you sure you’d like to delete this widget?',
           descriptionText:
-            'You can re-add it to your My Space from the Add Section menu.',
+            'You can re-add it to your My Space from the Add Widget menu.',
         })
 
         const widgetState: Widget = {
@@ -64,7 +64,7 @@ describe('Modal context', () => {
         <div>
           <div id="modal-root" className="sfds" />
           <button type="button" onClick={setupFunc}>
-            Remove section
+            Remove widget
           </button>
           <CustomModal />
         </div>
@@ -80,14 +80,14 @@ describe('Modal context', () => {
     )
 
     const openModalButton = screen.getByRole('button', {
-      name: 'Remove section',
+      name: 'Remove widget',
     })
     expect(openModalButton).toBeInTheDocument()
 
     await user.click(openModalButton)
 
     expect(
-      screen.getByText('Are you sure you’d like to delete this section?')
+      screen.getByText('Are you sure you’d like to delete this widget?')
     ).toBeInTheDocument()
 
     const deleteButton = screen.getByText('Delete')
