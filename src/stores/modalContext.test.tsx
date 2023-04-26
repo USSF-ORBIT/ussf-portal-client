@@ -34,7 +34,7 @@ import {
 describe('Modal context', () => {
   afterEach(cleanup)
 
-  it('tests removing News widget', async () => {
+  test('tests removing News widget', async () => {
     const user = userEvent.setup()
 
     const TestComponent = () => {
@@ -98,7 +98,7 @@ describe('Modal context', () => {
     })
   })
 
-  it('tests adding a bookmark', async () => {
+  test('tests adding a bookmark', async () => {
     const user = userEvent.setup()
 
     const TestComponent = () => {
@@ -168,7 +168,7 @@ describe('Modal context', () => {
     expect(addBookmarkMock[0].result.data.label).toEqual('My Custom Label')
   })
 
-  it('tests editing a bookmark', async () => {
+  test('tests editing a bookmark', async () => {
     const user = userEvent.setup()
 
     const TestComponent = () => {
@@ -237,7 +237,7 @@ describe('Modal context', () => {
     expect(editBookmarkMock[0].result.data.label).toEqual('Updated Label')
   })
 
-  it('tests removing a bookmark while editing', async () => {
+  test('tests removing a bookmark while editing', async () => {
     const user = userEvent.setup()
 
     const TestComponent = () => {
@@ -304,7 +304,7 @@ describe('Modal context', () => {
     )
   })
 
-  it('tests removing a custom collection', async () => {
+  test('tests removing a custom collection', async () => {
     const user = userEvent.setup()
 
     const TestComponent = () => {
@@ -361,7 +361,7 @@ describe('Modal context', () => {
 })
 
 describe('useModalContext', () => {
-  it('returns the created context', () => {
+  test('returns the created context', () => {
     const { result } = renderHook(() => useModalContext())
     expect(result.current).toBeTruthy()
   })
