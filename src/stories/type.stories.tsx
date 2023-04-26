@@ -1,6 +1,5 @@
 import React from 'react'
 import type { Meta } from '@storybook/react'
-import { background } from '@storybook/theming'
 
 export default {
   title: 'Global/Typography',

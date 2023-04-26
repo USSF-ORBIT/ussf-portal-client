@@ -5,7 +5,7 @@ import { Button } from '@trussworks/react-uswds'
 import Widget, { WidgetWithSettings } from './Widget'
 
 export default {
-  title: 'Base/Section',
+  title: 'Base/Widget',
   component: Widget,
   decorators: [
     (Story) => (
@@ -16,15 +16,15 @@ export default {
   ],
 } as Meta
 
-export const ExampleSection = () => (
-  <Widget header={<h3>Example Section</h3>}>
-    <p>Example section contents</p>
+export const ExampleWidget = () => (
+  <Widget header={<h3>Example Widget</h3>}>
+    <p>Example widget contents</p>
   </Widget>
 )
 
-export const ExampleSectionWithSettings = () => (
+export const ExampleWidgetWithSettings = () => (
   <WidgetWithSettings
-    header={<h3>Example Section</h3>}
+    header={<h3>Example Widget</h3>}
     settingsItems={[
       <Button
         key="settingsMenu_item1"
@@ -32,9 +32,9 @@ export const ExampleSectionWithSettings = () => (
         onClick={() => {
           return
         }}>
-        Delete this section
+        Delete this widget
       </Button>,
     ]}>
-    <p>Example section contents</p>
+    <p>Example widget contents</p>
   </WidgetWithSettings>
 )
