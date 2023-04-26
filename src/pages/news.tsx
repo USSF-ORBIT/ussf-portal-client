@@ -39,7 +39,7 @@ export default InternalNews
 InternalNews.getLayout = (page: React.ReactNode) =>
   withPageLayout(
     <div>
-      <h1>Internal News</h1>
+      <h1>News</h1>
       <BreadcrumbNav
         navItems={[
           {
@@ -52,7 +52,7 @@ InternalNews.getLayout = (page: React.ReactNode) =>
           },
           {
             path: '/news',
-            label: 'Internal News',
+            label: 'News',
             current: true,
           },
         ]}
