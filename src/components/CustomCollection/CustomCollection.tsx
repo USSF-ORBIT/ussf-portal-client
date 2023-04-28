@@ -10,17 +10,23 @@ import {
   ComboBoxRef,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult,
-} from 'react-beautiful-dnd'
+
+import { DndContext } from '@dnd-kit/core'
+
+// import {
+//   DragDropContext,
+//   Droppable,
+//   Draggable,
+//   DropResult,
+// } from '@hello-pangea/dnd'
 
 import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
 import { CustomBookmark } from './CustomBookmark/CustomBookmark'
 import styles from './CustomCollection.module.scss'
+
+import Draggable from 'components/util/Draggable/Draggable'
+import Droppable from 'components/util/Droppable/Droppable'
 
 import Tooltip from 'components/Tooltip/Tooltip'
 import Collection from 'components/Collection/Collection'
@@ -380,104 +386,62 @@ const CustomCollection = ({
   )
 
   return (
-    <DragDropContext onDragEnd={handleOnDragEnd}>
-      <Droppable droppableId={_id.toString()}>
-        {(provided) => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
-            <Collection
-              header={customCollectionHeader}
-              footer={!isEditingTitle ? addLinkForm : null}>
-              {visibleBookmarks.map((bookmark: MongoBookmark, index) => {
-                const foundBookmark = findBookmark(bookmark)
-                return bookmark.cmsId && foundBookmark ? (
-                  <Draggable
-                    draggableId={bookmark._id.toString()}
-                    index={index}
-                    key={bookmark._id.toString()}>
-                    {(provided) => {
-                      // Overriding styles for element containing draggableProps
-                      const style = {
-                        display: 'flex',
-                        alignItems: 'center',
-                        ...provided.draggableProps.style,
-                      }
-
-                      return (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          style={style}>
-                          <span
-                            {...provided.dragHandleProps}
-                            aria-label="Drag Handle"
-                            className={styles.dragIconWrap}>
-                            <FontAwesomeIcon icon="grip-vertical" />
-                          </span>
-                          <div className={styles.dragBookmark}>
-                            <RemovableBookmark
-                              key={`bookmark_${bookmark._id}`}
-                              bookmark={foundBookmark}
-                              handleRemove={() => {
-                                trackEvent(
-                                  'Remove link',
-                                  'Hide CMS link',
-                                  `${title} / ${bookmark.label || bookmark.url}`
-                                )
-                                handleRemoveBookmark(
-                                  bookmark._id,
-                                  bookmark.cmsId
-                                )
-                              }}
-                            />
-                          </div>
-                        </div>
-                      )
-                    }}
-                  </Draggable>
-                ) : (
-                  <Draggable
-                    draggableId={bookmark._id.toString()}
-                    index={index}
-                    key={bookmark._id.toString()}>
-                    {(provided) => {
-                      // Overriding styles for element containing draggableProps
-                      const style = {
-                        display: 'flex',
-                        alignItems: 'center',
-                        ...provided.draggableProps.style,
-                      }
-
-                      return (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          style={style}>
-                          <span
-                            {...provided.dragHandleProps}
-                            aria-label="Drag Handle"
-                            className={styles.dragIconWrap}>
-                            <FontAwesomeIcon icon="grip-vertical" />
-                          </span>
-                          <div className={styles.dragBookmark}>
-                            <CustomBookmark
-                              key={`bookmark_${bookmark._id}`}
-                              bookmark={bookmark}
-                              widgetId={_id}
-                              collectionTitle={title}
-                            />
-                          </div>
-                        </div>
-                      )
-                    }}
-                  </Draggable>
-                )
-              })}
-              {provided.placeholder}
-            </Collection>
-          </div>
-        )}
+    // handleOnDragEnd
+    <DndContext>
+      <Droppable dropId={_id.toString()}>
+        <Collection
+          header={customCollectionHeader}
+          footer={!isEditingTitle ? addLinkForm : null}>
+          {visibleBookmarks.map((bookmark: MongoBookmark, index) => {
+            const foundBookmark = findBookmark(bookmark)
+            return bookmark.cmsId && foundBookmark ? (
+              <Draggable
+                key={bookmark._id.toString()}
+                dragId={bookmark._id.toString()}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <span
+                    aria-label="Drag Handle"
+                    className={styles.dragIconWrap}>
+                    <FontAwesomeIcon icon="grip-vertical" />
+                  </span>
+                  <div className={styles.dragBookmark}>
+                    <RemovableBookmark
+                      key={`bookmark_${bookmark._id}`}
+                      bookmark={foundBookmark}
+                      handleRemove={() => {
+                        trackEvent(
+                          'Remove link',
+                          'Hide CMS link',
+                          `${title} / ${bookmark.label || bookmark.url}`
+                        )
+                        handleRemoveBookmark(bookmark._id, bookmark.cmsId)
+                      }}
+                    />
+                  </div>
+                </div>
+              </Draggable>
+            ) : (
+              <Draggable
+                key={bookmark._id.toString()}
+                dragId={bookmark._id.toString()}>
+                <span aria-label="Drag Handle" className={styles.dragIconWrap}>
+                  <FontAwesomeIcon icon="grip-vertical" />
+                </span>
+                <div className={styles.dragBookmark}>
+                  <CustomBookmark
+                    key={`bookmark_${bookmark._id}`}
+                    bookmark={bookmark}
+                    widgetId={_id}
+                    collectionTitle={title}
+                  />
+                </div>
+              </Draggable>
+            )
+          })}
+          {/* {provided.placeholder} */}
+        </Collection>
       </Droppable>
-    </DragDropContext>
+    </DndContext>
   )
 }
 
