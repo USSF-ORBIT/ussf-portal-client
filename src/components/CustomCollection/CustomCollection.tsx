@@ -70,15 +70,14 @@ const CustomCollection = ({
 }: PropTypes) => {
   const linkInput = useRef<ComboBoxRef>(null)
 
-  const [activeDragId, setActiveDragId] = useState(null)
-  const [activeBookmark, setActiveBookmark] = useState<
-    MongoBookmark | CMSBookmark
-  >()
+  const [, setActiveDragId] = useState(null)
 
-  // Change the name of this to something more descriptive
-  const [items, setItems] = useState(
+  // <SortableContext> needs an array of unique identifiers to sort by
+  const [dragAndDropSortableItems, setDragAndDropSortableItems] = useState(
     bookmarks.map((bookmark) => bookmark._id.toString())
   )
+
+  // Contains all of the collections visible bookmarks, and the information for each bookmark when it is displayed
   const [visibleBookmarks, setVisibleBookmarks] = useState<MongoBookmark[]>(
     bookmarks.filter((b) => !b.isRemoved)
   )
@@ -326,22 +325,48 @@ const CustomCollection = ({
 
   const handleOnDragStart = (event) => {
     setActiveDragId(event.active.id)
-    // setActiveBookmark(bookmarkOptions.find((b) => b.id === event.active.id))
   }
 
   const handleOnDragEnd = (event) => {
     setActiveDragId(null)
     const { active, over } = event
 
+    // If a draggable item is active, and it is over a droppable area when dropped
     if (over && active.id !== over.id) {
-      setItems((items) => {
-        // console.log('items', items)
+      setDragAndDropSortableItems((items) => {
         const oldIndex = items.indexOf(active.id)
         const newIndex = items.indexOf(over.id)
 
-        return arrayMove(items, oldIndex, newIndex)
+        // dnd-kit sorts the items for us when we call arrayMove when an item is dropped
+        const sortedItems = arrayMove(items, oldIndex, newIndex)
+
+        // This is to update the visibleBookmarks array to match the sortedItems array. We can then perform
+        // a mutation to update the order of the bookmarks in the database.
+        for (let i = 0; i < sortedItems.length; i++) {
+          if (sortedItems[i] !== visibleBookmarks[i]._id.toString()) {
+            const sortedId = sortedItems[i]
+
+            const sortedBookmark = visibleBookmarks.find(
+              (b) => b._id.toString() === sortedId
+            ) as MongoBookmark
+
+            const sortedBookmarkIndex = visibleBookmarks.findIndex(
+              (b) => b._id.toString() === sortedId
+            )
+
+            const sortedBookmarkCopy = { ...sortedBookmark }
+            const visibleBookmarksCopy = [...visibleBookmarks]
+
+            visibleBookmarksCopy.splice(sortedBookmarkIndex, 1)
+            visibleBookmarksCopy.splice(i, 0, sortedBookmarkCopy)
+            setVisibleBookmarks(visibleBookmarksCopy)
+          }
+        }
+
+        return sortedItems
       })
     }
+
     // const { source, destination } = result
 
     // if (destination) {
@@ -432,11 +457,13 @@ const CustomCollection = ({
       onDragEnd={handleOnDragEnd}
       onDragStart={handleOnDragStart}>
       <Droppable dropId={_id.toString()}>
-        <SortableContext items={items} strategy={verticalListSortingStrategy}>
+        <SortableContext
+          items={dragAndDropSortableItems}
+          strategy={verticalListSortingStrategy}>
           <Collection
             header={customCollectionHeader}
             footer={!isEditingTitle ? addLinkForm : null}>
-            {items.map((bookmarkId) => {
+            {dragAndDropSortableItems.map((bookmarkId) => {
               const mongoBookmark = visibleBookmarks.find(
                 (b) => b._id.toString() === bookmarkId
               ) as MongoBookmark
