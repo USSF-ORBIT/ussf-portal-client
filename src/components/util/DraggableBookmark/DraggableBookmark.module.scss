@@ -1,0 +1,18 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/deps';
+@import 'styles/sfds/sfdsDependencies';
+@import 'styles/sfds/_colors.scss';
+
+.dragIconWrap svg {
+  margin-bottom: 2px;
+  color: $theme-spacebase-lighter;
+}
+
+.dragIconWrap:focus svg {
+  margin-bottom: 0px;
+}
+
+.dragBookmark {
+  margin-left: 10px;
+  width: calc(100% - 1rem);
+}
