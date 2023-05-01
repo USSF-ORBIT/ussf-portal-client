@@ -341,7 +341,7 @@ const CustomCollection = ({
         // dnd-kit sorts the items for us when we call arrayMove when an item is dropped
         const sortedItems = arrayMove(items, oldIndex, newIndex)
 
-        // This is to update the visibleBookmarks array to match the sortedItems array. We can then perform
+        // This is to update the visibleBookmarks array to match the order of the sortedItems array. We can then perform
         // a mutation to update the order of the bookmarks in the database.
         for (let i = 0; i < sortedItems.length; i++) {
           if (sortedItems[i] !== visibleBookmarks[i]._id.toString()) {
