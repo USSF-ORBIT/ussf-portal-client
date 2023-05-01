@@ -17,8 +17,8 @@ export default {
   argTypes: {
     handleSelectCollection: { action: 'Select collection from template' },
     handleCreateCollection: { action: 'Create new collection' },
-    handleAddNews: { action: 'Add news section' },
-    handleAddGuardianIdeal: { action: 'Add Guardian Ideal section' },
+    handleAddNews: { action: 'Add news widget' },
+    handleAddGuardianIdeal: { action: 'Add Guardian Ideal widget' },
     handleAddFeaturedShortcuts: { action: 'Add Featured Shortcuts' },
   },
   decorators: [
@@ -51,7 +51,7 @@ export const AddCollectionDisabled = (argTypes: StorybookArgTypes) => (
   />
 )
 
-export const NewsSectionDisabled = (argTypes: StorybookArgTypes) => (
+export const NewsWidgetDisabled = (argTypes: StorybookArgTypes) => (
   <AddWidget
     handleSelectCollection={argTypes.handleSelectCollection}
     handleCreateCollection={argTypes.handleCreateCollection}

@@ -49,12 +49,12 @@ const AddWidget = ({
             type="button"
             id="addNewWidget"
             onClick={menuOnClick}
-            aria-label="Add section">
+            aria-label="Add widget">
             <span className={styles.plus}>
               <Icon.Add role="presentation" />
             </span>
             <br />
-            Add section{' '}
+            Add widget{' '}
             {isDropdownOpen ? (
               <Icon.ExpandLess aria-label="Open" />
             ) : (
@@ -89,7 +89,7 @@ const AddWidget = ({
             handleAddNews()
             setIsDropdownOpen(false)
           }}>
-          Add news section
+          Add news widget
         </Button>
         {flags?.guardianIdealCarousel && (
           <Button
@@ -99,7 +99,7 @@ const AddWidget = ({
               handleAddGuardianIdeal()
               setIsDropdownOpen(false)
             }}>
-            Add Guardian Ideal section
+            Add Guardian Ideal widget
           </Button>
         )}
         {flags?.featuredShortcuts && (
@@ -110,7 +110,7 @@ const AddWidget = ({
               handleAddFeaturedShortcuts()
               setIsDropdownOpen(false)
             }}>
-            Add Featured Shortcuts section
+            Add Featured Shortcuts widget
           </Button>
         )}
       </DropdownMenu>

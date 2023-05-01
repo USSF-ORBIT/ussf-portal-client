@@ -93,23 +93,23 @@ describe('My Space Component', () => {
 
     test('renders the add widget component', async () => {
       expect(
-        await screen.findByRole('button', { name: 'Add section' })
+        await screen.findByRole('button', { name: 'Add widget' })
       ).toBeInTheDocument()
     })
 
-    test('disables adding a news section if there is already a news section', async () => {
+    test('disables adding a news widget if there is already a news widget', async () => {
       const user = userEvent.setup()
 
       expect(
-        await screen.findByRole('button', { name: 'Add section' })
+        await screen.findByRole('button', { name: 'Add widget' })
       ).toBeInTheDocument()
 
       await user.click(
-        await screen.findByRole('button', { name: 'Add section' })
+        await screen.findByRole('button', { name: 'Add widget' })
       )
       expect(
         screen.queryByRole('button', {
-          name: 'Add news section',
+          name: 'Add news widget',
         })
       ).toBeDisabled()
       expect(
@@ -141,13 +141,13 @@ describe('My Space Component', () => {
     })
 
     expect(
-      await screen.findByRole('button', { name: 'Add section' })
+      await screen.findByRole('button', { name: 'Add widget' })
     ).toBeInTheDocument()
 
-    await user.click(await screen.findByRole('button', { name: 'Add section' }))
+    await user.click(await screen.findByRole('button', { name: 'Add widget' }))
     expect(
       screen.queryByRole('button', {
-        name: 'Add news section',
+        name: 'Add news widget',
       })
     ).toBeEnabled()
     expect(
@@ -184,7 +184,7 @@ describe('My Space Component', () => {
     })
 
     expect(
-      screen.queryByRole('button', { name: 'Add section' })
+      screen.queryByRole('button', { name: 'Add widget' })
     ).not.toBeInTheDocument()
   })
 
@@ -195,7 +195,7 @@ describe('My Space Component', () => {
       portalUser: portalUserWithExampleCollection,
     })
 
-    await user.click(await screen.findByRole('button', { name: 'Add section' }))
+    await user.click(await screen.findByRole('button', { name: 'Add widget' }))
     await user.click(
       await screen.findByRole('button', {
         name: 'Select collection from template',
@@ -470,7 +470,7 @@ describe('My Space Component', () => {
       addCollectionMock
     )
 
-    await user.click(await screen.findByRole('button', { name: 'Add section' }))
+    await user.click(await screen.findByRole('button', { name: 'Add widget' }))
     await user.click(
       screen.getByRole('button', { name: 'Create new collection' })
     )
