@@ -50,15 +50,15 @@ export const MySpaceModel = {
     if (type === 'News') {
       const allWidgets = await this.get({ userId }, { db })
       const newsWidget = allWidgets.find((s: Widget) => s.type === 'News')
-      if (newsWidget) throw new Error('You can only have one News section')
+      if (newsWidget) throw new Error('You can only have one News widget')
     }
 
     if (guardianIdealWidget && type === 'GuardianIdeal') {
-      throw new Error('You can only have one Guardian Ideal section')
+      throw new Error('You can only have one Guardian Ideal widget')
     }
 
     if (featuredShortcutsWidget && type === 'FeaturedShortcuts') {
-      throw new Error('You can only have one Featured Shortcuts section')
+      throw new Error('You can only have one Featured Shortcuts widget')
     }
 
     const created: Widget = {

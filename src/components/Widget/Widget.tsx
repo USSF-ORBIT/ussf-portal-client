@@ -27,7 +27,7 @@ export default Widget
 export const WidgetWithSettings = ({
   header,
   settingsItems,
-  settingsMenuLabel = 'Section Settings',
+  settingsMenuLabel = 'Widget Settings',
   ...props
 }: {
   settingsItems: ReactNode[]

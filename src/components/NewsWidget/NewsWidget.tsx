@@ -29,14 +29,14 @@ const NewsWidget = (widget: NewsWidgetProps) => {
     fetchItems()
   }, [])
 
-  /** Remove section */
+  /** Remove widget */
   // Show confirmation modal
-  const handleConfirmRemoveSection = () => {
-    updateModalId('removeNewsSectionModal')
+  const handleConfirmRemoveWidget = () => {
+    updateModalId('removeNewsWidgetModal')
     updateModalText({
-      headingText: 'Are you sure you’d like to delete this section?',
+      headingText: 'Are you sure you’d like to delete this widget?',
       descriptionText:
-        'You can re-add it to your My Space from the Add Section menu.',
+        'You can re-add it to your My Space from the Add Widget menu.',
     })
 
     const widgetState: Widget = {
@@ -60,8 +60,8 @@ const NewsWidget = (widget: NewsWidgetProps) => {
             key="newsWidgetSettingsMenu_remove"
             type="button"
             className={styles.collectionSettingsDropdown}
-            onClick={handleConfirmRemoveSection}>
-            Remove this section
+            onClick={handleConfirmRemoveWidget}>
+            Remove this widget
           </Button>,
         ]}>
         {items
