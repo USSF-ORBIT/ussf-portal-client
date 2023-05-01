@@ -67,23 +67,23 @@ describe('GuardianIdealCarousel component', () => {
 
     await user.click(
       screen.getByRole('button', {
-        name: 'Section Settings',
+        name: 'Widget Settings',
       })
     )
 
     await user.click(
       await screen.findByRole('button', {
-        name: 'Remove Guardian Ideal section',
+        name: 'Remove Guardian Ideal widget',
       })
     )
 
     expect(mockUpdateModalId).toHaveBeenCalledWith(
-      'removeGuardianIdealSectionModal'
+      'removeGuardianIdealWidgetModal'
     )
     expect(mockUpdateModalText).toHaveBeenCalledWith({
-      headingText: 'Are you sure you’d like to delete this section?',
+      headingText: 'Are you sure you’d like to delete this widget?',
       descriptionText:
-        'You can re-add it to your My Space from the Add Section menu.',
+        'You can re-add it to your My Space from the Add Widget menu.',
     })
     expect(mockUpdateWidget).toHaveBeenCalled()
   })

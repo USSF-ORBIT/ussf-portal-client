@@ -17,7 +17,7 @@ export default {
   title: 'Components/NewsWidget',
   component: NewsWidget,
   argTypes: {
-    onRemove: { action: 'Remove this section' },
+    onRemove: { action: 'Remove this widget' },
   },
   decorators: [
     (Story) => (
