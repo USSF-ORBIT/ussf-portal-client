@@ -72,18 +72,19 @@ const CustomCollection = ({
 
   const [, setActiveDragId] = useState(null)
 
-  // <SortableContext> needs an array of unique identifiers to sort by
-  const [dragAndDropSortableItems, setDragAndDropSortableItems] = useState(
-    bookmarks.map((bookmark) => bookmark._id.toString())
-  )
-
   // Contains all of the collections visible bookmarks, and the information for each bookmark when it is displayed
   const [visibleBookmarks, setVisibleBookmarks] = useState<MongoBookmark[]>(
     bookmarks.filter((b) => !b.isRemoved)
   )
-  // const [removedBookmarks, setRemovedBookmarks] = useState<MongoBookmark[]>(
-  //   bookmarks.filter((b) => b.isRemoved)
-  // )
+
+  // <SortableContext> needs an array of unique identifiers to sort by
+  const [dragAndDropSortableItems, setDragAndDropSortableItems] = useState(
+    visibleBookmarks.map((bookmark) => bookmark._id.toString())
+  )
+
+  const [removedBookmarks] = useState<MongoBookmark[]>(
+    bookmarks.filter((b) => b.isRemoved)
+  )
   const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
   const [isEditingTitle, setEditingTitle] = useState(false)
   const { trackEvent } = useAnalytics()
@@ -327,7 +328,7 @@ const CustomCollection = ({
     setActiveDragId(event.active.id)
   }
 
-  const handleOnDragEnd = (event) => {
+  const handleOnDragEnd = async (event) => {
     setActiveDragId(null)
     const { active, over } = event
 
@@ -362,43 +363,33 @@ const CustomCollection = ({
             setVisibleBookmarks(visibleBookmarksCopy)
           }
         }
-
         return sortedItems
       })
+
+      // Before performing the mutation, we need to add back the removed bookmarks
+
+      // const finalListOfBookmarks = [
+      //   ...visibleBookmarks.map(({ _id, url, label, cmsId, isRemoved }) => ({
+      //     _id,
+      //     url,
+      //     label,
+      //     cmsId,
+      //     isRemoved,
+      //   })),
+      //   ...removedBookmarks.map(({ _id, url, label, cmsId, isRemoved }) => ({
+      //     _id,
+      //     url,
+      //     label,
+      //     cmsId,
+      //     isRemoved,
+      //   })),
+      // ]
+
+      // const finalListOfBookmarks = [...visibleBookmarks, ...removedBookmarks]
+
+      // console.log('finalListOfBookmarks', finalListOfBookmarks)
+      // handleEditCollection(title, finalListOfBookmarks)
     }
-
-    // const { source, destination } = result
-
-    // if (destination) {
-    //   let copiedBookmarks = visibleBookmarks.map(
-    //     ({ _id, url, label, cmsId, isRemoved }) => ({
-    //       _id,
-    //       url,
-    //       label,
-    //       cmsId,
-    //       isRemoved,
-    //     })
-    //   )
-
-    //   const [removed] = copiedBookmarks.splice(source.index, 1)
-    //   copiedBookmarks.splice(destination.index, 0, removed)
-
-    //   if (removedBookmarks.length > 0) {
-    //     const removedBookmarksToAddBack = removedBookmarks.map(
-    //       ({ _id, url, label, cmsId, isRemoved }) => ({
-    //         _id,
-    //         url,
-    //         label,
-    //         cmsId,
-    //         isRemoved,
-    //       })
-    //     )
-
-    //     copiedBookmarks = [...copiedBookmarks, ...removedBookmarksToAddBack]
-    //   }
-
-    //   handleEditCollection(title, copiedBookmarks)
-    // }
   }
 
   const findBookmark = (bookmark: MongoBookmark) => {
