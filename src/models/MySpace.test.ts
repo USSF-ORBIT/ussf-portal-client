@@ -37,19 +37,19 @@ describe('My Space model', () => {
     await connection.close()
   })
 
-  it('can get all widgets in a user’s My Space', async () => {
+  test('can get all widgets in a user’s My Space', async () => {
     const all = await MySpaceModel.get({ userId: testUserId }, { db })
     // Data: FeaturedShortcuts, GuardianIdeal, Example Collection
     expect(all).toHaveLength(3)
   })
 
-  it('throws an error if user is not found', async () => {
+  test('throws an error if user is not found', async () => {
     await expect(
       MySpaceModel.get({ userId: 'not a user' }, { db })
     ).rejects.toThrow()
   })
 
-  it('can add a News widget', async () => {
+  test('can add a News widget', async () => {
     const created = (await MySpaceModel.addWidget(
       { userId: testUserId, title: 'Recent news', type: 'News' },
       { db }
@@ -65,11 +65,11 @@ describe('My Space model', () => {
     expect(all).toHaveLength(4)
   })
 
-  it('can remove default Guardian Ideal widget', async () => {
+  test('can remove default Guardian Ideal widget', async () => {
     // Beginning Data: FeaturedShortcuts, GuardianIdeal, Example Collection, News
-    let allSections = await MySpaceModel.get({ userId: testUserId }, { db })
+    let allWidgets = await MySpaceModel.get({ userId: testUserId }, { db })
 
-    let guardianIdealWidget = allSections.find(
+    let guardianIdealWidget = allWidgets.find(
       (s) => s.type === WIDGETS.GUARDIANIDEAL.type
     )
 
@@ -81,8 +81,8 @@ describe('My Space model', () => {
         { db }
       )
 
-      allSections = await MySpaceModel.get({ userId: testUserId }, { db })
-      guardianIdealWidget = allSections.find(
+      allWidgets = await MySpaceModel.get({ userId: testUserId }, { db })
+      guardianIdealWidget = allWidgets.find(
         (s) => s.type === WIDGET_TYPES.GUARDIANIDEAL
       )
       expect(guardianIdealWidget).toBe(undefined)
@@ -90,7 +90,7 @@ describe('My Space model', () => {
     }
   })
 
-  it('can add a Guardian Ideal widget', async () => {
+  test('can add a Guardian Ideal widget', async () => {
     // Beginning Data: FeaturedShortcuts, Example Collection, News
     const created = (await MySpaceModel.addWidget(
       {
@@ -110,11 +110,11 @@ describe('My Space model', () => {
     expect(all).toHaveLength(4)
   })
 
-  it('can remove default Featured Shortcuts widget', async () => {
+  test('can remove default Featured Shortcuts widget', async () => {
     // Beginning Data: FeaturedShortcuts, GuardianIdeal, Example Collection, News
-    let allSections = await MySpaceModel.get({ userId: testUserId }, { db })
+    let allWidgets = await MySpaceModel.get({ userId: testUserId }, { db })
 
-    let featuredShortcutsWidget = allSections.find(
+    let featuredShortcutsWidget = allWidgets.find(
       (s) => s.type === WIDGETS.FEATUREDSHORTCUTS.type
     )
 
@@ -126,8 +126,8 @@ describe('My Space model', () => {
         { db }
       )
 
-      allSections = await MySpaceModel.get({ userId: testUserId }, { db })
-      featuredShortcutsWidget = allSections.find(
+      allWidgets = await MySpaceModel.get({ userId: testUserId }, { db })
+      featuredShortcutsWidget = allWidgets.find(
         (s) => s.type === WIDGET_TYPES.FEATUREDSHORTCUTS
       )
       expect(featuredShortcutsWidget).toBe(undefined)
@@ -135,7 +135,7 @@ describe('My Space model', () => {
     }
   })
 
-  it('can add a Featured Shortcut widget', async () => {
+  test('can add a Featured Shortcut widget', async () => {
     // Beginning Data: GuardianIdeal, Example Collection, News
     const created = (await MySpaceModel.addWidget(
       {
@@ -155,16 +155,16 @@ describe('My Space model', () => {
     expect(all).toHaveLength(4)
   })
 
-  it('cannot add a News widget if there already is one', async () => {
+  test('cannot add a News widget if there already is one', async () => {
     expect(
       MySpaceModel.addWidget(
         { userId: testUserId, title: 'Recent news', type: 'News' },
         { db }
       )
-    ).rejects.toThrow(new Error('You can only have one News section'))
+    ).rejects.toThrow(new Error('You can only have one News widget'))
   })
 
-  it('cannot add a Guardian Ideal widget if there already is one', async () => {
+  test('cannot add a Guardian Ideal widget if there already is one', async () => {
     expect(
       MySpaceModel.addWidget(
         {
@@ -174,10 +174,10 @@ describe('My Space model', () => {
         },
         { db }
       )
-    ).rejects.toThrow(new Error('You can only have one Guardian Ideal section'))
+    ).rejects.toThrow(new Error('You can only have one Guardian Ideal widget'))
   })
 
-  it('cannot add a Featured Shortcut widget if there already is one', async () => {
+  test('cannot add a Featured Shortcut widget if there already is one', async () => {
     expect(
       MySpaceModel.addWidget(
         {
@@ -188,11 +188,11 @@ describe('My Space model', () => {
         { db }
       )
     ).rejects.toThrow(
-      new Error('You can only have one Featured Shortcuts section')
+      new Error('You can only have one Featured Shortcuts widget')
     )
   })
 
-  it('throws an error if widget cannot be added', async () => {
+  test('throws an error if widget cannot be added', async () => {
     await expect(
       MySpaceModel.addWidget(
         { userId: 'wrong user id', title: 'Recent news', type: 'News' },
@@ -200,11 +200,11 @@ describe('My Space model', () => {
       )
     ).rejects.toThrow()
   })
-  it('can remove a News widget', async () => {
+  test('can remove a News widget', async () => {
     // Beginning Data: FeaturedShortcuts, GuardianIdeal, Example Collection, News
-    let allSections = await MySpaceModel.get({ userId: testUserId }, { db })
+    let allWidgets = await MySpaceModel.get({ userId: testUserId }, { db })
 
-    let newsWidget = allSections.find((s) => s.type === 'News')
+    let newsWidget = allWidgets.find((s) => s.type === 'News')
 
     expect(newsWidget).toBeTruthy()
 
@@ -214,14 +214,14 @@ describe('My Space model', () => {
         { db }
       )
 
-      allSections = await MySpaceModel.get({ userId: testUserId }, { db })
-      newsWidget = allSections.find((s) => s.type === 'News')
+      allWidgets = await MySpaceModel.get({ userId: testUserId }, { db })
+      newsWidget = allWidgets.find((s) => s.type === 'News')
       // Beginning Data: FeaturedShortcuts, GuardianIdeal, Example Collection
       expect(newsWidget).toBe(undefined)
     }
   })
 
-  it('throws an error if cannot find user or widget to remove', async () => {
+  test('throws an error if cannot find user or widget to remove', async () => {
     await expect(
       MySpaceModel.deleteWidget({ _id: ObjectId(), userId: 'cat' }, { db })
     ).rejects.toThrow()

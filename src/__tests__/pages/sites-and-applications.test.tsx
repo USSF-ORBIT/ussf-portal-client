@@ -565,7 +565,7 @@ describe('Sites and Applications page', () => {
           const flashMessage = screen.getAllByRole('alert')[0]
 
           expect(flashMessage).toHaveTextContent(
-            `You have successfully added “${mockCMSBookmarks[0].label}” to the “Example Collection” section.`
+            `You have successfully added “${mockCMSBookmarks[0].label}” to the “Example Collection” collection.`
           )
 
           await act(async () => {

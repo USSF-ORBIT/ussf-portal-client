@@ -83,10 +83,10 @@ const SitesAndApplications = ({
     []
   const collectionsLength = userCollections.length || 0
 
-  const remainingSections =
+  const remainingCollections =
     MAXIMUM_COLLECTIONS - (collectionsLength + selectedCollections.length)
 
-  const canAddSections = collectionsLength < MAXIMUM_COLLECTIONS
+  const canAddCollections = collectionsLength < MAXIMUM_COLLECTIONS
 
   const handleSortClick = (sortType: SortBy) => {
     const sortTypeAction =
@@ -158,7 +158,7 @@ const SitesAndApplications = ({
       setFlash(
         <Alert type="success" slim role="alert" headingLevel="h4">
           You have successfully added “{bookmark.label}” to the “
-          {collection?.title}” section.
+          {collection?.title}” collection.
         </Alert>
       )
     } else {
@@ -223,7 +223,7 @@ const SitesAndApplications = ({
             </Alert>
           )}
 
-          {!canAddSections && (
+          {!canAddCollections && (
             <Alert type="warning" role="alert" headingLevel="h4">
               You have reached the maximum number of collections allowed on your
               My Space (25).
@@ -235,7 +235,7 @@ const SitesAndApplications = ({
             bookmarks={bookmarks}
             userCollectionOptions={userCollections}
             handleAddToCollection={handleAddToCollection}
-            canAddNewCollection={canAddSections}
+            canAddNewCollection={canAddCollections}
           />
         </div>
       )}
@@ -245,11 +245,11 @@ const SitesAndApplications = ({
           <div className={styles.widgetToolbar}>
             {selectMode ? (
               <>
-                {remainingSections < 3 && (
+                {remainingCollections < 3 && (
                   <Tooltip
                     position="top"
                     label={
-                      remainingSections > 0
+                      remainingCollections > 0
                         ? `You’re approaching the maximum number of collections (25) you can add to your My Space page.`
                         : `You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`
                     }>
@@ -261,7 +261,7 @@ const SitesAndApplications = ({
                     {selectedCollections.length} collection
                     {selectedCollections.length !== 1 && 's'} selected
                   </strong>{' '}
-                  ({remainingSections} of {MAXIMUM_COLLECTIONS} possible
+                  ({remainingCollections} of {MAXIMUM_COLLECTIONS} possible
                   remaining)
                 </span>
                 <Button
@@ -284,7 +284,7 @@ const SitesAndApplications = ({
               </>
             ) : (
               <>
-                {!canAddSections && (
+                {!canAddCollections && (
                   <Tooltip
                     position="top"
                     label={`You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`}>
@@ -301,7 +301,7 @@ const SitesAndApplications = ({
                     )
                     handleToggleSelectMode()
                   }}
-                  disabled={!canAddSections}>
+                  disabled={!canAddCollections}>
                   Select multiple collections
                 </Button>
               </>
@@ -324,7 +324,7 @@ const SitesAndApplications = ({
                       isSelected={isSelected(collection.id)}
                       onSelect={() => handleSelectCollection(collection.id)}
                       disabled={
-                        !isSelected(collection.id) && remainingSections < 1
+                        !isSelected(collection.id) && remainingCollections < 1
                       }
                     />
                   ) : (

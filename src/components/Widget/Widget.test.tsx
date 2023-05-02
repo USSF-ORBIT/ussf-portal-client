@@ -13,28 +13,24 @@ import Widget, { WidgetWithSettings } from './Widget'
 describe('Widget component', () => {
   it('renders Widget', () => {
     render(
-      <Widget header={<h3>Example section</h3>}>
-        Example section contents
-      </Widget>
+      <Widget header={<h3>Example widget</h3>}>Example widget contents</Widget>
     )
 
     const heading = screen.getByRole('heading', { level: 3 })
 
-    expect(heading).toHaveTextContent('Example section')
-    expect(screen.getByText('Example section contents')).toBeInTheDocument()
+    expect(heading).toHaveTextContent('Example widget')
+    expect(screen.getByText('Example widget contents')).toBeInTheDocument()
   })
 
-  it('renders Widget without heading', () => {
-    render(<Widget>Example section contents</Widget>)
+  test('renders Widget without heading', () => {
+    render(<Widget>Example widget contents</Widget>)
 
-    expect(screen.getByText('Example section contents')).toBeInTheDocument()
+    expect(screen.getByText('Example widget contents')).toBeInTheDocument()
   })
 
-  it('has no a11y violations', async () => {
+  test('has no a11y violations', async () => {
     const html = render(
-      <Widget header={<h3>Example section</h3>}>
-        Example section contents
-      </Widget>
+      <Widget header={<h3>Example widget</h3>}>Example widget contents</Widget>
     )
     expect(await axe(html.container)).toHaveNoViolations()
   })
@@ -48,41 +44,41 @@ describe('WidgetWithSettings component', () => {
   beforeEach(() => {
     html = render(
       <WidgetWithSettings
-        header={<h3>Example section</h3>}
-        settingsMenuLabel="Section Settings menu"
+        header={<h3>Example widget</h3>}
+        settingsMenuLabel="Widget Settings menu"
         settingsItems={[
           <button
             key="settingsMenu_item1"
             type="button"
             onClick={handleSettingsItemClick}>
-            Section settings handler
+            Widget settings handler
           </button>,
         ]}>
-        Example section contents
+        Example widget contents
       </WidgetWithSettings>
     )
   })
 
-  it('renders a heading', () => {
+  test('renders a heading', () => {
     expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
-      'Example section'
+      'Example widget'
     )
   })
 
-  it('render its children', () => {
-    expect(screen.getByText('Example section contents')).toBeInTheDocument()
+  test('render its children', () => {
+    expect(screen.getByText('Example widget contents')).toBeInTheDocument()
   })
 
-  it('renders the settings dropdown menu', async () => {
+  test('renders the settings dropdown menu', async () => {
     const user = userEvent.setup()
     const menuToggleButton = screen.getByRole('button', {
-      name: 'Section Settings menu',
+      name: 'Widget Settings menu',
     })
     expect(menuToggleButton).toBeInTheDocument()
 
     await user.click(menuToggleButton)
     const settingsItem = screen.getByRole('button', {
-      name: 'Section settings handler',
+      name: 'Widget settings handler',
     })
     expect(settingsItem).toBeInTheDocument()
 
@@ -92,16 +88,16 @@ describe('WidgetWithSettings component', () => {
     expect(handleSettingsItemClick).toHaveBeenCalled()
   })
 
-  it('clicking outside the dropdown menu closes the menu', async () => {
+  test('clicking outside the dropdown menu closes the menu', async () => {
     const user = userEvent.setup()
     const menuToggleButton = screen.getByRole('button', {
-      name: 'Section Settings menu',
+      name: 'Widget Settings menu',
     })
     expect(menuToggleButton).toBeInTheDocument()
 
     await user.click(menuToggleButton)
     const settingsItem = screen.getByRole('button', {
-      name: 'Section settings handler',
+      name: 'Widget settings handler',
     })
     expect(settingsItem).toBeInTheDocument()
 
@@ -111,15 +107,15 @@ describe('WidgetWithSettings component', () => {
     // Confirm the menu has been closed
     expect(
       screen.queryByRole('button', {
-        name: 'Section settings handler',
+        name: 'Widget settings handler',
       })
     ).not.toBeInTheDocument()
   })
 
-  it('clicking the menu button toggles the menu', async () => {
+  test('clicking the menu button toggles the menu', async () => {
     const user = userEvent.setup()
     const menuToggleButton = screen.getByRole('button', {
-      name: 'Section Settings menu',
+      name: 'Widget Settings menu',
     })
 
     // Open the menu
@@ -127,7 +123,7 @@ describe('WidgetWithSettings component', () => {
 
     expect(
       screen.getByRole('button', {
-        name: 'Section settings handler',
+        name: 'Widget settings handler',
       })
     ).toBeInTheDocument()
 
@@ -137,12 +133,12 @@ describe('WidgetWithSettings component', () => {
     // Confirm the menu has been closed
     expect(
       screen.queryByRole('button', {
-        name: 'Section settings handler',
+        name: 'Widget settings handler',
       })
     ).not.toBeInTheDocument()
   })
 
-  it('has no a11y violations', async () => {
+  test('has no a11y violations', async () => {
     expect(await axe(html.container)).toHaveNoViolations()
   })
 })

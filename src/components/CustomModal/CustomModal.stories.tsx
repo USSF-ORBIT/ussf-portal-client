@@ -129,17 +129,17 @@ export const RemoveCustomCollectionModal = () => {
   )
 }
 
-export const RemoveSectionModal = () => {
+export const RemoveWidgetModal = () => {
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
 
   const openCustomLinkModal = () => {
-    updateModalId('removeNewsSectionModal')
+    updateModalId('removeNewsWidgetModal')
 
     updateModalText({
-      headingText: 'Are you sure you’d like to delete this section?',
+      headingText: 'Are you sure you’d like to delete this widget?',
       descriptionText:
-        'You can re-add it to your My Space from the Add Section menu.',
+        'You can re-add it to your My Space from the Add Widget menu.',
     })
 
     updateWidget({

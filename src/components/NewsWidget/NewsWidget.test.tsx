@@ -32,7 +32,7 @@ describe('NewsWidget component', () => {
     mockedAxios.get.mockClear()
   })
 
-  it('renders a widget that displays RSS items and a link to the News page', async () => {
+  test('renders a widget that displays RSS items and a link to the News page', async () => {
     render(<NewsWidget widget={mockNewsWidget} />)
 
     expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
@@ -46,24 +46,24 @@ describe('NewsWidget component', () => {
     )
   })
 
-  it('renders a settings menu', async () => {
+  test('renders a settings menu', async () => {
     const user = userEvent.setup()
     render(<NewsWidget widget={mockNewsWidget} />)
 
     user.click(
       screen.getByRole('button', {
-        name: 'Section Settings',
+        name: 'Widget Settings',
       })
     )
 
     const removeButton = await screen.findByRole('button', {
-      name: 'Remove this section',
+      name: 'Remove this widget',
     })
 
     expect(removeButton).toBeInTheDocument()
   })
 
-  it('clicking in settings to remove section passes correct values to modalContext', async () => {
+  test('clicking in settings to remove widget passes correct values to modalContext', async () => {
     const user = userEvent.setup()
     const mockUpdateModalId = jest.fn()
     const mockUpdateModalText = jest.fn()
@@ -77,21 +77,21 @@ describe('NewsWidget component', () => {
 
     await user.click(
       screen.getByRole('button', {
-        name: 'Section Settings',
+        name: 'Widget Settings',
       })
     )
 
     await user.click(
       await screen.findByRole('button', {
-        name: 'Remove this section',
+        name: 'Remove this widget',
       })
     )
 
-    expect(mockUpdateModalId).toHaveBeenCalledWith('removeNewsSectionModal')
+    expect(mockUpdateModalId).toHaveBeenCalledWith('removeNewsWidgetModal')
     expect(mockUpdateModalText).toHaveBeenCalledWith({
-      headingText: 'Are you sure you’d like to delete this section?',
+      headingText: 'Are you sure you’d like to delete this widget?',
       descriptionText:
-        'You can re-add it to your My Space from the Add Section menu.',
+        'You can re-add it to your My Space from the Add Widget menu.',
     })
     expect(mockUpdateWidget).toHaveBeenCalled()
   })

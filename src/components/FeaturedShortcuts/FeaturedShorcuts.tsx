@@ -18,12 +18,12 @@ const FeaturedShortcuts = ({
     useModalContext()
   const { trackEvent } = useAnalytics()
 
-  const handleConfirmRemoveSection = () => {
-    updateModalId('removeFeaturedShortcutsSectionModal')
+  const handleConfirmRemoveWidget = () => {
+    updateModalId('removeFeaturedShortcutsWidgetModal')
     updateModalText({
-      headingText: 'Are you sure you’d like to delete this section?',
+      headingText: 'Are you sure you’d like to delete this widget?',
       descriptionText:
-        'You can re-add it to your My Space from the Add Section menu.',
+        'You can re-add it to your My Space from the Add Widget menu.',
     })
 
     const widgetState: Widget = {
@@ -54,8 +54,8 @@ const FeaturedShortcuts = ({
         <Button
           key="newsWidgetSettingsMenu_remove"
           type="button"
-          onClick={handleConfirmRemoveSection}>
-          Remove Featured Shortcuts section
+          onClick={handleConfirmRemoveWidget}>
+          Remove Featured Shortcuts widget
         </Button>,
       ]}>
       <ul className={styles.featuredShortcutsRow}>
