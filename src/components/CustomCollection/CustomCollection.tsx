@@ -461,7 +461,7 @@ const CustomCollection = ({
 
               const foundBookmark = findBookmark(mongoBookmark)
 
-              return (
+              return foundBookmark ? (
                 <DraggableBookmark
                   key={bookmarkId.toString()}
                   id={bookmarkId.toString()}>
@@ -481,40 +481,19 @@ const CustomCollection = ({
                     }}
                   />
                 </DraggableBookmark>
-              )
-            })}
-            {/* {items.map((bookmarkId) => {
-              const foundBookmark = findBookmark(bookmarkId)
-              return foundBookmark ? (
-                <DraggableBookmark
-                  key={bookmarkId.toString()}
-                  id={bookmarkId.toString()}>
-                  <RemovableBookmark
-                    key={`bookmark_${bookmarkId}`}
-                    bookmark={foundBookmark}
-                    handleRemove={() => {
-                      trackEvent(
-                        'Remove link',
-                        'Hide CMS link',
-                        `${title} / ${foundBookmark.label || foundBookmark.url}`
-                      )
-                      handleRemoveBookmark(bookmark._id, bookmark.cmsId)
-                    }}
-                  />
-                </DraggableBookmark>
               ) : (
                 <DraggableBookmark
                   key={bookmarkId.toString()}
                   id={bookmarkId.toString()}>
                   <CustomBookmark
                     key={`bookmark_${bookmarkId}`}
-                    bookmark={bookmark}
+                    bookmark={mongoBookmark}
                     widgetId={_id}
                     collectionTitle={title}
                   />
                 </DraggableBookmark>
               )
-            })} */}
+            })}
           </Collection>
         </SortableContext>
       </Droppable>
