@@ -180,7 +180,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 
   const onDelete = () => {
     switch (modalId) {
-      case 'removeNewsSectionModal':
+      case 'removeNewsWidgetModal':
         trackEvent('Section settings', 'Remove this section', 'News')
         handleRemoveWidget({
           variables: { _id: widgetState?._id },
@@ -188,7 +188,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         })
         closeModal()
         break
-      case 'removeGuardianIdealSectionModal':
+      case 'removeGuardianIdealWidgetModal':
         trackEvent(
           'Guardian Ideal Carousel',
           'Click on remove Ideal carousel',
@@ -200,7 +200,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         })
         closeModal()
         break
-      case 'removeFeaturedShortcutsSectionModal':
+      case 'removeFeaturedShortcutsWidgetModal':
         trackEvent(
           'Featured Shortcuts Section',
           'Click on remove Featured Shortcuts',
