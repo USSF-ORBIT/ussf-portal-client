@@ -31,7 +31,7 @@ describe('FeaturedShortcuts component', () => {
     expect(screen.getByRole('link', { name: 'LeaveWeb' })).toBeInTheDocument()
   })
 
-  test('can remove the Featured shortcuts Section', async () => {
+  test('can remove the Featured shortcuts widget', async () => {
     const user = userEvent.setup()
     const mockUpdateModalId = jest.fn()
     const mockUpdateModalText = jest.fn()
@@ -51,23 +51,23 @@ describe('FeaturedShortcuts component', () => {
 
     await user.click(
       screen.getByRole('button', {
-        name: 'Section Settings',
+        name: 'Widget Settings',
       })
     )
 
     await user.click(
       await screen.findByRole('button', {
-        name: 'Remove Featured Shortcuts section',
+        name: 'Remove Featured Shortcuts widget',
       })
     )
 
     expect(mockUpdateModalId).toHaveBeenCalledWith(
-      'removeFeaturedShortcutsSectionModal'
+      'removeFeaturedShortcutsWidgetModal'
     )
     expect(mockUpdateModalText).toHaveBeenCalledWith({
-      headingText: 'Are you sure you’d like to delete this section?',
+      headingText: 'Are you sure you’d like to delete this widget?',
       descriptionText:
-        'You can re-add it to your My Space from the Add Section menu.',
+        'You can re-add it to your My Space from the Add Widget menu.',
     })
     expect(mockUpdateWidget).toHaveBeenCalled()
   })
