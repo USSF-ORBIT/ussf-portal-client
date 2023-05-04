@@ -23,9 +23,12 @@ export const Label = ({
   type,
   children,
 }: {
-  type: typeof LabelTypes[number]
+  type: (typeof LabelTypes)[number]
   children: React.ReactNode
 }) => (
+  // type variable can only be one of the constants defined on by LabelTypes
+  // also only changes the selected style
+  // eslint-disable-next-line security/detect-object-injection
   <USWDSTag className={`${styles.Label} ${styles[type]}`}>
     <Icon.Label aria-label="label" size={3} /> {children}
   </USWDSTag>
@@ -35,7 +38,7 @@ export const Label = ({
 export const Category = ({
   category,
 }: {
-  category: typeof CONTENT_CATEGORIES[keyof typeof CONTENT_CATEGORIES]
+  category: (typeof CONTENT_CATEGORIES)[keyof typeof CONTENT_CATEGORIES]
 }) => (
   <USWDSTag className={`${styles.Category} ${styles[category.value]}`}>
     {category.label}
