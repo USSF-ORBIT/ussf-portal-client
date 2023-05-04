@@ -6,12 +6,16 @@ import Loader from 'components/Loader/Loader'
 import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import Logo from 'components/Logo/Logo'
+import { useAnalytics } from 'stores/analyticsContext'
 
 const FEEDBACK_EMAIL = 'feedback@ussforbit.us'
 const FEEDBACK_SUBJECT = 'USSF portal feedback -- 404 page error'
 
 export default function Custom404() {
   const { user } = useUser()
+  const { trackEvent } = useAnalytics()
+
+  trackEvent('Error page', 'Page missing', '404', window.location.pathname)
 
   return !user ? (
     <Loader />

@@ -4,9 +4,8 @@
 import { screen, waitFor } from '@testing-library/react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-
 import { renderWithAuth } from '../../testHelpers'
-
+import * as analyticsHooks from 'stores/analyticsContext'
 import Custom404 from 'pages/404'
 
 const mockReplace = jest.fn()
@@ -34,11 +33,11 @@ describe('404 page', () => {
       renderWithAuth(<Custom404 />, { user: null })
     })
 
-    it('renders the loader while fetching the user', () => {
+    test('renders the loader while fetching the user', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
-    it('redirects to the login page if not logged in', async () => {
+    test('redirects to the login page if not logged in', async () => {
       await waitFor(() => {
         expect(mockReplace).toHaveBeenCalledWith('/login')
       })
@@ -50,7 +49,7 @@ describe('404 page', () => {
       renderWithAuth(<Custom404 />)
     })
 
-    it('renders the custom 404 page,', () => {
+    test('renders the custom 404 page,', () => {
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('404')
       expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
         'Looks like you’re a little lost'
@@ -60,17 +59,17 @@ describe('404 page', () => {
       )
     })
 
-    it('renders a go home button', () => {
+    test('renders a go home button', () => {
       expect(
         screen.getByRole('link', { name: 'Take me home' })
       ).toHaveAttribute('href', '/')
     })
 
-    it('makes the call to get user', () => {
+    test('makes the call to get user', () => {
       expect(axios.get).toHaveBeenLastCalledWith('/api/auth/user')
     })
 
-    it('renders feedback links', async () => {
+    test('renders feedback links', async () => {
       const feedbackLink = screen.getByText('Contact Us')
       expect(feedbackLink).toBeVisible()
       expect(feedbackLink).toHaveAttribute('href')
@@ -80,6 +79,22 @@ describe('404 page', () => {
       expect(feedbackLink.getAttribute('href')).toContain(
         'USSF portal feedback -- 404 page error'
       )
+    })
+
+    test('calls trackEvent with the correct arguments', async () => {
+      const mockTrackEvents = jest.fn()
+      jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
+        return { push: jest.fn(), trackEvent: mockTrackEvents }
+      })
+      renderWithAuth(<Custom404 />)
+      await waitFor(() => {
+        expect(mockTrackEvents).toHaveBeenCalledWith(
+          'Error page',
+          'Page missing',
+          '404',
+          window.location.pathname
+        )
+      })
     })
   })
 })
