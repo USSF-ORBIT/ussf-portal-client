@@ -23,6 +23,7 @@ const Error: NextPageWithLayout<Props> = ({ statusCode }: Props) => {
   const handleBackClick = () => router.back()
   const errorCode = statusCode ? statusCode : 500
 
+  // TODO: see if error message is also passed in so we can include that
   trackEvent(
     'Error page',
     'Internal error',
