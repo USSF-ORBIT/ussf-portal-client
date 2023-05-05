@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import type { ReactElement, ReactNode } from 'react'
 import { Button, GridContainer } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
+import { useAnalytics } from 'stores/analyticsContext'
 
 import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
 import Logo from 'components/Logo/Logo'
@@ -17,9 +18,18 @@ type NextPageWithLayout<P> = NextPage<P> & {
 }
 
 const Error: NextPageWithLayout<Props> = ({ statusCode }: Props) => {
+  const { trackEvent } = useAnalytics()
   const router = useRouter()
   const handleBackClick = () => router.back()
   const errorCode = statusCode ? statusCode : 500
+
+  // TODO: see if error message is also passed in so we can include that
+  trackEvent(
+    'Error page',
+    'Internal error',
+    errorCode.toString(),
+    window.location.pathname
+  )
 
   const feedback_subject = `USSF portal feedback -- ${errorCode} page error`
 

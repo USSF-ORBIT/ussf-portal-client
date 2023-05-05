@@ -1,10 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/router'
-
+import * as analyticsHooks from 'stores/analyticsContext'
 import CustomError from 'pages/_error'
 
 const mockBack = jest.fn()
@@ -24,7 +24,7 @@ mockedUseRouter.mockReturnValue({
   back: mockBack,
 })
 
-describe('custome error page', () => {
+describe('custom error page', () => {
   beforeEach(() => {
     render(<CustomError statusCode={1024} />)
   })
@@ -88,9 +88,41 @@ describe('custome error page', () => {
     expect(getInitialProps).toBeInstanceOf(Function)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore ignore getInitialProps being possibly undefined because we just checked it
-    const result = await getInitialProps({ res: {} })
+    const result = await getInitialProps({})
     expect(result).toBeDefined()
     expect(result).toEqual({ statusCode: 404 })
+  })
+
+  test('calls trackEvent with the correct arguments', async () => {
+    const mockTrackEvents = jest.fn()
+    jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
+      return { push: jest.fn(), trackEvent: mockTrackEvents }
+    })
+    render(<CustomError />)
+    await waitFor(() => {
+      expect(mockTrackEvents).toHaveBeenCalledWith(
+        'Error page',
+        'Internal error',
+        '500',
+        window.location.pathname
+      )
+    })
+  })
+
+  test('calls trackEvent with the correct arguments', async () => {
+    const mockTrackEvents = jest.fn()
+    jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
+      return { push: jest.fn(), trackEvent: mockTrackEvents }
+    })
+    render(<CustomError statusCode={404} />)
+    await waitFor(() => {
+      expect(mockTrackEvents).toHaveBeenCalledWith(
+        'Error page',
+        'Internal error',
+        '404',
+        window.location.pathname
+      )
+    })
   })
 })
 
