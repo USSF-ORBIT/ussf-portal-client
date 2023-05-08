@@ -1,10 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/router'
-
+import * as analyticsHooks from 'stores/analyticsContext'
 import Custom500 from 'pages/500'
 
 const mockBack = jest.fn()
@@ -29,7 +29,7 @@ describe('500 page', () => {
     render(<Custom500 />)
   })
 
-  it('renders the custom 500 page,', () => {
+  test('renders the custom 500 page,', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('500')
     expect(screen.getByTestId('gridContainer')).toHaveTextContent(
       'Houston, we have a problem'
@@ -39,7 +39,7 @@ describe('500 page', () => {
     )
   })
 
-  it('renders a back button', async () => {
+  test('renders a back button', async () => {
     const user = userEvent.setup()
 
     const backButton = screen.getByRole('button', {
@@ -51,7 +51,7 @@ describe('500 page', () => {
     expect(mockBack).toHaveBeenCalled()
   })
 
-  it('renders feedback links', async () => {
+  test('renders feedback links', async () => {
     const feedbackLink = screen.getByText('feedback@ussforbit.us')
     expect(feedbackLink).toBeVisible()
     expect(feedbackLink).toHaveAttribute('href')
@@ -69,5 +69,21 @@ describe('500 page', () => {
     expect(reportBugLink.getAttribute('href')).toContain(
       'USSF portal feedback -- 500 page error'
     )
+  })
+
+  test('calls trackEvent with the correct arguments', async () => {
+    const mockTrackEvents = jest.fn()
+    jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
+      return { push: jest.fn(), trackEvent: mockTrackEvents }
+    })
+    render(<Custom500 />)
+    await waitFor(() => {
+      expect(mockTrackEvents).toHaveBeenCalledWith(
+        'Error page',
+        'Internal error',
+        '500',
+        window.location.pathname
+      )
+    })
   })
 })

@@ -3,14 +3,17 @@ import { useRouter } from 'next/router'
 
 import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
 import Logo from 'components/Logo/Logo'
+import { useAnalytics } from 'stores/analyticsContext'
 
 const FEEDBACK_EMAIL = 'feedback@ussforbit.us'
 const FEEDBACK_SUBJECT = 'USSF portal feedback -- 500 page error'
 
 export default function Custom500() {
   const router = useRouter()
-
+  const { trackEvent } = useAnalytics()
   const handleBackClick = () => router.back()
+
+  trackEvent('Error page', 'Internal error', '500', window.location.pathname)
 
   return (
     <>
