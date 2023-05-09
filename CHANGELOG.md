@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.20.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.19.0...v4.20.0) (2023-05-04)
+
+
+### Features
+
+* Add event tracking to 404/500 error pages ([#1008](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1008)) ([af2680f](https://github.com/USSF-ORBIT/ussf-portal-client/commit/af2680f9b9bc79e4234fbb9856f1e53022d2e736))
+
 ## [4.19.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.18.1...4.19.0) (2023-04-21)
 
 

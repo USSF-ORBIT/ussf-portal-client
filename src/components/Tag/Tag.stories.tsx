@@ -53,8 +53,7 @@ export const AllLabels = () => (
 
 export const AllCategories = () => (
   <>
-    <Category category={CONTENT_CATEGORIES.EXTERNAL_NEWS} />
-    <Category category={CONTENT_CATEGORIES.INTERNAL_NEWS} />
+    <Category category={CONTENT_CATEGORIES.NEWS} />
     <Category category={CONTENT_CATEGORIES.ANNOUNCEMENT} />
     <Category category={CONTENT_CATEGORIES.DOCUMENTATION} />
     <Category category={CONTENT_CATEGORIES.APPLICATION} />

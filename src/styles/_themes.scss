@@ -172,6 +172,14 @@ $dark-gradient: linear-gradient(
   --category-externalnews-text: #{$white};
   --category-internalnews-bg: #{$category-internalnews-lighttheme};
   --category-internalnews-text: #{$white};
+  --category-ussf-news-bg: #{$neutral-gray-900};
+  --category-ussf-news-text: #{$theme-cosmiclatte-lightest};
+  --category-application-bg: #{$theme-ultraviolet-dark};
+  --category-application-text: #{$theme-cosmiclatte-lightest};
+  --category-announcement-bg: #{$theme-mars-darker};
+  --category-announcement-text: #{$theme-cosmiclatte-lightest};
+  --category-ussf-documentation-bg: #{$theme-cosmiclatte-darkest};
+  --category-ussf-documentation-text: #{$theme-cosmiclatte-lightest};
 
   // Footer
   --footer-bg: #{$black};
@@ -357,6 +365,14 @@ $dark-gradient: linear-gradient(
   --category-externalnews-text: #{$black};
   --category-internalnews-bg: #{$category-internalnews-darktheme};
   --category-internalnews-text: #{$black};
+  --category-ussf-news-bg: #{$neutral-gray-200};
+  --category-ussf-news-text: #{$black};
+  --category-application-bg: #{$theme-ultraviolet-lighter};
+  --category-application-text: #{$black};
+  --category-announcement-bg: #{$theme-mars-lighter};
+  --category-announcement-text: #{$black};
+  --category-ussf-documentation-bg: #{$theme-cosmiclatte-light};
+  --category-ussf-documentation-text: #{$black};
 
   // Menus
   --dropdown-menu-bg: #{$theme-spacebase-darkest};
