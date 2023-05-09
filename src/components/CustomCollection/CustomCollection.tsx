@@ -70,8 +70,6 @@ const CustomCollection = ({
 }: PropTypes) => {
   const linkInput = useRef<ComboBoxRef>(null)
 
-  const [, setActiveDragId] = useState(null)
-
   // Contains all of the collections visible bookmarks, and the information for each bookmark when it is displayed
   const [visibleBookmarks, setVisibleBookmarks] = useState<MongoBookmark[]>(
     bookmarks.filter((b) => !b.isRemoved)
@@ -324,12 +322,7 @@ const CustomCollection = ({
     setEditingTitle(false)
   }
 
-  const handleOnDragStart = (event) => {
-    setActiveDragId(event.active.id)
-  }
-
   const handleOnDragEnd = async (event) => {
-    setActiveDragId(null)
     const { active, over } = event
 
     // If a draggable item is active, and it is over a droppable area when dropped
@@ -344,8 +337,12 @@ const CustomCollection = ({
         // This is to update the visibleBookmarks array to match the order of the sortedItems array. We can then perform
         // a mutation to update the order of the bookmarks in the database.
         for (let i = 0; i < sortedItems.length; i++) {
+          // This is comparing the sortedItems array to the visibleBookmarks array. No user input.
+          // eslint-disable-next-line security/detect-object-injection
           if (sortedItems[i] !== visibleBookmarks[i]._id.toString()) {
-            const sortedId = sortedItems[i]
+            // No user input here, so we can disable the security rule
+            // eslint-disable-next-line security/detect-object-injection
+            const sortedId: string = sortedItems[i]
 
             const sortedBookmark = visibleBookmarks.find(
               (b) => b._id.toString() === sortedId
@@ -445,8 +442,7 @@ const CustomCollection = ({
     <DndContext
       sensors={sensors}
       collisionDetection={closestCorners}
-      onDragEnd={handleOnDragEnd}
-      onDragStart={handleOnDragStart}>
+      onDragEnd={handleOnDragEnd}>
       <Droppable dropId={_id.toString()}>
         <SortableContext
           items={dragAndDropSortableItems}
