@@ -69,7 +69,7 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
         <h2>{title}</h2>
         <div className={styles.tagAndLabelContainer}>
           {category === 'InternalNews' ? (
-            <Category category={CONTENT_CATEGORIES.INTERNAL_NEWS} />
+            <Category category={CONTENT_CATEGORIES.NEWS} />
           ) : (
             <Tag className={`${tagStyles.Category}`}>{category}</Tag>
           )}

@@ -69,14 +69,21 @@
     background-color: var(--category-internalnews-bg);
     color: var(--category-internalnews-text);
   }
+  &.News {
+    background-color: var(--category-ussf-news-bg);
+    color: var(--category-ussf-news-text);
+  }
   &.Announcement {
-    background-color: $category-announcement-lighttheme;
+    background-color: var(--category-announcement-bg);
+    color: var(--category-announcement-text);
   }
   &.Documentation {
-    background-color: $category-documentation-lighttheme;
+    background-color: var(--category-ussf-documentation-bg);
+    color: var(--category-ussf-documentation-text);
   }
   &.Application {
-    background-color: $category-application-lighttheme;
+    background-color: var(--category-application-bg);
+    color: var(--category-application-text);
   }
   &.GuardianIdeal {
     background-color: $theme-cosmiclatte-darkest;
