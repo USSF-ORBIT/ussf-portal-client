@@ -237,10 +237,6 @@ yarn services:up
 
 If you want to run all services in docker to mimic a deployed environment as close as possible you can do this as described below.
 
-- Download `dev-saml.pem`, `test-saml.pem`, and `prod-saml.pem` from 1Password vault
-  - These are found in `SAML Certs for USSF/GCDS` note in the Space Force vault
-  - Put them in the respective file name in the root of this repo.
-  - These should not be checked in and are alread in our `.gitignore` file
 - Ensure you have the latest version of the images built
   - Run `docker compose build`
 - Ensure no other `yarn dev` is running in this repo or cms repo

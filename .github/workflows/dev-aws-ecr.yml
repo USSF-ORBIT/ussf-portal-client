@@ -51,17 +51,6 @@ jobs:
         with:
           install: true
 
-      - name: Rename certs
-        id: certs
-        env:
-          DEV_CERT: ${{ secrets.SAML_CERT }}
-          TEST_CERT: ${{ secrets.C1_TEST_SAML_CERT }}
-          PROD_CERT: ${{ secrets.C1_PROD_SAML_CERT }}
-        run: |
-          echo "$DEV_CERT" > dev-saml.pem
-          echo "$TEST_CERT" > test-saml.pem
-          echo "$PROD_CERT" > prod-saml.pem
-
       - name: Add DoD Certificate Bundle
         env:
           CERT_BUNDLE_SHA256: ${{ secrets.DOD_CA_CERT_BUNDLE_SHA256 }}

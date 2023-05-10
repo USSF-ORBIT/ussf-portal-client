@@ -73,9 +73,6 @@ COPY --from=builder /app/scripts/add-rds-cas.sh .
 COPY --from=builder /app/scripts/add-dod-cas.sh .
 COPY --from=builder /app/scripts/create-gcds-chain.sh .
 COPY --from=builder /app/scripts/dod_ca_cert_bundle.sha256 ./scripts/dod_ca_cert_bundle.sha256
-COPY --from=builder /app/dev-saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
-COPY --from=builder /app/test-saml.pem /usr/local/share/ca-certificates/federation.test.cce.af.mil.crt
-COPY --from=builder /app/prod-saml.pem /usr/local/share/ca-certificates/federation.prod.cce.af.mil.crt
 
 RUN apt-get update \
   && apt-get dist-upgrade -y \
