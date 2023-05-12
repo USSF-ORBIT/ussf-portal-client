@@ -4,7 +4,8 @@ import { GridContainer, Grid } from '@trussworks/react-uswds'
 import { client } from 'lib/keystoneClient'
 import { withArticleLayout } from 'layout/DefaultLayout/ArticleLayout'
 import PageHeader from 'components/PageHeader/PageHeader'
-import EPubsCard from 'components/EPubsCard/EPubsCard'
+// import EPubsCard from 'components/EPubsCard/EPubsCard'
+import SearchFilter from 'components/SearchFilter/SearchFilter'
 import { SEARCH } from 'operations/cms/queries/search'
 import { SearchBanner } from 'components/SearchBanner/SearchBanner'
 import { SearchResultItem } from 'components/SearchResultItem/SearchResultItem'
@@ -66,7 +67,8 @@ const Search = ({
             <>
               <Grid row gap="md">
                 <Grid col="auto">
-                  <EPubsCard query={query} />
+                  {/* <EPubsCard query={query} /> */}
+                  <SearchFilter />
                 </Grid>
 
                 <Grid col="fill">
@@ -101,7 +103,8 @@ const Search = ({
           ) : (
             <Grid row gap="md">
               <Grid col="auto">
-                <EPubsCard query={query} />
+                {/* <EPubsCard query={query} /> */}
+                <SearchFilter />
               </Grid>
               <Grid col="fill">
                 <SearchBanner
