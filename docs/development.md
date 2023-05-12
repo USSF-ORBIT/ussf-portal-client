@@ -85,11 +85,11 @@ This application uses SAML for its authentication mechanism. SAML relies on the 
 
 **2. Production SSO IdP:** if you want to log in to the actual IdP we will use in all deployed environments (dev, test, and production) you can also do that. You will only be able to log in as your actual user with your CAC (so you won’t be able to test different user types this way). You will need to do some additional configuration:
 
-- Set the following environment variables locally (ask another team member for the values):
+- Set the following environment variables locally (check in Space Force OnePassword for `Secrets for Setting Up C1 SAML Locally`):
   - `SAML_IDP_METADATA_URL`
   - `SAML_ISSUER`
   - `SAML_SSO_CALLBACK_URL=http://localhost:3000/api/auth/login`
-- Ask another team member for the certificates required and save this file to `./certs/DoD_CAs.pem`
+- Copy the `DoD_Root_CA_3.crt` and save this file to `./certs/DoD_CAs.pem`
 - Set this local environment variable also:
   - `NODE_EXTRA_CA_CERTS='./certs/DoD_CAs.pem'`
 - Start other services (Redis & Mongo, etc.) in Docker:
