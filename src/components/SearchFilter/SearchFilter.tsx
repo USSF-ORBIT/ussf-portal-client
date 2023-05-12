@@ -1,19 +1,20 @@
 import React from 'react'
-import {
-  GridContainer,
-  Grid,
-  Checkbox,
-  Dropdown,
-  Textarea,
-} from '@trussworks/react-uswds'
+import { Grid, Checkbox, Dropdown, Textarea } from '@trussworks/react-uswds'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from './SearchFilter.module.scss'
 
 const SearchFilter = () => {
   return (
-    <GridContainer className={styles.searchFilter}>
-      <h2>Filter Search</h2>
+    <section className={styles.searchFilter}>
+      <div className={styles.headerContainer}>
+        <span aria-label="filter icon">
+          <FontAwesomeIcon icon="filter" />
+        </span>
+        <h3>Filter Search</h3>
+      </div>
+
       <Grid col="auto">
-        <h3>Categories:</h3>
+        <h5 className={styles.subHeader}>Categories:</h5>
         <Checkbox
           id="application-filter"
           name="application"
@@ -34,7 +35,7 @@ const SearchFilter = () => {
         />
       </Grid>
       <Grid col="auto">
-        <h3>Labels:</h3>
+        <h5 className={styles.subHeader}>Labels:</h5>
         <Dropdown id="label-dropdown" name="label-dropdown">
           <option>None applied</option>
           <option value="label-1">Label 1</option>
@@ -43,10 +44,10 @@ const SearchFilter = () => {
         </Dropdown>
       </Grid>
       <Grid col="auto">
-        <h3>Tags:</h3>
+        <h5 className={styles.subHeader}>Tags:</h5>
         <Textarea id="tag-input" name="tag-input" style={{ resize: 'none' }} />
       </Grid>
-    </GridContainer>
+    </section>
   )
 }
 
