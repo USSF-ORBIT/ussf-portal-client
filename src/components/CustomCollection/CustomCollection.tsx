@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   closestCorners,
   DndContext,
+  DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
@@ -322,7 +323,7 @@ const CustomCollection = ({
     setEditingTitle(false)
   }
 
-  const handleOnDragEnd = async (event) => {
+  const handleOnDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event
 
     // If a draggable item is active, and it is over a droppable area when dropped
