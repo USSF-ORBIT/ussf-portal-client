@@ -72,18 +72,22 @@ const CustomCollection = ({
   const linkInput = useRef<ComboBoxRef>(null)
 
   // Contains all of the collections visible bookmarks, and the information for each bookmark when it is displayed
-  const [visibleBookmarks, setVisibleBookmarks] = useState<MongoBookmark[]>(
-    bookmarks.filter((b) => !b.isRemoved)
-  )
-
   // <SortableContext> needs an array of unique identifiers to sort by
-  const [dragAndDropSortableItems, setDragAndDropSortableItems] = useState(
-    visibleBookmarks.map((bookmark) => bookmark._id.toString())
+  // Our bookmarks have ObjectId in `_id` which isn't a string so we make the equvalent here
+  const [visibleBookmarks, setVisibleBookmarks] = useState<
+    (MongoBookmark & { id: string })[]
+  >(
+    bookmarks
+      .filter((b) => !b.isRemoved)
+      .map((b) => {
+        return { id: b._id.toString(), ...b }
+      })
   )
 
-  const [removedBookmarks] = useState<MongoBookmark[]>(
+  const [removedBookmarks, setRemovedBookmarks] = useState<MongoBookmark[]>(
     bookmarks.filter((b) => b.isRemoved)
   )
+
   const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
   const [isEditingTitle, setEditingTitle] = useState(false)
   const { trackEvent } = useAnalytics()
@@ -111,6 +115,18 @@ const CustomCollection = ({
   )
 
   const [customLabel, setCustomLabel] = useState<string>('')
+
+  useEffect(() => {
+    // Reset the visibile and removed bookmarks based on changes to the prop
+    setVisibleBookmarks(
+      bookmarks
+        .filter((b) => !b.isRemoved)
+        .map((b) => {
+          return { id: b._id.toString(), ...b }
+        })
+    )
+    setRemovedBookmarks(bookmarks.filter((b) => b.isRemoved))
+  }, [])
 
   useEffect(() => {
     // Auto-focus on ComboBox when clicking Add Link
@@ -328,65 +344,31 @@ const CustomCollection = ({
 
     // If a draggable item is active, and it is over a droppable area when dropped
     if (over && active.id !== over.id) {
-      setDragAndDropSortableItems((items) => {
-        const oldIndex = items.indexOf(active.id)
-        const newIndex = items.indexOf(over.id)
+      const oldIndex = visibleBookmarks.findIndex((b) => b.id === active.id)
+      const newIndex = visibleBookmarks.findIndex((b) => b.id === over.id)
+      // dnd-kit sorts the items for us when we call arrayMove when an item is dropped
+      const sortedVisibleBookmarks = arrayMove(
+        visibleBookmarks,
+        oldIndex,
+        newIndex
+      )
+      setVisibleBookmarks(sortedVisibleBookmarks)
 
-        // dnd-kit sorts the items for us when we call arrayMove when an item is dropped
-        const sortedItems = arrayMove(items, oldIndex, newIndex)
+      // Before performing the mutation
+      // 1. we need to add back the removed bookmarks
+      // 2. Strip out anything the mutation doesn't need, like the id field we added for Sortable Context
+      const finalListOfBookmarks = [
+        ...sortedVisibleBookmarks,
+        ...removedBookmarks,
+      ].map(({ _id, url, label, cmsId, isRemoved }) => ({
+        _id,
+        url,
+        label,
+        cmsId,
+        isRemoved,
+      }))
 
-        // This is to update the visibleBookmarks array to match the order of the sortedItems array. We can then perform
-        // a mutation to update the order of the bookmarks in the database.
-        for (let i = 0; i < sortedItems.length; i++) {
-          // This is comparing the sortedItems array to the visibleBookmarks array. No user input.
-          // eslint-disable-next-line security/detect-object-injection
-          if (sortedItems[i] !== visibleBookmarks[i]._id.toString()) {
-            // No user input here, so we can disable the security rule
-            // eslint-disable-next-line security/detect-object-injection
-            const sortedId: string = sortedItems[i]
-
-            const sortedBookmark = visibleBookmarks.find(
-              (b) => b._id.toString() === sortedId
-            ) as MongoBookmark
-
-            const sortedBookmarkIndex = visibleBookmarks.findIndex(
-              (b) => b._id.toString() === sortedId
-            )
-
-            const sortedBookmarkCopy = { ...sortedBookmark }
-            const visibleBookmarksCopy = [...visibleBookmarks]
-
-            visibleBookmarksCopy.splice(sortedBookmarkIndex, 1)
-            visibleBookmarksCopy.splice(i, 0, sortedBookmarkCopy)
-            setVisibleBookmarks(visibleBookmarksCopy)
-          }
-        }
-        return sortedItems
-      })
-
-      // Before performing the mutation, we need to add back the removed bookmarks
-
-      // const finalListOfBookmarks = [
-      //   ...visibleBookmarks.map(({ _id, url, label, cmsId, isRemoved }) => ({
-      //     _id,
-      //     url,
-      //     label,
-      //     cmsId,
-      //     isRemoved,
-      //   })),
-      //   ...removedBookmarks.map(({ _id, url, label, cmsId, isRemoved }) => ({
-      //     _id,
-      //     url,
-      //     label,
-      //     cmsId,
-      //     isRemoved,
-      //   })),
-      // ]
-
-      // const finalListOfBookmarks = [...visibleBookmarks, ...removedBookmarks]
-
-      // console.log('finalListOfBookmarks', finalListOfBookmarks)
-      // handleEditCollection(title, finalListOfBookmarks)
+      handleEditCollection(title, finalListOfBookmarks)
     }
   }
 
@@ -446,24 +428,18 @@ const CustomCollection = ({
       onDragEnd={handleOnDragEnd}>
       <Droppable dropId={_id.toString()}>
         <SortableContext
-          items={dragAndDropSortableItems}
+          items={visibleBookmarks}
           strategy={verticalListSortingStrategy}>
           <Collection
             header={customCollectionHeader}
             footer={!isEditingTitle ? addLinkForm : null}>
-            {dragAndDropSortableItems.map((bookmarkId) => {
-              const mongoBookmark = visibleBookmarks.find(
-                (b) => b._id.toString() === bookmarkId
-              ) as MongoBookmark
-
-              const foundBookmark = findBookmark(mongoBookmark)
+            {visibleBookmarks.map((bookmark) => {
+              const foundBookmark = findBookmark(bookmark)
 
               return foundBookmark ? (
-                <DraggableBookmark
-                  key={bookmarkId.toString()}
-                  id={bookmarkId.toString()}>
+                <DraggableBookmark key={bookmark.id} id={bookmark.id}>
                   <RemovableBookmark
-                    key={`bookmark_${bookmarkId}`}
+                    key={`bookmark_${bookmark.id}`}
                     bookmark={foundBookmark}
                     handleRemove={() => {
                       trackEvent(
@@ -472,19 +448,17 @@ const CustomCollection = ({
                         `${title} / ${foundBookmark.label || foundBookmark.url}`
                       )
                       handleRemoveBookmark(
-                        new ObjectId(bookmarkId),
+                        new ObjectId(bookmark.id),
                         foundBookmark.id
                       )
                     }}
                   />
                 </DraggableBookmark>
               ) : (
-                <DraggableBookmark
-                  key={bookmarkId.toString()}
-                  id={bookmarkId.toString()}>
+                <DraggableBookmark key={bookmark.id} id={bookmark.id}>
                   <CustomBookmark
-                    key={`bookmark_${bookmarkId}`}
-                    bookmark={mongoBookmark}
+                    key={`bookmark_${bookmark.id}`}
+                    bookmark={bookmark}
                     widgetId={_id}
                     collectionTitle={title}
                   />
