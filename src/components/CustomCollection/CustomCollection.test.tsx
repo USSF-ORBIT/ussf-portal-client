@@ -246,9 +246,8 @@ describe('CustomCollection component', () => {
       })
     ).toHaveTextContent(exampleCollection.title)
 
-    // Drag and drop library adds a blank <li />, so updated line below to look for length + 1
     expect(screen.getAllByRole('listitem')).toHaveLength(
-      exampleCollection.bookmarks.length + 1
+      exampleCollection.bookmarks.length
     )
     expect(screen.getAllByRole('link')).toHaveLength(
       exampleCollection.bookmarks.length
