@@ -71,7 +71,6 @@ WORKDIR /app
 
 COPY --from=builder /app/scripts/add-rds-cas.sh .
 COPY --from=builder /app/scripts/add-dod-cas.sh .
-COPY --from=builder /app/scripts/create-gcds-chain.sh .
 COPY --from=builder /app/scripts/dod_ca_cert_bundle.sha256 ./scripts/dod_ca_cert_bundle.sha256
 
 RUN apt-get update \
