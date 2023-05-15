@@ -47,7 +47,7 @@ const Search = ({
                 current: true,
               },
               {
-                path: '/search',
+                path: `/search?q=${query}`,
                 label: <span>{query}</span>,
                 current: true,
               },
