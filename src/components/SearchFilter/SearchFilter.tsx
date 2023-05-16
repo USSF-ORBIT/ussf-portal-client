@@ -73,8 +73,11 @@ const SearchFilter = () => {
           <Dropdown
             id="label-dropdown"
             name="label-dropdown"
+            defaultValue={'default'}
             onChange={(e) => updateQuery(`label:${e.target.value}`)}>
-            <option>None applied</option>
+            <option value="default" disabled>
+              None applied
+            </option>
             <option value="label-1">Label 1</option>
             <option value="label-2">Label 2</option>
             <option value="label-3">Label 3</option>
