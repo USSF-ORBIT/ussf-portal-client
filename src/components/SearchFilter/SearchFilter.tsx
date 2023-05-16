@@ -10,10 +10,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from './SearchFilter.module.scss'
 
 type PropTypes = {
-  labels: { __typename: 'Label'; name: string }[]
+  labels: { name: string }[]
+  tags: { name: string }[]
 }
 
-const SearchFilter = ({ labels }: PropTypes) => {
+const SearchFilter = ({ labels, tags }: PropTypes) => {
   // QUERY BUILDING:
   // category: application, news, documentation
   // label: label-1, label-2, label-3

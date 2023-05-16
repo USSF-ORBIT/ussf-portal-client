@@ -8,6 +8,7 @@ import PageHeader from 'components/PageHeader/PageHeader'
 import SearchFilter from 'components/SearchFilter/SearchFilter'
 import { SEARCH } from 'operations/cms/queries/search'
 import { GET_LABELS } from 'operations/cms/queries/getLabels'
+import { GET_TAGS } from 'operations/cms/queries/getTags'
 import { SearchBanner } from 'components/SearchBanner/SearchBanner'
 import { SearchResultItem } from 'components/SearchResultItem/SearchResultItem'
 import { SearchResultRecord } from 'types/index'
@@ -23,6 +24,7 @@ const Search = ({
   query,
   results = [],
   labels = [],
+  tags = [],
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
   const resultString =
@@ -70,7 +72,7 @@ const Search = ({
               <Grid row gap="md">
                 <Grid col="auto">
                   {/* <EPubsCard query={query} /> */}
-                  <SearchFilter labels={labels} />
+                  <SearchFilter labels={labels} tags={tags} />
                 </Grid>
 
                 <Grid col="fill">
@@ -106,7 +108,7 @@ const Search = ({
             <Grid row gap="md">
               <Grid col="auto">
                 {/* <EPubsCard query={query} /> */}
-                <SearchFilter labels={labels} />
+                <SearchFilter labels={labels} tags={tags} />
               </Grid>
               <Grid col="fill">
                 <SearchBanner
@@ -151,25 +153,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   } = (await client.query({
     query: GET_LABELS,
   })) as unknown as {
-    data: { labels: { __typename: 'Label'; name: string }[] }
+    data: { labels: { name: string }[] }
   }
 
-  if (!q && labels) {
+  // Get tags
+  const {
+    data: { tags },
+  } = (await client.query({
+    query: GET_TAGS,
+  })) as unknown as {
+    data: { tags: { name: string }[] }
+  }
+
+  if (!q) {
     return {
       props: {
         query: null,
         results: [],
         labels,
-      },
-    }
-  }
-
-  if (!q && !labels) {
-    return {
-      props: {
-        query: null,
-        results: [],
-        labels: [],
+        tags,
       },
     }
   }
@@ -198,6 +200,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       query: q,
       results,
       labels,
+      tags,
     },
   }
 }
