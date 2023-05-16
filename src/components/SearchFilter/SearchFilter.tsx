@@ -11,10 +11,9 @@ import styles from './SearchFilter.module.scss'
 
 type PropTypes = {
   labels: { name: string }[]
-  tags: { name: string }[]
 }
 
-const SearchFilter = ({ labels, tags }: PropTypes) => {
+const SearchFilter = ({ labels }: PropTypes) => {
   // QUERY BUILDING:
   // category: application, news, documentation
   // label: label-1, label-2, label-3
@@ -45,7 +44,7 @@ const SearchFilter = ({ labels, tags }: PropTypes) => {
         <h3>Filter Search</h3>
       </div>
 
-      <form role="search" method="get" action="/search">
+      <div>
         <Grid col="auto">
           <h5 className={styles.subHeader}>Categories:</h5>
           <Checkbox
@@ -103,11 +102,7 @@ const SearchFilter = ({ labels, tags }: PropTypes) => {
         </Grid>
         <Grid col="auto">
           <h5 className={styles.subHeader}>Tags:</h5>
-          <Textarea
-            id="tag-input"
-            name="tag-input"
-            style={{ resize: 'none' }}
-          />
+          <Textarea id="tag-input" name="tags" style={{ resize: 'none' }} />
         </Grid>
 
         <Grid row className={styles.buttonContainer}>
@@ -118,7 +113,7 @@ const SearchFilter = ({ labels, tags }: PropTypes) => {
             <span className="usa-search__submit-text">Reset</span>
           </Button>
         </Grid>
-      </form>
+      </div>
     </section>
   )
 }

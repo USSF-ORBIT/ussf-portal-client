@@ -8,7 +8,6 @@ import PageHeader from 'components/PageHeader/PageHeader'
 import SearchFilter from 'components/SearchFilter/SearchFilter'
 import { SEARCH } from 'operations/cms/queries/search'
 import { GET_LABELS } from 'operations/cms/queries/getLabels'
-import { GET_TAGS } from 'operations/cms/queries/getTags'
 import { SearchBanner } from 'components/SearchBanner/SearchBanner'
 import { SearchResultItem } from 'components/SearchResultItem/SearchResultItem'
 import { SearchResultRecord } from 'types/index'
@@ -24,7 +23,6 @@ const Search = ({
   query,
   results = [],
   labels = [],
-  tags = [],
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
   const resultString =
@@ -72,7 +70,7 @@ const Search = ({
               <Grid row gap="md">
                 <Grid col="auto">
                   {/* <EPubsCard query={query} /> */}
-                  <SearchFilter labels={labels} tags={tags} />
+                  <SearchFilter labels={labels} />
                 </Grid>
 
                 <Grid col="fill">
@@ -108,7 +106,7 @@ const Search = ({
             <Grid row gap="md">
               <Grid col="auto">
                 {/* <EPubsCard query={query} /> */}
-                <SearchFilter labels={labels} tags={tags} />
+                <SearchFilter labels={labels} />
               </Grid>
               <Grid col="fill">
                 <SearchBanner
@@ -156,22 +154,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     data: { labels: { name: string }[] }
   }
 
-  // Get tags
-  const {
-    data: { tags },
-  } = (await client.query({
-    query: GET_TAGS,
-  })) as unknown as {
-    data: { tags: { name: string }[] }
-  }
-
   if (!q) {
     return {
       props: {
         query: null,
         results: [],
         labels,
-        tags,
       },
     }
   }
@@ -200,7 +188,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       query: q,
       results,
       labels,
-      tags,
     },
   }
 }
