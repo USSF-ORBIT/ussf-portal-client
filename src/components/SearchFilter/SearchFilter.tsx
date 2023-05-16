@@ -9,7 +9,11 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from './SearchFilter.module.scss'
 
-const SearchFilter = () => {
+type PropTypes = {
+  labels: { __typename: 'Label'; name: string }[]
+}
+
+const SearchFilter = ({ labels }: PropTypes) => {
   // QUERY BUILDING:
   // category: application, news, documentation
   // label: label-1, label-2, label-3
@@ -20,7 +24,7 @@ const SearchFilter = () => {
   // are changed. It looks at the current query and splits it into an array. It checks if the value
   // is already in the array. If it is, it removes it. If it isn't, it
   // adds it. Then it sets the query to the new array joined by spaces.
-  const updateQuery = (queryValue: string) => {
+  const updateCheckedItems = (queryValue: string) => {
     const queryArray = query.split(' ')
     if (queryArray.includes(queryValue)) {
       const index = queryArray.indexOf(queryValue)
@@ -49,7 +53,7 @@ const SearchFilter = () => {
             label="Application"
             value="application"
             className={styles.checkbox}
-            onChange={(e) => updateQuery(`category:${e.target.value}`)}
+            onChange={(e) => updateCheckedItems(`category:${e.target.value}`)}
           />
           <Checkbox
             id="news-filter"
@@ -57,7 +61,7 @@ const SearchFilter = () => {
             label="News"
             value="news"
             className={styles.checkbox}
-            onChange={(e) => updateQuery(`category:${e.target.value}`)}
+            onChange={(e) => updateCheckedItems(`category:${e.target.value}`)}
           />
           <Checkbox
             id="documentation-filter"
@@ -65,7 +69,7 @@ const SearchFilter = () => {
             label="Documentation"
             value="documentation"
             className={styles.checkbox}
-            onChange={(e) => updateQuery(`category:${e.target.value}`)}
+            onChange={(e) => updateCheckedItems(`category:${e.target.value}`)}
           />
         </Grid>
         <Grid col="auto">
@@ -74,13 +78,26 @@ const SearchFilter = () => {
             id="label-dropdown"
             name="label-dropdown"
             defaultValue={'default'}
-            onChange={(e) => updateQuery(`label:${e.target.value}`)}>
+            onChange={(e) => {
+              // Need to remove any previous label and add the newly selected one
+              const labelToAdd = e.target.value
+              const queryArray = query.split(' ')
+
+              // Filter out any previous label from the query
+              const filteredArray = queryArray.filter(
+                (label) => !label.includes('label:')
+              )
+
+              setQuery(filteredArray.join(' ') + ` label:${labelToAdd}`)
+            }}>
             <option value="default" disabled>
               None applied
             </option>
-            <option value="label-1">Label 1</option>
-            <option value="label-2">Label 2</option>
-            <option value="label-3">Label 3</option>
+            {labels.map((label) => (
+              <option key={label.name} value={label.name}>
+                {label.name}
+              </option>
+            ))}
           </Dropdown>
         </Grid>
         <Grid col="auto">
