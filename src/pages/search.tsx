@@ -1,11 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import {
   GridContainer,
   Grid,
   Checkbox,
   Dropdown,
-  Textarea,
   Button,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -37,33 +36,27 @@ const Search = ({
       ? `There is 1 result`
       : `There are ${results.length} results`
 
-  const [filteredQuery, setFilteredQuery] = useState<string>('')
+  // An array of strings that will be used to filter the search results
+  const [filteredQuery, setFilteredQuery] = useState<string[]>([])
 
-  // We are building a query to filter search on. This function runs each time any of the inputs
-  // are changed. It looks at the current query and splits it into an array. It checks if the value
-  // is already in the array. If it is, it removes it. If it isn't, it
-  // adds it. Then it sets the query to the new array joined by spaces.
   const updateCheckedItems = (queryValue: string) => {
-    const queryArray = filteredQuery.split(' ')
-    if (queryArray.includes(queryValue)) {
-      const index = queryArray.indexOf(queryValue)
+    if (filteredQuery.includes(queryValue)) {
+      const index = filteredQuery.indexOf(queryValue)
+      const queryArray = [...filteredQuery]
       queryArray.splice(index, 1)
-      setFilteredQuery(queryArray.join(' '))
+      setFilteredQuery(queryArray)
     } else {
-      setFilteredQuery(filteredQuery + ' ' + queryValue)
+      setFilteredQuery([...filteredQuery, queryValue])
     }
   }
 
-  const applyFilters = () => {
-    console.log('apply filters')
-  }
+  console.log('filteredQuery', filteredQuery)
 
   return !user ? (
     <Loader />
   ) : (
     <>
-      <PageHeader
-        searchQuery={filteredQuery ? `${filteredQuery} ${query}` : query}>
+      <PageHeader searchQuery={query}>
         <div>
           <h1>Search</h1>
           <BreadcrumbNav
@@ -147,16 +140,15 @@ const Search = ({
                     onChange={(e) => {
                       // Need to remove any previous label and add the newly selected one
                       const labelToAdd = e.target.value
-                      const queryArray = filteredQuery.split(' ')
 
                       // Filter out any previous label from the query
-                      const filteredArray = queryArray.filter(
+                      const filteredArray = filteredQuery.filter(
                         (label) => !label.includes('label:')
                       )
 
-                      setFilteredQuery(
-                        filteredArray.join(' ') + ` label:${labelToAdd}`
-                      )
+                      // Add the new label to the array
+                      filteredArray.push(`label:${labelToAdd}`)
+                      setFilteredQuery(filteredArray)
                     }}>
                     <option value="default" disabled>
                       None applied
@@ -168,23 +160,27 @@ const Search = ({
                     ))}
                   </Dropdown>
                 </Grid>
-                <Grid col="auto">
-                  <h5 className={styles.subHeader}>Tags:</h5>
-                  <Textarea
-                    id="tag-input"
-                    name="tags"
-                    style={{ resize: 'none' }}
-                  />
-                </Grid>
 
-                <Grid row className={styles.buttonContainer}>
-                  <Button type="submit" disabled={false} onClick={applyFilters}>
-                    <span className="usa-search__submit-text">Filter</span>
-                  </Button>
-                  <Button type="submit" outline disabled={false}>
-                    <span className="usa-search__submit-text">Reset</span>
-                  </Button>
-                </Grid>
+                <form role="search" method="get" action="/search">
+                  <input
+                    id="q"
+                    type="search"
+                    name="q"
+                    style={{ display: 'none' }}
+                    // disabled={disabled}
+                    defaultValue={filteredQuery.join(' ')}
+                  />
+                  <Grid row className={styles.buttonContainer}>
+                    <Button
+                      type="submit"
+                      disabled={filteredQuery ? false : true}>
+                      <span className="usa-search__submit-text">Filter</span>
+                    </Button>
+                    <Button type="submit" outline disabled={false}>
+                      <span className="usa-search__submit-text">Reset</span>
+                    </Button>
+                  </Grid>
+                </form>
               </div>
             </Grid>
 
