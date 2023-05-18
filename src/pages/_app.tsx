@@ -47,9 +47,11 @@ const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
     <ApolloProvider client={client}>
       <AnalyticsProvider>
         <AuthProvider>
-          <LaunchDarkly>
-            <ThemeProvider enableSystem={false} attribute={'data-color-theme'}>
-              <SearchProvider>
+          <SearchProvider>
+            <LaunchDarkly>
+              <ThemeProvider
+                enableSystem={false}
+                attribute={'data-color-theme'}>
                 <ModalProvider>
                   <Head>
                     <meta charSet="utf-8" key="charset" />
@@ -170,9 +172,9 @@ const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
                   </Head>
                   {getLayout(<Component {...pageProps} />)}
                 </ModalProvider>
-              </SearchProvider>
-            </ThemeProvider>
-          </LaunchDarkly>
+              </ThemeProvider>
+            </LaunchDarkly>
+          </SearchProvider>
         </AuthProvider>
       </AnalyticsProvider>
     </ApolloProvider>

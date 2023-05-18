@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Grid, Checkbox, Dropdown, Button } from '@trussworks/react-uswds'
 import styles from './SearchFilter.module.scss'
+import { useSearchContext } from 'stores/searchContext'
 
 type PropTypes = {
   labels: {
@@ -10,17 +11,16 @@ type PropTypes = {
 }
 
 const SearchFilter = ({ labels }: PropTypes) => {
-  // An array of strings that will be used to filter the search results
-  const [filteredQuery, setFilteredQuery] = useState<string[]>([])
+  const { searchPageFilters, setSearchPageFilters } = useSearchContext()
 
   const updateCheckedItems = (queryValue: string) => {
-    if (filteredQuery.includes(queryValue)) {
-      const index = filteredQuery.indexOf(queryValue)
-      const queryArray = [...filteredQuery]
+    if (searchPageFilters.includes(queryValue)) {
+      const index = searchPageFilters.indexOf(queryValue)
+      const queryArray = [...searchPageFilters]
       queryArray.splice(index, 1)
-      setFilteredQuery(queryArray)
+      setSearchPageFilters(queryArray)
     } else {
-      setFilteredQuery([...filteredQuery, queryValue])
+      setSearchPageFilters([...searchPageFilters, queryValue])
     }
   }
   return (
@@ -70,13 +70,13 @@ const SearchFilter = ({ labels }: PropTypes) => {
             const labelToAdd = e.target.value
 
             // Filter out any previous label from the query
-            const filteredArray = filteredQuery.filter(
+            const filteredArray = searchPageFilters.filter(
               (label) => !label.includes('label:')
             )
 
             // Add the new label to the array
             filteredArray.push(`label:${labelToAdd}`)
-            setFilteredQuery(filteredArray)
+            setSearchPageFilters(filteredArray)
           }}>
           <option value="default" disabled>
             None applied
@@ -96,10 +96,12 @@ const SearchFilter = ({ labels }: PropTypes) => {
           name="q"
           style={{ display: 'none' }}
           // disabled={disabled}
-          defaultValue={filteredQuery.join(' ')}
+          defaultValue={searchPageFilters.join(' ')}
         />
         <Grid row className={styles.buttonContainer}>
-          <Button type="submit" disabled={filteredQuery ? false : true}>
+          <Button
+            type="submit"
+            disabled={searchPageFilters.length > 0 ? false : true}>
             <span className="usa-search__submit-text">Filter</span>
           </Button>
           <Button type="submit" outline disabled={false}>

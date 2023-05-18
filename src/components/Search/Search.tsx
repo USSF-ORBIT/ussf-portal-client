@@ -1,6 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import styles from './Search.module.scss'
+import { useSearchContext } from 'stores/searchContext'
 // import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const Search = ({
@@ -10,6 +11,8 @@ const Search = ({
   disabled?: boolean
   query?: string
 }) => {
+  const { searchQuery, setSearchQuery } = useSearchContext()
+
   const disableClass = classnames({
     [styles.disabled]: disabled,
   })
@@ -55,7 +58,8 @@ const Search = ({
             name="q"
             placeholder="What are you looking for today?"
             disabled={disabled}
-            defaultValue={query}
+            defaultValue={searchQuery ? searchQuery : query}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
 
           <button className="usa-button" type="submit" disabled={disabled}>
