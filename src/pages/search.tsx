@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import {
   GridContainer,
@@ -49,8 +49,6 @@ const Search = ({
       setFilteredQuery([...filteredQuery, queryValue])
     }
   }
-
-  console.log('filteredQuery', filteredQuery)
 
   return !user ? (
     <Loader />
