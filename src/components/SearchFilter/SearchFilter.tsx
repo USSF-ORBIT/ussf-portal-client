@@ -11,7 +11,8 @@ type PropTypes = {
 }
 
 const SearchFilter = ({ labels }: PropTypes) => {
-  const { searchPageFilters, setSearchPageFilters } = useSearchContext()
+  const { searchQuery, searchPageFilters, setSearchPageFilters } =
+    useSearchContext()
 
   const updateCheckedItems = (queryValue: string) => {
     if (searchPageFilters.includes(queryValue)) {
@@ -89,7 +90,19 @@ const SearchFilter = ({ labels }: PropTypes) => {
         </Dropdown>
       </Grid>
 
-      <form role="search" method="get" action="/search">
+      <form
+        role="search"
+        method="get"
+        action="/search"
+        onSubmit={(e) => {
+          // Before submitting the form, we need to add the current value of searchQuery to the
+          // end of the searchPageFilters array
+          setSearchPageFilters([...searchPageFilters, searchQuery])
+
+          // Submit the form
+          const form = e.target as HTMLFormElement
+          form.submit()
+        }}>
         <input
           id="q"
           type="search"
