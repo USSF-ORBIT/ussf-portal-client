@@ -11,8 +11,9 @@ type PropTypes = {
 }
 
 const SearchFilter = ({ labels }: PropTypes) => {
-  const { searchQuery, searchPageFilters, setSearchPageFilters } =
-    useSearchContext()
+  const { searchQuery } = useSearchContext()
+
+  const [searchPageFilters, setSearchPageFilters] = useState<string[]>([])
 
   // Manages the state of the checkboxes and dropdown in the filter
   const [filterItems, setFilterItems] = useState({
@@ -32,7 +33,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
       setSearchPageFilters([...searchPageFilters, queryValue])
     }
   }
-
+  console.log('searchPageFilters', searchPageFilters)
   return (
     <div className={styles.searchFilter}>
       <div className={styles.headerContainer}>

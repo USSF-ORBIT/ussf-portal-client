@@ -2,31 +2,22 @@ import React, { createContext, useContext, useState } from 'react'
 
 export type SearchContextType = {
   searchQuery: string
-  searchPageFilters: string[]
   setSearchQuery: (searchQuery: string) => void
-  setSearchPageFilters: (searchPageFilters: string[]) => void
 }
 
 export const SearchContext = createContext<SearchContextType>({
   searchQuery: '',
-  searchPageFilters: [],
   setSearchQuery: () => {
-    return
-  },
-  setSearchPageFilters: () => {
     return
   },
 })
 
 export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
   const [searchQuery, setSearchQuery] = useState('')
-  const [searchPageFilters, setSearchPageFilters] = useState<string[]>([])
 
   const context = {
     searchQuery,
-    searchPageFilters,
     setSearchQuery,
-    setSearchPageFilters,
   }
 
   return (
