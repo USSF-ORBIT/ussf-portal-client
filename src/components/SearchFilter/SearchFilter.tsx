@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Grid, Checkbox, Dropdown, Button } from '@trussworks/react-uswds'
 import styles from './SearchFilter.module.scss'
@@ -16,13 +16,38 @@ const SearchFilter = ({ labels }: PropTypes) => {
   const [searchPageFilters, setSearchPageFilters] = useState<string[]>([])
 
   // Manages the state of the checkboxes and dropdown in the filter
-  const [filterItems, setFilterItems] = useState({
-    application: false,
-    news: false,
-    documentation: false,
-    dropdown: '',
-  })
+  const [filterItems, setFilterItems] = useState(
+    localStorage.getItem('filterItems')
+      ? JSON.parse(localStorage.getItem('filterItems') as string)
+      : {
+          application: false,
+          news: false,
+          documentation: false,
+          dropdown: '',
+        }
+  )
 
+  // When the filterItems state changes, update local storage
+  useEffect(() => {
+    localStorage.setItem('filterItems', JSON.stringify(filterItems))
+  }, [filterItems])
+
+  // Load the filterItems state from local storage
+  useEffect(() => {
+    const savedFilterItems = localStorage.getItem('filterItems')
+    if (savedFilterItems) {
+      setFilterItems(JSON.parse(savedFilterItems))
+
+      // If there is a true value in the filterItems state, add it to the searchPageFilters array with a category: prefix
+      const filterItemsArray = Object.entries(JSON.parse(savedFilterItems))
+      const filterItemsToSearch = filterItemsArray
+        .filter((item) => item[1] === true)
+        .map((item) => `category:${item[0]}`)
+      setSearchPageFilters(filterItemsToSearch)
+    }
+  }, [])
+
+  // This function updates the searchPageFilters array based on the checkboxes
   const updateCheckedItems = (queryValue: string) => {
     if (searchPageFilters.includes(queryValue)) {
       const index = searchPageFilters.indexOf(queryValue)
@@ -33,7 +58,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
       setSearchPageFilters([...searchPageFilters, queryValue])
     }
   }
-  console.log('searchPageFilters', searchPageFilters)
+
   return (
     <div className={styles.searchFilter}>
       <div className={styles.headerContainer}>
@@ -136,6 +161,9 @@ const SearchFilter = ({ labels }: PropTypes) => {
           // end of the searchPageFilters array
           setSearchPageFilters([...searchPageFilters, searchQuery])
 
+          // Save the filterItems state to local storage
+          localStorage.setItem('filterItems', JSON.stringify(filterItems))
+
           // Submit the form
           const form = e.target as HTMLFormElement
           form.submit()
@@ -160,13 +188,28 @@ const SearchFilter = ({ labels }: PropTypes) => {
             disabled={false}
             onClick={(e) => {
               e.preventDefault()
+
+              // Reset the searchPageFilters array
               setSearchPageFilters([])
+
+              // Reset the filterItems state
               setFilterItems({
                 application: false,
                 news: false,
                 documentation: false,
                 dropdown: '',
               })
+
+              // Save the filterItems state to local storage
+              localStorage.setItem(
+                'filterItems',
+                JSON.stringify({
+                  application: false,
+                  news: false,
+                  documentation: false,
+                  dropdown: '',
+                })
+              )
             }}>
             <span className="usa-search__submit-text">Reset</span>
           </Button>
