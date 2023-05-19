@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Grid, Checkbox, Dropdown, Button } from '@trussworks/react-uswds'
 import styles from './SearchFilter.module.scss'
@@ -14,6 +14,14 @@ const SearchFilter = ({ labels }: PropTypes) => {
   const { searchQuery, searchPageFilters, setSearchPageFilters } =
     useSearchContext()
 
+  // Manages the state of the checkboxes and dropdown in the filter
+  const [filterItems, setFilterItems] = useState({
+    application: false,
+    news: false,
+    documentation: false,
+    dropdown: '',
+  })
+
   const updateCheckedItems = (queryValue: string) => {
     if (searchPageFilters.includes(queryValue)) {
       const index = searchPageFilters.indexOf(queryValue)
@@ -24,6 +32,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
       setSearchPageFilters([...searchPageFilters, queryValue])
     }
   }
+
   return (
     <div className={styles.searchFilter}>
       <div className={styles.headerContainer}>
@@ -41,7 +50,14 @@ const SearchFilter = ({ labels }: PropTypes) => {
           label="Application"
           value="application"
           className={styles.checkbox}
-          onChange={(e) => updateCheckedItems(`category:${e.target.value}`)}
+          checked={filterItems.application}
+          onChange={(e) => {
+            setFilterItems({
+              ...filterItems,
+              application: !filterItems.application,
+            })
+            updateCheckedItems(`category:${e.target.value}`)
+          }}
         />
         <Checkbox
           id="news-filter"
@@ -49,7 +65,14 @@ const SearchFilter = ({ labels }: PropTypes) => {
           label="News"
           value="news"
           className={styles.checkbox}
-          onChange={(e) => updateCheckedItems(`category:${e.target.value}`)}
+          checked={filterItems.news}
+          onChange={(e) => {
+            setFilterItems({
+              ...filterItems,
+              news: !filterItems.news,
+            })
+            updateCheckedItems(`category:${e.target.value}`)
+          }}
         />
         <Checkbox
           id="documentation-filter"
@@ -57,7 +80,14 @@ const SearchFilter = ({ labels }: PropTypes) => {
           label="Documentation"
           value="documentation"
           className={styles.checkbox}
-          onChange={(e) => updateCheckedItems(`category:${e.target.value}`)}
+          checked={filterItems.documentation}
+          onChange={(e) => {
+            setFilterItems({
+              ...filterItems,
+              documentation: !filterItems.documentation,
+            })
+            updateCheckedItems(`category:${e.target.value}`)
+          }}
         />
       </Grid>
       <Grid col="auto">
@@ -65,7 +95,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
         <Dropdown
           id="label-dropdown"
           name="label-dropdown"
-          defaultValue={'default'}
+          value={filterItems.dropdown ? filterItems.dropdown : 'default'}
           onChange={(e) => {
             // Need to remove any previous label and add the newly selected one
             const labelToAdd = e.target.value
@@ -78,6 +108,12 @@ const SearchFilter = ({ labels }: PropTypes) => {
             // Add the new label to the array
             filteredArray.push(`label:${labelToAdd}`)
             setSearchPageFilters(filteredArray)
+
+            // Update the state of the dropdown
+            setFilterItems({
+              ...filterItems,
+              dropdown: labelToAdd,
+            })
           }}>
           <option value="default" disabled>
             None applied
@@ -117,7 +153,20 @@ const SearchFilter = ({ labels }: PropTypes) => {
             disabled={searchPageFilters.length > 0 ? false : true}>
             <span className="usa-search__submit-text">Filter</span>
           </Button>
-          <Button type="submit" outline disabled={false}>
+          <Button
+            type="submit"
+            outline
+            disabled={false}
+            onClick={(e) => {
+              e.preventDefault()
+              setSearchPageFilters([])
+              setFilterItems({
+                application: false,
+                news: false,
+                documentation: false,
+                dropdown: '',
+              })
+            }}>
             <span className="usa-search__submit-text">Reset</span>
           </Button>
         </Grid>
