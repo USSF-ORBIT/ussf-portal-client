@@ -108,7 +108,14 @@ describe('Search page', () => {
 
   describe('when logged in', () => {
     it('renders an empty state if there is no query', async () => {
-      renderWithAuth(<SearchPage />)
+      renderWithAuth(
+        <SearchPage
+          query={''}
+          results={[]}
+          labels={[{ name: 'label1' }, { name: 'label2' }, { name: 'label3' }]}
+        />
+      )
+
       expect(
         await screen.findByRole('heading', { level: 2 })
       ).toHaveTextContent('There are 0 results for ‘’')
@@ -119,7 +126,12 @@ describe('Search page', () => {
     })
 
     it('renders no results if there were no matches for the query', async () => {
-      renderWithAuth(<SearchPage query="nomatches" />)
+      renderWithAuth(
+        <SearchPage
+          query="nomatches"
+          labels={[{ name: 'label1' }, { name: 'label2' }, { name: 'label3' }]}
+        />
+      )
       expect(
         await screen.findByRole('heading', { level: 2 })
       ).toHaveTextContent('There are 0 results for ‘nomatches’')
@@ -137,7 +149,13 @@ describe('Search page', () => {
             ? `http://localhost/articles/${r.permalink}`
             : r.permalink,
       }))
-      renderWithAuth(<SearchPage query="fitness" results={mockResults} />)
+      renderWithAuth(
+        <SearchPage
+          query="fitness"
+          results={mockResults}
+          labels={[{ name: 'label1' }, { name: 'label2' }, { name: 'label3' }]}
+        />
+      )
       expect(
         await screen.findByRole('heading', { level: 2 })
       ).toHaveTextContent('There are 3 results for ‘fitness’')
@@ -157,7 +175,13 @@ describe('Search page', () => {
             : r.permalink,
       }))
 
-      renderWithAuth(<SearchPage query="fitness" results={mockResults} />)
+      renderWithAuth(
+        <SearchPage
+          query="fitness"
+          results={mockResults}
+          labels={[{ name: 'label1' }, { name: 'label2' }, { name: 'label3' }]}
+        />
+      )
       expect(
         await screen.findByRole('heading', { level: 2 })
       ).toHaveTextContent('There is 1 result for ‘fitness’')

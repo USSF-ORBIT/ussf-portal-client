@@ -57,20 +57,20 @@ const Search = ({
         </div>
       </PageHeader>
       <GridContainer>
-        <>
-          <div className={styles.pageTitle}>
-            <h2>
-              {resultString} for ‘{query}’
-            </h2>
-          </div>
+        <div className={styles.pageTitle}>
+          <h2>
+            {resultString} for ‘{query}’
+          </h2>
+        </div>
 
-          <Grid row gap="md">
-            <Grid col="auto">
-              {/* <EPubsCard query={query} /> */}
-              <SearchFilter labels={labels} />
-            </Grid>
+        <Grid row gap="lg">
+          <Grid col="auto">
+            {/* <EPubsCard query={query} /> */}
+            <SearchFilter labels={labels} />
+          </Grid>
 
-            {results.length > 0 ? (
+          {results.length > 0 ? (
+            <>
               <Grid col="fill">
                 <ol className={styles.searchResults}>
                   {results.map((i: SearchResultRecord) => {
@@ -81,28 +81,44 @@ const Search = ({
                     )
                   })}
                 </ol>
-              </Grid>
-            ) : (
-              <Grid col="fill">
+
                 <SearchBanner
                   icon={
                     <img
-                      src="/assets/images/moon-flag.svg"
-                      alt="Icon of the US flag on the moon"
+                      src="/assets/images/satellite.svg"
+                      alt="Icon of a satellite"
                     />
                   }>
                   <div>
-                    <h3>There are no results that match that query.</h3>
+                    <h3>You’ve reached the end of your search results.</h3>
                     <p>
-                      It seems you didn’t find what you were looking for. Please
-                      search again with different keywords.
+                      If you didn’t find what you’re looking for, search again
+                      using different keywords.
                     </p>
                   </div>
                 </SearchBanner>
               </Grid>
-            )}
-          </Grid>
-        </>
+            </>
+          ) : (
+            <Grid col="fill">
+              <SearchBanner
+                icon={
+                  <img
+                    src="/assets/images/moon-flag.svg"
+                    alt="Icon of the US flag on the moon"
+                  />
+                }>
+                <div>
+                  <h3>There are no results that match that query.</h3>
+                  <p>
+                    It seems you didn’t find what you were looking for. Please
+                    search again with different keywords.
+                  </p>
+                </div>
+              </SearchBanner>
+            </Grid>
+          )}
+        </Grid>
       </GridContainer>
     </>
   )
