@@ -1,11 +1,19 @@
 import { useState, useEffect } from 'react'
+import { useFlags } from 'launchdarkly-react-client-sdk'
 import { InferGetServerSidePropsType } from 'next'
-import { Button, Grid, Alert, Icon } from '@trussworks/react-uswds'
+import {
+  Button,
+  Grid,
+  Alert,
+  Icon,
+  NavDropDownButton,
+  Label,
+  Menu,
+} from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
 import type { ObjectId } from 'bson'
-
 import { client } from '../lib/keystoneClient'
 
 import type {
@@ -87,13 +95,6 @@ const SitesAndApplications = ({
     MAXIMUM_COLLECTIONS - (collectionsLength + selectedCollections.length)
 
   const canAddCollections = collectionsLength < MAXIMUM_COLLECTIONS
-
-  const handleSortClick = (sortType: SortBy) => {
-    const sortTypeAction =
-      sortType === 'SORT_TYPE' ? 'Sort by type' : 'Sort alphabetically'
-    trackEvent('S&A sort', sortTypeAction)
-    setSort(sortType)
-  }
 
   const handleToggleSelectMode = () => {
     setSelectMode((currentMode) => !currentMode)
@@ -182,172 +183,236 @@ const SitesAndApplications = ({
     }
   }
 
+  // Handling the menu views toggle
+  // LaunchDarkly flag to determine if the user's default view is by type or alpha
+  // If no flag is set, default to sort by type
+  const flags = useFlags()
+  const defaultSort =
+    flags?.sitesAppsSortView === 'sortAlpha' ? 'SORT_ALPHA' : 'SORT_TYPE'
+  const [selectedOption, setSelectedOption] = useState(defaultSort)
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleSortClick = (sortType: SortBy) => {
+    const sortTypeAction =
+      sortType === 'SORT_TYPE' ? 'By Type' : 'Alphabetically'
+    trackEvent('S&A sort', sortTypeAction)
+    setSort(sortType)
+    setIsOpen(!isOpen)
+    setSelectedOption(sortType)
+  }
+
+  // Buttons to sort applications by type or alpha
+  const viewOptions = [
+    <button
+      key="SORT_ALPHA"
+      value="SORT_ALPHA"
+      type="button"
+      className={styles.sortButton}
+      onClick={() => handleSortClick('SORT_ALPHA')}>
+      <FontAwesomeIcon icon="list" /> Alphabetically
+    </button>,
+    <button
+      key="SORT_TYPE"
+      value="SORT_TYPE"
+      type="button"
+      disabled={selectMode}
+      className={styles.sortButton}
+      onClick={() => handleSortClick('SORT_TYPE')}>
+      <FontAwesomeIcon icon="th-large" />
+      By Type
+    </button>,
+  ]
+
+  // We need to toggle the order based on what is currently selected
+  const orderedOptions = [
+    viewOptions.find(
+      (viewOptions) => viewOptions.props.value === selectedOption
+    ),
+    ...viewOptions.filter(
+      (viewOptions) => viewOptions.props.value !== selectedOption
+    ),
+  ]
+
+  const toolbar = (
+    <div className={`${styles.toolbar} ${styles.widgetToolbar}`}>
+      <div className={styles.toolbarLeft}>
+        <Label className={styles.toolbarLabel} htmlFor="sortBy">
+          View:
+        </Label>
+        {/* The first button in the array is the selected option and functions as the dropdown toggle */}
+        <NavDropDownButton
+          className={styles.sortButton}
+          key={orderedOptions?.[0]?.key}
+          label={orderedOptions?.[0]?.props.children}
+          menuId="sortBy"
+          isOpen={isOpen}
+          onToggle={(): void => {
+            setIsOpen(!isOpen)
+          }}
+        />
+        {/* The second button in the array is the submenu option */}
+        <Menu type="subnav" items={[orderedOptions[1]]} isOpen={isOpen} />
+      </div>
+      {sortBy === 'SORT_TYPE' && (
+        <div>
+          {selectMode ? (
+            <>
+              {remainingCollections < 3 && (
+                <Tooltip
+                  position="top"
+                  label={
+                    remainingCollections > 0
+                      ? `You’re approaching the maximum number of collections (25) you can add to your My Space page.`
+                      : `You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`
+                  }>
+                  <Icon.Info size={3} />
+                </Tooltip>
+              )}
+              <span>
+                <strong>
+                  {selectedCollections.length} collection
+                  {selectedCollections.length !== 1 && 's'} selected
+                </strong>{' '}
+                ({remainingCollections} of {MAXIMUM_COLLECTIONS} possible
+                remaining)
+              </span>
+              <Button
+                type="button"
+                secondary
+                disabled={selectedCollections.length < 1}
+                onClick={handleAddSelected}>
+                Add selected
+              </Button>
+              <Button
+                type="button"
+                outline
+                inverse
+                onClick={() => {
+                  trackEvent('S&A add collection', 'Cancel')
+                  handleToggleSelectMode()
+                }}>
+                Cancel
+              </Button>
+            </>
+          ) : (
+            <>
+              {!canAddCollections && (
+                <Tooltip
+                  position="top"
+                  label={`You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`}>
+                  <Icon.Info size={3} />
+                </Tooltip>
+              )}
+              <Button
+                type="button"
+                className={styles.selectCollectionsButton}
+                onClick={() => {
+                  trackEvent(
+                    'S&A add collection',
+                    'Select multiple collections'
+                  )
+                  handleToggleSelectMode()
+                }}
+                disabled={!canAddCollections}>
+                Select multiple collections
+              </Button>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  )
+
   return !user ? (
     <Loader />
   ) : (
     <>
       <h2 className={styles.pageTitle}>Sites &amp; Applications</h2>
 
-      <div className={styles.toolbar}>
-        <button
-          type="button"
-          className={styles.sortButton}
-          disabled={sortBy === 'SORT_ALPHA' || selectMode}
-          onClick={() => handleSortClick('SORT_ALPHA')}>
-          <FontAwesomeIcon icon="list" /> Sort alphabetically
-        </button>
-        <button
-          type="button"
-          className={styles.sortButton}
-          disabled={sortBy === 'SORT_TYPE'}
-          onClick={() => handleSortClick('SORT_TYPE')}>
-          <FontAwesomeIcon icon="th-large" />
-          Sort by type
-        </button>
-      </div>
+      <div className={widgetClasses}>
+        {/* Toolbar for toggling views and selecting multiple collections at once */}
+        {toolbar}
 
-      {flash && (
-        <div className={styles.flash}>
-          <Flash handleClear={() => setFlash(null)}>{flash}</Flash>
-        </div>
-      )}
-
-      {sortBy === 'SORT_ALPHA' && (
-        <div className={styles.sortAlpha}>
-          {userCollections.some(
-            (c) => c.bookmarks.filter((b) => !b.isRemoved).length >= 10
-          ) && (
-            <Alert type="warning" role="alert" headingLevel="h4">
-              At least one collection on your My Space has reached the maximum
-              number of links allowed (10).
-            </Alert>
-          )}
-
-          {!canAddCollections && (
-            <Alert type="warning" role="alert" headingLevel="h4">
-              You have reached the maximum number of collections allowed on your
-              My Space (25).
-            </Alert>
-          )}
-
-          <ApplicationsTable
-            className={'sitesAndAppsApplicationsTable'}
-            bookmarks={bookmarks}
-            userCollectionOptions={userCollections}
-            handleAddToCollection={handleAddToCollection}
-            canAddNewCollection={canAddCollections}
-          />
-        </div>
-      )}
-
-      {sortBy === 'SORT_TYPE' && (
-        <div className={widgetClasses}>
-          <div className={styles.widgetToolbar}>
-            {selectMode ? (
-              <>
-                {remainingCollections < 3 && (
-                  <Tooltip
-                    position="top"
-                    label={
-                      remainingCollections > 0
-                        ? `You’re approaching the maximum number of collections (25) you can add to your My Space page.`
-                        : `You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`
-                    }>
-                    <Icon.Info size={3} />
-                  </Tooltip>
-                )}
-                <span>
-                  <strong>
-                    {selectedCollections.length} collection
-                    {selectedCollections.length !== 1 && 's'} selected
-                  </strong>{' '}
-                  ({remainingCollections} of {MAXIMUM_COLLECTIONS} possible
-                  remaining)
-                </span>
-                <Button
-                  type="button"
-                  secondary
-                  disabled={selectedCollections.length < 1}
-                  onClick={handleAddSelected}>
-                  Add selected
-                </Button>
-                <Button
-                  type="button"
-                  outline
-                  inverse
-                  onClick={() => {
-                    trackEvent('S&A add collection', 'Cancel')
-                    handleToggleSelectMode()
-                  }}>
-                  Cancel
-                </Button>
-              </>
-            ) : (
-              <>
-                {!canAddCollections && (
-                  <Tooltip
-                    position="top"
-                    label={`You can only add up to 25 collections to your My Space page.\nTo add a new collection, please remove an existing one.`}>
-                    <Icon.Info size={3} />
-                  </Tooltip>
-                )}
-                <Button
-                  type="button"
-                  className={styles.selectCollectionsButton}
-                  onClick={() => {
-                    trackEvent(
-                      'S&A add collection',
-                      'Select multiple collections'
-                    )
-                    handleToggleSelectMode()
-                  }}
-                  disabled={!canAddCollections}>
-                  Select multiple collections
-                </Button>
-              </>
-            )}
+        {flash && (
+          <div className={styles.flash}>
+            <Flash handleClear={() => setFlash(null)}>{flash}</Flash>
           </div>
+        )}
 
-          <Grid row gap className={styles.widgets}>
-            {collections.map((collection) => {
-              return (
-                <Grid
-                  key={`collection_${collection.id}`}
-                  tablet={{ col: 6 }}
-                  desktop={{ col: 4 }}>
-                  {selectMode ? (
-                    <SelectableCollection
-                      className={'sitesAndAppsCollection'}
-                      id={collection.id}
-                      title={collection.title}
-                      bookmarks={collection.bookmarks}
-                      isSelected={isSelected(collection.id)}
-                      onSelect={() => handleSelectCollection(collection.id)}
-                      disabled={
-                        !isSelected(collection.id) && remainingCollections < 1
-                      }
-                    />
-                  ) : (
-                    <Collection
-                      title={collection.title}
-                      className={'sitesAndAppsCollection'}>
-                      {collection.bookmarks?.map((bookmark) => (
-                        <Bookmark
-                          className={'sitesAndAppsBookmark'}
-                          key={`bookmark_${bookmark.id}`}
-                          bookmarkDescription={bookmark.description}
-                          href={bookmark.url}>
-                          {bookmark.label}
-                        </Bookmark>
-                      ))}
-                    </Collection>
-                  )}
-                </Grid>
-              )
-            })}
-          </Grid>
-        </div>
-      )}
+        {/* Alphabetical Sort View */}
+
+        {sortBy === 'SORT_ALPHA' && (
+          <div className={styles.sortAlpha}>
+            {userCollections.some(
+              (c) => c.bookmarks.filter((b) => !b.isRemoved).length >= 10
+            ) && (
+              <Alert type="warning" role="alert" headingLevel="h4">
+                At least one collection on your My Space has reached the maximum
+                number of links allowed (10).
+              </Alert>
+            )}
+
+            {!canAddCollections && (
+              <Alert type="warning" role="alert" headingLevel="h4">
+                You have reached the maximum number of collections allowed on
+                your My Space (25).
+              </Alert>
+            )}
+
+            <ApplicationsTable
+              className={'sitesAndAppsApplicationsTable'}
+              bookmarks={bookmarks}
+              userCollectionOptions={userCollections}
+              handleAddToCollection={handleAddToCollection}
+              canAddNewCollection={canAddCollections}
+            />
+          </div>
+        )}
+
+        {/* Type Sort View */}
+        {sortBy === 'SORT_TYPE' && (
+          <div>
+            <Grid row gap className={styles.widgets}>
+              {collections.map((collection) => {
+                return (
+                  <Grid
+                    key={`collection_${collection.id}`}
+                    tablet={{ col: 6 }}
+                    desktop={{ col: 4 }}>
+                    {selectMode ? (
+                      <SelectableCollection
+                        className={'sitesAndAppsCollection'}
+                        id={collection.id}
+                        title={collection.title}
+                        bookmarks={collection.bookmarks}
+                        isSelected={isSelected(collection.id)}
+                        onSelect={() => handleSelectCollection(collection.id)}
+                        disabled={
+                          !isSelected(collection.id) && remainingCollections < 1
+                        }
+                      />
+                    ) : (
+                      <Collection
+                        title={collection.title}
+                        className={'sitesAndAppsCollection'}>
+                        {collection.bookmarks?.map((bookmark) => (
+                          <Bookmark
+                            className={'sitesAndAppsBookmark'}
+                            key={`bookmark_${bookmark.id}`}
+                            bookmarkDescription={bookmark.description}
+                            href={bookmark.url}>
+                            {bookmark.label}
+                          </Bookmark>
+                        ))}
+                      </Collection>
+                    )}
+                  </Grid>
+                )
+              })}
+            </Grid>
+          </div>
+        )}
+      </div>
     </>
   )
 }

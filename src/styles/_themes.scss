@@ -83,7 +83,7 @@ $dark-gradient: linear-gradient(
   --btn-delete-bg-hover: #{$state-error-lighter};
 
   // Sites & Apps
-  --btn-sort-bg: rgba(255, 255, 255, 0.5);
+  --btn-sort-bg: #{$theme-ultraviolet-light};
   --btn-sort-border: #a9aeb1;
   --btn-sort-text: $theme-ultraviolet-base;
   --btn-sort-hover-bg: #{$theme-ultraviolet-dark};
@@ -96,8 +96,8 @@ $dark-gradient: linear-gradient(
   --bookmark-sites-apps-bg: transparent;
   --bookmark-sites-apps-border: #{color(base-light)};
 
-  --btn-select-collections-bg: #{$theme-ultraviolet-base};
-  --btn-select-collections-bg-hover: #{$theme-ultraviolet-dark};
+  --btn-select-collections-bg: #{$theme-mars-base};
+  --btn-select-collections-bg-hover: #{$theme-mars-light};
 
   //alpha
   --bookmark-sites-apps-text: #{$theme-black};
