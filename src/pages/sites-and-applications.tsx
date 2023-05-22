@@ -206,6 +206,7 @@ const SitesAndApplications = ({
     <button
       key="SORT_ALPHA"
       value="SORT_ALPHA"
+      name="SORT_ALPHA"
       type="button"
       className={styles.sortButton}
       onClick={() => handleSortClick('SORT_ALPHA')}>
@@ -214,6 +215,7 @@ const SitesAndApplications = ({
     <button
       key="SORT_TYPE"
       value="SORT_TYPE"
+      name="SORT_TYPE"
       type="button"
       disabled={selectMode}
       className={styles.sortButton}
@@ -246,6 +248,9 @@ const SitesAndApplications = ({
           label={orderedOptions?.[0]?.props.children}
           menuId="sortBy"
           isOpen={isOpen}
+          value={selectedOption}
+          name={selectedOption}
+          disabled={selectMode}
           onToggle={(): void => {
             setIsOpen(!isOpen)
           }}
