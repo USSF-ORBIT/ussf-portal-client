@@ -14,7 +14,7 @@
     align-items: center;
 
     > h3 {
-      color: $black;
+      color: var(--text);
       margin: 0;
       font-size: 22px;
       font-style: normal;
@@ -24,7 +24,7 @@
   }
 
   > div > h3.subHeader {
-    color: $black;
+    color: var(--text);
     font-size: 18px;
     font-style: normal;
     font-weight: 400;
@@ -35,6 +35,10 @@
 
 .checkbox {
   background-color: transparent;
+
+  > label {
+    color: var(--text);
+  }
 }
 
 .buttonContainer {
