@@ -49,7 +49,7 @@ import { useAuthContext } from 'stores/authContext'
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
 import { GET_KEYSTONE_COLLECTIONS } from 'operations/cms/queries/getKeystoneCollections'
 import Loader from 'components/Loader/Loader'
-
+import { DropdownFilter } from 'components/DropdownFilter/DropdownFilter'
 type SortBy = 'SORT_TYPE' | 'SORT_ALPHA'
 
 type SelectedCollections = string[]
@@ -201,6 +201,10 @@ const SitesAndApplications = ({
     setSelectedOption(sortType)
   }
 
+  const handleMenuToggle = (isOpen: boolean) => {
+    setIsOpen(isOpen)
+  }
+
   // Buttons to sort applications by type or alpha
   const viewOptions = [
     <button
@@ -234,29 +238,18 @@ const SitesAndApplications = ({
       (viewOptions) => viewOptions.props.value !== selectedOption
     ),
   ]
+  console.log('menu isOpen, sites and apps ', isOpen)
 
   const toolbar = (
     <div className={`${styles.toolbar} ${styles.widgetToolbar}`}>
       <div className={styles.toolbarLeft}>
-        <Label className={styles.toolbarLabel} htmlFor="sortBy">
-          View:
-        </Label>
-        {/* The first button in the array is the selected option and functions as the dropdown toggle */}
-        <NavDropDownButton
-          className={styles.sortButton}
-          key={orderedOptions?.[0]?.key}
-          label={orderedOptions?.[0]?.props.children}
-          menuId="sortBy"
-          isOpen={isOpen}
-          value={selectedOption}
-          name={selectedOption}
+        <DropdownFilter
+          handleClick={handleMenuToggle}
+          menuOptions={viewOptions}
+          selectedOption={selectedOption}
+          isMenuOpen={isOpen}
           disabled={selectMode}
-          onToggle={(): void => {
-            setIsOpen(!isOpen)
-          }}
         />
-        {/* The second button in the array is the submenu option */}
-        <Menu type="subnav" items={[orderedOptions[1]]} isOpen={isOpen} />
       </div>
       {sortBy === 'SORT_TYPE' && (
         <div>
