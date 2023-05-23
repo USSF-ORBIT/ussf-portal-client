@@ -37,6 +37,11 @@ describe('SearchFilter component', () => {
 
     expect(screen.getByText('label1')).toHaveAttribute('aria-selected', 'true')
     expect(screen.getByText('label2')).toHaveAttribute('aria-selected', 'false')
+
+    await user.selectOptions(dropdown, 'label2')
+
+    expect(screen.getByText('label1')).toHaveAttribute('aria-selected', 'false')
+    expect(screen.getByText('label2')).toHaveAttribute('aria-selected', 'true')
   })
 
   test('renders the checkbox options', () => {
