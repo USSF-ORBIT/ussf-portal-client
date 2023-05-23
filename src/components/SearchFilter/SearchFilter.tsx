@@ -121,6 +121,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
         <Dropdown
           id="label-dropdown"
           name="label-dropdown"
+          data-testid="label-dropdown"
           value={filterItems.dropdown ? filterItems.dropdown : 'default'}
           onChange={(e) => {
             // Need to remove any previous label and add the newly selected one
@@ -145,7 +146,10 @@ const SearchFilter = ({ labels }: PropTypes) => {
             None applied
           </option>
           {labels.map(({ name }) => (
-            <option key={name} value={name}>
+            <option
+              key={name}
+              value={name}
+              aria-selected={filterItems.dropdown === name ? true : false}>
               {name}
             </option>
           ))}
