@@ -6,6 +6,7 @@ import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import React from 'react'
+import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
 import Bookmark from './Bookmark'
 
 describe('Bookmark component', () => {
@@ -34,6 +35,55 @@ describe('Bookmark component', () => {
     const button = screen.getByRole('button')
     await user.click(button)
     expect(mockOnDelete).toHaveBeenCalled()
+  })
+
+  it('displays tooltip when focused', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <Bookmark
+        href="/home"
+        bookmarkDescription={cmsBookmarksMock[0].description}>
+        Home
+      </Bookmark>
+    )
+    const link = screen.getByRole('link', {
+      name: 'Home (opens in a new window)',
+    })
+
+    await user.tab()
+    expect(link).toHaveFocus()
+
+    expect(
+      screen.queryByText(cmsBookmarksMock[0].description)
+    ).toBeInTheDocument()
+  })
+
+  it('displays tooltip when hovering', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <Bookmark
+        href="/home"
+        bookmarkDescription={cmsBookmarksMock[0].description}>
+        Home
+      </Bookmark>
+    )
+    const link = screen.getByRole('link', {
+      name: 'Home (opens in a new window)',
+    })
+
+    await user.hover(link)
+
+    expect(
+      screen.queryByText(cmsBookmarksMock[0].description)
+    ).toBeInTheDocument()
+
+    await user.unhover(link)
+
+    expect(
+      screen.queryByText(cmsBookmarksMock[0].description)
+    ).not.toBeInTheDocument()
   })
 
   it('has no a11y violations', async () => {
