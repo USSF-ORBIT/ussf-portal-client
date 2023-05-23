@@ -1,15 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useFlags } from 'launchdarkly-react-client-sdk'
 import { InferGetServerSidePropsType } from 'next'
-import {
-  Button,
-  Grid,
-  Alert,
-  Icon,
-  NavDropDownButton,
-  Label,
-  Menu,
-} from '@trussworks/react-uswds'
+import { Button, Grid, Alert, Icon } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
@@ -68,7 +60,17 @@ const SitesAndApplications = ({
   const { portalUser } = useAuthContext()
   const { trackEvent } = useAnalytics()
 
-  const [sortBy, setSort] = useState<SortBy>('SORT_TYPE')
+  // Handling the menu views toggle
+  // LaunchDarkly flag to determine if the user's default view is by type or alpha
+  // If no flag is set, default to sort by type
+  const flags = useFlags()
+  const defaultSort =
+    flags?.sitesAppsSortView === 'sortAlpha' ? 'SORT_ALPHA' : 'SORT_TYPE'
+  const [sortBy, setSort] = useState<SortBy>(defaultSort)
+
+  const [selectedOption, setSelectedOption] = useState(defaultSort)
+  const [isOpen, setIsOpen] = useState(false)
+
   const [selectMode, setSelectMode] = useState<boolean>(false)
   const [selectedCollections, setSelectedCollections] =
     useState<SelectedCollections>([])
@@ -183,15 +185,6 @@ const SitesAndApplications = ({
     }
   }
 
-  // Handling the menu views toggle
-  // LaunchDarkly flag to determine if the user's default view is by type or alpha
-  // If no flag is set, default to sort by type
-  const flags = useFlags()
-  const defaultSort =
-    flags?.sitesAppsSortView === 'sortAlpha' ? 'SORT_ALPHA' : 'SORT_TYPE'
-  const [selectedOption, setSelectedOption] = useState(defaultSort)
-  const [isOpen, setIsOpen] = useState(false)
-
   const handleSortClick = (sortType: SortBy) => {
     const sortTypeAction =
       sortType === 'SORT_TYPE' ? 'By Type' : 'Alphabetically'
@@ -212,7 +205,6 @@ const SitesAndApplications = ({
       value="SORT_ALPHA"
       name="SORT_ALPHA"
       type="button"
-      className={styles.sortButton}
       onClick={() => handleSortClick('SORT_ALPHA')}>
       <FontAwesomeIcon icon="list" /> Alphabetically
     </button>,
@@ -222,23 +214,11 @@ const SitesAndApplications = ({
       name="SORT_TYPE"
       type="button"
       disabled={selectMode}
-      className={styles.sortButton}
       onClick={() => handleSortClick('SORT_TYPE')}>
       <FontAwesomeIcon icon="th-large" />
       By Type
     </button>,
   ]
-
-  // We need to toggle the order based on what is currently selected
-  const orderedOptions = [
-    viewOptions.find(
-      (viewOptions) => viewOptions.props.value === selectedOption
-    ),
-    ...viewOptions.filter(
-      (viewOptions) => viewOptions.props.value !== selectedOption
-    ),
-  ]
-  console.log('menu isOpen, sites and apps ', isOpen)
 
   const toolbar = (
     <div className={`${styles.toolbar} ${styles.widgetToolbar}`}>
