@@ -52,7 +52,7 @@ mockedUseRouter.mockReturnValue({
 })
 
 describe('Search page getServerSideProps', () => {
-  it('returns no query and no results if there was no query', async () => {
+  test('returns no query and no results if there was no query', async () => {
     const testContext = {
       query: {},
     } as unknown as GetServerSidePropsContext
@@ -65,7 +65,7 @@ describe('Search page getServerSideProps', () => {
     })
   })
 
-  it('returns the query and results if there was a query', async () => {
+  test('returns the query and results if there was a query', async () => {
     const testContext = {
       query: { q: 'fitness' },
     } as unknown as GetServerSidePropsContext
@@ -95,11 +95,11 @@ describe('Search page', () => {
       })
     })
 
-    it('renders the loader while fetching the user', () => {
+    test('renders the loader while fetching the user', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
-    it('redirects to the login page if not logged in', async () => {
+    test('redirects to the login page if not logged in', async () => {
       await waitFor(() => {
         expect(mockReplace).toHaveBeenCalledWith('/login')
       })
@@ -107,7 +107,7 @@ describe('Search page', () => {
   })
 
   describe('when logged in', () => {
-    it('renders an empty state if there is no query', async () => {
+    test('renders an empty state if there is no query', async () => {
       renderWithAuth(
         <SearchPage
           query={''}
@@ -125,7 +125,7 @@ describe('Search page', () => {
       ).toHaveLength(1)
     })
 
-    it('renders no results if there were no matches for the query', async () => {
+    test('renders no results if there were no matches for the query', async () => {
       renderWithAuth(
         <SearchPage
           query="nomatches"
@@ -141,7 +141,7 @@ describe('Search page', () => {
       ).toHaveLength(1)
     })
 
-    it('renders the results if there were matches for the query', async () => {
+    test('renders the results if there were matches for the query', async () => {
       const mockResults = mockCmsSearchResults.map((r) => ({
         ...r,
         permalink:
@@ -166,7 +166,7 @@ describe('Search page', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the correct text if there is only one result', async () => {
+    test('renders the correct text if there is only one result', async () => {
       const mockResults = [mockCmsSearchResults[0]].map((r) => ({
         ...r,
         permalink:

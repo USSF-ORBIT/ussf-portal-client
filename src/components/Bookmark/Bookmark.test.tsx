@@ -10,7 +10,7 @@ import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
 import Bookmark from './Bookmark'
 
 describe('Bookmark component', () => {
-  it('renders an anchor link', () => {
+  test('renders an anchor link', () => {
     render(<Bookmark href="/home">Home</Bookmark>)
 
     const link = screen.getByRole('link', {
@@ -22,7 +22,7 @@ describe('Bookmark component', () => {
     expect(link).toBeInstanceOf(HTMLAnchorElement)
   })
 
-  it('renders a delete button if a handler is provided', async () => {
+  test('renders a delete button if a handler is provided', async () => {
     const user = userEvent.setup()
     const mockOnDelete = jest.fn()
 
@@ -37,7 +37,7 @@ describe('Bookmark component', () => {
     expect(mockOnDelete).toHaveBeenCalled()
   })
 
-  it('displays tooltip when focused', async () => {
+  test('displays tooltip when focused', async () => {
     const user = userEvent.setup()
 
     render(
@@ -59,7 +59,7 @@ describe('Bookmark component', () => {
     ).toBeInTheDocument()
   })
 
-  it('displays tooltip when hovering', async () => {
+  test('displays tooltip when hovering', async () => {
     const user = userEvent.setup()
 
     render(
@@ -86,7 +86,7 @@ describe('Bookmark component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('has no a11y violations', async () => {
+  test('has no a11y violations', async () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
@@ -103,7 +103,7 @@ describe('Bookmark component', () => {
   })
 
   describe('when disabled', () => {
-    it('renders static text instead of a link', () => {
+    test('renders static text instead of a link', () => {
       render(
         <Bookmark href="/home" disabled>
           Home
@@ -114,7 +114,7 @@ describe('Bookmark component', () => {
       expect(screen.getByText('Home')).toBeInstanceOf(HTMLSpanElement)
     })
 
-    it('has no a11y violations', async () => {
+    test('has no a11y violations', async () => {
       const { container } = render(
         <Bookmark href="/home" disabled>
           Home
