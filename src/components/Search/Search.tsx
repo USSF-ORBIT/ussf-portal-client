@@ -56,6 +56,7 @@ const Search = ({
             id="q"
             type="search"
             name="q"
+            data-testid="search-input"
             placeholder="What are you looking for today?"
             disabled={disabled}
             defaultValue={searchQuery ? searchQuery : query}

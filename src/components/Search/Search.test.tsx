@@ -3,33 +3,37 @@
  */
 
 import React from 'react'
-import { render, screen } from '@testing-library/react'
-
+import { render, screen, fireEvent } from '@testing-library/react'
 import Search from './Search'
 
 describe('Search component', () => {
   beforeEach(() => {
-    render(<Search />)
+    render(<Search disabled={false} />)
   })
 
-  it('renders the search form ', () => {
+  test('renders the search form ', () => {
     expect(screen.getByRole('search')).toBeInTheDocument()
   })
 
-  it.skip('renders the dropdown options', () => {
+  test.skip('renders the dropdown options', () => {
     expect(screen.getByRole('combobox')).toBeInTheDocument()
     expect(screen.getAllByRole('option')).toHaveLength(4)
   })
 
-  it('renders the searchbox', () => {
-    expect(screen.getByRole('searchbox')).toBeInTheDocument()
+  test('renders the searchbox', async () => {
+    const searchbox = screen.getByTestId('search-input')
+
+    expect(searchbox).toBeInTheDocument()
+
+    fireEvent.change(searchbox, { target: { value: 'test' } })
+    expect(searchbox).toHaveValue('test')
   })
 
-  it('renders the search button', () => {
+  test('renders the search button', () => {
     expect(screen.getByRole('button')).toHaveTextContent('Search')
   })
 
-  it.skip('renders the suggested terms', () => {
+  test.skip('renders the suggested terms', () => {
     expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
       'Are you looking for:'
     )
