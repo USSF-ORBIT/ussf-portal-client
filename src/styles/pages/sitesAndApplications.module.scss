@@ -189,6 +189,7 @@
 .selectCollectionsButton {
   &:global(.usa-button) {
     background-color: var(--btn-select-collections-bg);
+    height: 42px;
     &:hover {
       background-color: var(--btn-select-collections-bg-hover);
     }
