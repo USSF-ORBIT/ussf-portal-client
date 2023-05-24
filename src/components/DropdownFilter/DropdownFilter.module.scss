@@ -57,11 +57,14 @@
       color: var(--btn-sort-text);
       text-align: left;
       text-decoration: none;
-      border: 1px solid var(--btn-sort-border);
+      border: 0px solid;
       border-radius: 4px;
       padding: 12px;
       box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.15);
       font-weight: 700;
+      min-width: 130px;
+      display: flex;
+      align-items: center;
 
       svg {
         margin-right: units(1);
