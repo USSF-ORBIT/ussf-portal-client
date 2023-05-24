@@ -305,7 +305,12 @@ const SitesAndApplications = ({
     <Loader />
   ) : (
     <>
-      <h2 className={styles.pageTitle}>Sites &amp; Applications</h2>
+      <h2 className={styles.pageTitle}>
+        Sites &amp; Applications{' '}
+        <span className="sr-only">
+          {sortBy === 'SORT_TYPE' ? ' By type' : ' Alphabetically'}{' '}
+        </span>
+      </h2>
 
       <div className={widgetClasses}>
         {/* Toolbar for toggling views and selecting multiple collections at once */}
