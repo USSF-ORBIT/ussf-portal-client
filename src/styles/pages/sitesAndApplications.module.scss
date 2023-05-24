@@ -44,13 +44,13 @@
   }
 
   :global(.sitesAndAppsCollection) {
-    background-color: var(--widget-sites-apps-bg);
-    border-color: var(--bookmark-sites-apps-border);
+    background-color: var(--widget-bg);
+    border: 1px solid var(--widget-border);
 
     :global(.sitesAndAppsBookmark),
     :global(ol li > div) {
-      background-color: var(--bookmark-sites-apps-bg);
-      border-color: var(--bookmark-sites-apps-border);
+      background-color: var(--bookmark-bg);
+      border: 1px solid var(--bookmark-border);
     }
   }
 }
