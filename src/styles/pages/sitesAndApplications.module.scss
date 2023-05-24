@@ -199,5 +199,10 @@
 .toolbar {
   display: flex;
   background-color: $theme-ultraviolet-dark;
+  height: 100%;
   color: var(--btn-primary-text);
+  @media screen and (max-width: 640px) {
+    flex-direction: column;
+    padding: 1rem;
+  }
 }

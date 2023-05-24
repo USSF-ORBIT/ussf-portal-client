@@ -5,6 +5,9 @@
 .dropdownFilter {
   display: flex;
   align-items: center;
+  @media screen and (max-width: 640px) {
+    padding-bottom: 1rem;
+  }
   :global {
     .usa-label {
       margin: 1rem 1rem 1rem 0;
