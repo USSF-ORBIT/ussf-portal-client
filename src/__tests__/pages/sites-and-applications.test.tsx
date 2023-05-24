@@ -188,7 +188,9 @@ describe('Sites and Applications page', () => {
         )
 
         expect(
-          await screen.findByRole('heading', { name: 'Sites & Applications' })
+          await screen.findByRole('heading', {
+            name: 'Sites & Applications By type',
+          })
         ).toBeInTheDocument()
 
         expect(screen.getByTestId('navDropDownButton')).toBeInTheDocument()
@@ -234,6 +236,11 @@ describe('Sites and Applications page', () => {
         })
         await user.click(sortAlpha)
 
+        expect(
+          await screen.findByRole('heading', {
+            name: 'Sites & Applications Alphabetically',
+          })
+        ).toBeInTheDocument()
         expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(0)
         expect(screen.getByRole('table')).toBeInTheDocument()
         expect(screen.getAllByRole('link')).toHaveLength(
