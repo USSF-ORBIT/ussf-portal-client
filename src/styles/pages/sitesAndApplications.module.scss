@@ -50,7 +50,10 @@
     :global(.sitesAndAppsBookmark),
     :global(ol li > div) {
       background-color: var(--bookmark-bg);
-      border: 1px solid var(--bookmark-border);
+      border-radius: 5px;
+      &:hover {
+        background-color: var(--bookmark-hover);
+      }
     }
   }
 }
