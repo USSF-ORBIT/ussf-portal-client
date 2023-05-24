@@ -232,7 +232,7 @@ const SitesAndApplications = ({
         />
       </div>
       {sortBy === 'SORT_TYPE' && (
-        <div>
+        <div className={styles.selectCollectionsInfo}>
           {selectMode ? (
             <>
               {remainingCollections < 3 && (
