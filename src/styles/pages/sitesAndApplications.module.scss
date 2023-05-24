@@ -63,10 +63,10 @@
   .widgetContainer {
     padding: 0px;
     &.selectMode {
-      border: 4px solid var(--widget-selected-border);
+      border: 4px solid var(--toolbar-section-border);
 
       .widgetToolbar {
-        background-color: var(--widget-selected-border);
+        background-color: var(--toolbar-bg);
       }
     }
   }
@@ -200,7 +200,7 @@
   background-color: var(--toolbar-bg);
   height: 100%;
   color: var(--btn-primary-text);
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 1044px) {
     flex-direction: column;
     padding: 1rem;
   }
@@ -209,6 +209,6 @@
 .selectCollectionsInfo {
   color: white;
   button {
-    margin: 0 0.5rem;
+    margin: 0.5rem;
   }
 }
