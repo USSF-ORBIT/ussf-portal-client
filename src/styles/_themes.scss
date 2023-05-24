@@ -83,10 +83,12 @@ $dark-gradient: linear-gradient(
   --btn-delete-bg-hover: #{$state-error-lighter};
 
   // Sites & Apps
+  --toolbar-bg: #{$theme-ultraviolet-dark};
+  --toolbar-section-border: #{$theme-ultraviolet-dark};
   --btn-sort-bg: #{$theme-ultraviolet-light};
   --btn-sort-border: #a9aeb1;
   --btn-sort-text: $theme-ultraviolet-base;
-  --btn-sort-hover-bg: #{$theme-ultraviolet-dark};
+  --btn-sort-hover-bg: #{$theme-ultraviolet-base};
   --btn-sort-hover-text: #{$grey};
   --btn-sort-disabled-bg: #f9fafa;
   --btn-sort-disabled-border: #a9aeb1;
@@ -290,6 +292,8 @@ $dark-gradient: linear-gradient(
   --btn-delete-bg-hover: #{$state-error-lighter};
 
   // Sites & Apps
+  --toolbar-bg: rgba(0, 0, 0, 0.6);
+  --toolbar-section-border: rgba(0, 0, 0, 0.6);
   --btn-sort-border: #{$theme-aurora-dark};
   --btn-sort-bg: #{$theme-aurora-dark};
   --btn-sort-text: #{$theme-black};
