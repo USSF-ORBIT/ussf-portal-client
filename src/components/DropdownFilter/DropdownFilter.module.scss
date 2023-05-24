@@ -4,9 +4,10 @@
 
 .dropdownFilter {
   display: flex;
+  align-items: center;
   :global {
     .usa-label {
-      margin: 1rem;
+      margin: 1rem 1rem 1rem 0;
     }
   }
   .dropdownMenu {
@@ -68,6 +69,7 @@
 
       svg {
         margin-right: units(1);
+        fill: var(--btn-sort-text);
       }
 
       &:hover {
