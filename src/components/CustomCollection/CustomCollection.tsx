@@ -126,7 +126,7 @@ const CustomCollection = ({
         })
     )
     setRemovedBookmarks(bookmarks.filter((b) => b.isRemoved))
-  }, [])
+  }, [bookmarks])
 
   useEffect(() => {
     // Auto-focus on ComboBox when clicking Add Link
