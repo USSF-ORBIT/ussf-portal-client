@@ -35,7 +35,7 @@
       background-color: var(--widget-selected-border);
       position: sticky;
       top: 0;
-      z-index: 999;
+      z-index: 99;
       min-height: 62px;
     }
   }
@@ -167,6 +167,9 @@
   color: $theme-white;
   padding: 0 units(4) 0;
   height: 62px;
+  position: sticky;
+  top: 0;
+  z-index: 99;
 
   > * + * {
     margin-left: units('105');
