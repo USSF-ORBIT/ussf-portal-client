@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 import classnames from 'classnames'
-import { ObjectId } from 'bson'
+import type { ObjectId } from 'bson'
 import {
   Button,
   Label,
@@ -447,10 +447,7 @@ const CustomCollection = ({
                         'Hide CMS link',
                         `${title} / ${foundBookmark.label || foundBookmark.url}`
                       )
-                      handleRemoveBookmark(
-                        new ObjectId(bookmark.id),
-                        foundBookmark.id
-                      )
+                      handleRemoveBookmark(bookmark._id, foundBookmark.id)
                     }}
                   />
                 </DraggableBookmark>
