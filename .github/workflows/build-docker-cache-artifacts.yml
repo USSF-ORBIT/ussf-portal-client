@@ -6,7 +6,7 @@ on:
     paths-ignore:
       - 'docs/**'
       - '**.md**'
-    # branches: [main]
+    branches: [main]
 
 jobs:
   build-and-push-dev-aws:
@@ -59,4 +59,4 @@ jobs:
           DIGEST: ${{fromJson(steps.set_var.outputs.index).manifests[0].digest}}
         with:
           path: /tmp/portal-client
-          key: ${{ runner.os }}-docker-portal-client-${DIGEST##sha256:}
+          key: ${{ runner.os }}-docker-portal-client-${{ env.DIGEST }}
