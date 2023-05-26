@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Grid, Checkbox, Dropdown, Button } from '@trussworks/react-uswds'
 import styles from './SearchFilter.module.scss'
 import { useSearchContext } from 'stores/searchContext'
@@ -62,14 +61,11 @@ const SearchFilter = ({ labels }: PropTypes) => {
   return (
     <div className={styles.searchFilter}>
       <div className={styles.headerContainer}>
-        {/* <span aria-label="filter icon">
-          <FontAwesomeIcon icon="filter" />
-        </span> */}
         <h3>Filter Search</h3>
       </div>
 
       <Grid col="auto">
-        <h3 className={styles.subHeader}>Categories:</h3>
+        <h4 className={styles.subHeader}>Categories:</h4>
         <Checkbox
           id="application-filter"
           name="application"
@@ -117,7 +113,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
         />
       </Grid>
       <Grid col="auto">
-        <h3 className={styles.subHeader}>Labels:</h3>
+        <h4 className={styles.subHeader}>Labels:</h4>
         <Dropdown
           id="label-dropdown"
           name="label-dropdown"
