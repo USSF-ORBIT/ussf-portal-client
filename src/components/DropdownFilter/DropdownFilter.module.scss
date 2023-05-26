@@ -23,6 +23,7 @@
       .usa-accordion__button[aria-expanded='false'] {
         &::after {
           content: '';
+          -webkit-mask-image: url(/vendor/img/usa-icons/expand_more.svg);
           mask-image: url(/vendor/img/usa-icons/expand_more.svg);
           width: 20px;
           height: 20px;
@@ -33,6 +34,7 @@
       .usa-accordion__button[aria-expanded='true'] {
         &::after {
           content: '';
+          -webkit-mask-image: url(/vendor/img/usa-icons/expand_less.svg);
           mask-image: url(/vendor/img/usa-icons/expand_less.svg);
           width: 20px;
           height: 20px;
