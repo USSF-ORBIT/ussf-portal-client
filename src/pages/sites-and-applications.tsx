@@ -223,14 +223,17 @@ const SitesAndApplications = ({
   const toolbar = (
     <div className={`${styles.toolbar} ${styles.widgetToolbar}`}>
       <div className={styles.toolbarLeft}>
-        <DropdownFilter
-          handleClick={handleMenuToggle}
-          menuOptions={viewOptions}
-          selectedOption={selectedOption}
-          isMenuOpen={isOpen}
-          disabled={selectMode}
-        />
+        {!selectMode && (
+          <DropdownFilter
+            handleClick={handleMenuToggle}
+            menuOptions={viewOptions}
+            selectedOption={selectedOption}
+            isMenuOpen={isOpen}
+            disabled={selectMode}
+          />
+        )}
       </div>
+
       {sortBy === 'SORT_TYPE' && (
         <div className={styles.selectCollectionsInfo}>
           {selectMode ? (
