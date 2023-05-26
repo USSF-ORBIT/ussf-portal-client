@@ -217,7 +217,7 @@ describe('CustomCollection component', () => {
     const dragHandle = screen.getAllByLabelText('Drag Handle')
     expect(dragHandle[0]).toHaveAttribute(
       'aria-describedby',
-      'DndDescribedBy-0'
+      'DndDescribedBy-1'
     )
 
     dragHandle[0].focus()

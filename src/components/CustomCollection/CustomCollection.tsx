@@ -74,18 +74,19 @@ const CustomCollection = ({
   // Contains all of the collections visible bookmarks, and the information for each bookmark when it is displayed
   // <SortableContext> needs an array of unique identifiers to sort by
   // Our bookmarks have ObjectId in `_id` which isn't a string so we make the equvalent here
-  const [visibleBookmarks, setVisibleBookmarks] = useState<
-    (MongoBookmark & { id: string })[]
-  >(
-    bookmarks
-      .filter((b) => !b.isRemoved)
-      .map((b) => {
-        return { id: b._id.toString(), ...b }
-      })
+  const visibleBookmarks = useMemo(
+    () =>
+      bookmarks
+        .filter((b) => !b.isRemoved)
+        .map((b) => {
+          return { id: b._id.toString(), ...b }
+        }),
+    [bookmarks]
   )
 
-  const [removedBookmarks, setRemovedBookmarks] = useState<MongoBookmark[]>(
-    bookmarks.filter((b) => b.isRemoved)
+  const removedBookmarks = useMemo(
+    () => bookmarks.filter((b) => b.isRemoved),
+    [bookmarks]
   )
 
   const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
@@ -115,18 +116,6 @@ const CustomCollection = ({
   )
 
   const [customLabel, setCustomLabel] = useState<string>('')
-
-  useEffect(() => {
-    // Reset the visibile and removed bookmarks based on changes to the prop
-    setVisibleBookmarks(
-      bookmarks
-        .filter((b) => !b.isRemoved)
-        .map((b) => {
-          return { id: b._id.toString(), ...b }
-        })
-    )
-    setRemovedBookmarks(bookmarks.filter((b) => b.isRemoved))
-  }, [bookmarks])
 
   useEffect(() => {
     // Auto-focus on ComboBox when clicking Add Link
@@ -352,7 +341,6 @@ const CustomCollection = ({
         oldIndex,
         newIndex
       )
-      setVisibleBookmarks(sortedVisibleBookmarks)
 
       // Before performing the mutation
       // 1. we need to add back the removed bookmarks
