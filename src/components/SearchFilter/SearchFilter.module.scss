@@ -24,8 +24,9 @@
     }
   }
 
-  > div > h4.subHeader {
+  > div > .subHeader {
     color: var(--text);
+    font-family: 'Sharp Sans';
     font-size: 18px;
     font-style: normal;
     font-weight: 400;

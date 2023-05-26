@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Checkbox, Dropdown, Button } from '@trussworks/react-uswds'
+import {
+  Grid,
+  Checkbox,
+  Dropdown,
+  Button,
+  Label,
+} from '@trussworks/react-uswds'
 import styles from './SearchFilter.module.scss'
 import { useSearchContext } from 'stores/searchContext'
 
@@ -113,7 +119,9 @@ const SearchFilter = ({ labels }: PropTypes) => {
         />
       </Grid>
       <Grid col="auto">
-        <h4 className={styles.subHeader}>Labels:</h4>
+        <Label htmlFor="label-dropdown" className={styles.subHeader}>
+          Labels:
+        </Label>
         <Dropdown
           id="label-dropdown"
           name="label-dropdown"
@@ -169,11 +177,11 @@ const SearchFilter = ({ labels }: PropTypes) => {
           form.submit()
         }}>
         <input
-          id="q"
+          id="hidden-q"
           type="search"
-          name="q"
+          name="hidden-q"
           style={{ display: 'none' }}
-          // disabled={disabled}
+          disabled={true}
           defaultValue={searchPageFilters.join(' ')}
         />
         <Grid row className={styles.buttonContainer}>
