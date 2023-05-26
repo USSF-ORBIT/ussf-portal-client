@@ -1,9 +1,10 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { GridContainer, Grid } from '@trussworks/react-uswds'
+import { useFlags } from 'launchdarkly-react-client-sdk'
 import { client } from 'lib/keystoneClient'
 import { withArticleLayout } from 'layout/DefaultLayout/ArticleLayout'
 import PageHeader from 'components/PageHeader/PageHeader'
-// import EPubsCard from 'components/EPubsCard/EPubsCard'
+import EPubsCard from 'components/EPubsCard/EPubsCard'
 import SearchFilter from 'components/SearchFilter/SearchFilter'
 import { SEARCH } from 'operations/cms/queries/search'
 import { GET_LABELS } from 'operations/cms/queries/getLabels'
@@ -24,6 +25,8 @@ const Search = ({
   labels,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
+  const flags = useFlags()
+
   const resultString =
     results.length === 1
       ? `There is 1 result`
@@ -65,8 +68,11 @@ const Search = ({
 
         <Grid row gap="lg">
           <Grid col="auto">
-            {/* <EPubsCard query={query} /> */}
-            <SearchFilter labels={labels} />
+            {flags?.searchPageFilter ? (
+              <SearchFilter labels={labels} />
+            ) : (
+              <EPubsCard query={query} />
+            )}
           </Grid>
 
           {results.length > 0 ? (
