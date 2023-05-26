@@ -32,11 +32,6 @@ const SearchFilter = ({ labels }: PropTypes) => {
         }
   )
 
-  // When the filterItems state changes, update local storage
-  useEffect(() => {
-    localStorage.setItem('filterItems', JSON.stringify(filterItems))
-  }, [filterItems])
-
   // Load the filterItems state from local storage
   useEffect(() => {
     const savedFilterItems = localStorage.getItem('filterItems')
@@ -48,6 +43,17 @@ const SearchFilter = ({ labels }: PropTypes) => {
       const filterItemsToSearch = filterItemsArray
         .filter((item) => item[1] === true)
         .map((item) => `category:${item[0]}`)
+
+      // If there is a value in the dropdown, add it to the searchPageFilters array with a label: prefix
+      if (filterItems.dropdown) {
+        // If the dropdown value has more than one word, add quotes around it
+        if (filterItems.dropdown.includes(' ')) {
+          filterItemsToSearch.push(`label:"${filterItems.dropdown}"`)
+        } else {
+          filterItemsToSearch.push(`label:${filterItems.dropdown}`)
+        }
+      }
+
       setSearchPageFilters(filterItemsToSearch)
     }
   }, [])
