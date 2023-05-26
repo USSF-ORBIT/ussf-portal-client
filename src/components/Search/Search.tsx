@@ -59,7 +59,7 @@ const Search = ({
             data-testid="search-input"
             placeholder="What are you looking for today?"
             disabled={disabled}
-            defaultValue={searchQuery ? searchQuery : query}
+            defaultValue={searchQuery.length > 0 ? searchQuery : query}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
 

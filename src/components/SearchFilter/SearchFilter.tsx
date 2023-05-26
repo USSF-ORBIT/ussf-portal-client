@@ -177,9 +177,9 @@ const SearchFilter = ({ labels }: PropTypes) => {
           form.submit()
         }}>
         <input
-          id="hidden-q"
+          id="q"
           type="search"
-          name="hidden-q"
+          name="q"
           style={{ display: 'none' }}
           defaultValue={searchPageFilters.join(' ')}
         />
