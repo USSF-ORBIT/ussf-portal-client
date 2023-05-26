@@ -181,7 +181,6 @@ const SearchFilter = ({ labels }: PropTypes) => {
           type="search"
           name="hidden-q"
           style={{ display: 'none' }}
-          disabled={true}
           defaultValue={searchPageFilters.join(' ')}
         />
         <Grid row className={styles.buttonContainer}>
