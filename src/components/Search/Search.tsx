@@ -34,9 +34,12 @@ const Search = ({
           action="/search"
           onSubmit={(e) => {
             // Before submitting the form, we need to combine the filters with the search query
-            const finalSearchQuery = [...searchPageFilters, searchQuery].join(
-              ' '
-            )
+            let finalSearchQuery = [...searchPageFilters, searchQuery].join(' ')
+
+            // If finalSearchQuery has more than 200 characters, we need to truncate it
+            if (finalSearchQuery.length > 200) {
+              finalSearchQuery = finalSearchQuery.substring(0, 200)
+            }
 
             // Manually setting the value of the search input instead of waiting for the state to update
             const searchInput = document.getElementById('q') as HTMLInputElement
