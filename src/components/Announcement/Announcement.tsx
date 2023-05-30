@@ -14,7 +14,7 @@ const Announcement = ({
       <a className="usa-skipnav" href="/news" target="_blank">
         Latest Announcements in Accessible Format (opens in a new tab)
       </a>
-      <a className="usa-skipnav" href="#myspace">
+      <a className="usa-skipnav" href="#skip-announcements-carousel">
         Skip Component
       </a>
       <AnnouncementCarousel announcements={announcements} />

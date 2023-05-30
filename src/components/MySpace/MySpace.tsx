@@ -135,7 +135,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
   }
 
   return (
-    <div id="myspace" className={styles.mySpace}>
+    <div id="skip-announcements-carousel" className={styles.mySpace}>
       <div className={styles.widgetContainer}>
         <h2 className={styles.pageTitle}>My Space</h2>
         <Grid row gap={2}>
