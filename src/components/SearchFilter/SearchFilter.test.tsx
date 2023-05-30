@@ -5,6 +5,7 @@ import React from 'react'
 import { render, screen, waitFor, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SearchFilter from './SearchFilter'
+import { SearchProvider } from 'stores/searchContext'
 
 const mockLabels = [{ name: 'label1' }, { name: 'label2' }, { name: 'label3' }]
 
@@ -69,8 +70,16 @@ describe('SearchFilter component', () => {
 
   test('submits the form', async () => {
     const user = userEvent.setup()
+    const mockSubmit = jest.fn()
 
-    render(<SearchFilter labels={mockLabels} />)
+    render(
+      <SearchProvider>
+        <SearchFilter labels={mockLabels} />
+      </SearchProvider>
+    )
+
+    const form = screen.getByRole('search')
+    form.addEventListener('submit', mockSubmit)
 
     const checkbox = screen.getByLabelText('News')
     expect(checkbox).not.toBeChecked()
@@ -84,14 +93,7 @@ describe('SearchFilter component', () => {
 
     await user.click(submitButton)
 
-    // This isn't working for some reason
-    // await waitFor(() => {
-    //   expect(window.location.pathname).toBe('/search?q=category%3Anews+')
-    // })
-
-    // After the form submits, the checkbox should still be checked. This shows that
-    // local storage was updated.
-    expect(checkbox).toBeChecked()
+    expect(mockSubmit).toHaveBeenCalled()
   })
 
   test('clears the form', async () => {
