@@ -57,13 +57,13 @@ const SearchFilter = ({ labels }: PropTypes) => {
     }
   }, [])
 
-  // This function updates the searchPageFilters array based on the checkboxes
+  // If the checked item is already in the searchPageFilters array, remove it. Otherwise, add it.
   const updateCheckedItems = (checkboxValue: string) => {
     if (searchPageFilters.includes(checkboxValue)) {
       const index = searchPageFilters.indexOf(checkboxValue)
-      const queryArray = [...searchPageFilters]
-      queryArray.splice(index, 1)
-      setSearchPageFilters(queryArray)
+      const filterArray = [...searchPageFilters]
+      filterArray.splice(index, 1)
+      setSearchPageFilters(filterArray)
     } else {
       setSearchPageFilters([...searchPageFilters, checkboxValue])
     }
@@ -178,12 +178,15 @@ const SearchFilter = ({ labels }: PropTypes) => {
         method="get"
         action="/search"
         onSubmit={(e) => {
-          // Before submitting the form, we need to add the current value of searchQuery to the
-          // end of the searchPageFilters array
-          setSearchPageFilters([...searchPageFilters, searchQuery])
+          // Before submitting the form, we need to combine the filters with the search query
+          const finalSearchQuery = [...searchPageFilters, searchQuery].join(' ')
+
+          // Manually setting the value of the search input instead of waiting for the state to update
+          const searchInput = document.getElementById('q') as HTMLInputElement
+          searchInput.value = finalSearchQuery
 
           // Save the filterItems state to local storage
-          localStorage.setItem('filterItems', JSON.stringify(filterItems))
+          // localStorage.setItem('filterItems', JSON.stringify(filterItems))
 
           // Submit the form
           const form = e.target as HTMLFormElement

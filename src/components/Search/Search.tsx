@@ -11,7 +11,7 @@ const Search = ({
   disabled?: boolean
   query?: string
 }) => {
-  const { searchQuery, setSearchQuery } = useSearchContext()
+  const { searchQuery, searchPageFilters, setSearchQuery } = useSearchContext()
 
   const disableClass = classnames({
     [styles.disabled]: disabled,
@@ -31,7 +31,21 @@ const Search = ({
           className="usa-search usa-search--big"
           role="search"
           method="get"
-          action="/search">
+          action="/search"
+          onSubmit={(e) => {
+            // Before submitting the form, we need to combine the filters with the search query
+            const finalSearchQuery = [...searchPageFilters, searchQuery].join(
+              ' '
+            )
+
+            // Manually setting the value of the search input instead of waiting for the state to update
+            const searchInput = document.getElementById('q') as HTMLInputElement
+            searchInput.value = finalSearchQuery
+
+            // Submit the form
+            const form = e.target as HTMLFormElement
+            form.submit()
+          }}>
           {/*
           <label className="usa-sr-only" htmlFor="options">
             Search Options
@@ -59,7 +73,7 @@ const Search = ({
             data-testid="search-input"
             placeholder="What are you looking for today?"
             disabled={disabled}
-            defaultValue={searchQuery.length > 0 ? searchQuery : query}
+            defaultValue={searchQuery || query}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
 
