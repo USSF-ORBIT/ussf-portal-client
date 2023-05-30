@@ -66,7 +66,9 @@ export const CustomBookmarkForm = ({
           }
           return value
         })
-        .url('Please enter a valid URL')
+        .url(
+          'Please enter a valid URL in the address bar format such as https://www.example.gov'
+        )
         .required('URL is required'),
     }),
   })
