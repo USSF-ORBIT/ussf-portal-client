@@ -59,6 +59,13 @@ const SearchFilter = ({ labels }: PropTypes) => {
 
   // If the checked item is already in the searchPageFilters array, remove it. Otherwise, add it.
   const updateCheckedItems = (checkboxValue: string) => {
+    // If the checkbox value has more than one word, add quotes around it
+    if (checkboxValue.includes(' ')) {
+      checkboxValue = `"${checkboxValue}"`
+    }
+
+    checkboxValue = 'category:' + checkboxValue
+
     if (searchPageFilters.includes(checkboxValue)) {
       const index = searchPageFilters.indexOf(checkboxValue)
       const filterArray = [...searchPageFilters]
@@ -89,7 +96,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
               ...filterItems,
               application: !filterItems.application,
             })
-            updateCheckedItems(`category:${e.target.value}`)
+            updateCheckedItems(e.target.value)
           }}
         />
         <Checkbox
@@ -104,7 +111,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
               ...filterItems,
               news: !filterItems.news,
             })
-            updateCheckedItems(`category:${e.target.value}`)
+            updateCheckedItems(e.target.value)
           }}
         />
         <Checkbox
@@ -119,7 +126,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
               ...filterItems,
               documentation: !filterItems.documentation,
             })
-            updateCheckedItems(`category:${e.target.value}`)
+            updateCheckedItems(e.target.value)
           }}
         />
       </Grid>
