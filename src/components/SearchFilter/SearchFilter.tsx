@@ -16,10 +16,8 @@ type PropTypes = {
 }
 
 const SearchFilter = ({ labels }: PropTypes) => {
-  const { searchQuery } = useSearchContext()
-
-  // When a filter is selected, it is added to this array and then combined into a query string when the form is submitted
-  const [searchPageFilters, setSearchPageFilters] = useState<string[]>([])
+  const { searchQuery, searchPageFilters, setSearchPageFilters } =
+    useSearchContext()
 
   // Manages the state of the checkboxes and dropdown in the filter
   const [filterItems, setFilterItems] = useState(
@@ -60,14 +58,14 @@ const SearchFilter = ({ labels }: PropTypes) => {
   }, [])
 
   // This function updates the searchPageFilters array based on the checkboxes
-  const updateCheckedItems = (queryValue: string) => {
-    if (searchPageFilters.includes(queryValue)) {
-      const index = searchPageFilters.indexOf(queryValue)
+  const updateCheckedItems = (checkboxValue: string) => {
+    if (searchPageFilters.includes(checkboxValue)) {
+      const index = searchPageFilters.indexOf(checkboxValue)
       const queryArray = [...searchPageFilters]
       queryArray.splice(index, 1)
       setSearchPageFilters(queryArray)
     } else {
-      setSearchPageFilters([...searchPageFilters, queryValue])
+      setSearchPageFilters([...searchPageFilters, checkboxValue])
     }
   }
 
