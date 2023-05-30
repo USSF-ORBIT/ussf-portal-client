@@ -15,6 +15,7 @@ const CustomEllipse = ({ onClick }: any) => {
         type="button"
         title="slide"
         className={styles.carouselEllipse}
+        aria-hidden="true"
       />
     </div>
   )
