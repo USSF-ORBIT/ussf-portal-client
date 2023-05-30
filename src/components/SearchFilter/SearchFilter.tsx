@@ -18,6 +18,7 @@ type PropTypes = {
 const SearchFilter = ({ labels }: PropTypes) => {
   const { searchQuery } = useSearchContext()
 
+  // When a filter is selected, it is added to this array and then combined into a query string when the form is submitted
   const [searchPageFilters, setSearchPageFilters] = useState<string[]>([])
 
   // Manages the state of the checkboxes and dropdown in the filter
@@ -142,6 +143,16 @@ const SearchFilter = ({ labels }: PropTypes) => {
               (label) => !label.includes('label:')
             )
 
+            // if the user selects the default option, don't add anything to the array
+            if (labelToAdd === 'default') {
+              setSearchPageFilters(filteredArray)
+              setFilterItems({
+                ...filterItems,
+                dropdown: '',
+              })
+              return
+            }
+
             // Add the new label to the array
             filteredArray.push(`label:${labelToAdd}`)
             setSearchPageFilters(filteredArray)
@@ -152,9 +163,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
               dropdown: labelToAdd,
             })
           }}>
-          <option value="default" disabled>
-            None applied
-          </option>
+          <option value="default">None applied</option>
           {labels.map(({ name }) => (
             <option
               key={name}
