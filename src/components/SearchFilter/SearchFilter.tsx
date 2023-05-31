@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   Grid,
   Checkbox,
@@ -20,50 +20,15 @@ const SearchFilter = ({ labels }: PropTypes) => {
     useSearchContext()
 
   // Manages the state of the checkboxes and dropdown in the filter
-  const [filterItems, setFilterItems] = useState(
-    localStorage.getItem('filterItems')
-      ? JSON.parse(localStorage.getItem('filterItems') as string)
-      : {
-          application: false,
-          news: false,
-          documentation: false,
-          dropdown: '',
-        }
-  )
-
-  // Load the filterItems state from local storage
-  useEffect(() => {
-    const savedFilterItems = localStorage.getItem('filterItems')
-    if (savedFilterItems) {
-      setFilterItems(JSON.parse(savedFilterItems))
-
-      // If there is a true value in the filterItems state, add it to the searchPageFilters array with a category: prefix
-      const filterItemsArray = Object.entries(JSON.parse(savedFilterItems))
-      const filterItemsToSearch = filterItemsArray
-        .filter((item) => item[1] === true)
-        .map((item) => `category:${item[0]}`)
-
-      // If there is a value in the dropdown, add it to the searchPageFilters array with a label: prefix
-      if (filterItems.dropdown) {
-        // If the dropdown value has more than one word, add quotes around it
-        if (filterItems.dropdown.includes(' ')) {
-          filterItemsToSearch.push(`label:"${filterItems.dropdown}"`)
-        } else {
-          filterItemsToSearch.push(`label:${filterItems.dropdown}`)
-        }
-      }
-
-      setSearchPageFilters(filterItemsToSearch)
-    }
-  }, [])
+  const [filterItems, setFilterItems] = useState({
+    application: false,
+    news: false,
+    documentation: false,
+    dropdown: '',
+  })
 
   // If the checked item is already in the searchPageFilters array, remove it. Otherwise, add it.
   const updateCheckedItems = (checkboxValue: string) => {
-    // If the checkbox value has more than one word, add quotes around it
-    if (checkboxValue.includes(' ')) {
-      checkboxValue = `"${checkboxValue}"`
-    }
-
     checkboxValue = 'category:' + checkboxValue
 
     if (searchPageFilters.includes(checkboxValue)) {
@@ -138,7 +103,9 @@ const SearchFilter = ({ labels }: PropTypes) => {
           id="label-dropdown"
           name="label-dropdown"
           data-testid="label-dropdown"
-          value={filterItems.dropdown ? filterItems.dropdown : 'default'}
+          value={
+            filterItems.dropdown.length > 0 ? filterItems.dropdown : 'default'
+          }
           onChange={(e) => {
             // Need to remove any previous label and add the newly selected one
             const labelToAdd = e.target.value
@@ -148,7 +115,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
               (label) => !label.includes('label:')
             )
 
-            // if the user selects the default option, don't add anything to the array
+            // If the user selects the default option, update the state with the removed label and return
             if (labelToAdd === 'default') {
               setSearchPageFilters(filteredArray)
               setFilterItems({
@@ -158,8 +125,14 @@ const SearchFilter = ({ labels }: PropTypes) => {
               return
             }
 
+            // If the dropdown value has more than one word, add quotes around it
+            if (labelToAdd.includes(' ')) {
+              filteredArray.push(`label:"${labelToAdd}"`)
+            } else {
+              filteredArray.push(`label:${labelToAdd}`)
+            }
+
             // Add the new label to the array
-            filteredArray.push(`label:${labelToAdd}`)
             setSearchPageFilters(filteredArray)
 
             // Update the state of the dropdown
@@ -168,7 +141,11 @@ const SearchFilter = ({ labels }: PropTypes) => {
               dropdown: labelToAdd,
             })
           }}>
-          <option value="default">None applied</option>
+          <option
+            value="default"
+            aria-selected={filterItems.dropdown === '' ? true : false}>
+            None applied
+          </option>
           {labels.map(({ name }) => (
             <option
               key={name}
@@ -197,9 +174,6 @@ const SearchFilter = ({ labels }: PropTypes) => {
           const searchInput = document.getElementById('q') as HTMLInputElement
           searchInput.value = finalSearchQuery
 
-          // Save the filterItems state to local storage
-          // localStorage.setItem('filterItems', JSON.stringify(filterItems))
-
           // Submit the form
           const form = e.target as HTMLFormElement
           form.submit()
@@ -207,6 +181,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
         <input
           id="q"
           type="search"
+          data-testid="search-filter"
           name="q"
           style={{ display: 'none' }}
           defaultValue={searchPageFilters.join(' ')}
@@ -234,17 +209,6 @@ const SearchFilter = ({ labels }: PropTypes) => {
                 documentation: false,
                 dropdown: '',
               })
-
-              // Save the filterItems state to local storage
-              localStorage.setItem(
-                'filterItems',
-                JSON.stringify({
-                  application: false,
-                  news: false,
-                  documentation: false,
-                  dropdown: '',
-                })
-              )
             }}>
             <span className="usa-search__submit-text">Reset</span>
           </Button>
