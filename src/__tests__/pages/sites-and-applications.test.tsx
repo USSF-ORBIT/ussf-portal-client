@@ -188,18 +188,12 @@ describe('Sites and Applications page', () => {
         )
 
         expect(
-          await screen.findByRole('heading', { name: 'Sites & Applications' })
-        ).toBeInTheDocument()
-        expect(
-          await screen.findByRole('button', {
-            name: 'Sort by type',
+          await screen.findByRole('heading', {
+            name: 'Sites & Applications By type',
           })
         ).toBeInTheDocument()
-        expect(
-          await screen.findByRole('button', {
-            name: 'Sort alphabetically',
-          })
-        ).toBeInTheDocument()
+
+        expect(screen.getByTestId('navDropDownButton')).toBeInTheDocument()
       })
 
       test('sorts by type by default', async () => {
@@ -234,29 +228,36 @@ describe('Sites and Applications page', () => {
           sitesAndAppsMock
         )
 
-        const sortAlphaBtn = await screen.findByRole('button', {
-          name: 'Sort alphabetically',
+        const toggleDropdown = screen.getByTestId('navDropDownButton')
+        await user.click(toggleDropdown)
+
+        const sortAlpha = await screen.findByRole('button', {
+          name: 'Alphabetically',
         })
+        await user.click(sortAlpha)
 
-        const sortTypeBtn = screen.getByRole('button', { name: 'Sort by type' })
-
-        expect(sortTypeBtn).toBeDisabled()
-        await user.click(sortAlphaBtn)
-
-        expect(sortAlphaBtn).toBeDisabled()
+        expect(
+          await screen.findByRole('heading', {
+            name: 'Sites & Applications Alphabetically',
+          })
+        ).toBeInTheDocument()
         expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(0)
         expect(screen.getByRole('table')).toBeInTheDocument()
         expect(screen.getAllByRole('link')).toHaveLength(
           mockCMSBookmarks.length
         )
-        expect(sortTypeBtn).not.toBeDisabled()
 
-        await user.click(sortTypeBtn)
+        await user.click(screen.getByTestId('navDropDownButton'))
+        const sortType = await screen.findByRole('button', {
+          name: 'By Type',
+        })
+        await user.click(sortType)
+
         expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(
           mockCMSCollections.length
         )
         expect(screen.queryByRole('table')).not.toBeInTheDocument()
-        expect(sortAlphaBtn).not.toBeDisabled()
+        expect(sortAlpha).not.toBeDisabled()
       })
 
       describe('selecting collections', () => {
@@ -279,12 +280,6 @@ describe('Sites and Applications page', () => {
           })
           expect(selectBtn).toBeInTheDocument()
           await user.click(selectBtn)
-
-          expect(
-            screen.getByRole('button', {
-              name: 'Sort alphabetically',
-            })
-          ).toBeDisabled()
 
           expect(
             screen.queryByRole('button', {
@@ -549,9 +544,13 @@ describe('Sites and Applications page', () => {
             addBookmarkMock
           )
 
+          const toggleDropdown = screen.getByTestId('navDropDownButton')
+          await user.click(toggleDropdown)
+
           const sortAlpha = await screen.findByRole('button', {
-            name: 'Sort alphabetically',
+            name: 'Alphabetically',
           })
+
           await user.click(sortAlpha)
 
           await user.click(
@@ -590,9 +589,13 @@ describe('Sites and Applications page', () => {
             sitesAndAppsMock
           )
 
+          const toggleDropdown = screen.getByTestId('navDropDownButton')
+          await user.click(toggleDropdown)
+
           const sortAlpha = await screen.findByRole('button', {
-            name: 'Sort alphabetically',
+            name: 'Alphabetically',
           })
+
           await user.click(sortAlpha)
 
           expect(screen.getByRole('alert')).toHaveTextContent(
@@ -621,10 +624,13 @@ describe('Sites and Applications page', () => {
             { portalUser: portalUserWithExampleCollection },
             sitesAndAppsMock
           )
+          const toggleDropdown = screen.getByTestId('navDropDownButton')
+          await user.click(toggleDropdown)
 
           const sortAlpha = await screen.findByRole('button', {
-            name: 'Sort alphabetically',
+            name: 'Alphabetically',
           })
+
           await user.click(sortAlpha)
 
           await user.click(
@@ -704,11 +710,14 @@ describe('Sites and Applications page', () => {
         { portalUser: portalUserCollectionLimit }
       )
 
-      await user.click(
-        await screen.findByRole('button', {
-          name: 'Sort alphabetically',
-        })
-      )
+      const toggleDropdown = screen.getByTestId('navDropDownButton')
+      await user.click(toggleDropdown)
+
+      const sortAlpha = await screen.findByRole('button', {
+        name: 'Alphabetically',
+      })
+
+      await user.click(sortAlpha)
 
       expect(screen.getByRole('alert')).toHaveTextContent(
         `You have reached the maximum number of collections allowed on your My Space (25).`
