@@ -2,18 +2,17 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import {
-  render,
-  screen,
-  waitFor,
-  cleanup,
-  fireEvent,
-} from '@testing-library/react'
+import { render, screen, waitFor, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SearchFilter from './SearchFilter'
 import { SearchProvider } from 'stores/searchContext'
 
-const mockLabels = [{ name: 'label1' }, { name: 'label2' }, { name: 'label3' }]
+const mockLabels = [
+  { name: 'label1' },
+  { name: 'label2' },
+  { name: 'label3' },
+  { name: 'two words' },
+]
 
 describe('SearchFilter component', () => {
   afterEach(() => {
@@ -31,7 +30,7 @@ describe('SearchFilter component', () => {
     render(<SearchFilter labels={mockLabels} />)
 
     expect(screen.getByRole('combobox')).toBeInTheDocument()
-    expect(screen.getAllByRole('option')).toHaveLength(4)
+    expect(screen.getAllByRole('option')).toHaveLength(5)
   })
 
   test('user can select the default dropdown option', async () => {
@@ -41,7 +40,7 @@ describe('SearchFilter component', () => {
     const dropdown = screen.getByTestId('label-dropdown')
 
     expect(dropdown).toBeInTheDocument()
-    expect(screen.getAllByRole('option')).toHaveLength(4)
+    expect(screen.getAllByRole('option')).toHaveLength(5)
 
     await user.selectOptions(dropdown, 'label1')
 
@@ -68,7 +67,7 @@ describe('SearchFilter component', () => {
     const dropdown = screen.getByTestId('label-dropdown')
 
     expect(dropdown).toBeInTheDocument()
-    expect(screen.getAllByRole('option')).toHaveLength(4)
+    expect(screen.getAllByRole('option')).toHaveLength(5)
 
     await user.selectOptions(dropdown, 'label1')
 
@@ -104,6 +103,69 @@ describe('SearchFilter component', () => {
     expect(applicationCheckbox).toBeChecked()
   })
 
+  test('unchecking a checkbox removes it from the query', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <SearchProvider>
+        <SearchFilter labels={mockLabels} />
+      </SearchProvider>
+    )
+
+    const applicationCheckbox = screen.getByLabelText('Application')
+
+    expect(applicationCheckbox).toBeInTheDocument()
+    expect(applicationCheckbox).not.toBeChecked()
+
+    await user.click(applicationCheckbox)
+
+    expect(applicationCheckbox).toBeChecked()
+
+    await user.click(applicationCheckbox)
+
+    expect(applicationCheckbox).not.toBeChecked()
+  })
+
+  test('selecting a dropdown option removes the previous label from the query', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <SearchProvider>
+        <SearchFilter labels={mockLabels} />
+      </SearchProvider>
+    )
+
+    const dropdown = screen.getByTestId('label-dropdown')
+
+    await user.selectOptions(dropdown, 'label1')
+
+    expect(screen.getByText('label1')).toHaveAttribute('aria-selected', 'true')
+
+    await user.selectOptions(dropdown, 'label2')
+
+    expect(screen.getByText('label1')).toHaveAttribute('aria-selected', 'false')
+    expect(screen.getByText('label2')).toHaveAttribute('aria-selected', 'true')
+  })
+
+  test('user can select a label that has two words', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <SearchProvider>
+        <SearchFilter labels={mockLabels} />
+      </SearchProvider>
+    )
+
+    const dropdown = screen.getByTestId('label-dropdown')
+
+    await user.selectOptions(dropdown, 'two words')
+
+    expect(screen.getByText('two words')).toHaveAttribute(
+      'aria-selected',
+      'true'
+    )
+  })
+
   test('submits the form', async () => {
     const user = userEvent.setup()
     const mockSubmit = jest.fn()
@@ -131,45 +193,6 @@ describe('SearchFilter component', () => {
 
     expect(mockSubmit).toHaveBeenCalled()
   })
-
-  // test('trims the search query if it is greater than 200 characters', async () => {
-  //   const user = userEvent.setup()
-  //   const mockSubmit = jest.fn()
-
-  //   render(
-  //     <SearchProvider>
-  //       <SearchFilter labels={mockLabels} />
-  //     </SearchProvider>
-  //   )
-
-  //   const form = screen.getByRole('search')
-  //   form.addEventListener('submit', mockSubmit)
-
-  //   const searchbox = screen.getByTestId('search-filter')
-
-  //   expect(searchbox).toBeInTheDocument()
-
-  //   // 'test' has 4 characters, so 51 * 4 = 204 characters
-  //   fireEvent.change(searchbox, {
-  //     target: {
-  //       value: 'test'.repeat(51),
-  //     },
-  //   })
-
-  //   const submitButton = screen.getByRole('button', { name: 'Filter' })
-  //   expect(submitButton).toBeInTheDocument()
-
-  //   await user.click(submitButton)
-
-  //   expect(mockSubmit).toHaveBeenCalled()
-
-  //   await waitFor(() => {
-  //     expect(searchbox).toHaveValue('test'.repeat(50))
-  //   })
-
-  //   // Check that the search query is trimmed to 200 characters
-  //   // expect(searchbox).toHaveValue('test'.repeat(50))
-  // })
 
   test('clears the form', async () => {
     const user = userEvent.setup()
