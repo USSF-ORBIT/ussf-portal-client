@@ -4,8 +4,9 @@
 import React from 'react'
 import { render, screen, waitFor, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderWithSearchContext } from '../../testHelpers'
 import SearchFilter from './SearchFilter'
-import { SearchProvider } from 'stores/searchContext'
+import Search from 'components/Search/Search'
 
 const mockLabels = [
   { name: 'label1' },
@@ -23,7 +24,7 @@ describe('SearchFilter component', () => {
   test('renders the search filter', () => {
     render(<SearchFilter labels={mockLabels} />)
 
-    expect(screen.getByRole('search')).toBeInTheDocument()
+    expect(screen.getByText('Filter Search')).toBeInTheDocument()
   })
 
   test('renders the dropdown options', () => {
@@ -106,39 +107,27 @@ describe('SearchFilter component', () => {
   test('unchecking a checkbox removes it from the query', async () => {
     const user = userEvent.setup()
 
-    render(
-      <SearchProvider>
-        <SearchFilter labels={mockLabels} />
-      </SearchProvider>
-    )
+    renderWithSearchContext(<SearchFilter labels={mockLabels} />, {
+      searchQuery: 'category:news',
+    })
 
-    const applicationCheckbox = screen.getByLabelText('Application')
+    const newsCheckbox = screen.getByLabelText('News')
 
-    expect(applicationCheckbox).toBeInTheDocument()
-    expect(applicationCheckbox).not.toBeChecked()
+    expect(newsCheckbox).toBeInTheDocument()
+    expect(newsCheckbox).toBeChecked()
 
-    await user.click(applicationCheckbox)
-
-    expect(applicationCheckbox).toBeChecked()
-
-    await user.click(applicationCheckbox)
-
-    expect(applicationCheckbox).not.toBeChecked()
+    await user.click(newsCheckbox)
+    expect(newsCheckbox).not.toBeChecked()
   })
 
   test('selecting a dropdown option removes the previous label from the query', async () => {
     const user = userEvent.setup()
 
-    render(
-      <SearchProvider>
-        <SearchFilter labels={mockLabels} />
-      </SearchProvider>
-    )
+    renderWithSearchContext(<SearchFilter labels={mockLabels} />)
 
     const dropdown = screen.getByTestId('label-dropdown')
 
     await user.selectOptions(dropdown, 'label1')
-
     expect(screen.getByText('label1')).toHaveAttribute('aria-selected', 'true')
 
     await user.selectOptions(dropdown, 'label2')
@@ -150,11 +139,7 @@ describe('SearchFilter component', () => {
   test('user can select a label that has two words', async () => {
     const user = userEvent.setup()
 
-    render(
-      <SearchProvider>
-        <SearchFilter labels={mockLabels} />
-      </SearchProvider>
-    )
+    renderWithSearchContext(<SearchFilter labels={mockLabels} />)
 
     const dropdown = screen.getByTestId('label-dropdown')
 
@@ -170,28 +155,41 @@ describe('SearchFilter component', () => {
     const user = userEvent.setup()
     const mockSubmit = jest.fn()
 
-    render(
-      <SearchProvider>
+    renderWithSearchContext(
+      <>
+        <Search />
         <SearchFilter labels={mockLabels} />
-      </SearchProvider>
+      </>,
+      {
+        searchQuery: 'test'.repeat(60),
+        searchPageFilters: ['label:label1'],
+      }
     )
 
     const form = screen.getByRole('search')
     form.addEventListener('submit', mockSubmit)
 
-    const checkbox = screen.getByLabelText('News')
-    expect(checkbox).not.toBeChecked()
-
-    await user.click(checkbox)
-
-    expect(checkbox).toBeChecked()
-
-    const submitButton = screen.getByRole('button', { name: 'Filter' })
-    expect(submitButton).toBeInTheDocument()
-
-    await user.click(submitButton)
+    await user.click(screen.getByRole('button', { name: 'Filter' }))
 
     expect(mockSubmit).toHaveBeenCalled()
+  })
+
+  test('if searchQuery contains any filter values, update the dropdown with the value', async () => {
+    renderWithSearchContext(
+      <>
+        <Search />
+        <SearchFilter labels={mockLabels} />
+      </>,
+      {
+        searchQuery:
+          'label:label1 category:news category:application category:documentation',
+      }
+    )
+
+    expect(screen.getByText('label1')).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByLabelText('News')).toBeChecked()
+    expect(screen.getByLabelText('Application')).toBeChecked()
+    expect(screen.getByLabelText('Documentation')).toBeChecked()
   })
 
   test('clears the form', async () => {

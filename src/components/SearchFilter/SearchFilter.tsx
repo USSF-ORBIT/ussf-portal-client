@@ -169,7 +169,16 @@ const SearchFilter = ({ labels }: PropTypes) => {
       <Grid row className={styles.buttonContainer}>
         <Button
           type="button"
-          disabled={searchPageFilters.length > 0 ? false : true}
+          // If searchPageFilters has any values, or if filterItems has any values, enable the button
+          disabled={
+            searchPageFilters.length > 0 ||
+            filterItems.application ||
+            filterItems.documentation ||
+            filterItems.news ||
+            filterItems.dropdown
+              ? false
+              : true
+          }
           onClick={() => {
             // Get the id for the search form
             const searchForm = document.getElementById(
