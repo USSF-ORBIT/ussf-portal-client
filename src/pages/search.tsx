@@ -78,11 +78,8 @@ const Search = ({
 
         <Grid row gap="lg">
           <Grid col="auto">
-            {flags?.searchPageFilter ? (
-              <SearchFilter labels={labels} />
-            ) : (
-              <EPubsCard query={query} />
-            )}
+            <EPubsCard query={query} />
+            {flags?.searchPageFilter && <SearchFilter labels={labels} />}
           </Grid>
 
           {results.length > 0 ? (
