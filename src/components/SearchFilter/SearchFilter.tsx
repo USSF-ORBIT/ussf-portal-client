@@ -16,8 +16,12 @@ type PropTypes = {
 }
 
 const SearchFilter = ({ labels }: PropTypes) => {
-  const { searchQuery, searchPageFilters, setSearchPageFilters } =
-    useSearchContext()
+  const {
+    searchQuery,
+    setSearchQuery,
+    searchPageFilters,
+    setSearchPageFilters,
+  } = useSearchContext()
 
   // Manages the state of the checkboxes and dropdown in the filter
   const [filterItems, setFilterItems] = useState({
@@ -157,63 +161,55 @@ const SearchFilter = ({ labels }: PropTypes) => {
         </Dropdown>
       </Grid>
 
-      <form
-        role="search"
-        method="get"
-        action="/search"
-        onSubmit={(e) => {
-          // Before submitting the form, we need to combine the filters with the search query
-          let finalSearchQuery = [...searchPageFilters, searchQuery].join(' ')
+      <Grid row className={styles.buttonContainer}>
+        <Button
+          type="button"
+          disabled={searchPageFilters.length > 0 ? false : true}
+          onClick={() => {
+            // Get the id for the search form
+            const searchForm = document.getElementById(
+              'search-form'
+            ) as HTMLFormElement
 
-          // If finalSearchQuery has more than 200 characters, we need to truncate it
-          if (finalSearchQuery.length > 200) {
-            finalSearchQuery = finalSearchQuery.substring(0, 200)
-          }
+            // Before submitting the form, we need to combine the filters with the search query
+            let finalSearchQuery = [...searchPageFilters, searchQuery].join(' ')
 
-          // Manually setting the value of the search input instead of waiting for the state to update
-          const searchInput = document.getElementById('q') as HTMLInputElement
-          searchInput.value = finalSearchQuery
+            // If finalSearchQuery has more than 200 characters, we need to truncate it
+            if (finalSearchQuery.length > 200) {
+              finalSearchQuery = finalSearchQuery.substring(0, 200)
+            }
 
-          // Submit the form
-          const form = e.target as HTMLFormElement
-          form.submit()
-        }}>
-        <input
-          id="q"
-          type="search"
-          data-testid="search-filter"
-          name="q"
-          style={{ display: 'none' }}
-          defaultValue={searchPageFilters.join(' ')}
-        />
-        <Grid row className={styles.buttonContainer}>
-          <Button
-            type="submit"
-            disabled={searchPageFilters.length > 0 ? false : true}>
-            <span className="usa-search__submit-text">Filter</span>
-          </Button>
-          <Button
-            type="submit"
-            outline
-            disabled={false}
-            onClick={(e) => {
-              e.preventDefault()
+            // Manually setting the value of the search input instead of waiting for the state to update
+            const searchInput = document.getElementById('q') as HTMLInputElement
+            searchInput.value = finalSearchQuery
 
-              // Reset the searchPageFilters array
-              setSearchPageFilters([])
+            // Submit the form
+            searchForm.submit()
+          }}>
+          <span className="usa-search__submit-text">Filter</span>
+        </Button>
+        <Button
+          type="submit"
+          outline
+          disabled={false}
+          onClick={() => {
+            // Reset the searchPageFilters array
+            setSearchPageFilters([])
 
-              // Reset the filterItems state
-              setFilterItems({
-                application: false,
-                news: false,
-                documentation: false,
-                dropdown: '',
-              })
-            }}>
-            <span className="usa-search__submit-text">Reset</span>
-          </Button>
-        </Grid>
-      </form>
+            // Reset the search input
+            setSearchQuery('')
+
+            // Reset the filterItems state
+            setFilterItems({
+              application: false,
+              news: false,
+              documentation: false,
+              dropdown: '',
+            })
+          }}>
+          <span className="usa-search__submit-text">Reset</span>
+        </Button>
+      </Grid>
     </div>
   )
 }

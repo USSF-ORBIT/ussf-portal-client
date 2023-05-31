@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import classnames from 'classnames'
 import styles from './Search.module.scss'
 import { useSearchContext } from 'stores/searchContext'
@@ -12,6 +12,13 @@ const Search = ({
   query?: string
 }) => {
   const { searchQuery, searchPageFilters, setSearchQuery } = useSearchContext()
+
+  // If a query is passed in, set the searchQuery state to that value
+  useEffect(() => {
+    if (query) {
+      setSearchQuery(query)
+    }
+  }, [query])
 
   const disableClass = classnames({
     [styles.disabled]: disabled,
@@ -28,6 +35,7 @@ const Search = ({
       )}
       <div className={disableClass}>
         <form
+          id="search-form"
           className="usa-search usa-search--big"
           role="search"
           method="get"
@@ -76,7 +84,7 @@ const Search = ({
             data-testid="search-input"
             placeholder="What are you looking for today?"
             disabled={disabled}
-            defaultValue={searchQuery || query}
+            value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
 
