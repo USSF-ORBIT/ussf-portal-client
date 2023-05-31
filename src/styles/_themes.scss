@@ -83,10 +83,12 @@ $dark-gradient: linear-gradient(
   --btn-delete-bg-hover: #{$state-error-lighter};
 
   // Sites & Apps
-  --btn-sort-bg: rgba(255, 255, 255, 0.5);
+  --toolbar-bg: #{$theme-ultraviolet-dark};
+  --toolbar-section-border: #{$theme-ultraviolet-dark};
+  --btn-sort-bg: #{$theme-ultraviolet-light};
   --btn-sort-border: #a9aeb1;
   --btn-sort-text: $theme-ultraviolet-base;
-  --btn-sort-hover-bg: #{$theme-ultraviolet-dark};
+  --btn-sort-hover-bg: #{$theme-ultraviolet-base};
   --btn-sort-hover-text: #{$grey};
   --btn-sort-disabled-bg: #f9fafa;
   --btn-sort-disabled-border: #a9aeb1;
@@ -96,8 +98,8 @@ $dark-gradient: linear-gradient(
   --bookmark-sites-apps-bg: transparent;
   --bookmark-sites-apps-border: #{color(base-light)};
 
-  --btn-select-collections-bg: #{$theme-ultraviolet-base};
-  --btn-select-collections-bg-hover: #{$theme-ultraviolet-dark};
+  --btn-select-collections-bg: #{$theme-mars-base};
+  --btn-select-collections-bg-hover: #{$theme-mars-light};
 
   //alpha
   --bookmark-sites-apps-text: #{$theme-black};
@@ -290,6 +292,8 @@ $dark-gradient: linear-gradient(
   --btn-delete-bg-hover: #{$state-error-lighter};
 
   // Sites & Apps
+  --toolbar-bg: rgba(0, 0, 0, 0.6);
+  --toolbar-section-border: rgba(0, 0, 0, 0.6);
   --btn-sort-border: #{$theme-aurora-dark};
   --btn-sort-bg: #{$theme-aurora-dark};
   --btn-sort-text: #{$theme-black};
@@ -303,13 +307,13 @@ $dark-gradient: linear-gradient(
   --btn-select-collections-bg-hover: #{$theme-mars-light};
 
   --widget-sites-apps-bg: rgba(0, 0, 0, 0.3);
-  --bookmark-sites-apps-bg: rgba(0, 0, 0, 0.6);
-  --bookmark-sites-apps-border: #{$blue-gray};
+  --bookmark-sites-apps-bg: rgba(0, 0, 0, 0.3);
+  --bookmark-sites-apps-border: black;
 
   //Sites & Apps - alpha view
   --bookmark-sites-apps-text: #{$white};
   --bookmark-sites-apps-alpha-bg-odd: rgba(0, 0, 0, 0.3);
-  --bookmark-sites-apps-alpha-bg-even: rgba(0, 0, 0, 0.4);
+  --bookmark-sites-apps-alpha-bg-even: rgba(0, 0, 0, 0.6);
 
   --btn-disabled-text: #{$theme-aurora-dark};
   --btn-disabled-text-hover: #{$theme-aurora-base};
