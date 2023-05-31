@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { GridContainer, Grid } from '@trussworks/react-uswds'
 import { useFlags } from 'launchdarkly-react-client-sdk'
@@ -15,6 +16,7 @@ import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
 import styles from 'styles/pages/search.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { useUser } from 'hooks/useUser'
+import { useSearchContext } from 'stores/searchContext'
 import Loader from 'components/Loader/Loader'
 
 // TODO - empty state (need design)
@@ -25,7 +27,15 @@ const Search = ({
   labels,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
+  const { setSearchQuery } = useSearchContext()
   const flags = useFlags()
+
+  // If a query is passed in, set the searchQuery state to that value
+  useEffect(() => {
+    if (query) {
+      setSearchQuery(query)
+    }
+  }, [query])
 
   const resultString =
     results.length === 1
@@ -36,7 +46,7 @@ const Search = ({
     <Loader />
   ) : (
     <>
-      <PageHeader searchQuery={query}>
+      <PageHeader>
         <div>
           <h1>Search</h1>
           <BreadcrumbNav

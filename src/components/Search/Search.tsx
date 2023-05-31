@@ -1,24 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import classnames from 'classnames'
 import styles from './Search.module.scss'
 import { useSearchContext } from 'stores/searchContext'
 // import LinkTo from 'components/util/LinkTo/LinkTo'
 
-const Search = ({
-  disabled,
-  query,
-}: {
-  disabled?: boolean
-  query?: string
-}) => {
+const Search = ({ disabled }: { disabled?: boolean }) => {
   const { searchQuery, searchPageFilters, setSearchQuery } = useSearchContext()
-
-  // If a query is passed in, set the searchQuery state to that value
-  useEffect(() => {
-    if (query) {
-      setSearchQuery(query)
-    }
-  }, [query])
 
   const disableClass = classnames({
     [styles.disabled]: disabled,

@@ -25,10 +25,15 @@ const SearchFilter = ({ labels }: PropTypes) => {
 
   // Manages the state of the checkboxes and dropdown in the filter
   const [filterItems, setFilterItems] = useState({
-    application: false,
-    news: false,
-    documentation: false,
-    dropdown: '',
+    application: searchQuery.includes('category:application') ? true : false,
+    news: searchQuery.includes('category:news') ? true : false,
+    documentation: searchQuery.includes('category:documentation')
+      ? true
+      : false,
+    dropdown:
+      searchQuery && searchQuery.includes('label:')
+        ? searchQuery.split('label:')[1].split(' ')[0].replace(/"/g, '')
+        : '',
   })
 
   // If the checked item is already in the searchPageFilters array, remove it. Otherwise, add it.
