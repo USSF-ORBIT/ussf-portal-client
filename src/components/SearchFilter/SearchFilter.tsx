@@ -38,9 +38,6 @@ const SearchFilter = ({ labels }: PropTypes) => {
           searchQuery.split('label:')[1].split(' ')[0],
   })
 
-  console.log(searchQuery)
-  console.log(filterItems.dropdown)
-
   const updateCheckedItems = (checkboxValue: string) => {
     checkboxValue = 'category:' + checkboxValue
 
