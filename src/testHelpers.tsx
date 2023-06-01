@@ -128,8 +128,6 @@ export const renderWithAuthAndApollo = (
 export const defaultMockSearchContext = {
   searchQuery: '',
   setSearchQuery: jest.fn(),
-  searchPageFilters: [],
-  setSearchPageFilters: jest.fn(),
 }
 
 /** Renders the component inside of a SearchProvider */

@@ -161,8 +161,7 @@ describe('SearchFilter component', () => {
         <SearchFilter labels={mockLabels} />
       </>,
       {
-        searchQuery: 'test'.repeat(60),
-        searchPageFilters: ['label:label1'],
+        searchQuery: 'label:label1' + 'test'.repeat(60),
       }
     )
 
