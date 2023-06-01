@@ -22,9 +22,6 @@ const InternalNews = ({
   ) : (
     <div>
       <div className={styles.pageTitle}>
-        <h2 id="latest-announcements">Latest Announcements</h2>
-        <h3>[statically output any announcements here]</h3>
-
         <h2>All USSF news</h2>
         <h3>
           Publically and internally released Space Force news, published within
