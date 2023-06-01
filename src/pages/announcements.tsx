@@ -6,10 +6,11 @@ import { client } from '../lib/keystoneClient'
 import AnnouncementInfo from 'components/AnnouncementInfo/AnnouncementInfo'
 import { GET_ANNOUNCEMENTS } from 'operations/cms/queries/getAnnouncements'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
-import styles from 'styles/pages/news.module.scss'
+import styles from 'styles/pages/annoucements.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
+import { AnnouncementRecord } from 'types'
 
 const AnnouncementsPage = ({
   announcements,
@@ -19,14 +20,16 @@ const AnnouncementsPage = ({
   return !user ? (
     <Loader />
   ) : (
-    <div>
+    <div className={styles.Anno}>
       <div className={styles.pageTitle}>
         {announcements.length > 0 && (
-          <section>
+          <section className="grid-row flex-column flex-align-start">
             {announcements.map(
               (announcement: AnnouncementRecord, index: number) => {
                 return (
-                  <AnnouncementInfo key={index} announcement={announcement} />
+                  <div key={index} className="margin-bottom-3">
+                    <AnnouncementInfo key={index} announcement={announcement} />
+                  </div>
                 )
               }
             )}
