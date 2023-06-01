@@ -5,7 +5,7 @@ import { useSearchContext } from 'stores/searchContext'
 // import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const Search = ({ disabled }: { disabled?: boolean }) => {
-  const { searchQuery, searchPageFilters, setSearchQuery } = useSearchContext()
+  const { searchQuery, setSearchQuery } = useSearchContext()
 
   const disableClass = classnames({
     [styles.disabled]: disabled,
@@ -28,11 +28,10 @@ const Search = ({ disabled }: { disabled?: boolean }) => {
           method="get"
           action="/search"
           onSubmit={(e) => {
-            // Before submitting the form, we need to combine the filters with the search query
-            let finalSearchQuery = [...searchPageFilters, searchQuery].join(' ')
+            let finalSearchQuery = searchQuery
 
             // If finalSearchQuery has more than 200 characters, we need to truncate it
-            if (finalSearchQuery.length > 200) {
+            if (searchQuery.length > 200) {
               finalSearchQuery = finalSearchQuery.substring(0, 200)
             }
 

@@ -16,12 +16,7 @@ type PropTypes = {
 }
 
 const SearchFilter = ({ labels }: PropTypes) => {
-  const {
-    searchQuery,
-    setSearchQuery,
-    searchPageFilters,
-    setSearchPageFilters,
-  } = useSearchContext()
+  const { searchQuery, setSearchQuery } = useSearchContext()
 
   // Manages the state of the checkboxes and dropdown in the filter
   const [filterItems, setFilterItems] = useState({
@@ -36,17 +31,15 @@ const SearchFilter = ({ labels }: PropTypes) => {
         : '',
   })
 
-  // If the checked item is already in the searchPageFilters array, remove it. Otherwise, add it.
   const updateCheckedItems = (checkboxValue: string) => {
     checkboxValue = 'category:' + checkboxValue
 
-    if (searchPageFilters.includes(checkboxValue)) {
-      const index = searchPageFilters.indexOf(checkboxValue)
-      const filterArray = [...searchPageFilters]
-      filterArray.splice(index, 1)
-      setSearchPageFilters(filterArray)
+    // If the searchQuery already includes the checkboxValue, remove it
+    if (searchQuery.includes(checkboxValue)) {
+      setSearchQuery(searchQuery.replace(checkboxValue, ''))
     } else {
-      setSearchPageFilters([...searchPageFilters, checkboxValue])
+      // Add the checkboxValue to the front of the searchQuery
+      setSearchQuery([checkboxValue, searchQuery].join(' '))
     }
   }
 
@@ -116,17 +109,16 @@ const SearchFilter = ({ labels }: PropTypes) => {
             filterItems.dropdown.length > 0 ? filterItems.dropdown : 'default'
           }
           onChange={(e) => {
-            // Need to remove any previous label and add the newly selected one
             const labelToAdd = e.target.value
 
             // Filter out any previous label from the query
-            const filteredArray = searchPageFilters.filter(
-              (label) => !label.includes('label:')
-            )
+            const filteredArray = searchQuery
+              .split(' ')
+              .filter((label) => !label.includes('label:'))
 
             // If the user selects the default option, update the state with the removed label and return
             if (labelToAdd === 'default') {
-              setSearchPageFilters(filteredArray)
+              setSearchQuery(filteredArray.join(' '))
               setFilterItems({
                 ...filterItems,
                 dropdown: '',
@@ -134,15 +126,16 @@ const SearchFilter = ({ labels }: PropTypes) => {
               return
             }
 
-            // If the dropdown value has more than one word, add quotes around it
+            // If the dropdown value has more than one word, add quotes around it.
+            // When adding a label to the searchQuery, add it to the front using unshift
             if (labelToAdd.includes(' ')) {
-              filteredArray.push(`label:"${labelToAdd}"`)
+              filteredArray.unshift(`label:"${labelToAdd}"`)
             } else {
-              filteredArray.push(`label:${labelToAdd}`)
+              filteredArray.unshift(`label:${labelToAdd}`)
             }
 
-            // Add the new label to the array
-            setSearchPageFilters(filteredArray)
+            // Combine the array into a string and update the searchQuery state
+            setSearchQuery(filteredArray.join(' '))
 
             // Update the state of the dropdown
             setFilterItems({
@@ -169,9 +162,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
       <Grid row className={styles.buttonContainer}>
         <Button
           type="button"
-          // If searchPageFilters has any values, or if filterItems has any values, enable the button
           disabled={
-            searchPageFilters.length > 0 ||
             filterItems.application ||
             filterItems.documentation ||
             filterItems.news ||
@@ -185,11 +176,10 @@ const SearchFilter = ({ labels }: PropTypes) => {
               'search-form'
             ) as HTMLFormElement
 
-            // Before submitting the form, we need to combine the filters with the search query
-            let finalSearchQuery = [...searchPageFilters, searchQuery].join(' ')
+            let finalSearchQuery = searchQuery
 
             // If finalSearchQuery has more than 200 characters, we need to truncate it
-            if (finalSearchQuery.length > 200) {
+            if (searchQuery.length > 200) {
               finalSearchQuery = finalSearchQuery.substring(0, 200)
             }
 
@@ -207,9 +197,6 @@ const SearchFilter = ({ labels }: PropTypes) => {
           outline
           disabled={false}
           onClick={() => {
-            // Reset the searchPageFilters array
-            setSearchPageFilters([])
-
             // Reset the search input
             setSearchQuery('')
 
