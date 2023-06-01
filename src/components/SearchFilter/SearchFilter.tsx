@@ -26,11 +26,20 @@ const SearchFilter = ({ labels }: PropTypes) => {
     documentation: searchQuery.includes('category:documentation')
       ? true
       : false,
+    // A label can exist in two forms: label:labelName or label:"label name"
+    // If we split searchQuery at label: and there is a " immediately after, we know the label is in quotes
+    // and we need to get all the characters between the quotes. After we have the label, we need to remove
+    // the quotes and set the dropdown state to the label
     dropdown:
-      searchQuery && searchQuery.includes('label:')
-        ? searchQuery.split('label:')[1].split(' ')[0].replace(/"/g, '')
-        : '',
+      searchQuery.includes('label:') &&
+      searchQuery.split('label:')[1].charAt(0) === '"'
+        ? searchQuery.split('label:')[1].split('"')[1].split('"')[0]
+        : searchQuery.includes('label:') &&
+          searchQuery.split('label:')[1].split(' ')[0],
   })
+
+  console.log(searchQuery)
+  console.log(filterItems.dropdown)
 
   const updateCheckedItems = (checkboxValue: string) => {
     checkboxValue = 'category:' + checkboxValue
@@ -111,9 +120,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
           id="label-dropdown"
           name="label-dropdown"
           data-testid="label-dropdown"
-          value={
-            filterItems.dropdown.length > 0 ? filterItems.dropdown : 'default'
-          }
+          value={filterItems.dropdown ? filterItems.dropdown : 'default'}
           onChange={(e) => {
             const labelToAdd = e.target.value
 
