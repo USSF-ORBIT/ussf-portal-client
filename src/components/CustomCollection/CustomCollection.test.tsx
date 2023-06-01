@@ -180,8 +180,8 @@ describe('CustomCollection component', () => {
     scrollSpy.mockReset()
   })
 
-  it('renders the collection with DragDropContext', async () => {
-    const { container } = render(
+  it('renders the collection with DndContext', async () => {
+    render(
       <CustomCollection
         {...exampleCollection}
         {...mockHandlers}
@@ -189,29 +189,25 @@ describe('CustomCollection component', () => {
       />
     )
     await screen.findByText('Example Collection')
+
+    // dnd-kit renders a hidden div with instructions for keyboard users, so we can use that to verify that the dnd-kit context is rendered
     expect(
-      container
-        .querySelector('div')
-        ?.getAttribute('data-rbd-droppable-context-id')
-    ).toEqual('0')
+      screen.getByText(
+        'To pick up a draggable item, press the space bar. While dragging, use the arrow keys to move the item. Press space again to drop the item in its new position, or press escape to cancel.'
+      )
+    ).toBeInTheDocument()
   })
 
-  // TODO this is skipped due to an issue with react-beautiful-dnd and react 18 compatiblity.
-  // Seems that `user.keyboard` below is not triggering the change and thus not calling the mockEditCollection.
-  // This broke in the browser until disabling `reactStrictMode`. However that is a temporary solution and needs to be revisited
-  // Since react-beautiful-dnd is in maintenance only mode and only receiving critical updates we are not sure when this will be fixed.
-  // For now to complete react 18 upgrade this is turned off in favor of an e2e test that tests the same functionality.
-  // We should revisit it this and the dependency in the future. See https://app.shortcut.com/orbit-truss/story/1347
-  it.skip('drags and drops a link', async () => {
+  it('drags and drops a link with the keyboard', async () => {
+    // This test works because dnd-kit renders a hidden div with an id=DndLiveRegion that is used for screen readers to announce
+    // which bookmark id is being dragged and where it is being dropped.
     const user = userEvent.setup()
-    const mockEditCollection = jest.fn()
 
     render(
       <CustomCollection
         {...exampleCollection}
         {...mockHandlers}
         bookmarkOptions={cmsBookmarksMock}
-        handleEditCollection={mockEditCollection}
       />
     )
 
@@ -219,14 +215,25 @@ describe('CustomCollection component', () => {
 
     // Get drag handles
     const dragHandle = screen.getAllByLabelText('Drag Handle')
-    expect(dragHandle[0]).toHaveAttribute('data-rbd-drag-handle-context-id')
+    expect(dragHandle[0]).toHaveAttribute(
+      'aria-describedby',
+      'DndDescribedBy-1'
+    )
+
     dragHandle[0].focus()
     expect(dragHandle[0]).toHaveFocus()
 
     // Use keyboard to simulate drag and drop of a link
-    await user.keyboard('[Space][ArrowDown][Space]')
+    await user.keyboard('[Space]')
+    await user.keyboard('[ArrowDown]')
+    await user.keyboard('[Space]')
 
-    expect(mockEditCollection).toHaveBeenCalled()
+    // This is confirming that the drag and drop event is firing correctly
+    expect(
+      screen.getByText(
+        `Draggable item ${exampleCollection.bookmarks[0]._id.toString()} was dropped over droppable area ${exampleCollection.bookmarks[0]._id.toString()}`
+      )
+    ).toBeInTheDocument()
   })
 
   it('renders the collection with delete or edit buttons', async () => {
@@ -246,9 +253,8 @@ describe('CustomCollection component', () => {
       })
     ).toHaveTextContent(exampleCollection.title)
 
-    // Drag and drop library adds a blank <li />, so updated line below to look for length + 1
     expect(screen.getAllByRole('listitem')).toHaveLength(
-      exampleCollection.bookmarks.length + 1
+      exampleCollection.bookmarks.length
     )
     expect(screen.getAllByRole('link')).toHaveLength(
       exampleCollection.bookmarks.length
