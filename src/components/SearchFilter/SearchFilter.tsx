@@ -5,6 +5,7 @@ import {
   Dropdown,
   Button,
   Label,
+  Fieldset,
 } from '@trussworks/react-uswds'
 import styles from './SearchFilter.module.scss'
 import { useSearchContext } from 'stores/searchContext'
@@ -50,56 +51,61 @@ const SearchFilter = ({ labels }: PropTypes) => {
       </div>
 
       <Grid col="auto">
-        <h4 className={styles.subHeader}>Categories:</h4>
-        <Checkbox
-          id="application-filter"
-          name="application"
-          label="Application"
-          value="application"
-          className={styles.checkbox}
-          checked={filterItems.application}
-          onChange={(e) => {
-            setFilterItems({
-              ...filterItems,
-              application: !filterItems.application,
-            })
-            updateCheckedItems(e.target.value)
-          }}
-        />
-        <Checkbox
-          id="news-filter"
-          name="news"
-          label="News"
-          value="news"
-          className={styles.checkbox}
-          checked={filterItems.news}
-          onChange={(e) => {
-            setFilterItems({
-              ...filterItems,
-              news: !filterItems.news,
-            })
-            updateCheckedItems(e.target.value)
-          }}
-        />
-        <Checkbox
-          id="documentation-filter"
-          name="documentation"
-          label="Documentation"
-          value="documentation"
-          className={styles.checkbox}
-          checked={filterItems.documentation}
-          onChange={(e) => {
-            setFilterItems({
-              ...filterItems,
-              documentation: !filterItems.documentation,
-            })
-            updateCheckedItems(e.target.value)
-          }}
-        />
+        <Fieldset
+          legend={<h4 className={styles.subHeader}>Categories:</h4>}
+          className={styles.checkboxFieldset}>
+          <div>
+            <Checkbox
+              id="application-filter"
+              name="application"
+              label="Application"
+              value="application"
+              className={styles.checkbox}
+              checked={filterItems.application}
+              onChange={(e) => {
+                setFilterItems({
+                  ...filterItems,
+                  application: !filterItems.application,
+                })
+                updateCheckedItems(e.target.value)
+              }}
+            />
+            <Checkbox
+              id="news-filter"
+              name="news"
+              label="News"
+              value="news"
+              className={styles.checkbox}
+              checked={filterItems.news}
+              onChange={(e) => {
+                setFilterItems({
+                  ...filterItems,
+                  news: !filterItems.news,
+                })
+                updateCheckedItems(e.target.value)
+              }}
+            />
+            <Checkbox
+              id="documentation-filter"
+              name="documentation"
+              label="Documentation"
+              value="documentation"
+              className={styles.checkbox}
+              checked={filterItems.documentation}
+              onChange={(e) => {
+                setFilterItems({
+                  ...filterItems,
+                  documentation: !filterItems.documentation,
+                })
+                updateCheckedItems(e.target.value)
+              }}
+            />
+          </div>
+        </Fieldset>
       </Grid>
       <Grid col="auto">
-        <Label htmlFor="label-dropdown" className={styles.subHeader}>
-          Labels:
+        <Label htmlFor="label-dropdown">
+          <h4 className={styles.subHeader}>Labels:</h4>
         </Label>
         <Dropdown
           id="label-dropdown"
