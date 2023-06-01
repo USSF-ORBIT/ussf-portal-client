@@ -22,7 +22,7 @@ const InternalNews = ({
   ) : (
     <div>
       <div className={styles.pageTitle}>
-        <h2>Latest Announcements</h2>
+        <h2 id="latest-annoucements">Latest Announcements</h2>
         <h3>[statically output any announcements here]</h3>
 
         <h2>All USSF news</h2>
