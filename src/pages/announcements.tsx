@@ -11,7 +11,7 @@ import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
 
-const InternalNews = ({
+const AnnouncementsPage = ({
   announcements,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
@@ -37,12 +37,12 @@ const InternalNews = ({
   )
 }
 
-export default InternalNews
+export default AnnouncementsPage
 
-InternalNews.getLayout = (page: React.ReactNode) =>
+AnnouncementsPage.getLayout = (page: React.ReactNode) =>
   withPageLayout(
     <div>
-      <h1>Announcements</h1>
+      <h1>Latest Announcements</h1>
       <BreadcrumbNav
         navItems={[
           {
