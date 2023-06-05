@@ -9,7 +9,6 @@ import {
   faGripVertical,
   faAngleLeft,
   faAngleRight,
-  faFilter,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -21,6 +20,5 @@ library.add(
   faPen,
   faGripVertical,
   faAngleLeft,
-  faAngleRight,
-  faFilter
+  faAngleRight
 )
