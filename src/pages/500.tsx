@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
 import Logo from 'components/Logo/Logo'
 import { useAnalytics } from 'stores/analyticsContext'
+import Head from 'next/head'
 
 const FEEDBACK_EMAIL = 'feedback@ussforbit.us'
 const FEEDBACK_SUBJECT = 'USSF portal feedback -- 500 page error'
@@ -17,6 +18,9 @@ export default function Custom500() {
 
   return (
     <>
+      <Head>
+        <title>500 Error - USSF Portal</title>
+      </Head>
       <h1>500</h1>
       <GridContainer>
         <section>
