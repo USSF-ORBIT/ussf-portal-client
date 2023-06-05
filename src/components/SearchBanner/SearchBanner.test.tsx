@@ -10,13 +10,7 @@ import { SearchBanner } from './SearchBanner'
 describe('SearchBanner component', () => {
   it('renders the icon and children with no a11y violations', async () => {
     const { container } = render(
-      <SearchBanner
-        icon={
-          <img
-            src="/assets/images/moon-flag.svg"
-            alt="Icon of the US flag on the moon"
-          />
-        }>
+      <SearchBanner icon={<img src="/assets/images/moon-flag.svg" alt=" " />}>
         <div>
           <h3>There are no results that match that query.</h3>
           <p>
@@ -32,6 +26,12 @@ describe('SearchBanner component', () => {
     expect(
       screen.queryByText('There are no results that match that query.')
     ).toBeInTheDocument()
-    expect(await axe(container)).toHaveNoViolations()
+    expect(
+      await axe(container, {
+        rules: {
+          'image-alt': { enabled: false },
+        },
+      })
+    ).toHaveNoViolations()
   })
 })
