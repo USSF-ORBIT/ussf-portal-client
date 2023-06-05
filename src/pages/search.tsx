@@ -83,12 +83,7 @@ const Search = ({
               </Grid>
 
               <SearchBanner
-                icon={
-                  <img
-                    src="/assets/images/satellite.svg"
-                    alt="Icon of a satellite"
-                  />
-                }>
+                icon={<img src="/assets/images/satellite.svg" alt=" " />}>
                 <div>
                   <h3>You’ve reached the end of your search results.</h3>
                   <p>
@@ -105,12 +100,7 @@ const Search = ({
               </Grid>
               <Grid col="fill">
                 <SearchBanner
-                  icon={
-                    <img
-                      src="/assets/images/moon-flag.svg"
-                      alt="Icon of the US flag on the moon"
-                    />
-                  }>
+                  icon={<img src="/assets/images/moon-flag.svg" alt=" " />}>
                   <div>
                     <h3>There are no results that match that query.</h3>
                     <p>
