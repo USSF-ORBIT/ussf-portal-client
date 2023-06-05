@@ -34,7 +34,7 @@ module.exports.runMigration = (migration) => async () => {
     await migration(db)
     await connection.close()
   } catch (e) {
-    console.log('[MIGRATION] Error with db connection', e)
+    console.error('[MIGRATION] Error with db connection', e)
     throw e
   }
 }
