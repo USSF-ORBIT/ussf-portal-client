@@ -7,6 +7,7 @@ import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import Logo from 'components/Logo/Logo'
 import { useAnalytics } from 'stores/analyticsContext'
+import Head from 'next/head'
 
 const FEEDBACK_EMAIL = 'feedback@ussforbit.us'
 const FEEDBACK_SUBJECT = 'USSF portal feedback -- 404 page error'
@@ -21,6 +22,9 @@ export default function Custom404() {
     <Loader />
   ) : (
     <>
+      <Head>
+        <title>404 Error - USSF Portal</title>
+      </Head>
       <h1>404</h1>
       <GridContainer>
         <section>
