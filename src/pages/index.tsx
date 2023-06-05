@@ -10,6 +10,7 @@ import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookma
 import styles from 'styles/pages/home.module.scss'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
+import Head from 'next/head'
 
 const Home = ({
   bookmarks,
@@ -21,6 +22,9 @@ const Home = ({
     <Loader />
   ) : (
     <div className={styles.home}>
+      <Head>
+        <title>MySpace - USSF Portal</title>
+      </Head>
       {announcements.length > 0 && (
         <section>
           <Announcement announcements={announcements} />
