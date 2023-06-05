@@ -19,6 +19,7 @@ import { GET_INTERNAL_NEWS_CAROUSEL_ARTICLES } from 'operations/cms/queries/getI
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
+import Head from 'next/head'
 
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=4`
 
@@ -38,69 +39,75 @@ const NewsAnnouncements = ({
   return !user ? (
     <Loader />
   ) : (
-    <div className={styles.listContainer}>
-      {announcements.length > 0 && (
-        <section>
-          <Announcement announcements={announcements} />
-        </section>
-      )}
+    <>
+      <Head>
+        <title>News & Annoucements - USSF Portal</title>
+      </Head>
+      <div className={styles.listContainer}>
+        {announcements.length > 0 && (
+          <section>
+            <Announcement announcements={announcements} />
+          </section>
+        )}
 
-      {articles.length > 0 && (
-        <section className={styles.newsCarouselSection}>
-          <NewsCarousel articles={articles} />
-        </section>
-      )}
+        {articles.length > 0 && (
+          <section className={styles.newsCarouselSection}>
+            <NewsCarousel articles={articles} />
+          </section>
+        )}
 
-      {/* 
+        {/* 
       This is separate from the NewsCarousel render above because the 
       react-slick library uses certain styles for the dots section of 
       the carousel that interfere with margin and padding.
       */}
-      {articles.length > 0 && (
-        <div className={styles.olderInternalNewsLink}>
-          <LinkTo href="/news" target="_blank" rel="noreferrer noopener">
-            <button type="button" className="usa-button">
-              View older USSF news
-            </button>
-          </LinkTo>
-        </div>
-      )}
-
-      <div className={styles.pageTitle}>
-        <h2>Latest external USSF news</h2>
-        <h3>
-          Publically released Space Force news released within the last 30 days.
-        </h3>
-      </div>
-
-      {!items.length ? (
-        <Grid col="fill">
-          <LoadingWidget />
-        </Grid>
-      ) : (
-        <>
-          <ArticleList
-            articles={items
-              .filter(validateNewsItems)
-              .map((item) =>
-                formatToArticleListItem(item as Required<RSSNewsItem>)
-              )}
-          />
+        {articles.length > 0 && (
           <div className={styles.olderInternalNewsLink}>
-            <LinkTo
-              href="https://www.spaceforce.mil/News"
-              target="_blank"
-              rel="noreferrer noopener">
-              <button
-                type="button"
-                className="usa-button usa-button--accent-cool">
-                View older Spaceforce.mil articles
+            <LinkTo href="/news" target="_blank" rel="noreferrer noopener">
+              <button type="button" className="usa-button">
+                View older USSF news
               </button>
             </LinkTo>
           </div>
-        </>
-      )}
-    </div>
+        )}
+
+        <div className={styles.pageTitle}>
+          <h2>Latest external USSF news</h2>
+          <h3>
+            Publically released Space Force news released within the last 30
+            days.
+          </h3>
+        </div>
+
+        {!items.length ? (
+          <Grid col="fill">
+            <LoadingWidget />
+          </Grid>
+        ) : (
+          <>
+            <ArticleList
+              articles={items
+                .filter(validateNewsItems)
+                .map((item) =>
+                  formatToArticleListItem(item as Required<RSSNewsItem>)
+                )}
+            />
+            <div className={styles.olderInternalNewsLink}>
+              <LinkTo
+                href="https://www.spaceforce.mil/News"
+                target="_blank"
+                rel="noreferrer noopener">
+                <button
+                  type="button"
+                  className="usa-button usa-button--accent-cool">
+                  View older Spaceforce.mil articles
+                </button>
+              </LinkTo>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   )
 }
 
