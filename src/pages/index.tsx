@@ -23,7 +23,7 @@ const Home = ({
   ) : (
     <div className={styles.home}>
       <Head>
-        <title>MySpace - USSF Portal</title>
+        <title>My Space - USSF Portal</title>
       </Head>
       {announcements.length > 0 && (
         <section>
