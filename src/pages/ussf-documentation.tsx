@@ -10,6 +10,7 @@ import { GET_DOCUMENTS_PAGE } from 'operations/cms/queries/getDocumentsPage'
 import { DocumentType, DocumentPageType, DocumentSectionType } from 'types'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
+import Head from 'next/head'
 
 // Export for easier unit testing
 // We're leaving these hardcoded docs as a backup until
@@ -81,6 +82,9 @@ const USSFDocumentation = ({
     <Loader />
   ) : (
     <div>
+      <Head>
+        <title>Documentation - USSF Portal</title>
+      </Head>
       <h2>{documentsPage && documentsPage.pageTitle}</h2>
 
       <Grid row gap="lg">
