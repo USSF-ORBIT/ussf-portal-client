@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import classnames from 'classnames'
 import type { ObjectId } from 'bson'
 import {
@@ -10,17 +10,30 @@ import {
   ComboBoxRef,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult,
-} from 'react-beautiful-dnd'
+  closestCorners,
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
 
 import { EditableCollectionTitle } from './EditableCollectionTitle'
 import { RemovableBookmark } from './RemovableBookmark'
 import { CustomBookmark } from './CustomBookmark/CustomBookmark'
 import styles from './CustomCollection.module.scss'
+
+import DraggableBookmark from 'components/util/DraggableBookmark/DraggableBookmark'
+import Droppable from 'components/util/Droppable/Droppable'
 
 import Tooltip from 'components/Tooltip/Tooltip'
 import Collection from 'components/Collection/Collection'
@@ -58,6 +71,24 @@ const CustomCollection = ({
 }: PropTypes) => {
   const linkInput = useRef<ComboBoxRef>(null)
 
+  // Contains all of the collections visible bookmarks, and the information for each bookmark when it is displayed
+  // <SortableContext> needs an array of unique identifiers to sort by
+  // Our bookmarks have ObjectId in `_id` which isn't a string so we make the equvalent here
+  const visibleBookmarks = useMemo(
+    () =>
+      bookmarks
+        .filter((b) => !b.isRemoved)
+        .map((b) => {
+          return { id: b._id.toString(), ...b }
+        }),
+    [bookmarks]
+  )
+
+  const removedBookmarks = useMemo(
+    () => bookmarks.filter((b) => b.isRemoved),
+    [bookmarks]
+  )
+
   const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
   const [isEditingTitle, setEditingTitle] = useState(false)
   const { trackEvent } = useAnalytics()
@@ -70,6 +101,13 @@ const CustomCollection = ({
     modalRef,
   } = useModalContext()
 
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
+
   // Collection settings dropdown state
   const dropdownEl = useRef<HTMLDivElement>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
@@ -78,11 +116,6 @@ const CustomCollection = ({
   )
 
   const [customLabel, setCustomLabel] = useState<string>('')
-
-  const visibleBookmarks: MongoBookmark[] = bookmarks.filter(
-    (b) => !b.isRemoved
-  )
-  const removedBookmarks: MongoBookmark[] = bookmarks.filter((b) => b.isRemoved)
 
   useEffect(() => {
     // Auto-focus on ComboBox when clicking Add Link
@@ -295,38 +328,35 @@ const CustomCollection = ({
     setEditingTitle(false)
   }
 
-  const handleOnDragEnd = (result: DropResult) => {
-    const { source, destination } = result
+  const handleOnDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event
 
-    if (destination) {
-      let copiedBookmarks = visibleBookmarks.map(
-        ({ _id, url, label, cmsId, isRemoved }) => ({
-          _id,
-          url,
-          label,
-          cmsId,
-          isRemoved,
-        })
+    // If a draggable item is active, and it is over a droppable area when dropped
+    if (over && active.id !== over.id) {
+      const oldIndex = visibleBookmarks.findIndex((b) => b.id === active.id)
+      const newIndex = visibleBookmarks.findIndex((b) => b.id === over.id)
+      // dnd-kit sorts the items for us when we call arrayMove when an item is dropped
+      const sortedVisibleBookmarks = arrayMove(
+        visibleBookmarks,
+        oldIndex,
+        newIndex
       )
 
-      const [removed] = copiedBookmarks.splice(source.index, 1)
-      copiedBookmarks.splice(destination.index, 0, removed)
+      // Before performing the mutation
+      // 1. we need to add back the removed bookmarks
+      // 2. Strip out anything the mutation doesn't need, like the id field we added for Sortable Context
+      const finalListOfBookmarks = [
+        ...sortedVisibleBookmarks,
+        ...removedBookmarks,
+      ].map(({ _id, url, label, cmsId, isRemoved }) => ({
+        _id,
+        url,
+        label,
+        cmsId,
+        isRemoved,
+      }))
 
-      if (removedBookmarks.length > 0) {
-        const removedBookmarksToAddBack = removedBookmarks.map(
-          ({ _id, url, label, cmsId, isRemoved }) => ({
-            _id,
-            url,
-            label,
-            cmsId,
-            isRemoved,
-          })
-        )
-
-        copiedBookmarks = [...copiedBookmarks, ...removedBookmarksToAddBack]
-      }
-
-      handleEditCollection(title, copiedBookmarks)
+      handleEditCollection(title, finalListOfBookmarks)
     }
   }
 
@@ -380,104 +410,50 @@ const CustomCollection = ({
   )
 
   return (
-    <DragDropContext onDragEnd={handleOnDragEnd}>
-      <Droppable droppableId={_id.toString()}>
-        {(provided) => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
-            <Collection
-              header={customCollectionHeader}
-              footer={!isEditingTitle ? addLinkForm : null}>
-              {visibleBookmarks.map((bookmark: MongoBookmark, index) => {
-                const foundBookmark = findBookmark(bookmark)
-                return bookmark.cmsId && foundBookmark ? (
-                  <Draggable
-                    draggableId={bookmark._id.toString()}
-                    index={index}
-                    key={bookmark._id.toString()}>
-                    {(provided) => {
-                      // Overriding styles for element containing draggableProps
-                      const style = {
-                        display: 'flex',
-                        alignItems: 'center',
-                        ...provided.draggableProps.style,
-                      }
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCorners}
+      onDragEnd={handleOnDragEnd}>
+      <Droppable dropId={_id.toString()}>
+        <SortableContext
+          items={visibleBookmarks}
+          strategy={verticalListSortingStrategy}>
+          <Collection
+            header={customCollectionHeader}
+            footer={!isEditingTitle ? addLinkForm : null}>
+            {visibleBookmarks.map((bookmark) => {
+              const foundBookmark = findBookmark(bookmark)
 
-                      return (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          style={style}>
-                          <span
-                            {...provided.dragHandleProps}
-                            aria-label="Drag Handle"
-                            className={styles.dragIconWrap}>
-                            <FontAwesomeIcon icon="grip-vertical" />
-                          </span>
-                          <div className={styles.dragBookmark}>
-                            <RemovableBookmark
-                              key={`bookmark_${bookmark._id}`}
-                              bookmark={foundBookmark}
-                              handleRemove={() => {
-                                trackEvent(
-                                  'Remove link',
-                                  'Hide CMS link',
-                                  `${title} / ${bookmark.label || bookmark.url}`
-                                )
-                                handleRemoveBookmark(
-                                  bookmark._id,
-                                  bookmark.cmsId
-                                )
-                              }}
-                            />
-                          </div>
-                        </div>
+              return foundBookmark ? (
+                <DraggableBookmark key={bookmark.id} id={bookmark.id}>
+                  <RemovableBookmark
+                    key={`bookmark_${bookmark.id}`}
+                    bookmark={foundBookmark}
+                    handleRemove={() => {
+                      trackEvent(
+                        'Remove link',
+                        'Hide CMS link',
+                        `${title} / ${foundBookmark.label || foundBookmark.url}`
                       )
+                      handleRemoveBookmark(bookmark._id, foundBookmark.id)
                     }}
-                  </Draggable>
-                ) : (
-                  <Draggable
-                    draggableId={bookmark._id.toString()}
-                    index={index}
-                    key={bookmark._id.toString()}>
-                    {(provided) => {
-                      // Overriding styles for element containing draggableProps
-                      const style = {
-                        display: 'flex',
-                        alignItems: 'center',
-                        ...provided.draggableProps.style,
-                      }
-
-                      return (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          style={style}>
-                          <span
-                            {...provided.dragHandleProps}
-                            aria-label="Drag Handle"
-                            className={styles.dragIconWrap}>
-                            <FontAwesomeIcon icon="grip-vertical" />
-                          </span>
-                          <div className={styles.dragBookmark}>
-                            <CustomBookmark
-                              key={`bookmark_${bookmark._id}`}
-                              bookmark={bookmark}
-                              widgetId={_id}
-                              collectionTitle={title}
-                            />
-                          </div>
-                        </div>
-                      )
-                    }}
-                  </Draggable>
-                )
-              })}
-              {provided.placeholder}
-            </Collection>
-          </div>
-        )}
+                  />
+                </DraggableBookmark>
+              ) : (
+                <DraggableBookmark key={bookmark.id} id={bookmark.id}>
+                  <CustomBookmark
+                    key={`bookmark_${bookmark.id}`}
+                    bookmark={bookmark}
+                    widgetId={_id}
+                    collectionTitle={title}
+                  />
+                </DraggableBookmark>
+              )
+            })}
+          </Collection>
+        </SortableContext>
       </Droppable>
-    </DragDropContext>
+    </DndContext>
   )
 }
 
