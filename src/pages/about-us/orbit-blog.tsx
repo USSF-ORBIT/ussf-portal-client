@@ -15,6 +15,7 @@ import styles from 'styles/pages/news.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
+import Head from 'next/head'
 
 // The Dev Blog
 const PortalNews = ({
@@ -27,20 +28,25 @@ const PortalNews = ({
   return !user ? (
     <Loader />
   ) : (
-    <div className={styles.listContainer}>
-      <div className={styles.pageTitle}>
-        <h2>Production team blog & announcements</h2>
-        <h3>
-          Here’s what we’re working on and planning in latest portal updates &
-          releases.
-        </h3>
-      </div>
+    <>
+      <Head>
+        <title>Orbit Blog - USSF Portal</title>
+      </Head>
+      <div className={styles.listContainer}>
+        <div className={styles.pageTitle}>
+          <h2>Production team blog & announcements</h2>
+          <h3>
+            Here’s what we’re working on and planning in latest portal updates &
+            releases.
+          </h3>
+        </div>
 
-      <ArticleList
-        articles={articles}
-        pagination={{ totalPages, currentPage }}
-      />
-    </div>
+        <ArticleList
+          articles={articles}
+          pagination={{ totalPages, currentPage }}
+        />
+      </div>
+    </>
   )
 }
 
