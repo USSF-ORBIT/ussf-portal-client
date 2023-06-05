@@ -52,8 +52,12 @@
   }
 
   .guardianIdealTitle {
-    margin-bottom: 0;
-    margin-top: 0;
+    font-size: 40px;
+    color: white;
+    line-height: 1.1;
+    font-family: $sfds-heading-font;
+    margin-bottom: units(1);
+    margin-top: units(2);
   }
 
   .guardianIdealBody {

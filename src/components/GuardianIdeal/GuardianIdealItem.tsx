@@ -26,7 +26,7 @@ const GuardianIdealItem = ({ ideal }: { ideal: IdealListItem }) => {
       <Grid col={'fill'} className={styles.gridContainer}>
         <Grid className={styles.textContainer}>
           <Category category={CONTENT_CATEGORIES.GUARDIANIDEAL} />
-          <h1 className={styles.guardianIdealTitle}>{ideal.title}</h1>
+          <h4 className={styles.guardianIdealTitle}>{ideal.title}</h4>
           <div className={styles.guardianIdealBody}>{ideal.body}</div>
         </Grid>
       </Grid>
