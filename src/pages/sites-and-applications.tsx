@@ -33,6 +33,7 @@ import ApplicationsTable from 'components/ApplicationsTable/ApplicationsTable'
 import SelectableCollection from 'components/SelectableCollection/SelectableCollection'
 import Tooltip from 'components/Tooltip/Tooltip'
 import styles from 'styles/pages/sitesAndApplications.module.scss'
+import Head from 'next/head'
 
 import { useAnalytics } from 'stores/analyticsContext'
 import { useUser } from 'hooks/useUser'
@@ -308,6 +309,9 @@ const SitesAndApplications = ({
     <Loader />
   ) : (
     <>
+      <Head>
+        <title>Sites & Applications - USSF Portal</title>
+      </Head>
       <h2 className={styles.pageTitle}>
         Sites &amp; Applications{' '}
         <span className="sr-only">

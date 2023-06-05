@@ -6,7 +6,7 @@ import Logo from 'components/Logo/Logo'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
 import styles from 'styles/pages/updateBrowser.module.scss'
-
+import Head from 'next/head'
 export default function UpdateBrowser() {
   const MS_EDGE_DOWNLOAD = 'https://www.microsoft.com/edge'
   const GOOGLE_CHROME_DOWNLOAD = 'https://www.google.com/chrome'
@@ -14,6 +14,9 @@ export default function UpdateBrowser() {
 
   return (
     <>
+      <Head>
+        <title>Browser Warning - USSF Portal</title>
+      </Head>
       <GridContainer>
         <section className={styles.updateBrowser}>
           <Logo noText />
