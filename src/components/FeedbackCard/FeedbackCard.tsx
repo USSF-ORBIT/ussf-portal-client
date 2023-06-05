@@ -12,7 +12,7 @@ const FeedbackCard = () => {
 
   return (
     <div className={styles.FeedbackCard}>
-      <h3>Got feedback?</h3>
+      <h2>Got feedback?</h2>
       <p>
         We’d love to hear it! Contact us at{' '}
         <a
