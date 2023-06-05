@@ -8,7 +8,6 @@ import axios from 'axios'
 import { renderWithAuth } from '../../testHelpers'
 
 import { cmsAnnouncementsMock as mockAnnouncements } from '../../__fixtures__/data/cmsAnnouncments'
-import { cmsPortalNewsArticlesMock as mockArticles } from '../../__fixtures__/data/cmsPortalNewsArticles'
 import '../../__mocks__/mockMatchMedia'
 import AnnouncementsPage, { getServerSideProps } from 'pages/announcements'
 
