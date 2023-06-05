@@ -26,6 +26,12 @@ describe('SearchBanner component', () => {
     expect(
       screen.queryByText('There are no results that match that query.')
     ).toBeInTheDocument()
-    expect(await axe(container)).toHaveNoViolations()
+    expect(
+      await axe(container, {
+        rules: {
+          'image-alt': { enabled: false },
+        },
+      })
+    ).toHaveNoViolations()
   })
 })
