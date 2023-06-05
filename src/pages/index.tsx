@@ -21,20 +21,22 @@ const Home = ({
   return !user ? (
     <Loader />
   ) : (
-    <div className={styles.home}>
+    <>
       <Head>
         <title>My Space - USSF Portal</title>
       </Head>
-      {announcements.length > 0 && (
-        <section>
-          <Announcement announcements={announcements} />
-        </section>
-      )}
+      <div className={styles.home}>
+        {announcements.length > 0 && (
+          <section>
+            <Announcement announcements={announcements} />
+          </section>
+        )}
 
-      <section>
-        <MySpace bookmarks={bookmarks} />
-      </section>
-    </div>
+        <section>
+          <MySpace bookmarks={bookmarks} />
+        </section>
+      </div>
+    </>
   )
 }
 
