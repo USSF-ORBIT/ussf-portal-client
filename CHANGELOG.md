@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.21.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/v4.20.0...v4.21.0) (2023-06-05)
+
+
+### Features
+
+* Update sort by UI on sites & apps ([#1028](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1028)) ([53dc4fc](https://github.com/USSF-ORBIT/ussf-portal-client/commit/53dc4fc3f85a1db592a1dd3bd669d3006a1c9ac1))
+
+
+### Bug Fixes
+
+* a11y: adds error suggestion to url field in custom link modal ([#1030](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1030)) ([88711cb](https://github.com/USSF-ORBIT/ussf-portal-client/commit/88711cbf5263b805d61c758fcf7e6d05def6437f))
+* a11y: removes alt text from decorative images ([#1031](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1031)) ([c15bf6d](https://github.com/USSF-ORBIT/ussf-portal-client/commit/c15bf6d8f9c77af6553e161b9b44733742b4dfbe))
+* **deps:** update dependency yup to v1 ([#1022](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1022)) ([508aedc](https://github.com/USSF-ORBIT/ussf-portal-client/commit/508aedcf4465e0f4e6d154e79fe256fa36c28bb4))
+
 ## [4.20.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.19.0...v4.20.0) (2023-05-04)
 
 
