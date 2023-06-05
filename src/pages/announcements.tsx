@@ -20,7 +20,7 @@ const AnnouncementsPage = ({
   return !user ? (
     <Loader />
   ) : (
-    <div className={styles.Anno}>
+    <div>
       <div className={styles.pageTitle}>
         {announcements.length > 0 && (
           <section className="grid-row flex-column flex-align-start">
