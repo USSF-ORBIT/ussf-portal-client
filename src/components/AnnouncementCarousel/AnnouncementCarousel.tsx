@@ -15,6 +15,7 @@ const CustomEllipse = ({ onClick }: any) => {
         type="button"
         title="slide"
         className={styles.carouselEllipse}
+        aria-hidden="true"
       />
     </div>
   )
@@ -44,7 +45,7 @@ const AnnouncementCarousel = ({
   const settings = {
     dots: true,
     adaptiveHeight: true,
-    accessibility: true,
+    accessibility: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
