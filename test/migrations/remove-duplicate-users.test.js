@@ -12,6 +12,16 @@ const TEST_ACCOUNT = [
     mySpace: [
       {
         _id: ObjectId(),
+        title: 'Featured Shortcuts',
+        type: 'FeaturedShortcuts',
+      },
+      {
+        _id: ObjectId(),
+        title: 'Guardian Ideal',
+        type: 'GuardianIdeal',
+      },
+      {
+        _id: ObjectId(),
         cmsId: 'ckwz3u58s1835ql974leo1yll',
         title: 'Empty Collection',
         type: 'Collection',
@@ -42,6 +52,16 @@ const TEST_ACCOUNT_COPY = [
     _id: ObjectId(),
     userId: TESTUSER1,
     mySpace: [
+      {
+        _id: ObjectId(),
+        title: 'Featured Shortcuts',
+        type: 'FeaturedShortcuts',
+      },
+      {
+        _id: ObjectId(),
+        title: 'Guardian Ideal',
+        type: 'GuardianIdeal',
+      },
       {
         _id: ObjectId(),
         cmsId: 'ckwz3u58s1835ql974leo1yll',
@@ -91,6 +111,16 @@ const ANOTHER_TEST_ACCOUNT_COPY = [
     _id: ObjectId(),
     userId: TESTUSER1,
     mySpace: [
+      {
+        _id: ObjectId(),
+        title: 'Featured Shortcuts',
+        type: 'FeaturedShortcuts',
+      },
+      {
+        _id: ObjectId(),
+        title: 'Guardian Ideal',
+        type: 'GuardianIdeal',
+      },
       {
         _id: ObjectId(),
         cmsId: 'ckwz3u58s1835ql974leo1yll',
@@ -180,6 +210,16 @@ const UNINVOLVED_USER = [
     mySpace: [
       {
         _id: ObjectId(),
+        title: 'Featured Shortcuts',
+        type: 'FeaturedShortcuts',
+      },
+      {
+        _id: ObjectId(),
+        title: 'Guardian Ideal',
+        type: 'GuardianIdeal',
+      },
+      {
+        _id: ObjectId(),
         cmsId: 'ckwz3u58s1835ql974leo1yll',
         title: 'Example Collection',
         type: 'Collection',
@@ -240,14 +280,16 @@ describe('[Migration: Remove Duplicate Users]', () => {
     users = await users.toArray()
     expect(users).toHaveLength(1)
 
-    // Remaining user should have the dark theme
-    expect(users[0].theme).toEqual('dark')
-
     // Remaining user should have the merged mySpace
-    expect(users[0].mySpace).toHaveLength(5)
-
-    // Remaining user should have the displayName of the first user
+    expect(users[0].mySpace).toHaveLength(7)
     expect(users[0].displayName).toEqual('USER ONE')
+    expect(users[0].theme).toEqual('dark')
+    expect(
+      users[0].mySpace.filter((item) => item.type === 'FeaturedShortcuts')
+    ).toHaveLength(1)
+    expect(
+      users[0].mySpace.filter((item) => item.type === 'GuardianIdeal')
+    ).toHaveLength(1)
   })
 
   test('down', async () => {

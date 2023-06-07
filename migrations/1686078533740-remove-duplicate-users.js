@@ -18,9 +18,11 @@ module.exports.up = runMigration(async (db) => {
       const firstUser = usersWithSameUserId[0]
       const otherUsers = usersWithSameUserId.slice(1)
 
-      // Merge mySpace arrays
+      // Merge the mySpace arrays, only keeping items of type 'Collection' from duplicate users
       const mergedMySpace = firstUser.mySpace.concat(
-        ...otherUsers.map((user) => user.mySpace)
+        ...otherUsers.map((user) =>
+          user.mySpace.filter((item) => item.type === 'Collection')
+        )
       )
 
       // Check if any of the duplicate users have a theme with the value 'dark'
