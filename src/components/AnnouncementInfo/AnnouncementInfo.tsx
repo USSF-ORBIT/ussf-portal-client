@@ -57,9 +57,9 @@ const AnnouncementInfo = ({
       <AnnouncementDate date={publishedDate} />
 
       <div className={styles.gridContainer}>
-        <p className={styles.title}>
-          <strong>{title}</strong>
-        </p>
+        <div className={styles.title}>
+          <h4 className="margin-top-0 margin-bottom-1">{title}</h4>
+        </div>
         <DocumentRenderer
           document={document}
           componentBlocks={componentBlockRenderers}

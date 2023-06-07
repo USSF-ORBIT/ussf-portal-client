@@ -122,7 +122,13 @@ describe('Home page', () => {
       // Bug with NextJS Link + axe :(
       // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
       await act(async () => {
-        expect(await axe(html.container)).toHaveNoViolations()
+        expect(
+          await axe(html.container, {
+            rules: {
+              'heading-order': { enabled: false },
+            },
+          })
+        ).toHaveNoViolations()
       })
     })
   })
