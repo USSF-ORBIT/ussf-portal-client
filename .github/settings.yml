@@ -163,7 +163,11 @@ branches:
         contexts:
           # TODO Temporarily removing e2e tests from required builds as they are flakey and need to be stabilized first
           # ['lint-and-test', 'action-semantic-pull-request', 'Happo', 'run-e2e-tests']
-          ['lint-and-test', 'action-semantic-pull-request', 'Happo']
+          [
+            'lint-and-test',
+            'action-semantic-pull-request',
+            'Happo'
+          ]
       # Required. Allow owners to by pass restrictions for PRs that are just release notes or github settings changes which do not affect tests
       # Enforce all configured restrictions for administrators. Set to true to enforce required status checks for repository administrators.
       enforce_admins: false
@@ -176,4 +180,9 @@ branches:
       restrictions:
         apps: []
         users: []
-        teams: []
+        teams:
+          [
+            '@USSF-ORBIT/design',
+            '@USSF-ORBIT/eng',
+            '@USSF-ORBIT/code-owners'
+          ]
