@@ -186,18 +186,6 @@ const SearchFilter = ({ labels }: PropTypes) => {
               'search-form'
             ) as HTMLFormElement
 
-            let finalSearchQuery = searchQuery
-
-            // If finalSearchQuery has more than 200 characters, we need to truncate it
-            if (searchQuery.length > 200) {
-              finalSearchQuery = finalSearchQuery.substring(0, 200)
-            }
-
-            // Manually setting the value of the search input instead of waiting for the state to update
-            const searchInput = document.getElementById('q') as HTMLInputElement
-            searchInput.value = finalSearchQuery
-
-            // Submit the form
             searchForm.submit()
           }}>
           <span className="usa-search__submit-text">Filter</span>
