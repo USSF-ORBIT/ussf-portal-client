@@ -99,7 +99,7 @@ const Search = ({
                   icon={
                     <img
                       src="/assets/images/satellite.svg"
-                      alt="Icon of a satellite"
+                      alt=" "
                     />
                   }>
                   <div>
@@ -118,7 +118,7 @@ const Search = ({
                 icon={
                   <img
                     src="/assets/images/moon-flag.svg"
-                    alt="Icon of the US flag on the moon"
+                    alt=" "
                   />
                 }>
                 <div>
