@@ -1,6 +1,6 @@
 ##--------- Stage: builder ---------##
-
-FROM node:18.16.0-slim AS builder
+# Node image variant name explanations: "bullseye" is the codeword for Debian 11, and "slim" only contains the minimal packages needed to run Node
+FROM node:18.16.0-bullseye-slim AS builder
 
 RUN apt-get update \
   && apt-get dist-upgrade -y \
@@ -36,7 +36,7 @@ COPY . .
 ##--------- Stage: e2e ---------##
 
 # E2E image for running tests (same as prod but without certs)
-FROM gcr.io/distroless/nodejs:18 AS e2e
+FROM gcr.io/distroless/nodejs18-debian11 AS e2e
 # The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
 # FROM gcr.io/distroless/nodejs:16-debug-arm64 AS e2e
 
@@ -65,7 +65,7 @@ CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
 ##--------- Stage: build-env ---------##
 
 # Production image, copy all the files and run next
-FROM node:18.16.0-slim AS build-env
+FROM node:18.16.0-bullseye-slim AS build-env
 
 WORKDIR /app
 
@@ -83,7 +83,7 @@ RUN cat /usr/local/share/ca-certificates/DoD_Root_CA_3.crt > /usr/local/share/ca
 
 ##--------- Stage: runner ---------##
 
-FROM gcr.io/distroless/nodejs:18-debug AS runner
+FROM gcr.io/distroless/nodejs18-debian11 AS runner
 # The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
 # FROM gcr.io/distroless/nodejs:16-debug-arm64 AS runner
 
