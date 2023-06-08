@@ -3,6 +3,7 @@ import type { ReactElement, ReactNode } from 'react'
 import { Button, GridContainer } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
 import { useAnalytics } from 'stores/analyticsContext'
+import { Head } from 'next/head'
 
 import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
 import Logo from 'components/Logo/Logo'
@@ -35,6 +36,9 @@ const Error: NextPageWithLayout<Props> = ({ statusCode }: Props) => {
 
   return (
     <>
+      <Head>
+        <title>Error - USSF Portal</title>
+      </Head>
       <h1>{errorCode}</h1>
       <GridContainer>
         <section>
