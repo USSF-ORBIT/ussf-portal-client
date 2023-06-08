@@ -161,8 +161,7 @@ const ANOTHER_TEST_ACCOUNT_COPY = [
       },
       {
         _id: ObjectId(),
-        cmsId: 'ckwz3u58s1835ql974leo1yll',
-        title: 'Example Collection',
+        title: 'Custom Collection',
         type: 'Collection',
         bookmarks: [
           {
