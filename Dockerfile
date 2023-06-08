@@ -71,11 +71,7 @@ WORKDIR /app
 
 COPY --from=builder /app/scripts/add-rds-cas.sh .
 COPY --from=builder /app/scripts/add-dod-cas.sh .
-COPY --from=builder /app/scripts/create-gcds-chain.sh .
 COPY --from=builder /app/scripts/dod_ca_cert_bundle.sha256 ./scripts/dod_ca_cert_bundle.sha256
-COPY --from=builder /app/dev-saml.pem /usr/local/share/ca-certificates/federation.dev.cce.af.mil.crt
-COPY --from=builder /app/test-saml.pem /usr/local/share/ca-certificates/federation.test.cce.af.mil.crt
-COPY --from=builder /app/prod-saml.pem /usr/local/share/ca-certificates/federation.prod.cce.af.mil.crt
 
 RUN apt-get update \
   && apt-get dist-upgrade -y \
@@ -83,11 +79,11 @@ RUN apt-get update \
 
 RUN chmod +x add-rds-cas.sh && bash add-rds-cas.sh
 RUN chmod +x add-dod-cas.sh && bash add-dod-cas.sh
-RUN chmod +x create-gcds-chain.sh && bash create-gcds-chain.sh
+RUN cat /usr/local/share/ca-certificates/DoD_Root_CA_3.crt > /usr/local/share/ca-certificates/GCDS.pem
 
 ##--------- Stage: runner ---------##
 
-FROM gcr.io/distroless/nodejs:18 AS runner
+FROM gcr.io/distroless/nodejs:18-debug AS runner
 # The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
 # FROM gcr.io/distroless/nodejs:16-debug-arm64 AS runner
 
