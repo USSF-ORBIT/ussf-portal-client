@@ -48,6 +48,9 @@ module.exports.up = runMigration(async (db) => {
       )
     }
   }
+
+  // Make the userId field unique
+  await db.collection('users').createIndex({ userId: 1 }, { unique: true })
 })
 
 module.exports.down = (next) => {

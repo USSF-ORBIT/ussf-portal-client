@@ -290,6 +290,16 @@ describe('[Migration: Remove Duplicate Users]', () => {
     expect(
       users[0].mySpace.filter((item) => item.type === 'GuardianIdeal')
     ).toHaveLength(1)
+
+    // Throw an error if there is an attempt to create a new user with the same userId as an existing user
+    await expect(
+      db.collection('users').insertOne({
+        userId: TESTUSER1,
+        mySpace: [],
+        displayName: 'I SHOULD NOT WORK',
+        theme: 'light',
+      })
+    ).rejects.toThrow()
   })
 
   test('down', async () => {
