@@ -1,0 +1,15 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.pageTitle {
+  margin-top: units(6);
+  margin-bottom: units(4);
+
+  h2 {
+    margin-bottom: 0;
+  }
+
+  h2 + h3 {
+    margin-top: units('105');
+  }
+}
