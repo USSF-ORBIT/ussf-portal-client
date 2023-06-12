@@ -180,6 +180,8 @@ branches:
       restrictions:
         apps: []
         users: []
+        # This setting does not work for some reason. The teams restriction settings can be added manually or via GH CLI:
+        # `gh api /repos/USSF-ORBIT/ussf-portal-client/branches/main/protection/restrictions/teams -f teams[]=eng -f teams[]=design -f teams[]=code-owners`
         teams:
           [
             'design',
