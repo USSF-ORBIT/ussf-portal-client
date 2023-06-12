@@ -182,7 +182,7 @@ branches:
         users: []
         teams:
           [
-            'USSF-ORBIT/design',
-            'USSF-ORBIT/eng',
-            'USSF-ORBIT/code-owners'
+            'design',
+            'eng',
+            'code-owners'
           ]
