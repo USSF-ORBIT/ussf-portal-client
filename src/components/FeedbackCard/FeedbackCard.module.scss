@@ -7,11 +7,15 @@
   padding: units(3);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
 
-  > h3 {
-    margin: 0;
+  > h2 {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 27px;
+    margin-top: units(0);
+    margin-bottom: units(1);
   }
 
-  h3 + p {
+  h2 + p {
     margin-top: units('105');
   }
 
