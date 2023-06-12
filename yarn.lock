@@ -4966,10 +4966,10 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
-"@trussworks/react-uswds@3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@trussworks/react-uswds/-/react-uswds-3.2.0.tgz#3193b968419837895444a6e9e72a832bd7afcb84"
-  integrity sha512-wZYK03JoP+BwzBaJ3AN5jG5nmsIQokTk863zKo+zkEiynbUAeXLd+IZUKu+yTjfc4RpSlt1aIEo+sxaQZSu10A==
+"@trussworks/react-uswds@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@trussworks/react-uswds/-/react-uswds-5.0.0.tgz#b0ffb65c8568f35ada4ab5e87bad143566cc14c1"
+  integrity sha512-nOUnwiIosQFPKUeBMoDw9OoS2WG0TZl6cGrJmrL70i20ECFMYRaj/CCV+DnB1npuNg3PNzcdED9tuInRndfk4Q==
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.9"
@@ -5963,6 +5963,16 @@
   dependencies:
     "@typescript-eslint/types" "5.59.2"
     eslint-visitor-keys "^3.3.0"
+
+"@uswds/uswds@3.5.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@uswds/uswds/-/uswds-3.5.0.tgz#a54f6c668541453419eb49e7268026f125255166"
+  integrity sha512-pXgxmAwHsFPopZ1fll8La9jOsaQPHDM2g8oqv14GF1084RoCcBIRy3eZUux0VjeO/jscxsxACWy8v/vulQK4CQ==
+  dependencies:
+    classlist-polyfill "1.0.3"
+    object-assign "4.1.1"
+    receptor "1.0.0"
+    resolve-id-refs "0.1.0"
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
