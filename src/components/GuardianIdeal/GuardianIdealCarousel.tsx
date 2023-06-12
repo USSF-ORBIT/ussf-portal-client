@@ -129,6 +129,7 @@ const GuardianIdealCarousel = ({
           Remove Guardian Ideal widget
         </Button>,
       ]}>
+      <h3 className="usa-sr-only">Guardian Ideals</h3>
       <Slider
         ref={sliderRef}
         className={styles.carouselContainer}
