@@ -14,7 +14,6 @@ import styles from 'styles/pages/search.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
-import Head from 'next/head'
 
 // TODO - empty state (need design)
 
@@ -32,9 +31,6 @@ const Search = ({
     <Loader />
   ) : (
     <>
-      <Head>
-        <title>‘{query}’ Search Results - USSF Portal</title>
-      </Head>
       <PageHeader searchQuery={query}>
         <div>
           <h1>Search</h1>
@@ -166,6 +162,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       query: q,
       results,
+      pageTitle: `${q} Search Results`,
     },
   }
 }

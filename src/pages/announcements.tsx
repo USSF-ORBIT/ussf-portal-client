@@ -76,6 +76,7 @@ export async function getServerSideProps() {
   return {
     props: {
       announcements,
+      pageTitle: 'Latest Announcements',
     },
   }
 }

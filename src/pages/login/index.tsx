@@ -9,7 +9,6 @@ import { AccordionItemProps } from '@trussworks/react-uswds/lib/components/Accor
 import styles from './login.module.scss'
 import Layout from 'layout/LoginLayout/LoginLayout'
 import { useAuthContext } from 'stores/authContext'
-import Head from 'next/head'
 
 const Login = () => {
   const { login } = useAuthContext()
@@ -42,9 +41,6 @@ const Login = () => {
 
   return (
     <>
-      <Head>
-        <title>Log In - USSF Portal</title>
-      </Head>
       <div className={styles.loginPage}>
         <section className="usa-section padding-top-3">
           <GridContainer>
@@ -153,3 +149,12 @@ const LoginLayout = (page: ReactNode) => <Layout>{page}</Layout>
 
 LoginLayout.displayName = 'LoginLayout'
 Login.getLayout = LoginLayout
+
+// The page title is parsed and displayed in _app.tsx
+export async function getServerSideProps() {
+  return {
+    props: {
+      pageTitle: 'Log In',
+    },
+  }
+}

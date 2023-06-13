@@ -10,7 +10,6 @@ import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookma
 import styles from 'styles/pages/home.module.scss'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
-import Head from 'next/head'
 
 const Home = ({
   bookmarks,
@@ -22,9 +21,6 @@ const Home = ({
     <Loader />
   ) : (
     <>
-      <Head>
-        <title>My Space - USSF Portal</title>
-      </Head>
       <div className={styles.home}>
         {announcements.length > 0 && (
           <section>
@@ -64,6 +60,7 @@ export async function getServerSideProps() {
     props: {
       bookmarks,
       announcements,
+      pageTitle: 'My Space',
     },
   }
 }

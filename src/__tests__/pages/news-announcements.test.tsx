@@ -21,6 +21,7 @@ jest.mock('../../lib/keystoneClient', () => ({
         data: {
           announcements: mockAnnouncements,
           articles: mockArticles,
+          pageTitle: 'Internal News',
         },
       }
     },

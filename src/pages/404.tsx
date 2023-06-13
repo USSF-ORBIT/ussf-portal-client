@@ -22,6 +22,7 @@ export default function Custom404() {
     <Loader />
   ) : (
     <>
+      {/* 404 Page cannot have props, so we use the Head component to set the title */}
       <Head>
         <title>404 Error - USSF Portal</title>
       </Head>

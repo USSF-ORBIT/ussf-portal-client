@@ -77,9 +77,11 @@ export default function UpdateBrowser() {
 UpdateBrowser.getLayout = (page: React.ReactNode) =>
   withErrorLayout(page, true, true)
 
+// The page title is parsed and displayed in _app.tsx
 export async function getStaticProps() {
-  // no op, forces the page to be static generated
   return {
-    props: {},
+    props: {
+      pageTitle: 'Browser Warning',
+    },
   }
 }

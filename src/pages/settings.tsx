@@ -5,7 +5,6 @@ import { useEditDisplayNameMutation } from 'operations/portal/mutations/editDisp
 import { useAuthContext } from 'stores/authContext'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
-import Head from 'next/head'
 
 const Settings = () => {
   const { user } = useUser()
@@ -19,9 +18,6 @@ const Settings = () => {
     <Loader />
   ) : (
     <>
-      <Head>
-        <title>Settings - USSF Portal</title>
-      </Head>
       <div className={styles.settings}>
         <div className={styles.widgetContainer}>
           <h2 className={styles.pageTitle}>Settings</h2>
@@ -48,3 +44,12 @@ const Settings = () => {
 export default Settings
 
 Settings.getLayout = withDefaultLayout
+
+// The page title is parsed and displayed in _app.tsx
+export async function getServerSideProps() {
+  return {
+    props: {
+      pageTitle: 'Settings',
+    },
+  }
+}

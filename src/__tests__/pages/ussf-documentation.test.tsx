@@ -117,7 +117,10 @@ describe('USSF Documentation page', () => {
   describe('without a user', () => {
     it('renders the loader while fetching the user', () => {
       renderWithAuthAndApollo(
-        <USSFDocumentation documentsPage={mockTestPage} />,
+        <USSFDocumentation
+          documentsPage={mockTestPage}
+          pageTitle={'Documentation'}
+        />,
         { user: null },
         cmsDocumentationPageMock
       )
@@ -126,12 +129,18 @@ describe('USSF Documentation page', () => {
 
     it('redirects to the login page if not logged in', async () => {
       renderWithAuthAndApollo(
-        <USSFDocumentation documentsPage={mockTestPage} />,
+        <USSFDocumentation
+          documentsPage={mockTestPage}
+          pageTitle={'Documentation'}
+        />,
         { user: null },
         cmsDocumentationPageMock
       )
       renderWithAuthAndApollo(
-        <USSFDocumentation documentsPage={mockTestPage} />
+        <USSFDocumentation
+          documentsPage={mockTestPage}
+          pageTitle={'Documentation'}
+        />
       )
 
       await waitFor(() => {
@@ -143,7 +152,10 @@ describe('USSF Documentation page', () => {
   describe('when logged in', () => {
     it('renders the documentation page from the cms', () => {
       renderWithAuthAndApollo(
-        <USSFDocumentation documentsPage={mockTestPage} />,
+        <USSFDocumentation
+          documentsPage={mockTestPage}
+          pageTitle={'Documentation'}
+        />,
         {},
         cmsDocumentationPageMock
       )
@@ -160,7 +172,10 @@ describe('USSF Documentation page', () => {
 
     it('has no a11y violations', async () => {
       const html = renderWithAuthAndApollo(
-        <USSFDocumentation documentsPage={mockTestPage} />,
+        <USSFDocumentation
+          documentsPage={mockTestPage}
+          pageTitle={'Documentation'}
+        />,
         {},
         cmsDocumentationPageMock
       )
@@ -174,7 +189,10 @@ describe('USSF Documentation page', () => {
 
     it('makes the call to get user', () => {
       renderWithAuthAndApollo(
-        <USSFDocumentation documentsPage={mockTestPage} />,
+        <USSFDocumentation
+          documentsPage={mockTestPage}
+          pageTitle={'Documentation'}
+        />,
         {},
         cmsDocumentationPageMock
       )
@@ -191,6 +209,7 @@ describe('getServerSideProps', () => {
       expect.objectContaining({
         props: {
           documentsPage: mockTestPage,
+          pageTitle: 'Documentation',
         },
       })
     )

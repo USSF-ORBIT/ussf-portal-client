@@ -3,14 +3,10 @@ import { GridContainer } from '@trussworks/react-uswds'
 import styles from './login/login.module.scss'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import Layout from 'layout/LoginLayout/LoginLayout'
-import Head from 'next/head'
 
 const LoginNotice = () => {
   return (
     <>
-      <Head>
-        <title>Log In - USSF Portal</title>
-      </Head>
       <div className={styles.loginPage}>
         <section className="usa-section padding-top-3">
           <GridContainer>
@@ -106,3 +102,12 @@ const LoginLayout = (page: ReactNode) => <Layout>{page}</Layout>
 
 LoginLayout.displayName = 'LoginLayout'
 LoginNotice.getLayout = LoginLayout
+
+// The page title is parsed and displayed in _app.tsx
+export const getStaticProps = async () => {
+  return {
+    props: {
+      title: 'Login Notice',
+    },
+  }
+}

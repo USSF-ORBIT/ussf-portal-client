@@ -18,6 +18,7 @@ export default function Custom500() {
 
   return (
     <>
+      {/* 404 Page cannot have props, so we use the Head component to set the title */}
       <Head>
         <title>500 Error - USSF Portal</title>
       </Head>

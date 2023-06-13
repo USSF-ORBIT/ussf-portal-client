@@ -11,7 +11,6 @@ import styles from 'styles/pages/news.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
-import Head from 'next/head'
 
 const InternalNews = ({
   articles,
@@ -22,9 +21,6 @@ const InternalNews = ({
     <Loader />
   ) : (
     <>
-      <Head>
-        <title>Internal News - USSF Portal</title>
-      </Head>
       <div>
         <div className={styles.pageTitle}>
           <h2>All USSF news</h2>
@@ -80,6 +76,7 @@ export async function getServerSideProps() {
   return {
     props: {
       articles,
+      pageTitle: 'Internal News',
     },
   }
 }

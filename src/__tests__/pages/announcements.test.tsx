@@ -17,6 +17,7 @@ jest.mock('../../lib/keystoneClient', () => ({
       return {
         data: {
           announcements: mockAnnouncements,
+          pageTitle: 'Latest Announcements',
         },
       }
     },
@@ -60,9 +61,15 @@ describe('Announcements page', () => {
         return Promise.reject()
       })
 
-      renderWithAuth(<AnnouncementsPage announcements={mockAnnouncements} />, {
-        user: null,
-      })
+      renderWithAuth(
+        <AnnouncementsPage
+          announcements={mockAnnouncements}
+          pageTitle={'Latest Announcements'}
+        />,
+        {
+          user: null,
+        }
+      )
     })
 
     it('renders the loader while fetching the user and does not fetch RSS items', () => {
@@ -88,12 +95,18 @@ describe('Announcements page', () => {
       expect(response).toEqual({
         props: {
           announcements: mockAnnouncements,
+          pageTitle: 'Latest Announcements',
         },
       })
     })
 
     it('renders the latest announcements', async () => {
-      renderWithAuth(<AnnouncementsPage announcements={mockAnnouncements} />)
+      renderWithAuth(
+        <AnnouncementsPage
+          announcements={mockAnnouncements}
+          pageTitle={'Latest Announcements'}
+        />
+      )
 
       mockAnnouncements.map((announcement) => {
         expect(screen.getByText(announcement.title)).toBeInTheDocument()

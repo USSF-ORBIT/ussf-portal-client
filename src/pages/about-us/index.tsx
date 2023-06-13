@@ -5,7 +5,6 @@ import styles from 'styles/pages/aboutUs.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
-import Head from 'next/head'
 
 const AboutUs = () => {
   const { user } = useUser()
@@ -14,9 +13,6 @@ const AboutUs = () => {
     <Loader />
   ) : (
     <>
-      <Head>
-        <title>About Us - USSF Portal</title>
-      </Head>
       <div className={styles.aboutUsPage}>
         <div className={styles.pageTitle}>
           <h2>About the Space Force</h2>
@@ -141,3 +137,12 @@ AboutUs.getLayout = (page: React.ReactNode) =>
     </div>,
     page
   )
+
+// The page title is parsed and displayed in _app.tsx
+export async function getServerSideProps() {
+  return {
+    props: {
+      pageTitle: 'About Us',
+    },
+  }
+}

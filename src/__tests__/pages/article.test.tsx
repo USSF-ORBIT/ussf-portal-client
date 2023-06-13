@@ -23,6 +23,7 @@ jest.mock('../../lib/keystoneClient', () => ({
       return {
         data: {
           article: mockOrbitBlogArticle,
+          pageTitle: mockOrbitBlogArticle.title,
         },
         loading: false,
         errors: [],
@@ -77,6 +78,7 @@ describe('Single article getServerSideProps', () => {
     expect(response).toEqual({
       props: {
         article: mockOrbitBlogArticle,
+        pageTitle: mockOrbitBlogArticle.title,
       },
     })
   })
@@ -101,6 +103,7 @@ describe('Single article getServerSideProps', () => {
     expect(response).toEqual({
       props: {
         article: draftArticle,
+        pageTitle: mockOrbitBlogArticle.title,
       },
     })
   })

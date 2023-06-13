@@ -15,7 +15,6 @@ import styles from 'styles/pages/news.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
-import Head from 'next/head'
 
 // The Dev Blog
 const PortalNews = ({
@@ -29,9 +28,6 @@ const PortalNews = ({
     <Loader />
   ) : (
     <>
-      <Head>
-        <title>Orbit Blog - USSF Portal</title>
-      </Head>
       <div className={styles.listContainer}>
         <div className={styles.pageTitle}>
           <h2>Production team blog & announcements</h2>
@@ -121,6 +117,7 @@ export const getServerSideProps: GetServerSideProps = async (
       articles,
       currentPage,
       totalPages,
+      pageTitle: 'Orbit Blog',
     },
   }
 }

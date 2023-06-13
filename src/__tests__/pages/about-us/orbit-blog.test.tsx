@@ -19,6 +19,7 @@ jest.mock('../../../lib/keystoneClient', () => ({
       return {
         data: {
           articles: mockOrbitBlogArticles,
+          pageTitle: 'Orbit Blog',
         },
         loading: false,
         errors: [],
@@ -67,6 +68,7 @@ describe('ORBIT Blog page', () => {
         articles: mockOrbitBlogArticles,
         currentPage: 1,
         totalPages: 1,
+        pageTitle: 'Orbit Blog',
       },
     })
   })
@@ -95,6 +97,7 @@ describe('ORBIT Blog page', () => {
         articles: mockOrbitBlogArticles,
         currentPage: 1,
         totalPages: 1,
+        pageTitle: 'Orbit Blog',
       },
     })
   })

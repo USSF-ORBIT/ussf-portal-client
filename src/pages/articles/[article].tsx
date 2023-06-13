@@ -10,7 +10,6 @@ import { GET_ARTICLE } from 'operations/cms/queries/getArticle'
 import { SingleArticle } from 'components/SingleArticle/SingleArticle'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { isCmsUser, isPublished } from 'helpers/index'
-import Head from 'next/head'
 
 const ORBITBlogArticleHeader = () => (
   <PageHeader>
@@ -57,9 +56,6 @@ const SingleArticlePage = ({
 
   return (
     <>
-      <Head>
-        <title>{article.title} - USSF Portal</title>
-      </Head>
       {category === 'ORBITBlog' ? (
         <ORBITBlogArticleHeader />
       ) : (
@@ -101,6 +97,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       article,
+      pageTitle: article.title,
     },
   }
 }
