@@ -4,6 +4,9 @@
 .search {
   position: relative;
 
+  :global(.usa-search [type='search']::-webkit-search-cancel-button) {
+    display: none;
+  }
   .disabled {
     filter: blur(3px);
     user-select: none;
