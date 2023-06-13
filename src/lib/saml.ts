@@ -147,7 +147,6 @@ export const configSaml = async (passport: PassportWithLogout) => {
     }
   } catch (err) {
     // TODO - log error
-    // eslint-disable-next-line no-console
     console.error(`Error loading SAML metadata from URL ${IDP_METADATA}`, err)
     throw err
   }

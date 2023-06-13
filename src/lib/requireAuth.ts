@@ -59,7 +59,6 @@ export const requireAuth = (getServerSidePropsFunc?: GetServerSideProps) => {
       }
     } catch (e) {
       // TODO - handle the error
-      // eslint-disable-next-line no-console
       console.error('error getting session', e)
 
       return {

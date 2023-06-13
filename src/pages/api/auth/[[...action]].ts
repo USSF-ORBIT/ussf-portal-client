@@ -12,11 +12,9 @@ import { configSaml, PassportRequest } from '../../../lib/saml'
 
 const handler = NextConnect<PassportRequest, NextApiResponse>({
   onError: (err, req, res) => {
-    /* eslint-disable no-console */
     console.error('Error in authentication')
     console.error(err)
     console.error(err.stack)
-    /* eslint-enable no-console */
     res.status(500).end('Error authenticating')
   },
 })
@@ -85,12 +83,10 @@ handler.get('/api/auth/logout', async (req, res) => {
         }
       } else if (err) {
         // TODO - error handling
-        // eslint-disable-next-line no-console
         console.error('Error initiating SLO request', err)
         res.status(500).end()
       } else {
         // TODO - error handling
-        // eslint-disable-next-line no-console
         console.error('Error initiating SLO request, missing request URL')
         res.status(500).end()
       }
