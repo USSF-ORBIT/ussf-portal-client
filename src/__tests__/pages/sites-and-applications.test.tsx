@@ -33,7 +33,6 @@ jest.mock('../../lib/keystoneClient', () => ({
         data: {
           collections: mockCMSCollections,
           bookmarks: mockCMSBookmarks,
-          pageTitle: 'Sites and Applications',
         },
       }
     },

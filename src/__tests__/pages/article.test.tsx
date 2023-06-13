@@ -23,7 +23,6 @@ jest.mock('../../lib/keystoneClient', () => ({
       return {
         data: {
           article: mockOrbitBlogArticle,
-          pageTitle: mockOrbitBlogArticle.title,
         },
         loading: false,
         errors: [],

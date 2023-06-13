@@ -17,7 +17,6 @@ jest.mock('../../lib/keystoneClient', () => ({
       return {
         data: {
           announcements: mockAnnouncements,
-          pageTitle: 'Latest Announcements',
         },
       }
     },

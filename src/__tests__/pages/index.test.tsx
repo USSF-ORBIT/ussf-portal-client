@@ -55,6 +55,7 @@ describe('Home page', () => {
         <Home
           bookmarks={cmsBookmarksMock}
           announcements={cmsAnnouncementsMock}
+          pageTitle={'My Space'}
         />,
         { user: null }
       )
@@ -79,6 +80,7 @@ describe('Home page', () => {
         <Home
           bookmarks={cmsBookmarksMock}
           announcements={cmsAnnouncementsMock}
+          pageTitle={'My Space'}
         />,
         { portalUser: portalUserMaxedOutCollection }
       )
