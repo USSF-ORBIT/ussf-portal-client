@@ -1,0 +1,49 @@
+// This file is meant to replace _settings.scss and each of the templates in _uswdsDependencies.scss.
+
+$asset-path: '' !default;
+$uswds-asset-path: '#{$asset-path}/vendor' !default;
+
+@use 'uswds-core' with (
+  $theme-show-notifications: false,
+  // $theme-image-path: '#{$uswds-asset-path}/img',
+  // $theme-font-path: '#{$uswds-asset-path}/fonts',
+  // $theme-hero-image: '#{$theme-image-path}/hero.png',
+  $theme-alert-icon-size: 4,
+  $theme-font-type-sans: 'system',
+  $theme-font-sans-custom-stack: Trebuchet MS,
+  $theme-font-role-heading: 'sans',
+  $theme-font-role-alt: 'sans',
+  $theme-font-weight-thin: 200,
+  $theme-font-weight-heavy: 900,
+  $theme-h2-font-size: 'lg',
+  $theme-h3-font-size: 'md',
+  $theme-site-margins-mobile-width: 2,
+  // 16px
+  $theme-site-margins-width: 3,
+  // 24px
+  $theme-column-gap-mobile: 3,
+  // 24px
+  $theme-column-gap-desktop: 3,
+  // 24px
+  $theme-utility-breakpoints:
+    (
+      'card': false,
+      // 160px
+      'card-lg': false,
+      // 240px
+      'mobile': false,
+      // 320px
+      'mobile-lg': true,
+      // 480px
+      'tablet': true,
+      // 640px
+      'tablet-lg': true,
+      // 800px
+      'desktop': true,
+      // 1024px
+      'desktop-lg': true,
+      // 1200px
+      'widescreen': false,
+      // 1400px
+    )
+);

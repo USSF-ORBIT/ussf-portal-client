@@ -23,6 +23,30 @@ module.exports = withBundleAnalyzer({
       })
     )
 
+    config.module.rules.push(
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+              sassOptions: {
+                includePaths: [
+                  './node_modules/@uswds',
+                  './node_modules/@uswds/uswds/packages',
+                ],
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      }
+    )
+
     return config
   },
   reactStrictMode: true,

@@ -89,7 +89,6 @@
     "react-slick": "0.29.0",
     "redis": "3.1.2",
     "slick-carousel": "1.8.1",
-    "uswds": "2.13.3",
     "yup": "1.1.1"
   },
   "devDependencies": {
@@ -151,8 +150,8 @@
     "next-test-api-route-handler": "3.1.8",
     "passport-custom": "1.1.1",
     "prettier": "2.8.8",
-    "sass": "1.62.1",
-    "sass-loader": "13.2.2",
+    "sass": "1.63.4",
+    "sass-loader": "13.3.2",
     "standard-version": "9.5.0",
     "storybook-addon-apollo-client": "4.1.4",
     "storybook-addon-launchdarkly": "1.0.2",
