@@ -7,6 +7,7 @@ import PageHeader from 'components/PageHeader/PageHeader'
 import Footer from 'components/Footer/Footer'
 import { useGetUserQuery } from 'operations/portal/queries/getUser.g'
 import { useAuthContext } from 'stores/authContext'
+import { useSearchContext } from 'stores/searchContext'
 import { PortalUser } from 'types'
 import Loader from 'components/Loader/Loader'
 
@@ -18,6 +19,7 @@ const PageLayout = ({
   children: React.ReactNode
 }) => {
   const { setPortalUser } = useAuthContext()
+  const { searchQuery, setSearchQuery } = useSearchContext()
   const { setTheme } = useTheme()
 
   const { loading, data }: PortalUser | any = useGetUserQuery()
@@ -28,6 +30,13 @@ const PageLayout = ({
       setTheme(data.theme)
     }
   }, [data])
+
+  useEffect(() => {
+    // If there is a search query, and the url does not contain /search, then empty the search query
+    if (searchQuery && !window.location.pathname.includes('/search')) {
+      setSearchQuery('')
+    }
+  }, [window.location.pathname])
 
   return loading ? (
     <Loader />
