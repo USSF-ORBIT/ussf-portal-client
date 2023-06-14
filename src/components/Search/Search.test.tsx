@@ -3,38 +3,139 @@
  */
 
 import React from 'react'
-import { render, screen } from '@testing-library/react'
-
+import { render, screen, fireEvent, cleanup } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Search from './Search'
+import { SearchProvider } from 'stores/searchContext'
 
 describe('Search component', () => {
-  beforeEach(() => {
-    render(<Search />)
+  // beforeEach(() => {
+  //   render(
+  //     <SearchProvider>
+  //       <Search disabled={false} />
+  //     </SearchProvider>
+  //   )
+  // })
+  afterEach(() => {
+    cleanup()
   })
 
-  it('renders the search form ', () => {
+  test('renders the search form ', () => {
+    render(
+      <SearchProvider>
+        <Search disabled={false} />
+      </SearchProvider>
+    )
+
     expect(screen.getByRole('search')).toBeInTheDocument()
   })
 
-  it.skip('renders the dropdown options', () => {
+  test.skip('renders the dropdown options', () => {
     expect(screen.getByRole('combobox')).toBeInTheDocument()
     expect(screen.getAllByRole('option')).toHaveLength(4)
   })
 
-  it('renders the searchbox', () => {
-    expect(screen.getByRole('searchbox')).toBeInTheDocument()
+  test('renders the searchbox', async () => {
+    render(
+      <SearchProvider>
+        <Search disabled={false} />
+      </SearchProvider>
+    )
+
+    const searchbox = screen.getByTestId('search-input')
+
+    expect(searchbox).toBeInTheDocument()
+
+    fireEvent.change(searchbox, { target: { value: 'test' } })
+    expect(searchbox).toHaveValue('test')
   })
 
-  it('renders the search button', () => {
+  test('renders the search button', () => {
+    render(
+      <SearchProvider>
+        <Search disabled={false} />
+      </SearchProvider>
+    )
+
     expect(screen.getByRole('button')).toHaveTextContent('Search')
   })
 
-  it.skip('renders the suggested terms', () => {
+  test('submits the search form', async () => {
+    const user = userEvent.setup()
+    const mockSubmit = jest.fn()
+
+    render(
+      <SearchProvider>
+        <Search disabled={false} />
+      </SearchProvider>
+    )
+
+    const form = screen.getByRole('search')
+    form.addEventListener('submit', mockSubmit)
+
+    const searchbox = screen.getByTestId('search-input')
+
+    expect(searchbox).toBeInTheDocument()
+
+    fireEvent.change(searchbox, { target: { value: 'test' } })
+    expect(searchbox).toHaveValue('test')
+
+    const submitButton = screen.getByRole('button', { name: 'Search' })
+    expect(submitButton).toBeInTheDocument()
+
+    await user.click(submitButton)
+
+    expect(mockSubmit).toHaveBeenCalled()
+  })
+
+  test('trims the search query if it is greater than 200 characters', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <SearchProvider>
+        <Search disabled={false} />
+      </SearchProvider>
+    )
+
+    const searchbox = screen.getByTestId('search-input')
+
+    expect(searchbox).toBeInTheDocument()
+
+    // 'test' has 4 characters, so 51 * 4 = 204 characters
+    fireEvent.change(searchbox, {
+      target: {
+        value: 'test'.repeat(51),
+      },
+    })
+
+    const submitButton = screen.getByRole('button', { name: 'Search' })
+    expect(submitButton).toBeInTheDocument()
+
+    await user.click(submitButton)
+
+    // Check that the search query is trimmed to 200 characters
+    // 4 characters * 50 = 200 characters
+    expect(searchbox).toHaveValue('test'.repeat(50))
+  })
+
+  test.skip('renders the suggested terms', () => {
     expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
       'Are you looking for:'
     )
 
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(screen.getAllByRole('listitem')).toHaveLength(4)
+  })
+})
+
+describe('Search component disabled', () => {
+  test('renders the coming soon message', () => {
+    render(
+      <SearchProvider>
+        <Search disabled={true} />
+      </SearchProvider>
+    )
+
+    expect(screen.getByRole('heading')).toHaveTextContent('Search coming soon!')
   })
 })

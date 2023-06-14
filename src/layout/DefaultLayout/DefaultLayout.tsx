@@ -13,6 +13,7 @@ import Loader from 'components/Loader/Loader'
 import { useGetUserQuery } from 'operations/portal/queries/getUser.g'
 import { useAuthContext } from 'stores/authContext'
 import { useMySpaceContext } from 'stores/myspaceContext'
+import { useSearchContext } from 'stores/searchContext'
 import { PortalUser } from 'types'
 
 const DefaultLayout = ({
@@ -26,6 +27,7 @@ const DefaultLayout = ({
 }) => {
   const { setPortalUser } = useAuthContext()
   const { initializeMySpace } = useMySpaceContext()
+  const { searchQuery, setSearchQuery } = useSearchContext()
   const { setTheme } = useTheme()
   const [displayName, setDisplayName] = useState<string>('')
   const navItems = [
@@ -47,6 +49,13 @@ const DefaultLayout = ({
       initializeMySpace(data.mySpace)
     }
   }, [data])
+
+  useEffect(() => {
+    // If there is a search query, and the url does not contain /search, then empty the search query
+    if (searchQuery && !window.location.pathname.includes('/search')) {
+      setSearchQuery('')
+    }
+  }, [window.location.pathname])
 
   return loading ? (
     <Loader />
