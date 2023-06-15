@@ -1,16 +1,12 @@
-name: E2E tests
+name: Docker Build Test
 
 on:
-  push:
-    paths-ignore:
-      - 'docs/**'
-      - '**.md**'
-    branches: [main]
   pull_request:
     paths-ignore:
       - 'docs/**'
       - '**.md**'
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   check-docker-build:
