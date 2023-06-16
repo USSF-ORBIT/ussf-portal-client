@@ -91,9 +91,7 @@ const NewsAnnouncements = ({
               href="https://www.spaceforce.mil/News"
               target="_blank"
               rel="noreferrer noopener">
-              <button
-                type="button"
-                className="usa-button usa-button--accent-cool">
+              <button type="button" className="usa-button">
                 View older Spaceforce.mil articles
               </button>
             </LinkTo>
