@@ -56,7 +56,7 @@ export const AnalyticsProvider = ({
     }
 
     if (debug === true) {
-      console.log(`ANALYTICS:`, ...args)
+      console.debug(`ANALYTICS:`, ...args)
     }
 
     windowWithAnalytics._paq.push(args)

@@ -54,7 +54,6 @@ export const CollectionModel = {
         (w) => w.type === WIDGET_TYPES.COLLECTION
       ) as Collection[]
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('CollectionModel Error: error in getAll', e)
       throw e
     }
@@ -101,7 +100,6 @@ export const CollectionModel = {
       await db.collection('users').updateOne(query, updateDocument)
       return newCollection
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('CollectionModel Error: error in addOne', e)
       throw e
     }
@@ -151,7 +149,6 @@ export const CollectionModel = {
       await db.collection('users').updateOne(query, updateDocument)
       return newCollections
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('CollectionModel Error: error in addMany', e)
       throw e
     }
@@ -189,7 +186,6 @@ export const CollectionModel = {
 
       return updatedCollection
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('CollectionModel Error: error in editOne', e)
       throw e
     }
@@ -219,7 +215,6 @@ export const CollectionModel = {
       // Return deleted collection id
       return { _id }
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('CollectionModel Error: error in deleteOne', e)
       throw e
     }

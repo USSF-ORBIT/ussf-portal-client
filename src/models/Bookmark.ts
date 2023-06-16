@@ -263,7 +263,6 @@ export const BookmarkModel = {
 
       return createdBookmark
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('BookmarkModel Error: error in addOne', e)
       throw e
     }
