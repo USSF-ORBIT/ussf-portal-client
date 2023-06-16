@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import type { Meta } from '@storybook/react'
-import { DropdownFilter } from './DropdownFilter'
 import styles from '../../styles/pages/sitesAndApplications.module.scss'
+import { DropdownFilter } from './DropdownFilter'
 export default {
   title: 'Base/DropdownFilter',
   component: DropdownFilter,

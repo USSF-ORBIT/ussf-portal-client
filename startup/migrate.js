@@ -11,10 +11,10 @@ function runMigrations() {
         throw err
       }
 
-      console.log('[MIGRATION] Run migrations')
+      console.info('[MIGRATION] Run migrations')
 
       set.on('migration', function (migration, direction) {
-        console.log(`[MIGRATION - ${direction}] ${migration.title}`)
+        console.info(`[MIGRATION - ${direction}] ${migration.title}`)
       })
 
       set.up(function (err) {
@@ -22,7 +22,7 @@ function runMigrations() {
           throw err
         }
 
-        console.log('[MIGRATION] Migrations successful')
+        console.info('[MIGRATION] Migrations successful')
       })
     }
   )

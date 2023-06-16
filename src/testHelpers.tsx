@@ -4,6 +4,7 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { testUser1, testPortalUser1 } from './__fixtures__/authUsers'
 import { AuthContext, AuthContextType } from 'stores/authContext'
 import { ModalContext, ModalContextType } from 'stores/modalContext'
+import { SearchContext, SearchContextType } from 'stores/searchContext'
 
 export const defaultMockModalContext = {
   modalId: '',
@@ -119,6 +120,39 @@ export const renderWithAuthAndApollo = (
         {children}
       </MockedProvider>
     </AuthContext.Provider>
+  )
+
+  return render(component, { wrapper })
+}
+
+export const defaultMockSearchContext = {
+  searchQuery: '',
+  setSearchQuery: jest.fn(),
+}
+
+/** Renders the component inside of a SearchProvider */
+export const renderWithSearchContext = (
+  component: React.ReactElement,
+  value: Partial<SearchContextType> = {},
+  mocks: readonly MockedResponse<Record<string, unknown>>[] = []
+) => {
+  const contextValue = {
+    ...defaultMockSearchContext,
+    ...value,
+  }
+
+  const wrapper = ({ children }: { children: React.ReactNode }) => (
+    <SearchContext.Provider value={contextValue}>
+      <MockedProvider
+        mocks={mocks}
+        addTypename={false}
+        defaultOptions={{
+          watchQuery: { fetchPolicy: 'no-cache' },
+          query: { fetchPolicy: 'no-cache' },
+        }}>
+        {children}
+      </MockedProvider>
+    </SearchContext.Provider>
   )
 
   return render(component, { wrapper })

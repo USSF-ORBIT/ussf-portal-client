@@ -36,7 +36,6 @@ const session: Middleware<NextApiRequest, NextApiResponse> = async (
     await getSession(req, res)
     next()
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.error('Error getting session', e)
     throw e
   }

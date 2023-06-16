@@ -1,11 +1,14 @@
+import { useEffect } from 'react'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { GridContainer, Grid } from '@trussworks/react-uswds'
-
+import { useFlags } from 'launchdarkly-react-client-sdk'
 import { client } from 'lib/keystoneClient'
 import { withArticleLayout } from 'layout/DefaultLayout/ArticleLayout'
 import PageHeader from 'components/PageHeader/PageHeader'
 import EPubsCard from 'components/EPubsCard/EPubsCard'
+import SearchFilter from 'components/SearchFilter/SearchFilter'
 import { SEARCH } from 'operations/cms/queries/search'
+import { GET_LABELS } from 'operations/cms/queries/getLabels'
 import { SearchBanner } from 'components/SearchBanner/SearchBanner'
 import { SearchResultItem } from 'components/SearchResultItem/SearchResultItem'
 import { SearchResultRecord } from 'types/index'
@@ -13,6 +16,7 @@ import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
 import styles from 'styles/pages/search.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { useUser } from 'hooks/useUser'
+import { useSearchContext } from 'stores/searchContext'
 import Loader from 'components/Loader/Loader'
 
 // TODO - empty state (need design)
@@ -20,8 +24,19 @@ import Loader from 'components/Loader/Loader'
 const Search = ({
   query,
   results = [],
+  labels,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
+  const { setSearchQuery } = useSearchContext()
+  const flags = useFlags()
+
+  // If a query is passed in, set the searchQuery state to that value
+  useEffect(() => {
+    if (query) {
+      setSearchQuery(query)
+    }
+  }, [query])
+
   const resultString =
     results.length === 1
       ? `There is 1 result`
@@ -31,7 +46,7 @@ const Search = ({
     <Loader />
   ) : (
     <>
-      <PageHeader searchQuery={query}>
+      <PageHeader>
         <div>
           <h1>Search</h1>
           <BreadcrumbNav
@@ -46,7 +61,7 @@ const Search = ({
                 current: true,
               },
               {
-                path: '/search',
+                path: `/search?q=${query}`,
                 label: <span>{query}</span>,
                 current: true,
               },
@@ -55,64 +70,58 @@ const Search = ({
         </div>
       </PageHeader>
       <GridContainer>
-        <>
-          <div className={styles.pageTitle}>
-            <h2>
-              {resultString} for ‘{query}’
-            </h2>
-          </div>
+        <div className={styles.pageTitle}>
+          <h2>
+            {resultString} for ‘{query}’
+          </h2>
+        </div>
+
+        <Grid row gap="lg">
+          <Grid col="auto">
+            <EPubsCard query={query} />
+            {flags?.searchPageFilter && <SearchFilter labels={labels} />}
+          </Grid>
 
           {results.length > 0 ? (
             <>
-              <Grid row gap="md">
-                <Grid col="auto">
-                  <EPubsCard query={query} />
-                </Grid>
-
-                <Grid col="fill">
-                  <ol className={styles.searchResults}>
-                    {results.map((i: SearchResultRecord) => {
-                      return (
-                        <li key={`result_${i.id}`}>
-                          <SearchResultItem item={i} />
-                        </li>
-                      )
-                    })}
-                  </ol>
-                </Grid>
-              </Grid>
-
-              <SearchBanner
-                icon={<img src="/assets/images/satellite.svg" alt=" " />}>
-                <div>
-                  <h3>You’ve reached the end of your search results.</h3>
-                  <p>
-                    If you didn’t find what you’re looking for, search again
-                    using different keywords.
-                  </p>
-                </div>
-              </SearchBanner>
-            </>
-          ) : (
-            <Grid row gap="md">
-              <Grid col="auto">
-                <EPubsCard query={query} />
-              </Grid>
               <Grid col="fill">
+                <ol className={styles.searchResults}>
+                  {results.map((i: SearchResultRecord) => {
+                    return (
+                      <li key={`result_${i.id}`}>
+                        <SearchResultItem item={i} />
+                      </li>
+                    )
+                  })}
+                </ol>
+
                 <SearchBanner
-                  icon={<img src="/assets/images/moon-flag.svg" alt=" " />}>
+                  icon={<img src="/assets/images/satellite.svg" alt=" " />}>
                   <div>
-                    <h3>There are no results that match that query.</h3>
+                    <h3>You’ve reached the end of your search results.</h3>
                     <p>
-                      It seems you didn’t find what you were looking for. Please
-                      search again with different keywords.
+                      If you didn’t find what you’re looking for, search again
+                      using different keywords.
                     </p>
                   </div>
                 </SearchBanner>
               </Grid>
+            </>
+          ) : (
+            <Grid col="fill">
+              <SearchBanner
+                icon={<img src="/assets/images/moon-flag.svg" alt=" " />}>
+                <div>
+                  <h3>There are no results that match that query.</h3>
+                  <p>
+                    It seems you didn’t find what you were looking for. Please
+                    search again with different keywords.
+                  </p>
+                </div>
+              </SearchBanner>
             </Grid>
           )}
-        </>
+        </Grid>
       </GridContainer>
     </>
   )
@@ -130,11 +139,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // get search terms from URL params
   const { q } = context.query
 
+  // Get labels
+  const {
+    data: { labels },
+  } = (await client.query({
+    query: GET_LABELS,
+  })) as unknown as {
+    data: { labels: { name: string }[] }
+  }
+
   if (!q) {
     return {
       props: {
         query: null,
         results: [],
+        labels,
       },
     }
   }
@@ -163,6 +182,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       query: q,
       results,
       pageTitle: `${q} Search Results`,
+      labels,
     },
   }
 }

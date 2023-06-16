@@ -6,4 +6,5 @@
 export default {
   guardianIdealCarousel: true,
   featuredShortcuts: true,
+  searchPageFilter: true,
 }
