@@ -6,10 +6,11 @@ import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import React from 'react'
+import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
 import Bookmark from './Bookmark'
 
 describe('Bookmark component', () => {
-  it('renders an anchor link', () => {
+  test('renders an anchor link', () => {
     render(<Bookmark href="/home">Home</Bookmark>)
 
     const link = screen.getByRole('link', {
@@ -21,7 +22,7 @@ describe('Bookmark component', () => {
     expect(link).toBeInstanceOf(HTMLAnchorElement)
   })
 
-  it('renders a delete button if a handler is provided', async () => {
+  test('renders a delete button if a handler is provided', async () => {
     const user = userEvent.setup()
     const mockOnDelete = jest.fn()
 
@@ -36,7 +37,56 @@ describe('Bookmark component', () => {
     expect(mockOnDelete).toHaveBeenCalled()
   })
 
-  it('has no a11y violations', async () => {
+  test('displays tooltip when focused', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <Bookmark
+        href="/home"
+        bookmarkDescription={cmsBookmarksMock[0].description}>
+        Home
+      </Bookmark>
+    )
+    const link = screen.getByRole('link', {
+      name: 'Home (opens in a new window)',
+    })
+
+    await user.tab()
+    expect(link).toHaveFocus()
+
+    expect(
+      screen.queryByText(cmsBookmarksMock[0].description)
+    ).toBeInTheDocument()
+  })
+
+  test('displays tooltip when hovering', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <Bookmark
+        href="/home"
+        bookmarkDescription={cmsBookmarksMock[0].description}>
+        Home
+      </Bookmark>
+    )
+    const link = screen.getByRole('link', {
+      name: 'Home (opens in a new window)',
+    })
+
+    await user.hover(link)
+
+    expect(
+      screen.queryByText(cmsBookmarksMock[0].description)
+    ).toBeInTheDocument()
+
+    await user.unhover(link)
+
+    expect(
+      screen.queryByText(cmsBookmarksMock[0].description)
+    ).not.toBeInTheDocument()
+  })
+
+  test('has no a11y violations', async () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
@@ -53,7 +103,7 @@ describe('Bookmark component', () => {
   })
 
   describe('when disabled', () => {
-    it('renders static text instead of a link', () => {
+    test('renders static text instead of a link', () => {
       render(
         <Bookmark href="/home" disabled>
           Home
@@ -64,7 +114,7 @@ describe('Bookmark component', () => {
       expect(screen.getByText('Home')).toBeInstanceOf(HTMLSpanElement)
     })
 
-    it('has no a11y violations', async () => {
+    test('has no a11y violations', async () => {
       const { container } = render(
         <Bookmark href="/home" disabled>
           Home

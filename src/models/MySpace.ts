@@ -26,7 +26,6 @@ export const MySpaceModel = {
       const user = await db.collection('users').findOne({ userId })
       return user.mySpace
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('MySpaceModel Error: error in get', e)
       throw e
     }
@@ -95,7 +94,6 @@ export const MySpaceModel = {
 
       return created
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('MySpaceModel Error: error in addOne', e)
       throw e
     }
@@ -118,7 +116,6 @@ export const MySpaceModel = {
         throw new Error('MySpaceModel Error: Document not updated')
       return { _id, type: 'News' }
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('MySpaceModel Error: error in deleteOne', e)
       throw e
     }
