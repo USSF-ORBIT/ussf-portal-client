@@ -1,0 +1,53 @@
+@import 'styles/uswdsDependencies';
+@import 'styles/sfds/sfdsDependencies';
+
+.searchFilter {
+  background: var(--background-fill);
+  border: 1px solid $light-gray;
+  border-radius: 8px;
+  padding: units(2);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  margin-top: 1rem;
+
+  > .headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > h3 {
+      color: var(--text);
+      margin: 0;
+      font-size: 22px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 28px;
+    }
+  }
+}
+
+.checkboxFieldset {
+  > div {
+    margin-top: -20px;
+  }
+}
+
+h4.subHeader {
+  color: var(--text);
+  font-family: 'Sharp Sans';
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 23px;
+}
+
+.checkbox {
+  background-color: transparent;
+
+  > label {
+    color: var(--text);
+  }
+}
+
+.buttonContainer {
+  margin-top: 24px;
+}

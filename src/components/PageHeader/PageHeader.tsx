@@ -6,7 +6,6 @@ import styles from './PageHeader.module.scss'
 import Search from 'components/Search/Search'
 
 const PageHeader = ({
-  searchQuery,
   children,
 }: {
   searchQuery?: string
@@ -21,7 +20,7 @@ const PageHeader = ({
           </Grid>
 
           <Grid col="auto" desktop={{ col: 6 }}>
-            <Search query={searchQuery} />
+            <Search />
           </Grid>
         </Grid>
       </GridContainer>

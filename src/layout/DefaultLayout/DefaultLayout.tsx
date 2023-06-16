@@ -12,6 +12,7 @@ import CustomModal from 'components/CustomModal/CustomModal'
 import Loader from 'components/Loader/Loader'
 import { useGetUserQuery } from 'operations/portal/queries/getUser.g'
 import { useAuthContext } from 'stores/authContext'
+import { useSearchContext } from 'stores/searchContext'
 import { PortalUser } from 'types'
 
 const DefaultLayout = ({
@@ -24,6 +25,7 @@ const DefaultLayout = ({
   children: React.ReactNode
 }) => {
   const { setPortalUser } = useAuthContext()
+  const { searchQuery, setSearchQuery } = useSearchContext()
   const { setTheme } = useTheme()
   const [displayName, setDisplayName] = useState<string>('')
   const navItems = [
@@ -44,6 +46,13 @@ const DefaultLayout = ({
       setTheme(data.theme)
     }
   }, [data])
+
+  useEffect(() => {
+    // If there is a search query, and the url does not contain /search, then empty the search query
+    if (searchQuery && !window.location.pathname.includes('/search')) {
+      setSearchQuery('')
+    }
+  }, [window.location.pathname])
 
   return loading ? (
     <Loader />
