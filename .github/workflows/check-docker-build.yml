@@ -37,7 +37,7 @@ jobs:
         id: restore-client-cache
         with:
           path: /tmp/portal-client
-          key: ${{ runner.os }}-docker-portal-client-${{ needs.portal_manifest.outputs.portal-client-docker-tag }}
+          key: ${{ runner.os }}-docker-portal-client-${{ steps.portal_manifest.outputs.portal_client_docker_tag }}
 
       - name: If portal-client build cache not found locally, download portal-client build cache
         uses: dawidd6/action-download-artifact@246dbf436b23d7c49e21a7ab8204ca9ecd1fe615 # v2
