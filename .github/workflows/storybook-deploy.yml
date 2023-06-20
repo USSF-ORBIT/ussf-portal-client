@@ -17,7 +17,7 @@ jobs:
       url: ${{ steps.build-publish.outputs.page_url }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
       - name: Read Node.js version from package.json
         run: echo "nodeVersion=$(node -p "require('./package.json').engines.node")" >> $GITHUB_OUTPUT
@@ -51,7 +51,7 @@ jobs:
         run: yarn storybook:build --modern
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@ba1486788b0490a235422264426c45848eac35c6 # v4
+        uses: JamesIves/github-pages-deploy-action@22a6ee251d6f13c6ab1ecb200d974f1a6feb1b8d # v4
         with:
           clean: true
           clean-exclude: |
