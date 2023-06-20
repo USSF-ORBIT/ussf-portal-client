@@ -5,6 +5,7 @@
 import { render, screen } from '@testing-library/react'
 import LoginNotice from 'pages/login-notice'
 import LoginLayout from 'layout/LoginLayout/LoginLayout'
+import { getStaticProps } from 'pages/login-notice'
 
 describe('LoginNotice page', () => {
   beforeEach(() => {
@@ -24,5 +25,14 @@ describe('LoginNotice page', () => {
   it('returns the LoginLayout in getLayout', () => {
     const page = 'page'
     expect(LoginNotice.getLayout(page)).toEqual(<LoginLayout>page</LoginLayout>)
+  })
+
+  it('returns the expected props in getServerSideProps', async () => {
+    const response = await getStaticProps()
+    expect(response).toEqual({
+      props: {
+        pageTitle: 'Login Notice',
+      },
+    })
   })
 })

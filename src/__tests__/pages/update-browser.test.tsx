@@ -3,7 +3,8 @@
  */
 import { render, screen, act } from '@testing-library/react'
 import { axe } from 'jest-axe'
-
+import ErrorLayout from 'layout/ErrorLayout/ErrorLayout'
+import { getStaticProps } from 'pages/update-browser'
 import UpdateBrowser from 'pages/update-browser'
 
 describe('Update browser page', () => {
@@ -40,6 +41,24 @@ describe('Update browser page', () => {
     await act(async () => {
       const { container } = render(<UpdateBrowser />)
       expect(await axe(container)).toHaveNoViolations()
+    })
+  })
+
+  it('returns the ErrorLayout in getLayout', () => {
+    const page = 'page'
+    expect(UpdateBrowser.getLayout(page)).toEqual(
+      <ErrorLayout hideNav={true} ieCompat={true}>
+        page
+      </ErrorLayout>
+    )
+  })
+
+  it('returns the expected props in getServerSideProps', async () => {
+    const response = await getStaticProps()
+    expect(response).toEqual({
+      props: {
+        pageTitle: 'Browser Warning',
+      },
     })
   })
 })

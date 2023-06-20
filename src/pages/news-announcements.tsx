@@ -19,7 +19,6 @@ import { GET_INTERNAL_NEWS_CAROUSEL_ARTICLES } from 'operations/cms/queries/getI
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
-import Head from 'next/head'
 
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=4`
 
@@ -40,9 +39,6 @@ const NewsAnnouncements = ({
     <Loader />
   ) : (
     <>
-      <Head>
-        <title>News & Annoucements - USSF Portal</title>
-      </Head>
       <div className={styles.listContainer}>
         {announcements.length > 0 && (
           <section>
@@ -157,6 +153,7 @@ export async function getServerSideProps() {
     props: {
       announcements,
       articles,
+      pageTitle: 'News & Announcements',
     },
   }
 }

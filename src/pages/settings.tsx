@@ -46,7 +46,7 @@ export default Settings
 Settings.getLayout = withDefaultLayout
 
 // The page title is parsed and displayed in _app.tsx
-export async function getServerSideProps() {
+export async function getStaticProps() {
   return {
     props: {
       pageTitle: 'Settings',
