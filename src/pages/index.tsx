@@ -20,19 +20,17 @@ const Home = ({
   return !user ? (
     <Loader />
   ) : (
-    <>
-      <div className={styles.home}>
-        {announcements.length > 0 && (
-          <section>
-            <Announcement announcements={announcements} />
-          </section>
-        )}
-
+    <div className={styles.home}>
+      {announcements.length > 0 && (
         <section>
-          <MySpace bookmarks={bookmarks} />
+          <Announcement announcements={announcements} />
         </section>
-      </div>
-    </>
+      )}
+
+      <section>
+        <MySpace bookmarks={bookmarks} />
+      </section>
+    </div>
   )
 }
 

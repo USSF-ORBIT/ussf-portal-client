@@ -27,22 +27,20 @@ const PortalNews = ({
   return !user ? (
     <Loader />
   ) : (
-    <>
-      <div className={styles.listContainer}>
-        <div className={styles.pageTitle}>
-          <h2>Production team blog & announcements</h2>
-          <h3>
-            Here’s what we’re working on and planning in latest portal updates &
-            releases.
-          </h3>
-        </div>
-
-        <ArticleList
-          articles={articles}
-          pagination={{ totalPages, currentPage }}
-        />
+    <div className={styles.listContainer}>
+      <div className={styles.pageTitle}>
+        <h2>Production team blog & announcements</h2>
+        <h3>
+          Here’s what we’re working on and planning in latest portal updates &
+          releases.
+        </h3>
       </div>
-    </>
+
+      <ArticleList
+        articles={articles}
+        pagination={{ totalPages, currentPage }}
+      />
+    </div>
   )
 }
 

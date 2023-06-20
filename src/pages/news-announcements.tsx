@@ -38,72 +38,69 @@ const NewsAnnouncements = ({
   return !user ? (
     <Loader />
   ) : (
-    <>
-      <div className={styles.listContainer}>
-        {announcements.length > 0 && (
-          <section>
-            <Announcement announcements={announcements} />
-          </section>
-        )}
+    <div className={styles.listContainer}>
+      {announcements.length > 0 && (
+        <section>
+          <Announcement announcements={announcements} />
+        </section>
+      )}
 
-        {articles.length > 0 && (
-          <section className={styles.newsCarouselSection}>
-            <NewsCarousel articles={articles} />
-          </section>
-        )}
+      {articles.length > 0 && (
+        <section className={styles.newsCarouselSection}>
+          <NewsCarousel articles={articles} />
+        </section>
+      )}
 
-        {/* 
+      {/* 
       This is separate from the NewsCarousel render above because the 
       react-slick library uses certain styles for the dots section of 
       the carousel that interfere with margin and padding.
       */}
-        {articles.length > 0 && (
+      {articles.length > 0 && (
+        <div className={styles.olderInternalNewsLink}>
+          <LinkTo href="/news" target="_blank" rel="noreferrer noopener">
+            <button type="button" className="usa-button">
+              View older USSF news
+            </button>
+          </LinkTo>
+        </div>
+      )}
+
+      <div className={styles.pageTitle}>
+        <h2 id="skip-announcements-carousel">Latest external USSF news</h2>
+        <h3>
+          Publically released Space Force news released within the last 30 days.
+        </h3>
+      </div>
+
+      {!items.length ? (
+        <Grid col="fill">
+          <LoadingWidget />
+        </Grid>
+      ) : (
+        <>
+          <ArticleList
+            articles={items
+              .filter(validateNewsItems)
+              .map((item) =>
+                formatToArticleListItem(item as Required<RSSNewsItem>)
+              )}
+          />
           <div className={styles.olderInternalNewsLink}>
-            <LinkTo href="/news" target="_blank" rel="noreferrer noopener">
-              <button type="button" className="usa-button">
-                View older USSF news
+            <LinkTo
+              href="https://www.spaceforce.mil/News"
+              target="_blank"
+              rel="noreferrer noopener">
+              <button
+                type="button"
+                className="usa-button usa-button--accent-cool">
+                View older Spaceforce.mil articles
               </button>
             </LinkTo>
           </div>
-        )}
-
-        <div className={styles.pageTitle}>
-          <h2 id="skip-announcements-carousel">Latest external USSF news</h2>
-          <h3>
-            Publically released Space Force news released within the last 30
-            days.
-          </h3>
-        </div>
-
-        {!items.length ? (
-          <Grid col="fill">
-            <LoadingWidget />
-          </Grid>
-        ) : (
-          <>
-            <ArticleList
-              articles={items
-                .filter(validateNewsItems)
-                .map((item) =>
-                  formatToArticleListItem(item as Required<RSSNewsItem>)
-                )}
-            />
-            <div className={styles.olderInternalNewsLink}>
-              <LinkTo
-                href="https://www.spaceforce.mil/News"
-                target="_blank"
-                rel="noreferrer noopener">
-                <button
-                  type="button"
-                  className="usa-button usa-button--accent-cool">
-                  View older Spaceforce.mil articles
-                </button>
-              </LinkTo>
-            </div>
-          </>
-        )}
-      </div>
-    </>
+        </>
+      )}
+    </div>
   )
 }
 

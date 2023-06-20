@@ -17,27 +17,25 @@ const Settings = () => {
   return !user ? (
     <Loader />
   ) : (
-    <>
-      <div className={styles.settings}>
-        <div className={styles.widgetContainer}>
-          <h2 className={styles.pageTitle}>Settings</h2>
-          <section>
-            <EditDisplayName
-              userDisplayName={userDisplayName}
-              handleEditDisplayName={(userId: string, displayName: string) => {
-                handleEditDisplayName({
-                  variables: {
-                    userId,
-                    displayName,
-                  },
-                  refetchQueries: [`getUser`],
-                })
-              }}
-            />
-          </section>
-        </div>
+    <div className={styles.settings}>
+      <div className={styles.widgetContainer}>
+        <h2 className={styles.pageTitle}>Settings</h2>
+        <section>
+          <EditDisplayName
+            userDisplayName={userDisplayName}
+            handleEditDisplayName={(userId: string, displayName: string) => {
+              handleEditDisplayName({
+                variables: {
+                  userId,
+                  displayName,
+                },
+                refetchQueries: [`getUser`],
+              })
+            }}
+          />
+        </section>
       </div>
-    </>
+    </div>
   )
 }
 

@@ -3,9 +3,8 @@
  */
 
 import { render, screen } from '@testing-library/react'
-import LoginNotice from 'pages/login-notice'
+import LoginNotice, { getStaticProps } from 'pages/login-notice'
 import LoginLayout from 'layout/LoginLayout/LoginLayout'
-import { getStaticProps } from 'pages/login-notice'
 
 describe('LoginNotice page', () => {
   beforeEach(() => {
