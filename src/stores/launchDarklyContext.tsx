@@ -13,14 +13,12 @@ export const LaunchDarkly = ({ children }: { children: React.ReactNode }) => {
         if (data && data.clientSideID) {
           setClientSideID(data.clientSideID)
         } else {
-          // eslint-disable-next-line no-console
           console.error('issue retrieving the clientSideID')
         }
       }
 
       fetchClientSideID()
         // Catch error in fetching the id
-        // eslint-disable-next-line no-console
         .catch(console.error)
     }
   }, [clientSideID])
