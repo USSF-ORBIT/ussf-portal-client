@@ -123,4 +123,27 @@ export const MySpaceModel = {
       throw e
     }
   },
+
+  async updateWidgetOrder(
+    { userId, items }: { userId: string; items: Widget[] },
+    { db }: Context
+  ): Promise<Widget[]> {
+    console.log('user id? ', userId)
+    console.log('items? ', items)
+    try {
+      const result = await db
+        .collection('users')
+        .findOneAndUpdate(
+          { userId },
+          { $set: { mySpace: items } },
+          { returnDocument: 'after' }
+        )
+      if (result.value === null)
+        throw new Error('MySpaceModel Error: Widgets not updated')
+      return items
+    } catch (e) {
+      console.error('MySpaceModel Error: error in updateWidgetOrder', e)
+      throw e
+    }
+  },
 }

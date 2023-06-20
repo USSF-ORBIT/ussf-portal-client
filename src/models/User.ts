@@ -14,6 +14,11 @@ type EditDisplayName = {
   displayName: string
 }
 
+type EditMySpace = {
+  userId: string
+  mySpace: WidgetInputType[]
+}
+
 type EditTheme = {
   userId: string
   theme: string
@@ -127,6 +132,38 @@ const UserModel = {
       throw new Error('UserModel Error: error in getTheme no user found')
     }
     return user.theme
+  },
+  async getMySpace(userId: string, { db }: Context) {
+    const user = await db.collection('users').findOne({ userId })
+
+    if (!user) {
+      throw new Error('UserModel Error: error in getMySpace no user found')
+    }
+
+    return user.mySpace
+  },
+  async setMySpace({ userId, mySpace }: EditMySpace, { db }: Context) {
+    const user = await UserModel.findOne(userId, { db })
+    if (!user) {
+      throw new Error('UserModel Error: error in setTheme no user found')
+    }
+
+    const query = {
+      userId: userId,
+    }
+
+    const updateDocument = {
+      $set: {
+        ...user,
+        mySpace: mySpace,
+      },
+    }
+
+    const result = await db
+      .collection('users')
+      .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
+    console.log('result in model --- ', result)
+    return result.value.mySpace
   },
 }
 

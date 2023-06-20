@@ -1,0 +1,18 @@
+mutation editMySpace($mySpace: [WidgetReorderInput!]!) {
+  editMySpace(mySpace: $mySpace) {
+    mySpace {
+      _id
+      title
+      type
+      ... on Collection {
+        bookmarks {
+          _id
+          url
+          label
+          cmsId
+          isRemoved
+        }
+      }
+    }
+  }
+}

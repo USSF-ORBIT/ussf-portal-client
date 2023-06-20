@@ -37,7 +37,12 @@ import Droppable from 'components/util/Droppable/Droppable'
 
 import Tooltip from 'components/Tooltip/Tooltip'
 import Collection from 'components/Collection/Collection'
-import type { MongoBookmark, WidgetType, CMSBookmark } from 'types/index'
+import type {
+  MongoBookmark,
+  WidgetType,
+  CMSBookmark,
+  MySpaceWidget,
+} from 'types/index'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 import { useAnalytics } from 'stores/analyticsContext'
