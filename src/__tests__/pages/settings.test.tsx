@@ -8,9 +8,8 @@ import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
 import axios from 'axios'
-import Settings, { getStaticProps } from 'pages/settings'
-
 import { renderWithAuth } from '../../testHelpers'
+import Settings, { getStaticProps } from 'pages/settings'
 
 const mockReplace = jest.fn()
 

@@ -1,12 +1,11 @@
 import type { NextPage } from 'next'
 import type { ReactElement, ReactNode } from 'react'
+import Head from 'next/head'
 import { Button, GridContainer } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
 import { useAnalytics } from 'stores/analyticsContext'
-
 import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
 import Logo from 'components/Logo/Logo'
-import Head from 'next/head'
 
 const FEEDBACK_EMAIL = 'feedback@ussforbit.us'
 

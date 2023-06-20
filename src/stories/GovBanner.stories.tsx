@@ -1,5 +1,5 @@
 import React from 'react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { ComponentMeta } from '@storybook/react'
 import { GovBanner } from '@trussworks/react-uswds'
 import defaultStyles from '../layout/DefaultLayout/DefaultLayout.module.scss'
 import errorStyles from '../layout/ErrorLayout/ErrorLayout.module.scss'

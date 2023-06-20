@@ -4,8 +4,7 @@
 import { render, screen, act } from '@testing-library/react'
 import { axe } from 'jest-axe'
 import ErrorLayout from 'layout/ErrorLayout/ErrorLayout'
-import { getStaticProps } from 'pages/update-browser'
-import UpdateBrowser from 'pages/update-browser'
+import UpdateBrowser, { getStaticProps } from 'pages/update-browser'
 
 describe('Update browser page', () => {
   const MS_EDGE_DOWNLOAD = 'https://www.microsoft.com/edge'
