@@ -115,6 +115,7 @@ export const getServerSideProps: GetServerSideProps = async (
       articles,
       currentPage,
       totalPages,
+      pageTitle: 'Orbit Blog',
     },
   }
 }

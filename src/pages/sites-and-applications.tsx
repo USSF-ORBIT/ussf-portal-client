@@ -426,6 +426,7 @@ export async function getServerSideProps() {
     props: {
       collections,
       bookmarks,
+      pageTitle: 'Sites & Applications',
     },
   }
 }

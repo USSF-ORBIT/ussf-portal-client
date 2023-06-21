@@ -1,7 +1,6 @@
 import { GridContainer } from '@trussworks/react-uswds'
-
+import Head from 'next/head'
 import { useUser } from 'hooks/useUser'
-
 import Loader from 'components/Loader/Loader'
 import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
 import LinkTo from 'components/util/LinkTo/LinkTo'
@@ -21,6 +20,10 @@ export default function Custom404() {
     <Loader />
   ) : (
     <>
+      {/* 404 Page cannot have props, so we use the Head component to set the title */}
+      <Head>
+        <title>404 Error - USSF Portal</title>
+      </Head>
       <h1>404</h1>
       <GridContainer>
         <section>

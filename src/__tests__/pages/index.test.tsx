@@ -11,15 +11,20 @@ import { axe } from 'jest-axe'
 import { renderWithAuth, renderWithAuthAndApollo } from '../../testHelpers'
 import { portalUserMaxedOutCollection } from '../../__fixtures__/authUsers'
 
-import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
-import { cmsAnnouncementsMock } from '../../__fixtures__/data/cmsAnnouncments'
+import { cmsBookmarksMock as mockCmsBookmarks } from '../../__fixtures__/data/cmsBookmarks'
+import { cmsAnnouncementsMock as mockCmsAnnouncements } from '../../__fixtures__/data/cmsAnnouncments'
 import '../../__mocks__/mockMatchMedia'
-import Home from 'pages/index'
+import Home, { getServerSideProps } from 'pages/index'
 
 jest.mock('../../lib/keystoneClient', () => ({
   client: {
     query: () => {
-      return
+      return {
+        data: {
+          bookmarks: mockCmsBookmarks,
+          announcements: mockCmsAnnouncements,
+        },
+      }
     },
   },
 }))
@@ -53,8 +58,9 @@ describe('Home page', () => {
     beforeEach(() => {
       renderWithAuth(
         <Home
-          bookmarks={cmsBookmarksMock}
-          announcements={cmsAnnouncementsMock}
+          bookmarks={mockCmsBookmarks}
+          announcements={mockCmsAnnouncements}
+          pageTitle={'My Space'}
         />,
         { user: null }
       )
@@ -77,8 +83,9 @@ describe('Home page', () => {
     beforeEach(() => {
       html = renderWithAuthAndApollo(
         <Home
-          bookmarks={cmsBookmarksMock}
-          announcements={cmsAnnouncementsMock}
+          bookmarks={mockCmsBookmarks}
+          announcements={mockCmsAnnouncements}
+          pageTitle={'My Space'}
         />,
         { portalUser: portalUserMaxedOutCollection }
       )
@@ -116,6 +123,17 @@ describe('Home page', () => {
           name: 'Recent News',
         })
       ).toBeInTheDocument()
+    })
+    it('renders the correct props in getServerSideProps', async () => {
+      const response = await getServerSideProps()
+
+      expect(response).toEqual({
+        props: {
+          announcements: mockCmsAnnouncements,
+          bookmarks: mockCmsBookmarks,
+          pageTitle: 'My Space',
+        },
+      })
     })
 
     it('has no a11y violations', async () => {
