@@ -1,5 +1,5 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/govBanner';
+@use 'styles/uswdsDependencies';
+@use 'styles/govBanner';
 
 .siteContainer {
   @include at-media('desktop') {

@@ -1,7 +1,11 @@
-@import 'node_modules/uswds/dist/scss/theme/uswds-theme-general';
-@import 'node_modules/uswds/dist/scss/theme/uswds-theme-typography';
-@import 'node_modules/uswds/dist/scss/theme/uswds-theme-spacing';
-@import 'node_modules/uswds/dist/scss/theme/uswds-theme-color';
-@import 'node_modules/uswds/dist/scss/theme/uswds-theme-utilities';
-@import './settings';
-@import 'node_modules/uswds/src/stylesheets/packages/_required.scss';
+// @forward 'theme/styles';
+// @forward 'node_modules/uswds/dist/scss/theme/uswds-theme-typography';
+// @forward 'node_modules/uswds/dist/scss/theme/uswds-theme-spacing';
+// @forward 'node_modules/uswds/dist/scss/theme/uswds-theme-color';
+// @forward 'node_modules/uswds/dist/scss/theme/uswds-theme-utilities';
+// @forward './settings';
+// @forward 'node_modules/uswds/src/stylesheets/packages/_required.scss';
+
+// @forward 'uswds-theme';
+// @forward 'uswds';
+// @forward 'uswds-custom-styles';

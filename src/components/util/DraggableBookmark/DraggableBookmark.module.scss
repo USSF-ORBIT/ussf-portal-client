@@ -1,7 +1,7 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/deps';
-@import 'styles/sfds/sfdsDependencies';
-@import 'styles/sfds/_colors.scss';
+@use 'styles/uswdsDependencies';
+@use 'styles/deps';
+// @use 'styles/sfds/sfdsDependencies';
+@use 'styles/sfds/_colors.scss';
 
 .dragIconWrap svg {
   margin-bottom: 2px;

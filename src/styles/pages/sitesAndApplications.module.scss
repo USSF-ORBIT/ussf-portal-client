@@ -1,6 +1,6 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/sfds/sfdsDependencies';
-@import 'styles/deps';
+@use 'styles/uswdsDependencies';
+// @use 'styles/sfds/sfdsDependencies';
+@use 'styles/deps';
 
 .pageTitle {
   margin-top: 0;

@@ -1,7 +1,9 @@
 /** Space Force Design System **/
 /** ------------------------- **/
-@import 'styles/uswdsDependencies';
-
+// @import 'styles/uswdsDependencies';
+@import 'uswds-theme';
+@import 'uswds';
+@import 'uswds-custom-styles';
 // Sharp Sans
 @import '../fonts.scss';
 

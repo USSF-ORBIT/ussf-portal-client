@@ -1,5 +1,5 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/sfds/sfdsDependencies';
+@use 'styles/uswdsDependencies';
+// @use 'styles/sfds/sfdsDependencies';
 
 .NewsItem {
   display: flex;

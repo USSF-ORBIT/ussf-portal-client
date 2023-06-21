@@ -1,5 +1,5 @@
 @import 'styles/uswdsDependencies';
-@import 'styles/sfds/sfdsDependencies';
+// @import 'styles/sfds/sfdsDependencies';
 
 .carouselContainer {
   width: 100%;
@@ -19,10 +19,9 @@
     }
   }
 
-  > :global(.slick-dots
-      li.slick-active
-      div.news-carousel-container
-      button::before) {
+  > :global(
+      .slick-dots li.slick-active div.news-carousel-container button::before
+    ) {
     color: transparent;
     background: $theme-spacebase-base;
     width: 16.17px;
