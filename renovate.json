@@ -58,6 +58,13 @@
       "managers": ["dockerfile"],
       "matchUpdateTypes": ["major"],
       "enabled": false
+    },
+    {
+      "description": "Group updates for OTEL into a single PR",
+      "groupName": "otel",
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackagePrefixes": ["@opentelemetry"],
+      "labels": ["otel"]
     }
   ],
   "ignorePresets": [":prHourlyLimit2"]
