@@ -77,6 +77,7 @@ describe('Single article getServerSideProps', () => {
     expect(response).toEqual({
       props: {
         article: mockOrbitBlogArticle,
+        pageTitle: mockOrbitBlogArticle.title,
       },
     })
   })
@@ -101,6 +102,7 @@ describe('Single article getServerSideProps', () => {
     expect(response).toEqual({
       props: {
         article: draftArticle,
+        pageTitle: mockOrbitBlogArticle.title,
       },
     })
   })

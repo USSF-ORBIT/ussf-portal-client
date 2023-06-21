@@ -17,7 +17,6 @@ import {
   portalUserCollectionLimitWithAllAdditionalWidgets,
   portalUserWithExampleCollection,
 } from '../../__fixtures__/authUsers'
-import { cmsCollectionsMock } from '../../__fixtures__/data/cmsCollections'
 import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
 import MySpace from './MySpace'
 

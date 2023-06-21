@@ -76,6 +76,7 @@ describe('Search page getServerSideProps', () => {
     expect(response).toEqual({
       props: {
         query: 'fitness',
+        pageTitle: 'fitness Search Results',
         results: mockCmsSearchResults.map((r) => ({
           ...r,
           permalink:

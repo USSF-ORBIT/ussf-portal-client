@@ -98,3 +98,12 @@ const LoginLayout = (page: ReactNode) => <Layout>{page}</Layout>
 
 LoginLayout.displayName = 'LoginLayout'
 LoginNotice.getLayout = LoginLayout
+
+// The page title is parsed and displayed in _app.tsx
+export const getStaticProps = async () => {
+  return {
+    props: {
+      pageTitle: 'Login Notice',
+    },
+  }
+}

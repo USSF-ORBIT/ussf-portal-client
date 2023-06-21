@@ -34,12 +34,15 @@ type Props = AppProps & {
   hostname: {
     origin: string
   }
+  pageProps: Record<string, never>
 }
 
 const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
   const canonicalUrl = hostname.origin
   const { asPath } = useRouter()
-
+  const pageTitle = pageProps.pageTitle
+    ? `${pageProps.pageTitle} - USSF Portal`
+    : 'USSF Portal'
   const getLayout =
     Component.getLayout ||
     ((page: ReactNode) => <DefaultLayout>{page}</DefaultLayout>)

@@ -97,6 +97,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       article,
+      pageTitle: article.title,
     },
   }
 }

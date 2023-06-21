@@ -67,6 +67,7 @@ describe('ORBIT Blog page', () => {
         articles: mockOrbitBlogArticles,
         currentPage: 1,
         totalPages: 1,
+        pageTitle: 'Orbit Blog',
       },
     })
   })
@@ -95,6 +96,7 @@ describe('ORBIT Blog page', () => {
         articles: mockOrbitBlogArticles,
         currentPage: 1,
         totalPages: 1,
+        pageTitle: 'Orbit Blog',
       },
     })
   })

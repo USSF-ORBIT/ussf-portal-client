@@ -150,6 +150,7 @@ describe('Sites and Applications page', () => {
           <SitesAndApplications
             collections={mockCMSCollections}
             bookmarks={mockCMSBookmarks}
+            pageTitle={'Sites & Applications'}
           />
         </MockedProvider>,
         { user: null }
@@ -182,6 +183,7 @@ describe('Sites and Applications page', () => {
           <SitesAndApplications
             collections={mockCMSCollections}
             bookmarks={mockCMSBookmarks}
+            pageTitle={'Sites & Applications'}
           />,
           { portalUser: portalUserWithExampleCollection },
           sitesAndAppsMock
@@ -201,6 +203,7 @@ describe('Sites and Applications page', () => {
           <SitesAndApplications
             collections={mockCMSCollections}
             bookmarks={mockCMSBookmarks}
+            pageTitle={'Sites & Applications'}
           />,
           { portalUser: portalUserWithExampleCollection },
           sitesAndAppsMock
@@ -223,6 +226,7 @@ describe('Sites and Applications page', () => {
           <SitesAndApplications
             collections={mockCMSCollections}
             bookmarks={mockCMSBookmarks}
+            pageTitle={'Sites & Applications'}
           />,
           { portalUser: portalUserWithExampleCollection },
           sitesAndAppsMock
@@ -270,6 +274,7 @@ describe('Sites and Applications page', () => {
             <SitesAndApplications
               collections={mockCMSCollections}
               bookmarks={mockCMSBookmarks}
+              pageTitle={'Sites & Applications'}
             />,
             { portalUser: portalUserWithExampleCollection },
             sitesAndAppsMock
@@ -315,6 +320,7 @@ describe('Sites and Applications page', () => {
             <SitesAndApplications
               collections={mockCMSCollections}
               bookmarks={mockCMSBookmarks}
+              pageTitle={'Sites & Applications'}
             />,
             { portalUser: portalUserWithExampleCollection },
             sitesAndAppsMock
@@ -350,6 +356,7 @@ describe('Sites and Applications page', () => {
             <SitesAndApplications
               collections={mockCMSCollections}
               bookmarks={mockCMSBookmarks}
+              pageTitle={'Sites & Applications'}
             />,
             { portalUser: portalUserAlmostAtCollectionLimit },
             sitesAndAppsMock
@@ -418,6 +425,7 @@ describe('Sites and Applications page', () => {
             <SitesAndApplications
               collections={mockCMSCollections}
               bookmarks={mockCMSBookmarks}
+              pageTitle={'Sites & Applications'}
             />,
             { portalUser: portalUserCollectionLimit },
             sitesAndAppsMock
@@ -453,6 +461,7 @@ describe('Sites and Applications page', () => {
             <SitesAndApplications
               collections={mockCMSCollections}
               bookmarks={mockCMSBookmarks}
+              pageTitle={'Sites & Applications'}
             />,
             { portalUser: portalUserWithExampleCollection },
             sitesAndAppsMock
@@ -539,7 +548,9 @@ describe('Sites and Applications page', () => {
             <SitesAndApplications
               collections={mockCMSCollections}
               bookmarks={mockCMSBookmarks}
+              pageTitle={'Sites & Applications'}
             />,
+
             { portalUser: portalUserWithExampleCollection },
             addBookmarkMock
           )
@@ -584,6 +595,7 @@ describe('Sites and Applications page', () => {
             <SitesAndApplications
               collections={mockCMSCollections}
               bookmarks={mockCMSBookmarks}
+              pageTitle={'Sites & Applications'}
             />,
             { portalUser: portalUserMaxedOutCollection },
             sitesAndAppsMock
@@ -620,6 +632,7 @@ describe('Sites and Applications page', () => {
             <SitesAndApplications
               collections={mockCMSCollections}
               bookmarks={mockCMSBookmarks}
+              pageTitle={'Sites & Applications'}
             />,
             { portalUser: portalUserWithExampleCollection },
             sitesAndAppsMock
@@ -664,6 +677,7 @@ describe('Sites and Applications page', () => {
           <SitesAndApplications
             collections={mockCMSCollections}
             bookmarks={mockCMSBookmarks}
+            pageTitle={'Sites & Applications'}
           />
         </MockedProvider>
       )
@@ -689,6 +703,7 @@ describe('Sites and Applications page', () => {
         <SitesAndApplications
           collections={mockCMSCollections}
           bookmarks={mockCMSBookmarks}
+          pageTitle={'Sites & Applications'}
         />,
         { portalUser: portalUserCollectionLimit }
       )
@@ -706,6 +721,7 @@ describe('Sites and Applications page', () => {
         <SitesAndApplications
           collections={mockCMSCollections}
           bookmarks={mockCMSBookmarks}
+          pageTitle={'Sites & Applications'}
         />,
         { portalUser: portalUserCollectionLimit }
       )
@@ -742,6 +758,7 @@ describe('getServerSideProps', () => {
       props: {
         collections: mockCMSCollections,
         bookmarks: mockCMSBookmarks,
+        pageTitle: 'Sites & Applications',
       },
     })
   })

@@ -91,7 +91,9 @@ const NewsAnnouncements = ({
               href="https://www.spaceforce.mil/News"
               target="_blank"
               rel="noreferrer noopener">
-              <button type="button" className="usa-button">
+              <button
+                type="button"
+                className="usa-button usa-button--accent-cool">
                 View older Spaceforce.mil articles
               </button>
             </LinkTo>
@@ -148,6 +150,7 @@ export async function getServerSideProps() {
     props: {
       announcements,
       articles,
+      pageTitle: 'News & Announcements',
     },
   }
 }
