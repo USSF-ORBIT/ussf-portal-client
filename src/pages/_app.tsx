@@ -33,12 +33,15 @@ type Props = AppProps & {
   hostname: {
     origin: string
   }
+  pageProps: Record<string, never>
 }
 
 const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
   const canonicalUrl = hostname.origin
   const { asPath } = useRouter()
-
+  const pageTitle = pageProps.pageTitle
+    ? `${pageProps.pageTitle} - USSF Portal`
+    : 'USSF Portal'
   const getLayout =
     Component.getLayout ||
     ((page: ReactNode) => <DefaultLayout>{page}</DefaultLayout>)
@@ -66,7 +69,7 @@ const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
                       key="viewport"
                     />
                     <link rel="canonical" href={canonicalUrl + asPath} />
-                    <title>Space Force Portal</title>
+                    <title>{pageTitle}</title>
                     <link
                       rel="apple-touch-icon"
                       sizes="180x180"

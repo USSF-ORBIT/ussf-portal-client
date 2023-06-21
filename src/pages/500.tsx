@@ -1,6 +1,6 @@
 import { Button, GridContainer } from '@trussworks/react-uswds'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
-
 import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
 import Logo from 'components/Logo/Logo'
 import { useAnalytics } from 'stores/analyticsContext'
@@ -17,6 +17,10 @@ export default function Custom500() {
 
   return (
     <>
+      {/* 404 Page cannot have props, so we use the Head component to set the title */}
+      <Head>
+        <title>500 Error - USSF Portal</title>
+      </Head>
       <h1>500</h1>
       <GridContainer>
         <section>

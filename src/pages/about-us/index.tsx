@@ -13,10 +13,6 @@ const AboutUs = () => {
     <Loader />
   ) : (
     <div className={styles.aboutUsPage}>
-      <div className={styles.pageTitle}>
-        <h2>About the Space Force</h2>
-      </div>
-
       <Grid row gap>
         <Grid tablet={{ col: 8 }}>
           <div>
@@ -134,3 +130,12 @@ AboutUs.getLayout = (page: React.ReactNode) =>
     </div>,
     page
   )
+
+// The page title is parsed and displayed in _app.tsx
+export async function getStaticProps() {
+  return {
+    props: {
+      pageTitle: 'About Us',
+    },
+  }
+}
