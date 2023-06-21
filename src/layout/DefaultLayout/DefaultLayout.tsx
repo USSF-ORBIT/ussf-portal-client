@@ -12,6 +12,7 @@ import CustomModal from 'components/CustomModal/CustomModal'
 import Loader from 'components/Loader/Loader'
 import { useGetUserQuery } from 'operations/portal/queries/getUser.g'
 import { useAuthContext } from 'stores/authContext'
+import { useMySpaceContext } from 'stores/myspaceContext'
 import { PortalUser } from 'types'
 
 const DefaultLayout = ({
@@ -24,6 +25,7 @@ const DefaultLayout = ({
   children: React.ReactNode
 }) => {
   const { setPortalUser } = useAuthContext()
+  const { initializeMySpace } = useMySpaceContext()
   const { setTheme } = useTheme()
   const [displayName, setDisplayName] = useState<string>('')
   const navItems = [
@@ -42,6 +44,7 @@ const DefaultLayout = ({
       setPortalUser(data)
       setDisplayName(data.displayName)
       setTheme(data.theme)
+      initializeMySpace(data.mySpace)
     }
   }, [data])
 

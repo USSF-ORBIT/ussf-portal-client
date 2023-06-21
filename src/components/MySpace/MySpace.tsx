@@ -46,7 +46,7 @@ import { MySpaceWidget, CMSBookmark, Collection, Widget } from 'types/index'
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import AddWidget from 'components/AddWidget/AddWidget'
 import { useAnalytics } from 'stores/analyticsContext'
-import { useAuthContext } from 'stores/authContext'
+import { useMySpaceContext } from 'stores/myspaceContext'
 
 /** Type guards */
 function isCollection(widget: MySpaceWidget): widget is Collection {
@@ -68,10 +68,8 @@ function isFeaturedShortcuts(widget: Widget): widget is Collection {
 const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
   const router = useRouter()
   const { trackEvent } = useAnalytics()
-  const { portalUser } = useAuthContext()
+  const { mySpace } = useMySpaceContext()
   const flags = useFlags()
-
-  const mySpace = (portalUser?.mySpace || []) as MySpaceWidget[]
 
   const [handleAddWidget] = useAddWidgetMutation()
   const [handleEditMySpace] = useEditMySpaceMutation()
@@ -92,6 +90,8 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
         return { id: c._id.toString(), ...c }
       })
   )
+
+  console.log('draggableWidgets: ', draggableWidgets)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
