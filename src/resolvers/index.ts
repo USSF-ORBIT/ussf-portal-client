@@ -95,13 +95,6 @@ type EditMySpaceInput = {
   mySpace: Widget[]
 }
 
-type EditWidgetOrderInput = {
-  userId: string
-  _id: ObjectIdType
-  oldIndex: number
-  newIndex: number
-}
-
 const resolvers = {
   OID: ObjectIdScalar,
   // Interface resolvers
@@ -346,14 +339,6 @@ const resolvers = {
 
       return UserModel.setTheme({ userId, theme }, { db })
     },
-    // getMySpace: async (_: undefined, { db, user }: PortalUserContext) => {
-    //   if (!user) {
-    //     throw new AuthenticationError(
-    //       'You must be logged in to perform this operation'
-    //     )
-    //   }
-    //   return UserModel.getMySpace(user.userId, { db })
-    // },
     editMySpace: async (
       _: undefined,
       { mySpace }: EditMySpaceInput,
