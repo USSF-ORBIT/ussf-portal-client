@@ -74,6 +74,7 @@ export async function getServerSideProps() {
   return {
     props: {
       articles,
+      pageTitle: 'Internal News',
     },
   }
 }

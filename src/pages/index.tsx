@@ -58,6 +58,7 @@ export async function getServerSideProps() {
     props: {
       bookmarks,
       announcements,
+      pageTitle: 'My Space',
     },
   }
 }

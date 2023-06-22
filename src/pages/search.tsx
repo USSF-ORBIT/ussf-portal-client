@@ -96,12 +96,7 @@ const Search = ({
                 </ol>
 
                 <SearchBanner
-                  icon={
-                    <img
-                      src="/assets/images/satellite.svg"
-                      alt=" "
-                    />
-                  }>
+                  icon={<img src="/assets/images/satellite.svg" alt=" " />}>
                   <div>
                     <h3>You’ve reached the end of your search results.</h3>
                     <p>
@@ -115,12 +110,7 @@ const Search = ({
           ) : (
             <Grid col="fill">
               <SearchBanner
-                icon={
-                  <img
-                    src="/assets/images/moon-flag.svg"
-                    alt=" "
-                  />
-                }>
+                icon={<img src="/assets/images/moon-flag.svg" alt=" " />}>
                 <div>
                   <h3>There are no results that match that query.</h3>
                   <p>
@@ -191,6 +181,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       query: q,
       results,
+      pageTitle: `${q} Search Results`,
       labels,
     },
   }

@@ -4,7 +4,7 @@ import {
   Breadcrumb,
   BreadcrumbLink,
 } from '@trussworks/react-uswds'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta } from '@storybook/react'
 
 import PageHeader from './PageHeader'
 

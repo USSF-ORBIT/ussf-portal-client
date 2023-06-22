@@ -144,6 +144,7 @@ export async function getServerSideProps() {
   return {
     props: {
       documentsPage: pageData,
+      pageTitle: 'Documentation',
     },
   }
 }

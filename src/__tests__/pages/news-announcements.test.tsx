@@ -68,6 +68,7 @@ describe('News page', () => {
         <NewsAnnouncements
           announcements={mockAnnouncements}
           articles={mockArticles}
+          pageTitle="News & Announcements"
         />,
         { user: null }
       )
@@ -97,6 +98,7 @@ describe('News page', () => {
         props: {
           announcements: mockAnnouncements,
           articles: mockArticles,
+          pageTitle: 'News & Announcements',
         },
       })
     })
@@ -109,6 +111,7 @@ describe('News page', () => {
         <NewsAnnouncements
           announcements={mockAnnouncements}
           articles={mockArticles}
+          pageTitle="News & Announcements"
         />
       )
 

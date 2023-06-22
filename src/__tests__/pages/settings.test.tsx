@@ -8,10 +8,8 @@ import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
 import axios from 'axios'
-
 import { renderWithAuth } from '../../testHelpers'
-
-import Settings from 'pages/settings'
+import Settings, { getStaticProps } from 'pages/settings'
 
 const mockReplace = jest.fn()
 
@@ -81,6 +79,15 @@ describe('Settings page', () => {
 
     it('makes the call to get user', () => {
       expect(axios.get).toHaveBeenLastCalledWith('/api/auth/user')
+    })
+
+    it('returns the expected props in getServerSideProps', async () => {
+      const response = await getStaticProps()
+      expect(response).toEqual({
+        props: {
+          pageTitle: 'Settings',
+        },
+      })
     })
   })
 })

@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event'
 
 import { renderWithAuth } from '../../../testHelpers'
 
-import Login from 'pages/login/index'
+import Login, { getStaticProps } from 'pages/login/index'
 import LoginLayout from 'layout/LoginLayout/LoginLayout'
 
 const mockLogin = jest.fn()
@@ -57,5 +57,14 @@ describe('Login page', () => {
   it('returns the LoginLayout in getLayout', () => {
     const page = 'page'
     expect(Login.getLayout(page)).toEqual(<LoginLayout>page</LoginLayout>)
+  })
+
+  it('returns the expected props in getStaticProps', async () => {
+    const response = await getStaticProps()
+    expect(response).toEqual({
+      props: {
+        pageTitle: 'Log In',
+      },
+    })
   })
 })
