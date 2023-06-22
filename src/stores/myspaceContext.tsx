@@ -108,7 +108,7 @@ export const MySpaceProvider = ({
 
     handleAddWidget({
       variables: { title: 'Recent news', type: AddWidgetType.News },
-      //   refetchQueries: ['getUser'],
+      refetchQueries: ['getUser'],
     })
   }
 
@@ -124,7 +124,7 @@ export const MySpaceProvider = ({
         title: 'Guardian Ideal',
         type: AddWidgetType.GuardianIdeal,
       },
-      // refetchQueries: ['getUser'],
+      refetchQueries: ['getUser'],
     })
   }
 
@@ -140,7 +140,7 @@ export const MySpaceProvider = ({
         title: 'Featured Shortcuts',
         type: AddWidgetType.FeaturedShortcuts,
       },
-      // refetchQueries: ['getUser'],
+      refetchQueries: ['getUser'],
     })
   }
 
@@ -149,7 +149,7 @@ export const MySpaceProvider = ({
 
     handleAddCollection({
       variables: { title: '', bookmarks: [] },
-      // refetchQueries: [`getUser`],
+      refetchQueries: [`getUser`],
     })
   }
 
@@ -163,7 +163,6 @@ export const MySpaceProvider = ({
 
       const sortedWidgets = arrayMove(mySpace, oldIndex, newIndex)
       setMySpace(sortedWidgets)
-      // setDraggableWidgets(sortedWidgets)
 
       // Prepare widgets for mutation by removing the id field
       // TO DO: fix this type
