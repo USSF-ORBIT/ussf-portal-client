@@ -61,7 +61,7 @@ const NewsWidget = (widget: NewsWidgetProps) => {
             type="button"
             className={styles.collectionSettingsDropdown}
             onClick={handleConfirmRemoveWidget}>
-            Remove this widget
+            Remove Recent News widget
           </Button>,
         ]}>
         {items
