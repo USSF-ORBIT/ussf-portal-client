@@ -565,7 +565,9 @@ describe('Sites and Applications page', () => {
           await user.click(sortAlpha)
 
           await user.click(
-            screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+            screen.getAllByRole('button', {
+              name: `Add to “${mockCMSBookmarks[0].label}” My Space Closed`,
+            })[0]
           )
 
           await user.click(
@@ -615,7 +617,9 @@ describe('Sites and Applications page', () => {
           )
 
           await user.click(
-            screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+            screen.getAllByRole('button', {
+              name: `Add “${mockCMSBookmarks[0].label}” to My Space Closed`,
+            })[0]
           )
 
           expect(
@@ -647,7 +651,9 @@ describe('Sites and Applications page', () => {
           await user.click(sortAlpha)
 
           await user.click(
-            screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+            screen.getAllByRole('button', {
+              name: `Add “${mockCMSBookmarks[0].label}” to My Space Closed`,
+            })[0]
           )
 
           await act(async () => {
@@ -740,7 +746,9 @@ describe('Sites and Applications page', () => {
       )
 
       await user.click(
-        screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+        screen.getAllByRole('button', {
+          name: `Add “${mockCMSBookmarks[0].label}” to My Space Closed`,
+        })[0]
       )
 
       expect(
