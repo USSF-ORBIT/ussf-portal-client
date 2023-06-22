@@ -65,7 +65,7 @@ const ApplicationsTableRow = ({
         <DropdownMenu
           toggleEl={
             <Button unstyled type="button" onClick={menuOnClick}>
-              Add to My Space{' '}
+              Add <span className="usa-sr-only">{label}</span> to My Space{' '}
               {isDropdownOpen ? (
                 <Icon.ExpandLess aria-label="Open" />
               ) : (
