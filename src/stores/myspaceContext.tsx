@@ -11,7 +11,6 @@ import { useEditMySpaceMutation } from 'operations/portal/mutations/editMySpace.
 
 export type MySpaceContextType = {
   mySpace: MySpace
-  draggableWidgets: MySpaceWidget[]
   initializeMySpace: (mySpace: MySpace) => void
   updateMySpace: (widget: Widget) => void
   isCollection: (widget: MySpaceWidget) => boolean
@@ -27,7 +26,6 @@ export type MySpaceContextType = {
 
 export const MySpaceContext = createContext<MySpaceContextType>({
   mySpace: [],
-  draggableWidgets: [],
   initializeMySpace: /* istanbul ignore next */ () => {
     return
   },
@@ -69,7 +67,6 @@ export const MySpaceProvider = ({
   children: React.ReactNode
 }) => {
   const [mySpace, setMySpace] = useState<MySpace>([])
-  const [draggableWidgets, setDraggableWidgets] = useState<MySpaceWidget[]>([])
   const { trackEvent } = useAnalytics()
 
   const [handleAddCollection] = useAddCollectionMutation()
@@ -93,16 +90,10 @@ export const MySpaceProvider = ({
   }
 
   const initializeMySpace = (mySpace: MySpace) => {
-    setMySpace(mySpace)
-    setDraggableWidgets(
-      mySpace
-        .filter(
-          (w) => w.type !== 'FeaturedShortcuts' && w.type !== 'GuardianIdeal'
-        )
-        .map((c) => {
-          return { id: c._id.toString(), ...c }
-        })
-    )
+    // Give each widget an id field by default so that we can use it for drag-and-drop.
+    // None of our mutations/queries use an id field, so this should be safe for use only on
+    // the client.
+    setMySpace(mySpace.map((w) => ({ ...w, id: w._id.toString() })))
   }
 
   // Rather than passing in the entire mySpace array, I think we can
@@ -117,8 +108,6 @@ export const MySpaceProvider = ({
 
     handleAddWidget({
       variables: { title: 'Recent news', type: AddWidgetType.News },
-      // This actually works and causes the mySpace value in this context to update. I also need to change out
-      // the render logic in the MySpace component
       //   refetchQueries: ['getUser'],
     })
   }
@@ -169,11 +158,12 @@ export const MySpaceProvider = ({
 
     // If a draggable item is active, and it is over a droppable area when dropped
     if (over && active.id !== over.id) {
-      const oldIndex = draggableWidgets.findIndex((w) => w.id === active.id)
-      const newIndex = draggableWidgets.findIndex((w) => w.id === over.id)
+      const oldIndex = mySpace.findIndex((w) => w.id === active.id)
+      const newIndex = mySpace.findIndex((w) => w.id === over.id)
 
-      const sortedWidgets = arrayMove(draggableWidgets, oldIndex, newIndex)
-      setDraggableWidgets(sortedWidgets)
+      const sortedWidgets = arrayMove(mySpace, oldIndex, newIndex)
+      setMySpace(sortedWidgets)
+      // setDraggableWidgets(sortedWidgets)
 
       // Prepare widgets for mutation by removing the id field
       // TO DO: fix this type
@@ -192,24 +182,6 @@ export const MySpaceProvider = ({
         }
       )
 
-      // If mySpace contains a GuardianIdeal widget, add it to the beginning of the array
-      const guardianIdealWidget = mySpace.find(
-        (w) => w.type === WIDGET_TYPES.GUARDIANIDEAL
-      )
-      if (guardianIdealWidget) {
-        const { _id, title, type } = guardianIdealWidget
-        updatedMySpace.unshift({ _id, title, type })
-      }
-
-      // If mySpace contains a FeaturedShortcuts widget, add it to the beginning of the array
-      const featuredShortcutsWidget = mySpace.find(
-        (w) => w.type === WIDGET_TYPES.FEATUREDSHORTCUTS
-      )
-      if (featuredShortcutsWidget) {
-        const { _id, title, type } = featuredShortcutsWidget
-        updatedMySpace.unshift({ _id, title, type })
-      }
-
       // Perform mutation to update mySpace
       handleEditMySpace({
         variables: {
@@ -221,7 +193,6 @@ export const MySpaceProvider = ({
 
   const context = {
     mySpace,
-    draggableWidgets,
     initializeMySpace,
     updateMySpace,
     isCollection,

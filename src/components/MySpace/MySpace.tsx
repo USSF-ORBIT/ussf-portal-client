@@ -44,7 +44,6 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
   const { trackEvent } = useAnalytics()
   const {
     mySpace,
-    draggableWidgets,
     isCollection,
     isGuardianIdeal,
     isNewsWidget,
@@ -102,9 +101,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
           collisionDetection={closestCorners}
           onDragEnd={handleOnDragEnd}>
           <Droppable dropId={'mySpaceDroppableArea'}>
-            <SortableContext
-              items={draggableWidgets}
-              strategy={rectSortingStrategy}>
+            <SortableContext items={mySpace} strategy={rectSortingStrategy}>
               <Grid row gap={2}>
                 {mySpace?.map((widget: Widget) => {
                   if (isFeaturedShortcuts(widget) && flags?.featuredShortcuts) {
@@ -133,10 +130,6 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                     )
                   }
 
-                  return null
-                })}
-
-                {draggableWidgets?.map((widget) => {
                   if (isNewsWidget(widget)) {
                     return (
                       <Grid
