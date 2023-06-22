@@ -29,7 +29,8 @@ const Footer = () => {
               className={styles.madeByLink}
               aria-label="Made with love and code by ORBIT">
               Made with ❤️&nbsp; and{' '}
-              <span className="font-body-lg">&lsaquo;&rsaquo;</span> by ORBIT
+              <span className="font-body-lg">&lsaquo;&rsaquo;</span> by ORBIT{' '}
+              <span className="usa-sr-only">(opens in a new window)</span>
             </LinkTo>
           </div>
 
