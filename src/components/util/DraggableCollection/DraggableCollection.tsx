@@ -27,7 +27,12 @@ const DraggableCollection = ({ id, children }: DraggableCollectionProps) => {
 
   return (
     <div ref={setNodeRef} style={{ ...style }}>
-      <div {...listeners} {...attributes}>
+      <div
+        {...listeners}
+        {...attributes}
+        style={{
+          cursor: isDragging ? 'grabbing' : 'grab',
+        }}>
         {children}
       </div>
     </div>

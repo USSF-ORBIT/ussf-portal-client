@@ -87,8 +87,9 @@ export const MySpaceProvider = ({
 
   const initializeMySpace = (mySpace: MySpace) => {
     // Give each widget an id field by default so that we can use it for drag-and-drop.
-    // None of our mutations/queries use an id field, so this should be safe for use only on
-    // the client.
+    // None of our mutations/queries use an id field, and we can give this additional
+    // field to any item in the mySpace array without any issue, so this should be safe
+    // for use only on the client.
     setMySpace(mySpace.map((w) => ({ ...w, id: w._id.toString() })))
   }
 
