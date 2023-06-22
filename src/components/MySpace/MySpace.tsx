@@ -61,8 +61,14 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
   const [handleRemoveCollection] = useRemoveCollectionMutation()
   const [handleEditCollection] = useEditCollectionMutation()
 
+  // Distance tells the sensor how far the pointer must move (in pixels) before it is activated. This is
+  // needed so that other click events, like opening a collections's menu, can be triggered.
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
