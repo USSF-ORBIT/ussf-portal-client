@@ -27,8 +27,6 @@ import styles from './MySpace.module.scss'
 import DraggableCollection from 'components/util/DraggableCollection/DraggableCollection'
 import Droppable from 'components/util/Droppable/Droppable'
 
-import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
-import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget.g'
 import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
 import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
 import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
@@ -42,45 +40,34 @@ import { GuardianIdealPillars } from 'components/GuardianIdeal/GuardianIdealPill
 import FeaturedShortcuts from 'components/FeaturedShortcuts/FeaturedShorcuts'
 import { featuredShortcutItems } from 'components/FeaturedShortcuts/FeaturedShortcutItems'
 
-import { MySpaceWidget, CMSBookmark, Collection, Widget } from 'types/index'
+import { CMSBookmark, Widget } from 'types/index'
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import AddWidget from 'components/AddWidget/AddWidget'
 import { useAnalytics } from 'stores/analyticsContext'
 import { useMySpaceContext } from 'stores/myspaceContext'
 
-/** Type guards */
-function isCollection(widget: MySpaceWidget): widget is Collection {
-  return widget.type === WIDGET_TYPES.COLLECTION
-}
-
-function isGuardianIdeal(widget: Widget): widget is Collection {
-  return widget.type === WIDGET_TYPES.GUARDIANIDEAL
-}
-
-function isNewsWidget(widget: Widget): widget is Collection {
-  return widget.type === WIDGET_TYPES.NEWS
-}
-
-function isFeaturedShortcuts(widget: Widget): widget is Collection {
-  return widget.type === WIDGET_TYPES.FEATUREDSHORTCUTS
-}
-
 const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
   const router = useRouter()
   const { trackEvent } = useAnalytics()
-  const { mySpace } = useMySpaceContext()
+  const {
+    mySpace,
+    isCollection,
+    isGuardianIdeal,
+    isNewsWidget,
+    isFeaturedShortcuts,
+    addNewsWidget,
+    addGuardianIdeal,
+    addFeaturedShortcuts,
+    addNewCollection,
+  } = useMySpaceContext()
   const flags = useFlags()
 
-  const [handleAddWidget] = useAddWidgetMutation()
   const [handleEditMySpace] = useEditMySpaceMutation()
-  const [handleAddCollection] = useAddCollectionMutation()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
   const [handleRemoveCollection] = useRemoveCollectionMutation()
   const [handleEditCollection] = useEditCollectionMutation()
 
-  // TO DO: try to memoize this again. When using a console.log to print this value, you can
-  // see that the component re-renders 4 times, which is not ideal.
   const [draggableWidgets, setDraggableWidgets] = useState(
     mySpace
       .filter(
@@ -91,64 +78,12 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
       })
   )
 
-  console.log('draggableWidgets: ', draggableWidgets)
-
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   )
-
-  const addNewsWidget = () => {
-    trackEvent('Add section', 'Add news')
-
-    handleAddWidget({
-      variables: { title: 'Recent news', type: AddWidgetType.News },
-      // refetchQueries: ['getUser'],
-    })
-  }
-
-  const addGuardianIdeal = () => {
-    trackEvent(
-      'Guardian Ideal Carousel',
-      'Click on add Ideal carousel',
-      'Add Ideal'
-    )
-
-    handleAddWidget({
-      variables: {
-        title: 'Guardian Ideal',
-        type: AddWidgetType.GuardianIdeal,
-      },
-      refetchQueries: ['getUser'],
-    })
-  }
-
-  const addFeaturedShortcuts = () => {
-    trackEvent(
-      'Featured Shortcuts',
-      'Click on add Featured Shortcuts',
-      'Add Featured Shortcuts'
-    )
-
-    handleAddWidget({
-      variables: {
-        title: 'Featured Shortcuts',
-        type: AddWidgetType.FeaturedShortcuts,
-      },
-      refetchQueries: ['getUser'],
-    })
-  }
-
-  const addNewCollection = () => {
-    trackEvent('Add section', 'Create new collection')
-
-    handleAddCollection({
-      variables: { title: '', bookmarks: [] },
-      refetchQueries: [`getUser`],
-    })
-  }
 
   const canAddCollections: boolean =
     mySpace &&
