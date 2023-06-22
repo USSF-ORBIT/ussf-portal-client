@@ -12,7 +12,6 @@ import { useEditMySpaceMutation } from 'operations/portal/mutations/editMySpace.
 export type MySpaceContextType = {
   mySpace: MySpace
   initializeMySpace: (mySpace: MySpace) => void
-  updateMySpace: (widget: Widget) => void
   isCollection: (widget: MySpaceWidget) => boolean
   isGuardianIdeal: (widget: Widget) => boolean
   isNewsWidget: (widget: Widget) => boolean
@@ -27,9 +26,6 @@ export type MySpaceContextType = {
 export const MySpaceContext = createContext<MySpaceContextType>({
   mySpace: [],
   initializeMySpace: /* istanbul ignore next */ () => {
-    return
-  },
-  updateMySpace: /* istanbul ignore next */ () => {
     return
   },
   isCollection: /* istanbul ignore next */ () => {
@@ -94,13 +90,6 @@ export const MySpaceProvider = ({
     // None of our mutations/queries use an id field, so this should be safe for use only on
     // the client.
     setMySpace(mySpace.map((w) => ({ ...w, id: w._id.toString() })))
-  }
-
-  // Rather than passing in the entire mySpace array, I think we can
-  // just pass in the updated widget and update the mySpace array at that widget's index
-  const updateMySpace = (widget: Widget) => {
-    // setMySpace(mySpace)
-    console.log('updateMySpace called with widget: ', widget)
   }
 
   const addNewsWidget = () => {
@@ -193,7 +182,6 @@ export const MySpaceProvider = ({
   const context = {
     mySpace,
     initializeMySpace,
-    updateMySpace,
     isCollection,
     isGuardianIdeal,
     isNewsWidget,
