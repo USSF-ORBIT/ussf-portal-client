@@ -54,7 +54,7 @@ const NewsWidget = (widget: NewsWidgetProps) => {
     <>
       <WidgetWithSettings
         className={styles.newsWidget}
-        header={<h3>Recent News</h3>}
+        header="Recent News"
         settingsItems={[
           <Button
             key="newsWidgetSettingsMenu_remove"

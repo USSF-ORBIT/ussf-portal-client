@@ -17,14 +17,14 @@ export default {
 } as Meta
 
 export const ExampleWidget = () => (
-  <Widget header={<h3>Example Widget</h3>}>
+  <Widget header="Example Widget">
     <p>Example widget contents</p>
   </Widget>
 )
 
 export const ExampleWidgetWithSettings = () => (
   <WidgetWithSettings
-    header={<h3>Example Widget</h3>}
+    header="Example Widget"
     settingsItems={[
       <Button
         key="settingsMenu_item1"

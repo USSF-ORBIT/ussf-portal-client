@@ -12,9 +12,7 @@ import Widget, { WidgetWithSettings } from './Widget'
 
 describe('Widget component', () => {
   it('renders Widget', () => {
-    render(
-      <Widget header={<h3>Example widget</h3>}>Example widget contents</Widget>
-    )
+    render(<Widget header="Example widget">Example widget contents</Widget>)
 
     const heading = screen.getByRole('heading', { level: 3 })
 
@@ -30,7 +28,7 @@ describe('Widget component', () => {
 
   test('has no a11y violations', async () => {
     const html = render(
-      <Widget header={<h3>Example widget</h3>}>Example widget contents</Widget>
+      <Widget header="Example widget">Example widget contents</Widget>
     )
     expect(await axe(html.container)).toHaveNoViolations()
   })
@@ -44,7 +42,7 @@ describe('WidgetWithSettings component', () => {
   beforeEach(() => {
     html = render(
       <WidgetWithSettings
-        header={<h3>Example widget</h3>}
+        header="Example widget"
         settingsMenuLabel="Widget Settings menu"
         settingsItems={[
           <button

@@ -48,7 +48,7 @@ const FeaturedShortcuts = ({
 
   return (
     <WidgetWithSettings
-      header={<h3>Featured Shortcuts</h3>}
+      header="Featured Shortcuts"
       className={styles.featuredShortcuts}
       settingsItems={[
         <Button
