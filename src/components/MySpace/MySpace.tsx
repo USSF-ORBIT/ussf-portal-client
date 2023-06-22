@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useFlags } from 'launchdarkly-react-client-sdk'
 import { Grid } from '@trussworks/react-uswds'
 import { gql } from '@apollo/client'
@@ -6,22 +6,16 @@ import { useRouter } from 'next/router'
 import {
   closestCorners,
   DndContext,
-  DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
 import {
-  arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   rectSortingStrategy,
 } from '@dnd-kit/sortable'
-import {
-  WidgetType as AddWidgetType,
-  WidgetReorderInput,
-} from '../../graphql.g'
 import styles from './MySpace.module.scss'
 
 import DraggableCollection from 'components/util/DraggableCollection/DraggableCollection'
@@ -31,7 +25,6 @@ import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.
 import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
 import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
 import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
-import { useEditMySpaceMutation } from 'operations/portal/mutations/editMySpace.g'
 
 import CustomCollection from 'components/CustomCollection/CustomCollection'
 import GuardianIdealCarousel from 'components/GuardianIdeal/GuardianIdealCarousel'
@@ -51,6 +44,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
   const { trackEvent } = useAnalytics()
   const {
     mySpace,
+    draggableWidgets,
     isCollection,
     isGuardianIdeal,
     isNewsWidget,
@@ -59,24 +53,14 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     addGuardianIdeal,
     addFeaturedShortcuts,
     addNewCollection,
+    handleOnDragEnd,
   } = useMySpaceContext()
   const flags = useFlags()
 
-  const [handleEditMySpace] = useEditMySpaceMutation()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
   const [handleRemoveCollection] = useRemoveCollectionMutation()
   const [handleEditCollection] = useEditCollectionMutation()
-
-  const [draggableWidgets, setDraggableWidgets] = useState(
-    mySpace
-      .filter(
-        (w) => w.type !== 'FeaturedShortcuts' && w.type !== 'GuardianIdeal'
-      )
-      .map((c) => {
-        return { id: c._id.toString(), ...c }
-      })
-  )
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -109,61 +93,6 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     })
   }
 
-  const handleOnDragEnd = async (event: DragEndEvent) => {
-    const { active, over } = event
-
-    // If a draggable item is active, and it is over a droppable area when dropped
-    if (over && active.id !== over.id) {
-      const oldIndex = draggableWidgets.findIndex((w) => w.id === active.id)
-      const newIndex = draggableWidgets.findIndex((w) => w.id === over.id)
-
-      const sortedWidgets = arrayMove(draggableWidgets, oldIndex, newIndex)
-      setDraggableWidgets(sortedWidgets)
-
-      // Prepare widgets for mutation by removing the id field
-      // TO DO: fix this type
-      const updatedMySpace: MySpace = sortedWidgets.map(
-        ({ _id, title, type, bookmarks }) => {
-          const updatedBookmarks = bookmarks?.map(
-            ({ _id, url, label, cmsId, isRemoved }) => ({
-              _id,
-              url,
-              label,
-              cmsId,
-              isRemoved,
-            })
-          )
-          return { _id, title, type, bookmarks: updatedBookmarks }
-        }
-      )
-
-      // If mySpace contains a GuardianIdeal widget, add it to the beginning of the array
-      const guardianIdealWidget = mySpace.find(
-        (w) => w.type === WIDGET_TYPES.GUARDIANIDEAL
-      )
-      if (guardianIdealWidget) {
-        const { _id, title, type } = guardianIdealWidget
-        updatedMySpace.unshift({ _id, title, type })
-      }
-
-      // If mySpace contains a FeaturedShortcuts widget, add it to the beginning of the array
-      const featuredShortcutsWidget = mySpace.find(
-        (w) => w.type === WIDGET_TYPES.FEATUREDSHORTCUTS
-      )
-      if (featuredShortcutsWidget) {
-        const { _id, title, type } = featuredShortcutsWidget
-        updatedMySpace.unshift({ _id, title, type })
-      }
-
-      // Perform mutation to update mySpace
-      handleEditMySpace({
-        variables: {
-          mySpace: updatedMySpace as WidgetReorderInput[],
-        },
-      })
-    }
-  }
-
   return (
     <div className={styles.mySpace}>
       <div className={styles.widgetContainer}>
@@ -178,6 +107,19 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
               strategy={rectSortingStrategy}>
               <Grid row gap={2}>
                 {mySpace?.map((widget: Widget) => {
+                  if (isFeaturedShortcuts(widget) && flags?.featuredShortcuts) {
+                    return (
+                      <Grid
+                        key={`widget_${widget._id}`}
+                        className={styles.featuredShortcuts}>
+                        <FeaturedShortcuts
+                          featuredShortcuts={featuredShortcutItems}
+                          widget={widget}
+                        />
+                      </Grid>
+                    )
+                  }
+
                   if (isGuardianIdeal(widget) && flags?.guardianIdealCarousel) {
                     return (
                       <Grid
@@ -191,18 +133,6 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                     )
                   }
 
-                  if (isFeaturedShortcuts(widget) && flags?.featuredShortcuts) {
-                    return (
-                      <Grid
-                        key={`widget_${widget._id}`}
-                        className={styles.featuredShortcuts}>
-                        <FeaturedShortcuts
-                          featuredShortcuts={featuredShortcutItems}
-                          widget={widget}
-                        />
-                      </Grid>
-                    )
-                  }
                   return null
                 })}
 
