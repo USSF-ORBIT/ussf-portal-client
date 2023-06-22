@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 
 import {
   Button,
@@ -26,6 +26,7 @@ export const EditableCollectionTitle = ({
   onCancel,
 }: PropTypes) => {
   const inputRef = useRef<HTMLInputElement>(null)
+  const [currentText, setCurrentText] = useState<string>('')
 
   useEffect(() => {
     if (isEditing) {
@@ -58,9 +59,17 @@ export const EditableCollectionTitle = ({
             required
             maxLength={200}
             className={styles.collectionTitle}
-            defaultValue={text}
+            value={currentText}
             placeholder={`Name this collection`}
             type="text"
+            onKeyDown={(e) => {
+              if (e.key === ' ') {
+                e.preventDefault()
+                const userInput = currentText + ' '
+                setCurrentText(userInput)
+              }
+            }}
+            onChange={(e) => setCurrentText(e.target.value)}
           />
           <ButtonGroup>
             <Button
