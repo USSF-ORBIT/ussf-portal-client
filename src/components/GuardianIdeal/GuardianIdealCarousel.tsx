@@ -119,6 +119,7 @@ const GuardianIdealCarousel = ({
 
   return (
     <WidgetWithSettings
+      header="Guardian ideals"
       className={styles.guardianIdealCarousel}
       settingsItems={[
         <Button
