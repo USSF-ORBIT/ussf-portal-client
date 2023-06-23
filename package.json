@@ -28,6 +28,7 @@
     "pre-commit": "lint-staged",
     "test": "jest --runInBand --testTimeout=60000",
     "test:watch": "jest --watch  --runInBand --testTimeout=60000",
+    "postinstall": "sh ./scripts/copy_uswds_assets.sh",
     "release": "standard-version -t ''",
     "migrate:create": "migrate create --template-file ./migration-template.js",
     "generate": "graphql-codegen --config codegen.yml",
