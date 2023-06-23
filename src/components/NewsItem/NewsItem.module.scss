@@ -1,5 +1,5 @@
-@use 'styles/sfds/index.scss' as sfds;
-@use 'uswds-core' as util;
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 
 .NewsItem {
   display: flex;
@@ -35,7 +35,7 @@ a.articleLink {
   margin-top: 0;
 
   a {
-    color: sfds.$theme-black;
+    color: $theme-black;
     text-decoration: none;
   }
 }
@@ -48,8 +48,8 @@ a.articleLink {
   text-transform: uppercase;
   height: 60px;
   width: 60px;
-  background: sfds.$theme-cosmiclatte-lighter;
-  border: 1px solid sfds.$theme-cosmiclatte-dark;
+  background: $theme-cosmiclatte-lighter;
+  border: 1px solid $theme-cosmiclatte-dark;
   border-radius: 8px;
 
   span.month {
@@ -92,7 +92,7 @@ a.articleLink {
 
 .articleTag {
   align-self: flex-start;
-  color: sfds.$black;
+  color: $black;
 }
 
 .newsWidgetItem {

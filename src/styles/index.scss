@@ -5,7 +5,6 @@
 // // USWDS SCSS
 @forward 'uswds-theme';
 @forward 'uswds';
-@forward 'uswds-core'; // unclear if/why we need this in addition to uswds itself
 
 // SFDS Theme Properties
 @forward 'styles/themes.scss';

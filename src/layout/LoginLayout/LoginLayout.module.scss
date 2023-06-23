@@ -1,14 +1,15 @@
-@use 'uswds-core' as util;
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 @use 'styles/govBanner' as *;
 
 .siteContainer {
-  @include util.at-media('desktop') {
+  @include at-media('desktop') {
     display: flex;
   }
 }
 
 .mainContainer {
-  @include util.at-media('desktop') {
+  @include at-media('desktop') {
     flex: 1 1 0 !important;
   }
 }

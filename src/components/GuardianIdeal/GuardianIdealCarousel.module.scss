@@ -1,5 +1,5 @@
-@use 'styles/sfds/index.scss' as sfds;
-@use 'uswds-core' as util;
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 
 // Override the styles for the WidgetWithSettings component
 .guardianIdealCarousel {
@@ -19,13 +19,13 @@
   }
 
   :nth-child(1) > button > svg {
-    color: sfds.$white;
+    color: $white;
   }
 }
 
 .carouselContainer {
   width: 100%;
-  background-color: sfds.$news-carousel;
+  background-color: $news-carousel;
   border-radius: 4px;
   margin-top: 0 !important;
 
@@ -34,7 +34,7 @@
       width: 16.17px;
       height: 16px;
       border-radius: 50px;
-      background: sfds.$theme-spacebase-lightest;
+      background: $theme-spacebase-lightest;
     }
 
     button::before {
@@ -46,7 +46,7 @@
       .slick-dots li.slick-active div.news-carousel-container button::before
     ) {
     color: transparent;
-    background: sfds.$theme-aurora-dark;
+    background: $theme-aurora-dark;
     width: 16.17px;
     height: 16px;
     border-radius: 50px;
@@ -68,7 +68,7 @@
 
 .carouselArrow {
   background: transparent;
-  color: sfds.$theme-spacebase-lightest;
+  color: $theme-spacebase-lightest;
   border: none;
   &:hover {
     cursor: pointer;

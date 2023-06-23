@@ -1,5 +1,5 @@
-@use 'styles/sfds/index.scss' as sfds;
-@use 'uswds-core' as util;
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 
 @mixin gov-banner {
   .usa-banner {
@@ -10,21 +10,18 @@
 
     .usa-banner__header,
     .usa-banner__content {
-      @include util.set-text-from-bg($site-banner-bg);
+      @include set-text-from-bg($site-banner-bg);
     }
 
     .usa-banner__header-action {
-      @include util.set-link-from-bg($site-banner-bg, $site-banner-link-color);
+      @include set-link-from-bg($site-banner-bg, $site-banner-link-color);
     }
 
     .usa-banner__button {
-      @include util.set-link-from-bg($site-banner-bg, $site-banner-link-color);
+      @include set-link-from-bg($site-banner-bg, $site-banner-link-color);
 
-      @include util.at-media('tablet') {
-        @include util.set-link-from-bg(
-          $site-banner-bg,
-          $site-banner-link-color
-        );
+      @include at-media('tablet') {
+        @include set-link-from-bg($site-banner-bg, $site-banner-link-color);
       }
       // Filters for SVG color changes
       // Generated using https://codepen.io/sosuke/pen/Pjoqqp

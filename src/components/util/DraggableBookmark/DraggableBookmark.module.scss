@@ -1,9 +1,9 @@
-@use 'styles/sfds/index.scss' as sfds;
-@use 'uswds-core' as util;
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 
 .dragIconWrap svg {
   margin-bottom: 2px;
-  color: sfds.$theme-spacebase-lighter;
+  color: $theme-spacebase-lighter;
 }
 
 .dragIconWrap:focus svg {

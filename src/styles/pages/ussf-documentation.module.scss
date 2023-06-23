@@ -1,5 +1,5 @@
-@use 'styles/sfds/index.scss' as *;
 @use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 
 .accordionGrid {
   :global(.usa-accordion--bordered .usa-accordion__heading) {

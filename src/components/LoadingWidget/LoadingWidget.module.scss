@@ -1,5 +1,6 @@
-@use 'styles/sfds/index.scss' as *;
 @use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
+
 .loadingWidget {
   display: block;
   cursor: progress;

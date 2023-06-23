@@ -1,5 +1,5 @@
-@use 'styles/sfds/index.scss' as sfds;
-@use 'uswds-core' as util;
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 
 .carouselItemContainer {
   min-height: 534px;
@@ -41,7 +41,7 @@
   }
 
   .textContainer {
-    color: sfds.$white;
+    color: $white;
     width: 100%;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
@@ -55,7 +55,7 @@
     font-size: 40px;
     color: white;
     line-height: 1.1;
-    font-family: sfds.$sfds-heading-font;
+    font-family: $sfds-heading-font;
     margin-bottom: units(1);
     margin-top: units(2);
   }

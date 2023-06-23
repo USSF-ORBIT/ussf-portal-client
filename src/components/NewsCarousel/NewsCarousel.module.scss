@@ -1,5 +1,6 @@
-@use 'styles/sfds/index.scss' as *;
 @use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
+
 .carouselContainer {
   width: 100%;
   background-color: $news-carousel;

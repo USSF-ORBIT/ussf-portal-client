@@ -1,5 +1,5 @@
-@use 'styles/sfds/index.scss' as sfds;
-@use 'uswds-core' as util;
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 
 .personalData {
   h2 {
@@ -20,13 +20,13 @@
   }
 
   dt {
-    font-family: sfds.$sfds-heading-font;
-    @include util.u-line-height('heading', 3);
+    font-family: $sfds-heading-font;
+    @include u-line-height('heading', 3);
     font-weight: 700;
   }
 
   dd {
-    @include util.u-line-height('body', 4);
+    @include u-line-height('body', 4);
     margin-inline-start: 0;
     margin-bottom: units(2);
   }

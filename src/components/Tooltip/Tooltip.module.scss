@@ -1,14 +1,14 @@
-@use 'styles/sfds/index.scss' as sfds;
 @use 'styles/deps';
+@use 'styles/sfds/index.scss' as *;
 
 .tooltipButton,
 :global(.sfds) .tooltipButton {
   @extend %button-reset;
   background-color: transparent;
-  color: sfds.$state-warning-dark;
+  color: $state-warning-dark;
 
   &:hover {
     background-color: transparent;
-    color: sfds.$state-warning-dark;
+    color: $state-warning-dark;
   }
 }

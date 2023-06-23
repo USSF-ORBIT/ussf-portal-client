@@ -1,16 +1,16 @@
-@use 'styles/sfds/index.scss' as sfds;
-@use 'uswds-core' as util;
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 
 .header {
-  background: sfds.$black;
+  background: $black;
 
-  @include util.at-media('desktop') {
+  @include at-media('desktop') {
     padding: units('105') 0 0;
   }
 
   :global {
     .usa-nav-container {
-      @include sfds.sfds-grid-container();
+      @include sfds-grid-container();
     }
 
     .usa-logo {
@@ -18,7 +18,7 @@
         width: 65px;
       }
 
-      @include util.at-media('desktop') {
+      @include at-media('desktop') {
         margin: 0;
 
         img {
@@ -28,16 +28,16 @@
     }
 
     .usa-nav {
-      background: sfds.$black;
+      background: $black;
 
-      @include util.at-media('desktop') {
+      @include at-media('desktop') {
         align-self: center;
         padding: 0;
       }
     }
 
     .usa-nav__primary button {
-      color: sfds.$theme-white;
+      color: $theme-white;
       border-radius: 6px;
     }
 
@@ -46,18 +46,18 @@
     }
 
     .usa-nav__primary > .usa-nav__primary-item > a {
-      color: sfds.$theme-white;
+      color: $theme-white;
       font-weight: normal;
-      font-family: sfds.$sfds-body-font;
+      font-family: $sfds-body-font;
 
       &:hover {
-        background: sfds.$theme-spacebase-base;
+        background: $theme-spacebase-base;
         border-radius: 6px;
       }
 
       &.usa-current {
-        background: sfds.$theme-aurora-lightest;
-        color: sfds.$theme-black;
+        background: $theme-aurora-lightest;
+        color: $theme-black;
         border-radius: 6px;
 
         &:after {
@@ -67,19 +67,19 @@
     }
 
     .usa-nav__primary > .usa-nav__primary-item > .usa-nav__submenu {
-      background-color: sfds.$theme-spacebase-base;
+      background-color: $theme-spacebase-base;
     }
 
     .usa-nav__primary > .usa-nav__primary-item > button {
       font-weight: normal;
 
       &:hover {
-        background-color: sfds.$theme-spacebase-base;
+        background-color: $theme-spacebase-base;
       }
     }
 
     .usa-nav__primary button[aria-expanded='false'] span::after {
-      background-color: sfds.$white;
+      background-color: $white;
     }
 
     .usa-nav__primary

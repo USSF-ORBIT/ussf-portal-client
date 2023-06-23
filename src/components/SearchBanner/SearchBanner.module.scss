@@ -1,5 +1,6 @@
-@use 'styles/sfds/index.scss' as *;
 @use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
+
 .SearchBanner {
   background-color: var(--background-fill-alert);
   border: 1px solid $theme-cosmiclatte-darker;
