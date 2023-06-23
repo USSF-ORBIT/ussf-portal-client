@@ -1,12 +1,12 @@
-@use 'styles/uswdsDependencies';
-// @use 'styles/sfds/sfdsDependencies';
+@use 'styles/sfds/index.scss' as sfds;
+@use 'uswds-core' as util;
 
 .featuredShortcuts {
   :global(.grid-row.grid-gap) {
     margin: 22px 0 0;
   }
   :global(h3) {
-    font-family: $sfds-heading-font;
+    font-family: sfds.$sfds-heading-font;
     color: var(--text);
   }
 }
@@ -24,7 +24,7 @@
     flex-grow: 1;
     font-size: 22px;
     line-height: normal;
-    @include heading-book;
+    @include sfds.heading-book;
 
     font-weight: 500;
     list-style-type: none;

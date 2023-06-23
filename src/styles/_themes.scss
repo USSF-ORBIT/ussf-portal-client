@@ -1,4 +1,4 @@
-@import 'styles/sfds/_colors.scss';
+@use 'colors' as *;
 
 $hero-image: url('/assets/images/hero.jpeg');
 $light-bg-img: url('/assets/images/lightbg.png');

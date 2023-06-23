@@ -1,32 +1,31 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/deps';
-// @import 'styles/sfds/sfdsDependencies';
-@import 'styles/sfds/_colors.scss';
+@use 'styles/sfds/index.scss' as sfds;
+@use 'uswds-core' as util;
+@use 'styles/deps';
 
 .undo {
   @extend %button-reset;
-  background: $theme-mars-base;
+  background: sfds.$theme-mars-base;
   border-radius: 5px;
-  color: $theme-white;
+  color: sfds.$theme-white;
   flex: auto;
   text-align: center;
   margin-bottom: 8px;
   line-height: 1.15;
   border: 1px solid transparent;
-  @include u-padding('105' 4);
+  @include util.u-padding('105' 4);
 }
 
 .addLink {
-  @include u-margin-top(2);
+  @include util.u-margin-top(2);
 
   :global(.usa-tooltip) {
-    @include u-margin-left(1);
-    @include u-margin-top(1);
+    @include util.u-margin-left(1);
+    @include util.u-margin-top(1);
   }
 
   :global(.usa-form__note) {
     float: none;
-    @include u-margin-top('105');
+    @include util.u-margin-top('105');
 
     :global(.usa-button--unstyled) {
       margin: 0;
@@ -43,7 +42,7 @@
     box-sizing: border-box;
     border-radius: 4px;
     margin-top: 0;
-    font-family: $sfds-body-font;
+    font-family: sfds.$sfds-body-font;
   }
 
   :global(.usa-combo-box__list-option) {
@@ -70,7 +69,7 @@
   :global(.usa-combo-box__input) {
     border-width: 0.25rem;
     border-style: solid;
-    border-color: $state-warning-dark;
+    border-color: sfds.$state-warning-dark;
   }
 }
 

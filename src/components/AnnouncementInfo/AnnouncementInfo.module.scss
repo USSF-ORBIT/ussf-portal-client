@@ -1,5 +1,4 @@
-@use 'styles/uswdsDependencies';
-// @use 'styles/sfds/sfdsDependencies';
+@use 'styles/index.scss' as *;
 
 .announcementContainer {
   display: flex;
@@ -39,7 +38,7 @@
   }
 
   > div > a {
-    font-family: $sfds-body-font;
+    font-family: $body-font;
     white-space: nowrap;
     color: var(--announcement-btn-text) !important;
   }

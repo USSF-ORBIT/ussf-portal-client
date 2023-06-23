@@ -1,11 +1,11 @@
-@use 'styles/uswdsDependencies';
-// @use 'styles/sfds/sfdsDependencies';
+@use 'styles/sfds/index.scss' as sfds;
+@use 'uswds-core' as util;
 
 .Tag,
 :global(.usa-tag).Tag {
-  @include u-radius('lg');
+  @include util.u-radius('lg');
   font-size: 14px;
-  background-color: $theme-ultraviolet-base;
+  background-color: sfds.$theme-ultraviolet-base;
   text-transform: lowercase;
   display: inline-block;
   line-height: normal;
@@ -13,7 +13,7 @@
 
 .Label,
 :global(.usa-tag).Label {
-  @include u-radius('md');
+  @include util.u-radius('md');
   font-size: 14px;
   text-transform: none;
   display: inline-flex;
@@ -55,7 +55,7 @@
 
 .Category,
 :global(.usa-tag).Category {
-  @include u-radius('sm');
+  @include util.u-radius('sm');
   font-size: 14px;
   text-transform: uppercase;
   display: inline-block;
@@ -86,7 +86,7 @@
     color: var(--category-application-text);
   }
   &.GuardianIdeal {
-    background-color: $theme-cosmiclatte-darkest;
-    color: $theme-cosmiclatte-lightest;
+    background-color: sfds.$theme-cosmiclatte-darkest;
+    color: sfds.$theme-cosmiclatte-lightest;
   }
 }

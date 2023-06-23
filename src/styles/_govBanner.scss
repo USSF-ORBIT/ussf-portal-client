@@ -1,3 +1,6 @@
+@use 'styles/sfds/index.scss' as sfds;
+@use 'uswds-core' as util;
+
 @mixin gov-banner {
   .usa-banner {
     $site-banner-bg: 'ink';
@@ -7,18 +10,21 @@
 
     .usa-banner__header,
     .usa-banner__content {
-      @include set-text-from-bg($site-banner-bg);
+      @include util.set-text-from-bg($site-banner-bg);
     }
 
     .usa-banner__header-action {
-      @include set-link-from-bg($site-banner-bg, $site-banner-link-color);
+      @include util.set-link-from-bg($site-banner-bg, $site-banner-link-color);
     }
 
     .usa-banner__button {
-      @include set-link-from-bg($site-banner-bg, $site-banner-link-color);
+      @include util.set-link-from-bg($site-banner-bg, $site-banner-link-color);
 
-      @include at-media('tablet') {
-        @include set-link-from-bg($site-banner-bg, $site-banner-link-color);
+      @include util.at-media('tablet') {
+        @include util.set-link-from-bg(
+          $site-banner-bg,
+          $site-banner-link-color
+        );
       }
       // Filters for SVG color changes
       // Generated using https://codepen.io/sosuke/pen/Pjoqqp

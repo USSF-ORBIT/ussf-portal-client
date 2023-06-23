@@ -1,6 +1,5 @@
-@use 'styles/uswdsDependencies';
-// @use 'styles/sfds/sfdsDependencies';
-
+@use 'styles/sfds/index.scss' as *;
+@use 'uswds-core' as *;
 .epubs {
   background: var(--background-fill);
   border: 1px solid $light-gray;

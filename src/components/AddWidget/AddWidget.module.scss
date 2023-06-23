@@ -1,5 +1,5 @@
-@import 'styles/uswdsDependencies';
-// @import 'styles/sfds/sfdsDependencies';
+@use 'styles/sfds/index.scss' as sfds;
+@use 'uswds-core' as util;
 
 .addWidget {
   display: block;
@@ -22,8 +22,8 @@
   border: none;
   background: transparent;
   color: var(--btn-add-widget);
-  @include u-font-size('body', 'lg');
-  font-family: $sfds-heading-font;
+  @include util.u-font-size('body', 'lg');
+  font-family: sfds.$sfds-heading-font;
 
   svg {
     pointer-events: none;

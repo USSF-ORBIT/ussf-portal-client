@@ -1,6 +1,4 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/govBanner';
-// @import 'styles/sfds/sfdsDependencies';
+@use 'styles/govBanner' as *;
 
 .siteContainer {
   display: flex;

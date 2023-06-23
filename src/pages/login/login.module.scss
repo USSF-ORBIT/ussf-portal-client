@@ -1,4 +1,5 @@
-@import 'styles/uswdsDependencies';
+@use 'styles/sfds/index.scss' as sfds;
+@use 'uswds-core' as util;
 
 @mixin heading-small {
   text-transform: uppercase;
@@ -14,26 +15,26 @@
     }
 
     .button-pill {
-      background-color: color('blue-warm-60v');
+      background-color: util.color('blue-warm-60v');
       @include heading-small;
       border-radius: 99em;
     }
 
     .button-pill,
     .usa-prose > a.button-pill {
-      background-color: color('blue-warm-60v');
-      color: color('white');
+      background-color: util.color('blue-warm-60v');
+      color: util.color('white');
       text-decoration: none;
       @include heading-small;
       border-radius: 99em;
       &:hover {
-        background-color: color('primary-dark');
+        background-color: util.color('primary-dark');
         border-bottom: 0;
       }
     }
 
     .usa-section {
-      background: color('gray-cool-3');
+      background: util.color('gray-cool-3');
     }
 
     .usa-accordion__content {
@@ -45,7 +46,7 @@
 
       p,
       ul li {
-        color: color('base-darker');
+        color: util.color('base-darker');
       }
       .font-heading-xl {
         font-size: 2rem;
@@ -57,13 +58,13 @@
 
     .usa-alert {
       .usa-alert__heading {
-        font-size: font-size('heading', 'xl');
+        font-size: util.font-size('heading', 'xl');
         font-weight: bold;
       }
 
       p,
       ul {
-        color: color('ink');
+        color: util.color('ink');
       }
     }
   }

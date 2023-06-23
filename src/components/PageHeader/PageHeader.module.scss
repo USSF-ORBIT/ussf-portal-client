@@ -1,9 +1,8 @@
-@import 'styles/uswdsDependencies';
-// @import 'styles/sfds/sfdsDependencies';
+@use 'uswds-core' as util;
 
 .PageHeader {
   color: var(--text);
-  @include u-padding-bottom(4);
+  @include util.u-padding-bottom(4);
 
   h1 {
     text-transform: uppercase;

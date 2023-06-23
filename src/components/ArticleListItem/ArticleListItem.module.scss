@@ -1,6 +1,5 @@
-@use 'styles/uswdsDependencies';
-// @use 'styles/sfds/sfdsDependencies';
-
+@use 'styles/sfds/index.scss' as *;
+@use 'uswds-core' as *;
 .articleTitle {
   margin-bottom: 0.5em;
   margin-top: 0;

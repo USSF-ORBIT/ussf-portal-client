@@ -1,5 +1,5 @@
-@import 'styles/uswdsDependencies';
-// @import 'styles/sfds/sfdsDependencies';
+@use 'styles/sfds/index.scss' as *;
+@use 'uswds-core' as *;
 
 .ArticleDateIcon {
   border: 1px solid $theme-cosmiclatte-dark;

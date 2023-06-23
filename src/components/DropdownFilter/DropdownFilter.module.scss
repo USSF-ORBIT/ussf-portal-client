@@ -1,6 +1,6 @@
-@import 'styles/uswdsDependencies';
-// @import 'styles/sfds/sfdsDependencies';
-@import 'styles/deps';
+@use 'styles/sfds/index.scss' as *;
+@use 'uswds-core' as *;
+@use 'styles/deps';
 
 .dropdownFilter {
   display: flex;

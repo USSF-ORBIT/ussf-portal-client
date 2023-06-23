@@ -1,10 +1,5 @@
-// @forward 'styles/uswds-theme';
-// // @import 'styles/sfds/sfdsDependencies';
-// // @import 'styles/sfds/sfdsDependencies';
-// @import 'uswds-core';
-// // @import 'styles/sfds/sfdsDependencies';
-
-@import 'uswds';
+@use 'styles/sfds/index.scss' as *;
+@use 'uswds-core' as *;
 
 .footer {
   background: var(--footer-bg);

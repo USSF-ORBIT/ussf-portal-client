@@ -1,5 +1,4 @@
-@use 'styles/uswdsDependencies';
-// @use 'styles/sfds/sfdsDependencies';
+@use 'styles/sfds/index.scss' as sfds;
 
 .settings {
   .pageTitle {
@@ -9,7 +8,7 @@
   }
 
   .widgetContainer {
-    border: 1px solid $light-gray;
+    border: 1px solid sfds.$light-gray;
     background: var(--background-fill);
     border-radius: 8px;
     padding: units(3) units(3);

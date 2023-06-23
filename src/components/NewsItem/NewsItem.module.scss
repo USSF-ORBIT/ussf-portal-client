@@ -1,5 +1,5 @@
-@use 'styles/uswdsDependencies';
-// @use 'styles/sfds/sfdsDependencies';
+@use 'styles/sfds/index.scss' as sfds;
+@use 'uswds-core' as util;
 
 .NewsItem {
   display: flex;
@@ -35,7 +35,7 @@ a.articleLink {
   margin-top: 0;
 
   a {
-    color: $theme-black;
+    color: sfds.$theme-black;
     text-decoration: none;
   }
 }
@@ -48,8 +48,8 @@ a.articleLink {
   text-transform: uppercase;
   height: 60px;
   width: 60px;
-  background: $theme-cosmiclatte-lighter;
-  border: 1px solid $theme-cosmiclatte-dark;
+  background: sfds.$theme-cosmiclatte-lighter;
+  border: 1px solid sfds.$theme-cosmiclatte-dark;
   border-radius: 8px;
 
   span.month {
@@ -92,7 +92,7 @@ a.articleLink {
 
 .articleTag {
   align-self: flex-start;
-  color: $black;
+  color: sfds.$black;
 }
 
 .newsWidgetItem {

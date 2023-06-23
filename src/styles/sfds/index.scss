@@ -1,16 +1,19 @@
 /** Space Force Design System **/
 /** ------------------------- **/
-// @import 'styles/uswdsDependencies';
-@import 'uswds-theme';
-@import 'uswds';
-@import 'uswds-custom-styles';
+@use 'uswds-core' as *;
+
 // Sharp Sans
-@import '../fonts.scss';
+@forward '../fonts.scss';
+@use '../fonts.scss' as *;
 
 // variables, mixins, etc.
-@import 'colors';
-@import 'type';
-@import 'grid';
+@forward '../colors';
+@forward '../type';
+@forward '../grid';
+
+@use '../colors' as *;
+@use '../type' as *;
+@use '../grid' as *;
 
 // Overwrite grid-container in SFDS
 .sfds {

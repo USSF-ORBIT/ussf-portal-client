@@ -1,5 +1,5 @@
-@use 'styles/uswdsDependencies';
-// @use 'styles/sfds/sfdsDependencies';
+@use 'styles/sfds/index.scss' as sfds;
+@use 'uswds-core' as util;
 
 .search {
   position: relative;
@@ -21,31 +21,31 @@
     }
 
     .usa-input {
-      background-color: $theme-white;
+      background-color: sfds.$theme-white;
       color: var(--search-input-text-color);
-      @include u-padding('205' 4);
+      @include util.u-padding('205' 4);
     }
 
     .usa-button {
-      @include u-font-size('sans', 8);
+      @include util.u-font-size('sans', 8);
       border-radius: 0px 6px 6px 0px;
-      background-color: $theme-ultraviolet-base;
+      background-color: sfds.$theme-ultraviolet-base;
       color: var(--search-button-text);
       text-transform: unset;
-      @include heading-book;
+      @include sfds.heading-book;
       font-weight: bold;
 
       &.usa-select {
-        color: $theme-white;
-        @include u-font-size('sans', 1);
+        color: sfds.$theme-white;
+        @include util.u-font-size('sans', 1);
         border: 0;
         border-radius: 6px 0 0 6px;
         margin: 0;
         height: 2rem;
         width: 8rem;
 
-        @include at-media('mobile-lg') {
-          @include u-font-size('sans', 3);
+        @include util.at-media('mobile-lg') {
+          @include util.u-font-size('sans', 3);
           height: 3rem;
           width: auto;
           padding-right: units(4);
@@ -62,7 +62,7 @@
         padding-right: units('05');
       }
 
-      @include at-media('mobile-lg') {
+      @include util.at-media('mobile-lg') {
         padding-left: units(1);
       }
     }
@@ -72,11 +72,11 @@
     margin-left: 0;
     padding-top: units(1);
     h3 {
-      @include u-font-size('heading', 6);
+      @include util.u-font-size('heading', 6);
       font-weight: 400;
       display: inline-flex;
     }
-    @include at-media('tablet') {
+    @include util.at-media('tablet') {
       margin-left: 7rem;
     }
   }

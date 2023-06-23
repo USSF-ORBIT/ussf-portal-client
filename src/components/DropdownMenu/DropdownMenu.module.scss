@@ -1,5 +1,5 @@
-@import 'styles/uswdsDependencies';
-// @import 'styles/sfds/sfdsDependencies';
+@use 'styles/sfds/index.scss' as sfds;
+@use 'uswds-core' as util;
 
 .dropdown {
   position: relative;
@@ -8,7 +8,7 @@
 
 .dropdownMenu {
   position: absolute;
-  background: $theme-white;
+  background: sfds.$theme-white;
   border: 1px solid color('base-dark');
   width: 100%;
   z-index: 1;
@@ -73,7 +73,7 @@
     }
   }
 
-  @include at-media('tablet') {
+  @include util.at-media('tablet') {
     width: auto;
     white-space: nowrap;
   }

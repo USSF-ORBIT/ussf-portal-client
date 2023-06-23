@@ -1,4 +1,4 @@
-@use 'styles/uswdsDependencies';
+@use 'uswds-core' as *;
 
 $collectionHorizontalPadding: units(2);
 
@@ -6,8 +6,9 @@ $collectionHorizontalPadding: units(2);
   @include add-list-reset;
 
   > li {
-    @include u-margin-x(-$collectionHorizontalPadding);
-    @include u-padding-x($collectionHorizontalPadding);
+    // #TODO fix -- need to fix value passed into u-margin-x, doesn't like the negative
+    @include util.u-margin-x('-#{$collectionHorizontalPadding}');
+    @include util.u-padding-x($collectionHorizontalPadding);
     display: flex;
 
     > * {

@@ -1,5 +1,5 @@
-// @use 'styles/sfds/sfdsDependencies';
-
+@use 'styles/sfds/index.scss' as *;
+@use 'uswds-core' as *;
 .PageNav {
   margin-top: 42px;
   margin-bottom: 75px;

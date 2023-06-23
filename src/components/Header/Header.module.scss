@@ -1,16 +1,16 @@
-@use 'styles/uswdsDependencies';
-// @use 'styles/sfds/sfdsDependencies';
+@use 'styles/sfds/index.scss' as sfds;
+@use 'uswds-core' as util;
 
 .header {
-  background: $black;
+  background: sfds.$black;
 
-  @include at-media('desktop') {
+  @include util.at-media('desktop') {
     padding: units('105') 0 0;
   }
 
   :global {
     .usa-nav-container {
-      @include sfds-grid-container();
+      @include sfds.sfds-grid-container();
     }
 
     .usa-logo {
@@ -18,7 +18,7 @@
         width: 65px;
       }
 
-      @include at-media('desktop') {
+      @include util.at-media('desktop') {
         margin: 0;
 
         img {
@@ -28,16 +28,16 @@
     }
 
     .usa-nav {
-      background: $black;
+      background: sfds.$black;
 
-      @include at-media('desktop') {
+      @include util.at-media('desktop') {
         align-self: center;
         padding: 0;
       }
     }
 
     .usa-nav__primary button {
-      color: $theme-white;
+      color: sfds.$theme-white;
       border-radius: 6px;
     }
 
@@ -46,18 +46,18 @@
     }
 
     .usa-nav__primary > .usa-nav__primary-item > a {
-      color: $theme-white;
+      color: sfds.$theme-white;
       font-weight: normal;
-      font-family: $sfds-body-font;
+      font-family: sfds.$sfds-body-font;
 
       &:hover {
-        background: $theme-spacebase-base;
+        background: sfds.$theme-spacebase-base;
         border-radius: 6px;
       }
 
       &.usa-current {
-        background: $theme-aurora-lightest;
-        color: $theme-black;
+        background: sfds.$theme-aurora-lightest;
+        color: sfds.$theme-black;
         border-radius: 6px;
 
         &:after {
@@ -67,19 +67,19 @@
     }
 
     .usa-nav__primary > .usa-nav__primary-item > .usa-nav__submenu {
-      background-color: $theme-spacebase-base;
+      background-color: sfds.$theme-spacebase-base;
     }
 
     .usa-nav__primary > .usa-nav__primary-item > button {
       font-weight: normal;
 
       &:hover {
-        background-color: $theme-spacebase-base;
+        background-color: sfds.$theme-spacebase-base;
       }
     }
 
     .usa-nav__primary button[aria-expanded='false'] span::after {
-      background-color: $white;
+      background-color: sfds.$white;
     }
 
     .usa-nav__primary

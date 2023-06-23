@@ -1,4 +1,5 @@
-// // @use 'styles/sfds/sfdsDependencies';
+@use 'styles/sfds/index.scss' as *;
+@use 'uswds-core' as *;
 
 .buttonGroupWithDelete {
   // Right-align last child

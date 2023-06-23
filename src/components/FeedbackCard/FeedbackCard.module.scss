@@ -1,5 +1,5 @@
-@use 'styles/uswdsDependencies';
-
+@use 'styles/sfds/index.scss' as *;
+@use 'uswds-core' as *;
 .FeedbackCard {
   background: var(--background-fill);
   border: 1px solid #929292;

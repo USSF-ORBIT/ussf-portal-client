@@ -1,13 +1,13 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/govBanner';
-// @import 'styles/sfds/sfdsDependencies';
+@use 'styles/sfds/index.scss' as sfds;
+@use 'uswds-core' as util;
+@use 'styles/govBanner' as *;
 
 $hero-image: url('/assets/images/hero-transparent.png');
 
 .errorContainer {
   display: flex;
   flex-direction: column;
-  background: $black;
+  background: sfds.$black;
   min-height: 100vh;
 
   :global {
@@ -21,7 +21,7 @@ $hero-image: url('/assets/images/hero-transparent.png');
     flex-direction: column-reverse;
     justify-content: space-between;
     padding-bottom: 100px;
-    color: $theme-white;
+    color: sfds.$theme-white;
     text-align: center;
     position: relative;
 
@@ -36,7 +36,7 @@ $hero-image: url('/assets/images/hero-transparent.png');
     }
 
     h1 {
-      color: rgba($theme-ultraviolet-lighter, 0.35);
+      color: rgba(sfds.$theme-ultraviolet-lighter, 0.35);
       font-size: 140px;
       margin: 0 0 -66px;
       &:after {
@@ -52,26 +52,26 @@ $hero-image: url('/assets/images/hero-transparent.png');
         background-size: 2000px auto;
       }
 
-      @include at-media('mobile-lg') {
+      @include util.at-media('mobile-lg') {
         font-size: 230px;
         margin: 0 0 -107px;
       }
 
-      @include at-media('tablet') {
+      @include util.at-media('tablet') {
         font-size: 320px;
         margin: -40px 0 -150px;
       }
 
-      @include at-media('desktop') {
+      @include util.at-media('desktop') {
         font-size: 460px;
         margin: -325px 0 -215px;
-        color: rgba($theme-ultraviolet-lighter, 0.2);
+        color: rgba(sfds.$theme-ultraviolet-lighter, 0.2);
       }
 
-      @include at-media('desktop-lg') {
+      @include util.at-media('desktop-lg') {
         font-size: 620px;
         margin: -440px 0 -281px;
-        color: rgba($theme-ultraviolet-lighter, 0.2);
+        color: rgba(sfds.$theme-ultraviolet-lighter, 0.2);
       }
     }
 
@@ -101,10 +101,10 @@ $hero-image: url('/assets/images/hero-transparent.png');
   }
 
   :global(.usa-link) {
-    color: $theme-mars-light;
+    color: sfds.$theme-mars-light;
     &:hover,
     &:focus {
-      color: $theme-mars-lighter;
+      color: sfds.$theme-mars-lighter;
     }
   }
 

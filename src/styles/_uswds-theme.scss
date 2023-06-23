@@ -6,14 +6,23 @@ Uncomment the following lines and add a list of changed settings
 in the form $setting: value,
 ----------------------------------------
 */
-
+$asset-path: '' !default;
+$uswds-asset-path: '#{$asset-path}/vendor' !default;
 //
-@import 'uswds-core' with (
-  //   $asset-path: '',
-  //   $uswds-asset-path: '#{$asset-path}/vendor',
-  //   /* GENERAL */ $theme-show-notifications: false,
-  //   $theme-image-path: '#{$uswds-asset-path}/img',
-  //   /* TYPOGRAPHY */ $theme-font-path: '#{$uswds-asset-path}/fonts',
+@use 'uswds-core' with (
+  // $theme-image-path: './node_modules/@uswds/uswds/dist/img',
+  // $theme-font-path: './node_modules/@uswds/uswds/dist/fonts',
+  /* GENERAL */ $theme-show-notifications: false,
+  $theme-image-path: '#{$uswds-asset-path}/img',
+
+  /* TYPOGRAPHY */ $theme-font-path: '#{$uswds-asset-path}/fonts',
+
+  // $theme-hero-image: '@uswds/uswds/dist/img/hero.png',
+  //   $asset-path: '' !default,
+  // $uswds-asset-path: '#{$asset-path}/vendor',
+  // $theme-image-path: '#{$uswds-asset-path}/img',
+  // /* TYPOGRAPHY */
+  // $theme-font-path: '#{$uswds-asset-path}/fonts',
   // USWDS CHANGES (for MVP)
   $theme-alert-icon-size: 4,
   $theme-font-type-sans: 'system',
@@ -26,8 +35,8 @@ in the form $setting: value,
   $theme-h2-font-size: 'lg',
   $theme-h3-font-size: 'md',
 
-  //   /* SPACING */ /* COMPONENTS */ $theme-hero-image:
-  //     '#{$theme-image-path}/hero.png',
+  /* SPACING */ /* COMPONENTS */ // $theme-hero-image:
+  //   '#{$theme-image-path}/hero.png',
   /* GRID */ $theme-site-margins-mobile-width: 2,
   // 16px
   $theme-site-margins-width: 3,
