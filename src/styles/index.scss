@@ -1,6 +1,6 @@
 // ReactUSWDS CSS modules
 @forward 'node_modules/@trussworks/react-uswds/lib/index.css';
-@use 'node_modules/@trussworks/react-uswds/lib/index.css';
+@use 'node_modules/@trussworks/react-uswds/lib/index.css'; // #TODO do we need to use?
 
 // // USWDS SCSS
 @forward 'uswds-theme';

@@ -37,10 +37,10 @@ module.exports = {
         { loader: 'sass-loader', options: { warnRuleAsWarning: false } },
       ],
     })
-
+    //#TODO does this need to be changed in order to import the uswds-core package in scss files?
     config.resolve.alias.uswds = path.resolve(
       __dirname,
-      '../node_modules/uswds'
+      '../node_modules/@uswds/uswds/packages'
     )
     config.resolve.modules = config.resolve.modules || []
     config.resolve.modules.push(path.resolve(__dirname, '../src'))
