@@ -73,7 +73,7 @@ const Search = ({ disabled }: { disabled?: boolean }) => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          {/* //#TODO - upgrade */}
+
           <button className="usa-button" type="submit" disabled={disabled}>
             <span className="usa-search__submit-text">Search</span>
           </button>

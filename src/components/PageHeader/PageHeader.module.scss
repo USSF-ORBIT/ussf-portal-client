@@ -1,8 +1,8 @@
-@use 'uswds-core' as util;
+@use 'uswds-core' as *;
 
 .PageHeader {
   color: var(--text);
-  @include util.u-padding-bottom(4);
+  @include u-padding-bottom(4);
 
   h1 {
     text-transform: uppercase;
