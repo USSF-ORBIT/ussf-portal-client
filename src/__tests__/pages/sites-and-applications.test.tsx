@@ -564,11 +564,7 @@ describe('Sites and Applications page', () => {
 
           await user.click(sortAlpha)
 
-          await user.click(
-            screen.getAllByRole('button', {
-              name: `Add to “${mockCMSBookmarks[0].label}” My Space Closed`,
-            })[0]
-          )
+          await user.click(screen.getAllByTestId('addMySpaceDD')[0])
 
           await user.click(
             screen.getByRole('button', { name: 'Example Collection' })
@@ -616,11 +612,7 @@ describe('Sites and Applications page', () => {
             `At least one collection on your My Space has reached the maximum number of links allowed (10).`
           )
 
-          await user.click(
-            screen.getAllByRole('button', {
-              name: `Add “${mockCMSBookmarks[0].label}” to My Space Closed`,
-            })[0]
-          )
+          await user.click(screen.getAllByTestId('addMySpaceDD')[0])
 
           expect(
             screen.getByRole('button', { name: 'Maxed Out Collection' })
@@ -650,11 +642,7 @@ describe('Sites and Applications page', () => {
 
           await user.click(sortAlpha)
 
-          await user.click(
-            screen.getAllByRole('button', {
-              name: `Add “${mockCMSBookmarks[0].label}” to My Space Closed`,
-            })[0]
-          )
+          await user.click(screen.getAllByTestId('addMySpaceDD')[0])
 
           await act(async () => {
             await user.click(
