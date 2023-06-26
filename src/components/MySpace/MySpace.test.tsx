@@ -1,14 +1,18 @@
 /**
  * @jest-environment jsdom
  */
-import { act, screen, waitFor } from '@testing-library/react'
+import { act, cleanup, screen, waitFor } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import { mockFlags } from 'jest-launchdarkly-mock'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { axe } from 'jest-axe'
 import { ObjectId } from 'mongodb'
-import { renderWithModalRoot, renderWithAuthAndApollo } from '../../testHelpers'
+import {
+  renderWithModalRoot,
+  renderWithAuthAndApollo,
+  renderWithMySpaceContext,
+} from '../../testHelpers'
 import '../../__mocks__/mockMatchMedia'
 import {
   portalUserMaxedOutCollection,
@@ -62,9 +66,12 @@ describe('My Space Component', () => {
   describe('default state', () => {
     let html: RenderResult
     beforeEach(() => {
-      html = renderWithAuthAndApollo(<MySpace bookmarks={cmsBookmarksMock} />, {
-        portalUser: portalUserMaxedOutCollection,
-      })
+      html = renderWithMySpaceContext(
+        <MySpace bookmarks={cmsBookmarksMock} />,
+        {
+          mySpace: [...portalUserMaxedOutCollection.mySpace],
+        }
+      )
     })
 
     test('should render all widgets', async () => {
@@ -135,8 +142,8 @@ describe('My Space Component', () => {
   test('disables adding more collections if there are 25 collections', async () => {
     const user = userEvent.setup()
 
-    renderWithAuthAndApollo(<MySpace bookmarks={cmsBookmarksMock} />, {
-      portalUser: portalUserCollectionLimit,
+    renderWithMySpaceContext(<MySpace bookmarks={cmsBookmarksMock} />, {
+      mySpace: [...portalUserCollectionLimit.mySpace],
     })
 
     expect(
@@ -166,8 +173,8 @@ describe('My Space Component', () => {
       guardianIdealCarousel: true,
     })
 
-    renderWithAuthAndApollo(<MySpace bookmarks={cmsBookmarksMock} />, {
-      portalUser: portalUserGuardianIdeal,
+    renderWithMySpaceContext(<MySpace bookmarks={cmsBookmarksMock} />, {
+      mySpace: [...portalUserGuardianIdeal.mySpace],
     })
 
     await waitFor(() =>
@@ -178,8 +185,8 @@ describe('My Space Component', () => {
   })
 
   test('does not render the add widget component if there are 25 collections, news, featured shortcuts, and guardian ideal', async () => {
-    renderWithAuthAndApollo(<MySpace bookmarks={cmsBookmarksMock} />, {
-      portalUser: portalUserCollectionLimitWithAllAdditionalWidgets,
+    renderWithMySpaceContext(<MySpace bookmarks={cmsBookmarksMock} />, {
+      mySpace: [...portalUserCollectionLimitWithAllAdditionalWidgets.mySpace],
     })
 
     expect(
@@ -190,8 +197,8 @@ describe('My Space Component', () => {
   test('navigates to Sites & Applications when adding new existing collections', async () => {
     const user = userEvent.setup()
 
-    renderWithAuthAndApollo(<MySpace bookmarks={cmsBookmarksMock} />, {
-      portalUser: portalUserWithExampleCollection,
+    renderWithMySpaceContext(<MySpace bookmarks={cmsBookmarksMock} />, {
+      mySpace: [portalUserWithExampleCollection.mySpace[0]],
     })
 
     await user.click(await screen.findByRole('button', { name: 'Add widget' }))
@@ -246,9 +253,9 @@ describe('My Space Component', () => {
 
     jest.useFakeTimers()
 
-    renderWithAuthAndApollo(
+    renderWithMySpaceContext(
       <MySpace bookmarks={cmsBookmarksMock} />,
-      { portalUser: portalUserMaxedOutCollection },
+      { mySpace: [...portalUserMaxedOutCollection.mySpace] },
       mocksWithRemove
     )
 
@@ -296,9 +303,9 @@ describe('My Space Component', () => {
       },
     ]
 
-    renderWithAuthAndApollo(
+    renderWithMySpaceContext(
       <MySpace bookmarks={cmsBookmarksMock} />,
-      { portalUser: portalUserWithExampleCollection },
+      { mySpace: [...portalUserWithExampleCollection.mySpace] },
       addBookmarkMock
     )
 
@@ -348,10 +355,11 @@ describe('My Space Component', () => {
       },
     ]
 
-    renderWithAuthAndApollo(
+    renderWithMySpaceContext(
       <MySpace bookmarks={cmsBookmarksMock} />,
-      { portalUser: portalUserMaxedOutCollection },
-      editCollectionMock
+      { mySpace: [...portalUserMaxedOutCollection.mySpace] },
+      editCollectionMock,
+      { portalUser: portalUserMaxedOutCollection }
     )
 
     const settings = await screen.findAllByRole('button', {
@@ -368,11 +376,16 @@ describe('My Space Component', () => {
 
     const input = await screen.findByRole('textbox')
     await user.clear(input)
-    await user.type(input, 'Updated Title{enter}')
+    await user.type(input, 'Updated Title')
+
+    expect(input).toHaveValue('Updated Title')
+
+    // Hitting 'Enter' no longer works because of dnd-kit, so we need to click the button
+    await user.click(screen.getByRole('button', { name: 'Save name' }))
 
     await act(
       async () => await new Promise((resolve) => setTimeout(resolve, 0))
-    ) // wait for response
+    )
     expect(collectionEdited).toBe(true)
   })
 
@@ -437,48 +450,19 @@ describe('My Space Component', () => {
 
   test('handles the add collection operation', async () => {
     const user = userEvent.setup()
+    const mockAddNewCollection = jest.fn()
 
-    let collectionAdded = false
-    const addCollectionMock = [
-      {
-        request: {
-          query: AddCollectionDocument,
-          variables: {
-            title: '',
-            bookmarks: [],
-          },
-        },
-        result: () => {
-          collectionAdded = true
-          return {
-            data: {
-              addCollection: {
-                _id: ObjectId(),
-                title: '',
-                bookmarks: [],
-              },
-            },
-          }
-        },
-      },
-    ]
-
-    renderWithAuthAndApollo(
-      <MySpace bookmarks={cmsBookmarksMock} />,
-      { portalUser: portalUserMaxedOutCollection },
-      addCollectionMock
-    )
+    renderWithMySpaceContext(<MySpace bookmarks={cmsBookmarksMock} />, {
+      mySpace: [...portalUserMaxedOutCollection.mySpace],
+      addNewCollection: mockAddNewCollection,
+    })
 
     await user.click(await screen.findByRole('button', { name: 'Add widget' }))
     await user.click(
       screen.getByRole('button', { name: 'Create new collection' })
     )
 
-    await act(
-      async () => await new Promise((resolve) => setTimeout(resolve, 0))
-    ) // wait for response
-
-    expect(collectionAdded).toBe(true)
+    expect(mockAddNewCollection).toHaveBeenCalled()
   })
 
   test('handles the edit bookmark operation', async () => {
