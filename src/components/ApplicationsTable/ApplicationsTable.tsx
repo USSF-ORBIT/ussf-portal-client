@@ -64,7 +64,11 @@ const ApplicationsTableRow = ({
       <td className={styles.bookmarkAction}>
         <DropdownMenu
           toggleEl={
-            <Button unstyled type="button" onClick={menuOnClick}>
+            <Button
+              unstyled
+              type="button"
+              data-testid="addMySpaceDD"
+              onClick={menuOnClick}>
               Add <span className="usa-sr-only">{label}</span> to My Space{' '}
               {isDropdownOpen ? (
                 <Icon.ExpandLess aria-label="Open" />

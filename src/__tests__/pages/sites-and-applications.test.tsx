@@ -745,11 +745,7 @@ describe('Sites and Applications page', () => {
         `You have reached the maximum number of collections allowed on your My Space (25).`
       )
 
-      await user.click(
-        screen.getAllByRole('button', {
-          name: `Add “${mockCMSBookmarks[0].label}” to My Space Closed`,
-        })[0]
-      )
+      await user.click(screen.getAllByTestId('addMySpaceDD')[0])
 
       expect(
         screen.getByRole('button', { name: 'Add to new collection' })
