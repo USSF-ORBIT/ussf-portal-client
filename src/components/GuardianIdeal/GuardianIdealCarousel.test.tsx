@@ -67,7 +67,7 @@ describe('GuardianIdealCarousel component', () => {
 
     await user.click(
       screen.getByRole('button', {
-        name: 'Widget Settings',
+        name: 'Guardian Ideal Widget Settings',
       })
     )
 
