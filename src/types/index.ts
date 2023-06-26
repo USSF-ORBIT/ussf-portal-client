@@ -171,8 +171,14 @@ export type Widget = {
   _id: ObjectId
   title: string
   type: WidgetType
+  // Added this because the bookmarks field is required on the Collection interface below, but
+  // previously did not exist on the Widget type, which was causing a type error when trying to
+  // map over the user's MySpace to render the widgets.
+  bookmarks?: MongoBookmark[]
   // default indicates if the widget is automatically added for the user
   default?: boolean
+  // id is for dnd-kit
+  id?: string
 }
 
 /*  BookmarkModelInput represents a bookmark as it is passed into MongoDB for updating  */

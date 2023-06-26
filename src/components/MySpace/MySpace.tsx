@@ -33,7 +33,7 @@ import { GuardianIdealPillars } from 'components/GuardianIdeal/GuardianIdealPill
 import FeaturedShortcuts from 'components/FeaturedShortcuts/FeaturedShorcuts'
 import { featuredShortcutItems } from 'components/FeaturedShortcuts/FeaturedShortcutItems'
 
-import { CMSBookmark, Widget } from 'types/index'
+import { CMSBookmark, Widget, Bookmark } from 'types/index'
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import AddWidget from 'components/AddWidget/AddWidget'
 import { useAnalytics } from 'stores/analyticsContext'
@@ -109,7 +109,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
           <Droppable dropId={'mySpaceDroppableArea'}>
             <SortableContext items={mySpace} strategy={rectSortingStrategy}>
               <Grid row gap={2}>
-                {mySpace?.map((widget: Widget) => {
+                {mySpace.map((widget: Widget) => {
                   if (isFeaturedShortcuts(widget) && flags?.featuredShortcuts) {
                     return (
                       <Grid

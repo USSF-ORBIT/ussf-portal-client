@@ -148,15 +148,14 @@ export const MySpaceProvider = ({
 
     // If a draggable item is active, and it is over a droppable area when dropped
     if (over && active.id !== over.id) {
-      const oldIndex = mySpace.findIndex((w) => w.id === active.id)
-      const newIndex = mySpace.findIndex((w) => w.id === over.id)
+      const oldIndex = mySpace.findIndex((w: Widget) => w.id === active.id)
+      const newIndex = mySpace.findIndex((w: Widget) => w.id === over.id)
 
       const sortedWidgets = arrayMove(mySpace, oldIndex, newIndex)
       setMySpace(sortedWidgets)
 
       // Prepare widgets for mutation by removing the id field
-      // TO DO: fix this type
-      const updatedMySpace: MySpace = sortedWidgets.map(
+      const updatedMySpace = sortedWidgets.map(
         ({ _id, title, type, bookmarks }) => {
           const updatedBookmarks = bookmarks?.map(
             ({ _id, url, label, cmsId, isRemoved }) => ({
