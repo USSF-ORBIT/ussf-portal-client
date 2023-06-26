@@ -355,7 +355,10 @@ describe('My Space Component', () => {
 
     renderWithMySpaceAndModalContext(
       <MySpace bookmarks={cmsBookmarksMock} />,
-      { mySpace: [...portalUserMaxedOutCollection.mySpace] },
+      {
+        mySpace: [...portalUserMaxedOutCollection.mySpace],
+        disableDragAndDrop: true,
+      },
       editCollectionMock,
       { portalUser: portalUserMaxedOutCollection }
     )
