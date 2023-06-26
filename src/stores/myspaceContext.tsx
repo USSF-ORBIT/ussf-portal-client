@@ -11,6 +11,8 @@ import { useEditMySpaceMutation } from 'operations/portal/mutations/editMySpace.
 
 export type MySpaceContextType = {
   mySpace: MySpace
+  disableDragAndDrop: boolean
+  setDisableDragAndDrop: React.Dispatch<React.SetStateAction<boolean>>
   initializeMySpace: (mySpace: MySpace) => void
   isCollection: (widget: MySpaceWidget) => boolean
   isGuardianIdeal: (widget: Widget) => boolean
@@ -25,6 +27,10 @@ export type MySpaceContextType = {
 
 export const MySpaceContext = createContext<MySpaceContextType>({
   mySpace: [],
+  disableDragAndDrop: false,
+  setDisableDragAndDrop: /* istanbul ignore next */ () => {
+    return
+  },
   initializeMySpace: /* istanbul ignore next */ () => {
     return
   },
@@ -63,6 +69,7 @@ export const MySpaceProvider = ({
   children: React.ReactNode
 }) => {
   const [mySpace, setMySpace] = useState<MySpace>([])
+  const [disableDragAndDrop, setDisableDragAndDrop] = useState<boolean>(false)
   const { trackEvent } = useAnalytics()
 
   const [handleAddCollection] = useAddCollectionMutation()
@@ -181,6 +188,8 @@ export const MySpaceProvider = ({
 
   const context = {
     mySpace,
+    disableDragAndDrop,
+    setDisableDragAndDrop,
     initializeMySpace,
     isCollection,
     isGuardianIdeal,

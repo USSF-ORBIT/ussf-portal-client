@@ -42,6 +42,7 @@ import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 import { useAnalytics } from 'stores/analyticsContext'
 import { useModalContext } from 'stores/modalContext'
+import { useMySpaceContext } from 'stores/myspaceContext'
 
 // TODO - refactor this component to use WidgetWithSettings
 
@@ -100,6 +101,7 @@ const CustomCollection = ({
     isAddingLinkContext,
     modalRef,
   } = useModalContext()
+  const { disableDragAndDrop, setDisableDragAndDrop } = useMySpaceContext()
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -284,6 +286,7 @@ const CustomCollection = ({
   /* Collection settings handlers */
   // Toggle the dropdown menu
   const menuOnClick = () => {
+    setDisableDragAndDrop(!disableDragAndDrop)
     setIsDropdownOpen(!isDropdownOpen)
   }
 
@@ -326,6 +329,7 @@ const CustomCollection = ({
       handleRemoveCollection()
     }
     setEditingTitle(false)
+    setDisableDragAndDrop(false)
   }
 
   const handleOnDragEnd = async (event: DragEndEvent) => {

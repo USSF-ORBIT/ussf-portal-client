@@ -162,6 +162,8 @@ export const renderWithSearchContext = (
 
 export const defaultMockMySpaceContext = {
   mySpace: [],
+  disableDragAndDrop: false,
+  setDisableDragAndDrop: jest.fn(),
   initializeMySpace: jest.fn(),
   isCollection: (widget: Widget) => widget.type === 'Collection',
   isGuardianIdeal: (widget: Widget) => widget.type === 'GuardianIdeal',

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { useMySpaceContext } from 'stores/myspaceContext'
 
 type DraggableCollectionProps = {
   id: string
@@ -25,16 +26,22 @@ const DraggableCollection = ({ id, children }: DraggableCollectionProps) => {
     zIndex: isDragging ? '100' : 'auto',
   }
 
+  const { disableDragAndDrop } = useMySpaceContext()
+
   return (
     <div ref={setNodeRef} style={{ ...style }}>
-      <div
-        {...listeners}
-        {...attributes}
-        style={{
-          cursor: isDragging ? 'grabbing' : 'grab',
-        }}>
-        {children}
-      </div>
+      {disableDragAndDrop ? (
+        <div>{children}</div>
+      ) : (
+        <div
+          {...listeners}
+          {...attributes}
+          style={{
+            cursor: isDragging ? 'grabbing' : 'grab',
+          }}>
+          {children}
+        </div>
+      )}
     </div>
   )
 }

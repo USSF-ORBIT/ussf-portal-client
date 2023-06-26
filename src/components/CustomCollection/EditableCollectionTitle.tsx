@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect } from 'react'
 
 import {
   Button,
@@ -9,6 +9,7 @@ import {
 } from '@trussworks/react-uswds'
 import type { ObjectId } from 'bson'
 import styles from './CustomCollection.module.scss'
+import { useMySpaceContext } from 'stores/myspaceContext'
 
 type PropTypes = {
   collectionId: ObjectId
@@ -26,11 +27,12 @@ export const EditableCollectionTitle = ({
   onCancel,
 }: PropTypes) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [currentText, setCurrentText] = useState<string>('')
+  const { setDisableDragAndDrop } = useMySpaceContext()
 
   useEffect(() => {
     if (isEditing) {
       inputRef?.current?.focus()
+      setDisableDragAndDrop(true)
     }
   }, [isEditing])
 
@@ -41,6 +43,7 @@ export const EditableCollectionTitle = ({
     const data = new FormData(e.currentTarget)
     const label = `${data.get('collectionTitle')}`
     onSave(label)
+    setDisableDragAndDrop(false)
   }
 
   return (
@@ -59,17 +62,9 @@ export const EditableCollectionTitle = ({
             required
             maxLength={200}
             className={styles.collectionTitle}
-            value={currentText}
+            defaultValue={text}
             placeholder={`Name this collection`}
             type="text"
-            onKeyDown={(e) => {
-              if (e.key === ' ') {
-                e.preventDefault()
-                const userInput = currentText + ' '
-                setCurrentText(userInput)
-              }
-            }}
-            onChange={(e) => setCurrentText(e.target.value)}
           />
           <ButtonGroup>
             <Button
