@@ -218,9 +218,7 @@ export const renderWithMySpaceAndModalContext = (
     </AuthContext.Provider>
   )
 
-  // return render(component, { wrapper })
   return render(component, {
-    // ...options,
     container: document.body.appendChild(modalContainer),
     wrapper,
   })
