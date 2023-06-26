@@ -175,12 +175,16 @@ export const defaultMockMySpaceContext = {
 }
 
 /** Renders the component inside of a MySpaceProvider */
-export const renderWithMySpaceContext = (
+export const renderWithMySpaceAndModalContext = (
   component: React.ReactElement,
   value: Partial<MySpaceContextType> = {},
   mocks: readonly MockedResponse<Record<string, unknown>>[] = [],
-  authValue: Partial<AuthContextType> = {}
+  authValue: Partial<AuthContextType> = {},
+  modalValue: Partial<ModalContextType> = {}
 ) => {
+  const modalContainer = document.createElement('div')
+  modalContainer.setAttribute('id', 'modal-root')
+
   const contextValue = {
     ...defaultMockMySpaceContext,
     ...value,
@@ -189,6 +193,11 @@ export const renderWithMySpaceContext = (
   const authContextValue = {
     ...defaultMockAuthContext,
     ...authValue,
+  }
+
+  const modalContextValue = {
+    ...defaultMockModalContext,
+    ...modalValue,
   }
 
   const wrapper = ({ children }: { children: React.ReactNode }) => (
@@ -201,13 +210,20 @@ export const renderWithMySpaceContext = (
           query: { fetchPolicy: 'no-cache' },
         }}>
         <MySpaceContext.Provider value={contextValue}>
-          {children}
+          <ModalContext.Provider value={modalContextValue}>
+            {children}
+          </ModalContext.Provider>
         </MySpaceContext.Provider>
       </MockedProvider>
     </AuthContext.Provider>
   )
 
-  return render(component, { wrapper })
+  // return render(component, { wrapper })
+  return render(component, {
+    // ...options,
+    container: document.body.appendChild(modalContainer),
+    wrapper,
+  })
 }
 
 /** sets up some mocks for the useTheme hook **/

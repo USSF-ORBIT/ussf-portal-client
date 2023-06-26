@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { act, cleanup, screen, waitFor } from '@testing-library/react'
+import { act, screen, waitFor } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import { mockFlags } from 'jest-launchdarkly-mock'
 import userEvent from '@testing-library/user-event'
@@ -10,8 +10,7 @@ import { axe } from 'jest-axe'
 import { ObjectId } from 'mongodb'
 import {
   renderWithModalRoot,
-  renderWithAuthAndApollo,
-  renderWithMySpaceContext,
+  renderWithMySpaceAndModalContext,
 } from '../../testHelpers'
 import '../../__mocks__/mockMatchMedia'
 import {
@@ -24,7 +23,6 @@ import {
 import { cmsBookmarksMock } from '../../__fixtures__/data/cmsBookmarks'
 import MySpace from './MySpace'
 
-import { AddCollectionDocument } from 'operations/portal/mutations/addCollection.g'
 import { EditCollectionDocument } from 'operations/portal/mutations/editCollection.g'
 import { RemoveCollectionDocument } from 'operations/portal/mutations/removeCollection.g'
 import { AddBookmarkDocument } from 'operations/portal/mutations/addBookmark.g'
@@ -66,7 +64,7 @@ describe('My Space Component', () => {
   describe('default state', () => {
     let html: RenderResult
     beforeEach(() => {
-      html = renderWithMySpaceContext(
+      html = renderWithMySpaceAndModalContext(
         <MySpace bookmarks={cmsBookmarksMock} />,
         {
           mySpace: [...portalUserMaxedOutCollection.mySpace],
@@ -142,7 +140,7 @@ describe('My Space Component', () => {
   test('disables adding more collections if there are 25 collections', async () => {
     const user = userEvent.setup()
 
-    renderWithMySpaceContext(<MySpace bookmarks={cmsBookmarksMock} />, {
+    renderWithMySpaceAndModalContext(<MySpace bookmarks={cmsBookmarksMock} />, {
       mySpace: [...portalUserCollectionLimit.mySpace],
     })
 
@@ -173,7 +171,7 @@ describe('My Space Component', () => {
       guardianIdealCarousel: true,
     })
 
-    renderWithMySpaceContext(<MySpace bookmarks={cmsBookmarksMock} />, {
+    renderWithMySpaceAndModalContext(<MySpace bookmarks={cmsBookmarksMock} />, {
       mySpace: [...portalUserGuardianIdeal.mySpace],
     })
 
@@ -185,7 +183,7 @@ describe('My Space Component', () => {
   })
 
   test('does not render the add widget component if there are 25 collections, news, featured shortcuts, and guardian ideal', async () => {
-    renderWithMySpaceContext(<MySpace bookmarks={cmsBookmarksMock} />, {
+    renderWithMySpaceAndModalContext(<MySpace bookmarks={cmsBookmarksMock} />, {
       mySpace: [...portalUserCollectionLimitWithAllAdditionalWidgets.mySpace],
     })
 
@@ -197,7 +195,7 @@ describe('My Space Component', () => {
   test('navigates to Sites & Applications when adding new existing collections', async () => {
     const user = userEvent.setup()
 
-    renderWithMySpaceContext(<MySpace bookmarks={cmsBookmarksMock} />, {
+    renderWithMySpaceAndModalContext(<MySpace bookmarks={cmsBookmarksMock} />, {
       mySpace: [portalUserWithExampleCollection.mySpace[0]],
     })
 
@@ -253,7 +251,7 @@ describe('My Space Component', () => {
 
     jest.useFakeTimers()
 
-    renderWithMySpaceContext(
+    renderWithMySpaceAndModalContext(
       <MySpace bookmarks={cmsBookmarksMock} />,
       { mySpace: [...portalUserMaxedOutCollection.mySpace] },
       mocksWithRemove
@@ -303,7 +301,7 @@ describe('My Space Component', () => {
       },
     ]
 
-    renderWithMySpaceContext(
+    renderWithMySpaceAndModalContext(
       <MySpace bookmarks={cmsBookmarksMock} />,
       { mySpace: [...portalUserWithExampleCollection.mySpace] },
       addBookmarkMock
@@ -355,7 +353,7 @@ describe('My Space Component', () => {
       },
     ]
 
-    renderWithMySpaceContext(
+    renderWithMySpaceAndModalContext(
       <MySpace bookmarks={cmsBookmarksMock} />,
       { mySpace: [...portalUserMaxedOutCollection.mySpace] },
       editCollectionMock,
@@ -417,15 +415,18 @@ describe('My Space Component', () => {
       },
     ]
 
-    renderWithModalRoot(
+    renderWithMySpaceAndModalContext(
       <MySpace bookmarks={cmsBookmarksMock} />,
+      {
+        mySpace: [...portalUserMaxedOutCollection.mySpace],
+      },
+      removeCollectionMock,
+      { portalUser: portalUserMaxedOutCollection },
       {
         updateModalId: mockUpdateModalId,
         updateModalText: mockUpdateModalText,
         updateWidget: mockUpdateWidget,
-      },
-      removeCollectionMock,
-      { portalUser: portalUserMaxedOutCollection }
+      }
     )
 
     const dropdownMenu = await screen.findAllByRole('button', {
@@ -452,7 +453,7 @@ describe('My Space Component', () => {
     const user = userEvent.setup()
     const mockAddNewCollection = jest.fn()
 
-    renderWithMySpaceContext(<MySpace bookmarks={cmsBookmarksMock} />, {
+    renderWithMySpaceAndModalContext(<MySpace bookmarks={cmsBookmarksMock} />, {
       mySpace: [...portalUserMaxedOutCollection.mySpace],
       addNewCollection: mockAddNewCollection,
     })
@@ -503,16 +504,19 @@ describe('My Space Component', () => {
       },
     ]
 
-    renderWithModalRoot(
+    renderWithMySpaceAndModalContext(
       <MySpace bookmarks={cmsBookmarksMock} />,
+      {
+        mySpace: [...portalUserWithExampleCollection.mySpace],
+      },
+      editBookmarkMock,
+      { portalUser: portalUserWithExampleCollection },
       {
         updateModalId: mockUpdateModalId,
         updateModalText: mockUpdateModalText,
         updateWidget: mockUpdateWidget,
         updateBookmark: mockUpdateBookmark,
-      },
-      editBookmarkMock,
-      { portalUser: portalUserWithExampleCollection }
+      }
     )
 
     const editButton = await screen.findByRole('button', {

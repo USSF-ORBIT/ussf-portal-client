@@ -10,8 +10,7 @@ import { axe } from 'jest-axe'
 
 import {
   renderWithAuth,
-  renderWithAuthAndApollo,
-  renderWithMySpaceContext,
+  renderWithMySpaceAndModalContext,
 } from '../../testHelpers'
 import { portalUserMaxedOutCollection } from '../../__fixtures__/authUsers'
 
@@ -94,7 +93,7 @@ describe('Home page', () => {
       //   { portalUser: portalUserMaxedOutCollection }
       // )
 
-      html = renderWithMySpaceContext(
+      html = renderWithMySpaceAndModalContext(
         <Home
           bookmarks={mockCmsBookmarks}
           announcements={mockCmsAnnouncements}
