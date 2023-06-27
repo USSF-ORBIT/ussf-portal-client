@@ -107,7 +107,13 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
           collisionDetection={closestCorners}
           onDragEnd={handleOnDragEnd}>
           <Droppable dropId={'mySpaceDroppableArea'}>
-            <SortableContext items={mySpace} strategy={rectSortingStrategy}>
+            <SortableContext
+              // Ignoring the following line because an id field has already been added to the Widget type to accomodate
+              // the unique identifier necessary for @dnd-kit.
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              items={mySpace}
+              strategy={rectSortingStrategy}>
               <Grid row gap={2}>
                 {mySpace.map((widget: Widget) => {
                   if (isFeaturedShortcuts(widget) && flags?.featuredShortcuts) {
