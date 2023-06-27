@@ -84,15 +84,6 @@ describe('Home page', () => {
     let html: RenderResult
 
     beforeEach(() => {
-      // html = renderWithAuthAndApollo(
-      //   <Home
-      //     bookmarks={mockCmsBookmarks}
-      //     announcements={mockCmsAnnouncements}
-      //     pageTitle={'My Space'}
-      //   />,
-      //   { portalUser: portalUserMaxedOutCollection }
-      // )
-
       html = renderWithMySpaceAndModalContext(
         <Home
           bookmarks={mockCmsBookmarks}
