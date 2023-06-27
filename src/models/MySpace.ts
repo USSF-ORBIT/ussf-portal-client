@@ -125,8 +125,6 @@ export const MySpaceModel = {
     { userId, items }: { userId: string; items: Widget[] },
     { db }: Context
   ): Promise<Widget[]> {
-    console.log('user id? ', userId)
-    console.log('items? ', items)
     try {
       const result = await db
         .collection('users')

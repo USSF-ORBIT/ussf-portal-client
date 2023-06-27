@@ -162,7 +162,6 @@ const UserModel = {
     const result = await db
       .collection('users')
       .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
-    console.log('result in model --- ', result)
     return result.value.mySpace
   },
 }
