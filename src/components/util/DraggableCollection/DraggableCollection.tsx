@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { useFlags } from 'launchdarkly-react-client-sdk'
 import { useMySpaceContext } from 'stores/myspaceContext'
 
 type DraggableCollectionProps = {
@@ -18,6 +19,8 @@ const DraggableCollection = ({ id, children }: DraggableCollectionProps) => {
     isDragging,
   } = useSortable({ id: id })
 
+  const { dragAndDropCollections } = useFlags()
+
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
@@ -30,7 +33,7 @@ const DraggableCollection = ({ id, children }: DraggableCollectionProps) => {
 
   return (
     <div ref={setNodeRef} style={{ ...style }}>
-      {disableDragAndDrop ? (
+      {disableDragAndDrop || !dragAndDropCollections ? (
         <div>{children}</div>
       ) : (
         <div
