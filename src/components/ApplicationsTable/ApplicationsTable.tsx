@@ -69,7 +69,7 @@ const ApplicationsTableRow = ({
               type="button"
               data-testid="addMySpaceDD"
               onClick={menuOnClick}>
-              Add <span className="usa-sr-only">{label}</span> to My Space{' '}
+              Add <span className="usa-sr-only">{label}</span> to My Space
               {isDropdownOpen ? (
                 <Icon.ExpandLess aria-label="Open" />
               ) : (
