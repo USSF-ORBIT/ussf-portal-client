@@ -34,7 +34,6 @@ import FeaturedShortcuts from 'components/FeaturedShortcuts/FeaturedShorcuts'
 import { featuredShortcutItems } from 'components/FeaturedShortcuts/FeaturedShortcutItems'
 
 import { CMSBookmark, Widget, Bookmark } from 'types/index'
-import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import AddWidget from 'components/AddWidget/AddWidget'
 import { useAnalytics } from 'stores/analyticsContext'
 import { useMySpaceContext } from 'stores/myspaceContext'
@@ -48,6 +47,10 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     isGuardianIdeal,
     isNewsWidget,
     isFeaturedShortcuts,
+    canAddCollections,
+    canAddNews,
+    canAddGuardianIdeal,
+    canAddFeaturedShortcuts,
     addNewsWidget,
     addGuardianIdeal,
     addFeaturedShortcuts,
@@ -73,21 +76,6 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   )
-
-  const canAddCollections: boolean =
-    mySpace &&
-    mySpace.filter((w) => isCollection(w)).length < MAXIMUM_COLLECTIONS
-
-  const canAddNews: boolean =
-    mySpace && mySpace.filter((w) => w.type === WIDGET_TYPES.NEWS).length < 1
-
-  const canAddGuardianIdeal: boolean =
-    mySpace &&
-    mySpace.filter((w) => w.type === WIDGET_TYPES.GUARDIANIDEAL).length < 1
-
-  const canAddFeaturedShortcuts: boolean =
-    mySpace &&
-    mySpace.filter((w) => w.type === WIDGET_TYPES.FEATUREDSHORTCUTS).length < 1
 
   const selectCollections = () => {
     trackEvent('Add section', 'Select collection from template')

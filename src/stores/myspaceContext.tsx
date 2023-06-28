@@ -3,7 +3,7 @@ import { DragEndEvent } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import { WidgetType as AddWidgetType, WidgetReorderInput } from '../graphql.g'
 import { useAnalytics } from 'stores/analyticsContext'
-import { WIDGET_TYPES } from 'constants/index'
+import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
 import { MySpace, MySpaceWidget, Collection, Widget } from 'types'
 import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
 import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget.g'
@@ -18,6 +18,10 @@ export type MySpaceContextType = {
   isGuardianIdeal: (widget: Widget) => boolean
   isNewsWidget: (widget: Widget) => boolean
   isFeaturedShortcuts: (widget: Widget) => boolean
+  canAddCollections: boolean
+  canAddNews: boolean
+  canAddGuardianIdeal: boolean
+  canAddFeaturedShortcuts: boolean
   addNewsWidget: () => void
   addGuardianIdeal: () => void
   addFeaturedShortcuts: () => void
@@ -46,6 +50,10 @@ export const MySpaceContext = createContext<MySpaceContextType>({
   isFeaturedShortcuts: /* istanbul ignore next */ () => {
     return true || false
   },
+  canAddCollections: true,
+  canAddNews: true,
+  canAddGuardianIdeal: true,
+  canAddFeaturedShortcuts: true,
   addNewsWidget: /* istanbul ignore next */ () => {
     return
   },
@@ -91,6 +99,21 @@ export const MySpaceProvider = ({
   function isFeaturedShortcuts(widget: Widget): widget is Collection {
     return widget.type === WIDGET_TYPES.FEATUREDSHORTCUTS
   }
+
+  const canAddCollections: boolean =
+    mySpace &&
+    mySpace.filter((w) => isCollection(w)).length < MAXIMUM_COLLECTIONS
+
+  const canAddNews: boolean =
+    mySpace && mySpace.filter((w) => w.type === WIDGET_TYPES.NEWS).length < 1
+
+  const canAddGuardianIdeal: boolean =
+    mySpace &&
+    mySpace.filter((w) => w.type === WIDGET_TYPES.GUARDIANIDEAL).length < 1
+
+  const canAddFeaturedShortcuts: boolean =
+    mySpace &&
+    mySpace.filter((w) => w.type === WIDGET_TYPES.FEATUREDSHORTCUTS).length < 1
 
   const initializeMySpace = (mySpace: MySpace) => {
     // Give each widget an id field by default so that we can use it for drag-and-drop.
@@ -195,6 +218,10 @@ export const MySpaceProvider = ({
     isGuardianIdeal,
     isNewsWidget,
     isFeaturedShortcuts,
+    canAddCollections,
+    canAddNews,
+    canAddGuardianIdeal,
+    canAddFeaturedShortcuts,
     addNewsWidget,
     addGuardianIdeal,
     addFeaturedShortcuts,

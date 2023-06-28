@@ -59,17 +59,14 @@ describe('My Space Component', () => {
   })
 
   describe('default state', () => {
-    let html: RenderResult
-    beforeEach(() => {
-      html = renderWithMySpaceAndModalContext(
+    test('should render all widgets', async () => {
+      renderWithMySpaceAndModalContext(
         <MySpace bookmarks={cmsBookmarksMock} />,
         {
           mySpace: [...portalUserMaxedOutCollection.mySpace],
         }
       )
-    })
 
-    test('should render all widgets', async () => {
       expect(
         await screen.findByRole('heading', {
           level: 3,
@@ -93,6 +90,13 @@ describe('My Space Component', () => {
     })
 
     test('renders the add widget component', async () => {
+      renderWithMySpaceAndModalContext(
+        <MySpace bookmarks={cmsBookmarksMock} />,
+        {
+          mySpace: [...portalUserMaxedOutCollection.mySpace],
+        }
+      )
+
       expect(
         await screen.findByRole('button', { name: 'Add widget' })
       ).toBeInTheDocument()
@@ -100,6 +104,14 @@ describe('My Space Component', () => {
 
     test('disables adding a news widget if there is already a news widget', async () => {
       const user = userEvent.setup()
+
+      renderWithMySpaceAndModalContext(
+        <MySpace bookmarks={cmsBookmarksMock} />,
+        {
+          mySpace: [...portalUserMaxedOutCollection.mySpace],
+          canAddNews: false,
+        }
+      )
 
       expect(
         await screen.findByRole('button', { name: 'Add widget' })
@@ -126,6 +138,12 @@ describe('My Space Component', () => {
     })
 
     test('has no a11y violations', async () => {
+      const html = renderWithMySpaceAndModalContext(
+        <MySpace bookmarks={cmsBookmarksMock} />,
+        {
+          mySpace: [...portalUserMaxedOutCollection.mySpace],
+        }
+      )
       // Bug with NextJS Link + axe :(
       // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
       await act(async () => {
@@ -139,6 +157,7 @@ describe('My Space Component', () => {
 
     renderWithMySpaceAndModalContext(<MySpace bookmarks={cmsBookmarksMock} />, {
       mySpace: [...portalUserCollectionLimit.mySpace],
+      canAddCollections: false,
     })
 
     expect(
@@ -182,6 +201,10 @@ describe('My Space Component', () => {
   test('does not render the add widget component if there are 25 collections, news, featured shortcuts, and guardian ideal', async () => {
     renderWithMySpaceAndModalContext(<MySpace bookmarks={cmsBookmarksMock} />, {
       mySpace: [...portalUserCollectionLimitWithAllAdditionalWidgets.mySpace],
+      canAddCollections: false,
+      canAddNews: false,
+      canAddGuardianIdeal: false,
+      canAddFeaturedShortcuts: false,
     })
 
     expect(
@@ -530,5 +553,21 @@ describe('My Space Component', () => {
     })
     expect(mockUpdateWidget).toHaveBeenCalled()
     expect(mockUpdateBookmark).toHaveBeenCalled()
+  })
+
+  test('handles the addNewsWidget operation', async () => {
+    const user = userEvent.setup()
+    const mockAddNewsWidget = jest.fn()
+
+    renderWithMySpaceAndModalContext(<MySpace bookmarks={cmsBookmarksMock} />, {
+      mySpace: [...portalUserMaxedOutCollection.mySpace],
+      canAddNews: true,
+      addNewsWidget: mockAddNewsWidget,
+    })
+
+    await user.click(screen.getByLabelText('Add widget'))
+    await user.click(screen.getByRole('button', { name: 'Add news widget' }))
+
+    expect(mockAddNewsWidget).toHaveBeenCalled()
   })
 })
