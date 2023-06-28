@@ -53,7 +53,7 @@ describe('FeaturedShortcuts component', () => {
 
     await user.click(
       screen.getByRole('button', {
-        name: 'Widget Settings',
+        name: 'Featured Shortcuts Widget Settings',
       })
     )
 
