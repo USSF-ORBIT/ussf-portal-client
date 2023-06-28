@@ -4,6 +4,7 @@
 import React from 'react'
 import { ObjectId } from 'bson'
 import { screen, cleanup } from '@testing-library/react'
+import { renderHook } from '@testing-library/react-hooks'
 import userEvent from '@testing-library/user-event'
 import {
   renderWithAuthAndApollo,
@@ -149,5 +150,12 @@ describe('MySpace context', () => {
     expect(screen.getByText('featuredShortcuts')).toBeInTheDocument()
     expect(screen.getByText('guardianIdeal')).toBeInTheDocument()
     expect(screen.getByText('news')).toBeInTheDocument()
+  })
+})
+
+describe('useMySpaceContext', () => {
+  test('returns the created context', () => {
+    const { result } = renderHook(() => useMySpaceContext())
+    expect(result.current).toBeTruthy()
   })
 })
