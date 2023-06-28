@@ -8,10 +8,7 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { axe } from 'jest-axe'
 import { ObjectId } from 'mongodb'
-import {
-  renderWithModalRoot,
-  renderWithMySpaceAndModalContext,
-} from '../../testHelpers'
+import { renderWithMySpaceAndModalContext } from '../../testHelpers'
 import '../../__mocks__/mockMatchMedia'
 import {
   portalUserMaxedOutCollection,
