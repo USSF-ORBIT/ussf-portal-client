@@ -16,7 +16,9 @@ type WidgetProps = {
 const Widget = ({ header, children, className }: WidgetProps) => {
   return (
     <div className={classnames(styles.widget, className)}>
-      <div className={styles.header}>{header}</div>
+      <div className={styles.header}>
+        <h3>{header}</h3>
+      </div>
       {children}
     </div>
   )
@@ -49,7 +51,7 @@ export const WidgetWithSettings = ({
     <Widget
       header={
         <>
-          <h3>{header}</h3>
+          {header}
           <DropdownMenu
             toggleEl={
               <button
