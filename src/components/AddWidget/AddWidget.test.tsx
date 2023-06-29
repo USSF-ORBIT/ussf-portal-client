@@ -19,14 +19,14 @@ describe('AddWidget component', () => {
     handleAddFeaturedShortcuts: jest.fn(),
   }
 
-  it('renders an add widget menu', () => {
+  test('renders an add widget menu', () => {
     render(<AddWidget {...testProps} />)
 
     const menuButton = screen.getByRole('button', { name: 'Add widget' })
     expect(menuButton).toBeInTheDocument()
   })
 
-  it('can toggle the menu', async () => {
+  test('can toggle the menu', async () => {
     const user = userEvent.setup()
     render(
       <>
@@ -53,7 +53,7 @@ describe('AddWidget component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('handles the select collection button', async () => {
+  test('handles the select collection button', async () => {
     const user = userEvent.setup()
     const mockHandleSelect = jest.fn()
 
@@ -81,7 +81,7 @@ describe('AddWidget component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('handles the create collection button', async () => {
+  test('handles the create collection button', async () => {
     const user = userEvent.setup()
     const mockHandleCreate = jest.fn()
 
@@ -107,7 +107,7 @@ describe('AddWidget component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('the add collection buttons are disabled if the user cannot add collections', async () => {
+  test('the add collection buttons are disabled if the user cannot add collections', async () => {
     const user = userEvent.setup()
     const mockHandleCreate = jest.fn()
     const mockHandleSelect = jest.fn()
@@ -146,7 +146,7 @@ describe('AddWidget component', () => {
     expect(mockHandleCreate).not.toHaveBeenCalled()
   })
 
-  it('handles the Add news widget button', async () => {
+  test('handles the Add news widget button', async () => {
     const user = userEvent.setup()
     const mockAddNews = jest.fn()
 
@@ -170,7 +170,7 @@ describe('AddWidget component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('the Add news widget button is disabled if the user cannot add News', async () => {
+  test('the Add news widget button is disabled if the user cannot add News', async () => {
     const user = userEvent.setup()
     const mockAddNews = jest.fn()
 
@@ -312,7 +312,7 @@ describe('AddWidget component', () => {
     expect(mockAddFeaturedShortcuts).not.toHaveBeenCalled()
   })
 
-  it('has no a11y violations', async () => {
+  test('has no a11y violations', async () => {
     const { container } = render(<AddWidget {...testProps} />)
     expect(await axe(container)).toHaveNoViolations()
   })
