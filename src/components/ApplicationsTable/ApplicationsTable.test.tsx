@@ -93,14 +93,16 @@ const exampleCollectionsWithLimit: Collection[] = [
   },
 ]
 
-const testProps = {
-  bookmarks: exampleBookmarks,
-  handleAddToCollection: jest.fn(),
-}
+const mockAddToCollection = jest.fn()
 
 describe('ApplicationsTable component', () => {
-  it('renders a list of bookmark links', () => {
-    render(<ApplicationsTable {...testProps} />)
+  test('renders a list of bookmark links', () => {
+    render(
+      <ApplicationsTable
+        bookmarks={exampleBookmarks}
+        handleAddToCollection={mockAddToCollection}
+      />
+    )
     expect(screen.getByRole('table')).toBeInTheDocument()
     expect(screen.getAllByRole('link')).toHaveLength(7)
     expect(
@@ -108,10 +110,10 @@ describe('ApplicationsTable component', () => {
     ).toHaveLength(7)
   })
 
-  it('doesn’t render invalid bookmarks', () => {
+  test('doesn’t render invalid bookmarks', () => {
     render(
       <ApplicationsTable
-        {...testProps}
+        handleAddToCollection={mockAddToCollection}
         bookmarks={exampleInvalidBookmarks as CMSBookmark[]}
       />
     )
@@ -119,23 +121,27 @@ describe('ApplicationsTable component', () => {
     expect(screen.getAllByRole('link')).toHaveLength(4)
   })
 
-  it('has no a11y violations', async () => {
+  test('has no a11y violations', async () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
-      const { container } = render(<ApplicationsTable {...testProps} />)
+      const { container } = render(
+        <ApplicationsTable
+          bookmarks={exampleBookmarks}
+          handleAddToCollection={mockAddToCollection}
+        />
+      )
 
       expect(await axe(container)).toHaveNoViolations()
     })
   })
 
-  it('can add a bookmark to a new collection', async () => {
-    const mockAddToCollection = jest.fn()
+  test('can add a bookmark to a new collection', async () => {
     const user = userEvent.setup()
 
     render(
       <ApplicationsTable
-        {...testProps}
+        bookmarks={exampleBookmarks}
         handleAddToCollection={mockAddToCollection}
         userCollectionOptions={exampleCollections}
       />
@@ -163,13 +169,12 @@ describe('ApplicationsTable component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('cannot add a bookmark to a new collection if not allowed', async () => {
-    const mockAddToCollection = jest.fn()
+  test('cannot add a bookmark to a new collection if not allowed', async () => {
     const user = userEvent.setup()
 
     render(
       <ApplicationsTable
-        {...testProps}
+        bookmarks={exampleBookmarks}
         handleAddToCollection={mockAddToCollection}
         userCollectionOptions={exampleCollections}
         canAddNewCollection={false}
@@ -189,13 +194,12 @@ describe('ApplicationsTable component', () => {
     ).toBeDisabled()
   })
 
-  it('can add a bookmark to an existing collection', async () => {
-    const mockAddToCollection = jest.fn()
+  test('can add a bookmark to an existing collection', async () => {
     const user = userEvent.setup()
 
     render(
       <ApplicationsTable
-        {...testProps}
+        bookmarks={exampleBookmarks}
         handleAddToCollection={mockAddToCollection}
         userCollectionOptions={exampleCollections}
       />
@@ -224,13 +228,12 @@ describe('ApplicationsTable component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('cannot add a bookmark to an existing collection that has 10 bookmarks', async () => {
-    const mockAddToCollection = jest.fn()
+  test('cannot add a bookmark to an existing collection that has 10 bookmarks', async () => {
     const user = userEvent.setup()
 
     render(
       <ApplicationsTable
-        {...testProps}
+        bookmarks={exampleBookmarks}
         handleAddToCollection={mockAddToCollection}
         userCollectionOptions={exampleCollectionsWithLimit}
       />

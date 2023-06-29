@@ -17,9 +17,9 @@ type ApplicationsTableRowProps = {
 
 const ApplicationsTableRow = ({
   bookmark,
-  userCollectionOptions = [],
+  userCollectionOptions,
   handleAddToCollection,
-  canAddNewCollection = true,
+  canAddNewCollection,
 }: ApplicationsTableRowProps) => {
   const { id, url, label, description } = bookmark
   const dropdownEl = useRef<HTMLDivElement>(null)
@@ -32,7 +32,7 @@ const ApplicationsTableRow = ({
     setIsDropdownOpen((state) => !state)
   }
 
-  const collectionOptions = userCollectionOptions.map((collection) => (
+  const collectionOptions = userCollectionOptions?.map((collection) => (
     <li key={`addToCollection_${collection._id}`}>
       <Button
         type="button"
