@@ -412,12 +412,12 @@ describe('CustomCollection component', () => {
 
     await user.click(menuToggleButton)
     const deleteItem = screen.getByRole('button', {
-      name: 'Delete this collection',
+      name: 'Delete Example Collection collection',
     })
     expect(deleteItem).toBeInTheDocument()
 
     const editItem = screen.getByRole('button', {
-      name: 'Edit collection title',
+      name: 'Edit Example Collection collection title',
     })
     expect(editItem).toBeInTheDocument()
   })
@@ -448,7 +448,7 @@ describe('CustomCollection component', () => {
 
     await user.click(menuToggleButton)
     const deleteCollection = screen.getByRole('button', {
-      name: 'Delete this collection',
+      name: 'Delete Example Collection collection',
     })
     expect(deleteCollection).toBeInTheDocument()
     await user.click(deleteCollection)
@@ -484,7 +484,7 @@ describe('CustomCollection component', () => {
     await user.click(menuToggleButton)
 
     const deleteCollection = screen.getByRole('button', {
-      name: 'Delete this collection',
+      name: 'Delete Example Collection collection',
     })
 
     expect(deleteCollection).toBeInTheDocument()
@@ -520,7 +520,7 @@ describe('CustomCollection component', () => {
     await user.click(menuToggleButton)
 
     const deleteCollection = screen.getByRole('button', {
-      name: 'Delete this collection',
+      name: 'Delete Example Collection collection',
     })
 
     expect(deleteCollection).toBeInTheDocument()
