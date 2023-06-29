@@ -23,7 +23,7 @@ describe('EditDisplayName component', () => {
       )
     })
 
-    it('returns null if no user is present when trying to update', async () => {
+    test('returns null if no user is present when trying to update', async () => {
       const textInput = screen.getAllByTestId('nameInput')[0]
       fireEvent.change(textInput, { target: { value: 'My New Name' } })
       expect(textInput).toHaveValue('My New Name')
@@ -34,16 +34,14 @@ describe('EditDisplayName component', () => {
     })
   })
   describe('With auth', () => {
-    beforeEach(() => {
+    test('renders the component', async () => {
       renderWithAuth(
         <EditDisplayName
           userDisplayName="Test Name"
           handleEditDisplayName={mockHandlers.handleEditDisplayName}
         />
       )
-    })
 
-    it('renders the component', async () => {
       expect(screen.getAllByText('Update name and rank:')).toHaveLength(1)
 
       expect(
@@ -57,8 +55,16 @@ describe('EditDisplayName component', () => {
       expect(inputField).toHaveValue('Test Name')
     })
 
-    it('saves a new display name', async () => {
+    test('saves a new display name', async () => {
       const user = userEvent.setup()
+
+      renderWithAuth(
+        <EditDisplayName
+          userDisplayName="Test Name"
+          handleEditDisplayName={mockHandlers.handleEditDisplayName}
+        />
+      )
+
       const textInput = screen.getAllByTestId('nameInput')[0]
       fireEvent.change(textInput, { target: { value: 'My New Name' } })
 
@@ -71,8 +77,16 @@ describe('EditDisplayName component', () => {
       expect(mockHandlers.handleEditDisplayName).toHaveBeenCalled()
     })
 
-    it('resets display name when clicking cancel', async () => {
+    test('resets display name when clicking cancel', async () => {
       const user = userEvent.setup()
+
+      renderWithAuth(
+        <EditDisplayName
+          userDisplayName="Test Name"
+          handleEditDisplayName={mockHandlers.handleEditDisplayName}
+        />
+      )
+
       const textInput = screen.getAllByTestId('nameInput')[0]
       fireEvent.change(textInput, { target: { value: 'My New Name' } })
 
@@ -84,6 +98,17 @@ describe('EditDisplayName component', () => {
       await user.click(cancelButton)
 
       expect(textInput).toHaveAttribute('value', '')
+    })
+
+    test('renders Welcome! if no userDisplayname is provided', () => {
+      renderWithAuth(
+        <EditDisplayName
+          userDisplayName=""
+          handleEditDisplayName={mockHandlers.handleEditDisplayName}
+        />
+      )
+
+      expect(screen.getByText('Welcome!')).toBeInTheDocument()
     })
   })
 })
