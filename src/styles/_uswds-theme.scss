@@ -27,10 +27,7 @@ $uswds-asset-path: '#{$asset-path}/vendor' !default;
   $theme-h2-font-size: 'lg',
   $theme-h3-font-size: 'md',
 
-  /* SPACING */ /* COMPONENTS */ $theme-hero-image:
-    '#{$theme-image-path}/hero.png',
-
-  /* GRID */ $theme-site-margins-mobile-width: 2,
+  /* SPACING */ /* COMPONENTS */ /* GRID */ $theme-site-margins-mobile-width: 2,
   // 16px
   $theme-site-margins-width: 3,
   // 24px
