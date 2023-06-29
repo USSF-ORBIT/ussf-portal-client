@@ -7,7 +7,7 @@ import { axe } from 'jest-axe'
 import { mockFlags } from 'jest-launchdarkly-mock'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-
+import { renderWithMySpaceAndModalContext } from '../../testHelpers'
 import AddWidget from './AddWidget'
 
 describe('AddWidget component', () => {
@@ -112,13 +112,13 @@ describe('AddWidget component', () => {
     const mockHandleCreate = jest.fn()
     const mockHandleSelect = jest.fn()
 
-    render(
+    renderWithMySpaceAndModalContext(
       <AddWidget
         {...testProps}
         handleCreateCollection={mockHandleCreate}
         handleSelectCollection={mockHandleSelect}
-        canAddCollection={false}
-      />
+      />,
+      { canAddCollections: false }
     )
 
     const menuButton = screen.getByRole('button', { name: 'Add widget' })
@@ -150,7 +150,9 @@ describe('AddWidget component', () => {
     const user = userEvent.setup()
     const mockAddNews = jest.fn()
 
-    render(<AddWidget {...testProps} handleAddNews={mockAddNews} />)
+    renderWithMySpaceAndModalContext(<AddWidget {...testProps} />, {
+      addNewsWidget: mockAddNews,
+    })
 
     const menuButton = screen.getByRole('button', { name: 'Add widget' })
     expect(menuButton).toBeInTheDocument()
@@ -172,13 +174,10 @@ describe('AddWidget component', () => {
     const user = userEvent.setup()
     const mockAddNews = jest.fn()
 
-    render(
-      <AddWidget
-        {...testProps}
-        handleAddNews={mockAddNews}
-        canAddNews={false}
-      />
-    )
+    renderWithMySpaceAndModalContext(<AddWidget {...testProps} />, {
+      canAddNews: false,
+      addNewsWidget: mockAddNews,
+    })
 
     const menuButton = screen.getByRole('button', { name: 'Add widget' })
     expect(menuButton).toBeInTheDocument()
@@ -204,9 +203,9 @@ describe('AddWidget component', () => {
       guardianIdealCarousel: true,
     })
 
-    render(
-      <AddWidget {...testProps} handleAddGuardianIdeal={mockAddGuardianIdeal} />
-    )
+    renderWithMySpaceAndModalContext(<AddWidget {...testProps} />, {
+      addGuardianIdeal: mockAddGuardianIdeal,
+    })
 
     const menuButton = screen.getByRole('button', { name: 'Add widget' })
     expect(menuButton).toBeInTheDocument()
@@ -230,13 +229,10 @@ describe('AddWidget component', () => {
     const user = userEvent.setup()
     const mockAddGuardianIdeal = jest.fn()
 
-    render(
-      <AddWidget
-        {...testProps}
-        handleAddNews={mockAddGuardianIdeal}
-        canAddGuardianIdeal={false}
-      />
-    )
+    renderWithMySpaceAndModalContext(<AddWidget {...testProps} />, {
+      canAddGuardianIdeal: false,
+      addGuardianIdeal: mockAddGuardianIdeal,
+    })
 
     const menuButton = screen.getByRole('button', { name: 'Add widget' })
     expect(menuButton).toBeInTheDocument()
@@ -264,12 +260,9 @@ describe('AddWidget component', () => {
       featuredShortcuts: true,
     })
 
-    render(
-      <AddWidget
-        {...testProps}
-        handleAddFeaturedShortcuts={mockAddFeaturedShortcuts}
-      />
-    )
+    renderWithMySpaceAndModalContext(<AddWidget {...testProps} />, {
+      addFeaturedShortcuts: mockAddFeaturedShortcuts,
+    })
 
     const menuButton = screen.getByRole('button', { name: 'Add widget' })
     expect(menuButton).toBeInTheDocument()
@@ -296,13 +289,10 @@ describe('AddWidget component', () => {
       featuredShortcuts: true,
     })
 
-    render(
-      <AddWidget
-        {...testProps}
-        handleAddFeaturedShortcuts={mockAddFeaturedShortcuts}
-        canAddFeaturedShortcuts={false}
-      />
-    )
+    renderWithMySpaceAndModalContext(<AddWidget {...testProps} />, {
+      canAddFeaturedShortcuts: false,
+      addFeaturedShortcuts: mockAddFeaturedShortcuts,
+    })
 
     const menuButton = screen.getByRole('button', { name: 'Add widget' })
     expect(menuButton).toBeInTheDocument()

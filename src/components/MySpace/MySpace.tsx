@@ -51,9 +51,6 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     canAddNews,
     canAddGuardianIdeal,
     canAddFeaturedShortcuts,
-    addNewsWidget,
-    addGuardianIdeal,
-    addFeaturedShortcuts,
     addNewCollection,
     handleOnDragEnd,
   } = useMySpaceContext()
@@ -251,13 +248,6 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                     <AddWidget
                       handleCreateCollection={addNewCollection}
                       handleSelectCollection={selectCollections}
-                      handleAddNews={addNewsWidget}
-                      handleAddGuardianIdeal={addGuardianIdeal}
-                      handleAddFeaturedShortcuts={addFeaturedShortcuts}
-                      canAddNews={canAddNews}
-                      canAddCollection={canAddCollections}
-                      canAddGuardianIdeal={canAddGuardianIdeal}
-                      canAddFeaturedShortcuts={canAddFeaturedShortcuts}
                     />
                   </Grid>
                 )}

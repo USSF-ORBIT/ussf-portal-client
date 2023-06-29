@@ -6,15 +6,10 @@ import { ObjectId } from 'bson'
 import { screen, cleanup } from '@testing-library/react'
 import { renderHook } from '@testing-library/react-hooks'
 import userEvent from '@testing-library/user-event'
-import {
-  renderWithAuthAndApollo,
-  renderWithMySpaceAndModalContext,
-} from '../testHelpers'
+import { renderWithAuthAndApollo } from '../testHelpers'
 import { MySpaceProvider, useMySpaceContext } from './myspaceContext'
-import MySpace from 'components/MySpace/MySpace'
 import { testPortalUser1 } from '__fixtures__/authUsers'
 import { MySpaceWidget, Widget } from 'types'
-import { cmsBookmarksMock } from '__fixtures__/data/cmsBookmarks'
 
 describe('MySpace context', () => {
   afterEach(cleanup)
