@@ -27,7 +27,7 @@ describe('RemovableBookmark component', () => {
 
     expect(screen.getByRole('link')).toHaveTextContent(testBookmark.label)
     expect(
-      screen.getByRole('button', { name: 'Remove this link' })
+      screen.getByRole('button', { name: 'remove Webmail from collection' })
     ).toBeInTheDocument()
   })
 
@@ -61,7 +61,7 @@ describe('RemovableBookmark component', () => {
     )
 
     const deleteButton = screen.getByRole('button', {
-      name: 'Remove this link',
+      name: 'remove Webmail from collection',
     })
     await user.click(deleteButton)
 
@@ -74,7 +74,7 @@ describe('RemovableBookmark component', () => {
     expect(undoButton).not.toBeInTheDocument()
     expect(
       screen.getByRole('button', {
-        name: 'Remove this link',
+        name: 'remove Webmail from collection',
       })
     ).toBeInTheDocument()
 
@@ -99,7 +99,7 @@ describe('RemovableBookmark component', () => {
     )
 
     const deleteButton = screen.getByRole('button', {
-      name: 'Remove this link',
+      name: 'remove Webmail from collection',
     })
     await user.click(deleteButton)
 
