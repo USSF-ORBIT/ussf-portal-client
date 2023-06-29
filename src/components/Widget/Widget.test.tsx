@@ -12,7 +12,9 @@ import Widget, { WidgetWithSettings } from './Widget'
 
 describe('Widget component', () => {
   it('renders Widget', () => {
-    render(<Widget header="Example widget">Example widget contents</Widget>)
+    render(
+      <Widget header={<h3>Example widget</h3>}>Example widget contents</Widget>
+    )
 
     const heading = screen.getByRole('heading', { level: 3 })
 
