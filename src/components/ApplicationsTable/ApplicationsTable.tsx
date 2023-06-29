@@ -10,9 +10,9 @@ import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
 type ApplicationsTableRowProps = {
   bookmark: CMSBookmark
-  userCollectionOptions?: Collection[]
+  userCollectionOptions: Collection[]
   handleAddToCollection: (b: CMSBookmark, c?: ObjectId) => void
-  canAddNewCollection?: boolean
+  canAddNewCollection: boolean
 }
 
 const ApplicationsTableRow = ({
