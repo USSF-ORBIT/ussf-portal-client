@@ -179,11 +179,7 @@ const CustomCollection = ({
         'Save CMS link',
         `${title} / ${existingLink.label || existingLink.url}`
       )
-      handleAddBookmark(
-        existingLink.url || '',
-        existingLink.label,
-        existingLink.id
-      )
+      handleAddBookmark(existingLink.url, existingLink.label, existingLink.id)
       setIsAddingLink(false)
     }
   }
