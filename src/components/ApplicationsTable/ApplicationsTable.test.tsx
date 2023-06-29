@@ -80,6 +80,15 @@ const exampleCollections: Collection[] = [
   },
 ]
 
+const exampleCollectionWithoutTitle: Collection[] = [
+  {
+    _id: collectionId,
+    title: '',
+    type: WIDGET_TYPES.COLLECTION,
+    bookmarks: [],
+  },
+]
+
 const exampleCollectionsWithLimit: Collection[] = [
   {
     _id: collectionId,
@@ -176,7 +185,7 @@ describe('ApplicationsTable component', () => {
       <ApplicationsTable
         bookmarks={exampleBookmarks}
         handleAddToCollection={mockAddToCollection}
-        userCollectionOptions={exampleCollections}
+        userCollectionOptions={exampleCollectionWithoutTitle}
         canAddNewCollection={false}
       />
     )
@@ -188,6 +197,8 @@ describe('ApplicationsTable component', () => {
     expect(
       screen.getByRole('button', { name: 'Add to My Space Open' })
     ).toBeInTheDocument()
+
+    expect(screen.getByText('Untitled Collection')).toBeInTheDocument()
 
     expect(
       screen.getByRole('button', { name: 'Add to new collection' })
