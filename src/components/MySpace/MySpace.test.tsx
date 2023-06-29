@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import { act, screen, waitFor } from '@testing-library/react'
-import type { RenderResult } from '@testing-library/react'
 import { mockFlags } from 'jest-launchdarkly-mock'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
@@ -14,6 +13,7 @@ import {
   portalUserMaxedOutCollection,
   portalUserCollectionLimit,
   portalUserGuardianIdeal,
+  portalUserFeaturedShortcuts,
   portalUserCollectionLimitWithAllAdditionalWidgets,
   portalUserWithExampleCollection,
 } from '../../__fixtures__/authUsers'
@@ -195,6 +195,20 @@ describe('My Space Component', () => {
       expect(
         screen.getByText('Connect in a Collaborative Environment')
       ).toBeInTheDocument()
+    )
+  })
+
+  test('displays the Featured Shortcuts widget', async () => {
+    mockFlags({
+      featuredShortcuts: true,
+    })
+
+    renderWithMySpaceAndModalContext(<MySpace bookmarks={cmsBookmarksMock} />, {
+      mySpace: [...portalUserFeaturedShortcuts.mySpace],
+    })
+
+    await waitFor(() =>
+      expect(screen.getByText('Featured Shortcuts')).toBeInTheDocument()
     )
   })
 

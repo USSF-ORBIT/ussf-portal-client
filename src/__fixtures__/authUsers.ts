@@ -181,6 +181,19 @@ export const portalUserGuardianIdeal: PortalUser = {
   theme: 'dark',
 }
 
+const mockCollectionWithFeaturedShortcuts: Widget = {
+  _id: new ObjectId(),
+  title: 'Featured Shortcuts',
+  type: 'FeaturedShortcuts',
+}
+
+export const portalUserFeaturedShortcuts: PortalUser = {
+  userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
+  mySpace: [mockCollectionWithFeaturedShortcuts],
+  displayName: 'BERNADETTE CAMPBELL',
+  theme: 'dark',
+}
+
 const mockCollection: Collection = {
   _id: new ObjectId(),
   title: 'Example Collection',
