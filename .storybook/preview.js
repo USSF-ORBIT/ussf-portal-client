@@ -5,9 +5,9 @@ import { MockedProvider } from '@apollo/client/testing'
 // happo support
 import 'happo-plugin-storybook/register'
 
-// #TODO these imports have not been updated. do they need to be?
 import 'styles/index.scss'
-// // SFDS
+// #TODO these imports seem unneccessary can we delete them?
+// SFDS
 //import 'styles/sfds/index.scss'
 // import '../src/styles/sfds/index.scss'
 //import 'initIcons'
