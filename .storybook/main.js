@@ -28,13 +28,19 @@ module.exports = {
   webpackFinal: async (config) => {
     config.module.rules.push({
       test: /\.scss$/,
+      include: path.resolve(__dirname, '../'),
       use: [
         'style-loader',
 
         // All CSS assets will be served from /public so no need to resolve URLs
         { loader: 'css-loader', options: { url: false } },
 
-        { loader: 'sass-loader', options: { warnRuleAsWarning: false } },
+        {
+          loader: 'sass-loader',
+          options: {
+            warnRuleAsWarning: false,
+          },
+        },
       ],
     })
     //#TODO does this need to be changed in order to import the uswds-core package in scss files?

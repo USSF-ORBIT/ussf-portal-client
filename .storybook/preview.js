@@ -6,11 +6,11 @@ import { MockedProvider } from '@apollo/client/testing'
 import 'happo-plugin-storybook/register'
 
 // #TODO these imports have not been updated. do they need to be?
-import 'uswds/dist/css/uswds.css'
-import '../src/initIcons'
+//import 'uswds/dist/css/uswds.css'
+//import '../src/initIcons'
 import '../src/styles/index.scss'
 // SFDS
-import '../src/styles/sfds/index.scss'
+//import '../src/styles/sfds/index.scss'
 
 // Storybook and next/image component do not play nice together
 // This enables us to use the <Image/> component and still view in Storybook
