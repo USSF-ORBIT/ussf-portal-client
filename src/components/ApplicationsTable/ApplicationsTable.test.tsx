@@ -103,7 +103,9 @@ describe('ApplicationsTable component', () => {
     render(<ApplicationsTable {...testProps} />)
     expect(screen.getByRole('table')).toBeInTheDocument()
     expect(screen.getAllByRole('link')).toHaveLength(7)
-    expect(screen.getAllByRole('button', { label: 'Closed' })).toHaveLength(7)
+    expect(
+      screen.getAllByRole('button', { name: /Add .* to My Space/ })
+    ).toHaveLength(7)
   })
 
   it('doesn’t render invalid bookmarks', () => {

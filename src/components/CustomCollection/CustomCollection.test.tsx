@@ -261,10 +261,10 @@ describe('CustomCollection component', () => {
     )
 
     expect(
-      screen.getAllByRole('button', { name: 'Remove this link' })
+      screen.getAllByRole('button', { name: /remove .* from collection/ })
     ).toHaveLength(3)
     expect(
-      screen.getAllByRole('button', { name: 'Edit this link' })
+      screen.getAllByRole('button', { name: /edit .* bookmark/ })
     ).toHaveLength(1)
   })
 

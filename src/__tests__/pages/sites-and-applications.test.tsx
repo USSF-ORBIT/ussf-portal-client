@@ -566,7 +566,7 @@ describe('Sites and Applications page', () => {
 
           await user.click(
             screen.getByRole('button', {
-              name: 'Add ACMS to My Space Closed',
+              name: 'Add MyVector to My Space Closed',
             })
           )
 
@@ -577,7 +577,7 @@ describe('Sites and Applications page', () => {
           const flashMessage = screen.getAllByRole('alert')[0]
 
           expect(flashMessage).toHaveTextContent(
-            `You have successfully added “ACMS” to the “Example Collection” collection.`
+            `You have successfully added “MyVector” to the “Example Collection” collection.`
           )
 
           await act(async () => {
