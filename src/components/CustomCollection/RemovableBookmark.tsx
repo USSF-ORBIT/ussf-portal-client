@@ -47,6 +47,7 @@ export const RemovableBookmark = ({
   ) : (
     <Bookmark
       href={url}
+      label={label}
       bookmarkDescription={bookmark.description}
       onDelete={handleDeleteBookmark}>
       {label || url}
