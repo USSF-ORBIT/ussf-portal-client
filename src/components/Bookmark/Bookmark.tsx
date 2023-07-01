@@ -8,6 +8,7 @@ import LinkTo, { PropTypes as LinkToProps } from 'components/util/LinkTo/LinkTo'
 type PropTypes = LinkToProps & {
   onDelete?: (event: React.MouseEvent<HTMLButtonElement>) => void
   onEdit?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  label?: string
   disabled?: boolean
   bookmarkDescription?: string
 }
@@ -18,6 +19,7 @@ const Bookmark = ({
   onDelete,
   onEdit,
   href,
+  label,
   disabled,
   bookmarkDescription,
   ...linkProps
@@ -85,7 +87,7 @@ const Bookmark = ({
           type="button"
           onClick={onDelete}
           className={styles.delete}
-          aria-label={`remove ${children} from collection`}
+          aria-label={`remove ${label || href} from collection`}
           onFocus={() => {
             setDescriptionDisplayed(false)
           }}>
@@ -98,7 +100,7 @@ const Bookmark = ({
           type="button"
           onClick={onEdit}
           className={styles.delete}
-          aria-label={`edit ${children} bookmark`}>
+          aria-label={`edit ${label || href} bookmark`}>
           <FontAwesomeIcon icon="pen" />
         </button>
       )}
