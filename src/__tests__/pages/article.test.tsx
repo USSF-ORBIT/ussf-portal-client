@@ -72,94 +72,101 @@ describe('Single article getServerSideProps', () => {
     query: { article: 'test-article-slug' },
   } as unknown as GetServerSidePropsContext
 
-  it('returns the article prop if the query returns a published article', async () => {
-    const response = await getServerSideProps(testContext)
-    expect(response).toEqual({
-      props: {
-        article: mockOrbitBlogArticle,
-        pageTitle: mockOrbitBlogArticle.title,
-      },
-    })
-  })
-
-  it('returns found if the query returns an unpublished article but user is a cms user', async () => {
-    const draftArticle = { ...mockOrbitBlogArticle, status: 'Draft' }
-    mockedKeystoneClient.query.mockResolvedValueOnce({
-      data: {
-        article: draftArticle,
-      },
-      loading: false,
-      errors: [],
-      networkStatus: 7,
-    })
-
-    mockedGetSession.mockImplementationOnce(() =>
-      Promise.resolve({ passport: { user: cmsUser } })
-    )
-
-    const response = await getServerSideProps(testContext)
-
-    expect(response).toEqual({
-      props: {
-        article: draftArticle,
-        pageTitle: mockOrbitBlogArticle.title,
-      },
-    })
-  })
-
-  it('returns not found if the query returns an unpublished article', async () => {
-    mockedKeystoneClient.query.mockResolvedValueOnce({
-      data: {
-        article: { ...mockOrbitBlogArticle, status: 'Draft' },
-      },
-      loading: false,
-      errors: [],
-      networkStatus: 7,
-    })
-
-    const response = await getServerSideProps(testContext)
-
-    expect(response).toEqual({
-      notFound: true,
-    })
-  })
-
-  it('returns not found if the query returns an article published in the future', async () => {
-    const futureDate = DateTime.now().plus({ weeks: 2 })
-    mockedKeystoneClient.query.mockResolvedValueOnce({
-      data: {
-        article: {
-          ...mockOrbitBlogArticle,
-          status: 'Published',
-          publishedDate: futureDate.toISO(),
+  describe('as portal user', () => {
+    test('returns the article prop if the query returns a published article', async () => {
+      const response = await getServerSideProps(testContext)
+      expect(response).toEqual({
+        props: {
+          article: mockOrbitBlogArticle,
+          pageTitle: mockOrbitBlogArticle.title,
         },
-      },
-      loading: false,
-      errors: [],
-      networkStatus: 7,
+      })
     })
 
-    const response = await getServerSideProps(testContext)
+    test('returns not found if the query returns an unpublished article', async () => {
+      mockedKeystoneClient.query.mockResolvedValueOnce({
+        data: {
+          article: { ...mockOrbitBlogArticle, status: 'Draft' },
+        },
+        loading: false,
+        errors: [],
+        networkStatus: 7,
+      })
 
-    expect(response).toEqual({
-      notFound: true,
+      const response = await getServerSideProps(testContext)
+
+      expect(response).toEqual({
+        notFound: true,
+      })
+    })
+
+    test('returns not found if the query returns an article published in the future', async () => {
+      const futureDate = DateTime.now().plus({ weeks: 2 })
+      mockedKeystoneClient.query.mockResolvedValueOnce({
+        data: {
+          article: {
+            ...mockOrbitBlogArticle,
+            status: 'Published',
+            publishedDate: futureDate.toISO(),
+          },
+        },
+        loading: false,
+        errors: [],
+        networkStatus: 7,
+      })
+
+      const response = await getServerSideProps(testContext)
+
+      expect(response).toEqual({
+        notFound: true,
+      })
     })
   })
 
-  it('returns not found if no article is found by the query', async () => {
-    mockedKeystoneClient.query.mockResolvedValueOnce({
-      data: {
-        article: null,
-      },
-      loading: false,
-      errors: [],
-      networkStatus: 7,
+  describe('as cms user', () => {
+    beforeEach(() => {
+      mockedGetSession.mockReset()
+      mockedGetSession.mockImplementationOnce(() =>
+        Promise.resolve({ passport: { user: cmsUser } })
+      )
     })
 
-    const response = await getServerSideProps(testContext)
+    test('returns found if the query returns an unpublished article', async () => {
+      const draftArticle = { ...mockOrbitBlogArticle, status: 'Draft' }
+      mockedKeystoneClient.query.mockResolvedValueOnce({
+        data: {
+          article: draftArticle,
+        },
+        loading: false,
+        errors: [],
+        networkStatus: 7,
+      })
 
-    expect(response).toEqual({
-      notFound: true,
+      const response = await getServerSideProps(testContext)
+
+      expect(response).toEqual({
+        props: {
+          article: draftArticle,
+          pageTitle: mockOrbitBlogArticle.title,
+        },
+      })
+    })
+
+    test('returns not found if the query returns no article', async () => {
+      mockedKeystoneClient.query.mockResolvedValueOnce({
+        data: {
+          article: null,
+        },
+        loading: false,
+        errors: [],
+        networkStatus: 7,
+      })
+
+      const response = await getServerSideProps(testContext)
+
+      expect(response).toEqual({
+        notFound: true,
+      })
     })
   })
 })
@@ -172,11 +179,11 @@ describe('Single article page', () => {
       })
     })
 
-    it('renders the loader while fetching the user', () => {
+    test('renders the loader while fetching the user', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
 
-    it('redirects to the login page if not logged in', async () => {
+    test('redirects to the login page if not logged in', async () => {
       await waitFor(() => {
         expect(mockReplace).toHaveBeenCalledWith('/login')
       })
@@ -184,7 +191,7 @@ describe('Single article page', () => {
   })
 
   describe('when logged in', () => {
-    it('renders an ORBIT Blog article', async () => {
+    test('renders an ORBIT Blog article', async () => {
       renderWithAuth(<SingleArticlePage article={mockOrbitBlogArticle} />)
 
       expect(
@@ -197,7 +204,7 @@ describe('Single article page', () => {
       expect(await screen.findAllByRole('article')).toHaveLength(1)
     })
 
-    it('renders an Internal News article', async () => {
+    test('renders an Internal News article', async () => {
       renderWithAuth(<SingleArticlePage article={cmsInternalNewsArticle} />)
 
       expect(

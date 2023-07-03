@@ -190,3 +190,52 @@ export const testAnnouncementWithArticleNoSlug = {
   status: 'Published',
   publishedDate: '2022-05-17T13:44:39.796Z',
 }
+
+export const testAnnouncementWithDeletedArticle = {
+  id: 'anotherTest123',
+  title: 'Cool new deleted article',
+  body: {
+    document: [
+      {
+        type: 'paragraph',
+        children: [
+          {
+            text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas',
+          },
+        ],
+      },
+      {
+        type: 'component-block',
+        props: {
+          link: {
+            // missing article data, like when the article is deleted but the announcement still refers to it
+            value: {},
+            discriminant: 'article',
+          },
+          ctaText: 'View deleted article',
+        },
+        children: [
+          {
+            type: 'component-inline-prop',
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+        ],
+        component: 'callToAction',
+      },
+      {
+        type: 'paragraph',
+        children: [
+          {
+            text: '',
+          },
+        ],
+      },
+    ],
+  },
+  status: 'Published',
+  publishedDate: '2022-05-17T13:44:39.796Z',
+}

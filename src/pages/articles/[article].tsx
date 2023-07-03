@@ -52,11 +52,10 @@ const SingleArticlePage = ({
   article,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
-  const { category } = article
 
   return (
     <>
-      {category === 'ORBITBlog' ? (
+      {article?.category === 'ORBITBlog' ? (
         <ORBITBlogArticleHeader />
       ) : (
         <InternalNewsArticleHeader />
@@ -85,10 +84,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     variables: { slug },
   })
 
-  // if article is not published return 404
+  // if article is not published or not found return 404
   // unless the current user is a CMS user or admin
   // then allow them to see any article
-  if (!isPublished(article) && !isCmsUser(user)) {
+  if (!article || (!isPublished(article) && !isCmsUser(user))) {
     return {
       notFound: true,
     }

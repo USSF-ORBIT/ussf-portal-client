@@ -27,9 +27,9 @@ const AnnouncementInfo = ({
           {props.link.discriminant === 'article' && (
             <LinkTo
               href={
-                props.link.value.data.slug
+                props.link.value.data?.slug
                   ? `/articles/${props.link.value.data.slug}`
-                  : '/'
+                  : '/404'
               }
               target="_blank"
               rel="noreferrer"
