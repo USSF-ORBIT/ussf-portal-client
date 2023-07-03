@@ -20,7 +20,7 @@ const warningMsg = 'Warning alert'
 const infoMsg = 'Info alert'
 
 export const AlertSuccess = () => (
-  <Alert headingLevel="h1" type="success">
+  <Alert type="success" headingLevel="h4">
     {successMsg}
   </Alert>
 )
