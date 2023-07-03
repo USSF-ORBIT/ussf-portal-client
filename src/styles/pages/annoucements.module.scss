@@ -1,3 +1,6 @@
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
+
 .pageTitle {
   margin-top: units(6);
   margin-bottom: units(4);

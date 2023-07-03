@@ -1,3 +1,6 @@
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
+
 .home {
   section + section {
     margin-top: units('205');
