@@ -20,25 +20,25 @@ const warningMsg = 'Warning alert'
 const infoMsg = 'Info alert'
 
 export const AlertSuccess = () => (
-  <Alert type="success" headingLevel="h4">
+  <Alert type="success" headingLevel="h4" slim>
     {successMsg}
   </Alert>
 )
 
 export const AlertWarning = () => (
-  <Alert headingLevel="h1" type="warning">
+  <Alert headingLevel="h1" type="warning" slim>
     {warningMsg}
   </Alert>
 )
 
 export const AlertError = () => (
-  <Alert headingLevel="h1" type="error">
+  <Alert headingLevel="h1" type="error" slim>
     {errorMsg}
   </Alert>
 )
 
 export const AlertInfo = () => (
-  <Alert headingLevel="h1" type="info">
+  <Alert headingLevel="h1" type="info" slim>
     {infoMsg}
   </Alert>
 )
