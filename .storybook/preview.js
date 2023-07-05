@@ -10,7 +10,7 @@ import 'styles/index.scss'
 // SFDS
 //import 'styles/sfds/index.scss'
 // import '../src/styles/sfds/index.scss'
-//import 'initIcons'
+import 'initIcons'
 
 // Storybook and next/image component do not play nice together
 // This enables us to use the <Image/> component and still view in Storybook
