@@ -5,11 +5,8 @@ import { MockedProvider } from '@apollo/client/testing'
 // happo support
 import 'happo-plugin-storybook/register'
 
-import 'styles/index.scss'
-// #TODO these imports seem unneccessary can we delete them?
 // SFDS
-//import 'styles/sfds/index.scss'
-// import '../src/styles/sfds/index.scss'
+import 'styles/index.scss'
 import 'initIcons'
 
 // Storybook and next/image component do not play nice together
