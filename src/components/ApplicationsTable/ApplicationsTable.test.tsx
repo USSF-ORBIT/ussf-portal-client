@@ -115,7 +115,7 @@ describe('ApplicationsTable component', () => {
     expect(screen.getByRole('table')).toBeInTheDocument()
     expect(screen.getAllByRole('link')).toHaveLength(7)
     expect(
-      screen.getAllByRole('button', { name: 'Add to My Space Closed' })
+      screen.getAllByRole('button', { name: /Add .* to My Space/ })
     ).toHaveLength(7)
   })
 
@@ -157,11 +157,11 @@ describe('ApplicationsTable component', () => {
     )
 
     await user.click(
-      screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+      screen.getByRole('button', { name: 'Add Webmail to My Space Closed' })
     )
 
     expect(
-      screen.getByRole('button', { name: 'Add to My Space Open' })
+      screen.getByRole('button', { name: 'Add Webmail to My Space Open' })
     ).toBeInTheDocument()
 
     expect(
@@ -174,7 +174,7 @@ describe('ApplicationsTable component', () => {
     expect(mockAddToCollection).toHaveBeenCalledWith(exampleBookmarks[0])
 
     expect(
-      screen.queryByRole('button', { name: 'Add to My Space Open' })
+      screen.queryByRole('button', { name: 'Add Webmail to My Space Open' })
     ).not.toBeInTheDocument()
   })
 
@@ -191,11 +191,11 @@ describe('ApplicationsTable component', () => {
     )
 
     await user.click(
-      screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+      screen.getByRole('button', { name: 'Add Webmail to My Space Closed' })
     )
 
     expect(
-      screen.getByRole('button', { name: 'Add to My Space Open' })
+      screen.getByRole('button', { name: 'Add Webmail to My Space Open' })
     ).toBeInTheDocument()
 
     expect(screen.getByText('Untitled Collection')).toBeInTheDocument()
@@ -217,11 +217,11 @@ describe('ApplicationsTable component', () => {
     )
 
     await user.click(
-      screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+      screen.getByRole('button', { name: 'Add Webmail to My Space Closed' })
     )
 
     expect(
-      screen.getByRole('button', { name: 'Add to My Space Open' })
+      screen.getByRole('button', { name: 'Add Webmail to My Space Open' })
     ).toBeInTheDocument()
 
     expect(
@@ -235,7 +235,7 @@ describe('ApplicationsTable component', () => {
     )
 
     expect(
-      screen.queryByRole('button', { name: 'Add to My Space Open' })
+      screen.queryByRole('button', { name: 'Add Webmail to My Space Open' })
     ).not.toBeInTheDocument()
   })
 
@@ -251,11 +251,11 @@ describe('ApplicationsTable component', () => {
     )
 
     await user.click(
-      screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+      screen.getByRole('button', { name: 'Add Webmail to My Space Closed' })
     )
 
     expect(
-      screen.getByRole('button', { name: 'Add to My Space Open' })
+      screen.getByRole('button', { name: 'Add Webmail to My Space Open' })
     ).toBeInTheDocument()
 
     expect(

@@ -396,13 +396,13 @@ const CustomCollection = ({
             type="button"
             className={styles.collectionSettingsDropdown}
             onClick={handleEditCollectionTitle}>
-            Edit collection title
+            Edit <span className="sr-only">{title}</span> collection title
           </Button>
           <Button
             type="button"
             className={styles.collectionSettingsDropdown}
             onClick={handleConfirmDeleteCollection}>
-            Delete this collection
+            Delete <span className="sr-only">{title}</span> collection
           </Button>
         </DropdownMenu>
       )}

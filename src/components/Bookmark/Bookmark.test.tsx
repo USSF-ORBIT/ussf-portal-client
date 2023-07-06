@@ -86,6 +86,74 @@ describe('Bookmark component', () => {
     ).not.toBeInTheDocument()
   })
 
+  describe('with a label', () => {
+    test('uses label in aria-label of edit button', async () => {
+      render(
+        <Bookmark
+          href={cmsBookmarksMock[0].url}
+          label={cmsBookmarksMock[0].label}
+          onEdit={jest.fn()}
+          bookmarkDescription={cmsBookmarksMock[0].description}>
+          {cmsBookmarksMock[0].label}
+        </Bookmark>
+      )
+
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        `edit ${cmsBookmarksMock[0].label} bookmark`
+      )
+    })
+    test('uses label in aria-label of delete button', async () => {
+      render(
+        <Bookmark
+          href={cmsBookmarksMock[0].url}
+          label={cmsBookmarksMock[0].label}
+          onDelete={jest.fn()}
+          bookmarkDescription={cmsBookmarksMock[0].description}>
+          {cmsBookmarksMock[0].label}
+        </Bookmark>
+      )
+
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        `remove ${cmsBookmarksMock[0].label} from collection`
+      )
+    })
+  })
+
+  describe('without a label', () => {
+    test('uses href in aria-label of edit button', async () => {
+      render(
+        <Bookmark
+          href={cmsBookmarksMock[0].url}
+          onEdit={jest.fn()}
+          bookmarkDescription={cmsBookmarksMock[0].description}>
+          {cmsBookmarksMock[0].label}
+        </Bookmark>
+      )
+
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        `edit ${cmsBookmarksMock[0].url} bookmark`
+      )
+    })
+    test('uses href in aria-label of delete button', async () => {
+      render(
+        <Bookmark
+          href={cmsBookmarksMock[0].url}
+          onDelete={jest.fn()}
+          bookmarkDescription={cmsBookmarksMock[0].description}>
+          {cmsBookmarksMock[0].label}
+        </Bookmark>
+      )
+
+      expect(screen.getByRole('button')).toHaveAttribute(
+        'aria-label',
+        `remove ${cmsBookmarksMock[0].url} from collection`
+      )
+    })
+  })
+
   test('has no a11y violations', async () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334

@@ -565,7 +565,9 @@ describe('Sites and Applications page', () => {
           await user.click(sortAlpha)
 
           await user.click(
-            screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+            screen.getByRole('button', {
+              name: 'Add MyVector to My Space Closed',
+            })
           )
 
           await user.click(
@@ -575,7 +577,7 @@ describe('Sites and Applications page', () => {
           const flashMessage = screen.getAllByRole('alert')[0]
 
           expect(flashMessage).toHaveTextContent(
-            `You have successfully added “${mockCMSBookmarks[0].label}” to the “Example Collection” collection.`
+            `You have successfully added “MyVector” to the “Example Collection” collection.`
           )
 
           await act(async () => {
@@ -615,7 +617,7 @@ describe('Sites and Applications page', () => {
           )
 
           await user.click(
-            screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+            screen.getByRole('button', { name: 'Add ACMS to My Space Closed' })
           )
 
           expect(
@@ -647,7 +649,9 @@ describe('Sites and Applications page', () => {
           await user.click(sortAlpha)
 
           await user.click(
-            screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+            screen.getByRole('button', {
+              name: 'Add MyVector to My Space Closed',
+            })
           )
 
           await act(async () => {
@@ -740,7 +744,7 @@ describe('Sites and Applications page', () => {
       )
 
       await user.click(
-        screen.getAllByRole('button', { name: 'Add to My Space Closed' })[0]
+        screen.getByRole('button', { name: 'Add ACMS to My Space Closed' })
       )
 
       expect(

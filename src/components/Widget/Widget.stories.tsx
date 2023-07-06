@@ -24,7 +24,7 @@ export const ExampleWidget = () => (
 
 export const ExampleWidgetWithSettings = () => (
   <WidgetWithSettings
-    header={<h3>Example Widget</h3>}
+    header="Example Widget"
     settingsItems={[
       <Button
         key="settingsMenu_item1"

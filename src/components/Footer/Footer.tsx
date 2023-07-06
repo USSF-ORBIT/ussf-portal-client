@@ -29,7 +29,8 @@ const Footer = () => {
               className={styles.madeByLink}
               aria-label="Made with love and code by ORBIT">
               Made with ❤️&nbsp; and{' '}
-              <span className="font-body-lg">&lsaquo;&rsaquo;</span> by ORBIT
+              <span className="font-body-lg">&lsaquo;&rsaquo;</span> by ORBIT{' '}
+              <span className="usa-sr-only">(opens in a new window)</span>
             </LinkTo>
           </div>
 
@@ -46,6 +47,9 @@ const Footer = () => {
                         target="_blank"
                         rel="noreferrer noopener">
                         Privacy Policy
+                        <span className="usa-sr-only">
+                          (opens in a new window)
+                        </span>
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
@@ -54,6 +58,9 @@ const Footer = () => {
                         target="_blank"
                         rel="noreferrer noopener">
                         Section508.gov
+                        <span className="usa-sr-only">
+                          (opens in a new window)
+                        </span>
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
@@ -62,6 +69,9 @@ const Footer = () => {
                         target="_blank"
                         rel="noreferrer noopener">
                         Budget and Performance
+                        <span className="usa-sr-only">
+                          (opens in a new window)
+                        </span>
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
@@ -70,6 +80,9 @@ const Footer = () => {
                         target="_blank"
                         rel="noreferrer noopener">
                         Orders &amp; Directives
+                        <span className="usa-sr-only">
+                          (opens in a new window)
+                        </span>
                       </LinkTo>
                     </li>
                   </ul>
@@ -84,6 +97,9 @@ const Footer = () => {
                         target="_blank"
                         rel="noreferrer noopener">
                         Office of the Inspector General
+                        <span className="usa-sr-only">
+                          (opens in a new window)
+                        </span>
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
@@ -92,6 +108,9 @@ const Footer = () => {
                         target="_blank"
                         rel="noreferrer noopener">
                         FOIA Requests
+                        <span className="usa-sr-only">
+                          (opens in a new window)
+                        </span>
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
@@ -100,6 +119,9 @@ const Footer = () => {
                         target="_blank"
                         rel="noreferrer noopener">
                         No FEAR Act
+                        <span className="usa-sr-only">
+                          (opens in a new window)
+                        </span>
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
@@ -108,6 +130,9 @@ const Footer = () => {
                         target="_blank"
                         rel="noreferrer noopener">
                         USA.gov
+                        <span className="usa-sr-only">
+                          (opens in a new window)
+                        </span>
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
@@ -116,6 +141,9 @@ const Footer = () => {
                         target="_blank"
                         rel="noreferrer noopener">
                         Sexual Assualt Prevention and Response
+                        <span className="usa-sr-only">
+                          (opens in a new window)
+                        </span>
                       </LinkTo>
                     </li>
                   </ul>
