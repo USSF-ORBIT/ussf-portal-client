@@ -1,6 +1,6 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/deps';
-@import 'styles/sfds/sfdsDependencies';
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
+@use 'styles/deps';
 
 .bookmark {
   border: 1px solid var(--bookmark-border);

@@ -1,14 +1,19 @@
 /** Space Force Design System **/
 /** ------------------------- **/
-@import 'styles/uswdsDependencies';
+@use 'uswds-core' as *;
 
 // Sharp Sans
-@import '../fonts.scss';
+@forward '../fonts.scss';
+@use '../fonts.scss' as *;
 
 // variables, mixins, etc.
-@import 'colors';
-@import 'type';
-@import 'grid';
+@forward '../colors';
+@forward '../type';
+@forward '../grid';
+
+@use '../colors' as *;
+@use '../type' as *;
+@use '../grid' as *;
 
 // Overwrite grid-container in SFDS
 .sfds {
@@ -436,6 +441,19 @@
     &.usa-alert--info {
       background-color: var(--alert-info-bg);
       border-left-color: var(--alert-info-border);
+    }
+  }
+  @supports ((-webkit-mask: url('')) or (mask: url(''))) {
+    .usa-alert--success,
+    .usa-alert--warning,
+    .usa-alert--error,
+    .usa-alert--info {
+      &:before {
+        background: transparent;
+        background-color: #ffffff00;
+        mask: none;
+        -webkit-mask: none;
+      }
     }
   }
 }

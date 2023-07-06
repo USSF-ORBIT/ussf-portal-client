@@ -1,5 +1,4 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/sfds/sfdsDependencies';
+@use 'uswds-core' as *;
 
 .PageHeader {
   color: var(--text);
