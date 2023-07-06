@@ -1,6 +1,5 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/sfds/sfdsDependencies';
-
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 .carouselContainer {
   display: flex !important;
   flex-direction: row;
@@ -22,10 +21,12 @@
     }
   }
 
-  > :global(.slick-dots
-      li.slick-active
-      div.announcement-carousel-container
-      button::before) {
+  > :global(
+      .slick-dots
+        li.slick-active
+        div.announcement-carousel-container
+        button::before
+    ) {
     color: transparent;
     width: 10px;
     height: 9.5px;

@@ -253,7 +253,7 @@ describe('My Space Component', () => {
     )
 
     const buttons = await screen.findAllByRole('button', {
-      name: 'Remove this link',
+      name: 'remove MyVector from collection',
     })
 
     await user.click(buttons[0])
@@ -362,7 +362,7 @@ describe('My Space Component', () => {
     await user.click(settingsBtn)
 
     const edit = screen.getAllByRole('button', {
-      name: 'Edit collection title',
+      name: 'Edit Example Collection collection title',
     })[0]
     await user.click(edit)
 
@@ -421,7 +421,9 @@ describe('My Space Component', () => {
 
     await user.click(dropdownMenu[0])
     await user.click(
-      screen.getByRole('button', { name: 'Delete this collection' })
+      screen.getByRole('button', {
+        name: 'Delete Example Collection collection',
+      })
     )
 
     expect(mockUpdateModalId).toHaveBeenCalledWith(
@@ -532,7 +534,7 @@ describe('My Space Component', () => {
     )
 
     const editButton = await screen.findByRole('button', {
-      name: 'Edit this link',
+      name: 'edit CUSTOM LINK bookmark',
     })
     await user.click(editButton)
 

@@ -1,5 +1,5 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/sfds/sfdsDependencies';
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 
 .Tag,
 :global(.usa-tag).Tag {

@@ -73,9 +73,9 @@ const ThemeToggle = () => {
       }}
       className={styles.toggleButton}
       data-testid="theme-toggle">
-      {portalUser?.theme === 'light' ? darkTheme : lightTheme} mode
+      {portalUser?.theme === 'light' ? darkTheme : lightTheme} mode{' '}
+      <span className="usa-sr-only">(changes visual color theme)</span>
     </button>
   )
 }
-
 export default ThemeToggle

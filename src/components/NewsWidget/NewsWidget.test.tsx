@@ -52,12 +52,12 @@ describe('NewsWidget component', () => {
 
     user.click(
       screen.getByRole('button', {
-        name: 'Widget Settings',
+        name: 'Recent News Widget Settings',
       })
     )
 
     const removeButton = await screen.findByRole('button', {
-      name: 'Remove this widget',
+      name: 'Remove Recent News widget',
     })
 
     expect(removeButton).toBeInTheDocument()
@@ -77,13 +77,13 @@ describe('NewsWidget component', () => {
 
     await user.click(
       screen.getByRole('button', {
-        name: 'Widget Settings',
+        name: 'Recent News Widget Settings',
       })
     )
 
     await user.click(
       await screen.findByRole('button', {
-        name: 'Remove this widget',
+        name: 'Remove Recent News widget',
       })
     )
 

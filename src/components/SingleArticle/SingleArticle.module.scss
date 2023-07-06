@@ -1,4 +1,5 @@
-@import 'styles/uswdsDependencies';
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 
 .SingleArticle {
   margin-top: units(6);

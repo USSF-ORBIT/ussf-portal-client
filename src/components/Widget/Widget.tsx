@@ -27,7 +27,7 @@ export default Widget
 export const WidgetWithSettings = ({
   header,
   settingsItems,
-  settingsMenuLabel = 'Widget Settings',
+  settingsMenuLabel = `${header} Widget Settings`,
   ...props
 }: {
   settingsItems: ReactNode[]
@@ -49,7 +49,7 @@ export const WidgetWithSettings = ({
     <Widget
       header={
         <>
-          {header}
+          <h3>{header}</h3>
           <DropdownMenu
             toggleEl={
               <button
