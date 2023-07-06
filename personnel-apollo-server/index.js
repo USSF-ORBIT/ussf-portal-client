@@ -1,6 +1,7 @@
-import { ApolloServer, gql } from 'apollo-server'
+import { ApolloServer } from '@apollo/server'
+// import { startStandaloneServer } from '@apollo/server/standalone'
 
-const typeDefs = gql`
+const typeDefs = `#graphql
   type Query {
     hello: String
   }
@@ -14,4 +15,4 @@ const resolvers = {
 
 const server = new ApolloServer({ typeDefs, resolvers })
 
-server.listen(4000)
+await server.listen(4000)
