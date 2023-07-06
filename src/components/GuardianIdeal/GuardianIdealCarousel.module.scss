@@ -8,6 +8,12 @@
   padding: 0 !important;
   background: transparent !important;
 
+  h3 {
+    position: absolute;
+    left: -999em;
+    right: auto;
+  }
+
   &:nth-child(1) > div:not(:global(.slick-slider)) {
     // background: transparent;
     display: flex;

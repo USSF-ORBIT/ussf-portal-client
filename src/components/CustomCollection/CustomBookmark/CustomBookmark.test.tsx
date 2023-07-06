@@ -38,7 +38,9 @@ describe('CustomBookmark component', () => {
 
     expect(screen.getByRole('link')).toHaveTextContent(testBookmark.label)
     expect(
-      screen.getByRole('button', { name: 'Edit this link' })
+      screen.getByRole('button', {
+        name: `edit ${testBookmark.label} bookmark`,
+      })
     ).toBeInTheDocument()
   })
 
@@ -84,7 +86,7 @@ describe('CustomBookmark component', () => {
     )
 
     const editButton = await screen.findByRole('button', {
-      name: 'Edit this link',
+      name: 'edit Webmail bookmark',
     })
     await user.click(editButton)
 
