@@ -28,7 +28,9 @@ describe('FeaturedShortcuts component', () => {
       />
     )
     expect(screen.getByText('Featured Shortcuts')).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'LeaveWeb' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'LeaveWeb (opens in a new window)' })
+    ).toBeInTheDocument()
   })
 
   test('can remove the Featured shortcuts widget', async () => {
@@ -51,7 +53,7 @@ describe('FeaturedShortcuts component', () => {
 
     await user.click(
       screen.getByRole('button', {
-        name: 'Widget Settings',
+        name: 'Featured Shortcuts Widget Settings',
       })
     )
 

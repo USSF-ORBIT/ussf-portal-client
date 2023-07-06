@@ -5,13 +5,14 @@ on:
     paths-ignore:
       - 'docs/**'
       - '**.md**'
-    branches: [main]
+    branches: [ main ]
   pull_request:
     paths-ignore:
       - 'docs/**'
       - '**.md**'
-    branches: [main]
+    branches: [ main ]
   workflow_dispatch:
+
 
 jobs:
   lint-and-test:
@@ -56,7 +57,10 @@ jobs:
       - name: Run Jest tests
         run: yarn test --coverage --silent
 
-      - name: Build Storybook and start Happo run
+      - name: Build Storybook
+        run: yarn storybook:build
+
+      - name: start Happo run
         run: yarn happo-ci-github-actions
         env:
           HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}

@@ -1,14 +1,13 @@
 // ReactUSWDS CSS modules
-@import '@trussworks/react-uswds/lib/index.css';
-
-// USWDS settings & overrides
-@import 'styles/uswdsDependencies';
+@forward 'node_modules/@trussworks/react-uswds/lib/index.css';
 
 // USWDS SCSS
-@import 'node_modules/uswds/dist/scss/uswds.scss';
+@forward 'uswds-theme';
+@forward 'uswds';
 
 // SFDS Theme Properties
-@import 'styles/themes.scss';
+@forward 'styles/themes.scss';
+@forward 'styles/sfds/index.scss';
 
 body,
 #__next {

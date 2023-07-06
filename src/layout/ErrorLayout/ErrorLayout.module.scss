@@ -1,6 +1,6 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/govBanner';
-@import 'styles/sfds/sfdsDependencies';
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
+@use 'styles/govBanner' as *;
 
 $hero-image: url('/assets/images/hero-transparent.png');
 

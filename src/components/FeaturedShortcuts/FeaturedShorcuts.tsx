@@ -48,7 +48,7 @@ const FeaturedShortcuts = ({
 
   return (
     <WidgetWithSettings
-      header={<h3>Featured Shortcuts</h3>}
+      header="Featured Shortcuts"
       className={styles.featuredShortcuts}
       settingsItems={[
         <Button
@@ -71,6 +71,7 @@ const FeaturedShortcuts = ({
                 data-testid="featured-shortcut-link">
                 <img src={a.icon} alt="" />
                 {a.title}
+                <span className="usa-sr-only">(opens in a new window)</span>
               </LinkTo>
             </li>
           )

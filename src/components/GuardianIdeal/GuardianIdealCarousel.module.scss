@@ -1,5 +1,5 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/sfds/sfdsDependencies';
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 
 // Override the styles for the WidgetWithSettings component
 .guardianIdealCarousel {
@@ -7,6 +7,12 @@
   box-shadow: none !important;
   padding: 0 !important;
   background: transparent !important;
+
+  h3 {
+    position: absolute;
+    left: -999em;
+    right: auto;
+  }
 
   &:nth-child(1) > div:not(:global(.slick-slider)) {
     // background: transparent;

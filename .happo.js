@@ -18,6 +18,7 @@ module.exports = {
   plugins: [
     happoPluginStorybook({
       outputDir: 'storybook-static',
+      usePrebuiltPackage: true,
     }),
   ],
 }
