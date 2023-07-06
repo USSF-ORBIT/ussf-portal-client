@@ -4,6 +4,7 @@ on:
       - main
   workflow_dispatch:
 
+
 permissions:
   contents: write
   pull-requests: write
@@ -17,4 +18,23 @@ jobs:
       - uses: google-github-actions/release-please-action@51ee8ae2605bd5ce1cfdcc5938684908f1cd9f69 # v3
         with:
           release-type: node
-          package-name: release-please-action
+          package-name: ussf-portal-client
+          include-v-in-tag: false
+          changelog-types: >
+            { "types":
+              [
+                { "type": "build", "hidden": true },
+                { "type": "chore", "hidden": true },
+                { "type": "ci", "hidden": true },
+                { "type": "dev", "hidden": true },
+                { "type": "feat", "section": "Features" },
+                { "type": "fix", "section": "Bug Fixes" },
+                { "type": "perf", "section": "Performance Improvements" },
+                { "type": "refactor", "hidden": true },
+                { "type": "revert", "section": "Reverted Changes" },
+                { "type": "style", "hidden": true },
+                { "type": "test", "hidden": true },
+                { "type": "docs", "section": "Documentation" },
+                { "type": "security", "section": "Security Improvements" }
+              ]
+            }
