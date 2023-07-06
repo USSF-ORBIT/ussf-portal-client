@@ -1,3 +1,6 @@
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
+
 @mixin gov-banner {
   .usa-banner {
     $site-banner-bg: 'ink';

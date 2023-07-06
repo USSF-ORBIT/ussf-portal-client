@@ -68,7 +68,7 @@ describe('Header component', () => {
 
     expect(nav).toHaveClass('is-visible')
 
-    await user.click(screen.getByRole('button', { name: 'close' }))
+    await user.click(screen.getByRole('button', { name: 'Close' }))
     expect(nav).not.toHaveClass('is-visible')
   })
 

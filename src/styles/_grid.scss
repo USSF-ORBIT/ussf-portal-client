@@ -1,3 +1,5 @@
+@use 'uswds-core' as *;
+
 $sfds-grid-breakpoints: (
   'tablet': spacing-multiple(96),
   // 768px

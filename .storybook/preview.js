@@ -5,11 +5,9 @@ import { MockedProvider } from '@apollo/client/testing'
 // happo support
 import 'happo-plugin-storybook/register'
 
-import 'uswds/dist/css/uswds.css'
-import '../src/initIcons'
-import '../src/styles/index.scss'
 // SFDS
-import '../src/styles/sfds/index.scss'
+import 'styles/index.scss'
+import 'initIcons'
 
 // Storybook and next/image component do not play nice together
 // This enables us to use the <Image/> component and still view in Storybook

@@ -1,6 +1,5 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/sfds/sfdsDependencies';
-
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 .widget {
   border: 1px solid var(--widget-border);
   border-radius: 4px;

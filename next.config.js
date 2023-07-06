@@ -14,6 +14,9 @@ const securityHeaders = [
 ]
 
 module.exports = withBundleAnalyzer({
+  sassOptions: {
+    includePaths: ['./node_modules/@uswds/uswds/packages'],
+  },
   webpack: (config, { buildId }) => {
     config.plugins.push(
       new webpack.DefinePlugin({

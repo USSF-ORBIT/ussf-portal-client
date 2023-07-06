@@ -1,13 +1,11 @@
-@import 'styles/uswdsDependencies';
-
-$collectionHorizontalPadding: units(2);
+@use 'uswds-core' as *;
 
 .collectionList {
   @include add-list-reset;
 
   > li {
-    @include u-margin-x(-$collectionHorizontalPadding);
-    @include u-padding-x($collectionHorizontalPadding);
+    @include u-margin-x(neg-2);
+    @include u-padding-x(2);
     display: flex;
 
     > * {
