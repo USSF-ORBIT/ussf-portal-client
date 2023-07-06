@@ -1,4 +1,5 @@
-@import 'styles/uswdsDependencies';
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 
 @mixin heading-small {
   text-transform: uppercase;

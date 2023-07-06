@@ -1,6 +1,5 @@
-@import 'styles/uswdsDependencies';
-@import 'styles/sfds/sfdsDependencies';
-@import 'styles/deps';
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
 
 .disabled {
   cursor: not-allowed;
