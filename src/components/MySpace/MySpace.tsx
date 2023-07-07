@@ -133,9 +133,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                         key={`widget_${widget._id}`}
                         tabletLg={{ col: 6 }}
                         desktopLg={{ col: 4 }}>
-                        <DraggableCollection
-                          key={widget._id.toString()}
-                          id={widget._id.toString()}>
+                        <DraggableCollection id={widget._id.toString()}>
                           <NewsWidget widget={widget} />
                         </DraggableCollection>
                       </Grid>
@@ -148,9 +146,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                         key={`widget_${widget._id}`}
                         tabletLg={{ col: 6 }}
                         desktopLg={{ col: 4 }}>
-                        <DraggableCollection
-                          key={widget._id.toString()}
-                          id={widget._id.toString()}>
+                        <DraggableCollection id={widget._id.toString()}>
                           <CustomCollection
                             _id={widget._id}
                             key={`widget_${widget._id}`}

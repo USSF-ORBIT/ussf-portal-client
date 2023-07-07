@@ -178,8 +178,12 @@ export const MySpaceProvider = ({
 
     // If a draggable item is active, and it is over a droppable area when dropped
     if (over && active.id !== over.id) {
-      const oldIndex = mySpace.findIndex((w: Widget) => w.id === active.id)
-      const newIndex = mySpace.findIndex((w: Widget) => w.id === over.id)
+      const oldIndex = mySpace.findIndex(
+        (w: Widget) => w._id.toString() === active.id
+      )
+      const newIndex = mySpace.findIndex(
+        (w: Widget) => w._id.toString() === over.id
+      )
 
       const sortedWidgets = arrayMove(mySpace, oldIndex, newIndex)
       setMySpace(sortedWidgets)
