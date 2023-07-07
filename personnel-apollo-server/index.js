@@ -1,4 +1,7 @@
+// Ignore the next two lines until we make more updates
+// eslint-disable-next-line
 import { ApolloServer } from '@apollo/server'
+// eslint-disable-next-line
 import { startStandaloneServer } from '@apollo/server/standalone'
 
 const typeDefs = `#graphql
