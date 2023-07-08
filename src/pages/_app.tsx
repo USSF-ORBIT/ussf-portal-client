@@ -51,9 +51,9 @@ const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
     <ApolloProvider client={client}>
       <AnalyticsProvider>
         <AuthProvider>
-          <SearchProvider>
-            <LaunchDarkly>
-              <MySpaceProvider>
+          <MySpaceProvider>
+            <SearchProvider>
+              <LaunchDarkly>
                 <ThemeProvider
                   enableSystem={false}
                   attribute={'data-color-theme'}>
@@ -71,7 +71,7 @@ const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
                         key="viewport"
                       />
                       <link rel="canonical" href={canonicalUrl + asPath} />
-                      <title>Space Force Portal</title>
+                      <title>{pageTitle}</title>
                       <link
                         rel="apple-touch-icon"
                         sizes="180x180"
@@ -178,9 +178,9 @@ const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
                     {getLayout(<Component {...pageProps} />)}
                   </ModalProvider>
                 </ThemeProvider>
-              </MySpaceProvider>
-            </LaunchDarkly>
-          </SearchProvider>
+              </LaunchDarkly>
+            </SearchProvider>
+          </MySpaceProvider>
         </AuthProvider>
       </AnalyticsProvider>
     </ApolloProvider>
