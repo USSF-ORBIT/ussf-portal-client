@@ -46,6 +46,7 @@ jobs:
             type=sha,prefix=,format=long
           flavor: |
             latest=false
+
       - uses: docker/setup-buildx-action@ecf95283f03858871ff00b787d79c419715afc34 # v2
         id: buildx
         with:
