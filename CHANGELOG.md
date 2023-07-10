@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.22.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/v4.21.0...v4.22.0) (2023-07-10)
+
+
+### Features
+
+* a11y: assigns unique page titles to each page in the portal ([#1037](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1037)) ([7b21d50](https://github.com/USSF-ORBIT/ussf-portal-client/commit/7b21d5066ad0ae241b90a8fd14e724fdfa703a39))
+* a11y: creates alternative means to access inaccessible information in latest announcements carousel ([#1032](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1032)) ([3f9a2ff](https://github.com/USSF-ORBIT/ussf-portal-client/commit/3f9a2ff9c3faf11265e6330482427d748558b535))
+* Drag-and-drop entire collections ([#1056](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1056)) ([f415265](https://github.com/USSF-ORBIT/ussf-portal-client/commit/f41526588bdbe8917503552de31f55adad37b3d5))
+* Filter search results client ([#1027](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1027)) ([35f6f90](https://github.com/USSF-ORBIT/ussf-portal-client/commit/35f6f90642f5454ad947689be7e805666a300449))
+
+
+### Bug Fixes
+
+* a11y: adjusts heading order on myspace page ([#1034](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1034)) ([4c6d1aa](https://github.com/USSF-ORBIT/ussf-portal-client/commit/4c6d1aa89e92011ff218ee903f02627b4df87695))
+* a11y: adjusts link names to improve usability on assistive tech ([#1055](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1055)) ([41854ca](https://github.com/USSF-ORBIT/ussf-portal-client/commit/41854ca32fd0106eff239f1ccb3b2363e66a0699))
+* **deps:** update dependencies ([#935](https://github.com/USSF-ORBIT/ussf-portal-client/issues/935)) ([c15e83d](https://github.com/USSF-ORBIT/ussf-portal-client/commit/c15e83dd5d0c2a312c78bcce6b55456335ab77f2))
+* handle removed articles linked in announcements and missing articles for cms users ([#1057](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1057)) ([e9a2459](https://github.com/USSF-ORBIT/ussf-portal-client/commit/e9a2459455d244956ec77c1d6c986809b585e827))
+* Migration to remove duplicate users ([#1040](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1040)) ([eec8564](https://github.com/USSF-ORBIT/ussf-portal-client/commit/eec8564ba8df6cadf4621127fd2eb673236b0033))
+
 ## [4.21.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/v4.20.0...v4.21.0) (2023-06-05)
 
 
