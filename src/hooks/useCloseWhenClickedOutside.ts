@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import { useMySpaceContext } from 'stores/myspaceContext'
 export const useCloseWhenClickedOutside = (
   el: React.RefObject<HTMLElement>,
   initialState: boolean
 ) => {
   const [isActive, setIsActive] = useState(initialState)
+  const { disableDragAndDrop, setDisableDragAndDrop } = useMySpaceContext()
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -11,6 +13,7 @@ export const useCloseWhenClickedOutside = (
         return
       }
 
+      setDisableDragAndDrop(!disableDragAndDrop)
       setIsActive(!isActive)
     }
 

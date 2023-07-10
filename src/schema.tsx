@@ -61,7 +61,7 @@ export const typeDefs = gql`
   type User {
     _id: OID!
     userId: String
-    mySpace: [Collection]
+    mySpace: [Widget]
     displayName: String
     theme: String
   }
@@ -92,6 +92,7 @@ export const typeDefs = gql`
     ): Bookmark
     editDisplayName(userId: String!, displayName: String!): User
     editTheme(userId: String!, theme: String!): User
+    editMySpace(mySpace: [WidgetReorderInput!]!): User
   }
 
   input BookmarkInput {
@@ -132,5 +133,13 @@ export const typeDefs = gql`
     id: ID!
     url: String!
     label: String
+  }
+
+  input WidgetReorderInput {
+    _id: OID!
+    title: String!
+    type: WidgetType!
+    cmsId: ID
+    bookmarks: [BookmarkReorderInput!]
   }
 `

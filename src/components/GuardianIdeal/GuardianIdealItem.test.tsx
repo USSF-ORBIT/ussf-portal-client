@@ -21,6 +21,13 @@ const mockIdeal: IdealListItem = {
   body: 'The purpose of this objective is to set the conditions to create a fearless organizational culture so all individuals can contribute to their full potential.',
 }
 
+const mockIdealWithHero: IdealListItem = {
+  ...mockIdeal,
+  hero: {
+    url: 'url/to/an/image',
+  },
+}
+
 describe('GuardianIdealItem component', () => {
   test('renders the GuardianIdealItem component', () => {
     render(<GuardianIdealItem ideal={mockIdeal} />)
@@ -29,5 +36,13 @@ describe('GuardianIdealItem component', () => {
       screen.getByText('Connect in a Collaborative Environment')
     ).toBeInTheDocument()
     expect(screen.getByText('Guardian Ideal')).toBeInTheDocument()
+  })
+
+  test('renders the GuardianIdealItem component with an image', () => {
+    render(<GuardianIdealItem ideal={mockIdealWithHero} />)
+
+    expect(
+      screen.getByAltText('guardian ideal hero graphic')
+    ).toBeInTheDocument()
   })
 })

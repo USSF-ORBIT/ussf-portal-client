@@ -1,14 +1,67 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
-
+import { MySpaceContext, MySpaceContextType } from '../../stores/myspaceContext'
 import AddWidget from './AddWidget'
 
 type StorybookArgTypes = {
   handleSelectCollection: () => void
   handleCreateCollection: () => void
-  handleAddNews: () => void
-  handleAddGuardianIdeal: () => void
-  handleAddFeaturedShortcuts: () => void
+}
+
+const mockMySpaceContext: MySpaceContextType = {
+  mySpace: [],
+  disableDragAndDrop: false,
+  setDisableDragAndDrop: () => {
+    return
+  },
+  initializeMySpace: () => {
+    return
+  },
+  isCollection: () => {
+    return true || false
+  },
+  isGuardianIdeal: () => {
+    return true || false
+  },
+  isNewsWidget: () => {
+    return true || false
+  },
+  isFeaturedShortcuts: () => {
+    return true || false
+  },
+  canAddCollections: true,
+  canAddNews: true,
+  canAddGuardianIdeal: true,
+  canAddFeaturedShortcuts: true,
+  addNewsWidget: () => {
+    return
+  },
+  addGuardianIdeal: () => {
+    return
+  },
+  addFeaturedShortcuts: () => {
+    return
+  },
+  addNewCollection: () => {
+    return
+  },
+  handleOnDragEnd: () => {
+    return
+  },
+}
+
+const MockContextProvider = ({
+  children,
+  mockValue,
+}: {
+  children: React.ReactNode
+  mockValue: MySpaceContextType
+}) => {
+  return (
+    <MySpaceContext.Provider value={mockValue}>
+      {children}
+    </MySpaceContext.Provider>
+  )
 }
 
 export default {
@@ -17,9 +70,6 @@ export default {
   argTypes: {
     handleSelectCollection: { action: 'Select collection from template' },
     handleCreateCollection: { action: 'Create new collection' },
-    handleAddNews: { action: 'Add news widget' },
-    handleAddGuardianIdeal: { action: 'Add Guardian Ideal widget' },
-    handleAddFeaturedShortcuts: { action: 'Add Featured Shortcuts' },
   },
   decorators: [
     (Story) => (
@@ -34,30 +84,31 @@ export const DefaultAddWidget = (argTypes: StorybookArgTypes) => (
   <AddWidget
     handleSelectCollection={argTypes.handleSelectCollection}
     handleCreateCollection={argTypes.handleCreateCollection}
-    handleAddNews={argTypes.handleAddNews}
-    handleAddGuardianIdeal={argTypes.handleAddGuardianIdeal}
-    handleAddFeaturedShortcuts={argTypes.handleAddFeaturedShortcuts}
   />
 )
 
 export const AddCollectionDisabled = (argTypes: StorybookArgTypes) => (
-  <AddWidget
-    handleSelectCollection={argTypes.handleSelectCollection}
-    handleCreateCollection={argTypes.handleCreateCollection}
-    handleAddNews={argTypes.handleAddNews}
-    handleAddGuardianIdeal={argTypes.handleAddGuardianIdeal}
-    handleAddFeaturedShortcuts={argTypes.handleAddFeaturedShortcuts}
-    canAddCollection={false}
-  />
+  <MockContextProvider
+    mockValue={{
+      ...mockMySpaceContext,
+      canAddCollections: false,
+    }}>
+    <AddWidget
+      handleSelectCollection={argTypes.handleSelectCollection}
+      handleCreateCollection={argTypes.handleCreateCollection}
+    />
+  </MockContextProvider>
 )
 
 export const NewsWidgetDisabled = (argTypes: StorybookArgTypes) => (
-  <AddWidget
-    handleSelectCollection={argTypes.handleSelectCollection}
-    handleCreateCollection={argTypes.handleCreateCollection}
-    handleAddNews={argTypes.handleAddNews}
-    handleAddGuardianIdeal={argTypes.handleAddGuardianIdeal}
-    handleAddFeaturedShortcuts={argTypes.handleAddFeaturedShortcuts}
-    canAddNews={false}
-  />
+  <MockContextProvider
+    mockValue={{
+      ...mockMySpaceContext,
+      canAddNews: false,
+    }}>
+    <AddWidget
+      handleSelectCollection={argTypes.handleSelectCollection}
+      handleCreateCollection={argTypes.handleCreateCollection}
+    />
+  </MockContextProvider>
 )

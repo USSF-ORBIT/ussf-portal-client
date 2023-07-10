@@ -26,12 +26,14 @@ export const editThemeMock = [
         theme: 'light',
       },
     },
-    newData: jest.fn(() => ({
-      data: {
-        editTheme: {
-          theme: 'light',
+    newData: jest.fn(
+      /* istanbul ignore next */ () => ({
+        data: {
+          editTheme: {
+            theme: 'light',
+          },
         },
-      },
-    })),
+      })
+    ),
   },
 ]

@@ -9,6 +9,7 @@ import {
 } from '@trussworks/react-uswds'
 import type { ObjectId } from 'bson'
 import styles from './CustomCollection.module.scss'
+import { useMySpaceContext } from 'stores/myspaceContext'
 
 type PropTypes = {
   collectionId: ObjectId
@@ -26,10 +27,12 @@ export const EditableCollectionTitle = ({
   onCancel,
 }: PropTypes) => {
   const inputRef = useRef<HTMLInputElement>(null)
+  const { setDisableDragAndDrop } = useMySpaceContext()
 
   useEffect(() => {
     if (isEditing) {
       inputRef?.current?.focus()
+      setDisableDragAndDrop(true)
     }
   }, [isEditing])
 
@@ -40,6 +43,7 @@ export const EditableCollectionTitle = ({
     const data = new FormData(e.currentTarget)
     const label = `${data.get('collectionTitle')}`
     onSave(label)
+    setDisableDragAndDrop(false)
   }
 
   return (

@@ -10,8 +10,8 @@ import type { CMSBookmark } from 'types/index'
 
 type SelectableCollectionProps = {
   id: string
-  title?: string
-  bookmarks?: CMSBookmark[]
+  title: string
+  bookmarks: CMSBookmark[]
   onSelect: () => void
   isSelected: boolean
   disabled?: boolean
@@ -20,8 +20,8 @@ type SelectableCollectionProps = {
 
 const SelectableCollection = ({
   id,
-  title = '',
-  bookmarks = [],
+  title,
+  bookmarks,
   onSelect,
   isSelected,
   disabled = false,
@@ -46,7 +46,7 @@ const SelectableCollection = ({
     <label htmlFor={`selectCollection_${id}`} className={classes}>
       <div className={styles.disabledCollection}>
         <Collection title={title} className={className}>
-          {bookmarks.map((bookmark) => (
+          {bookmarks?.map((bookmark) => (
             <Bookmark
               key={`bookmark_${bookmark.id}`}
               href={bookmark.url}
