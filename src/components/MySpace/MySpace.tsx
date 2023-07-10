@@ -1,129 +1,78 @@
 import React from 'react'
 import { useFlags } from 'launchdarkly-react-client-sdk'
 import { Grid } from '@trussworks/react-uswds'
-import { useRouter } from 'next/router'
 import { gql } from '@apollo/client'
-import { WidgetType as AddWidgetType } from '../../graphql.g'
+import { useRouter } from 'next/router'
+import {
+  closestCorners,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  rectSortingStrategy,
+} from '@dnd-kit/sortable'
 import styles from './MySpace.module.scss'
 
+import DraggableCollection from 'components/util/DraggableCollection/DraggableCollection'
+import Droppable from 'components/util/Droppable/Droppable'
+
 import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
-import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
-import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget.g'
 import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
 import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
 import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
-import GuardianIdealCarousel from 'components/GuardianIdeal/GuardianIdealCarousel'
-import {
-  MySpaceWidget,
-  CMSBookmark,
-  Collection,
-  Widget,
-  Bookmark,
-} from 'types/index'
 
-import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
-import NewsWidget from 'components/NewsWidget/NewsWidget'
 import CustomCollection from 'components/CustomCollection/CustomCollection'
-import AddWidget from 'components/AddWidget/AddWidget'
+import GuardianIdealCarousel from 'components/GuardianIdeal/GuardianIdealCarousel'
+import NewsWidget from 'components/NewsWidget/NewsWidget'
 import { GuardianIdealPillars } from 'components/GuardianIdeal/GuardianIdealPillars'
-import { useAnalytics } from 'stores/analyticsContext'
-import { useAuthContext } from 'stores/authContext'
 import FeaturedShortcuts from 'components/FeaturedShortcuts/FeaturedShorcuts'
 import { featuredShortcutItems } from 'components/FeaturedShortcuts/FeaturedShortcutItems'
 
-/** Type guards */
-function isCollection(widget: MySpaceWidget): widget is Collection {
-  return widget.type === WIDGET_TYPES.COLLECTION
-}
-
-function isGuardianIdeal(widget: Widget): widget is Collection {
-  return widget.type === WIDGET_TYPES.GUARDIANIDEAL
-}
-
-function isNewsWidget(widget: Widget): widget is Collection {
-  return widget.type === WIDGET_TYPES.NEWS
-}
-
-function isFeaturedShortcuts(widget: Widget): widget is Collection {
-  return widget.type === WIDGET_TYPES.FEATUREDSHORTCUTS
-}
+import { CMSBookmark, Widget, Bookmark } from 'types/index'
+import AddWidget from 'components/AddWidget/AddWidget'
+import { useAnalytics } from 'stores/analyticsContext'
+import { useMySpaceContext } from 'stores/myspaceContext'
 
 const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
   const router = useRouter()
   const { trackEvent } = useAnalytics()
-  const { portalUser } = useAuthContext()
+  const {
+    mySpace,
+    isCollection,
+    isGuardianIdeal,
+    isNewsWidget,
+    isFeaturedShortcuts,
+    canAddCollections,
+    canAddNews,
+    canAddGuardianIdeal,
+    canAddFeaturedShortcuts,
+    addNewCollection,
+    handleOnDragEnd,
+  } = useMySpaceContext()
   const flags = useFlags()
 
-  const mySpace = (portalUser?.mySpace || []) as MySpaceWidget[]
-
-  const [handleAddWidget] = useAddWidgetMutation()
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
   const [handleRemoveCollection] = useRemoveCollectionMutation()
   const [handleEditCollection] = useEditCollectionMutation()
-  const [handleAddCollection] = useAddCollectionMutation()
 
-  const addNewsWidget = () => {
-    trackEvent('Add section', 'Add news')
-
-    handleAddWidget({
-      variables: { title: 'Recent news', type: AddWidgetType.News },
-      refetchQueries: ['getUser'],
-    })
-  }
-
-  const addGuardianIdeal = () => {
-    trackEvent(
-      'Guardian Ideal Carousel',
-      'Click on add Ideal carousel',
-      'Add Ideal'
-    )
-
-    handleAddWidget({
-      variables: { title: 'Guardian Ideal', type: AddWidgetType.GuardianIdeal },
-      refetchQueries: ['getUser'],
-    })
-  }
-
-  const addFeaturedShortcuts = () => {
-    trackEvent(
-      'Featured Shortcuts',
-      'Click on add Featured Shortcuts',
-      'Add Featured Shortcuts'
-    )
-
-    handleAddWidget({
-      variables: {
-        title: 'Featured Shortcuts',
-        type: AddWidgetType.FeaturedShortcuts,
+  // Distance tells the sensor how far the pointer must move (in pixels) before it is activated. This is
+  // needed so that other click events, like opening a collections's menu, can be triggered.
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
       },
-      refetchQueries: ['getUser'],
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
     })
-  }
-
-  const addNewCollection = () => {
-    trackEvent('Add section', 'Create new collection')
-
-    handleAddCollection({
-      variables: { title: '', bookmarks: [] },
-      refetchQueries: [`getUser`],
-    })
-  }
-
-  const canAddCollections: boolean =
-    mySpace &&
-    mySpace.filter((w) => isCollection(w)).length < MAXIMUM_COLLECTIONS
-
-  const canAddNews: boolean =
-    mySpace && mySpace.filter((w) => w.type === WIDGET_TYPES.NEWS).length < 1
-
-  const canAddGuardianIdeal: boolean =
-    mySpace &&
-    mySpace.filter((w) => w.type === WIDGET_TYPES.GUARDIANIDEAL).length < 1
-
-  const canAddFeaturedShortcuts: boolean =
-    mySpace &&
-    mySpace.filter((w) => w.type === WIDGET_TYPES.FEATUREDSHORTCUTS).length < 1
+  )
 
   const selectCollections = () => {
     trackEvent('Add section', 'Select collection from template')
@@ -138,159 +87,170 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     <div id="skip-announcements-carousel" className={styles.mySpace}>
       <div className={styles.widgetContainer}>
         <h2 className={styles.pageTitle}>My Space</h2>
-        <Grid row gap={2}>
-          {portalUser &&
-            portalUser.mySpace &&
-            portalUser.mySpace.map((widget: Widget) => {
-              if (isGuardianIdeal(widget) && flags?.guardianIdealCarousel) {
-                return (
-                  <Grid
-                    key={`widget_${widget._id}`}
-                    className={styles.guardianIdeal}>
-                    <GuardianIdealCarousel
-                      ideals={GuardianIdealPillars}
-                      widget={widget}
-                    />
-                  </Grid>
-                )
-              }
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCorners}
+          onDragEnd={handleOnDragEnd}>
+          <Droppable dropId={'mySpaceDroppableArea'}>
+            <SortableContext
+              // Ignoring the following line because an id field has already been added to the Widget type to accomodate
+              // the unique identifier necessary for @dnd-kit.
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              items={mySpace}
+              strategy={rectSortingStrategy}>
+              <Grid row gap={2}>
+                {mySpace.map((widget: Widget) => {
+                  if (isFeaturedShortcuts(widget) && flags?.featuredShortcuts) {
+                    return (
+                      <Grid
+                        key={`widget_${widget._id}`}
+                        className={styles.featuredShortcuts}>
+                        <FeaturedShortcuts
+                          featuredShortcuts={featuredShortcutItems}
+                          widget={widget}
+                        />
+                      </Grid>
+                    )
+                  }
 
-              if (isFeaturedShortcuts(widget) && flags?.featuredShortcuts) {
-                return (
-                  <Grid
-                    key={`widget_${widget._id}`}
-                    className={styles.featuredShortcuts}>
-                    <FeaturedShortcuts
-                      featuredShortcuts={featuredShortcutItems}
-                      widget={widget}
-                    />
-                  </Grid>
-                )
-              }
+                  if (isGuardianIdeal(widget) && flags?.guardianIdealCarousel) {
+                    return (
+                      <Grid
+                        key={`widget_${widget._id}`}
+                        className={styles.guardianIdeal}>
+                        <GuardianIdealCarousel
+                          ideals={GuardianIdealPillars}
+                          widget={widget}
+                        />
+                      </Grid>
+                    )
+                  }
 
-              if (isNewsWidget(widget)) {
-                return (
-                  <Grid
-                    key={`widget_${widget._id}`}
-                    tabletLg={{ col: 6 }}
-                    desktopLg={{ col: 4 }}>
-                    <NewsWidget widget={widget} />
-                  </Grid>
-                )
-              }
+                  if (isNewsWidget(widget)) {
+                    return (
+                      <Grid
+                        key={`widget_${widget._id}`}
+                        tabletLg={{ col: 6 }}
+                        desktopLg={{ col: 4 }}>
+                        <DraggableCollection id={widget._id.toString()}>
+                          <NewsWidget widget={widget} />
+                        </DraggableCollection>
+                      </Grid>
+                    )
+                  }
 
-              if (isCollection(widget)) {
-                return (
-                  <Grid
-                    key={`widget_${widget._id}`}
-                    tabletLg={{ col: 6 }}
-                    desktopLg={{ col: 4 }}>
-                    <CustomCollection
-                      _id={widget._id}
-                      key={`widget_${widget._id}`}
-                      title={widget.title}
-                      type={widget.type}
-                      bookmarks={widget.bookmarks || []}
-                      bookmarkOptions={bookmarks}
-                      handleRemoveCollection={() => {
-                        handleRemoveCollection({
-                          variables: {
-                            _id: widget._id,
-                          },
-                          refetchQueries: [`getUser`],
-                        })
-                      }}
-                      handleEditCollection={(
-                        title: string,
-                        bookmarks?: Bookmark[]
-                      ) => {
-                        handleEditCollection({
-                          variables: {
-                            _id: widget._id,
-                            title,
-                            bookmarks,
-                          },
-                          optimisticResponse: {
-                            editCollection: {
-                              _id: widget._id,
-                              title,
-                              bookmarks: bookmarks || widget.bookmarks,
-                            },
-                          },
-                          update(cache, result) {
-                            if (result.data?.editCollection) {
-                              const { editCollection } = result.data
-                              cache.writeFragment({
-                                id: `Collection:${editCollection._id}`,
-                                fragment: gql`
-                                  fragment collectionData on Collection {
-                                    _id
-                                    title
-                                    bookmarks {
-                                      _id
-                                      url
-                                      label
-                                      cmsId
-                                      isRemoved
-                                    }
-                                  }
-                                `,
-                                data: editCollection,
+                  if (isCollection(widget)) {
+                    return (
+                      <Grid
+                        key={`widget_${widget._id}`}
+                        tabletLg={{ col: 6 }}
+                        desktopLg={{ col: 4 }}>
+                        <DraggableCollection id={widget._id.toString()}>
+                          <CustomCollection
+                            _id={widget._id}
+                            key={`widget_${widget._id}`}
+                            title={widget.title}
+                            type={widget.type}
+                            bookmarks={widget.bookmarks || []}
+                            bookmarkOptions={bookmarks}
+                            handleRemoveCollection={() => {
+                              handleRemoveCollection({
+                                variables: {
+                                  _id: widget._id,
+                                },
+                                refetchQueries: [`getUser`],
                               })
-                            }
-                          },
-                        })
-                      }}
-                      handleRemoveBookmark={(_id, cmsId) => {
-                        handleRemoveBookmark({
-                          variables: {
-                            _id,
-                            collectionId: widget._id,
-                            cmsId,
-                          },
-                          refetchQueries: [`getUser`],
-                        })
-                      }}
-                      handleAddBookmark={(url, label, id) => {
-                        handleAddBookmark({
-                          variables: {
-                            collectionId: widget._id,
-                            url,
-                            label,
-                            cmsId: id,
-                          },
-                          refetchQueries: [`getUser`],
-                        })
-                      }}
+                            }}
+                            handleEditCollection={(
+                              title: string,
+                              bookmarks?: Bookmark[]
+                            ) => {
+                              handleEditCollection({
+                                variables: {
+                                  _id: widget._id,
+                                  title,
+                                  bookmarks,
+                                },
+                                optimisticResponse: {
+                                  editCollection: {
+                                    _id: widget._id,
+                                    title,
+                                    bookmarks: bookmarks || widget.bookmarks,
+                                  },
+                                },
+                                update(cache, result) {
+                                  if (result.data?.editCollection) {
+                                    const { editCollection } = result.data
+                                    cache.writeFragment({
+                                      id: `Collection:${editCollection._id}`,
+                                      fragment: gql`
+                                        fragment collectionData on Collection {
+                                          _id
+                                          title
+                                          bookmarks {
+                                            _id
+                                            url
+                                            label
+                                            cmsId
+                                            isRemoved
+                                          }
+                                        }
+                                      `,
+                                      data: editCollection,
+                                    })
+                                  }
+                                },
+                              })
+                            }}
+                            handleRemoveBookmark={(_id, cmsId) => {
+                              handleRemoveBookmark({
+                                variables: {
+                                  _id,
+                                  collectionId: widget._id,
+                                  cmsId,
+                                },
+                                refetchQueries: [`getUser`],
+                              })
+                            }}
+                            handleAddBookmark={(url, label, id) => {
+                              handleAddBookmark({
+                                variables: {
+                                  collectionId: widget._id,
+                                  url,
+                                  label,
+                                  cmsId: id,
+                                },
+                                refetchQueries: [`getUser`],
+                              })
+                            }}
+                          />
+                        </DraggableCollection>
+                      </Grid>
+                    )
+                  }
+
+                  return null
+                })}
+
+                {(canAddCollections ||
+                  canAddNews ||
+                  canAddGuardianIdeal ||
+                  canAddFeaturedShortcuts) && (
+                  <Grid
+                    key={`widget_addNew`}
+                    tabletLg={{ col: 6 }}
+                    desktopLg={{ col: 4 }}>
+                    <AddWidget
+                      handleCreateCollection={addNewCollection}
+                      handleSelectCollection={selectCollections}
                     />
                   </Grid>
-                )
-              }
-              return null
-            })}
-
-          {(canAddCollections ||
-            canAddNews ||
-            canAddGuardianIdeal ||
-            canAddFeaturedShortcuts) && (
-            <Grid
-              key={`widget_addNew`}
-              tabletLg={{ col: 6 }}
-              desktopLg={{ col: 4 }}>
-              <AddWidget
-                handleCreateCollection={addNewCollection}
-                handleSelectCollection={selectCollections}
-                handleAddNews={addNewsWidget}
-                handleAddGuardianIdeal={addGuardianIdeal}
-                handleAddFeaturedShortcuts={addFeaturedShortcuts}
-                canAddNews={canAddNews}
-                canAddCollection={canAddCollections}
-                canAddGuardianIdeal={canAddGuardianIdeal}
-                canAddFeaturedShortcuts={canAddFeaturedShortcuts}
-              />
-            </Grid>
-          )}
-        </Grid>
+                )}
+              </Grid>
+            </SortableContext>
+          </Droppable>
+        </DndContext>
       </div>
     </div>
   )

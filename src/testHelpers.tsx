@@ -5,6 +5,17 @@ import { testUser1, testPortalUser1 } from './__fixtures__/authUsers'
 import { AuthContext, AuthContextType } from 'stores/authContext'
 import { ModalContext, ModalContextType } from 'stores/modalContext'
 import { SearchContext, SearchContextType } from 'stores/searchContext'
+import { MySpaceContext, MySpaceContextType } from 'stores/myspaceContext'
+import { Widget } from 'types'
+
+export const defaultMockAuthContext = {
+  user: testUser1,
+  portalUser: testPortalUser1,
+  setUser: jest.fn(),
+  setPortalUser: jest.fn(),
+  logout: jest.fn(),
+  login: jest.fn(),
+}
 
 export const defaultMockModalContext = {
   modalId: '',
@@ -66,15 +77,6 @@ export const renderWithModalRoot = (
     container: document.body.appendChild(modalContainer),
     wrapper,
   })
-}
-
-export const defaultMockAuthContext = {
-  user: testUser1,
-  portalUser: testPortalUser1,
-  setUser: jest.fn(),
-  setPortalUser: jest.fn(),
-  logout: jest.fn(),
-  login: jest.fn(),
 }
 
 /** Renders the component inside of an already-authenticated AuthProvider */
@@ -156,6 +158,76 @@ export const renderWithSearchContext = (
   )
 
   return render(component, { wrapper })
+}
+
+export const defaultMockMySpaceContext = {
+  mySpace: [],
+  disableDragAndDrop: false,
+  setDisableDragAndDrop: jest.fn(),
+  initializeMySpace: jest.fn(),
+  isCollection: (widget: Widget) => widget.type === 'Collection',
+  isGuardianIdeal: (widget: Widget) => widget.type === 'GuardianIdeal',
+  isNewsWidget: (widget: Widget) => widget.type === 'News',
+  isFeaturedShortcuts: (widget: Widget) => widget.type === 'FeaturedShortcuts',
+  canAddCollections: true,
+  canAddNews: true,
+  canAddGuardianIdeal: true,
+  canAddFeaturedShortcuts: true,
+  addNewsWidget: jest.fn(),
+  addGuardianIdeal: jest.fn(),
+  addFeaturedShortcuts: jest.fn(),
+  addNewCollection: jest.fn(),
+  handleOnDragEnd: jest.fn(),
+}
+
+/** Renders the component inside of a MySpaceProvider */
+export const renderWithMySpaceAndModalContext = (
+  component: React.ReactElement,
+  value: Partial<MySpaceContextType> = {},
+  mocks: readonly MockedResponse<Record<string, unknown>>[] = [],
+  authValue: Partial<AuthContextType> = {},
+  modalValue: Partial<ModalContextType> = {}
+) => {
+  const modalContainer = document.createElement('div')
+  modalContainer.setAttribute('id', 'modal-root')
+
+  const contextValue = {
+    ...defaultMockMySpaceContext,
+    ...value,
+  }
+
+  const authContextValue = {
+    ...defaultMockAuthContext,
+    ...authValue,
+  }
+
+  const modalContextValue = {
+    ...defaultMockModalContext,
+    ...modalValue,
+  }
+
+  const wrapper = ({ children }: { children: React.ReactNode }) => (
+    <AuthContext.Provider value={authContextValue}>
+      <MockedProvider
+        mocks={mocks}
+        addTypename={false}
+        defaultOptions={{
+          watchQuery: { fetchPolicy: 'no-cache' },
+          query: { fetchPolicy: 'no-cache' },
+        }}>
+        <MySpaceContext.Provider value={contextValue}>
+          <ModalContext.Provider value={modalContextValue}>
+            {children}
+          </ModalContext.Provider>
+        </MySpaceContext.Provider>
+      </MockedProvider>
+    </AuthContext.Provider>
+  )
+
+  return render(component, {
+    container: document.body.appendChild(modalContainer),
+    wrapper,
+  })
 }
 
 /** sets up some mocks for the useTheme hook **/

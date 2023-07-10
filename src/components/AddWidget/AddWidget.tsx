@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
 import { Button, Icon } from '@trussworks/react-uswds'
 import { useFlags } from 'launchdarkly-react-client-sdk'
-
 import styles from './AddWidget.module.scss'
+import { useMySpaceContext } from 'stores/myspaceContext'
 
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
@@ -10,23 +10,9 @@ import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 const AddWidget = ({
   handleSelectCollection,
   handleCreateCollection,
-  handleAddNews,
-  handleAddGuardianIdeal,
-  handleAddFeaturedShortcuts,
-  canAddNews = true,
-  canAddCollection = true,
-  canAddGuardianIdeal = true,
-  canAddFeaturedShortcuts = true,
 }: {
   handleSelectCollection: () => void
   handleCreateCollection: () => void
-  handleAddNews: () => void
-  handleAddGuardianIdeal: () => void
-  handleAddFeaturedShortcuts: () => void
-  canAddNews?: boolean
-  canAddCollection?: boolean
-  canAddGuardianIdeal?: boolean
-  canAddFeaturedShortcuts?: boolean
 }) => {
   const dropdownEl = useRef<HTMLDivElement>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
@@ -34,6 +20,16 @@ const AddWidget = ({
     false
   )
   const flags = useFlags()
+
+  const {
+    canAddNews,
+    canAddCollections,
+    canAddGuardianIdeal,
+    canAddFeaturedShortcuts,
+    addNewsWidget,
+    addGuardianIdeal,
+    addFeaturedShortcuts,
+  } = useMySpaceContext()
 
   const menuOnClick = () => {
     setIsDropdownOpen((state) => !state)
@@ -66,7 +62,7 @@ const AddWidget = ({
         isActive={isDropdownOpen}>
         <Button
           type="button"
-          disabled={!canAddCollection}
+          disabled={!canAddCollections}
           onClick={() => {
             handleCreateCollection()
             setIsDropdownOpen(false)
@@ -75,7 +71,7 @@ const AddWidget = ({
         </Button>
         <Button
           type="button"
-          disabled={!canAddCollection}
+          disabled={!canAddCollections}
           onClick={() => {
             handleSelectCollection()
             setIsDropdownOpen(false)
@@ -86,7 +82,7 @@ const AddWidget = ({
           disabled={!canAddNews}
           type="button"
           onClick={() => {
-            handleAddNews()
+            addNewsWidget()
             setIsDropdownOpen(false)
           }}>
           Add news widget
@@ -96,7 +92,7 @@ const AddWidget = ({
             disabled={!canAddGuardianIdeal}
             type="button"
             onClick={() => {
-              handleAddGuardianIdeal()
+              addGuardianIdeal()
               setIsDropdownOpen(false)
             }}>
             Add Guardian Ideal widget
@@ -107,7 +103,7 @@ const AddWidget = ({
             disabled={!canAddFeaturedShortcuts}
             type="button"
             onClick={() => {
-              handleAddFeaturedShortcuts()
+              addFeaturedShortcuts()
               setIsDropdownOpen(false)
             }}>
             Add Featured Shortcuts widget

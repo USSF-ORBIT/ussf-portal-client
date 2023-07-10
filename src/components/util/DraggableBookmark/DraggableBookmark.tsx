@@ -20,7 +20,7 @@ const DraggableBookmark = ({ id, children }: DraggableBookmarkProps) => {
   } = useSortable({ id: id })
 
   const style = {
-    transform: CSS.Transform.toString(transform),
+    transform: CSS.Translate.toString(transform),
     transition,
     width: '100%',
     height: '100%',
