@@ -171,8 +171,20 @@ export type Widget = {
   _id: ObjectId
   title: string
   type: WidgetType
+  // Added this because the bookmarks field is required on the Collection interface below, but
+  // previously did not exist on the Widget type, which was causing a type error when trying to
+  // map over the user's MySpace to render the widgets.
+  bookmarks?: MongoBookmark[]
   // default indicates if the widget is automatically added for the user
   default?: boolean
+  // id is needed for dnd-kit to be able to sort the widgets while a user is dragging. It only needs
+  // to exist on a draggable widget in a users MySpace, and is set on all widgets in the initializeMySpace
+  // function in myspaceContext. It is not being used anywhere else and does not exist on our GraohQL schema,
+  // so when we perform operations on the widget in MongoDB, the value is not used.
+  // Additional info: I discovered that we can just use w._id.toString() in handleOnDragEnd in myspaceContext
+  // when updating the positioning of widgets, so this value is not being used in any functions. However, in
+  // order for the drag-and-drop animation to work, this value needs to exist on the widget in the MySpace.
+  id?: string
 }
 
 /*  BookmarkModelInput represents a bookmark as it is passed into MongoDB for updating  */

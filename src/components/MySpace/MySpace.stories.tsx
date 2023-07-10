@@ -1,24 +1,23 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
 import { ObjectId } from 'bson'
-import { testUser1 } from '../../__fixtures__/authUsers'
+import { MySpaceContext, MySpaceContextType } from '../../stores/myspaceContext'
 import MySpace from './MySpace'
 import { mockRssFeedTwo } from '__mocks__/news-rss'
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
-import { AuthContext } from 'stores/authContext'
-import { Collection } from 'types'
+import { Widget } from 'types'
 import { cmsBookmarksMock } from '__fixtures__/data/cmsBookmarks'
 
 // Load 2 items
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
 
-const mockNewsWidget: any = {
+const mockNewsWidget: Widget = {
   _id: new ObjectId(),
   title: 'Recent News',
   type: 'News',
 }
 
-const exampleMySpaceData: Collection[] = [
+const exampleMySpaceData: Widget[] = [
   {
     _id: new ObjectId(),
     title: 'Example Collection',
@@ -48,33 +47,50 @@ const exampleMySpaceData: Collection[] = [
         _id: new ObjectId(),
         url: 'www.example.com/4',
         label: 'Custom Link',
-        cmsId: null,
       },
     ],
   },
   mockNewsWidget,
 ]
 
-const examplePortalUser = {
-  userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
-  mySpace: exampleMySpaceData,
-  displayName: 'BERNIE',
-  theme: 'light',
-}
-
-const mockContext = {
-  user: testUser1,
-  portalUser: examplePortalUser,
-  setUser: () => {
+const mockMySpaceContext: MySpaceContextType = {
+  mySpace: [...exampleMySpaceData],
+  disableDragAndDrop: false,
+  setDisableDragAndDrop: () => {
     return
   },
-  setPortalUser: () => {
+  initializeMySpace: () => {
     return
   },
-  logout: () => {
+  isCollection: (widget: Widget) => {
+    return widget.type === 'Collection'
+  },
+  isGuardianIdeal: () => {
+    return false
+  },
+  isNewsWidget: (widget: Widget) => {
+    return widget.type === 'News'
+  },
+  isFeaturedShortcuts: () => {
+    return false
+  },
+  canAddCollections: true,
+  canAddNews: true,
+  canAddGuardianIdeal: true,
+  canAddFeaturedShortcuts: true,
+  addNewsWidget: () => {
     return
   },
-  login: () => {
+  addGuardianIdeal: () => {
+    return
+  },
+  addFeaturedShortcuts: () => {
+    return
+  },
+  addNewCollection: () => {
+    return
+  },
+  handleOnDragEnd: () => {
     return
   },
 }
@@ -84,11 +100,11 @@ export default {
   component: MySpace,
   decorators: [
     (Story) => (
-      <AuthContext.Provider value={mockContext}>
+      <MySpaceContext.Provider value={mockMySpaceContext}>
         <div className="sfds">
           <Story />
         </div>
-      </AuthContext.Provider>
+      </MySpaceContext.Provider>
     ),
   ],
   parameters: {

@@ -5,6 +5,8 @@ import { connectDb } from '../../utils/mongodb'
 import { up, down } from '../../migrations/1686078533740-remove-duplicate-users'
 
 const TESTUSER1 = 'user1'
+const TESTUSER2 = 'user2'
+
 const TEST_ACCOUNT = [
   {
     _id: ObjectId(),
@@ -237,6 +239,107 @@ const UNINVOLVED_USER = [
   },
 ]
 
+const TEST_ACCOUNT_2 = [
+  {
+    _id: ObjectId(),
+    userId: TESTUSER2,
+    mySpace: [
+      {
+        _id: ObjectId(),
+        title: 'Featured Shortcuts',
+        type: 'FeaturedShortcuts',
+      },
+      {
+        _id: ObjectId(),
+        title: 'Guardian Ideal',
+        type: 'GuardianIdeal',
+      },
+      {
+        _id: ObjectId(),
+        cmsId: 'ckwz3u58s1835ql974leo1yll',
+        title: 'Empty Collection',
+        type: 'Collection',
+        bookmarks: [],
+      },
+      {
+        _id: ObjectId(),
+        cmsId: 'ckwz3u58s1835ql974leo1yll',
+        title: 'Collection One',
+        type: 'Collection',
+        bookmarks: [
+          {
+            _id: ObjectId(),
+            cmsId: 'cktd7c0d30190w597qoftevq1',
+            url: 'https://afpcsecure.us.af.mil/',
+            label: 'vMPF',
+          },
+        ],
+      },
+    ],
+    displayName: 'USER TWO',
+    theme: 'light',
+  },
+]
+
+const TEST_ACCOUNT_COPY_2 = [
+  {
+    _id: ObjectId(),
+    userId: TESTUSER2,
+    mySpace: [
+      {
+        _id: ObjectId(),
+        title: 'Featured Shortcuts',
+        type: 'FeaturedShortcuts',
+      },
+      {
+        _id: ObjectId(),
+        title: 'Guardian Ideal',
+        type: 'GuardianIdeal',
+      },
+      {
+        _id: ObjectId(),
+        cmsId: 'ckwz3u58s1835ql974leo1yll',
+        title: 'Example Collection',
+        type: 'Collection',
+        bookmarks: [
+          {
+            _id: ObjectId(),
+            cmsId: 'cktd7c0d30190w597qoftevq1',
+            url: 'https://afpcsecure.us.af.mil/',
+            label: 'vMPF',
+          },
+          {
+            _id: ObjectId(),
+            cmsId: 'cktd7ettn0457w597p7ja4uye',
+            url: 'https://leave.af.mil/profile',
+            label: 'LeaveWeb',
+          },
+          {
+            _id: ObjectId(),
+            cmsId: 'cktd7hjz30636w5977vu4la4c',
+            url: 'https://mypay.dfas.mil/#/',
+            label: 'MyPay',
+          },
+          {
+            _id: ObjectId(),
+            cmsId: 'ckwz3tphw1763ql97pia1zkvc',
+            url: 'https://webmail.apps.mil/',
+            label: 'Webmail',
+          },
+          {
+            _id: ObjectId(),
+            cmsId: 'ckwz3u4461813ql970wkd254m',
+            url: 'https://www.e-publishing.af.mil/',
+            label: 'e-Publications',
+          },
+        ],
+      },
+    ],
+    displayName: 'USER TWO COPY',
+    theme: 'light',
+  },
+]
+
 describe('[Migration: Remove Duplicate Users]', () => {
   let connection
   let db
@@ -256,6 +359,8 @@ describe('[Migration: Remove Duplicate Users]', () => {
     await db.collection('users').insertMany(TEST_ACCOUNT_COPY)
     await db.collection('users').insertMany(ANOTHER_TEST_ACCOUNT_COPY)
     await db.collection('users').insertMany(UNINVOLVED_USER)
+    await db.collection('users').insertMany(TEST_ACCOUNT_2)
+    await db.collection('users').insertMany(TEST_ACCOUNT_COPY_2)
   })
 
   afterAll(async () => {
@@ -263,7 +368,7 @@ describe('[Migration: Remove Duplicate Users]', () => {
   })
 
   test('up', async () => {
-    // Find the duplicate users
+    // Find the duplicate TESTUSER1 users
     let users = await db.collection('users').find({ userId: TESTUSER1 })
     users = await users.toArray()
     expect(users).toHaveLength(3)
@@ -271,15 +376,34 @@ describe('[Migration: Remove Duplicate Users]', () => {
     // Check that both users have the same userId
     expect(users[0].userId).toEqual(users[1].userId)
 
+    // Find the duplicate TESTUSER2 users
+    let more_duplicate_users = await db
+      .collection('users')
+      .find({ userId: TESTUSER2 })
+    more_duplicate_users = await more_duplicate_users.toArray()
+    expect(more_duplicate_users).toHaveLength(2)
+
+    // Check that both users have the same userId
+    expect(more_duplicate_users[0].userId).toEqual(
+      more_duplicate_users[1].userId
+    )
+
     // Remove the duplicate users
     await up()
 
-    // Find the remaining user
+    // Find the remaining TESTUSER1 user
     users = await db.collection('users').find({ userId: TESTUSER1 })
     users = await users.toArray()
     expect(users).toHaveLength(1)
 
-    // Remaining user should have the merged mySpace
+    // Find the remaining TESTUSER2 user
+    more_duplicate_users = await db
+      .collection('users')
+      .find({ userId: TESTUSER2 })
+    more_duplicate_users = await more_duplicate_users.toArray()
+    expect(more_duplicate_users).toHaveLength(1)
+
+    // Remaining TESTUSER1 user should have the merged mySpace
     expect(users[0].mySpace).toHaveLength(7)
     expect(users[0].displayName).toEqual('USER ONE')
     expect(users[0].theme).toEqual('dark')
@@ -288,6 +412,21 @@ describe('[Migration: Remove Duplicate Users]', () => {
     ).toHaveLength(1)
     expect(
       users[0].mySpace.filter((item) => item.type === 'GuardianIdeal')
+    ).toHaveLength(1)
+
+    // Remaining TESTUSER2 user should have the merged mySpace
+    expect(more_duplicate_users[0].mySpace).toHaveLength(5)
+    expect(more_duplicate_users[0].displayName).toEqual('USER TWO')
+    expect(more_duplicate_users[0].theme).toEqual('light')
+    expect(
+      more_duplicate_users[0].mySpace.filter(
+        (item) => item.type === 'FeaturedShortcuts'
+      )
+    ).toHaveLength(1)
+    expect(
+      more_duplicate_users[0].mySpace.filter(
+        (item) => item.type === 'GuardianIdeal'
+      )
     ).toHaveLength(1)
 
     // Throw an error if there is an attempt to create a new user with the same userId as an existing user
