@@ -12,7 +12,7 @@ services:
   apollo-server:
     container_name: personnel-api
     build:
-      context: ./personnel-apollo-server/
+      context: ../ussf-personnel-api/
       dockerfile: Dockerfile
     restart: always
     ports:
