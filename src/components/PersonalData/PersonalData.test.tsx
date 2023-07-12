@@ -26,17 +26,17 @@ describe('Personal Data component', () => {
       html = render(<PersonalData userDisplayName="BERNADETTE CAMPBELL" />)
     })
 
-    it('renders the greeting with a name', () => {
+    test('renders the greeting with a name', () => {
       const greeting = screen.getByRole('heading', { level: 2 })
       expect(greeting).toHaveTextContent('Welcome, BERNADETTE CAMPBELL')
     })
 
-    it('renders the Edit name link', async () => {
+    test('renders the Edit name link', async () => {
       const editNameButton = await screen.findByTestId('editName')
       expect(editNameButton).toBeVisible()
     })
 
-    it('has no a11y violations', async () => {
+    test('has no a11y violations', async () => {
       // Bug with NextJS Link + axe :(
       // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
       await act(async () => {
