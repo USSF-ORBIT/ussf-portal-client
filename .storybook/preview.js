@@ -1,5 +1,4 @@
 import { RouterContext } from 'next/dist/shared/lib/router-context'
-import * as NextImage from 'next/image'
 import { MockedProvider } from '@apollo/client/testing'
 
 // happo support
@@ -8,14 +7,6 @@ import 'happo-plugin-storybook/register'
 // SFDS
 import 'styles/index.scss'
 import 'initIcons'
-
-// Storybook and next/image component do not play nice together
-// This enables us to use the <Image/> component and still view in Storybook
-const OriginalNextImage = NextImage.default
-Object.defineProperty(NextImage, 'default', {
-  configurable: true,
-  value: (props) => <OriginalNextImage {...props} unoptimized />,
-})
 
 const SFDS_VIEWPORTS = {
   mobile: {
