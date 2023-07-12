@@ -2,11 +2,10 @@
  * @jest-environment jsdom
  */
 
-import { act, screen } from '@testing-library/react'
+import { act, screen, render } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import React from 'react'
 import { axe } from 'jest-axe'
-import { renderWithAuthAndApollo } from '../../testHelpers'
 import PersonalData from './PersonalData'
 
 jest.mock('next/router', () => ({
@@ -22,22 +21,9 @@ jest.mock('axios')
 describe('Personal Data component', () => {
   let html: RenderResult
 
-  it('renders the greeting without a name', () => {
-    renderWithAuthAndApollo(
-      <PersonalData userDisplayName="BERNADETTE CAMPBELL" />,
-      {
-        user: null,
-      }
-    )
-    const greeting = screen.getByRole('heading', { level: 2 })
-    expect(greeting).toHaveTextContent('Welcome, BERNADETTE CAMPBELL')
-  })
-
   describe('when logged in', () => {
     beforeEach(() => {
-      html = renderWithAuthAndApollo(
-        <PersonalData userDisplayName="BERNADETTE CAMPBELL" />
-      )
+      html = render(<PersonalData userDisplayName="BERNADETTE CAMPBELL" />)
     })
 
     it('renders the greeting with a name', () => {
