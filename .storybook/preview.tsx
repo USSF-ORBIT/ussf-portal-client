@@ -1,3 +1,5 @@
+import React from 'react'
+import { Preview } from '@storybook/react'
 import { RouterContext } from 'next/dist/shared/lib/router-context'
 import { MockedProvider } from '@apollo/client/testing'
 
@@ -83,47 +85,58 @@ const SFDS_VIEWPORTS = {
   },
 }
 
-export const parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
+const preview: Preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
     },
-  },
-  nextRouter: {
-    Provider: RouterContext.Provider,
-  },
-  options: {
-    storySort: {
-      order: [
-        'Welcome',
-        'USSF Design System',
-        'Global',
-        'Navigation',
-        'Base',
-        'Components',
-        'Layout',
+    nextRouter: {
+      Provider: RouterContext.Provider,
+    },
+    options: {
+      storySort: {
+        order: [
+          'Welcome',
+          'USSF Design System',
+          'Global',
+          'Navigation',
+          'Base',
+          'Components',
+          'Layout',
+        ],
+      },
+    },
+    apolloClient: {
+      MockedProvider,
+    },
+    viewport: {
+      viewports: SFDS_VIEWPORTS,
+    },
+    backgrounds: {
+      default: '#d9e8f6',
+      values: [
+        {
+          name: 'dark',
+          value: '#0f305a',
+        },
+        {
+          name: 'white',
+          value: '#FFFFFF',
+        },
       ],
     },
   },
-  apolloClient: {
-    MockedProvider,
-  },
-  viewport: {
-    viewports: SFDS_VIEWPORTS,
-  },
-  backgrounds: {
-    default: '#d9e8f6',
-    values: [
-      {
-        name: 'dark',
-        value: '#0f305a',
-      },
-      {
-        name: 'white',
-        value: '#FFFFFF',
-      },
-    ],
-  },
+  decorators: [
+    (Story) => (
+      <div className="sfds">
+        <Story />
+      </div>
+    ),
+  ],
 }
+
+export default preview
