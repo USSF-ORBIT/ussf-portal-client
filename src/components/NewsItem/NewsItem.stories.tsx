@@ -6,13 +6,6 @@ import NewsItem from './NewsItem'
 export default {
   title: 'Components/NewsWidget/NewsItem',
   component: NewsItem,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 const mockRSSArticle = {

@@ -32,9 +32,7 @@ export default {
     (Story) => (
       <AuthContext.Provider value={mockContext}>
         <ThemeProvider enableSystem={false} attribute={'data-color-theme'}>
-          <div className="sfds">
-            <Story />
-          </div>
+          <Story />
         </ThemeProvider>
       </AuthContext.Provider>
     ),
@@ -48,9 +46,7 @@ export const NoUser = () => <ThemeToggle />
 NoUser.decorators = [
   (Story: any) => (
     <AuthContext.Provider value={{ ...mockContext, user: null }}>
-      <div className="sfds">
-        <Story />
-      </div>
+      <Story />
     </AuthContext.Provider>
   ),
 ]

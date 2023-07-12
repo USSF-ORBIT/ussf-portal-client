@@ -6,13 +6,6 @@ import BreadcrumbNav from './BreadcrumbNav'
 export default {
   title: 'Components/BreadcrumbNav',
   component: BreadcrumbNav,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 export const NewsAndAnnouncements = () => (

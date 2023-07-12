@@ -5,13 +5,6 @@ import PageNav from './PageNav'
 export default {
   title: 'Navigation/PageNav',
   component: PageNav,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 const navItems = [

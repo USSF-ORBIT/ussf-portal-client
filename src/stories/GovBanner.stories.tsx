@@ -14,19 +14,19 @@ export default {
 } as ComponentMeta<typeof GovBanner>
 
 export const Default = () => (
-  <div className={`${defaultStyles.siteContainer} sfds`}>
+  <div className={`${defaultStyles.siteContainer}`}>
     <GovBanner tld=".mil" />
   </div>
 )
 
 export const Error = () => (
-  <div className={`${errorStyles.errorContainer} sfds`}>
+  <div className={`${errorStyles.errorContainer}`}>
     <GovBanner tld=".mil" />
   </div>
 )
 
 export const Login = () => (
-  <div className={`${loginStyles.layoutLogin} sfds`}>
+  <div className={`${loginStyles.layoutLogin}`}>
     <GovBanner tld=".mil" />
   </div>
 )

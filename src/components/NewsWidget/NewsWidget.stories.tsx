@@ -19,13 +19,6 @@ export default {
   argTypes: {
     onRemove: { action: 'Remove this widget' },
   },
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
   parameters: {
     mockData: [
       {
