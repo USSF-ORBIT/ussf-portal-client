@@ -1,7 +1,6 @@
 import React from 'react'
 import { useFlags } from 'launchdarkly-react-client-sdk'
 import { Grid } from '@trussworks/react-uswds'
-import { gql } from '@apollo/client'
 import { useRouter } from 'next/router'
 import {
   closestCorners,
@@ -172,35 +171,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                                   title,
                                   bookmarks,
                                 },
-                                optimisticResponse: {
-                                  editCollection: {
-                                    _id: widget._id,
-                                    title,
-                                    bookmarks: bookmarks || widget.bookmarks,
-                                  },
-                                },
-                                update(cache, result) {
-                                  if (result.data?.editCollection) {
-                                    const { editCollection } = result.data
-                                    cache.writeFragment({
-                                      id: `Collection:${editCollection._id}`,
-                                      fragment: gql`
-                                        fragment collectionData on Collection {
-                                          _id
-                                          title
-                                          bookmarks {
-                                            _id
-                                            url
-                                            label
-                                            cmsId
-                                            isRemoved
-                                          }
-                                        }
-                                      `,
-                                      data: editCollection,
-                                    })
-                                  }
-                                },
+                                refetchQueries: [`getUser`],
                               })
                             }}
                             handleRemoveBookmark={(_id, cmsId) => {
