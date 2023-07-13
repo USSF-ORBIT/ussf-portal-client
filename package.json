@@ -29,7 +29,6 @@
     "test": "jest --runInBand --testTimeout=60000",
     "test:watch": "jest --watch  --runInBand --testTimeout=60000",
     "postinstall": "sh ./scripts/copy_uswds_assets.sh",
-    "release": "standard-version -t ''",
     "migrate:create": "migrate create --template-file ./migration-template.js",
     "generate": "graphql-codegen --config codegen.yml",
     "happo": "happo",
@@ -153,7 +152,6 @@
     "prettier": "2.8.8",
     "sass": "1.63.4",
     "sass-loader": "13.3.2",
-    "standard-version": "9.5.0",
     "storybook": "7.0.24",
     "storybook-addon-apollo-client": "5.0.0",
     "storybook-addon-launchdarkly": "1.0.2",
@@ -180,65 +178,6 @@
     ],
     "*.{css,scss}": [
       "prettier --write"
-    ]
-  },
-  "standard-version": {
-    "skip": {
-      "tag": true
-    },
-    "types": [
-      {
-        "type": "build",
-        "hidden": true
-      },
-      {
-        "type": "chore",
-        "hidden": true
-      },
-      {
-        "type": "ci",
-        "hidden": true
-      },
-      {
-        "type": "dev",
-        "hidden": true
-      },
-      {
-        "type": "feat",
-        "section": "Features"
-      },
-      {
-        "type": "fix",
-        "section": "Bug Fixes"
-      },
-      {
-        "type": "perf",
-        "section": "Performance Improvements"
-      },
-      {
-        "type": "refactor",
-        "hidden": true
-      },
-      {
-        "type": "revert",
-        "section": "Reverted Changes"
-      },
-      {
-        "type": "style",
-        "hidden": true
-      },
-      {
-        "type": "test",
-        "hidden": true
-      },
-      {
-        "type": "docs",
-        "section": "Documentation"
-      },
-      {
-        "type": "security",
-        "section": "Security Improvements"
-      }
     ]
   }
 }
