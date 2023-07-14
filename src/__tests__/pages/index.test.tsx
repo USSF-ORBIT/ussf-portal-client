@@ -8,7 +8,10 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
 
-import { renderWithAuth, renderWithAuthAndApollo } from '../../testHelpers'
+import {
+  renderWithAuth,
+  renderWithMySpaceAndModalContext,
+} from '../../testHelpers'
 import { portalUserMaxedOutCollection } from '../../__fixtures__/authUsers'
 
 import { cmsBookmarksMock as mockCmsBookmarks } from '../../__fixtures__/data/cmsBookmarks'
@@ -81,13 +84,13 @@ describe('Home page', () => {
     let html: RenderResult
 
     beforeEach(() => {
-      html = renderWithAuthAndApollo(
+      html = renderWithMySpaceAndModalContext(
         <Home
           bookmarks={mockCmsBookmarks}
           announcements={mockCmsAnnouncements}
           pageTitle={'My Space'}
         />,
-        { portalUser: portalUserMaxedOutCollection }
+        { mySpace: [...portalUserMaxedOutCollection.mySpace] }
       )
     })
 

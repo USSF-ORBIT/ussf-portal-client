@@ -89,6 +89,12 @@ type EditThemeInput = {
   userId: string
   theme: 'light' | 'dark'
 }
+
+type EditMySpaceInput = {
+  userId: string
+  mySpace: Widget[]
+}
+
 const resolvers = {
   OID: ObjectIdScalar,
   // Interface resolvers
@@ -332,6 +338,22 @@ const resolvers = {
       }
 
       return UserModel.setTheme({ userId, theme }, { db })
+    },
+    editMySpace: async (
+      _: undefined,
+      { mySpace }: EditMySpaceInput,
+      { db, user }: PortalUserContext
+    ) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      return UserModel.setMySpace(
+        { userId: user.userId, mySpace: mySpace },
+        { db }
+      )
     },
   },
 }

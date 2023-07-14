@@ -5,10 +5,12 @@ export const getThemeMock = [
     request: {
       query: GetThemeDocument,
     },
-    result: jest.fn(() => ({
-      data: {
-        theme: 'dark',
-      },
-    })),
+    result: jest.fn(
+      /* istanbul ignore next */ () => ({
+        data: {
+          theme: 'dark',
+        },
+      })
+    ),
   },
 ]
