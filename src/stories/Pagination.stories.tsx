@@ -1,5 +1,7 @@
+import React from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 import { Pagination } from '@trussworks/react-uswds'
+import defaultStyles from '../layout/DefaultLayout/DefaultLayout.module.scss'
 
 export default {
   title: 'Base/Pagination',
@@ -10,6 +12,13 @@ export default {
     maxSlots: { control: 'number' },
     pathname: { control: 'string' },
   },
+  decorators: [
+    (Story) => (
+      <div className={defaultStyles.siteContainer}>
+        <Story />
+      </div>
+    ),
+  ],
 } as Meta<typeof Pagination>
 
 const pathname = '/test-pathname'
