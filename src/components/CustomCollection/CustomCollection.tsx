@@ -101,7 +101,7 @@ const CustomCollection = ({
     isAddingLinkContext,
     modalRef,
   } = useModalContext()
-  const { disableDragAndDrop, setDisableDragAndDrop } = useMySpaceContext()
+  const { setDisableDragAndDrop } = useMySpaceContext()
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -282,7 +282,6 @@ const CustomCollection = ({
   /* Collection settings handlers */
   // Toggle the dropdown menu
   const menuOnClick = () => {
-    setDisableDragAndDrop(!disableDragAndDrop)
     setIsDropdownOpen(!isDropdownOpen)
   }
 
