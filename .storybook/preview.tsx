@@ -2,6 +2,7 @@ import React from 'react'
 import { Preview } from '@storybook/react'
 import { RouterContext } from 'next/dist/shared/lib/router-context'
 import { MockedProvider } from '@apollo/client/testing'
+import { ThemeProvider } from 'next-themes'
 
 // happo support
 import 'happo-plugin-storybook/register'
@@ -130,7 +131,30 @@ const preview: Preview = {
       ],
     },
   },
+  globalTypes: {
+    theme: {
+      description: 'Global theme for components',
+      defaultValue: 'light',
+      toolbar: {
+        // The label to show for this toolbar item
+        title: 'Theme',
+        icon: 'circlehollow',
+        // Array of plain string values or MenuItem shape (see below)
+        items: ['light', 'dark'],
+        // Change title based on selected value
+        dynamicTitle: true,
+      },
+    },
+  },
   decorators: [
+    (Story, context) => (
+      <ThemeProvider
+        forcedTheme={context.globals.theme}
+        enableSystem={false}
+        attribute={'data-color-theme'}>
+        <Story />
+      </ThemeProvider>
+    ),
     (Story) => (
       <div className="sfds">
         <Story />

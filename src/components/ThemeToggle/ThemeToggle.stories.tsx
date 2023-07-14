@@ -1,7 +1,6 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
 
-import { ThemeProvider } from 'next-themes'
 import { testPortalUser1, testUser1 } from '../../__fixtures__/authUsers'
 
 import ThemeToggle from './ThemeToggle'
@@ -29,13 +28,14 @@ export default {
   title: 'Base/ThemeToggle',
   component: ThemeToggle,
   decorators: [
-    (Story) => (
-      <AuthContext.Provider value={mockContext}>
-        <ThemeProvider enableSystem={false} attribute={'data-color-theme'}>
+    (Story, context) => {
+      mockContext.portalUser.theme = context.globals.theme
+      return (
+        <AuthContext.Provider value={mockContext}>
           <Story />
-        </ThemeProvider>
-      </AuthContext.Provider>
-    ),
+        </AuthContext.Provider>
+      )
+    },
   ],
 } as Meta
 
