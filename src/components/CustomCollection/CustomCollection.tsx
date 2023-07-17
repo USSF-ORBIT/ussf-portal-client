@@ -101,7 +101,7 @@ const CustomCollection = ({
     isAddingLinkContext,
     modalRef,
   } = useModalContext()
-  const { disableDragAndDrop, setDisableDragAndDrop } = useMySpaceContext()
+  const { setDisableDragAndDrop } = useMySpaceContext()
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -146,7 +146,10 @@ const CustomCollection = ({
   /** Add Link handlers */
 
   // Show the Add Link form
-  const handleShowAdding = () => setIsAddingLink(true)
+  const handleShowAdding = () => {
+    setIsAddingLink(true)
+    setDisableDragAndDrop(true)
+  }
 
   // Open Add Custom Link modal
   const openCustomLinkModal = () => {
@@ -158,6 +161,11 @@ const CustomCollection = ({
     updateWidget({ _id: _id, title: title, type: 'Collection' })
 
     updateCustomLinkLabel(customLabel, showAddWarning, isAddingLink)
+
+    // We have to disable drag and drop while users are adding/selecting a bookmark,
+    // so we need to enable it again here for collections when we open the modal and are
+    // no longer focused on the collection
+    setDisableDragAndDrop(false)
 
     modalRef?.current?.toggleModal(undefined, true)
   }
@@ -181,6 +189,7 @@ const CustomCollection = ({
       )
       handleAddBookmark(existingLink.url, existingLink.label, existingLink.id)
       setIsAddingLink(false)
+      setDisableDragAndDrop(false)
     }
   }
 
@@ -261,7 +270,10 @@ const CustomCollection = ({
               <Button
                 type="button"
                 unstyled
-                onClick={() => setIsAddingLink(false)}>
+                onClick={() => {
+                  setIsAddingLink(false)
+                  setDisableDragAndDrop(false)
+                }}>
                 Cancel
               </Button>
             </div>
@@ -282,7 +294,6 @@ const CustomCollection = ({
   /* Collection settings handlers */
   // Toggle the dropdown menu
   const menuOnClick = () => {
-    setDisableDragAndDrop(!disableDragAndDrop)
     setIsDropdownOpen(!isDropdownOpen)
   }
 
