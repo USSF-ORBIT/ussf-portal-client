@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.22.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/v4.22.0...4.22.1) (2023-07-17)
+
+
+### Bug Fixes
+
+* Fix drag-and-drop bug ([#1066](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1066)) ([e9bed71](https://github.com/USSF-ORBIT/ussf-portal-client/commit/e9bed71289d73d86c080a7de872c5c16444ac7f8))
+
 ## [4.22.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/v4.21.0...v4.22.0) (2023-07-10)
 
 
