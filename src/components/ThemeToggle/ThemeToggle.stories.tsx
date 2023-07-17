@@ -1,5 +1,5 @@
 import React from 'react'
-import { Meta } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 
 import { testPortalUser1, testUser1 } from '../../__fixtures__/authUsers'
 
@@ -39,14 +39,16 @@ export default {
   ],
 } as Meta
 
-export const WithUser = () => <ThemeToggle />
+type Story = StoryObj<typeof ThemeToggle>
 
-export const NoUser = () => <ThemeToggle />
+export const WithUser: Story = {}
 
-NoUser.decorators = [
-  (Story: any) => (
-    <AuthContext.Provider value={{ ...mockContext, user: null }}>
-      <Story />
-    </AuthContext.Provider>
-  ),
-]
+export const NoUser: Story = {
+  decorators: [
+    (Story) => (
+      <AuthContext.Provider value={{ ...mockContext, user: null }}>
+        <Story />
+      </AuthContext.Provider>
+    ),
+  ],
+}
