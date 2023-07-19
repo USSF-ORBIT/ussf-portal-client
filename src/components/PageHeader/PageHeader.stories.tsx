@@ -14,13 +14,6 @@ import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 export default {
   title: 'Navigation/PageHeader',
   component: PageHeader,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 export const PortalHome = () => (

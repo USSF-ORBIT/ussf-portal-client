@@ -1,6 +1,7 @@
 @use 'uswds-core' as *;
 @use 'styles/sfds/index.scss' as *;
 @use 'styles/govBanner' as *;
+@use 'styles/pagination' as *;
 
 .siteContainer {
   display: flex;
@@ -10,6 +11,8 @@
   :global {
     // Dark theme gov banner
     @include gov-banner;
+    // USSF themed pagination
+    @include pagination;
   }
 
   main {

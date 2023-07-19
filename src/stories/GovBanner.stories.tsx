@@ -1,5 +1,5 @@
 import React from 'react'
-import { ComponentMeta } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 import { GovBanner } from '@trussworks/react-uswds'
 import defaultStyles from '../layout/DefaultLayout/DefaultLayout.module.scss'
 import errorStyles from '../layout/ErrorLayout/ErrorLayout.module.scss'
@@ -11,22 +11,39 @@ export default {
   argTypes: {
     tld: { control: 'string' },
   },
-} as ComponentMeta<typeof GovBanner>
+  args: {
+    tld: '.mil',
+  },
+} as Meta<typeof GovBanner>
 
-export const Default = () => (
-  <div className={`${defaultStyles.siteContainer} sfds`}>
-    <GovBanner tld=".mil" />
-  </div>
-)
+type Story = StoryObj<typeof GovBanner>
 
-export const Error = () => (
-  <div className={`${errorStyles.errorContainer} sfds`}>
-    <GovBanner tld=".mil" />
-  </div>
-)
+export const Default: Story = {
+  decorators: [
+    (Story) => (
+      <div className={defaultStyles.siteContainer}>
+        <Story />
+      </div>
+    ),
+  ],
+}
 
-export const Login = () => (
-  <div className={`${loginStyles.layoutLogin} sfds`}>
-    <GovBanner tld=".mil" />
-  </div>
-)
+export const Error: Story = {
+  decorators: [
+    (Story) => (
+      <div className={errorStyles.errorContainer}>
+        <Story />
+      </div>
+    ),
+  ],
+}
+
+export const Login: Story = {
+  decorators: [
+    (Story) => (
+      <div className={loginStyles.layoutLogin}>
+        <Story />
+      </div>
+    ),
+  ],
+}

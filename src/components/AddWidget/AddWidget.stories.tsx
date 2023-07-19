@@ -71,13 +71,6 @@ export default {
     handleSelectCollection: { action: 'Select collection from template' },
     handleCreateCollection: { action: 'Create new collection' },
   },
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 export const DefaultAddWidget = (argTypes: StorybookArgTypes) => (

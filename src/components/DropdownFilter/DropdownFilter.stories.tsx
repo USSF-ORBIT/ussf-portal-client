@@ -5,10 +5,9 @@ import { DropdownFilter } from './DropdownFilter'
 export default {
   title: 'Base/DropdownFilter',
   component: DropdownFilter,
-
   decorators: [
     (Story) => (
-      <div className={`sfds ${styles.toolbar} ${styles.toolbarLeft}`}>
+      <div className={`${styles.toolbar} ${styles.toolbarLeft}`}>
         <Story />
       </div>
     ),

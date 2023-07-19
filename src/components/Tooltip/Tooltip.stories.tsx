@@ -7,13 +7,6 @@ import Tooltip from './Tooltip'
 export default {
   title: 'Base/Tooltip',
   component: Tooltip,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 const labelText = `You can only add 10 links to a collection.\nTo add more links, please create a new collection.`

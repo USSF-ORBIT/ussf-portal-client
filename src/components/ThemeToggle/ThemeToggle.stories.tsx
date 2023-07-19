@@ -1,7 +1,6 @@
 import React from 'react'
-import { Meta } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 
-import { ThemeProvider } from 'next-themes'
 import { testPortalUser1, testUser1 } from '../../__fixtures__/authUsers'
 
 import ThemeToggle from './ThemeToggle'
@@ -29,28 +28,27 @@ export default {
   title: 'Base/ThemeToggle',
   component: ThemeToggle,
   decorators: [
-    (Story) => (
-      <AuthContext.Provider value={mockContext}>
-        <ThemeProvider enableSystem={false} attribute={'data-color-theme'}>
-          <div className="sfds">
-            <Story />
-          </div>
-        </ThemeProvider>
-      </AuthContext.Provider>
-    ),
+    (Story, context) => {
+      mockContext.portalUser.theme = context.globals.theme
+      return (
+        <AuthContext.Provider value={mockContext}>
+          <Story />
+        </AuthContext.Provider>
+      )
+    },
   ],
 } as Meta
 
-export const WithUser = () => <ThemeToggle />
+type Story = StoryObj<typeof ThemeToggle>
 
-export const NoUser = () => <ThemeToggle />
+export const WithUser: Story = {}
 
-NoUser.decorators = [
-  (Story: any) => (
-    <AuthContext.Provider value={{ ...mockContext, user: null }}>
-      <div className="sfds">
+export const NoUser: Story = {
+  decorators: [
+    (Story) => (
+      <AuthContext.Provider value={{ ...mockContext, user: null }}>
         <Story />
-      </div>
-    </AuthContext.Provider>
-  ),
-]
+      </AuthContext.Provider>
+    ),
+  ],
+}

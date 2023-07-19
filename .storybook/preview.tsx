@@ -1,6 +1,8 @@
+import React from 'react'
+import { Preview } from '@storybook/react'
 import { RouterContext } from 'next/dist/shared/lib/router-context'
-import * as NextImage from 'next/image'
 import { MockedProvider } from '@apollo/client/testing'
+import { ThemeProvider } from 'next-themes'
 
 // happo support
 import 'happo-plugin-storybook/register'
@@ -8,14 +10,6 @@ import 'happo-plugin-storybook/register'
 // SFDS
 import 'styles/index.scss'
 import 'initIcons'
-
-// Storybook and next/image component do not play nice together
-// This enables us to use the <Image/> component and still view in Storybook
-const OriginalNextImage = NextImage.default
-Object.defineProperty(NextImage, 'default', {
-  configurable: true,
-  value: (props) => <OriginalNextImage {...props} unoptimized />,
-})
 
 const SFDS_VIEWPORTS = {
   mobile: {
@@ -92,47 +86,78 @@ const SFDS_VIEWPORTS = {
   },
 }
 
-export const parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
+const preview: Preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
     },
-  },
-  nextRouter: {
-    Provider: RouterContext.Provider,
-  },
-  options: {
-    storySort: {
-      order: [
-        'Welcome',
-        'USSF Design System',
-        'Global',
-        'Navigation',
-        'Base',
-        'Components',
-        'Layout',
+    nextRouter: {
+      Provider: RouterContext.Provider,
+    },
+    options: {
+      storySort: {
+        order: [
+          'Welcome',
+          'USSF Design System',
+          'Global',
+          'Navigation',
+          'Base',
+          'Components',
+          'Layout',
+        ],
+      },
+    },
+    apolloClient: {
+      MockedProvider,
+    },
+    viewport: {
+      viewports: SFDS_VIEWPORTS,
+    },
+    backgrounds: {
+      default: '#d9e8f6',
+      values: [
+        {
+          name: 'dark',
+          value: '#0f305a',
+        },
+        {
+          name: 'white',
+          value: '#FFFFFF',
+        },
       ],
     },
   },
-  apolloClient: {
-    MockedProvider,
-  },
-  viewport: {
-    viewports: SFDS_VIEWPORTS,
-  },
-  backgrounds: {
-    default: '#d9e8f6',
-    values: [
-      {
-        name: 'dark',
-        value: '#0f305a',
+  globalTypes: {
+    theme: {
+      description: 'Global theme for components',
+      defaultValue: 'light',
+      toolbar: {
+        title: 'Theme',
+        icon: 'circlehollow',
+        items: ['light', 'dark'],
+        dynamicTitle: true,
       },
-      {
-        name: 'white',
-        value: '#FFFFFF',
-      },
-    ],
+    },
   },
+  decorators: [
+    (Story, context) => (
+      <ThemeProvider
+        forcedTheme={context.globals.theme}
+        enableSystem={false}
+        attribute={'data-color-theme'}>
+        <Story />
+      </ThemeProvider>
+    ),
+    (Story) => (
+      <div className="sfds">
+        <Story />
+      </div>
+    ),
+  ],
 }
+
+export default preview
