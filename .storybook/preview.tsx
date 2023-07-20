@@ -3,9 +3,10 @@ import { Preview } from '@storybook/react'
 import { RouterContext } from 'next/dist/shared/lib/router-context'
 import { MockedProvider } from '@apollo/client/testing'
 import { ThemeProvider } from 'next-themes'
+import { UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events'
 
 // happo support
-import 'happo-plugin-storybook/register'
+import { setThemeSwitcher } from 'happo-plugin-storybook/register'
 
 // SFDS
 import 'styles/index.scss'
@@ -130,6 +131,9 @@ const preview: Preview = {
         },
       ],
     },
+    happo: {
+      themes: ['light', 'dark'],
+    },
   },
   globalTypes: {
     theme: {
@@ -138,20 +142,25 @@ const preview: Preview = {
       toolbar: {
         title: 'Theme',
         icon: 'circlehollow',
-        items: ['light', 'dark'],
+        items: [
+          { title: 'Light Mode', value: 'light' },
+          { title: 'Dark Mode', value: 'dark' },
+        ],
         dynamicTitle: true,
       },
     },
   },
   decorators: [
-    (Story, context) => (
-      <ThemeProvider
-        forcedTheme={context.globals.theme}
-        enableSystem={false}
-        attribute={'data-color-theme'}>
-        <Story />
-      </ThemeProvider>
-    ),
+    (Story, { globals: { theme } }) => {
+      return (
+        <ThemeProvider
+          forcedTheme={theme}
+          enableSystem={false}
+          attribute={'data-color-theme'}>
+          <Story />
+        </ThemeProvider>
+      )
+    },
     (Story) => (
       <div className="sfds">
         <Story />
@@ -159,5 +168,16 @@ const preview: Preview = {
     ),
   ],
 }
+
+setThemeSwitcher((theme: string, channel: any) => {
+  return new Promise((resolve) => {
+    // Listen for global to be updated and resolve.
+    channel.once(GLOBALS_UPDATED, resolve)
+    // Emit event to update the global theme setting
+    channel.emit(UPDATE_GLOBALS, {
+      globals: { theme },
+    })
+  })
+})
 
 export default preview
