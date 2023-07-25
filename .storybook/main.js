@@ -7,7 +7,6 @@ module.exports = {
     'storybook-addon-apollo-client',
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    'storybook-theme-toggle',
     'storybook-addon-mock',
     'storybook-addon-launchdarkly',
   ],

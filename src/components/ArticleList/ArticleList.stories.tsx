@@ -8,13 +8,6 @@ import type { ArticleListItemRecord } from 'types'
 export default {
   title: 'Components/ArticleList',
   component: ArticleList,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 const testArticle: ArticleListItemRecord = {

@@ -1,80 +1,128 @@
 import React from 'react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 import { Pagination } from '@trussworks/react-uswds'
+import defaultStyles from '../layout/DefaultLayout/DefaultLayout.module.scss'
 
 export default {
   title: 'Base/Pagination',
   component: Pagination,
   argTypes: {
+    totalPages: { control: 'number' },
     currentPage: { control: 'number' },
     maxSlots: { control: 'number' },
     pathname: { control: 'string' },
   },
-} as ComponentMeta<typeof Pagination>
+  decorators: [
+    (Story) => (
+      <div className={defaultStyles.siteContainer}>
+        <Story />
+      </div>
+    ),
+  ],
+} as Meta<typeof Pagination>
 
 const pathname = '/test-pathname'
-const Template: ComponentStory<typeof Pagination> = (args) => (
-  <Pagination
-    totalPages={24}
-    currentPage={args.currentPage}
-    maxSlots={args.maxSlots}
-    pathname={args.pathname}
-  />
-)
 
-export const Sandbox = Template.bind({})
-Sandbox.args = {
-  currentPage: 10,
-  maxSlots: 7,
+type Story = StoryObj<typeof Pagination>
+
+export const Sandbox: Story = {
+  args: {
+    totalPages: 24,
+    currentPage: 10,
+    maxSlots: 7,
+  },
 }
 
-export const Default = () => (
-  <Pagination pathname={pathname} totalPages={10} currentPage={10} />
-)
+export const Default: Story = {
+  args: {
+    totalPages: 24,
+    currentPage: 10,
+  },
+}
 
-export const ThreePagesFirst = () => (
-  <Pagination pathname={pathname} totalPages={3} currentPage={1} />
-)
-export const ThreePages = () => (
-  <Pagination pathname={pathname} totalPages={3} currentPage={2} />
-)
-export const ThreePagesLast = () => (
-  <Pagination pathname={pathname} totalPages={3} currentPage={3} />
-)
+export const ThreePagesFirst: Story = {
+  args: {
+    pathname: pathname,
+    totalPages: 3,
+    currentPage: 1,
+  },
+}
+export const ThreePages: Story = {
+  args: {
+    pathname: pathname,
+    totalPages: 3,
+    currentPage: 2,
+  },
+}
+export const ThreePagesLast: Story = {
+  args: {
+    pathname: pathname,
+    totalPages: 3,
+    currentPage: 3,
+  },
+}
 
-export const SevenPages = () => (
-  <Pagination pathname={pathname} totalPages={7} currentPage={4} />
-)
+export const SevenPages: Story = {
+  args: {
+    pathname: pathname,
+    totalPages: 7,
+    currentPage: 4,
+  },
+}
 
-export const EightPagesFirst = () => (
-  <Pagination pathname={pathname} totalPages={8} currentPage={1} />
-)
+export const EightPagesFirst: Story = {
+  args: {
+    pathname: pathname,
+    totalPages: 8,
+    currentPage: 1,
+  },
+}
 
-export const EightPagesFour = () => (
-  <Pagination pathname={pathname} totalPages={8} currentPage={4} />
-)
+export const EightPagesFour: Story = {
+  args: {
+    pathname: pathname,
+    totalPages: 8,
+    currentPage: 4,
+  },
+}
 
-export const EightPagesFive = () => (
-  <Pagination pathname={pathname} totalPages={8} currentPage={5} />
-)
+export const EightPagesFive: Story = {
+  args: {
+    pathname: pathname,
+    totalPages: 8,
+    currentPage: 5,
+  },
+}
 
-export const EightPagesSix = () => (
-  <Pagination pathname={pathname} totalPages={8} currentPage={6} />
-)
+export const EightPagesSix: Story = {
+  args: {
+    pathname: pathname,
+    totalPages: 8,
+    currentPage: 6,
+  },
+}
 
-export const EightPagesLast = () => (
-  <Pagination pathname={pathname} totalPages={8} currentPage={8} />
-)
+export const EightPagesLast: Story = {
+  args: {
+    pathname: pathname,
+    totalPages: 8,
+    currentPage: 8,
+  },
+}
 
-export const NinePagesFive = () => (
-  <Pagination pathname={pathname} totalPages={9} currentPage={5} />
-)
+export const NinePagesFive: Story = {
+  args: {
+    pathname: pathname,
+    totalPages: 9,
+    currentPage: 5,
+  },
+}
 
-export const TenSlots = () => (
-  <Pagination
-    pathname={pathname}
-    totalPages={24}
-    currentPage={10}
-    maxSlots={10}
-  />
-)
+export const TenSlots: Story = {
+  args: {
+    pathname: pathname,
+    totalPages: 24,
+    currentPage: 10,
+    maxSlots: 10,
+  },
+}

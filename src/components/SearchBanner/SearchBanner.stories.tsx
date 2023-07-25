@@ -5,13 +5,6 @@ import { SearchBanner } from './SearchBanner'
 export default {
   title: 'Base/SearchBanner',
   component: SearchBanner,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 export const NoResults = () => (

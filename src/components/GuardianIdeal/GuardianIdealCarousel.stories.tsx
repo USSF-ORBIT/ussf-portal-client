@@ -8,13 +8,6 @@ import type { Widget } from 'types'
 export default {
   title: 'Components/GuardianIdealCarousel',
   component: GuardianIdealCarousel,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 const mockWidget: Widget = {

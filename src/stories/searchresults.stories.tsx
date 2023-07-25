@@ -38,7 +38,7 @@ const testArticleResult: SearchResultRecord = {
 
 export const SearchResults = () => {
   return (
-    <div className="sfds">
+    <>
       <SearchResultItem item={testApplicationResult} />
       <SearchResultItem item={testApplicationResult} />
       <SearchResultItem item={testArticleResult} />
@@ -53,6 +53,6 @@ export const SearchResults = () => {
       />
 
       <SearchResultItem item={testArticleResult} />
-    </div>
+    </>
   )
 }
