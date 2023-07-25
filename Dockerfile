@@ -1,6 +1,6 @@
 ##--------- Stage: builder ---------##
 # Node image variant name explanations: "bullseye" is the codeword for Debian 11, and "slim" only contains the minimal packages needed to run Node
-FROM node:18.16.0-bullseye-slim AS builder
+FROM node:18.17.0-bullseye-slim AS builder
 
 RUN apt-get update \
   && apt-get dist-upgrade -y \
@@ -65,7 +65,7 @@ CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
 ##--------- Stage: build-env ---------##
 
 # Production image, copy all the files and run next
-FROM node:18.16.0-bullseye-slim AS build-env
+FROM node:18.17.0-bullseye-slim AS build-env
 
 WORKDIR /app
 
