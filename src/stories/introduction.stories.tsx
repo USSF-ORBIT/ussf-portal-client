@@ -13,7 +13,7 @@ export default {
 export const Welcome = () => {
   return (
     <div
-      className="sfds display-flex flex-column"
+      className="display-flex flex-column"
       style={{
         fontFamily: 'Sharp Sans',
         width: '100%',

@@ -5,13 +5,6 @@ import Announcement from './Announcement'
 export default {
   title: 'Components/Announcement',
   component: Announcement,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 const mockAnnouncements = [

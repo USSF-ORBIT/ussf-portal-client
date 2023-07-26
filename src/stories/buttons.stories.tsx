@@ -7,7 +7,7 @@ export default {
 
 export const Buttons = () => {
   return (
-    <div className="sfds">
+    <>
       <h2>Buttons</h2>
       <h3 className="site-preview-heading">Default</h3>
       <button type="button" className="usa-button">
@@ -195,6 +195,6 @@ export const Buttons = () => {
         className="usa-button usa-button--big usa-button--unstyled">
         Unstyled button
       </button>
-    </div>
+    </>
   )
 }

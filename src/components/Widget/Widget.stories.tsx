@@ -7,13 +7,6 @@ import Widget, { WidgetWithSettings } from './Widget'
 export default {
   title: 'Base/Widget',
   component: Widget,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 export const ExampleWidget = () => (

@@ -19,7 +19,7 @@ const exampleStyles = {
 const testContent = <div style={exampleStyles}>&nbsp;</div>
 
 export const USSFDSGrid = (): React.ReactElement => (
-  <div className="sfds">
+  <>
     <GridContainer>
       <h1>Condensed</h1>
 
@@ -53,7 +53,7 @@ export const USSFDSGrid = (): React.ReactElement => (
         ))}
       </Grid>
     </GridContainer>
-  </div>
+  </>
 )
 
 export const USWDSGrid = (): React.ReactElement => (

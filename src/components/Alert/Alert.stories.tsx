@@ -5,13 +5,6 @@ import { Alert } from '@trussworks/react-uswds'
 export default {
   title: 'Base/Alert',
   component: Alert,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 const successMsg = 'Successful alert'

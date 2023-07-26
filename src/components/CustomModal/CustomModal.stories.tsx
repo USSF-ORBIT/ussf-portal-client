@@ -10,7 +10,7 @@ export default {
     (Story) => {
       return (
         <ModalProvider>
-          <div className="sfds" id="modal-root">
+          <div id="modal-root">
             <Story />
           </div>
         </ModalProvider>

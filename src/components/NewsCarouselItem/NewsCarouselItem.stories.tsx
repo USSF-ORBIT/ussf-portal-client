@@ -6,13 +6,6 @@ import type { ArticleListItemRecord } from 'types'
 export default {
   title: 'Components/NewsCarousel/NewsCarouselItem',
   component: NewsCarouselItem,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 const mockArticle: ArticleListItemRecord = {

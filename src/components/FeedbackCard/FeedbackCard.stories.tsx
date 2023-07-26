@@ -5,13 +5,6 @@ import FeedbackCard from './FeedbackCard'
 export default {
   title: 'Base/FeedbackCard',
   component: FeedbackCard,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 export const DefaultFeedbackCard = () => <FeedbackCard />

@@ -7,13 +7,6 @@ import type { SearchResultRecord } from 'types/index'
 export default {
   title: 'Components/SearchResults/SearchResultItem',
   component: SearchResultItem,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 const testApplicationResult: SearchResultRecord = {

@@ -22,13 +22,6 @@ export default {
     handleRemoveCollection: { action: 'Remove collection' },
     handleEditCollection: { action: 'Edit collection' },
   },
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 export const ExampleCustomCollection = (argTypes: StorybookArgTypes) => (

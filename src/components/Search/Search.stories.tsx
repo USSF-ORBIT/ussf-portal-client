@@ -5,13 +5,6 @@ import Search from './Search'
 export default {
   title: 'Base/Search',
   component: Search,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 export const Enabled = () => <Search />

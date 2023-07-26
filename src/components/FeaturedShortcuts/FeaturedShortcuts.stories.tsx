@@ -14,13 +14,6 @@ const mockFeaturedShortcutsWidget: Widget = {
 export default {
   title: 'Components/Widgets/FeaturedShortcuts',
   component: FeaturedShortcuts,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 export const FeaturedShorcutsWidget = () => (

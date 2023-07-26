@@ -7,13 +7,6 @@ import { SingleArticle } from './SingleArticle'
 export default {
   title: 'Layouts/SingleArticle',
   component: SingleArticle,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
   parameters: {
     happo: {
       waitFor: () => document.querySelector('.html5-main-video'),

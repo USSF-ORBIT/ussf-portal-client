@@ -6,13 +6,6 @@ import { CONTENT_CATEGORIES } from 'constants/index'
 export default {
   title: 'Base/Tag',
   component: Tag,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 export const ExampleTags = () => (
