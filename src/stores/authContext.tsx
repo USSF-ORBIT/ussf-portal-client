@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { useRouter } from 'next/router'
 
+import { useAnalytics } from './analyticsContext'
 import { SessionUser, PortalUser } from 'types'
 
 export type AuthContextType = {
@@ -31,6 +32,7 @@ export const AuthContext = createContext<AuthContextType>({
 })
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const { setUserId, unsetUserId } = useAnalytics()
   const [user, setUser] = useState<SessionUser | null>(null)
   const [portalUser, setPortalUser] = useState<PortalUser | null>(null)
   const router = useRouter()
@@ -60,8 +62,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     window.location.href = '/api/auth/login'
   }
 
+  useEffect(() => {
+    if (user) {
+      setUserId(user.userId)
+    }
+  }, [user, setUser])
+
   const logout = async () => {
     try {
+      unsetUserId()
       await axios.get('/api/auth/logout')
       setUser(null)
       window.location.href = '/login'

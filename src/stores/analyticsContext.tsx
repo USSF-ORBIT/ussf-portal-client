@@ -16,6 +16,9 @@ type TrackFn = (
   value?: number | string | undefined
 ) => void
 
+type SetUserIdFn = (id: string) => void
+type UnsetUserIdFn = () => void
+
 export type AnalyticsContextType = {
   push: PushFn
   trackEvent: TrackFn
@@ -26,6 +29,12 @@ export const AnalyticsContext = createContext<AnalyticsContextType>({
     return
   },
   trackEvent: /* istanbul ignore next */ () => {
+    return
+  },
+  setUserId: /* istanbul ignore next */ () => {
+    return
+  },
+  unsetUserId: /* istanbul ignore next */ () => {
     return
   },
 })
@@ -60,6 +69,30 @@ export const AnalyticsProvider = ({
     }
 
     windowWithAnalytics._paq.push(args)
+  }
+
+  const setUserId: SetUserIdFn = (id): void => {
+    if (debug === true) {
+      console.debug(`ANALYTICS(setUserId):`, id)
+    }
+
+    // User has just logged in
+    push(['setUserId', id])
+  }
+
+  const unsetUserId: UnsetUserIdFn = (): void => {
+    if (debug === true) {
+      console.debug(`ANALYTICS(unsetUserId)`)
+    }
+    // User has just logged out, we reset the User ID
+    push(['resetUserId'])
+
+    // we also force a new visit to be created for the pageviews after logout
+    push(['appendToTrackingUrl', 'new_visit=1'])
+    push(['trackPageView'])
+
+    // we finally make sure to not again create a new visit afterwards (important for Single Page Applications)
+    push(['appendToTrackingUrl', ''])
   }
 
   // Shortcut for push(['trackEvent', ...])
@@ -147,6 +180,8 @@ export const AnalyticsProvider = ({
   const context = {
     push,
     trackEvent,
+    setUserId,
+    unsetUserId,
   }
 
   return (
