@@ -4,12 +4,8 @@ import styles from '../NewsWidget/NewsWidget.module.scss'
 import { WidgetWithSettings } from 'components/Widget/Widget'
 import { useWeather } from 'hooks/useWeather'
 import { useModalContext } from 'stores/modalContext'
-// import { WeatherWidget as WeatherWidgetType } from 'graphql.g'
-import { WidgetType } from 'graphql.g'
-// import { useEditWeatherWidgetMutation } from 'operations/portal/mutations/editWeatherWidget.g'
 import { useMySpaceContext } from 'stores/myspaceContext'
-
-// #TODO This is a starter widget for WeatherWidget
+import { WeatherWidget as Widget } from 'types'
 
 const WeatherWidget = (widget: any) => {
   const { forecast, getForecast } = useWeather()
@@ -34,10 +30,10 @@ const WeatherWidget = (widget: any) => {
         'You can re-add it to your My Space from the Add Widget menu.',
     })
 
-    const widgetState: any = {
+    const widgetState: Widget = {
       _id: widget.widget._id,
       title: widget.widget.title,
-      // type: WidgetType.Weather,
+      type: 'Weather',
       coords: widget.widget.coords,
     }
 
