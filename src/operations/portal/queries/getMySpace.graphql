@@ -12,5 +12,16 @@ query getMySpace {
         isRemoved
       }
     }
+    ... on WeatherWidget {
+      coords {
+        lat
+        long
+        forecastUrl
+        hourlyForecastUrl
+        city
+        state
+        zipcode
+      }
+    }
   }
 }

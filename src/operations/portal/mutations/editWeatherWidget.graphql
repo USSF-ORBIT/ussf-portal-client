@@ -1,0 +1,15 @@
+mutation editWeatherWidget($_id: OID!, $title: String, $coords: WeatherInput) {
+  editWeatherWidget(_id: $_id, title: $title, coords: $coords) {
+    _id
+    title
+    coords {
+      lat
+      long
+      forecastUrl
+      hourlyForecastUrl
+      city
+      state
+      zipcode
+    }
+  }
+}

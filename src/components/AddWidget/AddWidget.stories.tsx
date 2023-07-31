@@ -29,6 +29,9 @@ const mockMySpaceContext: MySpaceContextType = {
   isFeaturedShortcuts: () => {
     return true || false
   },
+  isWeather: () => {
+    return true || false
+  },
   canAddCollections: true,
   canAddNews: true,
   canAddGuardianIdeal: true,
@@ -43,6 +46,12 @@ const mockMySpaceContext: MySpaceContextType = {
     return
   },
   addNewCollection: () => {
+    return
+  },
+  addNewWeatherWidget: (zipcode: string) => {
+    return
+  },
+  editWeatherWidget: (w: any) => {
     return
   },
   handleOnDragEnd: () => {
