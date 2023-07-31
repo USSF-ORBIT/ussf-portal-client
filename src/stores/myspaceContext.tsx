@@ -81,10 +81,10 @@ export const MySpaceContext = createContext<MySpaceContextType>({
   addNewCollection: /* istanbul ignore next */ () => {
     return
   },
-  addNewWeatherWidget: /* istanbul ignore next */ (zipcode: string) => {
+  addNewWeatherWidget: /* istanbul ignore next */ () => {
     return
   },
-  editWeatherWidget: /* istanbul ignore next */ (w: any) => {
+  editWeatherWidget: /* istanbul ignore next */ () => {
     return
   },
   handleOnDragEnd: /* istanbul ignore next */ () => {
