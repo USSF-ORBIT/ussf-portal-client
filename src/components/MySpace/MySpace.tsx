@@ -30,11 +30,17 @@ import NewsWidget from 'components/NewsWidget/NewsWidget'
 import { GuardianIdealPillars } from 'components/GuardianIdeal/GuardianIdealPillars'
 import FeaturedShortcuts from 'components/FeaturedShortcuts/FeaturedShorcuts'
 import { featuredShortcutItems } from 'components/FeaturedShortcuts/FeaturedShortcutItems'
-import { CMSBookmark, Widget, Bookmark } from 'types/index'
+import {
+  CMSBookmark,
+  Widget,
+  Bookmark,
+  WeatherWidget as WeatherWidgetType,
+} from 'types/index'
 import AddWidget from 'components/AddWidget/AddWidget'
 import { useAnalytics } from 'stores/analyticsContext'
 import { useMySpaceContext } from 'stores/myspaceContext'
 import WeatherWidget from 'components/WeatherWidget/WeatherWidget'
+
 const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
   const router = useRouter()
   const { trackEvent } = useAnalytics()
@@ -151,13 +157,14 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                   }
 
                   if (isWeather(widget)) {
+                    const weatherWidget = widget as WeatherWidgetType
                     return (
                       <Grid
-                        key={`widget_${widget._id}`}
+                        key={`widget_${weatherWidget._id}`}
                         tabletLg={{ col: 6 }}
                         desktopLg={{ col: 4 }}>
-                        <DraggableCollection id={widget._id.toString()}>
-                          <WeatherWidget widget={widget} />
+                        <DraggableCollection id={weatherWidget._id.toString()}>
+                          <WeatherWidget widget={weatherWidget} />
                         </DraggableCollection>
                       </Grid>
                     )

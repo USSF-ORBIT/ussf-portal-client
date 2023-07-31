@@ -7,7 +7,11 @@ import { useModalContext } from 'stores/modalContext'
 import { useMySpaceContext } from 'stores/myspaceContext'
 import { WeatherWidget as Widget } from 'types'
 
-const WeatherWidget = (widget: any) => {
+type WeatherWidgetProps = {
+  widget: Widget
+}
+
+const WeatherWidget = (widget: WeatherWidgetProps) => {
   const { forecast, getForecast } = useWeather()
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()

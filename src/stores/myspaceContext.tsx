@@ -9,7 +9,6 @@ import {
   MySpaceWidget,
   Collection,
   Widget,
-  WeatherCoords,
   WeatherWidget,
 } from 'types'
 import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
