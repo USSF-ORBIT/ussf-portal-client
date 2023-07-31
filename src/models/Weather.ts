@@ -53,7 +53,7 @@ export const WeatherModel = {
 
       return updatedWeatherWidget
     } catch (e) {
-      console.error('CollectionModel Error: error in editOne', e)
+      console.error('WeatherModel Error: error in editOne', e)
       throw e
     }
   },
