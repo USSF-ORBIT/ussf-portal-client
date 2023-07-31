@@ -1,0 +1,33 @@
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+
+  > input {
+    margin-top: 0;
+  }
+
+  > button {
+    margin-left: 0.5rem;
+  }
+}
+
+.locationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+
+  > p {
+    margin-left: 0.5rem;
+  }
+}
+
+.weatherContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
