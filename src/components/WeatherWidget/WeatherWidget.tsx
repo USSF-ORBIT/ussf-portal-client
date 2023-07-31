@@ -7,6 +7,7 @@ import { useModalContext } from 'stores/modalContext'
 import { WeatherWidget as WeatherWidgetType } from 'graphql.g'
 import { WidgetType } from 'graphql.g'
 import { useEditWeatherWidgetMutation } from 'operations/portal/mutations/editWeatherWidget.g'
+import { useMySpaceContext } from 'stores/myspaceContext'
 
 // #TODO This is a starter widget for WeatherWidget
 
@@ -15,12 +16,14 @@ const WeatherWidget = (widget: any) => {
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
 
+  const { editWeatherWidget } = useMySpaceContext()
+
   useEffect(() => {
     getForecast(widget.widget.coords.hourlyForecastUrl)
   }, [])
 
   const currentForecast = forecast.slice(0, 5)
-  const [handleEditWeatherWidget] = useEditWeatherWidgetMutation()
+
   /** Remove widget */
   // Show confirmation modal
   const handleConfirmRemoveWidget = () => {
@@ -61,20 +64,9 @@ const WeatherWidget = (widget: any) => {
           type="button"
           className={styles.collectionSettingsDropdown}
           onClick={() => {
-            handleEditWeatherWidget({
-              variables: {
-                _id: widget.widget._id,
-                title: Date.now().toString(),
-                coords: {
-                  lat: widget.widget.coords.lat,
-                  long: widget.widget.coords.long,
-                  forecastUrl: widget.widget.coords.forecastUrl,
-                  hourlyForecastUrl: widget.widget.coords.hourlyForecastUrl,
-                  city: widget.widget.coords.city,
-                  state: widget.widget.coords.state,
-                  zipcode: widget.widget.coords.zipcode,
-                },
-              },
+            editWeatherWidget({
+              ...widget.widget,
+              title: Date.now().toString(),
             })
           }}>
           Edit Weather Widget
