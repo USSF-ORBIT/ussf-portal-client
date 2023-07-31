@@ -4,10 +4,19 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { WidgetType as AddWidgetType, WidgetReorderInput } from '../graphql.g'
 import { useAnalytics } from 'stores/analyticsContext'
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
-import { MySpace, MySpaceWidget, Collection, Widget } from 'types'
+import {
+  MySpace,
+  MySpaceWidget,
+  Collection,
+  Widget,
+  WeatherCoords,
+  WeatherWidget,
+} from 'types'
 import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
 import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget.g'
 import { useEditMySpaceMutation } from 'operations/portal/mutations/editMySpace.g'
+import { useAddWeatherWidgetMutation } from 'operations/portal/mutations/addWeatherWidget.g'
+import { useEditWeatherWidgetMutation } from 'operations/portal/mutations/editWeatherWidget.g'
 
 export type MySpaceContextType = {
   mySpace: MySpace
@@ -18,6 +27,7 @@ export type MySpaceContextType = {
   isGuardianIdeal: (widget: Widget) => boolean
   isNewsWidget: (widget: Widget) => boolean
   isFeaturedShortcuts: (widget: Widget) => boolean
+  isWeather: (widget: Widget) => boolean
   canAddCollections: boolean
   canAddNews: boolean
   canAddGuardianIdeal: boolean
@@ -26,6 +36,8 @@ export type MySpaceContextType = {
   addGuardianIdeal: () => void
   addFeaturedShortcuts: () => void
   addNewCollection: () => void
+  addNewWeatherWidget: (zipcode: string) => void
+  editWeatherWidget: (w: WeatherWidget) => void
   handleOnDragEnd?: (event: DragEndEvent) => void
 }
 
@@ -50,6 +62,9 @@ export const MySpaceContext = createContext<MySpaceContextType>({
   isFeaturedShortcuts: /* istanbul ignore next */ () => {
     return true || false
   },
+  isWeather: /* istanbul ignore next */ () => {
+    return true || false
+  },
   canAddCollections: true,
   canAddNews: true,
   canAddGuardianIdeal: true,
@@ -64,6 +79,12 @@ export const MySpaceContext = createContext<MySpaceContextType>({
     return
   },
   addNewCollection: /* istanbul ignore next */ () => {
+    return
+  },
+  addNewWeatherWidget: /* istanbul ignore next */ (zipcode: string) => {
+    return
+  },
+  editWeatherWidget: /* istanbul ignore next */ (w: any) => {
     return
   },
   handleOnDragEnd: /* istanbul ignore next */ () => {
@@ -83,6 +104,8 @@ export const MySpaceProvider = ({
   const [handleAddCollection] = useAddCollectionMutation()
   const [handleAddWidget] = useAddWidgetMutation()
   const [handleEditMySpace] = useEditMySpaceMutation()
+  const [handleAddWeatherWidget] = useAddWeatherWidgetMutation()
+  const [handleEditWeatherWidget] = useEditWeatherWidgetMutation()
 
   function isCollection(widget: MySpaceWidget): widget is Collection {
     return widget.type === WIDGET_TYPES.COLLECTION
@@ -98,6 +121,10 @@ export const MySpaceProvider = ({
 
   function isFeaturedShortcuts(widget: Widget): widget is Collection {
     return widget.type === WIDGET_TYPES.FEATUREDSHORTCUTS
+  }
+
+  function isWeather(widget: MySpaceWidget): widget is Collection {
+    return widget.type === WIDGET_TYPES.WEATHER
   }
 
   const canAddCollections: boolean =
@@ -173,6 +200,40 @@ export const MySpaceProvider = ({
     })
   }
 
+  const addNewWeatherWidget = (zipcode: string) => {
+    trackEvent('Add weather widget', 'Create new weather widget')
+
+    handleAddWeatherWidget({
+      variables: {
+        title: 'Weather',
+        type: AddWidgetType.Weather,
+        zipcode,
+      },
+      refetchQueries: ['getUser'],
+    })
+  }
+
+  const editWeatherWidget = (w: WeatherWidget) => {
+    trackEvent('Edit weather widget', 'Edit weather widget')
+
+    handleEditWeatherWidget({
+      variables: {
+        _id: w._id,
+        title: w.title,
+        coords: {
+          lat: w.coords.lat,
+          long: w.coords.long,
+          forecastUrl: w.coords.forecastUrl,
+          hourlyForecastUrl: w.coords.hourlyForecastUrl,
+          city: w.coords.city,
+          state: w.coords.state,
+          zipcode: w.coords.zipcode,
+        },
+      },
+      refetchQueries: ['getUser'],
+    })
+  }
+
   const handleOnDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event
 
@@ -222,6 +283,7 @@ export const MySpaceProvider = ({
     isGuardianIdeal,
     isNewsWidget,
     isFeaturedShortcuts,
+    isWeather,
     canAddCollections,
     canAddNews,
     canAddGuardianIdeal,
@@ -230,6 +292,8 @@ export const MySpaceProvider = ({
     addGuardianIdeal,
     addFeaturedShortcuts,
     addNewCollection,
+    addNewWeatherWidget,
+    editWeatherWidget,
     handleOnDragEnd,
   }
 

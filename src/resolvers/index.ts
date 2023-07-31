@@ -5,9 +5,16 @@ import type { ObjectId as ObjectIdType } from 'bson'
 import { BookmarkModel } from '../models/Bookmark'
 import UserModel from '../models/User'
 import { CollectionModel } from '../models/Collection'
-
+import axios from 'axios'
 import { MySpaceModel } from 'models/MySpace'
-import { Widget, PortalUser, WidgetType, MongoBookmark } from 'types'
+import {
+  Widget,
+  PortalUser,
+  WidgetType,
+  MongoBookmark,
+  WeatherCoords,
+} from 'types'
+import { WeatherModel } from 'models/Weather'
 
 export const ObjectIdScalar = new GraphQLScalarType({
   name: 'OID',
@@ -42,11 +49,22 @@ export const ObjectIdScalar = new GraphQLScalarType({
 type PortalUserContext = {
   db: typeof MongoClient
   user: PortalUser
+  keystoneUrl: string
 }
 
 type AddWidgetInput = {
   title: string
   type: WidgetType
+}
+
+type AddWeatherWidgetInput = {
+  title: string
+  zipcode: string
+}
+type EditWeatherWidgetInput = {
+  _id: ObjectIdType
+  title: string
+  coords: WeatherCoords
 }
 
 type AddCollectionInput = {
@@ -105,6 +123,7 @@ const resolvers = {
       if (widget.type === 'GuardianIdeal') return 'GuardianIdeal'
       if (widget.type === 'News') return 'NewsWidget'
       if (widget.type === 'FeaturedShortcuts') return 'FeaturedShortcuts'
+      if (widget.type === 'Weather') return 'WeatherWidget'
       return null // GraphQL Error
     },
   },
@@ -121,7 +140,9 @@ const resolvers = {
         )
       }
 
-      return MySpaceModel.get({ userId: user.userId }, { db })
+      const myspace = MySpaceModel.get({ userId: user.userId }, { db })
+
+      return myspace
     },
     collections: async (
       _: undefined,
@@ -163,6 +184,7 @@ const resolvers = {
       return UserModel.getTheme(user.userId, { db })
     },
   },
+
   Mutation: {
     addWidget: async (
       _: undefined,
@@ -179,6 +201,61 @@ const resolvers = {
         { title, type, userId: user.userId },
         { db }
       )
+    },
+    addWeatherWidget: async (
+      _: undefined,
+      { zipcode, title }: AddWeatherWidgetInput,
+      { db, user, keystoneUrl }: PortalUserContext
+    ) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+      let coords
+
+      // Get data from NWS to save with widget
+      const {
+        data: {
+          data: {
+            zipcode: { latitude, longitude },
+          },
+        },
+      } = await axios.post(`${keystoneUrl}/api/graphql`, {
+        query: `query getLatLong($zipcode: String) {
+            zipcode(where: {code: $zipcode}) {
+                latitude
+                longitude
+              }
+            }`,
+        variables: {
+          zipcode,
+        },
+      })
+
+      if (latitude && longitude) {
+        const {
+          data: { properties },
+        } = await axios.get(
+          `https://api.weather.gov/points/${latitude},${longitude}`
+        )
+
+        coords = {
+          lat: latitude,
+          long: longitude,
+          forecastUrl: properties.forecast,
+          hourlyForecastUrl: properties.forecastHourly,
+          city: properties.relativeLocation.properties.city,
+          state: properties.relativeLocation.properties.state,
+          zipcode,
+        }
+      } else {
+        throw new Error(
+          `Could not fetch weather data from NWS for zipcode ${zipcode}`
+        )
+      }
+
+      return WeatherModel.addOne({ coords, title, userId: user.userId }, { db })
     },
     removeWidget: async (
       _: undefined,
@@ -225,6 +302,23 @@ const resolvers = {
         { db }
       )
     },
+    editWeatherWidget: async (
+      _: undefined,
+      { _id, title, coords }: EditWeatherWidgetInput,
+      { db, user }: PortalUserContext
+    ) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      return WeatherModel.editOne(
+        { _id, title, coords, userId: user.userId },
+        { db }
+      )
+    },
+
     removeCollection: async (
       _: undefined,
       { _id }: { _id: ObjectIdType },

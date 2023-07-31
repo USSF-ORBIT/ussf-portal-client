@@ -148,6 +148,15 @@ export type DocumentPageType = {
   createdAt?: string
   updatedAt?: string
 }
+
+/* Zipcode is used to get the latitude and longitude for a zipcode */
+/* Stored in Postgres / Keystone */
+export type ZipcodeRecord = {
+  id: string
+  code: string
+  latitude: number
+  longitude: number
+}
 /**
  * *****************************
  * Types for Portal Data
@@ -165,6 +174,17 @@ export type WidgetType =
   | 'GuardianIdeal'
   | 'News'
   | 'FeaturedShortcuts'
+  | 'Weather'
+
+export type WeatherCoords = {
+  lat: number
+  long: number
+  forecastUrl: string
+  hourlyForecastUrl: string
+  zipcode: string
+  city: string
+  state: string
+}
 
 /*  Widget refers to an existing widget in MongoDB, created and managed in a user's MySpace */
 export type Widget = {
@@ -226,6 +246,10 @@ export type featuredShortcutItem = {
 
 export type featuredShortcutItems = featuredShortcutItem[]
 
+/* Weather represents the weather widget */
+export interface WeatherWidget extends Widget {
+  coords: WeatherCoords
+}
 /**
  * ***********************
  * Types for User / Auth

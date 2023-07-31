@@ -1,0 +1,20 @@
+mutation addWeatherWidget(
+  $title: String!
+  $type: WidgetType!
+  $zipcode: String!
+) {
+  addWeatherWidget(title: $title, type: $type, zipcode: $zipcode) {
+    _id
+    title
+    type
+    coords {
+      lat
+      long
+      forecastUrl
+      hourlyForecastUrl
+      city
+      state
+      zipcode
+    }
+  }
+}
