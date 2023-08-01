@@ -17,7 +17,7 @@ import {
 } from '@dnd-kit/sortable'
 import styles from './MySpace.module.scss'
 
-import DraggableCollection from 'components/util/DraggableCollection/DraggableCollection'
+import DraggableWidget from 'components/util/DraggableWidget/DraggableWidget'
 import Droppable from 'components/util/Droppable/Droppable'
 
 import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
@@ -139,9 +139,9 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                         key={`widget_${widget._id}`}
                         tabletLg={{ col: 6 }}
                         desktopLg={{ col: 4 }}>
-                        <DraggableCollection id={widget._id.toString()}>
+                        <DraggableWidget id={widget._id.toString()}>
                           <NewsWidget widget={widget} />
-                        </DraggableCollection>
+                        </DraggableWidget>
                       </Grid>
                     )
                   }
@@ -153,9 +153,9 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                         key={`widget_${weatherWidget._id}`}
                         tabletLg={{ col: 6 }}
                         desktopLg={{ col: 4 }}>
-                        <DraggableCollection id={weatherWidget._id.toString()}>
+                        <DraggableWidget id={weatherWidget._id.toString()}>
                           <WeatherWidget widget={weatherWidget} />
-                        </DraggableCollection>
+                        </DraggableWidget>
                       </Grid>
                     )
                   }
@@ -166,7 +166,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                         key={`widget_${widget._id}`}
                         tabletLg={{ col: 6 }}
                         desktopLg={{ col: 4 }}>
-                        <DraggableCollection id={widget._id.toString()}>
+                        <DraggableWidget id={widget._id.toString()}>
                           <CustomCollection
                             _id={widget._id}
                             key={`widget_${widget._id}`}
@@ -217,7 +217,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                               })
                             }}
                           />
-                        </DraggableCollection>
+                        </DraggableWidget>
                       </Grid>
                     )
                   }
