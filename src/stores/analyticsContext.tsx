@@ -18,6 +18,7 @@ type TrackFn = (
 
 type SetUserIdFn = (id: string) => void
 type UnsetUserIdFn = () => void
+type TrackRankFn = (rank: string) => void
 
 export type AnalyticsContextType = {
   push: PushFn
@@ -35,6 +36,9 @@ export const AnalyticsContext = createContext<AnalyticsContextType>({
     return
   },
   unsetUserId: /* istanbul ignore next */ () => {
+    return
+  },
+  trackRank: /* istanbul ignore next */ () => {
     return
   },
 })
@@ -86,6 +90,7 @@ export const AnalyticsProvider = ({
     }
     // User has just logged out, we reset the User ID
     push(['resetUserId'])
+    push(['deleteCustomDimension', 1])
 
     // we also force a new visit to be created for the pageviews after logout
     push(['appendToTrackingUrl', 'new_visit=1'])
@@ -93,6 +98,14 @@ export const AnalyticsProvider = ({
 
     // we finally make sure to not again create a new visit afterwards (important for Single Page Applications)
     push(['appendToTrackingUrl', ''])
+  }
+
+  const trackRank: TrackRankFn = (rank): void => {
+    if (debug === true) {
+      console.debug(`ANALYTICS(trackRank): ${rank}`)
+    }
+    // User has just logged out, we reset the User ID
+    push(['setCustomDimension', 1, rank])
   }
 
   // Shortcut for push(['trackEvent', ...])
@@ -182,6 +195,7 @@ export const AnalyticsProvider = ({
     trackEvent,
     setUserId,
     unsetUserId,
+    trackRank,
   }
 
   return (

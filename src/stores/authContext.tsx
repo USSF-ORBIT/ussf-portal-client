@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (user) {
       setUserId(user.userId)
     }
-  }, [user, setUser])
+  }, [user])
 
   const logout = async () => {
     try {
