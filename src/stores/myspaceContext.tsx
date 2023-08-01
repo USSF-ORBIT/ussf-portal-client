@@ -29,6 +29,7 @@ export type MySpaceContextType = {
   isWeather: (widget: Widget) => boolean
   canAddCollections: boolean
   canAddNews: boolean
+  canAddWeather: boolean
   canAddGuardianIdeal: boolean
   canAddFeaturedShortcuts: boolean
   addNewsWidget: () => void
@@ -66,6 +67,7 @@ export const MySpaceContext = createContext<MySpaceContextType>({
   },
   canAddCollections: true,
   canAddNews: true,
+  canAddWeather: true,
   canAddGuardianIdeal: true,
   canAddFeaturedShortcuts: true,
   addNewsWidget: /* istanbul ignore next */ () => {
@@ -132,6 +134,9 @@ export const MySpaceProvider = ({
 
   const canAddNews: boolean =
     mySpace && mySpace.filter((w) => w.type === WIDGET_TYPES.NEWS).length < 1
+
+  const canAddWeather: boolean =
+    mySpace && mySpace.filter((w) => w.type === WIDGET_TYPES.WEATHER).length < 1
 
   const canAddGuardianIdeal: boolean =
     mySpace &&
@@ -285,6 +290,7 @@ export const MySpaceProvider = ({
     isWeather,
     canAddCollections,
     canAddNews,
+    canAddWeather,
     canAddGuardianIdeal,
     canAddFeaturedShortcuts,
     addNewsWidget,

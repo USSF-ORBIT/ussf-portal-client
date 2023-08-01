@@ -23,12 +23,14 @@ const AddWidget = ({
 
   const {
     canAddNews,
+    canAddWeather,
     canAddCollections,
     canAddGuardianIdeal,
     canAddFeaturedShortcuts,
     addNewsWidget,
     addGuardianIdeal,
     addFeaturedShortcuts,
+    addNewWeatherWidget,
   } = useMySpaceContext()
 
   const menuOnClick = () => {
@@ -86,6 +88,15 @@ const AddWidget = ({
             setIsDropdownOpen(false)
           }}>
           Add news widget
+        </Button>
+        <Button
+          disabled={!canAddWeather}
+          type="button"
+          onClick={() => {
+            addNewWeatherWidget('90210')
+            setIsDropdownOpen(false)
+          }}>
+          Add weather widget
         </Button>
         {flags?.guardianIdealCarousel && (
           <Button

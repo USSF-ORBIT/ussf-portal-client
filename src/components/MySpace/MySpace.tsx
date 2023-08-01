@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFlags } from 'launchdarkly-react-client-sdk'
-import { Grid, Button } from '@trussworks/react-uswds'
+import { Grid } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
 import {
   closestCorners,
@@ -53,10 +53,10 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     isWeather,
     canAddCollections,
     canAddNews,
+    canAddWeather,
     canAddGuardianIdeal,
     canAddFeaturedShortcuts,
     addNewCollection,
-    addNewWeatherWidget,
     handleOnDragEnd,
   } = useMySpaceContext()
   const flags = useFlags()
@@ -92,16 +92,6 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     <div id="skip-announcements-carousel" className={styles.mySpace}>
       <div className={styles.widgetContainer}>
         <h2 className={styles.pageTitle}>My Space</h2>
-
-        <Button
-          key="newsWidgetSettingsMenu_remove"
-          type="button"
-          className={styles.collectionSettingsDropdown}
-          onClick={() => {
-            addNewWeatherWidget('90210')
-          }}>
-          Add Weather Widget for 90210
-        </Button>
 
         <DndContext
           sensors={sensors}
@@ -237,6 +227,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
 
                 {(canAddCollections ||
                   canAddNews ||
+                  canAddWeather ||
                   canAddGuardianIdeal ||
                   canAddFeaturedShortcuts) && (
                   <Grid
