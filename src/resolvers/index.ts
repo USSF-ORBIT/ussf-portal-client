@@ -5,15 +5,8 @@ import type { ObjectId as ObjectIdType } from 'bson'
 import { BookmarkModel } from '../models/Bookmark'
 import UserModel from '../models/User'
 import { CollectionModel } from '../models/Collection'
-import axios from 'axios'
 import { MySpaceModel } from 'models/MySpace'
-import {
-  Widget,
-  PortalUser,
-  WidgetType,
-  MongoBookmark,
-  WeatherCoords,
-} from 'types'
+import { Widget, PortalUser, WidgetType, MongoBookmark } from 'types'
 import { WeatherModel } from 'models/Weather'
 
 export const ObjectIdScalar = new GraphQLScalarType({
@@ -152,9 +145,7 @@ const resolvers = {
           'You must be logged in to perform this operation'
         )
       }
-      const myspace = MySpaceModel.get({ userId: user.userId }, { db })
-
-      return myspace
+      return MySpaceModel.get({ userId: user.userId }, { db })
     },
     collections: async (
       _: undefined,
