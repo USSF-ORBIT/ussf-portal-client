@@ -18,7 +18,8 @@ import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
 import User from 'models/User'
 import { EXAMPLE_COLLECTION_ID } from 'constants/index'
-
+import { WeatherAPI } from './dataSources/weather'
+import { KeystoneAPI } from './dataSources/keystone'
 export const config: PageConfig = {
   api: { bodyParser: false },
 }
@@ -64,6 +65,12 @@ const clientConnection = async () => {
 export const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  dataSources: () => {
+    return {
+      keystoneAPI: new KeystoneAPI(),
+      weatherAPI: new WeatherAPI(),
+    }
+  },
   cache: 'bounded',
   plugins: [ApolloServerPluginLandingPageDisabled()],
   context: async ({ req, res }) => {

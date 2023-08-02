@@ -37,7 +37,7 @@ export type MySpaceContextType = {
   addFeaturedShortcuts: () => void
   addNewCollection: () => void
   addNewWeatherWidget: (zipcode: string) => void
-  editWeatherWidget: (w: WeatherWidget) => void
+  editWeatherWidget: ({ _id, zipcode }: any) => void
   handleOnDragEnd?: (event: DragEndEvent) => void
 }
 
@@ -81,10 +81,10 @@ export const MySpaceContext = createContext<MySpaceContextType>({
   addNewCollection: /* istanbul ignore next */ () => {
     return
   },
-  addNewWeatherWidget: /* istanbul ignore next */ (zipcode: string) => {
+  addNewWeatherWidget: /* istanbul ignore next */ () => {
     return
   },
-  editWeatherWidget: /* istanbul ignore next */ (w: any) => {
+  editWeatherWidget: /* istanbul ignore next */ () => {
     return
   },
   handleOnDragEnd: /* istanbul ignore next */ () => {
@@ -213,24 +213,20 @@ export const MySpaceProvider = ({
     })
   }
 
-  const editWeatherWidget = (w: WeatherWidget) => {
+  const editWeatherWidget = ({
+    _id,
+    zipcode,
+  }: {
+    _id: string
+    zipcode: string
+  }) => {
     trackEvent('Edit weather widget', 'Edit weather widget')
 
     handleEditWeatherWidget({
       variables: {
-        _id: w._id,
-        title: w.title,
-        coords: {
-          lat: w.coords.lat,
-          long: w.coords.long,
-          forecastUrl: w.coords.forecastUrl,
-          hourlyForecastUrl: w.coords.hourlyForecastUrl,
-          city: w.coords.city,
-          state: w.coords.state,
-          zipcode: w.coords.zipcode,
-        },
+        _id,
+        zipcode,
       },
-      refetchQueries: ['getUser'],
     })
   }
 

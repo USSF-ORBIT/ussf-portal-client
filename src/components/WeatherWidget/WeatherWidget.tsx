@@ -6,7 +6,6 @@ import { useWeather } from 'hooks/useWeather'
 import { useModalContext } from 'stores/modalContext'
 import { WeatherWidget as WeatherWidgetType } from 'graphql.g'
 import { WidgetType } from 'graphql.g'
-import { useEditWeatherWidgetMutation } from 'operations/portal/mutations/editWeatherWidget.g'
 import { useMySpaceContext } from 'stores/myspaceContext'
 
 // #TODO This is a starter widget for WeatherWidget
@@ -65,8 +64,8 @@ const WeatherWidget = (widget: any) => {
           className={styles.collectionSettingsDropdown}
           onClick={() => {
             editWeatherWidget({
-              ...widget.widget,
-              title: Date.now().toString(),
+              _id: widget.widget._id,
+              zipcode: '63901',
             })
           }}>
           Edit Weather Widget
