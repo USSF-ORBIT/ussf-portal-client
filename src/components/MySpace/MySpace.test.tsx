@@ -219,6 +219,7 @@ describe('My Space Component', () => {
       canAddNews: false,
       canAddGuardianIdeal: false,
       canAddFeaturedShortcuts: false,
+      canAddWeather: false,
     })
 
     expect(

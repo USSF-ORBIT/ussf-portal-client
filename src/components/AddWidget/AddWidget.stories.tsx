@@ -34,6 +34,7 @@ const mockMySpaceContext: MySpaceContextType = {
   },
   canAddCollections: true,
   canAddNews: true,
+  canAddWeather: true,
   canAddGuardianIdeal: true,
   canAddFeaturedShortcuts: true,
   addNewsWidget: () => {
@@ -48,10 +49,10 @@ const mockMySpaceContext: MySpaceContextType = {
   addNewCollection: () => {
     return
   },
-  addNewWeatherWidget: (zipcode: string) => {
+  addNewWeatherWidget: () => {
     return
   },
-  editWeatherWidget: (w: any) => {
+  editWeatherWidget: () => {
     return
   },
   handleOnDragEnd: () => {
@@ -83,10 +84,7 @@ export default {
 } as Meta
 
 export const DefaultAddWidget = (argTypes: StorybookArgTypes) => (
-  <AddWidget
-    handleSelectCollection={argTypes.handleSelectCollection}
-    handleCreateCollection={argTypes.handleCreateCollection}
-  />
+  <AddWidget handleSelectCollection={argTypes.handleSelectCollection} />
 )
 
 export const AddCollectionDisabled = (argTypes: StorybookArgTypes) => (
@@ -95,10 +93,7 @@ export const AddCollectionDisabled = (argTypes: StorybookArgTypes) => (
       ...mockMySpaceContext,
       canAddCollections: false,
     }}>
-    <AddWidget
-      handleSelectCollection={argTypes.handleSelectCollection}
-      handleCreateCollection={argTypes.handleCreateCollection}
-    />
+    <AddWidget handleSelectCollection={argTypes.handleSelectCollection} />
   </MockContextProvider>
 )
 
@@ -108,9 +103,6 @@ export const NewsWidgetDisabled = (argTypes: StorybookArgTypes) => (
       ...mockMySpaceContext,
       canAddNews: false,
     }}>
-    <AddWidget
-      handleSelectCollection={argTypes.handleSelectCollection}
-      handleCreateCollection={argTypes.handleCreateCollection}
-    />
+    <AddWidget handleSelectCollection={argTypes.handleSelectCollection} />
   </MockContextProvider>
 )

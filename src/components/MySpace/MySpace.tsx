@@ -56,7 +56,6 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     canAddWeather,
     canAddGuardianIdeal,
     canAddFeaturedShortcuts,
-    addNewCollection,
     handleOnDragEnd,
   } = useMySpaceContext()
   const flags = useFlags()
@@ -234,10 +233,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                     key={`widget_addNew`}
                     tabletLg={{ col: 6 }}
                     desktopLg={{ col: 4 }}>
-                    <AddWidget
-                      handleCreateCollection={addNewCollection}
-                      handleSelectCollection={selectCollections}
-                    />
+                    <AddWidget handleSelectCollection={selectCollections} />
                   </Grid>
                 )}
               </Grid>

@@ -85,9 +85,9 @@ describe('AddWidget component', () => {
     const user = userEvent.setup()
     const mockHandleCreate = jest.fn()
 
-    render(
-      <AddWidget {...testProps} handleCreateCollection={mockHandleCreate} />
-    )
+    renderWithMySpaceAndModalContext(<AddWidget {...testProps} />, {
+      addNewCollection: mockHandleCreate,
+    })
 
     const menuButton = screen.getByRole('button', { name: 'Add widget' })
     expect(menuButton).toBeInTheDocument()
@@ -113,12 +113,8 @@ describe('AddWidget component', () => {
     const mockHandleSelect = jest.fn()
 
     renderWithMySpaceAndModalContext(
-      <AddWidget
-        {...testProps}
-        handleCreateCollection={mockHandleCreate}
-        handleSelectCollection={mockHandleSelect}
-      />,
-      { canAddCollections: false }
+      <AddWidget {...testProps} handleSelectCollection={mockHandleSelect} />,
+      { canAddCollections: false, addNewCollection: mockHandleCreate }
     )
 
     const menuButton = screen.getByRole('button', { name: 'Add widget' })

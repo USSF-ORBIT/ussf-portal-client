@@ -172,6 +172,7 @@ export const defaultMockMySpaceContext = {
   isWeather: (widget: Widget) => widget.type === 'Weather',
   canAddCollections: true,
   canAddNews: true,
+  canAddWeather: true,
   canAddGuardianIdeal: true,
   canAddFeaturedShortcuts: true,
   addNewsWidget: jest.fn(),

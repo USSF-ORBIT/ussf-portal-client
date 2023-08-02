@@ -79,6 +79,7 @@ const mockMySpaceContext: MySpaceContextType = {
   },
   canAddCollections: true,
   canAddNews: true,
+  canAddWeather: true,
   canAddGuardianIdeal: true,
   canAddFeaturedShortcuts: true,
   addNewsWidget: () => {
@@ -93,10 +94,10 @@ const mockMySpaceContext: MySpaceContextType = {
   addNewCollection: () => {
     return
   },
-  addNewWeatherWidget: (zipcode: string) => {
+  addNewWeatherWidget: () => {
     return
   },
-  editWeatherWidget: (w: any) => {
+  editWeatherWidget: () => {
     return
   },
   handleOnDragEnd: () => {
