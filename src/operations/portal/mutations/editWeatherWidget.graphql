@@ -1,5 +1,5 @@
-mutation editWeatherWidget($_id: OID!, $title: String, $zipcode: String) {
-  editWeatherWidget(_id: $_id, title: $title, zipcode: $zipcode) {
+mutation editWeatherWidget($_id: OID!, $zipcode: String) {
+  editWeatherWidget(_id: $_id, zipcode: $zipcode) {
     _id
     title
     coords {

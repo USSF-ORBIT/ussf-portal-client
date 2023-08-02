@@ -227,6 +227,7 @@ export const MySpaceProvider = ({
         _id,
         zipcode,
       },
+      refetchQueries: ['getUser'],
     })
   }
 

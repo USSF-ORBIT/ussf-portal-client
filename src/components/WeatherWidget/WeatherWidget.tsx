@@ -19,7 +19,7 @@ const WeatherWidget = (widget: any) => {
 
   useEffect(() => {
     getForecast(widget.widget.coords.hourlyForecastUrl)
-  }, [])
+  }, [widget])
 
   const currentForecast = forecast.slice(0, 5)
 
@@ -65,7 +65,7 @@ const WeatherWidget = (widget: any) => {
           onClick={() => {
             editWeatherWidget({
               _id: widget.widget._id,
-              zipcode: '63901',
+              zipcode: '90210',
             })
           }}>
           Edit Weather Widget
