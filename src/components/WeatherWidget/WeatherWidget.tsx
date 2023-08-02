@@ -8,8 +8,6 @@ import { WeatherWidget as WeatherWidgetType } from 'graphql.g'
 import { WidgetType } from 'graphql.g'
 import { useMySpaceContext } from 'stores/myspaceContext'
 
-// #TODO This is a starter widget for WeatherWidget
-
 const WeatherWidget = (widget: any) => {
   const { forecast, getForecast } = useWeather()
   const { updateModalId, updateModalText, modalRef, updateWidget } =
