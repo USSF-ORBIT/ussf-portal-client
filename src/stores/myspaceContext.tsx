@@ -4,14 +4,7 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { WidgetType as AddWidgetType, WidgetReorderInput } from '../graphql.g'
 import { useAnalytics } from 'stores/analyticsContext'
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
-import {
-  MySpace,
-  MySpaceWidget,
-  Collection,
-  Widget,
-  WeatherCoords,
-  WeatherWidget,
-} from 'types'
+import { MySpace, MySpaceWidget, Collection, Widget } from 'types'
 import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
 import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget.g'
 import { useEditMySpaceMutation } from 'operations/portal/mutations/editMySpace.g'
