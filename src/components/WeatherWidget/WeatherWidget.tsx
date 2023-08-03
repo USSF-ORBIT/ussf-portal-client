@@ -12,17 +12,17 @@ type WeatherWidgetProps = {
 }
 
 const WeatherWidget = (widget: WeatherWidgetProps) => {
-  const { forecast, getForecast } = useWeather()
+  // const { forecast, getForecast } = useWeather()
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
 
-  const { editWeatherWidget } = useMySpaceContext()
+  // const { editWeatherWidget } = useMySpaceContext()
 
-  useEffect(() => {
-    getForecast(widget.widget.coords.hourlyForecastUrl)
-  }, [])
+  // useEffect(() => {
+  //   getForecast(widget.widget.coords.hourlyForecastUrl)
+  // }, [])
 
-  const currentForecast = forecast.slice(0, 5)
+  // const currentForecast = forecast.slice(0, 5)
 
   /** Remove widget */
   // Show confirmation modal
@@ -49,7 +49,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     <>
       <WidgetWithSettings
         className={styles.newsWidget}
-        header={`${widget.widget.title}`}
+        header="Weather"
         settingsItems={[
           <Button
             key="newsWidgetSettingsMenu_remove"
@@ -59,7 +59,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
             Remove Weather Widget
           </Button>,
         ]}>
-        <Button
+        {/* <Button
           key="newsWidgetSettingsMenu_remove"
           type="button"
           className={styles.collectionSettingsDropdown}
@@ -70,8 +70,8 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
             })
           }}>
           Edit Weather Widget
-        </Button>
-        {currentForecast.map((h) => {
+        </Button> */}
+        {/* {currentForecast.map((h) => {
           return (
             <div key={h.number}>
               <div>
@@ -85,7 +85,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
               <div>{h.temperature}&deg;</div>
             </div>
           )
-        })}
+        })} */}
       </WidgetWithSettings>
     </>
   )

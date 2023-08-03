@@ -29,7 +29,8 @@ const AddWidget = ({
     addNewsWidget,
     addGuardianIdeal,
     addFeaturedShortcuts,
-    addNewWeatherWidget,
+    setIsAddingWidget,
+    setTemporaryWidget,
   } = useMySpaceContext()
 
   const menuOnClick = () => {
@@ -92,7 +93,8 @@ const AddWidget = ({
           disabled={!canAddWeather}
           type="button"
           onClick={() => {
-            addNewWeatherWidget('90210')
+            setTemporaryWidget('Weather')
+            setIsAddingWidget(true)
             setIsDropdownOpen(false)
           }}>
           Add weather widget

@@ -19,6 +19,7 @@ import styles from './MySpace.module.scss'
 
 import DraggableWidget from 'components/util/DraggableWidget/DraggableWidget'
 import Droppable from 'components/util/Droppable/Droppable'
+import TemporaryWidget from 'components/util/TemporaryWidget/TemporaryWidget'
 
 import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
 import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
@@ -57,6 +58,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     canAddGuardianIdeal,
     canAddFeaturedShortcuts,
     handleOnDragEnd,
+    isAddingWidget,
   } = useMySpaceContext()
   const flags = useFlags()
 
@@ -223,6 +225,15 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
 
                   return null
                 })}
+
+                {isAddingWidget && (
+                  <Grid
+                    key={`widget_ephemeral`}
+                    tabletLg={{ col: 6 }}
+                    desktopLg={{ col: 4 }}>
+                    <TemporaryWidget />
+                  </Grid>
+                )}
 
                 {(canAddCollections ||
                   canAddNews ||

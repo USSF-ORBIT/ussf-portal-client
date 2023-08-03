@@ -21,6 +21,8 @@ export type MySpaceContextType = {
   mySpace: MySpace
   disableDragAndDrop: boolean
   setDisableDragAndDrop: React.Dispatch<React.SetStateAction<boolean>>
+  isAddingWidget: boolean
+  setIsAddingWidget: React.Dispatch<React.SetStateAction<boolean>>
   initializeMySpace: (mySpace: MySpace) => void
   isCollection: (widget: MySpaceWidget) => boolean
   isGuardianIdeal: (widget: Widget) => boolean
@@ -39,12 +41,18 @@ export type MySpaceContextType = {
   addNewWeatherWidget: (zipcode: string) => void
   editWeatherWidget: (w: WeatherWidget) => void
   handleOnDragEnd?: (event: DragEndEvent) => void
+  temporaryWidget: string
+  setTemporaryWidget: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const MySpaceContext = createContext<MySpaceContextType>({
   mySpace: [],
   disableDragAndDrop: false,
   setDisableDragAndDrop: /* istanbul ignore next */ () => {
+    return
+  },
+  isAddingWidget: false,
+  setIsAddingWidget: /* istanbul ignore next */ () => {
     return
   },
   initializeMySpace: /* istanbul ignore next */ () => {
@@ -91,6 +99,10 @@ export const MySpaceContext = createContext<MySpaceContextType>({
   handleOnDragEnd: /* istanbul ignore next */ () => {
     return
   },
+  temporaryWidget: '',
+  setTemporaryWidget: /* istanbul ignore next */ () => {
+    return
+  },
 })
 
 export const MySpaceProvider = ({
@@ -100,6 +112,7 @@ export const MySpaceProvider = ({
 }) => {
   const [mySpace, setMySpace] = useState<MySpace>([])
   const [disableDragAndDrop, setDisableDragAndDrop] = useState<boolean>(false)
+  const [isAddingWidget, setIsAddingWidget] = useState<boolean>(false)
   const { trackEvent } = useAnalytics()
 
   const [handleAddCollection] = useAddCollectionMutation()
@@ -278,10 +291,14 @@ export const MySpaceProvider = ({
     }
   }
 
+  const [temporaryWidget, setTemporaryWidget] = useState<string>('')
+
   const context = {
     mySpace,
     disableDragAndDrop,
     setDisableDragAndDrop,
+    isAddingWidget,
+    setIsAddingWidget,
     initializeMySpace,
     isCollection,
     isGuardianIdeal,
@@ -300,6 +317,8 @@ export const MySpaceProvider = ({
     addNewWeatherWidget,
     editWeatherWidget,
     handleOnDragEnd,
+    temporaryWidget,
+    setTemporaryWidget,
   }
 
   return (

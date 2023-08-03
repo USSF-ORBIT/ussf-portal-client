@@ -59,6 +59,10 @@ const mockMySpaceContext: MySpaceContextType = {
   setDisableDragAndDrop: () => {
     return
   },
+  isAddingWidget: false,
+  setIsAddingWidget: () => {
+    return
+  },
   initializeMySpace: () => {
     return
   },
@@ -101,6 +105,10 @@ const mockMySpaceContext: MySpaceContextType = {
     return
   },
   handleOnDragEnd: () => {
+    return
+  },
+  temporaryWidget: '',
+  setTemporaryWidget: () => {
     return
   },
 }
