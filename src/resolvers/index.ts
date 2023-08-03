@@ -65,7 +65,6 @@ type AddWidgetInput = {
 }
 
 type AddWeatherWidgetInput = {
-  title: string
   zipcode: string
 }
 type EditWeatherWidgetInput = {
@@ -207,7 +206,7 @@ const resolvers = {
     },
     addWeatherWidget: async (
       _: undefined,
-      { zipcode, title }: AddWeatherWidgetInput,
+      { zipcode }: AddWeatherWidgetInput,
       { db, user, dataSources }: PortalUserContext
     ) => {
       if (!user) {
@@ -240,7 +239,7 @@ const resolvers = {
         zipcode,
       }
 
-      return WeatherModel.addOne({ coords, title, userId: user.userId }, { db })
+      return WeatherModel.addOne({ coords, userId: user.userId }, { db })
     },
     removeWidget: async (
       _: undefined,

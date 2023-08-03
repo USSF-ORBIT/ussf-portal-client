@@ -9,7 +9,6 @@ import { WIDGET_TYPES } from 'constants/index'
 type AddOneInput = {
   coords: WeatherCoords
   userId: string
-  title: string
 }
 
 type EditOneInput = {
@@ -50,29 +49,40 @@ export const WeatherModel = {
     }
   },
   async addOne(
-    { coords, userId, title }: AddOneInput,
+    { coords, userId }: AddOneInput,
     { db }: Context
   ): Promise<WeatherWidget> {
+    // Create Widget object to add to My Space
+    const newWeatherWidget = {
+      _id: new ObjectId(),
+      type: WIDGET_TYPES.WEATHER,
+      title: 'Weather',
+      coords: {
+        ...coords,
+      },
+    }
+
+    const query = {
+      userId,
+    }
+
+    const updateDocument = {
+      $push: {
+        mySpace: newWeatherWidget,
+      },
+    }
     try {
-      const newWeatherWidget = {
-        _id: new ObjectId(),
-        type: WIDGET_TYPES.WEATHER,
-        title,
-        coords: {
-          ...coords,
-        },
-      }
+      const result = await db
+        .collection('users')
+        .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
 
-      await db.collection('users').updateOne(
-        { userId },
-        {
-          $push: {
-            mySpace: newWeatherWidget,
-          },
-        }
-      )
+      // Filter for created Weather Widget to return
+      const createdWidget = result.value.mySpace.filter(
+        (weather: WeatherWidget) =>
+          weather._id.toString() === newWeatherWidget._id.toString()
+      )[0]
 
-      return newWeatherWidget
+      return createdWidget
     } catch (e) {
       console.error('WeatherModel Error: error in addOne', e)
       throw e
