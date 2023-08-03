@@ -72,7 +72,7 @@ services:
     build:
       # Uncomment the below line and comment out the line below that if you want to use the local Dockerfile
       # context: ../analytics/
-      context: https://github.com/USSF-ORBIT/analytics#main
+      context: https://github.com/USSF-ORBIT/analytics.git#main
       dockerfile: Dockerfile
     ports:
       - '8443:8443'
