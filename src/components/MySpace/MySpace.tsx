@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFlags } from 'launchdarkly-react-client-sdk'
-import { Grid, Button } from '@trussworks/react-uswds'
+import { Grid } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
 import {
   closestCorners,
@@ -24,17 +24,19 @@ import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.
 import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
 import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
 import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
+
 import CustomCollection from 'components/CustomCollection/CustomCollection'
 import GuardianIdealCarousel from 'components/GuardianIdeal/GuardianIdealCarousel'
 import NewsWidget from 'components/NewsWidget/NewsWidget'
 import { GuardianIdealPillars } from 'components/GuardianIdeal/GuardianIdealPillars'
 import FeaturedShortcuts from 'components/FeaturedShortcuts/FeaturedShorcuts'
 import { featuredShortcutItems } from 'components/FeaturedShortcuts/FeaturedShortcutItems'
+
 import { CMSBookmark, Widget, Bookmark } from 'types/index'
 import AddWidget from 'components/AddWidget/AddWidget'
 import { useAnalytics } from 'stores/analyticsContext'
 import { useMySpaceContext } from 'stores/myspaceContext'
-import WeatherWidget from 'components/WeatherWidget/WeatherWidget'
+
 const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
   const router = useRouter()
   const { trackEvent } = useAnalytics()
@@ -44,13 +46,11 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     isGuardianIdeal,
     isNewsWidget,
     isFeaturedShortcuts,
-    isWeather,
     canAddCollections,
     canAddNews,
     canAddGuardianIdeal,
     canAddFeaturedShortcuts,
     addNewCollection,
-    addNewWeatherWidget,
     handleOnDragEnd,
   } = useMySpaceContext()
   const flags = useFlags()
@@ -86,17 +86,6 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     <div id="skip-announcements-carousel" className={styles.mySpace}>
       <div className={styles.widgetContainer}>
         <h2 className={styles.pageTitle}>My Space</h2>
-
-        <Button
-          key="newsWidgetSettingsMenu_remove"
-          type="button"
-          className={styles.collectionSettingsDropdown}
-          onClick={() => {
-            addNewWeatherWidget('90210')
-          }}>
-          Add Weather Widget for 90210
-        </Button>
-
         <DndContext
           sensors={sensors}
           collisionDetection={closestCorners}
@@ -145,19 +134,6 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                         desktopLg={{ col: 4 }}>
                         <DraggableCollection id={widget._id.toString()}>
                           <NewsWidget widget={widget} />
-                        </DraggableCollection>
-                      </Grid>
-                    )
-                  }
-
-                  if (isWeather(widget)) {
-                    return (
-                      <Grid
-                        key={`widget_${widget._id}`}
-                        tabletLg={{ col: 6 }}
-                        desktopLg={{ col: 4 }}>
-                        <DraggableCollection id={widget._id.toString()}>
-                          <WeatherWidget widget={widget} />
                         </DraggableCollection>
                       </Grid>
                     )
