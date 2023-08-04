@@ -1,35 +1,20 @@
 import { useEffect } from 'react'
-import axios, { AxiosResponse } from 'axios'
-import { useRouter } from 'next/router'
-
-import { SessionUser } from 'types'
+import { useTheme } from 'next-themes'
 import { useAuthContext } from 'stores/authContext'
+import { useGetUserQuery } from 'operations/portal/queries/getUser.g'
+import { PortalUser } from 'types'
 
-export const useUser = (ssrUser?: SessionUser) => {
-  const authContext = useAuthContext()
-  const router = useRouter()
+export const useUser = () => {
+  const { user, setPortalUser } = useAuthContext()
+  const { loading, data }: PortalUser | any = useGetUserQuery()
+  const { setTheme } = useTheme()
 
   useEffect(() => {
-    if (ssrUser) {
-      // SSR user means a user was passed in directly from server side props
-      authContext.setUser(ssrUser)
-    } else if (!authContext.user) {
-      // Fetch user client-side if there is none
-      const fetchUser = async () => {
-        try {
-          const response: AxiosResponse<{ user: SessionUser }> =
-            await axios.get('/api/auth/user')
-
-          authContext.setUser(response.data.user)
-        } catch (e) {
-          // This (probably) means they aren't logged in
-          router.replace('/login')
-        }
-      }
-
-      fetchUser()
+    setPortalUser(data)
+    if (data) {
+      setTheme(data.theme)
     }
-  }, [])
+  }, [data])
 
-  return authContext
+  return { user, portalUser: data , loading }
 }

@@ -1,15 +1,15 @@
 /**
  * @jest-environment jsdom
  */
-import { screen, waitFor } from '@testing-library/react'
-import { useRouter } from 'next/router'
-import axios from 'axios'
+import { screen } from '@testing-library/react'
 
 import { renderWithAuth } from '../../testHelpers'
 
 import { cmsAnnouncementsMock as mockAnnouncements } from '../../__fixtures__/data/cmsAnnouncments'
 import '../../__mocks__/mockMatchMedia'
 import AnnouncementsPage, { getServerSideProps } from 'pages/announcements'
+import * as useUserHooks from 'hooks/useUser'
+import { testPortalUser1, testUser1 } from '__fixtures__/authUsers'
 
 jest.mock('../../lib/keystoneClient', () => ({
   client: {
@@ -22,42 +22,27 @@ jest.mock('../../lib/keystoneClient', () => ({
     },
   },
 }))
-jest.mock('axios')
-
-const mockedAxios = axios as jest.Mocked<typeof axios>
-
-const mockPush = jest.fn()
-const mockReplace = jest.fn()
-
-jest.mock('next/router', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    route: '',
-    pathname: '',
-    query: '',
-    asPath: '',
-    push: jest.fn(),
-    replace: jest.fn(),
-  }),
-}))
-
-const mockedUseRouter = useRouter as jest.Mock
-
-mockedUseRouter.mockReturnValue({
-  route: '',
-  pathname: '',
-  query: '',
-  asPath: '',
-  push: mockPush,
-  replace: mockReplace,
-})
 
 describe('Announcements page', () => {
+
+  beforeEach(() => {
+    jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
+      return {
+        user: testUser1,
+        portalUser: testPortalUser1,
+        loading: false
+      }
+    })
+  })
+
   describe('without a user', () => {
     beforeEach(() => {
-      jest.useFakeTimers()
-
-      mockedAxios.get.mockImplementationOnce(() => {
-        return Promise.reject()
+      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
+        return {
+          user: null,
+          portalUser: null,
+          loading: true
+        }
       })
 
       renderWithAuth(
@@ -65,30 +50,17 @@ describe('Announcements page', () => {
           announcements={mockAnnouncements}
           pageTitle={'Latest Announcements'}
         />,
-        {
-          user: null,
-        }
+        {}
       )
     })
 
-    it('renders the loader while fetching the user and does not fetch RSS items', () => {
+    test('renders the loader while fetching the user and does not fetch RSS items', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
-      expect(mockedAxios.get).toHaveBeenCalledTimes(1)
-    })
-
-    it('redirects to the login page if not logged in', async () => {
-      await waitFor(() => {
-        expect(mockReplace).toHaveBeenCalledWith('/login')
-      })
     })
   })
 
   describe('when loggined in', () => {
-    beforeEach(() => {
-      mockedAxios.get.mockClear()
-    })
-
-    it('returns correct props from getServerSideProps', async () => {
+    test('returns correct props from getServerSideProps', async () => {
       const response = await getServerSideProps()
 
       expect(response).toEqual({
@@ -99,7 +71,7 @@ describe('Announcements page', () => {
       })
     })
 
-    it('renders the latest announcements', async () => {
+    test('renders the latest announcements', async () => {
       renderWithAuth(
         <AnnouncementsPage
           announcements={mockAnnouncements}
@@ -112,7 +84,7 @@ describe('Announcements page', () => {
       })
     })
 
-    it('renders the title passed to withLayout', async () => {
+    test('renders the title passed to withLayout', async () => {
       const result = AnnouncementsPage.getLayout('page')
       expect(result.props.header.props.children[0]).toEqual(
         <h1>Latest Announcements</h1>

@@ -2,14 +2,14 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
-import { renderHook } from '@testing-library/react-hooks'
+import { render, screen, waitFor, renderHook } from '@testing-library/react'
+import { useRouter } from 'next/router'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 
-import { testUser1 } from '../__fixtures__/authUsers'
-
 import { AuthProvider, useAuthContext } from './authContext'
+
+import { testUser1 } from '__fixtures__/authUsers'
 
 jest.mock('axios')
 
@@ -17,6 +17,23 @@ const mockedAxios = axios as jest.Mocked<typeof axios>
 
 mockedAxios.post.mockImplementation(() => {
   return Promise.resolve()
+})
+
+const mockReplace = jest.fn()
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}))
+
+const mockedUseRouter = useRouter as jest.Mock
+
+mockedUseRouter.mockReturnValue({
+  route: '',
+  pathname: '',
+  query: '',
+  asPath: '',
+  push: jest.fn(),
+  replace: mockReplace,
 })
 
 describe('Auth context', () => {
@@ -66,18 +83,18 @@ describe('Auth context', () => {
     window.location = location
   })
 
-  it('the user defaults to null', () => {
+  test('the user defaults to null', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('User:')
   })
 
-  it('handles a log in action', async () => {
+  test('handles a log in action', async () => {
     const user = userEvent.setup()
     await user.click(screen.getByRole('button', { name: 'Log in' }))
 
     expect(window.location.href).toEqual('/api/auth/login')
   })
 
-  it('can set the user', async () => {
+  test('can set the user', async () => {
     const user = userEvent.setup()
     await user.click(screen.getByRole('button', { name: 'Set mock user data' }))
 
@@ -86,7 +103,7 @@ describe('Auth context', () => {
     )
   })
 
-  it('handles a log out action', async () => {
+  test('handles a log out action', async () => {
     const user = userEvent.setup()
     await user.click(screen.getByRole('button', { name: 'Log out' }))
 
@@ -103,15 +120,60 @@ describe('Auth context', () => {
       expect(window.location.href).toEqual('/login')
     })
   })
+
+  // it.skip('sets the user in context if one is provided', () => {
+  //   const wrapper = ({ children }: { children: React.ReactNode }) => (
+  //     <AuthProvider>{children}</AuthProvider>
+  //   )
+  //
+  //   // const { result } = renderHook(() => useUser(), { wrapper })
+  //   // expect(result.current.user).toEqual(mockUserData)
+  //   expect(mockedAxios.get).not.toHaveBeenCalled()
+  // })
+  //
+  // it.skip('fetches the user client-side and sets it in context if one is not provided', async () => {
+  //   const wrapper = ({ children }: { children: React.ReactNode }) => (
+  //     <AuthProvider>{children}</AuthProvider>
+  //   )
+  //
+  //   mockedAxios.get.mockImplementationOnce(() => {
+  //     // return Promise.resolve({ data: { user: mockUserData } })
+  //   })
+  //
+  //   const { result } = renderHook(() => useUser(), { wrapper })
+  //
+  //   await waitFor(() => {
+  //     expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
+  //     // expect(result.current.user).toEqual(mockUserData)
+  //   })
+  // })
+  //
+  // it.skip('fetches the user client-side and redirects to the login page if there is no user', async () => {
+  //   const wrapper = ({ children }: { children: React.ReactNode }) => (
+  //     <AuthProvider>{children}</AuthProvider>
+  //   )
+  //
+  //   mockedAxios.get.mockImplementationOnce(() => {
+  //     return Promise.reject()
+  //   })
+  //
+  //   const { result } = renderHook(() => useUser(), { wrapper })
+  //
+  //   await waitFor(() => {
+  //     expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
+  //     expect(result.current.user).toEqual(null)
+  //     expect(mockReplace).toHaveBeenCalledWith('/login')
+  //   })
+  // })
 })
 
 describe('useAuthContext', () => {
-  it('throws an error if AuthContext is undefined', () => {
+  test('throws an error if AuthContext is undefined', () => {
     jest.spyOn(React, 'useContext').mockReturnValueOnce(undefined)
     expect(() => useAuthContext()).toThrowError()
   })
 
-  it('returns the created context', () => {
+  test('returns the created context', () => {
     const { result } = renderHook(() => useAuthContext())
     expect(result.current).toBeTruthy()
     expect(result.current.user).toEqual(null)
