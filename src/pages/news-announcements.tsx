@@ -26,16 +26,16 @@ const NewsAnnouncements = ({
   announcements,
   articles,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { user } = useUser()
+  const { loading } = useUser()
   const { items, fetchItems } = useRSSFeed(RSS_URL)
 
   useEffect(() => {
-    if (user) {
+    if (!loading) {
       fetchItems()
     }
-  }, [user])
+  }, [loading])
 
-  return !user ? (
+  return loading ? (
     <Loader />
   ) : (
     <div className={styles.listContainer}>

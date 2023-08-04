@@ -75,9 +75,9 @@ export const staticPage: DocumentPageType = {
 const USSFDocumentation = ({
   documentsPage,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { user } = useUser()
+  const { loading } = useUser()
   // LaunchDarkly toggle for cms vs static data
-  return !user ? (
+  return loading ? (
     <Loader />
   ) : (
     <div>

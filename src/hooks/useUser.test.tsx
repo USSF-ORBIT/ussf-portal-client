@@ -2,16 +2,21 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { waitFor } from '@testing-library/react'
-import { renderHook } from '@testing-library/react-hooks'
+import { waitFor, renderHook } from '@testing-library/react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
-import { testUser1 } from '../__fixtures__/authUsers'
+import { MockedProvider } from '@apollo/client/testing'
+import { ThemeProvider } from 'next-themes'
+import { portalUserNoCollections, testUser1 } from '../__fixtures__/authUsers'
 
+import { mockUseTheme } from '../testHelpers'
 import { useUser } from './useUser'
 
+import * as useAuthContextHooks from 'stores/authContext'
+
 import { AuthProvider } from 'stores/authContext'
+import { getUserMock } from '__fixtures__/operations/getUser'
 
 jest.mock('axios')
 
@@ -20,8 +25,6 @@ const mockedAxios = axios as jest.Mocked<typeof axios>
 mockedAxios.post.mockImplementation(() => {
   return Promise.resolve()
 })
-
-const mockUserData = testUser1
 
 const mockReplace = jest.fn()
 
@@ -40,49 +43,96 @@ mockedUseRouter.mockReturnValue({
   replace: mockReplace,
 })
 
+const mockSetPortalUser = jest.fn()
+jest.spyOn(useAuthContextHooks, 'useAuthContext').mockImplementation(() => {
+  return {
+    user: testUser1,
+    setPortalUser: mockSetPortalUser,
+    portalUser: null,
+    setUser: jest.fn(),
+    logout: jest.fn(),
+    login: jest.fn(),
+  }
+})
+
+const { setItemMock } = mockUseTheme()
+
 describe('useUser hook', () => {
-  it('sets the user in context if one is provided', () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <AuthProvider>{children}</AuthProvider>
-    )
-
-    const { result } = renderHook(() => useUser(mockUserData), { wrapper })
-    expect(result.current.user).toEqual(mockUserData)
-    expect(mockedAxios.get).not.toHaveBeenCalled()
+  beforeAll(() => {
+    jest.useFakeTimers()
+  })
+  afterAll(() => {
+    jest.useRealTimers()
+  })
+  beforeEach(() => {
+    mockSetPortalUser.mockReset()
+    mockedAxios.get.mockReset()
+    setItemMock.mockReset()
   })
 
-  it('fetches the user client-side and sets it in context if one is not provided', async () => {
+  test('fetches and sets the portal user in the context', async () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <AuthProvider>{children}</AuthProvider>
+      <AuthProvider>
+        <MockedProvider mocks={getUserMock}>
+          <ThemeProvider enableSystem={false}>
+            {children}
+          </ThemeProvider>
+        </MockedProvider>
+      </AuthProvider>
     )
-
-    mockedAxios.get.mockImplementationOnce(() => {
-      return Promise.resolve({ data: { user: mockUserData } })
-    })
-
-    const { result } = renderHook(() => useUser(), { wrapper })
-
+    renderHook(() => useUser(), { wrapper })
     await waitFor(() => {
-      expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
-      expect(result.current.user).toEqual(mockUserData)
+      expect(mockedAxios.get).toHaveBeenCalledTimes(1)
+      expect(mockSetPortalUser).toHaveBeenCalledWith(
+        {
+          mySpace: portalUserNoCollections.mySpace,
+          displayName: portalUserNoCollections.displayName,
+          theme: portalUserNoCollections.theme,
+        }
+      )
+      expect(setItemMock).toHaveBeenCalledWith('theme', portalUserNoCollections.theme)
     })
   })
 
-  it('fetches the user client-side and redirects to the login page if there is no user', async () => {
+  test('sets the theme in the theme context', async () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <AuthProvider>{children}</AuthProvider>
+      <AuthProvider>
+        <MockedProvider mocks={getUserMock}>
+          <ThemeProvider enableSystem={false}>
+            {children}
+          </ThemeProvider>
+        </MockedProvider>
+      </AuthProvider>
     )
-
-    mockedAxios.get.mockImplementationOnce(() => {
-      return Promise.reject()
-    })
-
-    const { result } = renderHook(() => useUser(), { wrapper })
-
+    renderHook(() => useUser(), { wrapper })
     await waitFor(() => {
-      expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
-      expect(result.current.user).toEqual(null)
-      expect(mockReplace).toHaveBeenCalledWith('/login')
+      expect(mockedAxios.get).toHaveBeenCalledTimes(1)
+      expect(setItemMock).toHaveBeenCalledWith('theme', portalUserNoCollections.theme)
+    })
+  })
+
+  test('returns expected values', async () => {
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <AuthProvider>
+        <MockedProvider mocks={getUserMock}>
+          <ThemeProvider enableSystem={false}>
+            {children}
+          </ThemeProvider>
+        </MockedProvider>
+      </AuthProvider>
+    )
+    const { result } = renderHook(() => useUser(), { wrapper })
+    await waitFor(() => {
+      expect(mockedAxios.get).toHaveBeenCalledTimes(1)
+      expect(result.current).toMatchObject({
+        loading: false,
+        user: testUser1,
+        portalUser: {
+          mySpace: portalUserNoCollections.mySpace,
+          displayName: portalUserNoCollections.displayName,
+          theme: portalUserNoCollections.theme,
+        }
+      })
     })
   })
 })

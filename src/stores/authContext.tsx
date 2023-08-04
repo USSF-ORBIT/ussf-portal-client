@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState } from 'react'
-import axios from 'axios'
+import React, { createContext, useContext, useEffect, useState } from 'react'
+import axios, { AxiosResponse } from 'axios'
+import { useRouter } from 'next/router'
 
 import { SessionUser, PortalUser } from 'types'
 
@@ -32,6 +33,26 @@ export const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<SessionUser | null>(null)
   const [portalUser, setPortalUser] = useState<PortalUser | null>(null)
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!user) {
+      // Fetch user client-side if there is none
+      const fetchUser = async () => {
+        try {
+          const response: AxiosResponse<{ user: SessionUser }> =
+            await axios.get('/api/auth/user')
+
+          setUser(response.data.user)
+        } catch (e) {
+          // This (probably) means they aren't logged in
+          router.replace('/login')
+        }
+      }
+
+      fetchUser()
+    }
+  }, [user])
 
   const login = () => {
     // Initiate SAML flow
