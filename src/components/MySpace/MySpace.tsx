@@ -228,7 +228,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
 
                 {isAddingWidget && (
                   <Grid
-                    key={`widget_ephemeral`}
+                    key={`widget_temporary`}
                     tabletLg={{ col: 6 }}
                     desktopLg={{ col: 4 }}>
                     <TemporaryWidget />

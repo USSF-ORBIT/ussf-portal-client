@@ -1,16 +1,12 @@
 import React from 'react'
 import { useMySpaceContext } from 'stores/myspaceContext'
-import Widget from 'components/Widget/Widget'
+import WeatherWidget from 'components/WeatherWidget/WeatherWidget'
 
 const TemporaryWidget = () => {
   const { temporaryWidget } = useMySpaceContext()
 
   if (temporaryWidget === 'Weather') {
-    return (
-      <Widget>
-        <p>Weather Widget goes here</p>
-      </Widget>
-    )
+    return <WeatherWidget />
   }
 
   return null
