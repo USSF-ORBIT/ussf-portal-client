@@ -1,5 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { CollectionRecord } from 'types/index'
+import { exampleWeatherWidget2 } from './data/weatherWidgets'
+import { MySpaceWidget } from 'types/index'
 
 // The ExampleCollection in Keystone used to initialize new users
 export const exampleCollection: CollectionRecord = {
@@ -35,7 +37,7 @@ export const exampleCollection: CollectionRecord = {
 }
 
 // Test collections that already exist on a User record in mongo
-export const exampleCollection1 = {
+export const exampleCollection1: MySpaceWidget = {
   _id: ObjectId(),
   title: 'Example Collection',
   type: 'Collection',
@@ -85,7 +87,7 @@ export const exampleCollection1 = {
   ],
 }
 
-export const exampleCollection2 = {
+export const exampleCollection2: MySpaceWidget = {
   _id: ObjectId(),
   title: 'Second Collection',
   type: 'Collection',
@@ -100,41 +102,13 @@ export const exampleCollection2 = {
   ],
 }
 
-// Weather widgets
-export const exampleWeatherWidget1 = {
-  _id: ObjectId(),
-  title: 'Weather',
-  type: 'Weather',
-  coords: {
-    lat: 34.0901,
-    long: -118.4065,
-    forecastUrl: 'https://api.weather.gov/gridpoints/LOX/149,48/forecast',
-    hourlyForecastUrl:
-      'https://api.weather.gov/gridpoints/LOX/149,48/forecast/hourly',
-    city: 'Beverly Hills',
-    state: 'CA',
-    zipcode: '90210',
-  },
-}
-export const exampleWeatherWidget2 = {
-  _id: ObjectId(),
-  title: 'Weather',
-  type: 'Weather',
-  coords: {
-    lat: 54.143,
-    long: -165.7854,
-    forecastUrl: 'https://api.weather.gov/gridpoints/ALU/509,77/forecast',
-    hourlyForecastUrl:
-      'https://api.weather.gov/gridpoints/ALU/509,77/forecast/hourly',
-    city: 'Akutan',
-    state: 'AK',
-    zipcode: '99553',
-  },
-}
-
 export const newPortalUser = {
   userId: 'CAMPBELL.BERNADETTE.5244446289',
-  mySpace: [exampleCollection1, exampleCollection2, exampleWeatherWidget1],
+  mySpace: [
+    exampleCollection1,
+    exampleCollection2,
+    exampleWeatherWidget2 as MySpaceWidget,
+  ],
   displayName: 'BERNADETTE CAMPBELL',
   theme: 'dark',
 }

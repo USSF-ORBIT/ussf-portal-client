@@ -1,6 +1,6 @@
 import { RESTDataSource } from 'apollo-datasource-rest'
 
-export class KeystoneAPI extends RESTDataSource {
+class KeystoneAPI extends RESTDataSource {
   constructor() {
     super()
     this.baseURL = process.env.KEYSTONE_URL
@@ -20,3 +20,5 @@ export class KeystoneAPI extends RESTDataSource {
     })
   }
 }
+
+export default KeystoneAPI

@@ -1,14 +1,13 @@
 import { MongoClient, Db } from 'mongodb'
-import { ObjectId as ObjectIdType } from 'bson'
 import User from './User'
 import { WeatherModel } from './Weather'
 import { MySpaceModel } from './MySpace'
 import { PortalUser } from 'types'
+import { exampleCollection } from '__fixtures__/newPortalUser'
 import {
   exampleWeatherWidget1,
   exampleWeatherWidget2,
-  exampleCollection,
-} from '__fixtures__/newPortalUser'
+} from '__fixtures__/data/weatherWidgets'
 
 let connection: typeof MongoClient
 let db: typeof Db

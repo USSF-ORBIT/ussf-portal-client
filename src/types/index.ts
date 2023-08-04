@@ -211,8 +211,8 @@ export type Widget = {
 export type BookmarkModelInput = {
   _id: ObjectId
   url: string
-  label?: string
-  cmsId?: string
+  label?: string | null
+  cmsId?: string | null
 }
 
 /*  MongoBookmark refers to an existing bookmark as it is stored in MongoDB. This includes
@@ -221,8 +221,8 @@ export type MongoBookmark = {
   _id: ObjectId
   url: string
   label?: string
-  cmsId?: string
-  isRemoved?: boolean
+  cmsId?: string | null
+  isRemoved?: boolean | null
 }
 
 /*  Collection refers to a user-created collection containing one or more bookmarks
@@ -233,8 +233,13 @@ export interface Collection extends Widget {
   type: 'Collection'
 }
 
+/* Weather represents the weather widget */
+export interface WeatherWidget extends Widget {
+  coords: WeatherCoords
+}
+
 /*  MySpaceWidget represents a user's MySpace and is used when displaying their content */
-export type MySpaceWidget = Widget | Collection
+export type MySpaceWidget = Widget | Collection | WeatherWidget
 export type MySpace = MySpaceWidget[]
 
 /* Featured Shortcut Items represents items appearing in Featured Shortcuts widget */
@@ -246,10 +251,6 @@ export type featuredShortcutItem = {
 
 export type featuredShortcutItems = featuredShortcutItem[]
 
-/* Weather represents the weather widget */
-export interface WeatherWidget extends Widget {
-  coords: WeatherCoords
-}
 /**
  * ***********************
  * Types for User / Auth
