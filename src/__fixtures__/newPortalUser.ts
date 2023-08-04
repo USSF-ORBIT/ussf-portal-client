@@ -1,7 +1,6 @@
 import { ObjectId } from 'mongodb'
-import { CollectionRecord } from 'types/index'
 import { exampleWeatherWidget2 } from './data/weatherWidgets'
-import { MySpaceWidget } from 'types/index'
+import { CollectionRecord, MySpaceWidget } from 'types/index'
 
 // The ExampleCollection in Keystone used to initialize new users
 export const exampleCollection: CollectionRecord = {

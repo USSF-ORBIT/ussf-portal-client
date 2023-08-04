@@ -857,7 +857,6 @@ describe('GraphQL resolvers', () => {
     })
 
     describe('addWeatherWidget', () => {
-      let weatherWidgetId: string
       // Start Data: MySpace contains exampleWeatherWidget2
       // End Data: MySpace contains exampleWeatherWidget1 and exampleWeatherWidget2
 
@@ -872,8 +871,6 @@ describe('GraphQL resolvers', () => {
             zipcode: exampleWeatherWidget1.coords.zipcode,
           },
         })
-
-        weatherWidgetId = result.data?.addWeatherWidget._id
 
         const expectedData = {
           _id: expect.any(String),

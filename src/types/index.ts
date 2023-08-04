@@ -211,7 +211,7 @@ export type Widget = {
 export type BookmarkModelInput = {
   _id: ObjectId
   url: string
-  label?: string | null
+  label?: string
   cmsId?: string | null
 }
 

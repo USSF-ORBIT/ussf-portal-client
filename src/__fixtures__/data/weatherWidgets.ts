@@ -1,6 +1,5 @@
-// Weather widgets
-import { WeatherWidget, WidgetType } from '../../graphql.g'
 import { ObjectId } from 'mongodb'
+import { WeatherWidget, WidgetType } from '../../graphql.g'
 
 export const exampleWeatherWidget1: WeatherWidget = {
   _id: ObjectId(),

@@ -169,6 +169,7 @@ export const defaultMockMySpaceContext = {
   isGuardianIdeal: (widget: Widget) => widget.type === 'GuardianIdeal',
   isNewsWidget: (widget: Widget) => widget.type === 'News',
   isFeaturedShortcuts: (widget: Widget) => widget.type === 'FeaturedShortcuts',
+  isWeather: (widget: Widget) => widget.type === 'Weather',
   canAddCollections: true,
   canAddNews: true,
   canAddGuardianIdeal: true,
@@ -178,6 +179,8 @@ export const defaultMockMySpaceContext = {
   addFeaturedShortcuts: jest.fn(),
   addNewCollection: jest.fn(),
   handleOnDragEnd: jest.fn(),
+  addNewWeatherWidget: jest.fn(),
+  editWeatherWidget: jest.fn(),
 }
 
 /** Renders the component inside of a MySpaceProvider */

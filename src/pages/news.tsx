@@ -1,5 +1,5 @@
 import { InferGetServerSidePropsType } from 'next'
-
+import { useEffect } from 'react'
 import { DateTime } from 'luxon'
 import { client } from '../lib/keystoneClient'
 

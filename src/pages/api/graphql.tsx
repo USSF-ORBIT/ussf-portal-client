@@ -10,7 +10,8 @@ import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core'
 import type { PageConfig } from 'next'
 
 import { typeDefs } from '../../schema'
-
+import WeatherAPI from './dataSources/weather'
+import KeystoneAPI from './dataSources/keystone'
 import resolvers from 'resolvers/index'
 import type { SessionUser, CollectionRecord } from 'types/index'
 import { client } from 'lib/keystoneClient'
@@ -18,8 +19,7 @@ import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
 import User from 'models/User'
 import { EXAMPLE_COLLECTION_ID } from 'constants/index'
-import { WeatherAPI } from './dataSources/weather'
-import { KeystoneAPI } from './dataSources/keystone'
+
 export const config: PageConfig = {
   api: { bodyParser: false },
 }
