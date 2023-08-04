@@ -118,8 +118,8 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
           className={styles.collectionSettingsDropdown}
           onClick={() => {
             editWeatherWidget({
-              ...widget.widget,
-              title: Date.now().toString(),
+              _id: widget.widget._id,
+              zipcode: '90210',
             })
           }}>
           Edit Weather Widget

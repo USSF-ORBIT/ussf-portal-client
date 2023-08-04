@@ -92,11 +92,7 @@ export const typeDefs = gql`
       type: WidgetType!
       zipcode: String!
     ): WeatherWidget
-    editWeatherWidget(
-      _id: OID!
-      title: String
-      coords: WeatherInput
-    ): WeatherWidget
+    editWeatherWidget(_id: OID!, zipcode: String): WeatherWidget
     addCollection(title: String!, bookmarks: [BookmarkInput!]!): Collection
     editCollection(
       _id: OID!

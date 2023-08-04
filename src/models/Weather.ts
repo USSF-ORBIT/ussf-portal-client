@@ -16,12 +16,11 @@ type EditOneInput = {
   _id: ObjectIdType
   coords: WeatherCoords
   userId: string
-  title: string
 }
 
 export const WeatherModel = {
   async editOne(
-    { _id, userId, title, coords }: EditOneInput,
+    { _id, userId, coords }: EditOneInput,
     { db }: Context
   ): Promise<WeatherWidget> {
     const query = {
@@ -29,18 +28,11 @@ export const WeatherModel = {
       'mySpace._id': _id,
     }
 
-    const updateDocument = coords
-      ? {
-          $set: {
-            'mySpace.$.title': title,
-            'mySpace.$.coords': coords,
-          },
-        }
-      : {
-          $set: {
-            'mySpace.$.title': title,
-          },
-        }
+    const updateDocument = {
+      $set: {
+        'mySpace.$.coords': coords,
+      },
+    }
 
     try {
       const result = await db

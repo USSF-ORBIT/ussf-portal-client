@@ -5,15 +5,8 @@ import type { ObjectId as ObjectIdType } from 'bson'
 import { BookmarkModel } from '../models/Bookmark'
 import UserModel from '../models/User'
 import { CollectionModel } from '../models/Collection'
-import axios from 'axios'
 import { MySpaceModel } from 'models/MySpace'
-import {
-  Widget,
-  PortalUser,
-  WidgetType,
-  MongoBookmark,
-  WeatherCoords,
-} from 'types'
+import { Widget, PortalUser, WidgetType, MongoBookmark } from 'types'
 import { WeatherModel } from 'models/Weather'
 
 export const ObjectIdScalar = new GraphQLScalarType({
@@ -50,6 +43,20 @@ type PortalUserContext = {
   db: typeof MongoClient
   user: PortalUser
   keystoneUrl: string
+  dataSources: {
+    weatherAPI: {
+      getGridData: ({
+        lat,
+        long,
+      }: {
+        lat: number
+        long: number
+      }) => Promise<any>
+    }
+    keystoneAPI: {
+      getLatLong: (zipcode: string) => Promise<any>
+    }
+  }
 }
 
 type AddWidgetInput = {
@@ -63,8 +70,7 @@ type AddWeatherWidgetInput = {
 }
 type EditWeatherWidgetInput = {
   _id: ObjectIdType
-  title: string
-  coords: WeatherCoords
+  zipcode: string
 }
 
 type AddCollectionInput = {
@@ -139,10 +145,7 @@ const resolvers = {
           'You must be logged in to perform this operation'
         )
       }
-
-      const myspace = MySpaceModel.get({ userId: user.userId }, { db })
-
-      return myspace
+      return MySpaceModel.get({ userId: user.userId }, { db })
     },
     collections: async (
       _: undefined,
@@ -205,54 +208,36 @@ const resolvers = {
     addWeatherWidget: async (
       _: undefined,
       { zipcode, title }: AddWeatherWidgetInput,
-      { db, user, keystoneUrl }: PortalUserContext
+      { db, user, dataSources }: PortalUserContext
     ) => {
       if (!user) {
         throw new AuthenticationError(
           'You must be logged in to perform this operation'
         )
       }
-      let coords
 
-      // Get data from NWS to save with widget
+      // Get lat/long from Keystone
       const {
         data: {
-          data: {
-            zipcode: { latitude, longitude },
-          },
+          zipcode: { latitude, longitude },
         },
-      } = await axios.post(`${keystoneUrl}/api/graphql`, {
-        query: `query getLatLong($zipcode: String) {
-            zipcode(where: {code: $zipcode}) {
-                latitude
-                longitude
-              }
-            }`,
-        variables: {
-          zipcode,
-        },
+      } = await dataSources.keystoneAPI.getLatLong(zipcode)
+
+      // Get Grid Data from NWS Weather API
+      const data = await dataSources.weatherAPI.getGridData({
+        lat: latitude,
+        long: longitude,
       })
 
-      if (latitude && longitude) {
-        const {
-          data: { properties },
-        } = await axios.get(
-          `https://api.weather.gov/points/${latitude},${longitude}`
-        )
-
-        coords = {
-          lat: latitude,
-          long: longitude,
-          forecastUrl: properties.forecast,
-          hourlyForecastUrl: properties.forecastHourly,
-          city: properties.relativeLocation.properties.city,
-          state: properties.relativeLocation.properties.state,
-          zipcode,
-        }
-      } else {
-        throw new Error(
-          `Could not fetch weather data from NWS for zipcode ${zipcode}`
-        )
+      // Create coords object to store with widget
+      const coords = {
+        lat: latitude,
+        long: longitude,
+        forecastUrl: data.forecast,
+        hourlyForecastUrl: data.forecastHourly,
+        city: data.relativeLocation.properties.city,
+        state: data.relativeLocation.properties.state,
+        zipcode,
       }
 
       return WeatherModel.addOne({ coords, title, userId: user.userId }, { db })
@@ -304,8 +289,8 @@ const resolvers = {
     },
     editWeatherWidget: async (
       _: undefined,
-      { _id, title, coords }: EditWeatherWidgetInput,
-      { db, user }: PortalUserContext
+      { _id, zipcode }: EditWeatherWidgetInput,
+      { db, user, dataSources }: PortalUserContext
     ) => {
       if (!user) {
         throw new AuthenticationError(
@@ -313,10 +298,31 @@ const resolvers = {
         )
       }
 
-      return WeatherModel.editOne(
-        { _id, title, coords, userId: user.userId },
-        { db }
-      )
+      // Get lat/long from Keystone
+      const {
+        data: {
+          zipcode: { latitude, longitude },
+        },
+      } = await dataSources.keystoneAPI.getLatLong(zipcode)
+
+      // Get Grid Data from NWS Weather API
+      const data = await dataSources.weatherAPI.getGridData({
+        lat: latitude,
+        long: longitude,
+      })
+
+      // Create coords object to store with widget
+      const coords = {
+        lat: latitude,
+        long: longitude,
+        forecastUrl: data.forecast,
+        hourlyForecastUrl: data.forecastHourly,
+        city: data.relativeLocation.properties.city,
+        state: data.relativeLocation.properties.state,
+        zipcode,
+      }
+
+      return WeatherModel.editOne({ _id, coords, userId: user.userId }, { db })
     },
 
     removeCollection: async (

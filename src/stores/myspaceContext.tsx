@@ -4,13 +4,7 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { WidgetType as AddWidgetType, WidgetReorderInput } from '../graphql.g'
 import { useAnalytics } from 'stores/analyticsContext'
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
-import {
-  MySpace,
-  MySpaceWidget,
-  Collection,
-  Widget,
-  WeatherWidget,
-} from 'types'
+import { MySpace, MySpaceWidget, Collection, Widget } from 'types'
 import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
 import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget.g'
 import { useEditMySpaceMutation } from 'operations/portal/mutations/editMySpace.g'
@@ -39,7 +33,13 @@ export type MySpaceContextType = {
   addFeaturedShortcuts: () => void
   addNewCollection: () => void
   addNewWeatherWidget: (zipcode: string) => void
-  editWeatherWidget: (w: WeatherWidget) => void
+  editWeatherWidget: ({
+    _id,
+    zipcode,
+  }: {
+    _id: string
+    zipcode: string
+  }) => void
   handleOnDragEnd?: (event: DragEndEvent) => void
   temporaryWidget: string
   setTemporaryWidget: React.Dispatch<React.SetStateAction<string>>
@@ -230,22 +230,19 @@ export const MySpaceProvider = ({
     })
   }
 
-  const editWeatherWidget = (w: WeatherWidget) => {
+  const editWeatherWidget = ({
+    _id,
+    zipcode,
+  }: {
+    _id: string
+    zipcode: string
+  }) => {
     trackEvent('Edit weather widget', 'Edit weather widget')
 
     handleEditWeatherWidget({
       variables: {
-        _id: w._id,
-        title: w.title,
-        coords: {
-          lat: w.coords.lat,
-          long: w.coords.long,
-          forecastUrl: w.coords.forecastUrl,
-          hourlyForecastUrl: w.coords.hourlyForecastUrl,
-          city: w.coords.city,
-          state: w.coords.state,
-          zipcode: w.coords.zipcode,
-        },
+        _id,
+        zipcode,
       },
       refetchQueries: ['getUser'],
     })
