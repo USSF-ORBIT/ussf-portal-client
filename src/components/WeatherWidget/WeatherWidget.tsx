@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import {
   Button,
   ButtonGroup,
@@ -6,6 +7,7 @@ import {
   Label,
   TextInput,
 } from '@trussworks/react-uswds'
+import { DateTime } from 'luxon'
 import styles from './WeatherWidget.module.scss'
 import { WidgetWithSettings } from 'components/Widget/Widget'
 import { useWeather } from 'hooks/useWeather'
@@ -91,14 +93,23 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     // setDisableDragAndDrop(false)
   }
 
+  const handleCancel = () => {
+    // Edge case: what if someone is adding another widget while editing this widget? Might need to add a
+    // conditional here.
+    setIsAddingWidget(false)
+    setIsEditing(false)
+  }
+
+  const now = DateTime.now()
+  const currentDate = `${now.weekdayLong}, ${now.monthLong} ${now.day}`
+
   return (
     <>
       <WidgetWithSettings
-        className={styles.newsWidget}
         header="Weather"
         settingsItems={[
           <Button
-            key="newsWidgetSettingsMenu_remove"
+            key="weatherWidgetSettingsMenu_remove"
             type="button"
             className={styles.collectionSettingsDropdown}
             onClick={handleConfirmRemoveWidget}>
@@ -125,44 +136,56 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
               <Button
                 type="button"
                 className={`padding-105 text-center ${styles.cancelButton}`}
-                onClick={() => setIsAddingWidget(false)}>
+                onClick={handleCancel}>
                 Cancel
               </Button>
-              <Button type="submit">Save name</Button>
+              <Button type="submit">Save zip code</Button>
             </ButtonGroup>
           </Form>
-        ) : (
+        ) : null}
+
+        {widget.widget && !isAddingWidget && !isEditing && (
           <>
-            {currentForecast.map((h) => {
-              return (
-                <div key={h.number}>
+            {/* Change this to a ternary and show a loading state? */}
+            {currentForecast[0] && (
+              <div>
+                {widget.widget?.coords && <p>{widget.widget.coords.zipcode}</p>}
+                <div className={styles.currentForecast}>
                   <div>
-                    {h.startTime}
-                    {h.name}
+                    <img
+                      src={currentForecast[0].icon}
+                      alt={currentForecast[0].shortForecast}
+                    />
                   </div>
+
                   <div>
-                    <img src={h.icon} alt={h.shortForecast} />
-                    <p>{h.shortForecast}</p>
+                    <p>{currentForecast[0].temperature}</p>
+                    <p>{currentForecast[0].shortForecast}</p>
+                    <p>{currentDate}</p>
                   </div>
-                  <div>{h.temperature}&deg;</div>
                 </div>
-              )
-            })}
+
+                <p>Hourly Forecast</p>
+                <div className={styles.hourlyForecast}>
+                  {currentForecast.map((h, index) => {
+                    if (index >= 1) {
+                      const date = DateTime.fromISO(h.startTime)
+                      return (
+                        <div key={h.number}>
+                          <div>
+                            <img src={h.icon} alt={h.shortForecast} />
+                          </div>
+                          <div>{h.temperature}&deg;</div>
+                          <div>{date.toFormat('T')}</div>
+                        </div>
+                      )
+                    }
+                  })}
+                </div>
+              </div>
+            )}
           </>
         )}
-
-        {/* <Button
-          key="newsWidgetSettingsMenu_remove"
-          type="button"
-          className={styles.collectionSettingsDropdown}
-          onClick={() => {
-            editWeatherWidget({
-              _id: widget.widget._id,
-              zipcode: '90210',
-            })
-          }}>
-          Edit Weather Widget
-        </Button> */}
       </WidgetWithSettings>
     </>
   )
