@@ -112,6 +112,7 @@ export const MySpaceProvider = ({
 }) => {
   const [mySpace, setMySpace] = useState<MySpace>([])
   const [disableDragAndDrop, setDisableDragAndDrop] = useState<boolean>(false)
+  const [temporaryWidget, setTemporaryWidget] = useState<string>('')
   const [isAddingWidget, setIsAddingWidget] = useState<boolean>(false)
   const { trackEvent } = useAnalytics()
 
@@ -287,8 +288,6 @@ export const MySpaceProvider = ({
       })
     }
   }
-
-  const [temporaryWidget, setTemporaryWidget] = useState<string>('')
 
   const context = {
     mySpace,
