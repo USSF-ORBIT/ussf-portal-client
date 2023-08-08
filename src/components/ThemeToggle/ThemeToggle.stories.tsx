@@ -4,8 +4,10 @@ import { Meta, StoryObj } from '@storybook/react'
 import { testPortalUser1, testUser1 } from '../../__fixtures__/authUsers'
 
 import ThemeToggle from './ThemeToggle'
+import { GetUserDocument } from 'operations/portal/queries/getUser.g'
 
 import { AuthContext } from 'stores/authContext'
+import { MockedProvider } from '@apollo/client/testing'
 
 const mockContext = {
   user: testUser1,
@@ -29,10 +31,25 @@ export default {
   component: ThemeToggle,
   decorators: [
     (Story, context) => {
-      mockContext.portalUser.theme = context.globals.theme
+      const mocks = [
+        {
+          request: {
+            query: GetUserDocument,
+          },
+          result: () => ({
+            data: {
+              displayName: 'BERNADETTE CAMPBELL',
+              mySpace: [],
+              theme: context.globals.theme,
+            },
+          }),
+        },
+      ]
       return (
         <AuthContext.Provider value={mockContext}>
-          <Story />
+          <MockedProvider mocks={mocks}>
+            <Story />
+          </MockedProvider>
         </AuthContext.Provider>
       )
     },
