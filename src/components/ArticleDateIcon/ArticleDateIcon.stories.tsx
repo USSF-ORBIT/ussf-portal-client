@@ -6,13 +6,6 @@ import { ArticleDateIcon } from './ArticleDateIcon'
 export default {
   title: 'Components/ArticleList/ArticleDateIcon',
   component: ArticleDateIcon,
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 const testDate = new Date('May 16 2022')

@@ -10,7 +10,7 @@ import NavLink, { NavLinkProps } from 'components/util/NavLink/NavLink'
 
 const PersonalData = ({ userDisplayName }: { userDisplayName: string }) => {
   const router = useRouter()
-  const greeting = userDisplayName ? `Welcome, ${userDisplayName}` : 'Welcome!'
+  const greeting = `Welcome, ${userDisplayName}`
   const currentPage = router.pathname
 
   return (

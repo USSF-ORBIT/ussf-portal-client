@@ -110,9 +110,7 @@ export default {
   decorators: [
     (Story) => (
       <MySpaceContext.Provider value={mockMySpaceContext}>
-        <div className="sfds">
-          <Story />
-        </div>
+        <Story />
       </MySpaceContext.Provider>
     ),
   ],

@@ -11,13 +11,6 @@ export default {
   title: 'Components/Collections/Bookmark',
   component: Bookmark,
   argTypes: { onDelete: { action: 'Deleted' }, onEdit: { action: 'Edited' } },
-  decorators: [
-    (Story) => (
-      <div className="sfds">
-        <Story />
-      </div>
-    ),
-  ],
 } as Meta
 
 export const ExampleBookmark = () => <Bookmark href="#">Example</Bookmark>
