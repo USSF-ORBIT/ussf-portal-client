@@ -1,13 +1,13 @@
 import React from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 
+import { MockedProvider } from '@apollo/client/testing'
 import { testPortalUser1, testUser1 } from '../../__fixtures__/authUsers'
 
 import ThemeToggle from './ThemeToggle'
 import { GetUserDocument } from 'operations/portal/queries/getUser.g'
 
 import { AuthContext } from 'stores/authContext'
-import { MockedProvider } from '@apollo/client/testing'
 
 const mockContext = {
   user: testUser1,
