@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
 import {
   Button,
   ButtonGroup,
@@ -33,14 +32,22 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     editWeatherWidget,
     isAddingWidget,
     setIsAddingWidget,
+    setDisableDragAndDrop,
   } = useMySpaceContext()
 
   const inputRef = useRef<HTMLInputElement>(null)
+
   useEffect(() => {
     if (widget.widget) {
       getForecast(widget.widget.coords.hourlyForecastUrl)
     }
-  }, [])
+  }, [widget.widget])
+
+  useEffect(() => {
+    if (isAddingWidget || isEditing) {
+      inputRef?.current?.focus()
+    }
+  }, [isAddingWidget, isEditing])
 
   const currentForecast = forecast.slice(0, 5)
 
@@ -90,7 +97,16 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
       addNewWeatherWidget(inputVal.toString())
       setIsAddingWidget(false)
     }
-    // setDisableDragAndDrop(false)
+
+    if (isEditing && widget.widget) {
+      setIsEditing(false)
+      editWeatherWidget({
+        _id: widget.widget._id.toString(),
+        zipcode: inputVal.toString(),
+      })
+    }
+
+    setDisableDragAndDrop(false)
   }
 
   const handleCancel = () => {
@@ -98,24 +114,50 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     // conditional here.
     setIsAddingWidget(false)
     setIsEditing(false)
+    setDisableDragAndDrop(false)
+  }
+
+  const handleEdit = () => {
+    setIsEditing(true)
+    setDisableDragAndDrop(true)
   }
 
   const now = DateTime.now()
   const currentDate = `${now.weekdayLong}, ${now.monthLong} ${now.day}`
 
+  const weatherWidgetSettings = () => {
+    if (widget.widget) {
+      return [
+        <Button
+          key="weatherWidgetSettingsMenu_edit"
+          type="button"
+          onClick={handleEdit}>
+          Edit zip code
+        </Button>,
+        <Button
+          key="weatherWidgetSettingsMenu_remove"
+          type="button"
+          onClick={handleConfirmRemoveWidget}>
+          Remove Weather Widget
+        </Button>,
+      ]
+    } else {
+      return [
+        <Button
+          key="weatherWidgetSettingsMenu_remove"
+          type="button"
+          onClick={handleConfirmRemoveWidget}>
+          Remove Weather Widget
+        </Button>,
+      ]
+    }
+  }
+
   return (
     <>
       <WidgetWithSettings
         header="Weather"
-        settingsItems={[
-          <Button
-            key="weatherWidgetSettingsMenu_remove"
-            type="button"
-            className={styles.collectionSettingsDropdown}
-            onClick={handleConfirmRemoveWidget}>
-            Remove Weather Widget
-          </Button>,
-        ]}>
+        settingsItems={[...weatherWidgetSettings()]}>
         {isAddingWidget || isEditing ? (
           <Form
             onSubmit={handleSubmit}
