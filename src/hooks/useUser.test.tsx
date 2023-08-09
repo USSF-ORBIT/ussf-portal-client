@@ -74,23 +74,22 @@ describe('useUser hook', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <AuthProvider>
         <MockedProvider mocks={getUserMock}>
-          <ThemeProvider enableSystem={false}>
-            {children}
-          </ThemeProvider>
+          <ThemeProvider enableSystem={false}>{children}</ThemeProvider>
         </MockedProvider>
       </AuthProvider>
     )
     renderHook(() => useUser(), { wrapper })
     await waitFor(() => {
       expect(mockedAxios.get).toHaveBeenCalledTimes(1)
-      expect(mockSetPortalUser).toHaveBeenCalledWith(
-        {
-          mySpace: portalUserNoCollections.mySpace,
-          displayName: portalUserNoCollections.displayName,
-          theme: portalUserNoCollections.theme,
-        }
+      expect(mockSetPortalUser).toHaveBeenCalledWith({
+        mySpace: portalUserNoCollections.mySpace,
+        displayName: portalUserNoCollections.displayName,
+        theme: portalUserNoCollections.theme,
+      })
+      expect(setItemMock).toHaveBeenCalledWith(
+        'theme',
+        portalUserNoCollections.theme
       )
-      expect(setItemMock).toHaveBeenCalledWith('theme', portalUserNoCollections.theme)
     })
   })
 
@@ -98,26 +97,27 @@ describe('useUser hook', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <AuthProvider>
         <MockedProvider mocks={getUserMock}>
-          <ThemeProvider enableSystem={false}>
-            {children}
-          </ThemeProvider>
+          <ThemeProvider enableSystem={false}>{children}</ThemeProvider>
         </MockedProvider>
       </AuthProvider>
     )
     renderHook(() => useUser(), { wrapper })
     await waitFor(() => {
       expect(mockedAxios.get).toHaveBeenCalledTimes(1)
-      expect(setItemMock).toHaveBeenCalledWith('theme', portalUserNoCollections.theme)
+      expect(setItemMock).toHaveBeenCalledWith(
+        'theme',
+        portalUserNoCollections.theme
+      )
     })
   })
+
+  test.todo('does not set theme if data returned by useGetUserQuery is null')
 
   test('returns expected values', async () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <AuthProvider>
         <MockedProvider mocks={getUserMock}>
-          <ThemeProvider enableSystem={false}>
-            {children}
-          </ThemeProvider>
+          <ThemeProvider enableSystem={false}>{children}</ThemeProvider>
         </MockedProvider>
       </AuthProvider>
     )
@@ -131,7 +131,7 @@ describe('useUser hook', () => {
           mySpace: portalUserNoCollections.mySpace,
           displayName: portalUserNoCollections.displayName,
           theme: portalUserNoCollections.theme,
-        }
+        },
       })
     })
   })
