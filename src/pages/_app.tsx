@@ -49,8 +49,8 @@ const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
 
   return (
     <ApolloProvider client={client}>
-        <AuthProvider>
-      <AnalyticsProvider>
+      <AuthProvider>
+        <AnalyticsProvider>
           <MySpaceProvider>
             <SearchProvider>
               <LaunchDarkly>
@@ -181,8 +181,8 @@ const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
               </LaunchDarkly>
             </SearchProvider>
           </MySpaceProvider>
-      </AnalyticsProvider>
-        </AuthProvider>
+        </AnalyticsProvider>
+      </AuthProvider>
     </ApolloProvider>
   )
 }
