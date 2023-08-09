@@ -6,18 +6,22 @@ import {
   Label,
   TextInput,
 } from '@trussworks/react-uswds'
+import {
+  FontAwesomeIcon,
+  FontAwesomeIconProps,
+} from '@fortawesome/react-fontawesome'
 import { DateTime } from 'luxon'
 import styles from './WeatherWidget.module.scss'
 import { WidgetWithSettings } from 'components/Widget/Widget'
 import { useWeather } from 'hooks/useWeather'
 import { useModalContext } from 'stores/modalContext'
 import { useMySpaceContext } from 'stores/myspaceContext'
-import { WeatherWidget as Widget } from 'types'
+import { WeatherWidget as WeatherWidgetType } from 'types'
 
 // widget needs to be optional because we are using WeatherWidget in TemporaryWidget,
 // where widget is undefined while the user is providing the zip code for the widget.
 type WeatherWidgetProps = {
-  widget?: Widget
+  widget?: WeatherWidgetType
 }
 
 const WeatherWidget = (widget: WeatherWidgetProps) => {
@@ -66,7 +70,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
           'You can re-add it to your My Space from the Add Widget menu.',
       })
 
-      const widgetState: Widget = {
+      const widgetState: WeatherWidgetType = {
         _id: widget.widget._id,
         title: widget.widget.title,
         type: 'Weather',
@@ -153,6 +157,99 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     }
   }
 
+  const iconLogic = (
+    hourlyPeriod: any,
+    iconSize: FontAwesomeIconProps['size']
+  ): JSX.Element => {
+    if (hourlyPeriod.windSpeed >= 15) {
+      return <FontAwesomeIcon icon="wind" size={iconSize} />
+    }
+
+    // Daytime icons
+    if (hourlyPeriod.isDaytime) {
+      const shortForecast = hourlyPeriod.shortForecast.toLowerCase()
+      if (shortForecast.includes('sunny')) {
+        return <FontAwesomeIcon icon="sun" size={iconSize} />
+      }
+
+      if (shortForecast.includes('partly sunny')) {
+        return <FontAwesomeIcon icon="cloud-sun" size={iconSize} />
+      }
+
+      if (shortForecast.includes('cloudy')) {
+        return <FontAwesomeIcon icon="cloud" size={iconSize} />
+      }
+
+      if (shortForecast.includes('thunderstorms')) {
+        return <FontAwesomeIcon icon="bolt-lightning" size={iconSize} />
+      }
+
+      if (shortForecast.includes('rain')) {
+        return <FontAwesomeIcon icon="cloud-rain" size={iconSize} />
+      }
+
+      if (shortForecast.includes('showers')) {
+        return <FontAwesomeIcon icon="cloud-showers-heavy" size={iconSize} />
+      }
+
+      if (shortForecast.includes('snow')) {
+        return <FontAwesomeIcon icon="snowflake" size={iconSize} />
+      }
+
+      if (shortForecast.includes('fog')) {
+        return <FontAwesomeIcon icon="smog" size={iconSize} />
+      }
+
+      if (hourlyPeriod.temperature >= 80) {
+        return <FontAwesomeIcon icon="temperature-high" size={iconSize} />
+      }
+
+      if (hourlyPeriod.temperature <= 60) {
+        return <FontAwesomeIcon icon="temperature-low" size={iconSize} />
+      }
+      // Nighttime icons
+    } else if (!hourlyPeriod.isDaytime) {
+      const shortForecast = hourlyPeriod.shortForecast.toLowerCase()
+      if (shortForecast.includes('clear')) {
+        return <FontAwesomeIcon icon="moon" size={iconSize} />
+      }
+
+      if (shortForecast.includes('cloudy')) {
+        return <FontAwesomeIcon icon="cloud" size={iconSize} />
+      }
+
+      if (shortForecast.includes('thunderstorms')) {
+        return <FontAwesomeIcon icon="bolt-lightning" size={iconSize} />
+      }
+
+      if (shortForecast.includes('rain')) {
+        return <FontAwesomeIcon icon="cloud-rain" size={iconSize} />
+      }
+
+      if (shortForecast.includes('showers')) {
+        return <FontAwesomeIcon icon="cloud-showers-heavy" size={iconSize} />
+      }
+
+      if (shortForecast.includes('snow')) {
+        return <FontAwesomeIcon icon="snowflake" size={iconSize} />
+      }
+
+      if (shortForecast.includes('fog')) {
+        return <FontAwesomeIcon icon="smog" size={iconSize} />
+      }
+
+      if (hourlyPeriod.temperature >= 80) {
+        return <FontAwesomeIcon icon="temperature-high" size={iconSize} />
+      }
+
+      if (hourlyPeriod.temperature <= 60) {
+        return <FontAwesomeIcon icon="temperature-low" size={iconSize} />
+      }
+    }
+
+    return <></>
+  }
+
   return (
     <>
       <WidgetWithSettings
@@ -188,17 +285,11 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
 
         {widget.widget && !isAddingWidget && !isEditing && (
           <>
-            {/* Change this to a ternary and show a loading state? */}
             {currentForecast[0] && (
               <div>
                 {widget.widget?.coords && <p>{widget.widget.coords.zipcode}</p>}
                 <div className={styles.currentForecast}>
-                  <div>
-                    <img
-                      src={currentForecast[0].icon}
-                      alt={currentForecast[0].shortForecast}
-                    />
-                  </div>
+                  <div>{iconLogic(currentForecast[0], '2xl')}</div>
 
                   <div>
                     <p>{currentForecast[0].temperature}</p>
@@ -214,9 +305,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                       const date = DateTime.fromISO(h.startTime)
                       return (
                         <div key={h.number}>
-                          <div>
-                            <img src={h.icon} alt={h.shortForecast} />
-                          </div>
+                          <div>{iconLogic(h, 'xl')}</div>
                           <div>{h.temperature}&deg;</div>
                           <div>{date.toFormat('T')}</div>
                         </div>

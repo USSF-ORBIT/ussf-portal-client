@@ -10,6 +10,21 @@ import {
   faAngleLeft,
   faAngleRight,
   faLocationDot,
+  faTemperatureHigh,
+  faTemperatureLow,
+  faWind,
+  faCloud,
+  faCloudRain,
+  faCloudShowersHeavy,
+  faCloudSun,
+  faCloudSunRain,
+  faCloudMoon,
+  faCloudMoonRain,
+  faSun,
+  faMoon,
+  faSmog,
+  faSnowflake,
+  faBoltLightning,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -22,5 +37,20 @@ library.add(
   faGripVertical,
   faAngleLeft,
   faAngleRight,
-  faLocationDot
+  faLocationDot,
+  faTemperatureHigh,
+  faTemperatureLow,
+  faWind,
+  faCloud,
+  faCloudRain,
+  faCloudShowersHeavy,
+  faCloudSun,
+  faCloudSunRain,
+  faCloudMoon,
+  faCloudMoonRain,
+  faSun,
+  faMoon,
+  faSmog,
+  faSnowflake,
+  faBoltLightning
 )
