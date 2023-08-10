@@ -6,12 +6,10 @@ import {
   Label,
   TextInput,
 } from '@trussworks/react-uswds'
-import {
-  FontAwesomeIcon,
-  FontAwesomeIconProps,
-} from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { DateTime } from 'luxon'
 import styles from './WeatherWidget.module.scss'
+import WeatherWidgetIcon from './WeatherWidgetIcon'
 import { WidgetWithSettings } from 'components/Widget/Widget'
 import { useWeather } from 'hooks/useWeather'
 import { useModalContext } from 'stores/modalContext'
@@ -93,10 +91,6 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     const data = new FormData(e.currentTarget)
     const inputVal = `${data.get('weatherWidget_input')}`
 
-    // if we are editing an existing widget
-    // disable drag and drop
-
-    // if we are adding a new widget
     if (isAddingWidget && !widget.widget) {
       addNewWeatherWidget(inputVal.toString())
       setIsAddingWidget(false)
@@ -127,7 +121,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
   }
 
   const now = DateTime.now()
-  const currentDate = `${now.weekdayLong}, ${now.monthLong} ${now.day}`
+  const currentDate = `${now.weekdayShort}, ${now.monthShort} ${now.day}`
 
   const weatherWidgetSettings = () => {
     if (widget.widget) {
@@ -155,99 +149,6 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
         </Button>,
       ]
     }
-  }
-
-  const iconLogic = (
-    hourlyPeriod: any,
-    iconSize: FontAwesomeIconProps['size']
-  ): JSX.Element => {
-    if (hourlyPeriod.windSpeed >= 15) {
-      return <FontAwesomeIcon icon="wind" size={iconSize} />
-    }
-
-    // Daytime icons
-    if (hourlyPeriod.isDaytime) {
-      const shortForecast = hourlyPeriod.shortForecast.toLowerCase()
-      if (shortForecast.includes('sunny')) {
-        return <FontAwesomeIcon icon="sun" size={iconSize} />
-      }
-
-      if (shortForecast.includes('partly sunny')) {
-        return <FontAwesomeIcon icon="cloud-sun" size={iconSize} />
-      }
-
-      if (shortForecast.includes('cloudy')) {
-        return <FontAwesomeIcon icon="cloud" size={iconSize} />
-      }
-
-      if (shortForecast.includes('thunderstorms')) {
-        return <FontAwesomeIcon icon="bolt-lightning" size={iconSize} />
-      }
-
-      if (shortForecast.includes('rain')) {
-        return <FontAwesomeIcon icon="cloud-rain" size={iconSize} />
-      }
-
-      if (shortForecast.includes('showers')) {
-        return <FontAwesomeIcon icon="cloud-showers-heavy" size={iconSize} />
-      }
-
-      if (shortForecast.includes('snow')) {
-        return <FontAwesomeIcon icon="snowflake" size={iconSize} />
-      }
-
-      if (shortForecast.includes('fog')) {
-        return <FontAwesomeIcon icon="smog" size={iconSize} />
-      }
-
-      if (hourlyPeriod.temperature >= 80) {
-        return <FontAwesomeIcon icon="temperature-high" size={iconSize} />
-      }
-
-      if (hourlyPeriod.temperature <= 60) {
-        return <FontAwesomeIcon icon="temperature-low" size={iconSize} />
-      }
-      // Nighttime icons
-    } else if (!hourlyPeriod.isDaytime) {
-      const shortForecast = hourlyPeriod.shortForecast.toLowerCase()
-      if (shortForecast.includes('clear')) {
-        return <FontAwesomeIcon icon="moon" size={iconSize} />
-      }
-
-      if (shortForecast.includes('cloudy')) {
-        return <FontAwesomeIcon icon="cloud" size={iconSize} />
-      }
-
-      if (shortForecast.includes('thunderstorms')) {
-        return <FontAwesomeIcon icon="bolt-lightning" size={iconSize} />
-      }
-
-      if (shortForecast.includes('rain')) {
-        return <FontAwesomeIcon icon="cloud-rain" size={iconSize} />
-      }
-
-      if (shortForecast.includes('showers')) {
-        return <FontAwesomeIcon icon="cloud-showers-heavy" size={iconSize} />
-      }
-
-      if (shortForecast.includes('snow')) {
-        return <FontAwesomeIcon icon="snowflake" size={iconSize} />
-      }
-
-      if (shortForecast.includes('fog')) {
-        return <FontAwesomeIcon icon="smog" size={iconSize} />
-      }
-
-      if (hourlyPeriod.temperature >= 80) {
-        return <FontAwesomeIcon icon="temperature-high" size={iconSize} />
-      }
-
-      if (hourlyPeriod.temperature <= 60) {
-        return <FontAwesomeIcon icon="temperature-low" size={iconSize} />
-      }
-    }
-
-    return <></>
   }
 
   return (
@@ -286,34 +187,51 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
         {widget.widget && !isAddingWidget && !isEditing && (
           <>
             {currentForecast[0] && (
-              <div>
-                {widget.widget?.coords && <p>{widget.widget.coords.zipcode}</p>}
+              <>
+                {widget.widget?.coords && (
+                  <div className={styles.location}>
+                    <FontAwesomeIcon icon="map-marker-alt" size="lg" />
+                    <Button
+                      type="button"
+                      unstyled
+                      onClick={() => setIsEditing(true)}>
+                      {widget.widget.coords.zipcode}
+                    </Button>
+                  </div>
+                )}
                 <div className={styles.currentForecast}>
-                  <div>{iconLogic(currentForecast[0], '2xl')}</div>
+                  <div className={styles.icon}>
+                    {/* Instead of a function call, we can use WeatherWidgetIcon and pass it the necessary props */}
+                    {/* {iconLogic(currentForecast[0], undefined, true)} */}
+                    <WeatherWidgetIcon
+                      hourlyPeriod={currentForecast[0]}
+                      style={{ fontSize: '70px' }}
+                    />
+                  </div>
 
-                  <div>
-                    <p>{currentForecast[0].temperature}</p>
+                  <div className={styles.shortForecast}>
+                    <h1>{currentForecast[0].temperature}&deg;</h1>
                     <p>{currentForecast[0].shortForecast}</p>
                     <p>{currentDate}</p>
                   </div>
                 </div>
 
-                <p>Hourly Forecast</p>
+                <h5>Hourly Forecast</h5>
                 <div className={styles.hourlyForecast}>
                   {currentForecast.map((h, index) => {
                     if (index >= 1) {
                       const date = DateTime.fromISO(h.startTime)
                       return (
-                        <div key={h.number}>
-                          <div>{iconLogic(h, 'xl')}</div>
-                          <div>{h.temperature}&deg;</div>
+                        <div key={h.number} className={styles.nextFourHours}>
+                          <WeatherWidgetIcon hourlyPeriod={h} iconSize="2xl" />
+                          <h2>{h.temperature}&deg;</h2>
                           <div>{date.toFormat('T')}</div>
                         </div>
                       )
                     }
                   })}
                 </div>
-              </div>
+              </>
             )}
           </>
         )}
