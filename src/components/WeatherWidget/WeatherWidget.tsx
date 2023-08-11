@@ -201,8 +201,6 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                 )}
                 <div className={styles.currentForecast}>
                   <div className={styles.icon}>
-                    {/* Instead of a function call, we can use WeatherWidgetIcon and pass it the necessary props */}
-                    {/* {iconLogic(currentForecast[0], undefined, true)} */}
                     <WeatherWidgetIcon
                       hourlyPeriod={currentForecast[0]}
                       style={{ fontSize: '70px' }}
