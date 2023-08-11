@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (user) {
-      setUserId(user.userId)
+      setUserId(user.attributes.edipi)
     }
   }, [user])
 
