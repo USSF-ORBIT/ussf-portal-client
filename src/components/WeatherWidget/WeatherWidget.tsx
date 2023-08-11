@@ -24,6 +24,7 @@ type WeatherWidgetProps = {
 
 const WeatherWidget = (widget: WeatherWidgetProps) => {
   const [isEditing, setIsEditing] = useState(false)
+  const [zipCode, setZipCode] = useState<string>('')
 
   const { forecast, getForecast } = useWeather()
   const { updateModalId, updateModalText, modalRef, updateWidget } =
@@ -52,6 +53,10 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
   }, [isAddingWidget, isEditing])
 
   const currentForecast = forecast.slice(0, 5)
+
+  const inputId = widget.widget
+    ? `weatherWidget_${widget.widget._id}`
+    : 'weatherWidget_temporary'
 
   /** Remove widget */
   // Show confirmation modal
@@ -83,11 +88,6 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     setDisableDragAndDrop(false)
   }
 
-  const inputId = widget.widget
-    ? `weatherWidget_${widget.widget._id}`
-    : 'weatherWidget_temporary'
-
-  // Move to MySpaceContext?
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
@@ -120,6 +120,24 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
   const handleEdit = () => {
     setIsEditing(true)
     setDisableDragAndDrop(true)
+  }
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const keyCode = e.key
+
+    // Allow only digits (0-9)
+    if (!/^\d$/.test(keyCode)) {
+      e.preventDefault()
+    }
+  }
+
+  const handleZipCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value
+    const sanitizedInput = input.replace(/\D/g, '')
+
+    if (sanitizedInput.length <= 5) {
+      setZipCode(e.target.value)
+    }
   }
 
   const now = DateTime.now()
@@ -168,11 +186,14 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
             <TextInput
               inputRef={inputRef}
               id={inputId}
-              name="weatherWidget_input"
-              required
-              maxLength={200}
               className={styles.collectionTitle}
-              type="number"
+              name="weatherWidget_input"
+              maxLength={5}
+              type="text"
+              onChange={handleZipCodeChange}
+              onKeyDown={handleKeyPress}
+              value={zipCode}
+              required
             />
             <ButtonGroup>
               <Button
