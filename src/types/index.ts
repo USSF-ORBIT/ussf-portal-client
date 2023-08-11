@@ -234,7 +234,7 @@ export interface Collection extends Widget {
 }
 
 /*  MySpaceWidget represents a user's MySpace and is used when displaying their content */
-export type MySpaceWidget = Widget | Collection
+export type MySpaceWidget = Widget | Collection | WeatherWidget
 export type MySpace = MySpaceWidget[]
 
 /* Featured Shortcut Items represents items appearing in Featured Shortcuts widget */

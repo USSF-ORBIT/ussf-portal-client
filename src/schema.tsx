@@ -175,5 +175,6 @@ export const typeDefs = gql`
     type: WidgetType!
     cmsId: ID
     bookmarks: [BookmarkReorderInput!]
+    coords: WeatherInput
   }
 `

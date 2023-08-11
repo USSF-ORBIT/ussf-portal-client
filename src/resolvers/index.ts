@@ -6,7 +6,13 @@ import { BookmarkModel } from '../models/Bookmark'
 import UserModel from '../models/User'
 import { CollectionModel } from '../models/Collection'
 import { MySpaceModel } from 'models/MySpace'
-import { Widget, PortalUser, WidgetType, MongoBookmark } from 'types'
+import {
+  Widget,
+  PortalUser,
+  WidgetType,
+  MongoBookmark,
+  MySpaceWidget,
+} from 'types'
 import { WeatherModel } from 'models/Weather'
 
 export const ObjectIdScalar = new GraphQLScalarType({
@@ -116,7 +122,7 @@ type EditThemeInput = {
 
 type EditMySpaceInput = {
   userId: string
-  mySpace: Widget[]
+  mySpace: MySpaceWidget[]
 }
 
 const resolvers = {

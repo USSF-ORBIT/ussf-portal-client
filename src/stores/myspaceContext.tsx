@@ -4,7 +4,13 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { WidgetType as AddWidgetType, WidgetReorderInput } from '../graphql.g'
 import { useAnalytics } from 'stores/analyticsContext'
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
-import { MySpace, MySpaceWidget, Collection, Widget } from 'types'
+import {
+  MySpace,
+  MySpaceWidget,
+  Collection,
+  Widget,
+  WeatherWidget,
+} from 'types'
 import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
 import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget.g'
 import { useEditMySpaceMutation } from 'operations/portal/mutations/editMySpace.g'
@@ -264,21 +270,72 @@ export const MySpaceProvider = ({
       const sortedWidgets = arrayMove(mySpace, oldIndex, newIndex)
       setMySpace(sortedWidgets)
 
-      // Prepare widgets for mutation by removing the id field
-      const updatedMySpace = sortedWidgets.map(
-        ({ _id, title, type, bookmarks }) => {
-          const updatedBookmarks = bookmarks?.map(
-            ({ _id, url, label, cmsId, isRemoved }) => ({
-              _id,
-              url,
-              label,
-              cmsId,
-              isRemoved,
-            })
-          )
-          return { _id, title, type, bookmarks: updatedBookmarks }
+      // Prepare widgets for the mutation by removing the id field that we needed for
+      // drag-and-drop to work on the client
+      const updatedMySpace = sortedWidgets.map((widget: MySpaceWidget) => {
+        if (widget.type === WIDGET_TYPES.FEATUREDSHORTCUTS) {
+          return {
+            _id: widget._id,
+            title: widget.title,
+            type: widget.type,
+          }
         }
-      )
+
+        if (widget.type === WIDGET_TYPES.GUARDIANIDEAL) {
+          return {
+            _id: widget._id,
+            title: widget.title,
+            type: widget.type,
+          }
+        }
+
+        if (widget.type === WIDGET_TYPES.COLLECTION) {
+          return {
+            _id: widget._id,
+            title: widget.title,
+            type: widget.type,
+            bookmarks: widget.bookmarks?.map(
+              ({ _id, url, label, cmsId, isRemoved }) => ({
+                _id,
+                url,
+                label,
+                cmsId,
+                isRemoved,
+              })
+            ),
+          }
+        }
+
+        if (widget.type === WIDGET_TYPES.NEWS) {
+          return {
+            _id: widget._id,
+            title: widget.title,
+            type: widget.type,
+          }
+        }
+
+        if (widget.type === WIDGET_TYPES.WEATHER) {
+          // Had to add this here to satisfy the type checker. As MySpaceWidget is a union type,
+          // the compiler doesn't know that widget is a WeatherWidget, so it doesn't know that
+          // widget.coords is defined. This works for now, but if we add more widget types, we
+          // should probably find a better way to define our widget types.
+          const weatherWidget = widget as WeatherWidget
+          return {
+            _id: weatherWidget._id,
+            title: weatherWidget.title,
+            type: weatherWidget.type,
+            coords: {
+              lat: weatherWidget.coords.lat,
+              long: weatherWidget.coords.long,
+              forecastUrl: weatherWidget.coords.forecastUrl,
+              hourlyForecastUrl: weatherWidget.coords.hourlyForecastUrl,
+              city: weatherWidget.coords.city,
+              state: weatherWidget.coords.state,
+              zipcode: weatherWidget.coords.zipcode,
+            },
+          }
+        }
+      })
 
       // Perform mutation to update mySpace
       handleEditMySpace({
