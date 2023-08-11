@@ -79,6 +79,8 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
 
       modalRef?.current?.toggleModal(undefined, true)
     }
+
+    setDisableDragAndDrop(false)
   }
 
   const inputId = widget.widget
@@ -156,7 +158,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
       <WidgetWithSettings
         header="Weather"
         settingsItems={[...weatherWidgetSettings()]}>
-        {!widget.widget && (isAddingWidget || isEditing) ? (
+        {!widget.widget || isEditing ? (
           <Form
             onSubmit={handleSubmit}
             className={styles.editableWeatherWidget}>
