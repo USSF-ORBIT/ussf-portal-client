@@ -156,7 +156,7 @@ export const MySpaceProvider = ({
     mySpace && mySpace.filter((w) => w.type === WIDGET_TYPES.NEWS).length < 1
 
   const canAddWeather: boolean =
-    mySpace && mySpace.filter((w) => w.type === WIDGET_TYPES.WEATHER).length < 1
+    mySpace && mySpace.filter((w) => w.type === WIDGET_TYPES.WEATHER).length < 3
 
   const canAddGuardianIdeal: boolean =
     mySpace &&

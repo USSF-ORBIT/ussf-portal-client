@@ -156,7 +156,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
       <WidgetWithSettings
         header="Weather"
         settingsItems={[...weatherWidgetSettings()]}>
-        {isAddingWidget || isEditing ? (
+        {!widget.widget && (isAddingWidget || isEditing) ? (
           <Form
             onSubmit={handleSubmit}
             className={styles.editableWeatherWidget}>
@@ -184,7 +184,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
           </Form>
         ) : null}
 
-        {widget.widget && !isAddingWidget && !isEditing && (
+        {widget.widget && !isEditing && (
           <>
             {currentForecast[0] && (
               <>
