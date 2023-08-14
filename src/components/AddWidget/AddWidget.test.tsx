@@ -13,10 +13,6 @@ import AddWidget from './AddWidget'
 describe('AddWidget component', () => {
   const testProps = {
     handleSelectCollection: jest.fn(),
-    handleCreateCollection: jest.fn(),
-    handleAddNews: jest.fn(),
-    handleAddGuardianIdeal: jest.fn(),
-    handleAddFeaturedShortcuts: jest.fn(),
   }
 
   test('renders an add widget menu', () => {
@@ -53,7 +49,7 @@ describe('AddWidget component', () => {
     ).not.toBeInTheDocument()
   })
 
-  test('handles the select collection button', async () => {
+  test('Select collection button', async () => {
     const user = userEvent.setup()
     const mockHandleSelect = jest.fn()
 
@@ -81,7 +77,7 @@ describe('AddWidget component', () => {
     ).not.toBeInTheDocument()
   })
 
-  test('handles the create collection button', async () => {
+  test('Create collection button', async () => {
     const user = userEvent.setup()
     const mockHandleCreate = jest.fn()
 
@@ -107,7 +103,7 @@ describe('AddWidget component', () => {
     ).not.toBeInTheDocument()
   })
 
-  test('the add collection buttons are disabled if the user cannot add collections', async () => {
+  test('Add collection buttons are disabled if the user cannot add collections', async () => {
     const user = userEvent.setup()
     const mockHandleCreate = jest.fn()
     const mockHandleSelect = jest.fn()
@@ -142,7 +138,7 @@ describe('AddWidget component', () => {
     expect(mockHandleCreate).not.toHaveBeenCalled()
   })
 
-  test('handles the Add news widget button', async () => {
+  test('Add news widget button', async () => {
     const user = userEvent.setup()
     const mockAddNews = jest.fn()
 
@@ -166,7 +162,7 @@ describe('AddWidget component', () => {
     ).not.toBeInTheDocument()
   })
 
-  test('the Add news widget button is disabled if the user cannot add News', async () => {
+  test('Add news widget button is disabled if the user cannot add News', async () => {
     const user = userEvent.setup()
     const mockAddNews = jest.fn()
 
@@ -191,7 +187,64 @@ describe('AddWidget component', () => {
     expect(mockAddNews).not.toHaveBeenCalled()
   })
 
-  test('handles Add Guardian Ideal widget button', async () => {
+  test('Add weather widget', async () => {
+    const user = userEvent.setup()
+    const mockSetTemporaryWidget = jest.fn()
+    const mockIsAddingWidget = jest.fn()
+
+    renderWithMySpaceAndModalContext(<AddWidget {...testProps} />, {
+      setTemporaryWidget: mockSetTemporaryWidget,
+      setIsAddingWidget: mockIsAddingWidget,
+    })
+
+    const menuButton = screen.getByRole('button', { name: 'Add widget' })
+    expect(menuButton).toBeInTheDocument()
+
+    await user.click(menuButton)
+
+    expect(
+      screen.getByRole('button', { name: 'Add weather widget' })
+    ).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Add weather widget' }))
+
+    expect(mockSetTemporaryWidget).toHaveBeenCalledWith('Weather')
+    expect(mockIsAddingWidget).toHaveBeenCalledWith(true)
+
+    expect(
+      screen.queryByRole('button', { name: 'Add weather widget' })
+    ).not.toBeInTheDocument()
+  })
+
+  test('Add weather widget button is disabled if the user cannot add Weather', async () => {
+    const user = userEvent.setup()
+    const mockSetTemporaryWidget = jest.fn()
+    const mockIsAddingWidget = jest.fn()
+
+    renderWithMySpaceAndModalContext(<AddWidget {...testProps} />, {
+      canAddWeather: false,
+      setTemporaryWidget: mockSetTemporaryWidget,
+      setIsAddingWidget: mockIsAddingWidget,
+    })
+
+    const menuButton = screen.getByRole('button', { name: 'Add widget' })
+    expect(menuButton).toBeInTheDocument()
+
+    await user.click(menuButton)
+
+    expect(
+      screen.getByRole('button', { name: 'Add weather widget' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Add weather widget' })
+    ).toBeDisabled()
+
+    await user.click(screen.getByRole('button', { name: 'Add weather widget' }))
+
+    expect(mockSetTemporaryWidget).not.toHaveBeenCalled()
+    expect(mockIsAddingWidget).not.toHaveBeenCalled()
+  })
+
+  test('Add Guardian Ideal widget button', async () => {
     const user = userEvent.setup()
     const mockAddGuardianIdeal = jest.fn()
 
@@ -221,7 +274,7 @@ describe('AddWidget component', () => {
     ).not.toBeInTheDocument()
   })
 
-  test('the Add Guardian Ideal widget button is disabled if the user cannot add it', async () => {
+  test('Add Guardian Ideal widget button is disabled if the user cannot add it', async () => {
     const user = userEvent.setup()
     const mockAddGuardianIdeal = jest.fn()
 
@@ -248,7 +301,7 @@ describe('AddWidget component', () => {
     expect(mockAddGuardianIdeal).not.toHaveBeenCalled()
   })
 
-  test('handles Add Featured Shortcuts widget button', async () => {
+  test('Add Featured Shortcuts widget button', async () => {
     const user = userEvent.setup()
     const mockAddFeaturedShortcuts = jest.fn()
 
@@ -278,7 +331,7 @@ describe('AddWidget component', () => {
     ).not.toBeInTheDocument()
   })
 
-  test('the Add Featured Shortcuts widget button is disabled if the user cannot add it', async () => {
+  test('Add Featured Shortcuts widget button is disabled if the user cannot add it', async () => {
     const user = userEvent.setup()
     const mockAddFeaturedShortcuts = jest.fn()
     mockFlags({
