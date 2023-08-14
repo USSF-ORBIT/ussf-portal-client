@@ -26,7 +26,7 @@ const Footer = () => {
               href="https://ussf-orbit.github.io/ussf-portal/"
               target="_blank"
               rel="noreferrer noopener"
-              className={styles.madeByLink}
+              id={styles.madeByLink}
               aria-label="Made with love and code by ORBIT">
               Made with ❤️&nbsp; and{' '}
               <span className="font-body-lg">&lsaquo;&rsaquo;</span> by ORBIT{' '}

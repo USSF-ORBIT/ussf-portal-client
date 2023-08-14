@@ -187,6 +187,7 @@ $dark-gradient: linear-gradient(
   // Footer
   --footer-bg: #{$black};
   --footer-text: #{$theme-ultraviolet-lighter};
+  --footer-border: #{$theme-ultraviolet-light};
 
   // Articles
   --article-link-text: #{$theme-black};
@@ -441,7 +442,8 @@ $dark-gradient: linear-gradient(
 
   // Footer
   --footer-bg: #{$black};
-  --footer-text: #{$theme-aurora-lighter};
+  --footer-text: #{$theme-ultraviolet-lighter};
+  --footer-border: #{$theme-ultraviolet-light};
 
   // Accordion
   --accordion-title: #{$white};
