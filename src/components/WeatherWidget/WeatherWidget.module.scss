@@ -33,6 +33,12 @@
   width: 70px;
 }
 
+.dropdownMenuToggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 .currentForecast {
   display: flex;
   justify-content: space-evenly;

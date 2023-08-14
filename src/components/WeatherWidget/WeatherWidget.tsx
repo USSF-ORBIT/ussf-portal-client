@@ -10,7 +10,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { DateTime } from 'luxon'
 import styles from './WeatherWidget.module.scss'
 import WeatherWidgetIcon from './WeatherWidgetIcon'
-import { WidgetWithSettings } from 'components/Widget/Widget'
+import Widget from 'components/Widget/Widget'
+import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
+import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 import { useWeather } from 'hooks/useWeather'
 import { useModalContext } from 'stores/modalContext'
 import { useMySpaceContext } from 'stores/myspaceContext'
@@ -39,6 +41,13 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
   } = useMySpaceContext()
 
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // WeatherWidget settings dropdown state
+  const dropdownEl = useRef<HTMLDivElement>(null)
+  const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
+    dropdownEl,
+    false
+  )
 
   useEffect(() => {
     if (widget.widget) {
@@ -119,6 +128,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
 
   const handleEdit = () => {
     setIsEditing(true)
+    setIsDropdownOpen(false)
     setDisableDragAndDrop(true)
   }
 
@@ -143,39 +153,76 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
   const now = DateTime.now()
   const currentDate = `${now.weekdayShort}, ${now.monthShort} ${now.day}`
 
-  const weatherWidgetSettings = () => {
-    if (widget.widget) {
-      return [
-        <Button
-          key="weatherWidgetSettingsMenu_edit"
-          type="button"
-          onClick={handleEdit}>
-          Edit zip code
-        </Button>,
-        <Button
-          key="weatherWidgetSettingsMenu_remove"
-          type="button"
-          onClick={handleConfirmRemoveWidget}>
-          Remove Weather Widget
-        </Button>,
-      ]
-    } else {
-      return [
-        <Button
-          key="weatherWidgetSettingsMenu_remove"
-          type="button"
-          onClick={handleConfirmRemoveWidget}>
-          Remove Weather Widget
-        </Button>,
-      ]
-    }
+  // Toggle the dropdown menu
+  const menuOnClick = () => {
+    setIsDropdownOpen(!isDropdownOpen)
+  }
+
+  const weatherWidgetHeader = () => {
+    return (
+      <>
+        {widget.widget ? (
+          <>
+            <h3>Weather</h3>
+            <DropdownMenu
+              toggleEl={
+                <button
+                  type="button"
+                  className={styles.dropdownMenuToggle}
+                  onClick={menuOnClick}
+                  aria-label="Collection Settings">
+                  <FontAwesomeIcon icon="cog" />
+                </button>
+              }
+              dropdownRef={dropdownEl}
+              align="right"
+              isActive={isDropdownOpen}>
+              <Button
+                key="weatherWidgetSettingsMenu_edit"
+                type="button"
+                onClick={handleEdit}>
+                Edit zip code
+              </Button>
+              <Button
+                key="weatherWidgetSettingsMenu_remove"
+                type="button"
+                onClick={handleConfirmRemoveWidget}>
+                Remove weather widget
+              </Button>
+            </DropdownMenu>
+          </>
+        ) : (
+          <>
+            <h3>Weather</h3>
+            <DropdownMenu
+              toggleEl={
+                <button
+                  type="button"
+                  className={styles.dropdownMenuToggle}
+                  onClick={menuOnClick}
+                  aria-label="Collection Settings">
+                  <FontAwesomeIcon icon="cog" />
+                </button>
+              }
+              dropdownRef={dropdownEl}
+              align="right"
+              isActive={isDropdownOpen}>
+              <Button
+                key="weatherWidgetSettingsMenu_remove"
+                type="button"
+                onClick={handleConfirmRemoveWidget}>
+                Remove weather widget
+              </Button>
+            </DropdownMenu>
+          </>
+        )}
+      </>
+    )
   }
 
   return (
     <>
-      <WidgetWithSettings
-        header="Weather"
-        settingsItems={[...weatherWidgetSettings()]}>
+      <Widget header={weatherWidgetHeader()}>
         {!widget.widget || isEditing ? (
           <Form
             onSubmit={handleSubmit}
@@ -256,7 +303,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
             )}
           </>
         )}
-      </WidgetWithSettings>
+      </Widget>
     </>
   )
 }
