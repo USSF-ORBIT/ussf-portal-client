@@ -140,7 +140,7 @@ const Footer = () => {
                         href="https://www.resilience.af.mil/SAPR/"
                         target="_blank"
                         rel="noreferrer noopener">
-                        Sexual Assualt Prevention and Response
+                        Sexual Assault Prevention and Response
                         <span className="usa-sr-only">
                           (opens in a new window)
                         </span>
