@@ -75,7 +75,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     }
 
     if (!isAddingWidget && widget.widget) {
-      updateModalId('removeNewsWidgetModal')
+      updateModalId('removeWeatherWidgetModal')
       updateModalText({
         headingText: 'Are you sure you’d like to delete this widget?',
         descriptionText:
@@ -119,8 +119,6 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
   }
 
   const handleCancel = () => {
-    // Edge case: what if someone is adding another widget while editing this widget? Might need to add a
-    // conditional here.
     setIsAddingWidget(false)
     setIsEditing(false)
     setDisableDragAndDrop(false)
@@ -144,10 +142,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
   const handleZipCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value
     const sanitizedInput = input.replace(/\D/g, '')
-
-    if (sanitizedInput.length <= 5) {
-      setZipCode(e.target.value)
-    }
+    setZipCode(sanitizedInput)
   }
 
   const now = DateTime.now()
@@ -170,7 +165,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                   type="button"
                   className={styles.dropdownMenuToggle}
                   onClick={menuOnClick}
-                  aria-label="Collection Settings">
+                  aria-label={`Weather settings for ${widget.widget.coords.zipcode}`}>
                   <FontAwesomeIcon icon="cog" />
                 </button>
               }
@@ -186,7 +181,8 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
               <Button
                 key="weatherWidgetSettingsMenu_remove"
                 type="button"
-                onClick={handleConfirmRemoveWidget}>
+                onClick={handleConfirmRemoveWidget}
+                aria-label={`Remove weather widget for ${widget.widget.coords.zipcode}`}>
                 Remove weather widget
               </Button>
             </DropdownMenu>
@@ -200,7 +196,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                   type="button"
                   className={styles.dropdownMenuToggle}
                   onClick={menuOnClick}
-                  aria-label="Collection Settings">
+                  aria-label="Weather settings">
                   <FontAwesomeIcon icon="cog" />
                 </button>
               }
@@ -210,7 +206,8 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
               <Button
                 key="weatherWidgetSettingsMenu_remove"
                 type="button"
-                onClick={handleConfirmRemoveWidget}>
+                onClick={handleConfirmRemoveWidget}
+                aria-label="Remove weather widget">
                 Remove weather widget
               </Button>
             </DropdownMenu>
@@ -235,6 +232,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
               id={inputId}
               className={styles.collectionTitle}
               name="weatherWidget_input"
+              data-testid="weatherWidget_input"
               maxLength={5}
               type="text"
               onChange={handleZipCodeChange}
@@ -246,7 +244,12 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
               <Button
                 type="button"
                 className={`padding-105 text-center ${styles.cancelButton}`}
-                onClick={handleCancel}>
+                onClick={handleCancel}
+                aria-label={`Cancel ${isAddingWidget ? 'adding' : 'editing'} ${
+                  widget.widget
+                    ? `${widget.widget.coords.zipcode}`
+                    : 'weather widget'
+                }`}>
                 Cancel
               </Button>
               <Button type="submit">Save zip code</Button>
@@ -264,6 +267,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                     <Button
                       type="button"
                       unstyled
+                      aria-label={`Edit zip code for ${widget.widget.coords.zipcode}`}
                       onClick={() => setIsEditing(true)}>
                       {widget.widget.coords.zipcode}
                     </Button>
