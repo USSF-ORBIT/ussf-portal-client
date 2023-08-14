@@ -15,22 +15,32 @@
       align-self: center;
     }
 
+    .grid-row {
+      @include sfds-at-media('tablet') {
+        flex-direction: column;
+      }
+    }
+
     .usa-footer__secondary-section {
-      color: var(--footer-text);
+      color: $white;
       background-color: transparent;
 
       a {
         color: var(--footer-text);
         text-decoration: none;
+        font-weight: 600;
       }
     }
 
     .usa-footer__nav {
       @include u-padding-y(2);
+      @include u-margin-x(0);
 
       a {
-        &:hover {
+        &:hover,
+        &:focus {
           text-decoration: underline;
+          color: $white;
         }
       }
     }

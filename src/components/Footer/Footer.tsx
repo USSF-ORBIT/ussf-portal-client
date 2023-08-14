@@ -42,6 +42,50 @@ const Footer = () => {
                 <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
                   <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
+                      <LinkTo href="/" rel="noreferrer noopener">
+                        My Space
+                      </LinkTo>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo
+                        href="/sites-and-applications"
+                        rel="noreferrer noopener">
+                        All Sites & Applications
+                      </LinkTo>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo
+                        href="/ussf-documentation"
+                        rel="noreferrer noopener">
+                        USSF Documentation
+                      </LinkTo>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo href="/about-us" rel="noreferrer noopener">
+                        About the USSF
+                      </LinkTo>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo
+                        href="/about-us/orbit-blog"
+                        rel="noreferrer noopener">
+                        Orbit Blog
+                      </LinkTo>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo
+                        href="/news-announcements"
+                        rel="noreferrer noopener">
+                        News & Announcements
+                      </LinkTo>
+                    </li>
+                  </ul>
+                </section>
+              </div>
+              <div className="grid-col">
+                <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
+                  <ul className="usa-list usa-list--unstyled">
+                    <li className="usa-footer__secondary-link">
                       <LinkTo
                         href="https://www.my.af.mil/afp/netstorage/faq/privacy_advisory.html"
                         target="_blank"
