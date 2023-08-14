@@ -235,18 +235,19 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                   </Grid>
                 )}
 
-                {(canAddCollections ||
-                  canAddNews ||
-                  canAddWeather ||
-                  canAddGuardianIdeal ||
-                  canAddFeaturedShortcuts) && (
-                  <Grid
-                    key={`widget_addNew`}
-                    tabletLg={{ col: 6 }}
-                    desktopLg={{ col: 4 }}>
-                    <AddWidget handleSelectCollection={selectCollections} />
-                  </Grid>
-                )}
+                {!isAddingWidget &&
+                  (canAddCollections ||
+                    canAddNews ||
+                    canAddWeather ||
+                    canAddGuardianIdeal ||
+                    canAddFeaturedShortcuts) && (
+                    <Grid
+                      key={`widget_addNew`}
+                      tabletLg={{ col: 6 }}
+                      desktopLg={{ col: 4 }}>
+                      <AddWidget handleSelectCollection={selectCollections} />
+                    </Grid>
+                  )}
               </Grid>
             </SortableContext>
           </Droppable>
