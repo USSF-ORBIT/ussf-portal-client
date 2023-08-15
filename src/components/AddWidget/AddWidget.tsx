@@ -89,16 +89,18 @@ const AddWidget = ({
           }}>
           Add news widget
         </Button>
-        <Button
-          disabled={!canAddWeather}
-          type="button"
-          onClick={() => {
-            setTemporaryWidget('Weather')
-            setIsAddingWidget(true)
-            setIsDropdownOpen(false)
-          }}>
-          Add weather widget
-        </Button>
+        {flags?.weatherWidget && (
+          <Button
+            disabled={!canAddWeather}
+            type="button"
+            onClick={() => {
+              setTemporaryWidget('Weather')
+              setIsAddingWidget(true)
+              setIsDropdownOpen(false)
+            }}>
+            Add weather widget
+          </Button>
+        )}
         {flags?.guardianIdealCarousel && (
           <Button
             disabled={!canAddGuardianIdeal}
