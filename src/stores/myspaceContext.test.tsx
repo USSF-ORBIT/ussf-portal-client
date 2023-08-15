@@ -9,7 +9,7 @@ import userEvent from '@testing-library/user-event'
 import { renderWithAuthAndApollo } from '../testHelpers'
 import { MySpaceProvider, useMySpaceContext } from './myspaceContext'
 import { testPortalUser1 } from '__fixtures__/authUsers'
-import { MySpaceWidget, WeatherWidget, Widget } from 'types'
+import { MySpaceWidget, Widget } from 'types'
 
 describe('MySpace context', () => {
   afterEach(cleanup)
@@ -97,22 +97,6 @@ describe('MySpace context', () => {
       type: 'FeaturedShortcuts',
     }
 
-    const mockWeather: WeatherWidget = {
-      _id: new ObjectId(),
-      title: 'Weather',
-      type: 'Weather',
-      coords: {
-        lat: 34.0901,
-        long: -118.4065,
-        forecastUrl: 'https://api.weather.gov/gridpoints/LOX/149,48/forecast',
-        hourlyForecastUrl:
-          'https://api.weather.gov/gridpoints/LOX/149,48/forecast/hourly',
-        city: 'Beverly Hills',
-        state: 'CA',
-        zipcode: '90210',
-      },
-    }
-
     const mockGuardianIdeal: Widget = {
       _id: new ObjectId(),
       title: 'Guardian Ideal',
@@ -129,7 +113,6 @@ describe('MySpace context', () => {
       const {
         isCollection,
         isFeaturedShortcuts,
-        isWeather,
         isGuardianIdeal,
         isNewsWidget,
       } = useMySpaceContext()
@@ -143,7 +126,6 @@ describe('MySpace context', () => {
                 ? 'featuredShortcuts'
                 : 'false'}
             </span>
-            <span>{isWeather(mockWeather) ? 'weather' : 'false'}</span>
             <span>
               {isGuardianIdeal(mockGuardianIdeal) ? 'guardianIdeal' : 'false'}
             </span>
@@ -161,7 +143,6 @@ describe('MySpace context', () => {
 
     expect(screen.getByText('collection')).toBeInTheDocument()
     expect(screen.getByText('featuredShortcuts')).toBeInTheDocument()
-    expect(screen.getByText('weather')).toBeInTheDocument()
     expect(screen.getByText('guardianIdeal')).toBeInTheDocument()
     expect(screen.getByText('news')).toBeInTheDocument()
   })
