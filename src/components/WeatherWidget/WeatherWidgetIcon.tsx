@@ -35,17 +35,20 @@ const WeatherWidgetIcon = ({
     if (hourlyPeriod.isDaytime) {
       const shortForecast = hourlyPeriod.shortForecast.toLowerCase()
 
-      if (shortForecast.includes('sunny')) {
-        setChosenIcon('sun')
-        return
-      }
-
       if (shortForecast.includes('partly sunny')) {
         setChosenIcon('cloud-sun')
         return
       }
 
-      if (shortForecast.includes('cloudy')) {
+      if (shortForecast.includes('sunny')) {
+        setChosenIcon('sun')
+        return
+      }
+
+      if (
+        shortForecast.includes('cloudy') ||
+        shortForecast.includes('overcast')
+      ) {
         setChosenIcon('cloud')
         return
       }
@@ -84,8 +87,12 @@ const WeatherWidgetIcon = ({
         setChosenIcon('temperature-low')
         return
       }
-      // Nighttime icons
-    } else if (!hourlyPeriod.isDaytime) {
+
+      setChosenIcon('sun')
+    }
+
+    // Nighttime icons
+    if (!hourlyPeriod.isDaytime) {
       const shortForecast = hourlyPeriod.shortForecast.toLowerCase()
 
       if (shortForecast.includes('clear')) {
@@ -93,7 +100,10 @@ const WeatherWidgetIcon = ({
         return
       }
 
-      if (shortForecast.includes('cloudy')) {
+      if (
+        shortForecast.includes('cloudy') ||
+        shortForecast.includes('overcast')
+      ) {
         setChosenIcon('cloud')
         return
       }
@@ -132,6 +142,8 @@ const WeatherWidgetIcon = ({
         setChosenIcon('temperature-low')
         return
       }
+
+      setChosenIcon('moon')
     }
   }, [hourlyPeriod])
 
@@ -139,6 +151,7 @@ const WeatherWidgetIcon = ({
     <FontAwesomeIcon
       icon={chosenIcon}
       size={iconSize ? iconSize : undefined}
+      aria-label={`Icon for ${chosenIcon}`}
       {...props}
     />
   )
