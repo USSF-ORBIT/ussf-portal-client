@@ -252,7 +252,9 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                 }`}>
                 Cancel
               </Button>
-              <Button type="submit">Save zip code</Button>
+              <Button type="submit" className={styles.saveButton}>
+                Save zip code
+              </Button>
             </ButtonGroup>
           </Form>
         ) : null}
@@ -296,7 +298,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                       return (
                         <div key={h.number} className={styles.nextFourHours}>
                           <WeatherWidgetIcon hourlyPeriod={h} iconSize="2xl" />
-                          <h2>{h.temperature}&deg;</h2>
+                          <h3>{h.temperature}&deg;</h3>
                           <div>{date.toFormat('T')}</div>
                         </div>
                       )
