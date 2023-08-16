@@ -1,0 +1,15 @@
+mutation editWeatherWidget($_id: OID!, $zipcode: String!) {
+  editWeatherWidget(_id: $_id, zipcode: $zipcode) {
+    _id
+    title
+    coords {
+      lat
+      long
+      forecastUrl
+      hourlyForecastUrl
+      city
+      state
+      zipcode
+    }
+  }
+}

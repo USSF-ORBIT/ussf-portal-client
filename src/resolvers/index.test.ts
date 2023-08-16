@@ -22,6 +22,15 @@ import { EditDisplayNameDocument } from 'operations/portal/mutations/editDisplay
 import { GetDisplayNameDocument } from 'operations/portal/queries/getDisplayName.g'
 import { EditThemeDocument } from 'operations/portal/mutations/editTheme.g'
 import { GetThemeDocument } from 'operations/portal/queries/getTheme.g'
+import { AddWeatherWidgetDocument } from 'operations/portal/mutations/addWeatherWidget.g'
+import {
+  KeystoneAPIMockData as mockKeystoneAPIData,
+  WeatherAPIMockData as mockWeatherAPIData,
+  exampleWeatherWidget1,
+} from '__fixtures__/data/weatherWidgets'
+import WeatherAPI from 'pages/api/dataSources/weather'
+import KeystoneAPI from 'pages/api/dataSources/keystone'
+import { EditWeatherWidgetDocument } from 'operations/portal/mutations/editWeatherWidget.g'
 
 let server: ApolloServer
 let connection: typeof MongoClient
@@ -29,6 +38,35 @@ let db: typeof Db
 const testCollectionId = ObjectId()
 const testBookmarkId = ObjectId()
 const testWidgetId = ObjectId()
+
+// Mock the data sources that are passed into Apollo Server
+jest.mock('pages/api/dataSources/keystone', () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      getLatLong: jest.fn(() => {
+        return {
+          ...mockKeystoneAPIData,
+          loading: false,
+          errors: [],
+        }
+      }),
+    }
+  })
+})
+
+jest.mock('pages/api/dataSources/weather', () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      getGridData: jest.fn(() => {
+        return {
+          ...mockWeatherAPIData,
+          loading: false,
+          errors: [],
+        }
+      }),
+    }
+  })
+})
 
 describe('GraphQL resolvers', () => {
   beforeAll(async () => {
@@ -115,6 +153,35 @@ describe('GraphQL resolvers', () => {
         EditThemeDocument,
         { userId: `${testWidgetId}`, theme: 'light' },
       ],
+      [
+        'addWeatherWidget',
+        AddWeatherWidgetDocument,
+        {
+          userId: `${testWidgetId}`,
+          title: 'Weather',
+          type: 'Weather',
+          zipcode: '90210',
+        },
+      ],
+      [
+        'editWeatherWidget',
+        EditWeatherWidgetDocument,
+        {
+          userId: `${testWidgetId}`,
+          _id: `${testWidgetId}`,
+          zipcode: '90210',
+        },
+      ],
+      [
+        'editBookmark',
+        EditBookmarkDocument,
+        {
+          _id: `${testBookmarkId}`,
+          collectionId: `${testCollectionId}`,
+          url: 'test',
+          label: 'Test',
+        },
+      ],
     ])(
       'the %s operation returns an authentication error',
       async (_name, op, variables: VariableValues = {}) => {
@@ -140,6 +207,10 @@ describe('GraphQL resolvers', () => {
       server = new ApolloServer({
         typeDefs,
         resolvers,
+        dataSources: () => ({
+          keystoneAPI: new KeystoneAPI(),
+          weatherAPI: new WeatherAPI(),
+        }),
         context: () => ({
           db,
           user: {
@@ -177,22 +248,14 @@ describe('GraphQL resolvers', () => {
           query: GetCollectionsDocument,
         })
 
-        const expectedData = { ...newPortalUser }
-
-        expectedData.mySpace.forEach((c: any) => {
-          c.bookmarks = c.bookmarks.map((b: any) => ({
-            _id: b._id,
-            url: b.url,
-            label: b.label,
-            cmsId: b.cmsId,
-            isRemoved: b.isRemoved,
-          }))
-        })
+        const expectedData = newPortalUser.mySpace.filter(
+          (w) => w.type === 'Collection'
+        )
 
         expect(result.errors).toBeUndefined()
 
-        expect(JSON.stringify(result.data)).toEqual(
-          JSON.stringify({ collections: expectedData.mySpace })
+        expect(JSON.stringify(result.data?.collections)).toEqual(
+          JSON.stringify(expectedData)
         )
       })
     })
@@ -340,7 +403,7 @@ describe('GraphQL resolvers', () => {
           (w) => w.type === 'Collection'
         )
 
-        expect(editCollection?.bookmarks[0].label).toEqual('Webmail')
+        expect(editCollection?.bookmarks?.[0].label).toEqual('Webmail')
 
         // Reorder bookmarks in collection
         const firstResult = await server.executeOperation({
@@ -350,42 +413,42 @@ describe('GraphQL resolvers', () => {
             title: 'Example Collection',
             bookmarks: [
               {
-                _id: `${editCollection?.bookmarks[1]._id.toString()}`,
+                _id: `${editCollection?.bookmarks?.[1]._id.toString()}`,
                 url: 'https://mypay.dfas.mil/#/',
                 label: 'MyPay',
                 cmsId: 'cmsId2',
                 isRemoved: null,
               },
               {
-                _id: `${editCollection?.bookmarks[0]._id.toString()}`,
+                _id: `${editCollection?.bookmarks?.[0]._id.toString()}`,
                 url: 'https://google.com',
                 label: 'Webmail',
                 cmsId: 'cmsId1',
                 isRemoved: null,
               },
               {
-                _id: `${editCollection?.bookmarks[2]._id.toString()}`,
+                _id: `${editCollection?.bookmarks?.[2]._id.toString()}`,
                 url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
                 label: 'vMPF',
                 cmsId: 'cmsId3',
                 isRemoved: null,
               },
               {
-                _id: `${editCollection?.bookmarks[3]._id.toString()}`,
+                _id: `${editCollection?.bookmarks?.[3]._id.toString()}`,
                 url: 'https://leave.af.mil/profile',
                 label: 'LeaveWeb',
                 cmsId: 'cmsId4',
                 isRemoved: null,
               },
               {
-                _id: `${editCollection?.bookmarks[4]._id.toString()}`,
+                _id: `${editCollection?.bookmarks?.[4]._id.toString()}`,
                 url: 'https://www.e-publishing.af.mil/',
                 label: 'e-Publications',
                 cmsId: 'cmsId5',
                 isRemoved: null,
               },
               {
-                _id: `${editCollection?.bookmarks[5]._id.toString()}`,
+                _id: `${editCollection?.bookmarks?.[5]._id.toString()}`,
                 url: 'https://example.com',
                 label: 'Custom Bookmark',
                 cmsId: null,
@@ -400,42 +463,42 @@ describe('GraphQL resolvers', () => {
           title: 'Example Collection',
           bookmarks: [
             {
-              _id: `${editCollection?.bookmarks[1]._id.toString()}`,
+              _id: `${editCollection?.bookmarks?.[1]._id.toString()}`,
               url: 'https://mypay.dfas.mil/#/',
               label: 'MyPay',
               cmsId: 'cmsId2',
               isRemoved: null,
             },
             {
-              _id: `${editCollection?.bookmarks[0]._id.toString()}`,
+              _id: `${editCollection?.bookmarks?.[0]._id.toString()}`,
               url: 'https://google.com',
               label: 'Webmail',
               cmsId: 'cmsId1',
               isRemoved: null,
             },
             {
-              _id: `${editCollection?.bookmarks[2]._id.toString()}`,
+              _id: `${editCollection?.bookmarks?.[2]._id.toString()}`,
               url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
               label: 'vMPF',
               cmsId: 'cmsId3',
               isRemoved: null,
             },
             {
-              _id: `${editCollection?.bookmarks[3]._id.toString()}`,
+              _id: `${editCollection?.bookmarks?.[3]._id.toString()}`,
               url: 'https://leave.af.mil/profile',
               label: 'LeaveWeb',
               cmsId: 'cmsId4',
               isRemoved: null,
             },
             {
-              _id: `${editCollection?.bookmarks[4]._id.toString()}`,
+              _id: `${editCollection?.bookmarks?.[4]._id.toString()}`,
               url: 'https://www.e-publishing.af.mil/',
               label: 'e-Publications',
               cmsId: 'cmsId5',
               isRemoved: null,
             },
             {
-              _id: `${editCollection?.bookmarks[5]._id.toString()}`,
+              _id: `${editCollection?.bookmarks?.[5]._id.toString()}`,
               url: 'https://example.com',
               label: 'Custom Bookmark',
               cmsId: null,
@@ -455,7 +518,7 @@ describe('GraphQL resolvers', () => {
           variables: {
             _id: `${editCollection?._id}`,
             title: 'Example Collection',
-            bookmarks: editCollection?.bookmarks.map((b) => {
+            bookmarks: editCollection?.bookmarks?.map((b) => {
               return {
                 ...b,
                 _id: `${b._id.toString()}`,
@@ -467,7 +530,7 @@ describe('GraphQL resolvers', () => {
         const expectedSecond = {
           _id: `${editCollection?._id}`,
           title: 'Example Collection',
-          bookmarks: editCollection?.bookmarks.map((b) => {
+          bookmarks: editCollection?.bookmarks?.map((b) => {
             return {
               ...b,
               _id: `${b._id.toString()}`,
@@ -646,14 +709,15 @@ describe('GraphQL resolvers', () => {
 
     describe('editBookmark', () => {
       it('edits an existing bookmark', async () => {
-        const editBookmark = newPortalUser.mySpace[0].bookmarks?.filter(
+        const collection = newPortalUser.mySpace[0]
+        const editBookmark = collection.bookmarks?.filter(
           (b: any) => b.cmsId === null
         )[0]
 
         const result = await server.executeOperation({
           query: EditBookmarkDocument,
           variables: {
-            _id: `${editBookmark._id}`,
+            _id: `${editBookmark?._id}`,
             collectionId: `${newPortalUser.mySpace[0]._id}`,
             label: 'New Label',
             url: 'http://www.example.com/new',
@@ -661,7 +725,7 @@ describe('GraphQL resolvers', () => {
         })
 
         const expectedData = {
-          _id: `${editBookmark._id}`,
+          _id: `${editBookmark?._id}`,
           label: 'New Label',
           url: 'http://www.example.com/new',
         }
@@ -677,7 +741,7 @@ describe('GraphQL resolvers', () => {
     describe('removeBookmark', () => {
       it('deletes an existing custom bookmark', async () => {
         const collection = newPortalUser.mySpace[0]
-        const bookmark = collection.bookmarks[0]
+        const bookmark = collection.bookmarks?.[0]
 
         const result = await server.executeOperation({
           query: RemoveBookmarkDocument,
@@ -688,7 +752,7 @@ describe('GraphQL resolvers', () => {
         })
 
         const expectedData = {
-          _id: `${bookmark._id}`,
+          _id: `${bookmark?._id}`,
         }
 
         expect(result.errors).toBeUndefined()
@@ -697,7 +761,7 @@ describe('GraphQL resolvers', () => {
 
       it('hides an existing cms bookmark', async () => {
         const collection = newPortalUser.mySpace[0]
-        const bookmark = collection.bookmarks[0]
+        const bookmark = collection.bookmarks?.[0]
 
         await server.executeOperation({
           query: RemoveBookmarkDocument,
@@ -715,7 +779,9 @@ describe('GraphQL resolvers', () => {
           },
         })
 
-        expect(updated.data?.mySpace[0].bookmarks[0].cmsId).toBe(bookmark.cmsId)
+        expect(updated.data?.mySpace[0].bookmarks[0].cmsId).toBe(
+          bookmark?.cmsId
+        )
         expect(updated.data?.mySpace[0].bookmarks[0].isRemoved).toBe(true)
       })
     })
@@ -787,6 +853,66 @@ describe('GraphQL resolvers', () => {
 
         expect(result.errors).toBeUndefined()
         expect(result.data).toMatchObject({ editTheme: expectedData })
+      })
+    })
+
+    describe('addWeatherWidget', () => {
+      // Start Data: MySpace contains exampleWeatherWidget2
+      // End Data: MySpace contains exampleWeatherWidget1 and exampleWeatherWidget2
+
+      it('adds a weather widget', async () => {
+        // Add Weather Widget
+        const result = await server.executeOperation({
+          query: AddWeatherWidgetDocument,
+          variables: {
+            userId: `${newPortalUser.userId}`,
+            title: 'Weather',
+            type: 'Weather',
+            zipcode: exampleWeatherWidget1.coords.zipcode,
+          },
+        })
+
+        const expectedData = {
+          _id: expect.any(String),
+          title: 'Weather',
+          type: 'Weather',
+          coords: {
+            ...exampleWeatherWidget1.coords,
+          },
+        }
+
+        expect(result.errors).toBeUndefined()
+        expect(result.data).toMatchObject({ addWeatherWidget: expectedData })
+      })
+    })
+
+    describe('editWeatherWidget', () => {
+      it('edits an existing weather widget', async () => {
+        // Start Data: MySpace contains exampleWeatherWidget1 and exampleWeatherWidget2
+        // End Data: exampleWeatherWidget2 is updated to 90210 (exampleWeatherWidget1 data))
+        const mySpace = await server.executeOperation({
+          query: GetMySpaceDocument,
+          variables: {
+            userId: newPortalUser.userId,
+          },
+        })
+
+        const result = await server.executeOperation({
+          query: EditWeatherWidgetDocument,
+          variables: {
+            _id: mySpace.data?.mySpace[2]._id,
+            zipcode: exampleWeatherWidget1.coords.zipcode,
+          },
+        })
+        const expectedData = {
+          _id: mySpace.data?.mySpace[2]._id,
+          title: 'Weather',
+          coords: {
+            ...exampleWeatherWidget1.coords,
+          },
+        }
+        expect(result.errors).toBeUndefined()
+        expect(result.data).toMatchObject({ editWeatherWidget: expectedData })
       })
     })
   })
