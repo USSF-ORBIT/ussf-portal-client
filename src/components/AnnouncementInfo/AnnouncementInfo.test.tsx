@@ -11,7 +11,12 @@ import {
   testAnnouncementWithArticleNoSlug,
   testAnnouncementWithDeletedArticle,
   testAnnouncementWithUrl,
+  testAnnouncementWithDocument,
 } from '__fixtures__/data/cmsAnnouncments'
+import axios from 'axios'
+import * as openDocumentLink from 'helpers/openDocumentLink'
+jest.mock('axios')
+const mockedAxios = axios as jest.Mocked<typeof axios>
 
 describe('AnnouncementInfo component', () => {
   test('renders an announcement with a url CTA', () => {
@@ -49,5 +54,18 @@ describe('AnnouncementInfo component', () => {
     expect(screen.getAllByText('View deleted article')).toHaveLength(1)
     const link = screen.getByRole('link', { name: 'View deleted article' })
     expect(link).toHaveAttribute('href', '/404')
+  })
+
+  test('renders an announcement with a document CTA', () => {
+    const pdfString =
+      testAnnouncementWithDocument.body.document[0].props?.link.value.data?.file
+        ?.url
+
+    render(<AnnouncementInfo announcement={testAnnouncementWithDocument} />)
+
+    expect(screen.getAllByText('Test Announcement Document')).toHaveLength(1)
+    expect(screen.getAllByText('Read more')).toHaveLength(1)
+    const link = screen.getByRole('link', { name: 'Read more' })
+    expect(link).toHaveAttribute('href', pdfString)
   })
 })

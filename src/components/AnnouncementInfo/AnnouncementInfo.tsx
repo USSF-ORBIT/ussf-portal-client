@@ -2,10 +2,12 @@ import React from 'react'
 import { DocumentRenderer } from '@keystone-6/document-renderer'
 import { InferRenderersForComponentBlocks } from '@keystone-6/fields-document/component-blocks'
 import styles from './AnnouncementInfo.module.scss'
-import { componentBlocks } from 'components/ComponentBlocks/callToAction'
+import type { componentBlocks } from 'components/ComponentBlocks/callToAction'
 import { AnnouncementRecord } from 'types'
+import Link from 'next/link'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import AnnouncementDate from 'components/AnnouncementDate/AnnouncementDate'
+import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
 
 const AnnouncementInfo = ({
   announcement,
@@ -46,6 +48,22 @@ const AnnouncementInfo = ({
               className="usa-button">
               {props.ctaText}
             </LinkTo>
+          )}
+
+          {props.link.discriminant === 'document' && (
+            // We need to use the default Next Link component
+            // with legacyBehavior=false, so we can pass in an onClick
+            // that will open PDFs in the browser
+            <Link
+              legacyBehavior={false}
+              onClick={(e) =>
+                handleOpenPdfLink(e, props.link.value.data?.file?.url)
+              }
+              href={props.link.value.data?.file?.url}
+              rel="noreferrer"
+              className="usa-button">
+              {props.ctaText}
+            </Link>
           )}
         </>
       )

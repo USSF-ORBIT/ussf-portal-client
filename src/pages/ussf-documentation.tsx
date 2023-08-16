@@ -2,7 +2,7 @@ import React from 'react'
 import { Accordion, Grid } from '@trussworks/react-uswds'
 import { InferGetServerSidePropsType } from 'next'
 import { client } from '../lib/keystoneClient'
-import LinkTo from 'components/util/LinkTo/LinkTo'
+import Link from 'next/link'
 import EPubsCard from 'components/EPubsCard/EPubsCard'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/ussf-documentation.module.scss'
@@ -10,68 +10,8 @@ import { GET_DOCUMENTS_PAGE } from 'operations/cms/queries/getDocumentsPage'
 import { DocumentType, DocumentPageType, DocumentSectionType } from 'types'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
+import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
 
-// Export for easier unit testing
-// We're leaving these hardcoded docs as a backup until
-// the switch to CMS-only content is complete
-// #TODO: Remove these links and the documents stored in the repo
-export const staticPage: DocumentPageType = {
-  id: '',
-  pageTitle: 'USSF Documentation',
-  sections: [
-    {
-      id: '17ced46f-9523-4b18-b778-c9e6f9dced3e',
-      title: 'Essential Reading',
-      document: [
-        {
-          // Generating random ids so iterator in component is happy
-          // These are not stored anywhere and mean nothing.
-          id: '16ced46f-9523-4b18-b778-c9e6f9dced3e',
-          title:
-            'Space Capstone Publication: Spacepower. Doctrine for Space Forces',
-          file: {
-            url: 'https://www.spaceforce.mil/Portals/1/Space%20Capstone%20Publication_10%20Aug%202020.pdf',
-          },
-        },
-        {
-          id: '8d619762-6ecd-47df-92a2-c172d95c488c',
-          title: 'CSO’s Planning Guidance',
-          file: {
-            url: 'https://media.defense.gov/2020/Nov/09/2002531998/-1/-1/0/CSO%20PLANNING%20GUIDANCE.PDF',
-          },
-        },
-        {
-          id: '39a31099-e760-4bcb-9726-781ce2a7ac4b',
-          title: ' Guardian Ideal',
-          file: {
-            url: '/uploads/Guardian Ideal - FINAL - 1600 17Sept21.pdf',
-          },
-        },
-        {
-          id: '983504a5-e3d1-43aa-af88-28ba0a7345ba',
-          title: 'USSF Enlisted Rank and Insignia',
-          file: {
-            url: '/uploads/US Space Force Enlisted Rank Insig Info Sheet (1).pdf',
-          },
-        },
-        {
-          id: '272a5b6b-bc30-4775-887e-eeece78b214d',
-          title: ' USSF/S1 Health, Wellness and Fitness Memo (16 MAR 2022)',
-          file: {
-            url: '/uploads/USSF Health Wellness and Fitness Memo dated 16Mar22.pdf',
-          },
-        },
-        {
-          id: '20accc42-3e4a-4d21-9fd8-3fcc2ed4531b',
-          title: 'USSF Guardian Commitment Poster',
-          file: {
-            url: '/uploads/USSF Guardian Commitment Poster.pdf',
-          },
-        },
-      ],
-    },
-  ],
-}
 const USSFDocumentation = ({
   documentsPage,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
@@ -100,13 +40,21 @@ const USSFDocumentation = ({
                     content: (
                       <div className={styles.accordionContent}>
                         {s.document.map((d: DocumentType) => (
-                          <LinkTo
+                          <Link
+                            // We need to use the default Next Link component
+                            // with legacyBehavior=false, so we can pass in an onClick
+                            // that will open PDFs in the browser
+                            legacyBehavior={false}
+                            onClick={
+                              isPdf(d.file.url)
+                                ? (e) => handleOpenPdfLink(e, d.file.url)
+                                : undefined
+                            }
                             key={d.id}
-                            target="_blank"
                             rel="noreferrer noopener"
                             href={`${d.file.url}`}>
                             {d.title}
-                          </LinkTo>
+                          </Link>
                         ))}
                       </div>
                     ),
