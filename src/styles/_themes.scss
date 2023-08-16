@@ -223,6 +223,9 @@ $dark-gradient: linear-gradient(
   // Search
   --search-input-text-color: #{$theme-black};
   --search-button-text: #{$theme-white};
+
+  // Weather
+  --weather-icons: #{$theme-ultraviolet-light};
 }
 
 /* ------------------------------------ */
@@ -455,4 +458,7 @@ $dark-gradient: linear-gradient(
   // Search
   --search-input-text-color: #{$theme-black};
   --search-button-text: #{$theme-white};
+
+  // Weather
+  --weather-icons: #{$theme-ultraviolet-lighter};
 }

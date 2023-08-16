@@ -46,6 +46,10 @@
   width: 100%;
   font-family: SharpSans, sans-serif;
 
+  svg path {
+    fill: var(--weather-icons);
+  }
+
   > div.shortForecast {
     display: flex;
     flex-direction: column;
@@ -73,6 +77,10 @@
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
+
+  svg path {
+    fill: var(--weather-icons);
+  }
 
   > div.nextFourHours {
     display: flex;
