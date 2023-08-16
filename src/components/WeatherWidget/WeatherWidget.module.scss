@@ -1,6 +1,8 @@
 @use 'uswds-core' as *;
 @use 'styles/sfds/index.scss' as *;
 
+$iconsize: 110px;
+
 .editableWeatherWidget {
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
@@ -29,8 +31,8 @@
 // The FontAwesome icon component needs to have an inline style of fontSize that matches
 // these values.
 .icon {
-  height: 70px;
-  width: 70px;
+  height: $iconsize;
+  width: $iconsize;
 }
 
 .dropdownMenuToggle {
@@ -41,11 +43,11 @@
 
 .currentForecast {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   width: 100%;
   font-family: SharpSans, sans-serif;
-
+  padding-top: 1rem;
   svg path {
     fill: var(--weather-icons);
   }
@@ -55,8 +57,7 @@
     flex-direction: column;
     align-items: left;
     justify-content: center;
-    width: 33%;
-    padding: 0.5rem 0;
+    padding: 0 0 0 2rem;
     border-right: 1px solid var(--border-color);
     &:last-child {
       border-right: none;

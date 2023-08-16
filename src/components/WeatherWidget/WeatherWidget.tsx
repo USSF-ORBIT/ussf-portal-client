@@ -279,7 +279,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                   <div className={styles.icon}>
                     <WeatherWidgetIcon
                       hourlyPeriod={currentForecast[0]}
-                      style={{ fontSize: '70px' }}
+                      style={{ fontSize: '110px' }}
                     />
                   </div>
 
