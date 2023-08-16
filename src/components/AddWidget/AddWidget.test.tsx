@@ -188,6 +188,10 @@ describe('AddWidget component', () => {
   })
 
   test('Add weather widget', async () => {
+    mockFlags({
+      weatherWidget: true,
+    })
+
     const user = userEvent.setup()
     const mockSetTemporaryWidget = jest.fn()
     const mockIsAddingWidget = jest.fn()
@@ -216,6 +220,10 @@ describe('AddWidget component', () => {
   })
 
   test('Add weather widget button is disabled if the user cannot add Weather', async () => {
+    mockFlags({
+      weatherWidget: true,
+    })
+
     const user = userEvent.setup()
     const mockSetTemporaryWidget = jest.fn()
     const mockIsAddingWidget = jest.fn()
