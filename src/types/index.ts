@@ -243,10 +243,6 @@ export type featuredShortcutItem = {
 
 export type featuredShortcutItems = featuredShortcutItem[]
 
-/* Weather represents the weather widget */
-export interface WeatherWidget extends Widget {
-  coords: WeatherCoords
-}
 /**
  * ***********************
  * Types for User / Auth
