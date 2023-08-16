@@ -149,14 +149,6 @@ export type DocumentPageType = {
   updatedAt?: string
 }
 
-/* Zipcode is used to get the latitude and longitude for a zipcode */
-/* Stored in Postgres / Keystone */
-export type ZipcodeRecord = {
-  id: string
-  code: string
-  latitude: number
-  longitude: number
-}
 /**
  * *****************************
  * Types for Portal Data
