@@ -10,7 +10,8 @@ import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core'
 import type { PageConfig } from 'next'
 
 import { typeDefs } from '../../schema'
-
+import WeatherAPI from './dataSources/weather'
+import KeystoneAPI from './dataSources/keystone'
 import resolvers from 'resolvers/index'
 import type { SessionUser, CollectionRecord } from 'types/index'
 import { client } from 'lib/keystoneClient'

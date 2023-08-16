@@ -149,14 +149,6 @@ export type DocumentPageType = {
   updatedAt?: string
 }
 
-/* Zipcode is used to get the latitude and longitude for a zipcode */
-/* Stored in Postgres / Keystone */
-export type ZipcodeRecord = {
-  id: string
-  code: string
-  latitude: number
-  longitude: number
-}
 /**
  * *****************************
  * Types for Portal Data
@@ -212,7 +204,7 @@ export type BookmarkModelInput = {
   _id: ObjectId
   url: string
   label?: string
-  cmsId?: string
+  cmsId?: string | null
 }
 
 /*  MongoBookmark refers to an existing bookmark as it is stored in MongoDB. This includes
@@ -221,8 +213,8 @@ export type MongoBookmark = {
   _id: ObjectId
   url: string
   label?: string
-  cmsId?: string
-  isRemoved?: boolean
+  cmsId?: string | null
+  isRemoved?: boolean | null
 }
 
 /*  Collection refers to a user-created collection containing one or more bookmarks
@@ -231,6 +223,11 @@ export interface Collection extends Widget {
   bookmarks: MongoBookmark[]
   cmsId?: string
   type: 'Collection'
+}
+
+/* Weather represents the weather widget */
+export interface WeatherWidget extends Widget {
+  coords: WeatherCoords
 }
 
 /*  MySpaceWidget represents a user's MySpace and is used when displaying their content */

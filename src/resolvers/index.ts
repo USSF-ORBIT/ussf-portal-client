@@ -6,13 +6,7 @@ import { BookmarkModel } from '../models/Bookmark'
 import UserModel from '../models/User'
 import { CollectionModel } from '../models/Collection'
 import { MySpaceModel } from 'models/MySpace'
-import {
-  Widget,
-  PortalUser,
-  WidgetType,
-  MongoBookmark,
-  MySpaceWidget,
-} from 'types'
+import { Widget, PortalUser, WidgetType, MongoBookmark } from 'types'
 import { WeatherModel } from 'models/Weather'
 
 export const ObjectIdScalar = new GraphQLScalarType({
@@ -71,7 +65,6 @@ type AddWidgetInput = {
 }
 
 type AddWeatherWidgetInput = {
-  title: string
   zipcode: string
 }
 type EditWeatherWidgetInput = {
@@ -213,7 +206,7 @@ const resolvers = {
     },
     addWeatherWidget: async (
       _: undefined,
-      { zipcode, title }: AddWeatherWidgetInput,
+      { zipcode }: AddWeatherWidgetInput,
       { db, user, dataSources }: PortalUserContext
     ) => {
       if (!user) {
@@ -245,8 +238,7 @@ const resolvers = {
         state: data.relativeLocation.properties.state,
         zipcode,
       }
-
-      return WeatherModel.addOne({ coords, title, userId: user.userId }, { db })
+      return WeatherModel.addOne({ coords, userId: user.userId }, { db })
     },
     removeWidget: async (
       _: undefined,

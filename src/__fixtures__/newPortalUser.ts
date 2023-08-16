@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb'
-import { CollectionRecord } from 'types/index'
+import { exampleWeatherWidget2 } from './data/weatherWidgets'
+import { CollectionRecord, MySpaceWidget } from 'types/index'
 
 // The ExampleCollection in Keystone used to initialize new users
 export const exampleCollection: CollectionRecord = {
@@ -35,7 +36,7 @@ export const exampleCollection: CollectionRecord = {
 }
 
 // Test collections that already exist on a User record in mongo
-export const exampleCollection1 = {
+export const exampleCollection1: MySpaceWidget = {
   _id: ObjectId(),
   title: 'Example Collection',
   type: 'Collection',
@@ -85,7 +86,7 @@ export const exampleCollection1 = {
   ],
 }
 
-export const exampleCollection2 = {
+export const exampleCollection2: MySpaceWidget = {
   _id: ObjectId(),
   title: 'Second Collection',
   type: 'Collection',
@@ -102,7 +103,11 @@ export const exampleCollection2 = {
 
 export const newPortalUser = {
   userId: 'CAMPBELL.BERNADETTE.5244446289',
-  mySpace: [exampleCollection1, exampleCollection2],
+  mySpace: [
+    exampleCollection1,
+    exampleCollection2,
+    exampleWeatherWidget2 as MySpaceWidget,
+  ],
   displayName: 'BERNADETTE CAMPBELL',
   theme: 'dark',
 }

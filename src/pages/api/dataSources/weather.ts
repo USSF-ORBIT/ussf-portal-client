@@ -1,6 +1,6 @@
 import { RESTDataSource } from 'apollo-datasource-rest'
 
-export class WeatherAPI extends RESTDataSource {
+class WeatherAPI extends RESTDataSource {
   constructor() {
     super()
     this.baseURL = `https://api.weather.gov/points/`
@@ -11,3 +11,5 @@ export class WeatherAPI extends RESTDataSource {
     return properties
   }
 }
+
+export default WeatherAPI
