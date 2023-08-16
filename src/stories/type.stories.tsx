@@ -65,7 +65,7 @@ export const Headers = () => {
       <p>h2 / 32px / 700 (Bold)</p>
 
       <h3>The quick brown fox jumped over the lazy dog.</h3>
-      <p>h3 / 22px / 400 (Book)</p>
+      <p>h3 / 22px / 700 (Bold)</p>
 
       <h4>The quick brown fox jumped over the lazy dog.</h4>
       <p>h4 / 16px / 700 (Bold)</p>
