@@ -5,9 +5,9 @@ import type { ObjectId as ObjectIdType } from 'bson'
 import { BookmarkModel } from '../models/Bookmark'
 import UserModel from '../models/User'
 import { CollectionModel } from '../models/Collection'
-
 import { MySpaceModel } from 'models/MySpace'
 import { Widget, PortalUser, WidgetType, MongoBookmark } from 'types'
+import { WeatherModel } from 'models/Weather'
 
 export const ObjectIdScalar = new GraphQLScalarType({
   name: 'OID',
@@ -42,11 +42,34 @@ export const ObjectIdScalar = new GraphQLScalarType({
 type PortalUserContext = {
   db: typeof MongoClient
   user: PortalUser
+  keystoneUrl: string
+  dataSources: {
+    weatherAPI: {
+      getGridData: ({
+        lat,
+        long,
+      }: {
+        lat: number
+        long: number
+      }) => Promise<any>
+    }
+    keystoneAPI: {
+      getLatLong: (zipcode: string) => Promise<any>
+    }
+  }
 }
 
 type AddWidgetInput = {
   title: string
   type: WidgetType
+}
+
+type AddWeatherWidgetInput = {
+  zipcode: string
+}
+type EditWeatherWidgetInput = {
+  _id: ObjectIdType
+  zipcode: string
 }
 
 type AddCollectionInput = {
@@ -105,6 +128,7 @@ const resolvers = {
       if (widget.type === 'GuardianIdeal') return 'GuardianIdeal'
       if (widget.type === 'News') return 'NewsWidget'
       if (widget.type === 'FeaturedShortcuts') return 'FeaturedShortcuts'
+      if (widget.type === 'Weather') return 'WeatherWidget'
       return null // GraphQL Error
     },
   },
@@ -120,7 +144,6 @@ const resolvers = {
           'You must be logged in to perform this operation'
         )
       }
-
       return MySpaceModel.get({ userId: user.userId }, { db })
     },
     collections: async (
@@ -163,6 +186,7 @@ const resolvers = {
       return UserModel.getTheme(user.userId, { db })
     },
   },
+
   Mutation: {
     addWidget: async (
       _: undefined,
@@ -179,6 +203,43 @@ const resolvers = {
         { title, type, userId: user.userId },
         { db }
       )
+    },
+    addWeatherWidget: async (
+      _: undefined,
+      { zipcode }: AddWeatherWidgetInput,
+      { db, user, dataSources }: PortalUserContext
+    ) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      // Get lat/long from Keystone
+      const {
+        data: {
+          zipcode: { latitude, longitude },
+        },
+      } = await dataSources.keystoneAPI.getLatLong(zipcode)
+
+      // Get Grid Data from NWS Weather API
+      const data = await dataSources.weatherAPI.getGridData({
+        lat: latitude,
+        long: longitude,
+      })
+
+      // Create coords object to store with widget
+      const coords = {
+        lat: latitude,
+        long: longitude,
+        forecastUrl: data.forecast,
+        hourlyForecastUrl: data.forecastHourly,
+        city: data.relativeLocation.properties.city,
+        state: data.relativeLocation.properties.state,
+        zipcode,
+      }
+
+      return WeatherModel.addOne({ coords, userId: user.userId }, { db })
     },
     removeWidget: async (
       _: undefined,
@@ -225,6 +286,44 @@ const resolvers = {
         { db }
       )
     },
+    editWeatherWidget: async (
+      _: undefined,
+      { _id, zipcode }: EditWeatherWidgetInput,
+      { db, user, dataSources }: PortalUserContext
+    ) => {
+      if (!user) {
+        throw new AuthenticationError(
+          'You must be logged in to perform this operation'
+        )
+      }
+
+      // Get lat/long from Keystone
+      const {
+        data: {
+          zipcode: { latitude, longitude },
+        },
+      } = await dataSources.keystoneAPI.getLatLong(zipcode)
+
+      // Get Grid Data from NWS Weather API
+      const data = await dataSources.weatherAPI.getGridData({
+        lat: latitude,
+        long: longitude,
+      })
+
+      // Create coords object to store with widget
+      const coords = {
+        lat: latitude,
+        long: longitude,
+        forecastUrl: data.forecast,
+        hourlyForecastUrl: data.forecastHourly,
+        city: data.relativeLocation.properties.city,
+        state: data.relativeLocation.properties.state,
+        zipcode,
+      }
+
+      return WeatherModel.editOne({ _id, coords, userId: user.userId }, { db })
+    },
+
     removeCollection: async (
       _: undefined,
       { _id }: { _id: ObjectIdType },

@@ -148,6 +148,7 @@ export type DocumentPageType = {
   createdAt?: string
   updatedAt?: string
 }
+
 /**
  * *****************************
  * Types for Portal Data
@@ -165,6 +166,17 @@ export type WidgetType =
   | 'GuardianIdeal'
   | 'News'
   | 'FeaturedShortcuts'
+  | 'Weather'
+
+export type WeatherCoords = {
+  lat: number
+  long: number
+  forecastUrl: string
+  hourlyForecastUrl: string
+  zipcode: string
+  city: string
+  state: string
+}
 
 /*  Widget refers to an existing widget in MongoDB, created and managed in a user's MySpace */
 export type Widget = {
@@ -192,7 +204,7 @@ export type BookmarkModelInput = {
   _id: ObjectId
   url: string
   label?: string
-  cmsId?: string
+  cmsId?: string | null
 }
 
 /*  MongoBookmark refers to an existing bookmark as it is stored in MongoDB. This includes
@@ -201,8 +213,8 @@ export type MongoBookmark = {
   _id: ObjectId
   url: string
   label?: string
-  cmsId?: string
-  isRemoved?: boolean
+  cmsId?: string | null
+  isRemoved?: boolean | null
 }
 
 /*  Collection refers to a user-created collection containing one or more bookmarks
@@ -213,8 +225,13 @@ export interface Collection extends Widget {
   type: 'Collection'
 }
 
+/* Weather represents the weather widget */
+export interface WeatherWidget extends Widget {
+  coords: WeatherCoords
+}
+
 /*  MySpaceWidget represents a user's MySpace and is used when displaying their content */
-export type MySpaceWidget = Widget | Collection
+export type MySpaceWidget = Widget | Collection | WeatherWidget
 export type MySpace = MySpaceWidget[]
 
 /* Featured Shortcut Items represents items appearing in Featured Shortcuts widget */
