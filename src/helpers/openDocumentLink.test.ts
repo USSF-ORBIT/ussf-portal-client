@@ -15,8 +15,8 @@ URL.createObjectURL = mockCreateObjectURL
 URL.revokeObjectURL = mockRevokeObjectURL
 
 // Mock window.open
-const windowOpenMock = jest.fn()
-window.open = windowOpenMock
+const mockWindowOpen = jest.fn()
+window.open = mockWindowOpen
 
 describe('isPdf', () => {
   test('returns true if url ends with .pdf', () => {
@@ -30,21 +30,20 @@ describe('isPdf', () => {
 
 describe('handleOpenPdfLink', () => {
   test('returns if url is not a pdf', async () => {
-    const e = {
-      preventDefault: jest.fn(),
-    }
     const pdfString = 'https://www.google.com/test'
-    const result = await handleOpenPdfLink(e, pdfString)
+    const result = await handleOpenPdfLink(pdfString)
     expect(result).toBe(undefined)
+    expect(mockCreateObjectURL).not.toHaveBeenCalled()
+    expect(mockRevokeObjectURL).not.toHaveBeenCalled()
+    expect(mockRevokeObjectURL).not.toHaveBeenCalled()
   })
 
   test('opens a new window if the url is a pdf', async () => {
-    const e = {
-      preventDefault: jest.fn(),
-    }
     const pdfString = 'https://www.google.com/test.pdf'
-    const result = await handleOpenPdfLink(e, pdfString)
-    expect(e.preventDefault).toHaveBeenCalled()
+    const result = await handleOpenPdfLink(pdfString)
     expect(axios.get).toHaveBeenCalled()
+    expect(mockCreateObjectURL).toHaveBeenCalled()
+    expect(mockWindowOpen).toHaveBeenCalled()
+    expect(mockRevokeObjectURL).toHaveBeenCalled()
   })
 })

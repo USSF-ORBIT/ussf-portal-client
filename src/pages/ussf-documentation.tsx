@@ -45,11 +45,10 @@ const USSFDocumentation = ({
                             // with legacyBehavior=false, so we can pass in an onClick
                             // that will open PDFs in the browser
                             legacyBehavior={false}
-                            onClick={
-                              isPdf(d.file.url)
-                                ? (e) => handleOpenPdfLink(e, d.file.url)
-                                : undefined
-                            }
+                            onClick={(e) => {
+                              e.preventDefault()
+                              handleOpenPdfLink(d.file.url)
+                            }}
                             key={d.id}
                             rel="noreferrer noopener"
                             href={`${d.file.url}`}>

@@ -2,7 +2,8 @@
  * @jest-environment jsdom
  */
 
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent, createEvent } from '@testing-library/react'
+
 import React from 'react'
 
 import AnnouncementInfo from './AnnouncementInfo'
@@ -13,10 +14,13 @@ import {
   testAnnouncementWithUrl,
   testAnnouncementWithDocument,
 } from '__fixtures__/data/cmsAnnouncments'
-import axios from 'axios'
-import * as openDocumentLink from 'helpers/openDocumentLink'
-jest.mock('axios')
-const mockedAxios = axios as jest.Mocked<typeof axios>
+import { handleOpenPdfLink } from 'helpers/openDocumentLink'
+
+// Mock the function that opens PDFs in the browser
+jest.mock('helpers/openDocumentLink', () => ({
+  isPdf: jest.fn(),
+  handleOpenPdfLink: jest.fn(),
+}))
 
 describe('AnnouncementInfo component', () => {
   test('renders an announcement with a url CTA', () => {
@@ -56,16 +60,21 @@ describe('AnnouncementInfo component', () => {
     expect(link).toHaveAttribute('href', '/404')
   })
 
-  test('renders an announcement with a document CTA', () => {
+  test('renders an announcement with a document CTA', async () => {
     const pdfString =
-      testAnnouncementWithDocument.body.document[0].props?.link.value.data?.file
-        ?.url
+      testAnnouncementWithDocument.body.document[1].props?.link?.value?.data
+        ?.file?.url
 
     render(<AnnouncementInfo announcement={testAnnouncementWithDocument} />)
 
     expect(screen.getAllByText('Test Announcement Document')).toHaveLength(1)
     expect(screen.getAllByText('Read more')).toHaveLength(1)
+
     const link = screen.getByRole('link', { name: 'Read more' })
     expect(link).toHaveAttribute('href', pdfString)
+
+    fireEvent.click(link)
+    expect(handleOpenPdfLink).toHaveBeenCalledTimes(1)
+    expect(handleOpenPdfLink).toHaveBeenCalledWith(pdfString)
   })
 })

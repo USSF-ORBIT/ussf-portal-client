@@ -7,7 +7,7 @@ import { AnnouncementRecord } from 'types'
 import Link from 'next/link'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import AnnouncementDate from 'components/AnnouncementDate/AnnouncementDate'
-import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
+import { handleOpenPdfLink } from 'helpers/openDocumentLink'
 
 const AnnouncementInfo = ({
   announcement,
@@ -54,11 +54,13 @@ const AnnouncementInfo = ({
             // We need to use the default Next Link component
             // with legacyBehavior=false, so we can pass in an onClick
             // that will open PDFs in the browser
+
             <Link
               legacyBehavior={false}
-              onClick={(e) =>
-                handleOpenPdfLink(e, props.link.value.data?.file?.url)
-              }
+              onClick={(e) => {
+                e.preventDefault()
+                handleOpenPdfLink(props.link.value.data?.file?.url)
+              }}
               href={props.link.value.data?.file?.url}
               rel="noreferrer"
               className="usa-button">

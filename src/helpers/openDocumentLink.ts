@@ -4,14 +4,9 @@ export const isPdf = (url: string) => {
   return url.toString().endsWith('.pdf')
 }
 
-export const handleOpenPdfLink = async (
-  e: React.MouseEvent,
-  pdfString: string
-) => {
+export const handleOpenPdfLink = async (pdfString: string) => {
   // If the file isn't a pdf, we don't want to blob it
   if (!isPdf(pdfString)) return
-
-  e.preventDefault()
 
   // Fetch the file from Keystone / S3
   const res = await axios.get(pdfString)
