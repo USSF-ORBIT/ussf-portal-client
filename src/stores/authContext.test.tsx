@@ -122,44 +122,40 @@ describe('Auth context', () => {
   })
 
   describe('session user', () => {
-    test.todo('fetches the user client side and sets it in the context')
-    // it.skip('fetches the user client-side and sets it in context if one is not provided', async () => {
-    //   const wrapper = ({ children }: { children: React.ReactNode }) => (
-    //     <AuthProvider>{children}</AuthProvider>
-    //   )
-    //
-    //   mockedAxios.get.mockImplementationOnce(() => {
-    //     // return Promise.resolve({ data: { user: mockUserData } })
-    //   })
-    //
-    //   const { result } = renderHook(() => useUser(), { wrapper })
-    //
-    //   await waitFor(() => {
-    //     expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
-    //     // expect(result.current.user).toEqual(mockUserData)
-    //   })
-    // })
+    test('fetches the user client side and sets it in the context', async () => {
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <AuthProvider>{children}</AuthProvider>
+      )
 
-    test.todo(
-      'fetches the user client-side and redirects to the login page if there is no user'
-    )
-    // it.skip('fetches the user client-side and redirects to the login page if there is no user', async () => {
-    //   const wrapper = ({ children }: { children: React.ReactNode }) => (
-    //     <AuthProvider>{children}</AuthProvider>
-    //   )
-    //
-    //   mockedAxios.get.mockImplementationOnce(() => {
-    //     return Promise.reject()
-    //   })
-    //
-    //   const { result } = renderHook(() => useUser(), { wrapper })
-    //
-    //   await waitFor(() => {
-    //     expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
-    //     expect(result.current.user).toEqual(null)
-    //     expect(mockReplace).toHaveBeenCalledWith('/login')
-    //   })
-    // })
+      mockedAxios.get.mockImplementationOnce(() => {
+        return Promise.resolve({ data: { user: testUser1 } })
+      })
+
+      const { result } = renderHook(() => useAuthContext(), { wrapper })
+
+      await waitFor(() => {
+        expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
+        expect(result.current.user).toEqual(testUser1)
+      })
+    })
+
+    test('fetches the user client-side and redirects to the login page if there is no user', async () => {
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <AuthProvider>{children}</AuthProvider>
+      )
+
+      mockedAxios.get.mockImplementationOnce(() => {
+        return Promise.reject()
+      })
+
+      const { result } = renderHook(() => useAuthContext(), { wrapper })
+
+      await waitFor(() => {
+        expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
+        expect(result.current.user).toEqual(null)
+        expect(mockReplace).toHaveBeenCalledWith('/login')
+      })
+    })
   })
 })
 

@@ -16,7 +16,7 @@ import { useUser } from './useUser'
 import * as useAuthContextHooks from 'stores/authContext'
 
 import { AuthProvider } from 'stores/authContext'
-import { getUserMock } from '__fixtures__/operations/getUser'
+import { getUserMock, getUserNullMock } from '__fixtures__/operations/getUser'
 
 jest.mock('axios')
 
@@ -111,7 +111,20 @@ describe('useUser hook', () => {
     })
   })
 
-  test.todo('does not set theme if data returned by useGetUserQuery is null')
+  test('does not set theme if data returned by useGetUserQuery is null', async () => {
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <AuthProvider>
+        <MockedProvider mocks={getUserNullMock}>
+          <ThemeProvider enableSystem={false}>{children}</ThemeProvider>
+        </MockedProvider>
+      </AuthProvider>
+    )
+    renderHook(() => useUser(), { wrapper })
+    await waitFor(() => {
+      expect(mockedAxios.get).toHaveBeenCalledTimes(1)
+      expect(setItemMock).not.toHaveBeenCalled()
+    })
+  })
 
   test('returns expected values', async () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (

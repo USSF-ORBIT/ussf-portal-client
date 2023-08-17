@@ -16,5 +16,5 @@ export const useUser = () => {
     }
   }, [data])
 
-  return { user, portalUser: data , loading }
+  return { user, portalUser: data, loading }
 }
