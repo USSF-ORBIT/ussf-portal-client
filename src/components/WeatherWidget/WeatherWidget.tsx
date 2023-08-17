@@ -124,6 +124,8 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     setIsAddingWidget(false)
     setIsEditing(false)
     setDisableDragAndDrop(false)
+    setInvalidZipCode(false)
+    setZipCode('')
   }
 
   const handleEdit = () => {
