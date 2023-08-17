@@ -104,6 +104,11 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     const data = new FormData(e.currentTarget)
     const inputVal = `${data.get('weatherWidget_input')}`
 
+    if (inputVal.length !== 5) {
+      setInvalidZipCode(true)
+      return
+    }
+
     if (isAddingWidget && !widget.widget) {
       addNewWeatherWidget(inputVal.toString())
       setIsAddingWidget(false)
@@ -138,15 +143,6 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     const input = e.target.value
     const sanitizedInput = input.replace(/\D/g, '')
     setZipCode(sanitizedInput)
-  }
-
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    const input = e.target.value
-    if (input.length !== 5) {
-      setInvalidZipCode(true)
-    } else {
-      setInvalidZipCode(false)
-    }
   }
 
   const now = DateTime.now()
@@ -242,7 +238,6 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
               pattern="[0-9]{5}"
               onChange={handleZipCodeChange}
               value={zipCode}
-              onBlur={handleBlur}
               required
             />
 
@@ -288,7 +283,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                       unstyled
                       aria-label={`Edit zip code for ${widget.widget.coords.zipcode}`}
                       onClick={() => setIsEditing(true)}>
-                      {widget.widget.coords.zipcode}
+                      {widget.widget.coords.city}, {widget.widget.coords.state}
                     </Button>
                   </div>
                 )}
