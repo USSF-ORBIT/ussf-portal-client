@@ -301,7 +301,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                   </div>
 
                   <div className={styles.shortForecast}>
-                    <h1>{currentForecast[0].temperature}&deg;</h1>
+                    <h4>{currentForecast[0].temperature}&deg;</h4>
                     <p>{currentForecast[0].shortForecast}</p>
                     <p>{currentDate}</p>
                   </div>
@@ -315,7 +315,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                       return (
                         <div key={h.number} className={styles.nextFourHours}>
                           <WeatherWidgetIcon hourlyPeriod={h} iconSize="2xl" />
-                          <h3>{h.temperature}&deg;</h3>
+                          <h6>{h.temperature}&deg;</h6>
                           <div>{date.toFormat('T')}</div>
                         </div>
                       )

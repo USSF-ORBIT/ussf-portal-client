@@ -68,6 +68,12 @@ $iconsize: 110px;
       border-right: none;
     }
 
+    > h4 {
+      font-size: 40px;
+      line-height: normal;
+      @include heading-bold;
+    }
+
     > p {
       font-size: 16px;
       font-weight: 400;
@@ -97,9 +103,11 @@ $iconsize: 110px;
     width: 33%;
     padding: 0.5rem 0;
 
-    > h3 {
+    > h6 {
       padding-top: 0.5rem;
       padding-bottom: 0.25rem;
+      font-size: 22px;
+      line-height: normal;
     }
 
     > * {
