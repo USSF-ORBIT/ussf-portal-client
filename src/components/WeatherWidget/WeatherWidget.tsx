@@ -5,6 +5,7 @@ import {
   Form,
   Label,
   TextInput,
+  Alert,
 } from '@trussworks/react-uswds'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { DateTime } from 'luxon'
@@ -27,6 +28,7 @@ type WeatherWidgetProps = {
 const WeatherWidget = (widget: WeatherWidgetProps) => {
   const [isEditing, setIsEditing] = useState(false)
   const [zipCode, setZipCode] = useState<string>('')
+  const [invalidZipCode, setInvalidZipCode] = useState<boolean>(false)
 
   const { forecast, getForecast } = useWeather()
   const { updateModalId, updateModalText, modalRef, updateWidget } =
@@ -136,6 +138,15 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     setZipCode(sanitizedInput)
   }
 
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const input = e.target.value
+    if (input.length !== 5) {
+      setInvalidZipCode(true)
+    } else {
+      setInvalidZipCode(false)
+    }
+  }
+
   const now = DateTime.now()
   const currentDate = `${now.weekdayShort}, ${now.monthShort} ${now.day}`
 
@@ -229,8 +240,21 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
               pattern="[0-9]{5}"
               onChange={handleZipCodeChange}
               value={zipCode}
+              onBlur={handleBlur}
               required
             />
+
+            {invalidZipCode && (
+              <Alert
+                type="error"
+                role="alert"
+                headingLevel="h4"
+                noIcon
+                className={styles.alertPadding}>
+                Invalid zip code. Please search by five digit zip code
+              </Alert>
+            )}
+
             <ButtonGroup>
               <Button
                 type="button"

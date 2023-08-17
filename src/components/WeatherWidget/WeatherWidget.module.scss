@@ -27,6 +27,11 @@ $iconsize: 110px;
   align-items: center;
 }
 
+.alertPadding {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 // This is a workaround for scaling up the size of the first icon in the weather widget.
 // The FontAwesome icon component needs to have an inline style of fontSize that matches
 // these values.
