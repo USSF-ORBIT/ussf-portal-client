@@ -165,7 +165,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                   type="button"
                   className={styles.dropdownMenuToggle}
                   onClick={menuOnClick}
-                  aria-label={`Weather settings for ${widget.widget.coords.zipcode}`}>
+                  aria-label={`Weather settings for ${widget.widget.coords.city}, ${widget.widget.coords.state}`}>
                   <FontAwesomeIcon icon="cog" />
                 </button>
               }
@@ -182,7 +182,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                 key="weatherWidgetSettingsMenu_remove"
                 type="button"
                 onClick={handleConfirmRemoveWidget}
-                aria-label={`Remove weather widget for ${widget.widget.coords.zipcode}`}>
+                aria-label={`Remove weather widget for ${widget.widget.coords.city}, ${widget.widget.coords.state}`}>
                 Remove weather widget
               </Button>
             </DropdownMenu>
@@ -259,7 +259,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                 onClick={handleCancel}
                 aria-label={`Cancel ${isAddingWidget ? 'adding' : 'editing'} ${
                   widget.widget
-                    ? `${widget.widget.coords.zipcode}`
+                    ? `${widget.widget.coords.city}, ${widget.widget.coords.state}`
                     : 'weather widget'
                 }`}>
                 Cancel
@@ -281,7 +281,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                     <Button
                       type="button"
                       unstyled
-                      aria-label={`Edit zip code for ${widget.widget.coords.zipcode}`}
+                      aria-label={`Edit zip code for ${widget.widget.coords.city}, ${widget.widget.coords.state}`}
                       onClick={() => setIsEditing(true)}>
                       {widget.widget.coords.city}, {widget.widget.coords.state}
                     </Button>

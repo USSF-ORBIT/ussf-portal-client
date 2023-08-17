@@ -36,7 +36,7 @@ describe('WeatherWidget', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Weather')).toBeInTheDocument()
-      expect(screen.getByText('90210')).toBeInTheDocument()
+      expect(screen.getByText('Beverly Hills, CA')).toBeInTheDocument()
     })
   })
 
@@ -84,14 +84,16 @@ describe('WeatherWidget', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Weather')).toBeInTheDocument()
-      expect(screen.getByText('90210')).toBeInTheDocument()
+      expect(screen.getByText('Beverly Hills, CA')).toBeInTheDocument()
     })
 
     // Click the edit button
     expect(
-      screen.getByLabelText('Weather settings for 90210')
+      screen.getByLabelText('Weather settings for Beverly Hills, CA')
     ).toBeInTheDocument()
-    await user.click(screen.getByLabelText('Weather settings for 90210'))
+    await user.click(
+      screen.getByLabelText('Weather settings for Beverly Hills, CA')
+    )
 
     expect(screen.getByText('Edit zip code')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Edit zip code' }))
@@ -128,12 +130,16 @@ describe('WeatherWidget', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Weather')).toBeInTheDocument()
-      expect(screen.getByText('90210')).toBeInTheDocument()
+      expect(screen.getByText('Beverly Hills, CA')).toBeInTheDocument()
     })
 
     // Click the edit button
-    expect(screen.getByLabelText('Edit zip code for 90210')).toBeInTheDocument()
-    await user.click(screen.getByLabelText('Edit zip code for 90210'))
+    expect(
+      screen.getByLabelText('Edit zip code for Beverly Hills, CA')
+    ).toBeInTheDocument()
+    await user.click(
+      screen.getByLabelText('Edit zip code for Beverly Hills, CA')
+    )
 
     await waitFor(() => {
       expect(
@@ -147,10 +153,12 @@ describe('WeatherWidget', () => {
 
     // Cancel
     expect(
-      screen.getByRole('button', { name: 'Cancel editing 90210' })
+      screen.getByRole('button', {
+        name: 'Cancel editing Beverly Hills, CA',
+      })
     ).toBeInTheDocument()
     await user.click(
-      screen.getByRole('button', { name: 'Cancel editing 90210' })
+      screen.getByRole('button', { name: 'Cancel editing Beverly Hills, CA' })
     )
 
     await waitFor(() => {
@@ -215,19 +223,23 @@ describe('WeatherWidget', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Weather')).toBeInTheDocument()
-      expect(screen.getByText('90210')).toBeInTheDocument()
+      expect(screen.getByText('Beverly Hills, CA')).toBeInTheDocument()
     })
 
     // Remove the widget
     expect(
-      screen.getByLabelText('Weather settings for 90210')
+      screen.getByLabelText('Weather settings for Beverly Hills, CA')
     ).toBeInTheDocument()
-    await user.click(screen.getByLabelText('Weather settings for 90210'))
+    await user.click(
+      screen.getByLabelText('Weather settings for Beverly Hills, CA')
+    )
 
     expect(
-      screen.getByLabelText('Remove weather widget for 90210')
+      screen.getByLabelText('Remove weather widget for Beverly Hills, CA')
     ).toBeInTheDocument()
-    await user.click(screen.getByLabelText('Remove weather widget for 90210'))
+    await user.click(
+      screen.getByLabelText('Remove weather widget for Beverly Hills, CA')
+    )
 
     expect(mockUpdateModalId).toHaveBeenCalledWith('removeWeatherWidgetModal')
     expect(mockUpdateModalText).toHaveBeenCalledWith({
