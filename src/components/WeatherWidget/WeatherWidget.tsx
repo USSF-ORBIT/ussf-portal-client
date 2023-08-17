@@ -130,15 +130,6 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     setDisableDragAndDrop(true)
   }
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const keyCode = e.key
-
-    // Allow only digits (0-9)
-    if (!/^\d$/.test(keyCode)) {
-      e.preventDefault()
-    }
-  }
-
   const handleZipCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value
     const sanitizedInput = input.replace(/\D/g, '')
@@ -235,8 +226,8 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
               data-testid="weatherWidget_input"
               maxLength={5}
               type="text"
+              pattern="[0-9]{5}"
               onChange={handleZipCodeChange}
-              onKeyDown={handleKeyPress}
               value={zipCode}
               required
             />
