@@ -50,7 +50,7 @@ const Footer = () => {
                       <LinkTo
                         href="/sites-and-applications"
                         rel="noreferrer noopener">
-                        All Sites & Applications
+                        Sites & Applications
                       </LinkTo>
                     </li>
                     <li className="usa-footer__secondary-link">
