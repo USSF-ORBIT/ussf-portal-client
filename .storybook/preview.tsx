@@ -182,7 +182,6 @@ setThemeSwitcher((theme: string, channel: any) => {
     channel.emit(UPDATE_GLOBALS, {
       globals: { theme },
     })
-    channel.emit(FORCE_RE_RENDER)
   })
 })
 
