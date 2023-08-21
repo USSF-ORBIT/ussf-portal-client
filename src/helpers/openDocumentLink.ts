@@ -9,10 +9,10 @@ export const handleOpenPdfLink = async (pdfString: string) => {
   if (!isPdf(pdfString)) return
 
   // Fetch the file from Keystone / S3
-  const res = await axios.get(pdfString)
+  const res = await axios.get(pdfString, { responseType: 'blob' })
 
   // Create a blob from the file and open it in a new tab
-  const blobData = await res.data.blob()
+  const blobData = await res.data
   const file = new Blob([blobData], { type: 'application/pdf' })
   const fileUrl = URL.createObjectURL(file)
 
