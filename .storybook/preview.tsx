@@ -3,11 +3,7 @@ import { Preview } from '@storybook/react'
 import { RouterContext } from 'next/dist/shared/lib/router-context'
 import { MockedProvider } from '@apollo/client/testing'
 import { ThemeProvider } from 'next-themes'
-import {
-  UPDATE_GLOBALS,
-  GLOBALS_UPDATED,
-  FORCE_RE_RENDER,
-} from '@storybook/core-events'
+import { UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events'
 
 // happo support
 import { setThemeSwitcher } from 'happo-plugin-storybook/register'
@@ -155,7 +151,6 @@ const preview: Preview = {
   },
   decorators: [
     (Story, { globals: { theme } }) => {
-      console.log('theme provider decorator ', theme)
       return (
         <ThemeProvider
           forcedTheme={theme}
@@ -173,7 +168,7 @@ const preview: Preview = {
   ],
 }
 
-// this is only for happo
+// This is only for happo
 setThemeSwitcher((theme: string, channel: any) => {
   return new Promise((resolve) => {
     // Listen for global to be updated and resolve.
