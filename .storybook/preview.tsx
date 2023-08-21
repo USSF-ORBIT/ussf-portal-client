@@ -4,10 +4,11 @@ import { RouterContext } from 'next/dist/shared/lib/router-context'
 import { MockedProvider } from '@apollo/client/testing'
 import { ThemeProvider } from 'next-themes'
 import { UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events'
+import { addons } from '@storybook/preview-api'
+import { FORCE_RE_RENDER } from '@storybook/core-events'
 
 // happo support
 import { setThemeSwitcher } from 'happo-plugin-storybook/register'
-
 // SFDS
 import 'styles/index.scss'
 import 'initIcons'
@@ -177,6 +178,8 @@ setThemeSwitcher((theme: string, channel: any) => {
     channel.emit(UPDATE_GLOBALS, {
       globals: { theme },
     })
+    // Force re-render of all stories
+    addons.getChannel().emit(FORCE_RE_RENDER)
   })
 })
 
