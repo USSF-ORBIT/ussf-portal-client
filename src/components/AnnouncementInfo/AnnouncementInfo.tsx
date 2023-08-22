@@ -64,7 +64,7 @@ const AnnouncementInfo = ({
                   handleOpenPdfLink(fileUrl)
                 } else return
               }}
-              href={props.link.value.data?.file?.url}
+              href={fileUrl}
               rel="noreferrer"
               className="usa-button">
               {props.ctaText}
