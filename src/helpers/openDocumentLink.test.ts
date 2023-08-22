@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { isPdf, handleOpenPdfLink } from './openDocumentLink'
 import axios from 'axios'
+import { isPdf, handleOpenPdfLink } from './openDocumentLink'
 
 jest.mock('axios', () => ({
   get: jest.fn(() => Promise.resolve({ data: { blob: () => 'test' } })),
@@ -40,7 +40,7 @@ describe('handleOpenPdfLink', () => {
 
   test('opens a new window if the url is a pdf', async () => {
     const pdfString = 'https://www.google.com/test.pdf'
-    const result = await handleOpenPdfLink(pdfString)
+    await handleOpenPdfLink(pdfString)
     expect(axios.get).toHaveBeenCalled()
     expect(mockCreateObjectURL).toHaveBeenCalled()
     expect(mockWindowOpen).toHaveBeenCalled()

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Accordion, Grid } from '@trussworks/react-uswds'
 import { InferGetServerSidePropsType } from 'next'
-import { client } from '../lib/keystoneClient'
 import Link from 'next/link'
+import { client } from '../lib/keystoneClient'
 import EPubsCard from 'components/EPubsCard/EPubsCard'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/ussf-documentation.module.scss'
@@ -46,8 +46,10 @@ const USSFDocumentation = ({
                             // that will open PDFs in the browser
                             legacyBehavior={false}
                             onClick={(e) => {
-                              e.preventDefault()
-                              handleOpenPdfLink(d.file.url)
+                              if (isPdf(d.file.url)) {
+                                e.preventDefault()
+                                handleOpenPdfLink(d.file.url)
+                              } else return
                             }}
                             key={d.id}
                             rel="noreferrer noopener"

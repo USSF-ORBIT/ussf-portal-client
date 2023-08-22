@@ -1,13 +1,13 @@
 import React from 'react'
 import { DocumentRenderer } from '@keystone-6/document-renderer'
 import { InferRenderersForComponentBlocks } from '@keystone-6/fields-document/component-blocks'
+import Link from 'next/link'
 import styles from './AnnouncementInfo.module.scss'
 import type { componentBlocks } from 'components/ComponentBlocks/callToAction'
 import { AnnouncementRecord } from 'types'
-import Link from 'next/link'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import AnnouncementDate from 'components/AnnouncementDate/AnnouncementDate'
-import { handleOpenPdfLink } from 'helpers/openDocumentLink'
+import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
 
 const AnnouncementInfo = ({
   announcement,
@@ -24,6 +24,7 @@ const AnnouncementInfo = ({
     typeof componentBlocks
   > = {
     callToAction: (props: any) => {
+      const fileUrl = props.link.value.data?.file?.url
       return (
         <>
           {props.link.discriminant === 'article' && (
@@ -58,8 +59,10 @@ const AnnouncementInfo = ({
             <Link
               legacyBehavior={false}
               onClick={(e) => {
-                e.preventDefault()
-                handleOpenPdfLink(props.link.value.data?.file?.url)
+                if (isPdf(fileUrl)) {
+                  e.preventDefault()
+                  handleOpenPdfLink(fileUrl)
+                } else return
               }}
               href={props.link.value.data?.file?.url}
               rel="noreferrer"
