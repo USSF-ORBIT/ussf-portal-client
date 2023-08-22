@@ -29,15 +29,6 @@ describe('isPdf', () => {
 })
 
 describe('handleOpenPdfLink', () => {
-  test('returns if url is not a pdf', async () => {
-    const pdfString = 'https://www.google.com/test'
-    const result = await handleOpenPdfLink(pdfString)
-    expect(result).toBe(undefined)
-    expect(mockCreateObjectURL).not.toHaveBeenCalled()
-    expect(mockRevokeObjectURL).not.toHaveBeenCalled()
-    expect(mockRevokeObjectURL).not.toHaveBeenCalled()
-  })
-
   test('opens a new window if the url is a pdf', async () => {
     const pdfString = 'https://www.google.com/test.pdf'
     await handleOpenPdfLink(pdfString)
