@@ -30,7 +30,7 @@ export default {
   title: 'Base/ThemeToggle',
   component: ThemeToggle,
   decorators: [
-    (Story, context) => {
+    (Story, { globals, parameters }) => {
       const mocks = [
         {
           request: {
@@ -40,7 +40,7 @@ export default {
             data: {
               displayName: 'BERNADETTE CAMPBELL',
               mySpace: [],
-              theme: context.globals.theme,
+              theme: parameters.happo.themes[0] || globals.theme,
             },
           }),
         },
@@ -58,7 +58,24 @@ export default {
 
 type Story = StoryObj<typeof ThemeToggle>
 
-export const WithUser: Story = {}
+// We over ride the normal option of multiple themes in happo
+// since we want to only show this specific one. Dynamically
+// switching the theme in storybook doesn't work well with
+// the theme toggle button
+export const WithUserLight: Story = {
+  parameters: {
+    happo: {
+      themes: ['light'],
+    },
+  },
+}
+export const WithUserDark: Story = {
+  parameters: {
+    happo: {
+      themes: ['dark'],
+    },
+  },
+}
 
 export const NoUser: Story = {
   decorators: [
