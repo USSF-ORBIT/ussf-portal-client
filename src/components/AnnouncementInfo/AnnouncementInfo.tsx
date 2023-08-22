@@ -24,7 +24,8 @@ const AnnouncementInfo = ({
     typeof componentBlocks
   > = {
     callToAction: (props: any) => {
-      const fileUrl = props.link.value.data?.file?.url
+      const fileUrl = props.link.value.data?.file?.url || ''
+
       return (
         <>
           {props.link.discriminant === 'article' && (
