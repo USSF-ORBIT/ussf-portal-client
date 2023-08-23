@@ -9,7 +9,8 @@ import userEvent from '@testing-library/user-event'
 import { renderWithAuthAndApollo } from '../testHelpers'
 import { MySpaceProvider, useMySpaceContext } from './myspaceContext'
 import { testPortalUser1 } from '__fixtures__/authUsers'
-import { MySpaceWidget, Widget } from 'types'
+import { MySpaceWidget, WeatherWidget, Widget } from 'types'
+import { exampleWeatherWidget1 } from '__fixtures__/data/weatherWidgets'
 
 describe('MySpace context', () => {
   afterEach(cleanup)
@@ -109,12 +110,17 @@ describe('MySpace context', () => {
       type: 'News',
     }
 
+    const mockWeather: WeatherWidget = {
+      ...exampleWeatherWidget1,
+    }
+
     const TestComponent = () => {
       const {
         isCollection,
         isFeaturedShortcuts,
         isGuardianIdeal,
         isNewsWidget,
+        isWeather,
       } = useMySpaceContext()
 
       return (
@@ -130,6 +136,7 @@ describe('MySpace context', () => {
               {isGuardianIdeal(mockGuardianIdeal) ? 'guardianIdeal' : 'false'}
             </span>
             <span>{isNewsWidget(mockNews) ? 'news' : 'false'}</span>
+            <span>{isWeather(mockWeather) ? 'weather' : 'false'}</span>
           </div>
         </>
       )
@@ -145,6 +152,7 @@ describe('MySpace context', () => {
     expect(screen.getByText('featuredShortcuts')).toBeInTheDocument()
     expect(screen.getByText('guardianIdeal')).toBeInTheDocument()
     expect(screen.getByText('news')).toBeInTheDocument()
+    expect(screen.getByText('weather')).toBeInTheDocument()
   })
 })
 
