@@ -153,7 +153,7 @@ const preview: Preview = {
     (Story, { globals: { theme }, parameters }) => {
       // If only one happo theme is set then we want to only
       // use that theme in the theme provider
-      if (parameters.happo.themes.length === 1) {
+      if (parameters.happo.themes?.length === 1) {
         return (
           <ThemeProvider
             forcedTheme={parameters.happo.themes[0]}
