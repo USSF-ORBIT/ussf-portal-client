@@ -98,7 +98,6 @@ export const MySpaceModel = {
       throw e
     }
   },
-
   async deleteWidget(
     { _id, userId }: DeleteWidgetInput,
     { db }: Context

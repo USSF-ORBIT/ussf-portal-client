@@ -5,6 +5,7 @@ export const WIDGET_TYPES = {
   NEWS: 'News',
   GUARDIANIDEAL: 'GuardianIdeal',
   FEATUREDSHORTCUTS: 'FeaturedShortcuts',
+  WEATHER: 'Weather',
 } as const
 
 export const WIDGETS = {

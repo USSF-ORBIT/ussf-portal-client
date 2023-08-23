@@ -10,7 +10,8 @@ import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core'
 import type { PageConfig } from 'next'
 
 import { typeDefs } from '../../schema'
-
+import WeatherAPI from './dataSources/weather'
+import KeystoneAPI from './dataSources/keystone'
 import resolvers from 'resolvers/index'
 import type { SessionUser, CollectionRecord } from 'types/index'
 import { client } from 'lib/keystoneClient'
@@ -64,6 +65,12 @@ const clientConnection = async () => {
 export const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  dataSources: () => {
+    return {
+      keystoneAPI: new KeystoneAPI(),
+      weatherAPI: new WeatherAPI(),
+    }
+  },
   cache: 'bounded',
   plugins: [ApolloServerPluginLandingPageDisabled()],
   context: async ({ req, res }) => {
@@ -78,7 +85,7 @@ export const apolloServer = new ApolloServer({
       const client = await clientConnection()
 
       const db = client.db(process.env.MONGODB_DB)
-
+      const keystoneUrl = process.env.KEYSTONE_URL
       const loggedInUser = session.passport.user as SessionUser
       const {
         userId,
@@ -102,8 +109,8 @@ export const apolloServer = new ApolloServer({
         }
       }
 
-      // Set db connection and user in context
-      return { db, user: loggedInUser }
+      // Set db connection, keystone api, and user in context
+      return { db, keystoneUrl, user: loggedInUser }
     } catch (e) {
       console.error('Error creating GraphQL context', e)
 

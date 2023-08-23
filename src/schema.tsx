@@ -16,6 +16,7 @@ export const typeDefs = gql`
     GuardianIdeal
     News
     FeaturedShortcuts
+    Weather
   }
 
   interface Widget {
@@ -30,6 +31,13 @@ export const typeDefs = gql`
     type: WidgetType!
     bookmarks: [Bookmark!]
     cmsId: ID
+  }
+
+  type WeatherWidget implements Widget {
+    _id: OID!
+    title: String!
+    type: WidgetType!
+    coords: WeatherCoords!
   }
 
   type NewsWidget implements Widget {
@@ -58,6 +66,16 @@ export const typeDefs = gql`
     theme: String!
   }
 
+  type WeatherCoords {
+    lat: Float!
+    long: Float!
+    forecastUrl: String!
+    hourlyForecastUrl: String!
+    city: String!
+    state: String!
+    zipcode: String!
+  }
+
   type User {
     _id: OID!
     userId: String
@@ -69,6 +87,12 @@ export const typeDefs = gql`
   type Mutation {
     addWidget(title: String!, type: WidgetType!): Widget
     removeWidget(_id: OID!): Widget
+    addWeatherWidget(
+      title: String!
+      type: WidgetType!
+      zipcode: String!
+    ): WeatherWidget
+    editWeatherWidget(_id: OID!, zipcode: String!): WeatherWidget
     addCollection(title: String!, bookmarks: [BookmarkInput!]!): Collection
     editCollection(
       _id: OID!
@@ -93,6 +117,16 @@ export const typeDefs = gql`
     editDisplayName(userId: String!, displayName: String!): User
     editTheme(userId: String!, theme: String!): User
     editMySpace(mySpace: [WidgetReorderInput!]!): User
+  }
+
+  input WeatherInput {
+    lat: Float!
+    long: Float!
+    forecastUrl: String!
+    hourlyForecastUrl: String!
+    city: String!
+    state: String!
+    zipcode: String!
   }
 
   input BookmarkInput {
