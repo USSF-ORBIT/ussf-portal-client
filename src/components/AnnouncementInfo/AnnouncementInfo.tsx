@@ -1,11 +1,13 @@
 import React from 'react'
 import { DocumentRenderer } from '@keystone-6/document-renderer'
 import { InferRenderersForComponentBlocks } from '@keystone-6/fields-document/component-blocks'
+import Link from 'next/link'
 import styles from './AnnouncementInfo.module.scss'
-import { componentBlocks } from 'components/ComponentBlocks/callToAction'
+import type { componentBlocks } from 'components/ComponentBlocks/callToAction'
 import { AnnouncementRecord } from 'types'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 import AnnouncementDate from 'components/AnnouncementDate/AnnouncementDate'
+import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
 
 const AnnouncementInfo = ({
   announcement,
@@ -22,6 +24,8 @@ const AnnouncementInfo = ({
     typeof componentBlocks
   > = {
     callToAction: (props: any) => {
+      const fileUrl = props.link.value.data?.file?.url || ''
+
       return (
         <>
           {props.link.discriminant === 'article' && (
@@ -46,6 +50,26 @@ const AnnouncementInfo = ({
               className="usa-button">
               {props.ctaText}
             </LinkTo>
+          )}
+
+          {props.link.discriminant === 'document' && (
+            // We need to use the default Next Link component
+            // with legacyBehavior=false, so we can pass in an onClick
+            // that will open PDFs in the browser
+
+            <Link
+              legacyBehavior={false}
+              onClick={(e) => {
+                if (isPdf(fileUrl)) {
+                  e.preventDefault()
+                  handleOpenPdfLink(fileUrl)
+                } else return
+              }}
+              href={fileUrl}
+              rel="noreferrer"
+              className="usa-button">
+              {props.ctaText}
+            </Link>
           )}
         </>
       )
