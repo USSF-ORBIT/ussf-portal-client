@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import styles from './ThemeToggle.module.scss'
 import { useAnalytics } from 'stores/analyticsContext'
-import { useAuthContext } from 'stores/authContext'
 import { useUser } from 'hooks/useUser'
 import { useEditThemeMutation } from 'operations/portal/mutations/editTheme.g'
 import { SessionUser } from 'types'
@@ -23,18 +22,17 @@ const darkTheme = (
 const ThemeToggle = () => {
   const { setTheme } = useTheme()
   const { trackEvent } = useAnalytics()
-  const { portalUser } = useAuthContext()
-  const { user } = useUser()
+  const { user: sessionUser, portalUser } = useUser()
   const [handleEditThemeMutation] = useEditThemeMutation()
 
   // This is necessary to avoid a rehydration error since we render server side
   // See this blog for details: https://www.joshwcomeau.com/react/the-perils-of-rehydration/
-  if (!user) {
+  if (!sessionUser) {
     return null
   }
 
   const handleThemeChangeAndTracking = (
-    user: SessionUser | null,
+    sessionUser: SessionUser | null,
     newTheme: string
   ) => {
     try {
@@ -44,10 +42,10 @@ const ThemeToggle = () => {
         'Light/Dark mode toggle'
       )
 
-      if (user) {
+      if (sessionUser) {
         handleEditThemeMutation({
           variables: {
-            userId: user.userId,
+            userId: sessionUser.userId,
             theme: newTheme,
           },
           refetchQueries: ['getUser'],
@@ -69,7 +67,7 @@ const ThemeToggle = () => {
       type="button"
       onClick={() => {
         const newTheme = portalUser?.theme === 'light' ? 'dark' : 'light'
-        handleThemeChangeAndTracking(user, newTheme)
+        handleThemeChangeAndTracking(sessionUser, newTheme)
       }}
       className={styles.toggleButton}
       data-testid="theme-toggle">

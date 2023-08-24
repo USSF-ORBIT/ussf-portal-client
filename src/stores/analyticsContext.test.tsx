@@ -2,8 +2,7 @@
  * @jest-environment jsdom
  */
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
-import { renderHook } from '@testing-library/react-hooks'
+import { render, renderHook, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/router'
 
@@ -44,13 +43,18 @@ window.fetch = jest.fn(() =>
 
 const mockedFetch = fetch as jest.Mock
 
+// ignore console.debug and don't output to test output
+jest.spyOn(console, 'debug').mockImplementation(jest.fn())
+const mockConsoleWarn = jest.fn()
+jest.spyOn(console, 'warn').mockImplementation(mockConsoleWarn)
+
 describe('useAnalytics', () => {
-  it('throws an error if AnalyticsContext is undefined', () => {
+  test('throws an error if AnalyticsContext is undefined', () => {
     jest.spyOn(React, 'useContext').mockReturnValueOnce(undefined)
     expect(() => useAnalytics()).toThrowError()
   })
 
-  it('returns the created context', () => {
+  test('returns the created context', () => {
     const { result } = renderHook(() => useAnalytics())
     expect(result.current).toBeTruthy()
     expect(result.current.push).toBeTruthy()
@@ -67,11 +71,10 @@ describe('Analytics context', () => {
 
   beforeEach(() => {
     mockedFetch.mockClear()
+    mockConsoleWarn.mockClear()
   })
 
-  it('warns in the console if missing the analytics URL', async () => {
-    const consoleSpy = jest.spyOn(console, 'warn')
-
+  test('warns in the console if missing the analytics URL', async () => {
     const TestComponent = () => {
       const { push, trackEvent } = useAnalytics()
       return (
@@ -106,14 +109,13 @@ describe('Analytics context', () => {
     )
 
     await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalledWith(
+      expect(mockConsoleWarn).toHaveBeenCalledWith(
         'ANALYTICS: No Matomo URL provided'
       )
     })
   })
 
-  it('warns in the console if missing the analytics site ID', async () => {
-    const consoleSpy = jest.spyOn(console, 'warn')
+  test('warns in the console if missing the analytics site ID', async () => {
     const TestComponent = () => {
       const { push, trackEvent } = useAnalytics()
       return (
@@ -148,11 +150,11 @@ describe('Analytics context', () => {
     )
 
     await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalledWith('ANALYTICS: No Site ID provided')
+      expect(mockConsoleWarn).toHaveBeenCalledWith('ANALYTICS: No Site ID provided')
     })
   })
 
-  it('initializes the analytics queue on render', async () => {
+  test('initializes the analytics queue on render', async () => {
     const windowWithAnalytics = window as unknown as WindowWithAnalytics
 
     expect(windowWithAnalytics._paq).toBeUndefined()
@@ -266,7 +268,7 @@ describe('Analytics context', () => {
       })
     })
 
-    it('initializes the analytics config on mount', () => {
+    test('initializes the analytics config on mount', () => {
       expect(windowWithAnalytics._paq[0]).toEqual([
         'setDocumentTitle',
         'Test Doc Title',
@@ -289,7 +291,7 @@ describe('Analytics context', () => {
       )
     })
 
-    it('provides the push handler', async () => {
+    test('provides the push handler', async () => {
       const user = userEvent.setup()
       await user.click(screen.getByRole('button', { name: 'Test push' }))
 
@@ -300,7 +302,7 @@ describe('Analytics context', () => {
       ])
     })
 
-    it('provides the trackEvent handler', async () => {
+    test('provides the trackEvent handler', async () => {
       const user = userEvent.setup()
       await user.click(screen.getByRole('button', { name: 'Test track event' }))
       expect(windowWithAnalytics._paq.pop()).toEqual([
@@ -310,7 +312,7 @@ describe('Analytics context', () => {
       ])
     })
 
-    it('can use trackEvent to track an event name', async () => {
+    test('can use trackEvent to track an event name', async () => {
       const user = userEvent.setup()
       await user.click(
         screen.getByRole('button', { name: 'Test track event with name' })
@@ -323,7 +325,7 @@ describe('Analytics context', () => {
       ])
     })
 
-    it('can use trackEvent to track an event value', async () => {
+    test('can use trackEvent to track an event value', async () => {
       const user = userEvent.setup()
       await user.click(
         screen.getByRole('button', { name: 'Test track event with value' })

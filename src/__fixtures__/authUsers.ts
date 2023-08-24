@@ -253,6 +253,11 @@ export const portalUserCollectionLimitWithAllAdditionalWidgets: PortalUser = {
   theme: 'light',
 }
 
+export const portalUserNoCollections: PortalUser = {
+  ...portalUserWithExampleCollection,
+  mySpace: [],
+}
+
 export const cmsAdmin = {
   ...testUser1,
   attributes: {

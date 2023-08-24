@@ -7,7 +7,6 @@ import { UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events'
 
 // happo support
 import { setThemeSwitcher } from 'happo-plugin-storybook/register'
-
 // SFDS
 import 'styles/index.scss'
 import 'initIcons'
@@ -151,7 +150,19 @@ const preview: Preview = {
     },
   },
   decorators: [
-    (Story, { globals: { theme } }) => {
+    (Story, { globals: { theme }, parameters }) => {
+      // If only one happo theme is set then we want to only
+      // use that theme in the theme provider
+      if (parameters.happo.themes?.length === 1) {
+        return (
+          <ThemeProvider
+            forcedTheme={parameters.happo.themes[0]}
+            enableSystem={false}
+            attribute={'data-color-theme'}>
+            <Story />
+          </ThemeProvider>
+        )
+      }
       return (
         <ThemeProvider
           forcedTheme={theme}
@@ -169,6 +180,7 @@ const preview: Preview = {
   ],
 }
 
+// This is only for happo
 setThemeSwitcher((theme: string, channel: any) => {
   return new Promise((resolve) => {
     // Listen for global to be updated and resolve.

@@ -1,8 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { waitFor } from '@testing-library/react'
-import { renderHook } from '@testing-library/react-hooks'
+import { waitFor, renderHook } from '@testing-library/react'
 import axios from 'axios'
 
 import { useRSSFeed } from './useRSSFeed'
@@ -24,14 +23,14 @@ describe('useRSSFeed hook', () => {
     return Promise.resolve({ data: mockRssFeedTen })
   })
 
-  it('returns the item state and a method for fetching items', () => {
+  test('returns the item state and a method for fetching items', () => {
     const { result } = renderHook(() => useRSSFeed(MOCK_RSS_URL))
 
     expect(result.current.items).toEqual([])
     expect(result.current.fetchItems).toBeTruthy()
   })
 
-  it('fetching the items sets them in state', async () => {
+  test('fetching the items sets them in state', async () => {
     const { result } = renderHook(() => useRSSFeed(MOCK_RSS_URL))
 
     await waitFor(() => {
@@ -53,7 +52,7 @@ describe('useRSSFeed hook', () => {
   })
 
   describe('with an empty item', () => {
-    it('returns an empty article', async () => {
+    test('returns an empty article', async () => {
       mockedAxios.get.mockImplementation(() => {
         return Promise.resolve({ data: mockRssFeedOne })
       })
@@ -79,8 +78,8 @@ describe('useRSSFeed hook', () => {
     })
   })
 
-  it('logs the error if the RSS fetch fails', async () => {
-    const consoleSpy = jest.spyOn(console, 'error')
+  test('logs the error if the RSS fetch fails', async () => {
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(jest.fn())
 
     mockedAxios.get.mockRejectedValueOnce(new Error('Error fetching RSS'))
 
