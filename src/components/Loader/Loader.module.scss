@@ -2,4 +2,19 @@
 @use 'styles/sfds/index.scss' as *;
 
 .loader {
+  .container {
+    background: black;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    img {
+      width: 20vw;
+      height: auto;
+    }
+  }
 }
