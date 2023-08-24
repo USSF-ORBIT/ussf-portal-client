@@ -16,7 +16,7 @@ const USSFDocumentation = ({
   documentsPage,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { user } = useUser()
-  // LaunchDarkly toggle for cms vs static data
+
   return !user ? (
     <Loader />
   ) : (
