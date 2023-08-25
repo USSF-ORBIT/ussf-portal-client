@@ -37,7 +37,7 @@ $shadow: (); //star box shadow empty box shadow
     width: 100vw;
     top: 0;
     left: 0;
-    background: black;
+    background: linear-gradient(180deg, rgb(1 0 10) 25%, rgb(0 0 43) 100%);
     .earth {
       width: 100vw;
       background: url('/assets/images/hero-transparent.png');
