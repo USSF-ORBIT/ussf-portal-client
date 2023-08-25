@@ -7,10 +7,12 @@ const Loader = () => (
     <p className="usa-sr-only">Content is loading...</p>
 
     <div className={styles.container}>
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/United_States_Space_Force_logo.svg/1200px-United_States_Space_Force_logo.svg.png"
-        alt=" "
-      />
+      <div className={styles.front}>
+        <img src="/assets/images/delta-stacked-light.png" alt=" " />
+      </div>
+      <div className={styles.back}>
+        <div className={styles.stars}></div>
+      </div>
     </div>
   </div>
 )

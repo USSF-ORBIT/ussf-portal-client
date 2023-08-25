@@ -3,7 +3,13 @@
 
 .loader {
   .container {
-    background: linear-gradient(180deg, #070f1d 45%, #112548 100%);
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+  }
+  .front {
     position: relative;
     display: flex;
     justify-content: center;
@@ -15,6 +21,37 @@
     img {
       width: 20vw;
       height: auto;
+      z-index: 10;
+      position: absolute;
     }
+  }
+  .back {
+    overflow: hidden;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    background: black;
+    .stars {
+      width: 200vw;
+      height: 200vw;
+      background: url('/assets/images/stars.jpg');
+      position: absolute;
+      top: -20%;
+      left: -46%;
+      z-index: 5;
+      animation: rotate 300s linear infinite;
+    }
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }
