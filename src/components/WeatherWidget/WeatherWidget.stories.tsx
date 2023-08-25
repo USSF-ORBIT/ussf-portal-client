@@ -20,6 +20,21 @@ const mockWeatherWidget: WeatherWidgetType = {
   },
 }
 
+const mockWeatherWidgetNoForecast: WeatherWidgetType = {
+  _id: new ObjectId(),
+  type: 'Weather',
+  title: 'Weather',
+  coords: {
+    lat: 34.0901,
+    long: -118.4065,
+    forecastUrl: '',
+    hourlyForecastUrl: '',
+    city: 'Beverly Hills',
+    state: 'CA',
+    zipcode: '90210',
+  },
+}
+
 export default {
   title: 'Components/WeatherWidget',
   component: WeatherWidget,
@@ -29,4 +44,8 @@ export const AddWeatherWidget = () => <WeatherWidget />
 
 export const WeatherWidgetWithData = () => (
   <WeatherWidget widget={mockWeatherWidget} />
+)
+
+export const WeatherWidgetErrorState = () => (
+  <WeatherWidget widget={mockWeatherWidgetNoForecast} />
 )
