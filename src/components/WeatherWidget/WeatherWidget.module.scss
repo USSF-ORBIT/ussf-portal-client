@@ -115,3 +115,13 @@ $iconsize: 110px;
     }
   }
 }
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+
+  > button {
+    align-self: flex-end;
+    margin-top: 0.5rem;
+  }
+}

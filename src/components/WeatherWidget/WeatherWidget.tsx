@@ -30,7 +30,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
   const [zipCode, setZipCode] = useState<string>('')
   const [invalidZipCode, setInvalidZipCode] = useState<boolean>(false)
 
-  const { forecast, getForecast } = useWeather()
+  const { forecast, getForecast, error } = useWeather()
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
 
@@ -153,6 +153,12 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     setIsDropdownOpen(!isDropdownOpen)
   }
 
+  const handleRetryWeather = () => {
+    if (widget.widget) {
+      getForecast(widget.widget.coords.hourlyForecastUrl)
+    }
+  }
+
   const weatherWidgetHeader = () => {
     return (
       <>
@@ -273,7 +279,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
 
         {widget.widget && !isEditing && (
           <>
-            {currentForecast[0] && (
+            {currentForecast[0] && !error && (
               <>
                 {widget.widget?.coords && (
                   <div className={styles.location}>
@@ -282,7 +288,10 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                       type="button"
                       unstyled
                       aria-label={`Edit zip code for ${widget.widget.coords.city}, ${widget.widget.coords.state}`}
-                      onClick={() => setIsEditing(true)}>
+                      onClick={() => {
+                        setIsEditing(true)
+                        setDisableDragAndDrop(true)
+                      }}>
                       {widget.widget.coords.city}, {widget.widget.coords.state}
                     </Button>
                   </div>
@@ -318,6 +327,25 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                   })}
                 </div>
               </>
+            )}
+
+            {error && (
+              <div className={styles.errorContainer}>
+                <Alert
+                  type="error"
+                  role="alert"
+                  headingLevel="h4"
+                  noIcon
+                  className={styles.alertPadding}>
+                  Error retrieving weather. Please try again.
+                </Alert>
+                <Button
+                  type="button"
+                  className={styles.retryButton}
+                  onClick={handleRetryWeather}>
+                  Retry
+                </Button>
+              </div>
             )}
           </>
         )}
