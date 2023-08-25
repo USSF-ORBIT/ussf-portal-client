@@ -1,6 +1,10 @@
 @use 'uswds-core' as *;
 @use 'styles/sfds/index.scss' as *;
 
+$n: 15;
+$s: 300;
+$shadow: ();
+
 .loader {
   .container {
     position: relative;
@@ -13,16 +17,17 @@
     position: relative;
     display: flex;
     justify-content: center;
-    align-items: center;
     width: 100vw;
     height: 100vh;
     top: 0;
     left: 0;
     img {
-      width: 20vw;
+      width: 50vw;
+      max-width: 400px;
       height: auto;
       z-index: 10;
-      position: absolute;
+      position: fixed;
+      margin-top: 10vh;
     }
   }
   .back {
@@ -33,25 +38,103 @@
     top: 0;
     left: 0;
     background: black;
-    .stars {
-      width: 200vw;
-      height: 200vw;
-      background: url('/assets/images/stars.jpg');
-      position: absolute;
-      top: -20%;
-      left: -46%;
-      z-index: 5;
-      animation: rotate 300s linear infinite;
+    .earth {
+      .glow {
+        width: 200vw;
+        height: 500px;
+        position: absolute;
+        bottom: -38%;
+        z-index: 7;
+        box-shadow: 0 -19px 120px 40px rgb(115, 160, 203);
+        background: #91b5d5;
+        left: -55vw;
+        border-radius: 100%;
+        animation: Loader_glowing__g8kJN 8s infinite;
+      }
+      img {
+        width: auto;
+        height: 500px;
+        position: absolute;
+        bottom: 0;
+        z-index: 8;
+      }
+    }
+    .cosmos {
+      @for $i from 1 through $s {
+        $x: random(1920);
+        $y: random(1000);
+        $shadow: $shadow, ($x + px $y + px #fff) !global;
+      }
+
+      .star {
+        width: 1px;
+        height: 1px;
+        background: transparent;
+        box-shadow: $shadow;
+      }
+
+      @for $i from 1 through $n {
+        $v: random(90) + 9; // left
+        $h: random(250) + 50; // top
+        $d: random(70) / 10 + 3; // duration (in seconds)
+        .meteor#{$i} {
+          position: absolute;
+          top: $h + px;
+          left: $v * 1%;
+          width: 300px;
+          height: 1px;
+          transform: rotate(-45deg);
+          background-image: linear-gradient(
+            to right,
+            #fff,
+            rgba(255, 255, 255, 0)
+          );
+          animation: meteor $d + s linear infinite;
+          &:before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 5px;
+            border-radius: 50%;
+            margin-top: -2px;
+            background: rgba(#fff, 0.7);
+            box-shadow: 0 0 15px 3px #fff;
+          }
+        }
+      }
     }
   }
 }
 
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
+@keyframes glowing {
+  0% {
+    bottom: -30%;
   }
 
-  to {
-    transform: rotate(360deg);
+  50% {
+    bottom: -36%;
+  }
+
+  100% {
+    bottom: -30%;
+  }
+}
+
+@keyframes meteor {
+  0% {
+    opacity: 1;
+    margin-top: -300px;
+    margin-right: -300px;
+  }
+  12% {
+    opacity: 0;
+  }
+  15% {
+    margin-top: 300px;
+    margin-left: -600px;
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
   }
 }
