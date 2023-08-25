@@ -147,7 +147,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                     )
                   }
 
-                  if (isWeather(widget)) {
+                  if (isWeather(widget) && flags?.weatherWidget) {
                     const weatherWidget = widget as WeatherWidgetType
                     return (
                       <Grid
