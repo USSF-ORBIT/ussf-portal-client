@@ -13,7 +13,6 @@ const Loader = () => (
       <div className={styles.back}>
         <div className={styles.earth}>
           <img src="/assets/images/hero-transparent.png" alt=" " />
-          <div className={styles.glow}> </div>
         </div>
         <div className={styles.cosmos}>
           <div className={styles.star}></div>

@@ -1,9 +1,9 @@
 @use 'uswds-core' as *;
 @use 'styles/sfds/index.scss' as *;
 
-$n: 15;
-$s: 300;
-$shadow: ();
+$n: 6; //number of metetors
+$s: 600; //number of stars
+$shadow: (); //star box shadow empty box shadow
 
 .loader {
   .container {
@@ -39,21 +39,10 @@ $shadow: ();
     left: 0;
     background: black;
     .earth {
-      .glow {
-        width: 200vw;
-        height: 500px;
-        position: absolute;
-        bottom: -38%;
-        z-index: 7;
-        box-shadow: 0 -19px 120px 40px rgb(115, 160, 203);
-        background: #91b5d5;
-        left: -55vw;
-        border-radius: 100%;
-        animation: Loader_glowing__g8kJN 8s infinite;
-      }
+      display: flex;
+      justify-content: center;
       img {
-        width: auto;
-        height: 500px;
+        width: 200vw;
         position: absolute;
         bottom: 0;
         z-index: 8;
@@ -61,9 +50,11 @@ $shadow: ();
     }
     .cosmos {
       @for $i from 1 through $s {
+        //stars formula
         $x: random(1920);
         $y: random(1000);
-        $shadow: $shadow, ($x + px $y + px #fff) !global;
+        $a: random(100) / 100;
+        $shadow: $shadow, ($x + px $y + px rgba(255, 255, 255, $a)) !global;
       }
 
       .star {
@@ -74,6 +65,7 @@ $shadow: ();
       }
 
       @for $i from 1 through $n {
+        //meteor formula
         $v: random(90) + 9; // left
         $h: random(250) + 50; // top
         $d: random(70) / 10 + 3; // duration (in seconds)
@@ -103,20 +95,6 @@ $shadow: ();
         }
       }
     }
-  }
-}
-
-@keyframes glowing {
-  0% {
-    bottom: -30%;
-  }
-
-  50% {
-    bottom: -36%;
-  }
-
-  100% {
-    bottom: -30%;
   }
 }
 
