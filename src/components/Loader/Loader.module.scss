@@ -39,59 +39,60 @@ $shadow: (); //star box shadow empty box shadow
     left: 0;
     background: black;
     .earth {
-      display: flex;
-      justify-content: center;
-      img {
-        width: 200vw;
-        position: absolute;
-        bottom: 0;
-        z-index: 8;
-      }
+      width: 100vw;
+      background: url('/assets/images/hero-transparent.png');
+      background-size: cover;
+      position: absolute;
+      bottom: 0;
+      z-index: 8;
+      height: 50vh;
+      background-position-y: 100%;
+      background-repeat: no-repeat;
     }
-    .cosmos {
-      @for $i from 1 through $s {
-        //stars formula
-        $x: random(1920);
-        $y: random(1000);
-        $a: random(100) / 100;
-        $shadow: $shadow, ($x + px $y + px rgba(255, 255, 255, $a)) !global;
-      }
+  }
+  .cosmos {
+    @for $i from 1 through $s {
+      //stars formula
+      $x: random(1920); // horizontal position
+      $y: random(1000); //vertical position
+      $a: random(100) / 100; // star opacity
+      $shadow: $shadow, ($x + px $y + px rgba(255, 255, 255, $a)) !global;
+    }
 
-      .star {
-        width: 1px;
+    .star {
+      width: 1px;
+      height: 1px;
+      background: transparent;
+      box-shadow: $shadow;
+    }
+
+    @for $i from 1 through $n {
+      //meteor formula
+      $v: random(90) + 9; // left
+      $h: random(250) + 50; // top
+      $d: random(70) / 10 + 3; // duration (in seconds)
+      .meteor#{$i} {
+        position: absolute;
+        top: $h + px;
+        left: $v * 1%;
+        width: 300px;
         height: 1px;
-        background: transparent;
-        box-shadow: $shadow;
-      }
-
-      @for $i from 1 through $n {
-        //meteor formula
-        $v: random(90) + 9; // left
-        $h: random(250) + 50; // top
-        $d: random(70) / 10 + 3; // duration (in seconds)
-        .meteor#{$i} {
+        transform: rotate(-45deg);
+        background-image: linear-gradient(
+          to right,
+          #fff,
+          rgba(255, 255, 255, 0)
+        );
+        animation: meteor $d + s linear infinite;
+        &:before {
+          content: '';
           position: absolute;
-          top: $h + px;
-          left: $v * 1%;
-          width: 300px;
-          height: 1px;
-          transform: rotate(-45deg);
-          background-image: linear-gradient(
-            to right,
-            #fff,
-            rgba(255, 255, 255, 0)
-          );
-          animation: meteor $d + s linear infinite;
-          &:before {
-            content: '';
-            position: absolute;
-            width: 4px;
-            height: 5px;
-            border-radius: 50%;
-            margin-top: -2px;
-            background: rgba(#fff, 0.7);
-            box-shadow: 0 0 15px 3px #fff;
-          }
+          width: 4px;
+          height: 5px;
+          border-radius: 50%;
+          margin-top: -2px;
+          background: rgba(#fff, 0.7);
+          box-shadow: 0 0 15px 3px #fff;
         }
       }
     }
