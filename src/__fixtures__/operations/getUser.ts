@@ -30,3 +30,14 @@ export const getUserNoLoadingMock = [
     })),
   },
 ]
+
+export const getUserNullMock = [
+  {
+    request: {
+      query: GetUserDocument,
+    },
+    result: jest.fn(() => ({
+      data: null,
+    })),
+  },
+]

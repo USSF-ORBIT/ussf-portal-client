@@ -239,3 +239,111 @@ export const testAnnouncementWithDeletedArticle = {
   status: 'Published',
   publishedDate: '2022-05-17T13:44:39.796Z',
 }
+
+export const testAnnouncementWithPdfDocument = {
+  id: 'testAnnouncementDocument',
+  title: 'Test Announcement Document',
+  body: {
+    document: [
+      {
+        type: 'paragraph',
+        children: [
+          {
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+          },
+        ],
+      },
+      {
+        type: 'component-block',
+        props: {
+          link: {
+            value: {
+              data: {
+                file: {
+                  url: 'https://test.com/file.pdf',
+                },
+              },
+            },
+            discriminant: 'document',
+          },
+          ctaText: 'Read more',
+        },
+        children: [
+          {
+            type: 'component-inline-prop',
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+        ],
+        component: 'callToAction',
+      },
+      {
+        type: 'paragraph',
+        children: [
+          {
+            text: '',
+          },
+        ],
+      },
+    ],
+  },
+  status: 'Published',
+  publishedDate: '2022-05-17T13:44:39.796Z',
+}
+
+export const testAnnouncementWithJpgDocument = {
+  id: 'testAnnouncementJpgDocument',
+  title: 'Test Announcement Jpg Document',
+  body: {
+    document: [
+      {
+        type: 'paragraph',
+        children: [
+          {
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+          },
+        ],
+      },
+      {
+        type: 'component-block',
+        props: {
+          link: {
+            value: {
+              data: {
+                file: {
+                  url: 'https://test.com/file.jpg',
+                },
+              },
+            },
+            discriminant: 'document',
+          },
+          ctaText: 'Read more',
+        },
+        children: [
+          {
+            type: 'component-inline-prop',
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+        ],
+        component: 'callToAction',
+      },
+      {
+        type: 'paragraph',
+        children: [
+          {
+            text: '',
+          },
+        ],
+      },
+    ],
+  },
+  status: 'Published',
+  publishedDate: '2022-05-17T13:44:39.796Z',
+}

@@ -43,6 +43,11 @@ export const componentBlocks = {
             listKey: 'Article',
             selection: 'id title slug',
           }),
+          document: fields.relationship({
+            label: 'Document',
+            listKey: 'Document',
+            selection: 'id title file { url }',
+          }),
         }
       ),
     },
