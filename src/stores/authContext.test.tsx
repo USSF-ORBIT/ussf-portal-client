@@ -6,9 +6,9 @@ import { render, screen, waitFor, renderHook } from '@testing-library/react'
 import { useRouter } from 'next/router'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
-import { GetPersonnelDataDocument } from 'operations/portal/queries/getPersonnelData.g'
 import { print } from 'graphql'
 import { AuthProvider, useAuthContext } from './authContext'
+import { GetPersonnelDataDocument } from 'operations/portal/queries/getPersonnelData.g'
 
 import {
   testUser1,
