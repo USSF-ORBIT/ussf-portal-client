@@ -11,12 +11,12 @@ const FEEDBACK_EMAIL = 'feedback@ussforbit.us'
 const FEEDBACK_SUBJECT = 'USSF portal feedback -- 404 page error'
 
 export default function Custom404() {
-  const { user } = useUser()
+  const { loading } = useUser()
   const { trackEvent } = useAnalytics()
 
   trackEvent('Error page', 'Page missing', '404', window.location.pathname)
 
-  return !user ? (
+  return loading ? (
     <Loader />
   ) : (
     <>

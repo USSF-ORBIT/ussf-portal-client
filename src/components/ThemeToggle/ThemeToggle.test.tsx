@@ -15,6 +15,8 @@ import { editThemeMock } from '../../__fixtures__/operations/editTheme'
 import ThemeToggle from './ThemeToggle'
 import { GetThemeDocument } from 'operations/portal/queries/getTheme.g'
 import * as analyticsHooks from 'stores/analyticsContext'
+import * as useUserHooks from 'hooks/useUser'
+import { testPortalUser1, testUser1 } from '__fixtures__/authUsers'
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -26,9 +28,26 @@ jest.mock('next/router', () => ({
   }),
 }))
 
+beforeEach(() => {
+  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
+    return {
+      user: testUser1,
+      portalUser: testPortalUser1,
+      loading: false
+    }
+  })
+})
+
 describe('ThemeToggle component', () => {
   test('renders nothing if no user', async () => {
-    renderWithAuthAndApollo(<ThemeToggle />, { user: null })
+jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
+  return {
+    user: null,
+    portalUser: null,
+    loading: true,
+  }
+})
+    renderWithAuthAndApollo(<ThemeToggle />, {})
 
     expect(screen.queryByTestId('theme-toggle')).toBeNull()
   })

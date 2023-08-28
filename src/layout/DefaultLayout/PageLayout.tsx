@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react'
 import { GovBanner, GridContainer } from '@trussworks/react-uswds'
-import { useTheme } from 'next-themes'
 import styles from './DefaultLayout.module.scss'
 import Header from 'components/Header/Header'
 import PageHeader from 'components/PageHeader/PageHeader'
 import Footer from 'components/Footer/Footer'
-import { useGetUserQuery } from 'operations/portal/queries/getUser.g'
-import { useAuthContext } from 'stores/authContext'
 import { useSearchContext } from 'stores/searchContext'
-import { PortalUser } from 'types'
 import Loader from 'components/Loader/Loader'
+import { useUser } from 'hooks/useUser'
 
 const PageLayout = ({
   header,
@@ -18,18 +15,8 @@ const PageLayout = ({
   header: React.ReactNode
   children: React.ReactNode
 }) => {
-  const { setPortalUser } = useAuthContext()
+  const { loading } = useUser()
   const { searchQuery, setSearchQuery } = useSearchContext()
-  const { setTheme } = useTheme()
-
-  const { loading, data }: PortalUser | any = useGetUserQuery()
-
-  useEffect(() => {
-    setPortalUser(data)
-    if (data) {
-      setTheme(data.theme)
-    }
-  }, [data])
 
   useEffect(() => {
     // If there is a search query, and the url does not contain /search, then empty the search query

@@ -15,9 +15,9 @@ const Home = ({
   bookmarks,
   announcements,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { user } = useUser()
+  const { loading } = useUser()
 
-  return !user ? (
+  return loading ? (
     <Loader />
   ) : (
     <div className={styles.home}>
