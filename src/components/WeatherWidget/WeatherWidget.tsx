@@ -112,6 +112,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
 
     if (isAddingWidget && !widget.widget) {
       addNewWeatherWidget(inputVal.toString())
+      setIsAddingWidget(false)
     }
 
     if (isEditing && widget.widget) {
