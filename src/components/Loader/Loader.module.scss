@@ -28,7 +28,9 @@ $orb-color2: #bac0cb;
       height: auto;
       z-index: 10;
       position: fixed;
-      margin-top: 10vh;
+      top: 41%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
   }
   .back {
@@ -76,6 +78,8 @@ $orb-color2: #bac0cb;
       height: 75vw;
       max-width: 700px;
       max-height: 700px;
+      min-width: 400px;
+      min-height: 400px;
       box-sizing: border-box;
       .face {
         position: absolute;
@@ -105,8 +109,8 @@ $orb-color2: #bac0cb;
           bottom: 0;
           box-shadow: 0 0 10px #010321;
           border-radius: 50%;
-          border-left: 2px solid $orb-color;
-          border-top: 2px solid $orb-color;
+          border-left: 2px solid rgba($orb-color, 0.6);
+          border-top: 2px solid rgba($orb-color, 0.6);
           animation: spinClock 5s linear infinite;
           .circle {
             transform: rotate(-45deg);
@@ -125,8 +129,8 @@ $orb-color2: #bac0cb;
           bottom: 30px;
           box-shadow: 0 0 10px #010321;
           border-radius: 50%;
-          border-right: 2px solid $orb-color2;
-          border-bottom: 2px solid $orb-color2;
+          border-right: 2px solid rgba($orb-color2, 0.6);
+          border-bottom: 2px solid rgba($orb-color2, 0.6);
           animation: spinCounterClock 5s linear infinite;
           .circle {
             transform: rotate(-45deg);
