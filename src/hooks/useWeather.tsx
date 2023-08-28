@@ -6,10 +6,11 @@ export const useWeather = (): {
   // for the front-end, we can type this
   forecast: any[]
   getForecast: (forecastUrl: string) => void
-  error: string | null
+  forecastError: string | null
+  resetForecastError: () => void
 } => {
   const [forecast, setForecast] = useState<any[]>([])
-  const [error, setError] = useState<any>(null)
+  const [forecastError, setError] = useState<any>(null)
 
   const getForecast = async (forecastUrl: string) => {
     try {
@@ -20,9 +21,14 @@ export const useWeather = (): {
     }
   }
 
+  const resetForecastError = () => {
+    setError(null)
+  }
+
   return {
     forecast,
     getForecast,
-    error,
+    forecastError,
+    resetForecastError,
   }
 }

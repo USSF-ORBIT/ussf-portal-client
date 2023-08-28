@@ -30,7 +30,8 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
   const [zipCode, setZipCode] = useState<string>('')
   const [invalidZipCode, setInvalidZipCode] = useState<boolean>(false)
 
-  const { forecast, getForecast, error } = useWeather()
+  const { forecast, getForecast, forecastError, resetForecastError } =
+    useWeather()
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
 
@@ -111,7 +112,6 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
 
     if (isAddingWidget && !widget.widget) {
       addNewWeatherWidget(inputVal.toString())
-      setIsAddingWidget(false)
     }
 
     if (isEditing && widget.widget) {
@@ -156,6 +156,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
   const handleRetryWeather = () => {
     if (widget.widget) {
       getForecast(widget.widget.coords.hourlyForecastUrl)
+      resetForecastError()
     }
   }
 
@@ -279,7 +280,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
 
         {widget.widget && !isEditing && (
           <>
-            {currentForecast[0] && !error && (
+            {currentForecast[0] && !forecastError && (
               <>
                 {widget.widget?.coords && (
                   <div className={styles.location}>
@@ -329,7 +330,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
               </>
             )}
 
-            {error && (
+            {forecastError && (
               <div className={styles.errorContainer}>
                 <Alert
                   type="error"
