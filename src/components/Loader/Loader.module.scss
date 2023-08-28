@@ -1,9 +1,10 @@
 @use 'uswds-core' as *;
 @use 'styles/sfds/index.scss' as *;
 
-$n: 6; //number of metetors
 $s: 600; //number of stars
 $shadow: (); //star box shadow empty box shadow
+$orb-color: #bbbdc5;
+$orb-color2: #bac0cb;
 
 .loader {
   .container {
@@ -68,15 +69,17 @@ $shadow: (); //star box shadow empty box shadow
 
     .spinner {
       position: absolute;
-      top: 50%;
+      top: 45%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 200px;
-      height: 200px;
+      width: 75vw;
+      height: 75vw;
+      max-width: 700px;
+      max-height: 700px;
       box-sizing: border-box;
       .face {
         position: absolute;
-        border: 2px solid #121212;
+        border: 2px solid rgba($orb-color, 0.15);
         .circle {
           position: absolute;
           top: calc(50% - 1px);
@@ -100,18 +103,18 @@ $shadow: (); //star box shadow empty box shadow
           left: 0;
           right: 0;
           bottom: 0;
-          background: 090909;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+          box-shadow: 0 0 10px #010321;
           border-radius: 50%;
-          border-left: 2px solid #ffff00;
-          border-top: 2px solid #ffff00;
-          animation: ani1 3s linear infinite;
+          border-left: 2px solid $orb-color;
+          border-top: 2px solid $orb-color;
+          animation: spinClock 5s linear infinite;
           .circle {
             transform: rotate(-45deg);
             &:before {
-              background: #ffff00;
-              box-shadow: 0 0 20px #ff0, 0 0 40px #ff0, 0 0 60px #ff0,
-                0 0 80px #ff0, 0 0 100px #ff0, 0 0 0 5px rgba(255, 255, 0, 0.1);
+              background: $orb-color;
+              box-shadow: 0 0 20px $orb-color, 0 0 40px $orb-color,
+                0 0 60px $orb-color, 0 0 80px $orb-color, 0 0 100px $orb-color,
+                0 0 0 5px rgba($orb-color, 0.1);
             }
           }
         }
@@ -120,78 +123,27 @@ $shadow: (); //star box shadow empty box shadow
           left: 30px;
           right: 30px;
           bottom: 30px;
-          background: #090909;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+          box-shadow: 0 0 10px #010321;
           border-radius: 50%;
-          border-right: 2px solid #03a9f4;
-          border-bottom: 2px solid #03a9f4;
-          animation: ani2 3s linear infinite;
+          border-right: 2px solid $orb-color2;
+          border-bottom: 2px solid $orb-color2;
+          animation: spinCounterClock 5s linear infinite;
           .circle {
             transform: rotate(-45deg);
             &:before {
-              background: #03a9f4;
-              box-shadow: 0 0 20px #03a9f4, 0 0 40px #03a9f4, 0 0 60px #03a9f4,
-                0 0 80px #03a9f4, 0 0 100px #03a9f4,
-                0 0 0 5px rgba(3, 169, 244, 0.1);
+              background: $orb-color2;
+              box-shadow: 0 0 20px $orb-color2, 0 0 40px $orb-color2,
+                0 0 60px $orb-color2, 0 0 80px $orb-color2,
+                0 0 100px $orb-color2, 0 0 0 5px rgba($orb-color2, 0.1);
             }
           }
         }
       }
     }
-
-    @for $i from 1 through $n {
-      //meteor formula
-      $v: random(90) + 9; // left
-      $h: random(250) + 50; // top
-      $d: random(70) / 10 + 3; // duration (in seconds)
-      .meteor#{$i} {
-        position: absolute;
-        top: $h + px;
-        left: $v * 1%;
-        width: 300px;
-        height: 1px;
-        transform: rotate(-45deg);
-        background-image: linear-gradient(
-          to right,
-          #fff,
-          rgba(255, 255, 255, 0)
-        );
-        animation: meteor $d + s linear infinite;
-        &:before {
-          content: '';
-          position: absolute;
-          width: 4px;
-          height: 5px;
-          border-radius: 50%;
-          margin-top: -2px;
-          background: rgba(#fff, 0.7);
-          box-shadow: 0 0 15px 3px #fff;
-        }
-      }
-    }
   }
 }
 
-@keyframes meteor {
-  0% {
-    opacity: 1;
-    margin-top: -300px;
-    margin-right: -300px;
-  }
-  12% {
-    opacity: 0;
-  }
-  15% {
-    margin-top: 300px;
-    margin-left: -600px;
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes ani1 {
+@keyframes spinClock {
   0% {
     transform: rotate(0deg);
   }
@@ -199,7 +151,7 @@ $shadow: (); //star box shadow empty box shadow
     transform: rotate(360deg);
   }
 }
-@keyframes ani2 {
+@keyframes spinCounterClock {
   0% {
     transform: rotate(0deg);
   }
