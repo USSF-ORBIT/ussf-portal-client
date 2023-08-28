@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { GovBanner, GridContainer, Grid } from '@trussworks/react-uswds'
-import { useTheme } from 'next-themes'
 import styles from './DefaultLayout.module.scss'
 import Header from 'components/Header/Header'
 import PersonalData from 'components/PersonalData/PersonalData'
@@ -10,11 +9,9 @@ import FeedbackCard from 'components/FeedbackCard/FeedbackCard'
 import Footer from 'components/Footer/Footer'
 import CustomModal from 'components/CustomModal/CustomModal'
 import Loader from 'components/Loader/Loader'
-import { useGetUserQuery } from 'operations/portal/queries/getUser.g'
-import { useAuthContext } from 'stores/authContext'
 import { useMySpaceContext } from 'stores/myspaceContext'
 import { useSearchContext } from 'stores/searchContext'
-import { PortalUser } from 'types'
+import { useUser } from 'hooks/useUser'
 
 const DefaultLayout = ({
   displayFeedbackCard = true,
@@ -25,10 +22,9 @@ const DefaultLayout = ({
   rightSidebar?: JSX.Element
   children: React.ReactNode
 }) => {
-  const { setPortalUser } = useAuthContext()
+  const { loading, portalUser } = useUser()
   const { initializeMySpace } = useMySpaceContext()
   const { searchQuery, setSearchQuery } = useSearchContext()
-  const { setTheme } = useTheme()
   const [displayName, setDisplayName] = useState<string>('')
   const navItems = [
     { path: '/', label: 'My Space' },
@@ -39,16 +35,12 @@ const DefaultLayout = ({
     { path: '/ussf-documentation', label: 'USSF documentation' },
   ]
 
-  const { loading, data }: PortalUser | any = useGetUserQuery()
-
   useEffect(() => {
-    if (data) {
-      setPortalUser(data)
-      setDisplayName(data.displayName)
-      setTheme(data.theme)
-      initializeMySpace(data.mySpace)
+    if (portalUser) {
+      setDisplayName(portalUser.displayName)
+      initializeMySpace(portalUser.mySpace)
     }
-  }, [data])
+  }, [portalUser])
 
   useEffect(() => {
     // If there is a search query, and the url does not contain /search, then empty the search query

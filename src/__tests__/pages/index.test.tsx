@@ -2,21 +2,23 @@
  * @jest-environment jsdom
  */
 
-import { screen, waitFor, act } from '@testing-library/react'
+import { screen, act } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
-import axios from 'axios'
-import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
 
 import {
-  renderWithAuth,
+  renderWithAuthAndApollo,
   renderWithMySpaceAndModalContext,
 } from '../../testHelpers'
-import { portalUserMaxedOutCollection } from '../../__fixtures__/authUsers'
+import {
+  testUser1,
+  portalUserMaxedOutCollection,
+} from '../../__fixtures__/authUsers'
 
 import { cmsBookmarksMock as mockCmsBookmarks } from '../../__fixtures__/data/cmsBookmarks'
 import { cmsAnnouncementsMock as mockCmsAnnouncements } from '../../__fixtures__/data/cmsAnnouncments'
 import '../../__mocks__/mockMatchMedia'
+import * as useUserHooks from 'hooks/useUser'
 import Home, { getServerSideProps } from 'pages/index'
 
 jest.mock('../../lib/keystoneClient', () => ({
@@ -31,52 +33,36 @@ jest.mock('../../lib/keystoneClient', () => ({
     },
   },
 }))
-jest.mock('axios')
 
-const mockedAxios = axios as jest.Mocked<typeof axios>
-
-mockedAxios.get.mockImplementationOnce(() => {
-  return Promise.reject()
-})
-
-const mockReplace = jest.fn()
-
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}))
-
-const mockedUseRouter = useRouter as jest.Mock
-
-mockedUseRouter.mockReturnValue({
-  route: '',
-  pathname: '',
-  query: '',
-  asPath: '',
-  push: jest.fn(),
-  replace: mockReplace,
+beforeEach(() => {
+  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
+    return {
+      user: testUser1,
+      portalUser: portalUserMaxedOutCollection,
+      loading: false,
+    }
+  })
 })
 
 describe('Home page', () => {
   describe('without a user', () => {
-    beforeEach(() => {
-      renderWithAuth(
+    test('renders the loader while fetching the user', () => {
+      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
+        return {
+          user: null,
+          portalUser: null,
+          loading: true,
+        }
+      })
+
+      renderWithAuthAndApollo(
         <Home
           bookmarks={mockCmsBookmarks}
           announcements={mockCmsAnnouncements}
           pageTitle={'My Space'}
-        />,
-        { user: null }
+        />
       )
-    })
-
-    it('renders the loader while fetching the user', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
-    })
-
-    it('redirects to the login page if not logged in', async () => {
-      await waitFor(() => {
-        expect(mockReplace).toHaveBeenCalledWith('/login')
-      })
     })
   })
 
@@ -94,7 +80,7 @@ describe('Home page', () => {
       )
     })
 
-    it('renders the home page', async () => {
+    test('renders the home page', async () => {
       // Slider component in react-slick clones each item in the carousel,
       // so a length of 2 is accurate
       expect(screen.getAllByText('Test Announcement')).toHaveLength(2)
@@ -127,7 +113,7 @@ describe('Home page', () => {
         })
       ).toBeInTheDocument()
     })
-    it('renders the correct props in getServerSideProps', async () => {
+    test('renders the correct props in getServerSideProps', async () => {
       const response = await getServerSideProps()
 
       expect(response).toEqual({
@@ -139,7 +125,7 @@ describe('Home page', () => {
       })
     })
 
-    it('has no a11y violations', async () => {
+    test('has no a11y violations', async () => {
       // Bug with NextJS Link + axe :(
       // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
       await act(async () => {

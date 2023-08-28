@@ -1,8 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { screen, waitFor } from '@testing-library/react'
-import axios from 'axios'
+import { screen } from '@testing-library/react'
 import { useRouter } from 'next/router'
 import { mockFlags } from 'jest-launchdarkly-mock'
 import type { GetServerSidePropsContext } from 'next'
@@ -10,6 +9,8 @@ import type { GetServerSidePropsContext } from 'next'
 import { renderWithAuth } from '../../testHelpers'
 
 import { mockCmsSearchResults } from '__fixtures__/data/cmsSearch'
+import * as useUserHooks from 'hooks/useUser'
+import { testPortalUser1, testUser1 } from '__fixtures__/authUsers'
 
 import SearchPage, { getServerSideProps } from 'pages/search'
 
@@ -27,12 +28,14 @@ jest.mock('../../lib/keystoneClient', () => ({
   },
 }))
 
-jest.mock('axios')
-
-const mockedAxios = axios as jest.Mocked<typeof axios>
-
-mockedAxios.get.mockImplementationOnce(() => {
-  return Promise.reject()
+beforeEach(() => {
+  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
+    return {
+      user: testUser1,
+      portalUser: testPortalUser1,
+      loading: false,
+    }
+  })
 })
 
 const mockReplace = jest.fn()
@@ -91,20 +94,16 @@ describe('Search page getServerSideProps', () => {
 
 describe('Search page', () => {
   describe('without a user', () => {
-    beforeEach(() => {
-      renderWithAuth(<SearchPage />, {
-        user: null,
-      })
-    })
-
     test('renders the loader while fetching the user', () => {
-      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
-    })
-
-    test('redirects to the login page if not logged in', async () => {
-      await waitFor(() => {
-        expect(mockReplace).toHaveBeenCalledWith('/login')
+      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
+        return {
+          user: null,
+          portalUser: null,
+          loading: true,
+        }
       })
+      renderWithAuth(<SearchPage />, {})
+      expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
   })
 
