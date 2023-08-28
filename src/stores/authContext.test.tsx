@@ -6,10 +6,15 @@ import { render, screen, waitFor, renderHook } from '@testing-library/react'
 import { useRouter } from 'next/router'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
-
+import { GetPersonnelDataDocument } from 'operations/portal/queries/getPersonnelData.g'
+import { print } from 'graphql'
 import { AuthProvider, useAuthContext } from './authContext'
 
-import { testUser1 } from '__fixtures__/authUsers'
+import {
+  testUser1,
+  testUser1Personnel,
+  testUser1Session,
+} from '__fixtures__/authUsers'
 
 jest.mock('axios')
 
@@ -127,15 +132,22 @@ describe('Auth context', () => {
         <AuthProvider>{children}</AuthProvider>
       )
 
-      mockedAxios.get.mockImplementationOnce(() => {
-        return Promise.resolve({ data: { user: testUser1 } })
+      mockedAxios.get.mockImplementation(() => {
+        return Promise.resolve({ data: { user: testUser1Session } })
       })
 
-      const { result } = renderHook(() => useAuthContext(), { wrapper })
+      mockedAxios.post.mockImplementation(() => {
+        return Promise.resolve({ data: { data: testUser1Personnel } })
+      })
+
+      const response = renderHook(() => useAuthContext(), { wrapper })
 
       await waitFor(() => {
         expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
-        expect(result.current.user).toEqual(testUser1)
+        expect(mockedAxios.post).toHaveBeenCalledWith('/api/graphql', {
+          query: print(GetPersonnelDataDocument),
+        })
+        expect(response.result.current.user).toEqual(testUser1)
       })
     })
 
