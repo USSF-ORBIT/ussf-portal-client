@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
+import { print } from 'graphql'
 import { useRouter } from 'next/router'
-
+import { GetPersonnelDataDocument } from 'operations/portal/queries/getPersonnelData.g'
 import { SessionUser, PortalUser } from 'types'
 
 export type AuthContextType = {
@@ -43,7 +44,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           const response: AxiosResponse<{ user: SessionUser }> =
             await axios.get('/api/auth/user')
 
-          setUser(response.data.user)
+          // Query the Portal API for personnel data
+          // #TODO create or find correct response type
+          const personnelData: AxiosResponse<any> = await axios.post(
+            '/api/graphql',
+            {
+              // The print fn from graphql converts the js representation
+              // of the graphql query to a string that can be sent via axios
+              query: print(GetPersonnelDataDocument),
+            }
+          )
+
+          // Store session user and personnel data in context
+          const user: SessionUser = {
+            ...response.data.user,
+            personnelData: {
+              ...personnelData.data.data.personnelData,
+            },
+          }
+
+          setUser(user)
         } catch (e) {
           // This (probably) means they aren't logged in
           router.replace('/login')
