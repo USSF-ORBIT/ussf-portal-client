@@ -18,11 +18,15 @@ type TrackFn = (
 
 export type AnalyticsContextType = {
   push: PushFn
+  setUserIdFn: (userId: string) => void
   trackEvent: TrackFn
 }
 
 export const AnalyticsContext = createContext<AnalyticsContextType>({
   push: /* istanbul ignore next */ () => {
+    return
+  },
+  setUserIdFn: /* istanbul ignore next */ () => {
     return
   },
   trackEvent: /* istanbul ignore next */ () => {
@@ -60,6 +64,10 @@ export const AnalyticsProvider = ({
     }
 
     windowWithAnalytics._paq.push(args)
+  }
+
+  const setUserIdFn = (userId: string): void => {
+    push(['setUserId', userId])
   }
 
   // Shortcut for push(['trackEvent', ...])
@@ -146,6 +154,7 @@ export const AnalyticsProvider = ({
 
   const context = {
     push,
+    setUserIdFn,
     trackEvent,
   }
 
