@@ -8,7 +8,7 @@ const Loader = () => (
 
     <div aria-hidden="true" className={styles.container}>
       <div className={styles.front}>
-        <img src="/assets/images/delta-stacked-light.png" alt=" " />
+        <img src="/assets/images/delta-stacked-light.svg" alt=" " />
       </div>
       <div className={styles.back}>
         <div className={styles.earth}></div>
