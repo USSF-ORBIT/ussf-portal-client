@@ -429,9 +429,9 @@ $dark-gradient: linear-gradient(
     saturate(2653%) hue-rotate(178deg) brightness(118%) contrast(100%);
 
   // Breadcrumbs
-  --breadcrumbs-link: #{$theme-mars-light};
+  --breadcrumbs-link: #{$theme-ultraviolet-lighter};
   --breadcrumbs-link-hover: #{$white};
-  --breadcrumbs-edit-display-name: #{$theme-mars-light};
+  --breadcrumbs-edit-display-name: #{$theme-ultraviolet-lighter};
 
   // Dark bg links
   --dark-bg-link: #{$theme-ultraviolet-lighter};
