@@ -40,31 +40,37 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (!user) {
       // Fetch user client-side if there is none
       const fetchUser = async () => {
+        let user: SessionUser
         try {
           const response: AxiosResponse<{ user: SessionUser }> =
             await axios.get('/api/auth/user')
 
-          // Query the Portal API for personnel data
-          // #TODO create or find correct response type
-          const personnelData: AxiosResponse<any> = await axios
-            .post('/api/graphql', {
-              // The print fn from graphql converts the js representation
-              // of the graphql query to a string that can be sent via axios
-              query: print(GetPersonnelDataDocument),
-            })
-            .catch((e) => {
-              console.error('Error fetching personnel data', e)
-              return e
-            })
-
-          // Store session user and personnel data in context
-          const user: SessionUser = {
+          user = {
             ...response.data.user,
-            personnelData: {
-              ...personnelData.data.data.personnelData,
-            },
+          }
+          // Query the Portal API for personnel data
+          // If this request fails, it should not impact the user's
+          // ability to log in, so we catch the error and continue
+          try {
+            const personnelData: AxiosResponse<any> = await axios.post(
+              '/api/graphql',
+              {
+                // The print fn from graphql converts the js representation
+                // of the graphql query to a string that can be sent via axios
+                query: print(GetPersonnelDataDocument),
+              }
+            )
+            user = {
+              ...user,
+              personnelData: {
+                ...personnelData.data.data.personnelData,
+              },
+            }
+          } catch (e) {
+            console.error('Error fetching portal user data', e)
           }
 
+          // Store session user and personnel data in context
           setUser(user)
         } catch (e) {
           // This (probably) means they aren't logged in
