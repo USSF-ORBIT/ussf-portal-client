@@ -272,19 +272,13 @@ $dark-gradient: linear-gradient(
 
   --btn-primary-text: #{$theme-black};
 
-  --btn-add-widget-border: #{$theme-spacebase-dark};
-  --btn-add-widget-bg: #{$theme-spacebase-darker};
-  --btn-add-widget: #{$theme-ultraviolet-lighter};
-  --btn-add-widget-icon: #{$theme-white};
-  --btn-add-widget-icon-hover: #{$theme-spacebase-light};
-
   --btn-logout-primary-bg: #{$theme-mars-base};
   --btn-logout-text: #{$black};
   --btn-logout-hover: #{$theme-mars-dark};
 
   --btn-add-widget-border: #{$theme-spacebase-dark};
   --btn-add-widget-bg: #{$theme-spacebase-darker};
-  --btn-add-widget: #{$theme-ultraviolet-light};
+  --btn-add-widget: #{$theme-ultraviolet-lighter};
   --btn-add-widget-icon: #{$theme-white};
   --btn-add-widget-icon-hover: #{$theme-spacebase-light};
 
