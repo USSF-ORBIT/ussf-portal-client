@@ -75,9 +75,9 @@ $dark-gradient: linear-gradient(
 
   --btn-theme-toggle-bg: #{$theme-ultraviolet-base};
   --btn-theme-toggle-text: #{$white};
-  --btn-logout-primary-bg: #{$theme-mars-base};
+  --btn-logout-primary-bg: #{$theme-ultraviolet-lighter};
   --btn-logout-text: #{$black};
-  --btn-logout-hover: #{$theme-mars-dark};
+  --btn-logout-hover: #{$theme-ultraviolet-lightest};
 
   --btn-delete-text: #{$state-error-base};
   --btn-delete-text-hover: #{$state-error-dark};
@@ -276,9 +276,9 @@ $dark-gradient: linear-gradient(
 
   --btn-primary-text: #{$theme-black};
 
-  --btn-logout-primary-bg: #{$theme-mars-base};
+  --btn-logout-primary-bg: #{$theme-ultraviolet-lighter};
   --btn-logout-text: #{$black};
-  --btn-logout-hover: #{$theme-mars-dark};
+  --btn-logout-hover: #{$theme-ultraviolet-lightest};
 
   --btn-add-widget-border: #{$theme-spacebase-dark};
   --btn-add-widget-bg: #{$theme-spacebase-darker};

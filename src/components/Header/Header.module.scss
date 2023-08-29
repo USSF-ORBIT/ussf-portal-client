@@ -96,6 +96,7 @@
   :global(.usa-nav__primary) > li > button.logoutButton {
     background: var(--btn-logout-primary-bg);
     color: var(--btn-logout-text);
+    font-weought: bold;
 
     &:hover {
       background: var(--btn-logout-hover);
