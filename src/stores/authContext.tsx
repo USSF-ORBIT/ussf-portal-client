@@ -46,14 +46,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
           // Query the Portal API for personnel data
           // #TODO create or find correct response type
-          const personnelData: AxiosResponse<any> = await axios.post(
-            '/api/graphql',
-            {
+          const personnelData: AxiosResponse<any> = await axios
+            .post('/api/graphql', {
               // The print fn from graphql converts the js representation
               // of the graphql query to a string that can be sent via axios
               query: print(GetPersonnelDataDocument),
-            }
-          )
+            })
+            .catch((e) => {
+              console.error('Error fetching personnel data', e)
+              return e
+            })
 
           // Store session user and personnel data in context
           const user: SessionUser = {
