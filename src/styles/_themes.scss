@@ -222,7 +222,11 @@ $dark-gradient: linear-gradient(
 
   // Search
   --search-input-text-color: #{$theme-black};
+  --search-input-bg-color: #{$theme-white};
   --search-button-text: #{$theme-white};
+  --search-button-bg: #{$theme-ultraviolet-base};
+  --search-button-bg-hover: #{$theme-ultraviolet-dark};
+  --search-input-border-color: #{$theme-ultraviolet-muted-dark};
 }
 
 /* ------------------------------------ */
@@ -447,6 +451,10 @@ $dark-gradient: linear-gradient(
   --accordion-minus-btn-img-path: #{$accordion-dark-minus-icon-path};
 
   // Search
-  --search-input-text-color: #{$theme-black};
-  --search-button-text: #{$theme-white};
+  --search-input-text-color: #{$theme-ultraviolet-lightest};
+  --search-input-bg-color: #{$theme-ultraviolet-darkest};
+  --search-button-text: #{$theme-ultraviolet-darkest};
+  --search-button-bg: #{$theme-ultraviolet-light};
+  --search-button-bg-hover: #{$theme-ultraviolet-lighter};
+  --search-input-border-color: #{$theme-ultraviolet-darkest};
 }
