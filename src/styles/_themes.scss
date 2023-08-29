@@ -344,8 +344,8 @@ $dark-gradient: linear-gradient(
   --widget-selected-border: #{$theme-spacebase-base};
 
   // News
-  --btn-box-bg: #{$theme-spacebase-light};
-  --btn-box-border: #{$neutral-gray-800};
+  --btn-box-bg: #{$theme-spacebase-darker};
+  --btn-box-border: #{$theme-spacebase-darker};
   --date-icon-bg: #{$theme-cosmiclatte-lightest};
 
   //Featured Shortcuts

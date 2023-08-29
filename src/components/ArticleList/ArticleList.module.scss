@@ -6,7 +6,7 @@
 
   > li {
     padding-bottom: units(5);
-    border-bottom: 1px solid $theme-spacebase-lightest;
+    border-bottom: 1px solid var(--widget-border);
   }
 
   > li + li {
