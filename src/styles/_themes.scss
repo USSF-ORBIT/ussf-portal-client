@@ -27,8 +27,8 @@ $dark-gradient: linear-gradient(
   // HTML elements
   --link-primary: #{$theme-ultraviolet-base};
   --link-primary-hover: #{$theme-ultraviolet-darker};
-  --link-secondary: #{$theme-aurora-base};
-  --link-secondary-hover: #{$theme-aurora-lighter};
+  --link-secondary: #{$theme-ultraviolet-light};
+  --link-secondary-hover: #{$theme-ultraviolet-lighter};
   --paragraph-text: #{$theme-black};
   --element-focus: #{$theme-ultraviolet-light};
 
@@ -208,7 +208,7 @@ $dark-gradient: linear-gradient(
   --breadcrumbs-edit-display-name: var(--link-primary);
 
   // Dark bg links
-  --dark-bg-link: #{$theme-aurora-light};
+  --dark-bg-link: #{$theme-ultraviolet-lighter};
   --dark-bg-link-hover: #{$white};
 
   // Accordion
@@ -231,12 +231,12 @@ $dark-gradient: linear-gradient(
 
 [data-color-theme='dark'] {
   // HTML Elements
-  --link-primary: #{$theme-aurora-dark};
-  --link-primary-hover: #{$theme-aurora-base};
+  --link-primary: #{$theme-ultraviolet-lighter};
+  --link-primary-hover: #{$theme-ultraviolet-light};
   --link-secondary: #{$theme-ultraviolet-darkest};
   --link-secondary-hover: #{$theme-ultraviolet-darker};
   --paragraph-text: #{$theme-white};
-  --element-focus: #{$theme-aurora-base};
+  --element-focus: #{$theme-ultraviolet-light};
 
   // Layout
   --bg: #{$theme-spacebase-dark};
@@ -254,27 +254,27 @@ $dark-gradient: linear-gradient(
   --header-image: none;
 
   // Buttons
-  --btn-primary-bg: #{$theme-aurora-dark};
-  --btn-primary-bg-hover: #{$theme-aurora-base};
-  --btn-primary-bg-active: #{$theme-aurora-base};
-  --btn-outline-text: #{$theme-aurora-dark};
-  --btn-outline-hover: #{$theme-aurora-base};
-  --btn-outline-active: #{$theme-aurora-light};
+  --btn-primary-bg: #{$theme-ultraviolet-lighter};
+  --btn-primary-bg-hover: #{$theme-ultraviolet-light};
+  --btn-primary-bg-active: #{$theme-ultraviolet-light};
+  --btn-outline-text: #{$theme-ultraviolet-lighter};
+  --btn-outline-hover: #{$theme-ultraviolet-light};
+  --btn-outline-active: #{$theme-ultraviolet-lighter};
 
   --btn-secondary-text: #{$black};
   --btn-secondary-bg: #{$theme-mars-base};
   --btn-secondary-bg-hover: #{$theme-mars-darker};
   --btn-secondary-bg-active: #{$theme-mars-darkest};
 
-  --btn-unstyled-text: #{$theme-aurora-dark};
-  --btn-unstyled-text-hover: #{$theme-aurora-base};
+  --btn-unstyled-text: #{$theme-ultraviolet-lighter};
+  --btn-unstyled-text-hover: #{$theme-ultraviolet-light};
   --btn-unstyled-bg-hover: #{$theme-ultraviolet-base};
 
   --btn-primary-text: #{$theme-black};
 
   --btn-add-widget-border: #{$theme-spacebase-dark};
   --btn-add-widget-bg: #{$theme-spacebase-darker};
-  --btn-add-widget: #{$theme-aurora-base};
+  --btn-add-widget: #{$theme-ultraviolet-lighter};
   --btn-add-widget-icon: #{$theme-white};
   --btn-add-widget-icon-hover: #{$theme-spacebase-light};
 
@@ -284,7 +284,7 @@ $dark-gradient: linear-gradient(
 
   --btn-add-widget-border: #{$theme-spacebase-dark};
   --btn-add-widget-bg: #{$theme-spacebase-darker};
-  --btn-add-widget: #{$theme-aurora-base};
+  --btn-add-widget: #{$theme-ultraviolet-light};
   --btn-add-widget-icon: #{$theme-white};
   --btn-add-widget-icon-hover: #{$theme-spacebase-light};
 
@@ -295,10 +295,10 @@ $dark-gradient: linear-gradient(
   // Sites & Apps
   --toolbar-bg: rgba(0, 0, 0, 0.6);
   --toolbar-section-border: rgba(0, 0, 0, 0.6);
-  --btn-sort-border: #{$theme-aurora-dark};
-  --btn-sort-bg: #{$theme-aurora-dark};
+  --btn-sort-border: #{$theme-ultraviolet-lighter};
+  --btn-sort-bg: #{$theme-ultraviolet-lighter};
   --btn-sort-text: #{$theme-black};
-  --btn-sort-hover-bg: #{$theme-aurora-base};
+  --btn-sort-hover-bg: #{$theme-ultraviolet-light};
   --btn-sort-hover-text: #{$theme-black};
   --btn-sort-disabled-bg: #b2b4ba;
   --btn-sort-disabled-border: #b2b4ba;
@@ -316,14 +316,14 @@ $dark-gradient: linear-gradient(
   --bookmark-sites-apps-alpha-bg-odd: rgba(0, 0, 0, 0.3);
   --bookmark-sites-apps-alpha-bg-even: rgba(0, 0, 0, 0.6);
 
-  --btn-disabled-text: #{$theme-aurora-dark};
-  --btn-disabled-text-hover: #{$theme-aurora-base};
+  --btn-disabled-text: #{$theme-ultraviolet-lighter};
+  --btn-disabled-text-hover: #{$theme-ultraviolet-light};
   --btn-disabled-bg: transparent;
   --btn-disabled-bg-hover: transparent;
-  --btn-disabled-outline: #{$theme-aurora-dark};
-  --btn-disabled-outline-hover: #{$theme-aurora-base};
+  --btn-disabled-outline: #{$theme-ultraviolet-lighter};
+  --btn-disabled-outline-hover: #{$theme-ultraviolet-light};
 
-  --btn-theme-toggle-bg: #{$theme-aurora-dark};
+  --btn-theme-toggle-bg: #{$theme-ultraviolet-lighter};
   --btn-theme-toggle-text: #{$black};
 
   // Bookmark
@@ -352,7 +352,7 @@ $dark-gradient: linear-gradient(
 
   //Featured Shortcuts
   --shortcut-hover-bg: #{$theme-ultraviolet-darkest};
-  --shortcut-border: #{$theme-aurora-base};
+  --shortcut-border: #{$theme-ultraviolet-light};
 
   // Tags
   --tag-source-bg: #{$label-source-darktheme-bg};
@@ -383,8 +383,8 @@ $dark-gradient: linear-gradient(
   --dropdown-menu-bg: #{$theme-spacebase-darkest};
   --dropdown-menu-bg-hover: #{$theme-spacebase-darker};
   --dropdown-menu-disabled-text: #a3ffb650;
-  --page-nav-link: #{$theme-aurora-dark};
-  --page-nav-link-after: #{$theme-aurora-dark};
+  --page-nav-link: #{$theme-ultraviolet-lightest};
+  --page-nav-link-after: #{$theme-ultraviolet-light};
 
   // Form Elements
   --form-combobox-bg: #{$theme-spacebase-darker};
@@ -411,7 +411,7 @@ $dark-gradient: linear-gradient(
   --pagination-page-number-active-border: #{$theme-cosmiclatte-base};
 
   // Articles
-  --article-link-text: #{$theme-aurora-base};
+  --article-link-text: #{$theme-ultraviolet-light};
   --article-excerpt-text: #{$theme-white};
 
   // Alerts
@@ -436,7 +436,7 @@ $dark-gradient: linear-gradient(
   --breadcrumbs-edit-display-name: #{$theme-mars-light};
 
   // Dark bg links
-  --dark-bg-link: #{$theme-aurora-light};
+  --dark-bg-link: #{$theme-ultraviolet-lighter};
   --dark-bg-link-hover: #{$white};
 
   // Footer
