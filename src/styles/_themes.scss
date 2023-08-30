@@ -99,8 +99,8 @@ $dark-gradient: linear-gradient(
   --bookmark-sites-apps-bg: transparent;
   --bookmark-sites-apps-border: #{color(base-light)};
 
-  --btn-select-collections-bg: #{$theme-mars-base};
-  --btn-select-collections-bg-hover: #{$theme-mars-light};
+  --btn-select-collections-bg: #{$theme-ultraviolet-light};
+  --btn-select-collections-bg-hover: #{$theme-ultraviolet-lighter};
 
   //alpha
   --bookmark-sites-apps-text: #{$theme-black};
@@ -238,7 +238,7 @@ $dark-gradient: linear-gradient(
 [data-color-theme='dark'] {
   // HTML Elements
   --link-primary: #{$theme-ultraviolet-lighter};
-  --link-primary-hover: #{$theme-ultraviolet-light};
+  --link-primary-hover: #{$theme-ultraviolet-lightest};
   --link-secondary: #{$theme-ultraviolet-darkest};
   --link-secondary-hover: #{$theme-ultraviolet-darker};
   --paragraph-text: #{$theme-white};
@@ -286,7 +286,7 @@ $dark-gradient: linear-gradient(
   --btn-add-widget-bg: #{$theme-spacebase-darker};
   --btn-add-widget: #{$theme-ultraviolet-lighter};
   --btn-add-widget-icon: #{$theme-white};
-  --btn-add-widget-icon-hover: #{$theme-spacebase-light};
+  --btn-add-widget-icon-hover: #{$theme-spacebase-lightest};
 
   --btn-delete-text: #{$state-error-base};
   --btn-delete-text-hover: #{$state-error-dark};
@@ -304,8 +304,8 @@ $dark-gradient: linear-gradient(
   --btn-sort-disabled-border: #b2b4ba;
   --btn-sort-disabled-text: #{$theme-black};
 
-  --btn-select-collections-bg: #{$theme-mars-base};
-  --btn-select-collections-bg-hover: #{$theme-mars-light};
+  --btn-select-collections-bg: #{$theme-ultraviolet-light};
+  --btn-select-collections-bg-hover: #{$theme-ultraviolet-lighter};
 
   --widget-sites-apps-bg: rgba(0, 0, 0, 0.3);
   --bookmark-sites-apps-bg: rgba(0, 0, 0, 0.3);
@@ -328,9 +328,9 @@ $dark-gradient: linear-gradient(
 
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
-  --bookmark-hover: #{$theme-ultraviolet-darker};
+  --bookmark-hover: #{$theme-spacebase-dark};
   --bookmark-border: #{$theme-spacebase-darkest};
-  --bookmark-border-hover: #{$theme-ultraviolet-darker};
+  --bookmark-border-hover: #{$theme-ultraviolet-light};
 
   --icon: #{$theme-white};
   --icon-hover: #{$theme-spacebase-light};
