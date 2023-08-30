@@ -224,7 +224,6 @@ $dark-gradient: linear-gradient(
 
   // Search
   --search-input-text-color: #{$theme-black};
-  --search-input-bg-color: #{$theme-white};
   --search-button-text: #{$theme-white};
   --search-button-bg: #{$theme-ultraviolet-base};
   --search-button-bg-hover: #{$theme-ultraviolet-dark};
@@ -261,7 +260,7 @@ $dark-gradient: linear-gradient(
 
   // Buttons
   --btn-primary-bg: #{$theme-ultraviolet-lighter};
-  --btn-primary-bg-hover: #{$theme-ultraviolet-light};
+  --btn-primary-bg-hover: #{$theme-ultraviolet-lightest};
   --btn-primary-bg-active: #{$theme-ultraviolet-light};
   --btn-outline-text: #{$theme-ultraviolet-lighter};
   --btn-outline-hover: #{$theme-ultraviolet-light};
@@ -274,7 +273,7 @@ $dark-gradient: linear-gradient(
 
   --btn-unstyled-text: #{$theme-ultraviolet-lighter};
   --btn-unstyled-text-hover: #{$theme-ultraviolet-light};
-  --btn-unstyled-bg-hover: #{$theme-ultraviolet-base};
+  --btn-unstyled-bg-hover: #{$theme-ultraviolet-darker};
 
   --btn-primary-text: #{$theme-black};
 
@@ -456,7 +455,7 @@ $dark-gradient: linear-gradient(
 
   // Search
   --search-input-text-color: #{$theme-ultraviolet-lightest};
-  --search-input-bg-color: #{$theme-ultraviolet-darkest};
+  --search-input-bg-color: #{$theme-spacebase-darkest};
   --search-button-text: #{$theme-ultraviolet-darkest};
   --search-button-bg: #{$theme-ultraviolet-light};
   --search-button-bg-hover: #{$theme-ultraviolet-lighter};
