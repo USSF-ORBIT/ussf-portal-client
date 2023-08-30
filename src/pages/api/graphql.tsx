@@ -107,7 +107,8 @@ export const apolloServer = new ApolloServer({
         } catch (e) {
           // TODO log error
           // console.error('error in creating new user', e)
-          throw new ApolloError('Error creating new user')
+
+          throw new ApolloError('Error creating new user', e as string)
         }
       }
 

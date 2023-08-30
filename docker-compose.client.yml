@@ -22,6 +22,7 @@ services:
       - MONGO_URL=mongodb://mongo:27017
       - SAML_IDP_METADATA_URL=http://idp:8080/simplesaml/saml2/idp/metadata.php
       - KEYSTONE_URL=http://keystone-cms:3001
+      - PERSONNEL_API_URL=http://personnel-api:4000
         # same as set by .envrc
       - SAML_ISSUER
       - SESSION_SECRET
