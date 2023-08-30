@@ -51,6 +51,7 @@
           "groupCollapsed",
           "groupEnd",
           "info",
+          "log",
           "profile",
           "profileEnd",
           "table",
