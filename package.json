@@ -11,7 +11,7 @@
   },
   "scripts": {
     "services:removeall": "docker ps --quiet --all | xargs docker rm --force",
-    "services:up": "docker compose up -d matomo redis mongo-express idp keystone-db",
+    "services:up": "docker compose up -d matomo redis mongo-express idp keystone-db personnel-api",
     "services:down": "docker compose down",
     "cms:up": "docker compose up -d cms matomo mongo-express idp",
     "portal:up": "docker compose up --build -d cms client matomo mongo-express",
