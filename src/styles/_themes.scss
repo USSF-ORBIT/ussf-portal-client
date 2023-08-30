@@ -223,6 +223,7 @@ $dark-gradient: linear-gradient(
   --accordion-minus-btn-img-path: #{$accordion-light-minus-icon-path};
 
   // Search
+  --search-input-bg-color: #{$white};
   --search-input-text-color: #{$theme-black};
   --search-button-text: #{$theme-white};
   --search-button-bg: #{$theme-ultraviolet-base};
@@ -455,9 +456,9 @@ $dark-gradient: linear-gradient(
 
   // Search
   --search-input-text-color: #{$theme-ultraviolet-lightest};
-  --search-input-bg-color: #{$theme-spacebase-darkest};
+  --search-input-bg-color: rgba(100, 114, 180, 0.1);
   --search-button-text: #{$theme-ultraviolet-darkest};
   --search-button-bg: #{$theme-ultraviolet-light};
   --search-button-bg-hover: #{$theme-ultraviolet-lighter};
-  --search-input-border-color: #{$theme-ultraviolet-darkest};
+  --search-input-border-color: #{$theme-ultraviolet-light};
 }
