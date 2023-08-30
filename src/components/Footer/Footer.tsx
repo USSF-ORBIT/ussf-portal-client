@@ -26,7 +26,7 @@ const Footer = () => {
               href="https://ussf-orbit.github.io/ussf-portal/"
               target="_blank"
               rel="noreferrer noopener"
-              className={styles.madeByLink}
+              id={styles.madeByLink}
               aria-label="Made with love and code by ORBIT">
               Made with ❤️&nbsp; and{' '}
               <span className="font-body-lg">&lsaquo;&rsaquo;</span> by ORBIT{' '}
@@ -38,6 +38,50 @@ const Footer = () => {
 
           <nav className="grid-col-auto usa-footer__nav">
             <div className="grid-row grid-gap">
+              <div className="grid-col">
+                <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
+                  <ul className="usa-list usa-list--unstyled">
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo href="/" rel="noreferrer noopener">
+                        My Space
+                      </LinkTo>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo
+                        href="/sites-and-applications"
+                        rel="noreferrer noopener">
+                        Sites & Applications
+                      </LinkTo>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo
+                        href="/ussf-documentation"
+                        rel="noreferrer noopener">
+                        USSF Documentation
+                      </LinkTo>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo href="/about-us" rel="noreferrer noopener">
+                        About the USSF
+                      </LinkTo>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo
+                        href="/about-us/orbit-blog"
+                        rel="noreferrer noopener">
+                        Orbit Blog
+                      </LinkTo>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <LinkTo
+                        href="/news-announcements"
+                        rel="noreferrer noopener">
+                        News & Announcements
+                      </LinkTo>
+                    </li>
+                  </ul>
+                </section>
+              </div>
               <div className="grid-col">
                 <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
                   <ul className="usa-list usa-list--unstyled">
@@ -140,7 +184,7 @@ const Footer = () => {
                         href="https://www.resilience.af.mil/SAPR/"
                         target="_blank"
                         rel="noreferrer noopener">
-                        Sexual Assualt Prevention and Response
+                        Sexual Assault Prevention and Response
                         <span className="usa-sr-only">
                           (opens in a new window)
                         </span>
