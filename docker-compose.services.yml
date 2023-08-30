@@ -9,13 +9,14 @@ services:
     ports:
       - '6379:6379'
 
-  apollo-server:
+  personnel-api:
     container_name: personnel-api
     build:
       # Uncomment the below line to work with local check out
       # context: ../ussf-personnel-api/
       context: https://github.com/USSF-ORBIT/ussf-personnel-api.git#main
       dockerfile: Dockerfile
+      target: builder
     restart: always
     ports:
       - '4000:4000'
@@ -70,10 +71,13 @@ services:
 
   matomo:
     build:
-      context: ../analytics/
+      # Uncomment the below line and comment out the line below that if you want to use the local Dockerfile
+      # context: ../analytics/
+      context: https://github.com/USSF-ORBIT/analytics.git#main
       dockerfile: Dockerfile
     ports:
       - '8443:8443'
+      - '8081:8080'
     environment:
       - MATOMO_DATABASE_HOST=mariadb
       - MATOMO_DATABASE_PORT_NUMBER=3306
@@ -83,6 +87,7 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
       - MATOMO_WEBSITE_NAME=portal
       - MATOMO_WEBSITE_HOST=http://localhost:3000
+      # - BITNAMI_DEBUG=true
     volumes:
       - 'matomo_data:/bitnami/matomo'
     depends_on:
