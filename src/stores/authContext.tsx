@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { useRouter } from 'next/router'
+import { useAnalytics } from './analyticsContext'
 
 import { SessionUser, PortalUser } from 'types'
 
@@ -34,6 +35,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<SessionUser | null>(null)
   const [portalUser, setPortalUser] = useState<PortalUser | null>(null)
   const router = useRouter()
+  const { setUserIdFn } = useAnalytics()
 
   useEffect(() => {
     if (!user) {
@@ -51,6 +53,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       fetchUser()
+    }
+
+    if (user) {
+      // Set user ID for analytics
+      setUserIdFn(user.attributes.edipi)
     }
   }, [user])
 
