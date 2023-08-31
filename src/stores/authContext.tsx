@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<SessionUser | null>(null)
   const [portalUser, setPortalUser] = useState<PortalUser | null>(null)
   const router = useRouter()
-  const { setUserIdFn } = useAnalytics()
+  const { setUserIdFn, unsetUserIdFn } = useAnalytics()
 
   useEffect(() => {
     if (!user) {
@@ -69,6 +69,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = async () => {
     try {
+      unsetUserIdFn()
       await axios.get('/api/auth/logout')
       setUser(null)
       window.location.href = '/login'
