@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { print } from 'graphql'
 import { useRouter } from 'next/router'
 import { GetPersonnelDataDocument } from 'operations/portal/queries/getPersonnelData.g'
-import { SessionUser, PortalUser } from 'types'
+import { SessionUser, PortalUser, PersonnelData } from 'types'
 
 export type AuthContextType = {
   user: SessionUser | null
@@ -41,33 +41,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       // Fetch user client-side if there is none
       const fetchUser = async () => {
         let user: SessionUser
+
         try {
           const response: AxiosResponse<{ user: SessionUser }> =
             await axios.get('/api/auth/user')
-
           user = {
             ...response.data.user,
           }
-          // Query the Portal API for personnel data
-          // If this request fails, it should not impact the user's
-          // ability to log in, so we catch the error and continue
-          try {
-            const personnelData: AxiosResponse<any> = await axios.post(
-              '/api/graphql',
-              {
-                // The print fn from graphql converts the js representation
-                // of the graphql query to a string that can be sent via axios
-                query: print(GetPersonnelDataDocument),
+          if (response.data.user) {
+            // Query the Portal API for personnel data
+            // If this request fails, it should not impact the user's
+            // ability to log in, so we catch the error and continue
+            try {
+              const data: AxiosResponse<any> = await axios.post(
+                '/api/graphql',
+                {
+                  // The print fn from graphql converts the js representation
+                  // of the graphql query to a string that can be sent via axios
+                  query: print(GetPersonnelDataDocument),
+                }
+              )
+              const personnelData = {
+                ...data.data.personnelData,
               }
-            )
-            user = {
-              ...user,
-              personnelData: {
-                ...personnelData.data.data.personnelData,
-              },
+
+              user = {
+                ...user,
+                personnelData: personnelData as PersonnelData,
+              }
+            } catch (e) {
+              console.error('Error fetching personnel data', e)
             }
-          } catch (e) {
-            console.error('Error fetching portal user data', e)
+          } else {
+            // This (probably) means they aren't logged in
+            console.log('🦄Test: No user in response, redirecting to login')
+            router.replace('/login')
           }
 
           // Store session user and personnel data in context

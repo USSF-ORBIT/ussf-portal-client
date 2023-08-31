@@ -47,7 +47,7 @@ const UserModel = {
       WIDGETS.FEATUREDSHORTCUTS,
       WIDGETS.GUARDIANIDEAL,
     ]
-
+    console.log('New user to Create 🔥 in MongoDB: ', newUser)
     // Create user
     await db.collection('users').insertOne(newUser)
 
