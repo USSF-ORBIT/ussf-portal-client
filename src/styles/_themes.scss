@@ -156,9 +156,10 @@ $dark-gradient: linear-gradient(
   --date-icon-bg: #{$theme-cosmiclatte-lighter};
 
   //Featured Shortcuts
-  --shortcuts-bg: #{$white};
-  --shortcut-hover: #{$grey};
-  --shortcut-border: var(--widget-border);
+  --shortcut-bg: transparent;
+  --shortcut-bg-hover: #{$grey};
+  --shortcut-border: #{color(base-light)};
+  --shortcut-border-hover: #{color(base-light)};
 
   // Tags
   --tag-source-bg: #{$label-source-lighttheme-bg};
@@ -351,9 +352,10 @@ $dark-gradient: linear-gradient(
   --date-icon-bg: #{$theme-cosmiclatte-lightest};
 
   //Featured Shortcuts
-  --shortcuts-bg: #{$theme-spacebase-darkest};
-  --shortcut-hover: #{$theme-ultraviolet-light};
-  --shortcut-border: #{$theme-ultraviolet-darkest};
+  --shortcut-bg: #{$theme-ultraviolet-darkest};
+  --shortcut-bg-hover: #{$theme-spacebase-base};
+  --shortcut-border: #{$theme-spacebase-darkest};
+  --shortcut-border-hover: #{$theme-ultraviolet-light};
 
   // Tags
   --tag-source-bg: #{$label-source-darktheme-bg};
