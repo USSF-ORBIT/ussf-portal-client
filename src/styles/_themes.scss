@@ -238,12 +238,12 @@ $dark-gradient: linear-gradient(
 
 [data-color-theme='dark'] {
   // HTML Elements
-  --link-primary: #{$theme-ultraviolet-lighter};
-  --link-primary-hover: #{$theme-ultraviolet-lightest};
+  --link-primary: #{$theme-ultraviolet-muted-lighter};
+  --link-primary-hover: #{$theme-ultraviolet-muted-lightest};
   --link-secondary: #{$theme-ultraviolet-darkest};
   --link-secondary-hover: #{$theme-ultraviolet-darker};
   --paragraph-text: #{$theme-white};
-  --element-focus: #{$theme-ultraviolet-light};
+  --element-focus: #{$theme-ultraviolet-muted-light};
 
   // Layout
   --bg: #{$theme-spacebase-dark};
@@ -261,31 +261,31 @@ $dark-gradient: linear-gradient(
   --header-image: none;
 
   // Buttons
-  --btn-primary-bg: #{$theme-ultraviolet-lighter};
-  --btn-primary-bg-hover: #{$theme-ultraviolet-lightest};
-  --btn-primary-bg-active: #{$theme-ultraviolet-light};
-  --btn-outline-text: #{$theme-ultraviolet-lighter};
-  --btn-outline-hover: #{$theme-ultraviolet-lighter};
-  --btn-outline-active: #{$theme-ultraviolet-lighter};
+  --btn-primary-bg: #{$theme-ultraviolet-muted-lighter};
+  --btn-primary-bg-hover: #{$theme-ultraviolet-muted-lightest};
+  --btn-primary-bg-active: #{$theme-ultraviolet-muted-light};
+  --btn-outline-text: #{$theme-ultraviolet-muted-lighter};
+  --btn-outline-hover: #{$theme-ultraviolet-muted-lighter};
+  --btn-outline-active: #{$theme-ultraviolet-muted-lighter};
 
   --btn-secondary-text: #{$black};
   --btn-secondary-bg: #{$theme-mars-base};
   --btn-secondary-bg-hover: #{$theme-mars-darker};
   --btn-secondary-bg-active: #{$theme-mars-darkest};
 
-  --btn-unstyled-text: #{$theme-ultraviolet-lighter};
-  --btn-unstyled-text-hover: #{$theme-ultraviolet-light};
+  --btn-unstyled-text: #{$theme-ultraviolet-muted-lighter};
+  --btn-unstyled-text-hover: #{$theme-ultraviolet-muted-light};
   --btn-unstyled-bg-hover: #{$theme-ultraviolet-darker};
 
   --btn-primary-text: #{$theme-black};
 
-  --btn-logout-primary-bg: #{$theme-ultraviolet-lighter};
+  --btn-logout-primary-bg: #{$theme-ultraviolet-muted-lighter};
   --btn-logout-text: #{$black};
-  --btn-logout-hover: #{$theme-ultraviolet-lightest};
+  --btn-logout-hover: #{$theme-ultraviolet-muted-lightest};
 
   --btn-add-widget-border: #{$theme-spacebase-dark};
   --btn-add-widget-bg: #{$theme-spacebase-darker};
-  --btn-add-widget: #{$theme-ultraviolet-lighter};
+  --btn-add-widget: #{$theme-ultraviolet-muted-lighter};
   --btn-add-widget-icon: #{$theme-white};
   --btn-add-widget-icon-hover: #{$theme-spacebase-lightest};
 
@@ -296,17 +296,17 @@ $dark-gradient: linear-gradient(
   // Sites & Apps
   --toolbar-bg: rgba(0, 0, 0, 0.6);
   --toolbar-section-border: rgba(0, 0, 0, 0.6);
-  --btn-sort-border: #{$theme-ultraviolet-lighter};
-  --btn-sort-bg: #{$theme-ultraviolet-lighter};
+  --btn-sort-border: #{$theme-ultraviolet-muted-lighter};
+  --btn-sort-bg: #{$theme-ultraviolet-muted-lighter};
   --btn-sort-text: #{$theme-black};
-  --btn-sort-hover-bg: #{$theme-ultraviolet-light};
+  --btn-sort-hover-bg: #{$theme-ultraviolet-muted-light};
   --btn-sort-hover-text: #{$theme-black};
   --btn-sort-disabled-bg: #b2b4ba;
   --btn-sort-disabled-border: #b2b4ba;
   --btn-sort-disabled-text: #{$theme-black};
 
-  --btn-select-collections-bg: #{$theme-ultraviolet-light};
-  --btn-select-collections-bg-hover: #{$theme-ultraviolet-lighter};
+  --btn-select-collections-bg: #{$theme-ultraviolet-muted-light};
+  --btn-select-collections-bg-hover: #{$theme-ultraviolet-muted-lighter};
 
   --widget-sites-apps-bg: rgba(0, 0, 0, 0.3);
   --bookmark-sites-apps-bg: rgba(0, 0, 0, 0.3);
@@ -317,21 +317,21 @@ $dark-gradient: linear-gradient(
   --bookmark-sites-apps-alpha-bg-odd: rgba(0, 0, 0, 0.3);
   --bookmark-sites-apps-alpha-bg-even: rgba(0, 0, 0, 0.6);
 
-  --btn-disabled-text: #{$theme-ultraviolet-lighter};
-  --btn-disabled-text-hover: #{$theme-ultraviolet-light};
+  --btn-disabled-text: #{$theme-ultraviolet-muted-lighter};
+  --btn-disabled-text-hover: #{$theme-ultraviolet-muted-light};
   --btn-disabled-bg: transparent;
   --btn-disabled-bg-hover: transparent;
-  --btn-disabled-outline: #{$theme-ultraviolet-lighter};
-  --btn-disabled-outline-hover: #{$theme-ultraviolet-light};
+  --btn-disabled-outline: #{$theme-ultraviolet-muted-lighter};
+  --btn-disabled-outline-hover: #{$theme-ultraviolet-muted-light};
 
-  --btn-theme-toggle-bg: #{$theme-ultraviolet-lighter};
+  --btn-theme-toggle-bg: #{$theme-ultraviolet-muted-lighter};
   --btn-theme-toggle-text: #{$black};
 
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
   --bookmark-hover: #{$theme-spacebase-dark};
   --bookmark-border: #{$theme-spacebase-darkest};
-  --bookmark-border-hover: #{$theme-ultraviolet-light};
+  --bookmark-border-hover: #{$theme-ultraviolet-muted-light};
 
   --icon: #{$theme-white};
   --icon-hover: #{$theme-spacebase-light};
@@ -355,7 +355,7 @@ $dark-gradient: linear-gradient(
   --shortcut-bg: #{$theme-ultraviolet-darkest};
   --shortcut-bg-hover: #{$theme-spacebase-base};
   --shortcut-border: #{$theme-spacebase-darkest};
-  --shortcut-border-hover: #{$theme-ultraviolet-light};
+  --shortcut-border-hover: #{$theme-ultraviolet-muted-light};
 
   // Tags
   --tag-source-bg: #{$label-source-darktheme-bg};
@@ -375,7 +375,7 @@ $dark-gradient: linear-gradient(
   --category-internalnews-text: #{$black};
   --category-ussf-news-bg: #{$neutral-gray-200};
   --category-ussf-news-text: #{$black};
-  --category-application-bg: #{$theme-ultraviolet-lighter};
+  --category-application-bg: #{$theme-ultraviolet-muted-lighter};
   --category-application-text: #{$black};
   --category-announcement-bg: #{$theme-mars-lighter};
   --category-announcement-text: #{$black};
@@ -386,8 +386,8 @@ $dark-gradient: linear-gradient(
   --dropdown-menu-bg: #{$theme-spacebase-darkest};
   --dropdown-menu-bg-hover: #{$theme-spacebase-darker};
   --dropdown-menu-disabled-text: #a3ffb650;
-  --page-nav-link: #{$theme-ultraviolet-lightest};
-  --page-nav-link-after: #{$theme-ultraviolet-light};
+  --page-nav-link: #{$theme-ultraviolet-muted-lightest};
+  --page-nav-link-after: #{$theme-ultraviolet-muted-light};
 
   // Form Elements
   --form-combobox-bg: #{$theme-spacebase-darker};
@@ -414,7 +414,7 @@ $dark-gradient: linear-gradient(
   --pagination-page-number-active-border: #{$theme-cosmiclatte-base};
 
   // Articles
-  --article-link-text: #{$theme-ultraviolet-light};
+  --article-link-text: #{$theme-ultraviolet-muted-light};
   --article-excerpt-text: #{$theme-white};
 
   // Alerts
@@ -434,18 +434,18 @@ $dark-gradient: linear-gradient(
     saturate(2653%) hue-rotate(178deg) brightness(118%) contrast(100%);
 
   // Breadcrumbs
-  --breadcrumbs-link: #{$theme-ultraviolet-lighter};
+  --breadcrumbs-link: #{$theme-ultraviolet-muted-lighter};
   --breadcrumbs-link-hover: #{$white};
-  --breadcrumbs-edit-display-name: #{$theme-ultraviolet-lighter};
+  --breadcrumbs-edit-display-name: #{$theme-ultraviolet-muted-lighter};
 
   // Dark bg links
-  --dark-bg-link: #{$theme-ultraviolet-lighter};
+  --dark-bg-link: #{$theme-ultraviolet-muted-lighter};
   --dark-bg-link-hover: #{$white};
 
   // Footer
   --footer-bg: #{$black};
-  --footer-text: #{$theme-ultraviolet-lighter};
-  --footer-border: #{$theme-ultraviolet-light};
+  --footer-text: #{$theme-ultraviolet-muted-lighter};
+  --footer-border: #{$theme-ultraviolet-muted-light};
 
   // Accordion
   --accordion-title: #{$white};
@@ -457,10 +457,10 @@ $dark-gradient: linear-gradient(
   --accordion-minus-btn-img-path: #{$accordion-dark-minus-icon-path};
 
   // Search
-  --search-input-text-color: #{$theme-ultraviolet-lightest};
+  --search-input-text-color: #{$theme-ultraviolet-muted-lightest};
   --search-input-bg-color: rgba(100, 114, 180, 0.1);
   --search-button-text: #{$theme-ultraviolet-darkest};
-  --search-button-bg: #{$theme-ultraviolet-light};
-  --search-button-bg-hover: #{$theme-ultraviolet-lighter};
-  --search-input-border-color: #{$theme-ultraviolet-light};
+  --search-button-bg: #{$theme-ultraviolet-muted-light};
+  --search-button-bg-hover: #{$theme-ultraviolet-muted-lighter};
+  --search-input-border-color: #{$theme-ultraviolet-muted-light};
 }
