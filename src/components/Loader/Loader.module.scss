@@ -1,120 +1,165 @@
 @use 'uswds-core' as *;
 @use 'styles/sfds/index.scss' as *;
-$sate-image: url('/assets/images/satellite2.svg');
+
+$s: 600; //number of stars
+$shadow: (); //star box shadow empty box shadow
+$orb-color: #bbbdc5;
+$orb-color2: #bac0cb;
 
 .loader {
-  background: linear-gradient(180deg, #000 6.36%, #0f305a 100%);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 9999;
+  .container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+  }
+  .front {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    img {
+      width: 50vw;
+      max-width: 400px;
+      height: auto;
+      z-index: 10;
+      position: fixed;
+      top: 41%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  .back {
+    overflow: hidden;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    background: linear-gradient(180deg, rgb(1 0 10) 25%, rgb(0 0 43) 100%);
+    .earth {
+      width: 100vw;
+      background: url('/assets/images/hero-transparent.png');
+      background-size: cover;
+      position: absolute;
+      bottom: 0;
+      z-index: 8;
+      height: 50vh;
+      background-position-y: 100%;
+      background-repeat: no-repeat;
+    }
+  }
+  .cosmos {
+    @for $i from 1 through $s {
+      //stars formula
+      $x: random(1920); // horizontal position
+      $y: random(1000); //vertical position
+      $a: random(100) / 100; // star opacity
+      $shadow: $shadow, ($x + px $y + px rgba(255, 255, 255, $a)) !global;
+    }
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    .star {
+      width: 1px;
+      height: 1px;
+      background: transparent;
+      box-shadow: $shadow;
+    }
+
+    .spinner {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 75vw;
+      height: 75vw;
+      max-width: 700px;
+      max-height: 700px;
+      min-width: 400px;
+      min-height: 400px;
+      box-sizing: border-box;
+      .face {
+        position: absolute;
+        border: 2px solid rgba($orb-color, 0.15);
+        .circle {
+          position: absolute;
+          top: calc(50% - 1px);
+          left: 50%;
+          width: 50%;
+          height: 2px;
+          transform-origin: left;
+          &:before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #fff;
+            top: -4px;
+            right: -6px;
+          }
+        }
+        &:first-child {
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          box-shadow: 0 0 10px #010321;
+          border-radius: 50%;
+          border-left: 2px solid rgba($orb-color, 0.6);
+          border-top: 2px solid rgba($orb-color, 0.6);
+          animation: spinClock 5s linear infinite;
+          .circle {
+            transform: rotate(-45deg);
+            &:before {
+              background: $orb-color;
+              box-shadow: 0 0 20px $orb-color, 0 0 40px $orb-color,
+                0 0 60px $orb-color, 0 0 80px $orb-color, 0 0 100px $orb-color,
+                0 0 0 5px rgba($orb-color, 0.1);
+            }
+          }
+        }
+        &:nth-child(2) {
+          top: 30px;
+          left: 30px;
+          right: 30px;
+          bottom: 30px;
+          box-shadow: 0 0 10px #010321;
+          border-radius: 50%;
+          border-right: 2px solid rgba($orb-color2, 0.6);
+          border-bottom: 2px solid rgba($orb-color2, 0.6);
+          animation: spinCounterClock 5s linear infinite;
+          .circle {
+            transform: rotate(-45deg);
+            &:before {
+              background: $orb-color2;
+              box-shadow: 0 0 20px $orb-color2, 0 0 40px $orb-color2,
+                0 0 60px $orb-color2, 0 0 80px $orb-color2,
+                0 0 100px $orb-color2, 0 0 0 5px rgba($orb-color2, 0.1);
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
-.container {
-  width: 600px;
-  height: 600px;
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/*--- planet ---*/
-.planet {
-  position: absolute;
-  height: 50%;
-  width: 50%;
-}
-
-.circle {
-  position: absolute;
-  background-color: #707c91;
-  z-index: 1;
-  border-radius: 50%;
-}
-
-.circle:nth-child(1) {
-  width: 17.5%;
-  height: 17.5%;
-  top: 37.5%;
-  left: 35%;
-}
-
-.circle:nth-child(2) {
-  width: 10%;
-  height: 10%;
-  top: 20%;
-  left: 45%;
-}
-
-.circle:nth-child(3) {
-  width: 13%;
-  height: 13%;
-  top: 20%;
-  left: 65%;
-}
-
-.circle:nth-child(4) {
-  width: 11%;
-  height: 11%;
-  top: 60%;
-  left: 65%;
-}
-
-.circle:nth-child(5) {
-  width: 11%;
-  height: 11%;
-  top: 35%;
-  left: 6%;
-}
-
-.circle:nth-child(6) {
-  width: 9%;
-  height: 9%;
-  top: 75%;
-  left: 15%;
-}
-
-.circle:nth-child(7) {
-  width: 11%;
-  height: 11%;
-  top: 85%;
-  left: 40%;
-}
-
-/*--- satallite ---*/
-.sate {
-  position: absolute;
-  width: 400px;
-  height: 65px;
-  animation: 8s orbit infinite;
-  animation-timing-function: linear;
-}
-
-.sate div {
-  width: 65px;
-  height: 65px;
-  background: $sate-image no-repeat center;
-  animation: 4s orbit infinite;
-  animation-timing-function: linear;
-  animation-direction: reverse;
-}
-
-@keyframes orbit {
-  from {
+@keyframes spinClock {
+  0% {
     transform: rotate(0deg);
   }
-
-  to {
+  100% {
     transform: rotate(360deg);
+  }
+}
+@keyframes spinCounterClock {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
   }
 }
