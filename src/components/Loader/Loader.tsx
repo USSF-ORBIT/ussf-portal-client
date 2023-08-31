@@ -6,12 +6,23 @@ const Loader = () => (
   <div className={styles.loader}>
     <p className="usa-sr-only">Content is loading...</p>
 
-    <div className={styles.container}>
-      <div className={styles.planet}>
-        <img src="/assets/images/earth.svg" alt=" " />
+    <div aria-hidden="true" className={styles.container}>
+      <div className={styles.front}>
+        <img src="/assets/images/delta-stacked-light.svg" alt=" " />
       </div>
-      <div className={styles.sate}>
-        <div></div>
+      <div className={styles.back}>
+        <div className={styles.earth}></div>
+        <div className={styles.cosmos}>
+          <div className={styles.star}></div>
+          <div className={styles.spinner}>
+            <div className={styles.face}>
+              <div className={styles.circle}></div>
+            </div>
+            <div className={styles.face}>
+              <div className={styles.circle}></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
