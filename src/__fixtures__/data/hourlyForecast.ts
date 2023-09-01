@@ -4251,3 +4251,79 @@ export const mockHourlyForecast = {
     ],
   },
 }
+
+export const mockHourlyForecastFunc = (
+  shortForcast: string,
+  temperature: number,
+  isDaytime: boolean,
+  windSpeed: number
+) => {
+  const ids = [0, 1, 2, 3, 4]
+  const periods = ids.map((id) => {
+    return {
+      number: id,
+      name: '',
+      startTime: `2023-08-16T1${id}:00:00-05:00`,
+      endTime: `2023-08-16T1${id + 1}:00:00-05:00`,
+      isDaytime: isDaytime,
+      temperature: temperature + id,
+      temperatureUnit: 'F',
+      temperatureTrend: null,
+      probabilityOfPrecipitation: {
+        unitCode: 'wmoUnit:percent',
+        value: 0,
+      },
+      dewpoint: {
+        unitCode: 'wmoUnit:degC',
+        value: 15.555555555555555,
+      },
+      relativeHumidity: {
+        unitCode: 'wmoUnit:percent',
+        value: 61,
+      },
+      windSpeed: windSpeed,
+      windDirection: 'S',
+      icon: 'https://api.weather.gov/icons/land/day/skc,0?size=small',
+      shortForecast: shortForcast,
+      detailedForecast: '',
+    }
+  })
+  return {
+    '@context': [
+      'https://geojson.org/geojson-ld/geojson-context.jsonld',
+      {
+        '@version': '1.1',
+        wx: 'https://api.weather.gov/ontology#',
+        geo: 'http://www.opengis.net/ont/geosparql#',
+        unit: 'http://codes.wmo.int/common/unit/',
+        '@vocab': 'https://api.weather.gov/ontology#',
+      },
+    ],
+    type: 'Feature',
+    geometry: {
+      type: 'Polygon',
+      coordinates: [
+        [
+          [-97.1089731, 39.766826299999998],
+          [-97.108526900000001, 39.744778799999999],
+          [-97.079846700000004, 39.745119500000001],
+          [-97.08028680000001, 39.767167000000001],
+          [-97.1089731, 39.766826299999998],
+        ],
+      ],
+    },
+    properties: {
+      updated: '2023-08-16T15:25:50+00:00',
+      units: 'us',
+      forecastGenerator: 'HourlyForecastGenerator',
+      generatedAt: '2023-08-16T15:44:41+00:00',
+      updateTime: '2023-08-16T15:25:50+00:00',
+      validTimes: '2023-08-16T09:00:00+00:00/P7DT16H',
+      elevation: {
+        unitCode: 'wmoUnit:m',
+        value: 441.95999999999998,
+      },
+      periods: periods,
+    },
+  }
+}
