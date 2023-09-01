@@ -6,16 +6,29 @@ export const useWeather = (): {
   // for the front-end, we can type this
   forecast: any[]
   getForecast: (forecastUrl: string) => void
+  forecastError: string | null
+  resetForecastError: () => void
 } => {
   const [forecast, setForecast] = useState<any[]>([])
+  const [forecastError, setError] = useState<any>(null)
 
   const getForecast = async (forecastUrl: string) => {
-    const forecastHourly = await axios.get(forecastUrl)
-    setForecast(forecastHourly.data.properties.periods)
+    try {
+      const forecastHourly = await axios.get(forecastUrl)
+      setForecast(forecastHourly.data.properties.periods)
+    } catch (error: any) {
+      setError(error.message)
+    }
+  }
+
+  const resetForecastError = () => {
+    setError(null)
   }
 
   return {
     forecast,
     getForecast,
+    forecastError,
+    resetForecastError,
   }
 }

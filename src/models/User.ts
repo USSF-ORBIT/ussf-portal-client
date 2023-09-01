@@ -145,7 +145,7 @@ const UserModel = {
   async setMySpace({ userId, mySpace }: EditMySpace, { db }: Context) {
     const user = await UserModel.findOne(userId, { db })
     if (!user) {
-      throw new Error('UserModel Error: error in setTheme no user found')
+      throw new Error('UserModel Error: error in setMySpace no user found')
     }
 
     const query = {

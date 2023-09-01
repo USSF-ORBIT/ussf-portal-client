@@ -59,6 +59,10 @@ const mockMySpaceContext: MySpaceContextType = {
   setDisableDragAndDrop: () => {
     return
   },
+  isAddingWidget: false,
+  setIsAddingWidget: () => {
+    return
+  },
   initializeMySpace: () => {
     return
   },
@@ -79,6 +83,7 @@ const mockMySpaceContext: MySpaceContextType = {
   },
   canAddCollections: true,
   canAddNews: true,
+  canAddWeather: true,
   canAddGuardianIdeal: true,
   canAddFeaturedShortcuts: true,
   addNewsWidget: () => {
@@ -93,13 +98,17 @@ const mockMySpaceContext: MySpaceContextType = {
   addNewCollection: () => {
     return
   },
-  handleOnDragEnd: () => {
-    return
-  },
   addNewWeatherWidget: () => {
     return
   },
   editWeatherWidget: () => {
+    return
+  },
+  handleOnDragEnd: () => {
+    return
+  },
+  temporaryWidget: '',
+  setTemporaryWidget: () => {
     return
   },
 }

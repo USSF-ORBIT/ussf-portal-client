@@ -230,6 +230,9 @@ $dark-gradient: linear-gradient(
   --search-button-bg: #{$theme-ultraviolet-base};
   --search-button-bg-hover: #{$theme-ultraviolet-dark};
   --search-input-border-color: #{$theme-ultraviolet-muted-dark};
+
+  // Weather
+  --weather-icons: #{$theme-ultraviolet-light};
 }
 
 /* ------------------------------------ */
@@ -463,4 +466,7 @@ $dark-gradient: linear-gradient(
   --search-button-bg: #{$theme-ultraviolet-muted-light};
   --search-button-bg-hover: #{$theme-ultraviolet-muted-lighter};
   --search-input-border-color: #{$theme-ultraviolet-muted-light};
+
+  // Weather
+  --weather-icons: #{$theme-ultraviolet-lighter};
 }
