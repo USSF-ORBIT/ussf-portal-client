@@ -4,12 +4,12 @@ import { CSS } from '@dnd-kit/utilities'
 import { useFlags } from 'launchdarkly-react-client-sdk'
 import { useMySpaceContext } from 'stores/myspaceContext'
 
-type DraggableCollectionProps = {
+type DraggableWidgetProps = {
   id: string
   children: React.ReactNode
 }
 
-const DraggableCollection = ({ id, children }: DraggableCollectionProps) => {
+const DraggableWidget = ({ id, children }: DraggableWidgetProps) => {
   const {
     attributes,
     listeners,
@@ -49,4 +49,4 @@ const DraggableCollection = ({ id, children }: DraggableCollectionProps) => {
   )
 }
 
-export default DraggableCollection
+export default DraggableWidget

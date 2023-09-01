@@ -19,7 +19,6 @@ import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
 import User from 'models/User'
 import { EXAMPLE_COLLECTION_ID } from 'constants/index'
-
 export const config: PageConfig = {
   api: { bodyParser: false },
 }

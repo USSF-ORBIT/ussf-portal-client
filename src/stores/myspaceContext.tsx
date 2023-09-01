@@ -4,7 +4,13 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { WidgetType as AddWidgetType, WidgetReorderInput } from '../graphql.g'
 import { useAnalytics } from 'stores/analyticsContext'
 import { WIDGET_TYPES, MAXIMUM_COLLECTIONS } from 'constants/index'
-import { MySpace, MySpaceWidget, Collection, Widget } from 'types'
+import {
+  MySpace,
+  MySpaceWidget,
+  Collection,
+  Widget,
+  WeatherWidget,
+} from 'types'
 import { useAddCollectionMutation } from 'operations/portal/mutations/addCollection.g'
 import { useAddWidgetMutation } from 'operations/portal/mutations/addWidget.g'
 import { useEditMySpaceMutation } from 'operations/portal/mutations/editMySpace.g'
@@ -15,6 +21,8 @@ export type MySpaceContextType = {
   mySpace: MySpace
   disableDragAndDrop: boolean
   setDisableDragAndDrop: React.Dispatch<React.SetStateAction<boolean>>
+  isAddingWidget: boolean
+  setIsAddingWidget: React.Dispatch<React.SetStateAction<boolean>>
   initializeMySpace: (mySpace: MySpace) => void
   isCollection: (widget: MySpaceWidget) => boolean
   isGuardianIdeal: (widget: Widget) => boolean
@@ -23,6 +31,7 @@ export type MySpaceContextType = {
   isWeather: (widget: Widget) => boolean
   canAddCollections: boolean
   canAddNews: boolean
+  canAddWeather: boolean
   canAddGuardianIdeal: boolean
   canAddFeaturedShortcuts: boolean
   addNewsWidget: () => void
@@ -30,14 +39,26 @@ export type MySpaceContextType = {
   addFeaturedShortcuts: () => void
   addNewCollection: () => void
   addNewWeatherWidget: (zipcode: string) => void
-  editWeatherWidget: ({ _id, zipcode }: any) => void
+  editWeatherWidget: ({
+    _id,
+    zipcode,
+  }: {
+    _id: string
+    zipcode: string
+  }) => void
   handleOnDragEnd?: (event: DragEndEvent) => void
+  temporaryWidget: string
+  setTemporaryWidget: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const MySpaceContext = createContext<MySpaceContextType>({
   mySpace: [],
   disableDragAndDrop: false,
   setDisableDragAndDrop: /* istanbul ignore next */ () => {
+    return
+  },
+  isAddingWidget: false,
+  setIsAddingWidget: /* istanbul ignore next */ () => {
     return
   },
   initializeMySpace: /* istanbul ignore next */ () => {
@@ -60,6 +81,7 @@ export const MySpaceContext = createContext<MySpaceContextType>({
   },
   canAddCollections: true,
   canAddNews: true,
+  canAddWeather: true,
   canAddGuardianIdeal: true,
   canAddFeaturedShortcuts: true,
   addNewsWidget: /* istanbul ignore next */ () => {
@@ -83,6 +105,10 @@ export const MySpaceContext = createContext<MySpaceContextType>({
   handleOnDragEnd: /* istanbul ignore next */ () => {
     return
   },
+  temporaryWidget: '',
+  setTemporaryWidget: /* istanbul ignore next */ () => {
+    return
+  },
 })
 
 export const MySpaceProvider = ({
@@ -92,6 +118,8 @@ export const MySpaceProvider = ({
 }) => {
   const [mySpace, setMySpace] = useState<MySpace>([])
   const [disableDragAndDrop, setDisableDragAndDrop] = useState<boolean>(false)
+  const [temporaryWidget, setTemporaryWidget] = useState<string>('')
+  const [isAddingWidget, setIsAddingWidget] = useState<boolean>(false)
   const { trackEvent } = useAnalytics()
 
   const [handleAddCollection] = useAddCollectionMutation()
@@ -126,6 +154,9 @@ export const MySpaceProvider = ({
 
   const canAddNews: boolean =
     mySpace && mySpace.filter((w) => w.type === WIDGET_TYPES.NEWS).length < 1
+
+  const canAddWeather: boolean =
+    mySpace && mySpace.filter((w) => w.type === WIDGET_TYPES.WEATHER).length < 5
 
   const canAddGuardianIdeal: boolean =
     mySpace &&
@@ -239,21 +270,72 @@ export const MySpaceProvider = ({
       const sortedWidgets = arrayMove(mySpace, oldIndex, newIndex)
       setMySpace(sortedWidgets)
 
-      // Prepare widgets for mutation by removing the id field
-      const updatedMySpace = sortedWidgets.map(
-        ({ _id, title, type, bookmarks }) => {
-          const updatedBookmarks = bookmarks?.map(
-            ({ _id, url, label, cmsId, isRemoved }) => ({
-              _id,
-              url,
-              label,
-              cmsId,
-              isRemoved,
-            })
-          )
-          return { _id, title, type, bookmarks: updatedBookmarks }
+      // Prepare widgets for the mutation by removing the id field that we needed for
+      // drag-and-drop to work on the client
+      const updatedMySpace = sortedWidgets.map((widget: MySpaceWidget) => {
+        if (widget.type === WIDGET_TYPES.FEATUREDSHORTCUTS) {
+          return {
+            _id: widget._id,
+            title: widget.title,
+            type: widget.type,
+          }
         }
-      )
+
+        if (widget.type === WIDGET_TYPES.GUARDIANIDEAL) {
+          return {
+            _id: widget._id,
+            title: widget.title,
+            type: widget.type,
+          }
+        }
+
+        if (widget.type === WIDGET_TYPES.COLLECTION) {
+          return {
+            _id: widget._id,
+            title: widget.title,
+            type: widget.type,
+            bookmarks: widget.bookmarks?.map(
+              ({ _id, url, label, cmsId, isRemoved }) => ({
+                _id,
+                url,
+                label,
+                cmsId,
+                isRemoved,
+              })
+            ),
+          }
+        }
+
+        if (widget.type === WIDGET_TYPES.NEWS) {
+          return {
+            _id: widget._id,
+            title: widget.title,
+            type: widget.type,
+          }
+        }
+
+        if (widget.type === WIDGET_TYPES.WEATHER) {
+          // Had to add this here to satisfy the type checker. As MySpaceWidget is a union type,
+          // the compiler doesn't know that widget is a WeatherWidget, so it doesn't know that
+          // widget.coords is defined. This works for now, but if we add more widget types, we
+          // should probably find a better way to define our widget types.
+          const weatherWidget = widget as WeatherWidget
+          return {
+            _id: weatherWidget._id,
+            title: weatherWidget.title,
+            type: weatherWidget.type,
+            coords: {
+              lat: weatherWidget.coords.lat,
+              long: weatherWidget.coords.long,
+              forecastUrl: weatherWidget.coords.forecastUrl,
+              hourlyForecastUrl: weatherWidget.coords.hourlyForecastUrl,
+              city: weatherWidget.coords.city,
+              state: weatherWidget.coords.state,
+              zipcode: weatherWidget.coords.zipcode,
+            },
+          }
+        }
+      })
 
       // Perform mutation to update mySpace
       handleEditMySpace({
@@ -268,6 +350,8 @@ export const MySpaceProvider = ({
     mySpace,
     disableDragAndDrop,
     setDisableDragAndDrop,
+    isAddingWidget,
+    setIsAddingWidget,
     initializeMySpace,
     isCollection,
     isGuardianIdeal,
@@ -276,6 +360,7 @@ export const MySpaceProvider = ({
     isWeather,
     canAddCollections,
     canAddNews,
+    canAddWeather,
     canAddGuardianIdeal,
     canAddFeaturedShortcuts,
     addNewsWidget,
@@ -285,6 +370,8 @@ export const MySpaceProvider = ({
     addNewWeatherWidget,
     editWeatherWidget,
     handleOnDragEnd,
+    temporaryWidget,
+    setTemporaryWidget,
   }
 
   return (
