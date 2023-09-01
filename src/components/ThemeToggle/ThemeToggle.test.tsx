@@ -33,20 +33,20 @@ beforeEach(() => {
     return {
       user: testUser1,
       portalUser: testPortalUser1,
-      loading: false
+      loading: false,
     }
   })
 })
 
 describe('ThemeToggle component', () => {
   test('renders nothing if no user', async () => {
-jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-  return {
-    user: null,
-    portalUser: null,
-    loading: true,
-  }
-})
+    jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
+      return {
+        user: null,
+        portalUser: null,
+        loading: true,
+      }
+    })
     renderWithAuthAndApollo(<ThemeToggle />, {})
 
     expect(screen.queryByTestId('theme-toggle')).toBeNull()
@@ -78,7 +78,12 @@ describe('calling hook functions', () => {
     const user = userEvent.setup()
 
     jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
-      return { push: jest.fn(), trackEvent: mockTrackEvents }
+      return {
+        push: jest.fn(),
+        setUserIdFn: jest.fn(),
+        unsetUserIdFn: jest.fn(),
+        trackEvent: mockTrackEvents,
+      }
     })
 
     renderWithAuthAndApollo(

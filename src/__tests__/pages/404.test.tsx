@@ -13,7 +13,7 @@ beforeEach(() => {
     return {
       user: testUser1,
       portalUser: testPortalUser1,
-      loading: false
+      loading: false,
     }
   })
 })
@@ -25,7 +25,7 @@ describe('404 page', () => {
         return {
           user: null,
           portalUser: null,
-          loading: true
+          loading: true,
         }
       })
       renderWithAuth(<Custom404 />, {})
@@ -72,7 +72,12 @@ describe('404 page', () => {
     test('calls trackEvent with the correct arguments', async () => {
       const mockTrackEvents = jest.fn()
       jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
-        return { push: jest.fn(), trackEvent: mockTrackEvents }
+        return {
+          push: jest.fn(),
+          setUserIdFn: jest.fn(),
+          unsetUserIdFn: jest.fn(),
+          trackEvent: mockTrackEvents,
+        }
       })
       renderWithAuth(<Custom404 />)
       await waitFor(() => {
