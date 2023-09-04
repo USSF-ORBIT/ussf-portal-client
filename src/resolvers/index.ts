@@ -9,9 +9,10 @@ import { MySpaceModel } from 'models/MySpace'
 import {
   Widget,
   SessionUser,
+  PersonnelData,
   WidgetType,
   MongoBookmark,
-  PersonnelData,
+  MySpaceWidget,
 } from 'types'
 import { WeatherModel } from 'models/Weather'
 
@@ -126,7 +127,7 @@ type EditThemeInput = {
 
 type EditMySpaceInput = {
   userId: string
-  mySpace: Widget[]
+  mySpace: MySpaceWidget[]
 }
 
 const resolvers = {
@@ -291,7 +292,6 @@ const resolvers = {
         state: data.relativeLocation.properties.state,
         zipcode,
       }
-
       return WeatherModel.addOne({ coords, userId: user.userId }, { db })
     },
     removeWidget: async (

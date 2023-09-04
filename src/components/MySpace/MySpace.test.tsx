@@ -102,6 +102,20 @@ describe('My Space Component', () => {
       ).toBeInTheDocument()
     })
 
+    test('does not render the add widget component if a user is currently adding a widget', () => {
+      renderWithMySpaceAndModalContext(
+        <MySpace bookmarks={cmsBookmarksMock} />,
+        {
+          mySpace: [...portalUserMaxedOutCollection.mySpace],
+          isAddingWidget: true,
+        }
+      )
+
+      expect(
+        screen.queryByRole('button', { name: 'Add widget' })
+      ).not.toBeInTheDocument()
+    })
+
     test('disables adding a news widget if there is already a news widget', async () => {
       const user = userEvent.setup()
 
@@ -219,6 +233,7 @@ describe('My Space Component', () => {
       canAddNews: false,
       canAddGuardianIdeal: false,
       canAddFeaturedShortcuts: false,
+      canAddWeather: false,
     })
 
     expect(

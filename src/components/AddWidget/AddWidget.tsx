@@ -9,10 +9,8 @@ import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
 const AddWidget = ({
   handleSelectCollection,
-  handleCreateCollection,
 }: {
   handleSelectCollection: () => void
-  handleCreateCollection: () => void
 }) => {
   const dropdownEl = useRef<HTMLDivElement>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useCloseWhenClickedOutside(
@@ -23,12 +21,16 @@ const AddWidget = ({
 
   const {
     canAddNews,
+    canAddWeather,
     canAddCollections,
     canAddGuardianIdeal,
     canAddFeaturedShortcuts,
+    addNewCollection,
     addNewsWidget,
     addGuardianIdeal,
     addFeaturedShortcuts,
+    setIsAddingWidget,
+    setTemporaryWidget,
   } = useMySpaceContext()
 
   const menuOnClick = () => {
@@ -64,7 +66,7 @@ const AddWidget = ({
           type="button"
           disabled={!canAddCollections}
           onClick={() => {
-            handleCreateCollection()
+            addNewCollection()
             setIsDropdownOpen(false)
           }}>
           Create new collection
@@ -87,6 +89,18 @@ const AddWidget = ({
           }}>
           Add news widget
         </Button>
+        {flags?.weatherWidget && (
+          <Button
+            disabled={!canAddWeather}
+            type="button"
+            onClick={() => {
+              setTemporaryWidget('Weather')
+              setIsAddingWidget(true)
+              setIsDropdownOpen(false)
+            }}>
+            Add weather widget
+          </Button>
+        )}
         {flags?.guardianIdealCarousel && (
           <Button
             disabled={!canAddGuardianIdeal}
