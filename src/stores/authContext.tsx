@@ -71,7 +71,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             }
           } else {
             // This (probably) means they aren't logged in
-            console.log('🦄Test: No user in response, redirecting to login')
             router.replace('/login')
           }
 
