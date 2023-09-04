@@ -61,13 +61,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                   query: print(GetPersonnelDataDocument),
                 }
               )
-              const personnelData = {
-                ...data.data.personnelData,
-              }
 
               user = {
                 ...user,
-                personnelData: personnelData as PersonnelData,
+                ...data.data.data,
               }
             } catch (e) {
               console.error('Error fetching personnel data', e)

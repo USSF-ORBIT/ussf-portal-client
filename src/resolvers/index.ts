@@ -143,6 +143,7 @@ const resolvers = {
       return null // GraphQL Error
     },
   },
+
   // Root resolvers
   Query: {
     personnelData: async (

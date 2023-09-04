@@ -97,8 +97,7 @@ export const apolloServer = new ApolloServer({
 
       // Check if user exists. If not, create new user
       const foundUser = await User.findOne(userId, { db })
-      console.log('💚foundUser', foundUser)
-      // #TODO there are some failures in e2e test with a duplicate user
+
       if (!foundUser) {
         try {
           const initCollection = await getExampleCollection()
