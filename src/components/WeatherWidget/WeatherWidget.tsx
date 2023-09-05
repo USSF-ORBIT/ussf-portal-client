@@ -352,7 +352,8 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                 <Button
                   type="button"
                   className={styles.retryButton}
-                  onClick={handleRetryWeather}>
+                  onClick={handleRetryWeather}
+                  aria-label="Retry fetching weather">
                   Retry
                 </Button>
               </div>
