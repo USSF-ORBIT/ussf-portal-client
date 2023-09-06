@@ -1,0 +1,16 @@
+query getPersonnelData {
+  personnelData {
+    First_name
+    Last_Name
+    DOD_ID
+    Grade
+    MAJCOM
+    DUTYTITLE
+    Country
+    BASE_LOC
+    Org_type
+    EOPDate
+    userType
+    lastModifiedAt
+  }
+}

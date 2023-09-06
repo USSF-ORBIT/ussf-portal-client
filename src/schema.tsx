@@ -64,6 +64,7 @@ export const typeDefs = gql`
     mySpace: [Widget!]!
     displayName: String!
     theme: String!
+    personnelData: PersonnelData
   }
 
   type WeatherCoords {
@@ -82,6 +83,21 @@ export const typeDefs = gql`
     mySpace: [Widget]
     displayName: String
     theme: String
+  }
+
+  type PersonnelData {
+    Grade: String
+    DUTYTITLE: String
+    DOD_ID: String
+    MAJCOM: String
+    Country: String
+    BASE_LOC: String
+    Org_type: String
+    EOPDate: String
+    Last_Name: String
+    First_name: String
+    userType: String
+    lastModifiedAt: String
   }
 
   type Mutation {

@@ -275,6 +275,22 @@ export type PortalUser = {
 
 export type SessionUser = SAMLUser & {
   userId: string
+  personnelData: PersonnelData
+}
+
+export type PersonnelData = {
+  First_name: string
+  Last_Name: string
+  DOD_ID: string
+  Grade: string
+  MAJCOM: string
+  DUTYTITLE: string
+  Country: string
+  BASE_LOC: string
+  Org_type: string
+  EOPDate: string
+  userType: string
+  lastModifiedAt: string
 }
 
 /**

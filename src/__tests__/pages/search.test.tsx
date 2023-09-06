@@ -33,7 +33,7 @@ beforeEach(() => {
     return {
       user: testUser1,
       portalUser: testPortalUser1,
-      loading: false
+      loading: false,
     }
   })
 })
@@ -99,7 +99,7 @@ describe('Search page', () => {
         return {
           user: null,
           portalUser: null,
-          loading: true
+          loading: true,
         }
       })
       renderWithAuth(<SearchPage />, {})

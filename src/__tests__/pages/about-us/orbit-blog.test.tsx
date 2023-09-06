@@ -32,7 +32,7 @@ beforeEach(() => {
     return {
       user: testUser1,
       portalUser: testPortalUser1,
-      loading: false
+      loading: false,
     }
   })
 })
@@ -91,8 +91,8 @@ describe('ORBIT Blog page', () => {
       jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
         return {
           user: null,
-          portalUser:  null,
-          loading: true
+          portalUser: null,
+          loading: true,
         }
       })
 
