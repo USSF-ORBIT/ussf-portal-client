@@ -4,7 +4,7 @@ import { print } from 'graphql'
 import { useRouter } from 'next/router'
 import { useAnalytics } from './analyticsContext'
 import { GetPersonnelDataDocument } from 'operations/portal/queries/getPersonnelData.g'
-import { SessionUser, PortalUser, PersonnelData } from 'types'
+import { SessionUser, PortalUser } from 'types'
 
 export type AuthContextType = {
   user: SessionUser | null
@@ -86,7 +86,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       fetchUser()
     }
+  }, [user])
 
+  useEffect(() => {
     if (user) {
       // Set user ID for analytics
       setUserIdFn(user.attributes.edipi)
