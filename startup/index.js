@@ -17,6 +17,7 @@ const requireVars = [
   'SESSION_DOMAIN',
   'KEYSTONE_URL',
   'LAUNCHDARKLY_SDK_CLIENT_SIDE_ID',
+  'PERSONNEL_API_URL',
 ]
 
 function startup() {

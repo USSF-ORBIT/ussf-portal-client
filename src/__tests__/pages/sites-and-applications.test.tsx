@@ -32,7 +32,7 @@ beforeEach(() => {
     return {
       user: testUser1,
       portalUser: portalUserWithExampleCollection,
-      loading: false
+      loading: false,
     }
   })
 })
@@ -153,7 +153,7 @@ describe('Sites and Applications page', () => {
         return {
           user: null,
           portalUser: null,
-          loading: true
+          loading: true,
         }
       })
 
@@ -358,7 +358,7 @@ describe('Sites and Applications page', () => {
             return {
               user: testUser1,
               portalUser: portalUserAlmostAtCollectionLimit,
-              loading: false
+              loading: false,
             }
           })
 
@@ -435,7 +435,7 @@ describe('Sites and Applications page', () => {
             return {
               user: testUser1,
               portalUser: portalUserCollectionLimit,
-              loading: false
+              loading: false,
             }
           })
 
@@ -609,12 +609,12 @@ describe('Sites and Applications page', () => {
           const user = userEvent.setup({
             advanceTimers: jest.advanceTimersByTime,
           })
- 
+
           jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
             return {
               user: testUser1,
               portalUser: portalUserMaxedOutCollection,
-              loading: false
+              loading: false,
             }
           })
 
@@ -732,7 +732,7 @@ describe('Sites and Applications page', () => {
         return {
           user: testUser1,
           portalUser: portalUserCollectionLimit,
-          loading: false
+          loading: false,
         }
       })
 
@@ -757,7 +757,7 @@ describe('Sites and Applications page', () => {
         return {
           user: testUser1,
           portalUser: portalUserCollectionLimit,
-          loading: false
+          loading: false,
         }
       })
 

@@ -64,7 +64,7 @@ beforeEach(() => {
     return {
       user: testUser1,
       portalUser: testPortalUser1,
-      loading: false
+      loading: false,
     }
   })
 })
@@ -180,7 +180,7 @@ describe('Single article page', () => {
         return {
           user: null,
           portalUser: null,
-          loading: true
+          loading: true,
         }
       })
       renderWithAuth(<SingleArticlePage article={mockOrbitBlogArticle} />, {})

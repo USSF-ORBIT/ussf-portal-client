@@ -8,7 +8,8 @@ import { CollectionModel } from '../models/Collection'
 import { MySpaceModel } from 'models/MySpace'
 import {
   Widget,
-  PortalUser,
+  SessionUser,
+  PersonnelData,
   WidgetType,
   MongoBookmark,
   MySpaceWidget,
@@ -47,8 +48,10 @@ export const ObjectIdScalar = new GraphQLScalarType({
 
 type PortalUserContext = {
   db: typeof MongoClient
-  user: PortalUser
-  keystoneUrl: string
+  user: SessionUser
+  attributes: {
+    edipi: string
+  }
   dataSources: {
     weatherAPI: {
       getGridData: ({
@@ -61,6 +64,9 @@ type PortalUserContext = {
     }
     keystoneAPI: {
       getLatLong: (zipcode: string) => Promise<any>
+    }
+    personnelAPI: {
+      getUserData: (dodId: string) => Promise<any>
     }
   }
 }
@@ -138,8 +144,50 @@ const resolvers = {
       return null // GraphQL Error
     },
   },
+
   // Root resolvers
   Query: {
+    personnelData: async (
+      _: undefined,
+      args: undefined,
+      { user, dataSources }: PortalUserContext
+    ) => {
+      const {
+        data: {
+          getUser: {
+            First_name,
+            Last_Name,
+            DOD_ID,
+            Grade,
+            MAJCOM,
+            DUTYTITLE,
+            Country,
+            BASE_LOC,
+            Org_type,
+            EOPDate,
+            userType,
+            lastModifiedAt,
+          },
+        },
+      } = await dataSources.personnelAPI.getUserData(user.attributes.edipi)
+
+      const personnelData: PersonnelData = {
+        First_name,
+        Last_Name,
+        DOD_ID,
+        Grade,
+        MAJCOM,
+        DUTYTITLE,
+        Country,
+        BASE_LOC,
+        Org_type,
+        EOPDate,
+        userType,
+        lastModifiedAt,
+      }
+
+      return personnelData
+    },
     mySpace: async (
       _: undefined,
       args: undefined,

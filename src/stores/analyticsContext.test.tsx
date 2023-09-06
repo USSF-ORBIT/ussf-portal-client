@@ -150,7 +150,9 @@ describe('Analytics context', () => {
     )
 
     await waitFor(() => {
-      expect(mockConsoleWarn).toHaveBeenCalledWith('ANALYTICS: No Site ID provided')
+      expect(mockConsoleWarn).toHaveBeenCalledWith(
+        'ANALYTICS: No Site ID provided'
+      )
     })
   })
 

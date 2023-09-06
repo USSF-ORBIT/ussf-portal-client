@@ -79,7 +79,9 @@ describe('useRSSFeed hook', () => {
   })
 
   test('logs the error if the RSS fetch fails', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(jest.fn())
+    const consoleSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(jest.fn())
 
     mockedAxios.get.mockRejectedValueOnce(new Error('Error fetching RSS'))
 
