@@ -40,7 +40,7 @@ const NewsItem = ({
 
       <Tag
         className={styles.articleTag}
-        background={colors['theme-mars-light']}>
+        background={colors['theme-mars-lighter']}>
         {sourceName}
       </Tag>
     </article>

@@ -17,25 +17,30 @@ import {
 } from '@dnd-kit/sortable'
 import styles from './MySpace.module.scss'
 
-import DraggableCollection from 'components/util/DraggableCollection/DraggableCollection'
+import DraggableWidget from 'components/util/DraggableWidget/DraggableWidget'
 import Droppable from 'components/util/Droppable/Droppable'
+import TemporaryWidget from 'components/util/TemporaryWidget/TemporaryWidget'
 
 import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
 import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
 import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
 import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
-
 import CustomCollection from 'components/CustomCollection/CustomCollection'
 import GuardianIdealCarousel from 'components/GuardianIdeal/GuardianIdealCarousel'
 import NewsWidget from 'components/NewsWidget/NewsWidget'
 import { GuardianIdealPillars } from 'components/GuardianIdeal/GuardianIdealPillars'
 import FeaturedShortcuts from 'components/FeaturedShortcuts/FeaturedShorcuts'
 import { featuredShortcutItems } from 'components/FeaturedShortcuts/FeaturedShortcutItems'
-
-import { CMSBookmark, Widget, Bookmark } from 'types/index'
+import {
+  CMSBookmark,
+  Widget,
+  Bookmark,
+  WeatherWidget as WeatherWidgetType,
+} from 'types/index'
 import AddWidget from 'components/AddWidget/AddWidget'
 import { useAnalytics } from 'stores/analyticsContext'
 import { useMySpaceContext } from 'stores/myspaceContext'
+import WeatherWidget from 'components/WeatherWidget/WeatherWidget'
 
 const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
   const router = useRouter()
@@ -46,12 +51,14 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     isGuardianIdeal,
     isNewsWidget,
     isFeaturedShortcuts,
+    isWeather,
     canAddCollections,
     canAddNews,
+    canAddWeather,
     canAddGuardianIdeal,
     canAddFeaturedShortcuts,
-    addNewCollection,
     handleOnDragEnd,
+    isAddingWidget,
   } = useMySpaceContext()
   const flags = useFlags()
 
@@ -86,6 +93,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     <div id="skip-announcements-carousel" className={styles.mySpace}>
       <div className={styles.widgetContainer}>
         <h2 className={styles.pageTitle}>My Space</h2>
+
         <DndContext
           sensors={sensors}
           collisionDetection={closestCorners}
@@ -132,9 +140,23 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                         key={`widget_${widget._id}`}
                         tabletLg={{ col: 6 }}
                         desktopLg={{ col: 4 }}>
-                        <DraggableCollection id={widget._id.toString()}>
+                        <DraggableWidget id={widget._id.toString()}>
                           <NewsWidget widget={widget} />
-                        </DraggableCollection>
+                        </DraggableWidget>
+                      </Grid>
+                    )
+                  }
+
+                  if (isWeather(widget) && flags?.weatherWidget) {
+                    const weatherWidget = widget as WeatherWidgetType
+                    return (
+                      <Grid
+                        key={`widget_${weatherWidget._id}`}
+                        tabletLg={{ col: 6 }}
+                        desktopLg={{ col: 4 }}>
+                        <DraggableWidget id={weatherWidget._id.toString()}>
+                          <WeatherWidget widget={weatherWidget} />
+                        </DraggableWidget>
                       </Grid>
                     )
                   }
@@ -145,7 +167,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                         key={`widget_${widget._id}`}
                         tabletLg={{ col: 6 }}
                         desktopLg={{ col: 4 }}>
-                        <DraggableCollection id={widget._id.toString()}>
+                        <DraggableWidget id={widget._id.toString()}>
                           <CustomCollection
                             _id={widget._id}
                             key={`widget_${widget._id}`}
@@ -196,7 +218,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                               })
                             }}
                           />
-                        </DraggableCollection>
+                        </DraggableWidget>
                       </Grid>
                     )
                   }
@@ -204,20 +226,28 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
                   return null
                 })}
 
-                {(canAddCollections ||
-                  canAddNews ||
-                  canAddGuardianIdeal ||
-                  canAddFeaturedShortcuts) && (
+                {isAddingWidget && (
                   <Grid
-                    key={`widget_addNew`}
+                    key={`widget_temporary`}
                     tabletLg={{ col: 6 }}
                     desktopLg={{ col: 4 }}>
-                    <AddWidget
-                      handleCreateCollection={addNewCollection}
-                      handleSelectCollection={selectCollections}
-                    />
+                    <TemporaryWidget />
                   </Grid>
                 )}
+
+                {!isAddingWidget &&
+                  (canAddCollections ||
+                    canAddNews ||
+                    canAddWeather ||
+                    canAddGuardianIdeal ||
+                    canAddFeaturedShortcuts) && (
+                    <Grid
+                      key={`widget_addNew`}
+                      tabletLg={{ col: 6 }}
+                      desktopLg={{ col: 4 }}>
+                      <AddWidget handleSelectCollection={selectCollections} />
+                    </Grid>
+                  )}
               </Grid>
             </SortableContext>
           </Droppable>

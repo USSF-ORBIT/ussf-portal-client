@@ -164,6 +164,8 @@ export const defaultMockMySpaceContext = {
   mySpace: [],
   disableDragAndDrop: false,
   setDisableDragAndDrop: jest.fn(),
+  isAddingWidget: false,
+  setIsAddingWidget: jest.fn(),
   initializeMySpace: jest.fn(),
   isCollection: (widget: Widget) => widget.type === 'Collection',
   isGuardianIdeal: (widget: Widget) => widget.type === 'GuardianIdeal',
@@ -172,15 +174,18 @@ export const defaultMockMySpaceContext = {
   isWeather: (widget: Widget) => widget.type === 'Weather',
   canAddCollections: true,
   canAddNews: true,
+  canAddWeather: true,
   canAddGuardianIdeal: true,
   canAddFeaturedShortcuts: true,
   addNewsWidget: jest.fn(),
   addGuardianIdeal: jest.fn(),
   addFeaturedShortcuts: jest.fn(),
   addNewCollection: jest.fn(),
-  handleOnDragEnd: jest.fn(),
   addNewWeatherWidget: jest.fn(),
   editWeatherWidget: jest.fn(),
+  handleOnDragEnd: jest.fn(),
+  temporaryWidget: '',
+  setTemporaryWidget: jest.fn(),
 }
 
 /** Renders the component inside of a MySpaceProvider */

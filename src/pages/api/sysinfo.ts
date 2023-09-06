@@ -18,5 +18,6 @@ export default function handler(_req: NextApiRequest, res: NextApiResponse) {
     analyticsSiteId: process.env.MATOMO_SITE_ID,
     keystoneUrl: process.env.KEYSTONE_URL,
     clientSideID: process.env.LAUNCHDARKLY_SDK_CLIENT_SIDE_ID,
+    personnelApiUrl: process.env.PERSONNEL_API_URL,
   })
 }

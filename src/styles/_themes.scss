@@ -27,8 +27,8 @@ $dark-gradient: linear-gradient(
   // HTML elements
   --link-primary: #{$theme-ultraviolet-base};
   --link-primary-hover: #{$theme-ultraviolet-darker};
-  --link-secondary: #{$theme-aurora-base};
-  --link-secondary-hover: #{$theme-aurora-lighter};
+  --link-secondary: #{$theme-ultraviolet-light};
+  --link-secondary-hover: #{$theme-ultraviolet-lighter};
   --paragraph-text: #{$theme-black};
   --element-focus: #{$theme-ultraviolet-light};
 
@@ -75,9 +75,9 @@ $dark-gradient: linear-gradient(
 
   --btn-theme-toggle-bg: #{$theme-ultraviolet-base};
   --btn-theme-toggle-text: #{$white};
-  --btn-logout-primary-bg: #{$theme-mars-base};
+  --btn-logout-primary-bg: #{$theme-ultraviolet-lighter};
   --btn-logout-text: #{$black};
-  --btn-logout-hover: #{$theme-mars-dark};
+  --btn-logout-hover: #{$theme-ultraviolet-lightest};
 
   --btn-delete-text: #{$state-error-base};
   --btn-delete-text-hover: #{$state-error-dark};
@@ -99,8 +99,8 @@ $dark-gradient: linear-gradient(
   --bookmark-sites-apps-bg: transparent;
   --bookmark-sites-apps-border: #{color(base-light)};
 
-  --btn-select-collections-bg: #{$theme-mars-base};
-  --btn-select-collections-bg-hover: #{$theme-mars-light};
+  --btn-select-collections-bg: #{$theme-ultraviolet-light};
+  --btn-select-collections-bg-hover: #{$theme-ultraviolet-lighter};
 
   //alpha
   --bookmark-sites-apps-text: #{$theme-black};
@@ -156,8 +156,10 @@ $dark-gradient: linear-gradient(
   --date-icon-bg: #{$theme-cosmiclatte-lighter};
 
   //Featured Shortcuts
-  --shortcut-hover-bg: #{$grey};
-  --shortcut-border: var(--widget-border);
+  --shortcut-bg: transparent;
+  --shortcut-bg-hover: #{$grey};
+  --shortcut-border: #{color(base-light)};
+  --shortcut-border-hover: #{color(base-light)};
 
   // Tags
   --tag-source-bg: #{$label-source-lighttheme-bg};
@@ -209,7 +211,7 @@ $dark-gradient: linear-gradient(
   --breadcrumbs-edit-display-name: var(--link-primary);
 
   // Dark bg links
-  --dark-bg-link: #{$theme-aurora-light};
+  --dark-bg-link: #{$theme-ultraviolet-lighter};
   --dark-bg-link-hover: #{$white};
 
   // Accordion
@@ -222,8 +224,15 @@ $dark-gradient: linear-gradient(
   --accordion-minus-btn-img-path: #{$accordion-light-minus-icon-path};
 
   // Search
+  --search-input-bg-color: #{$white};
   --search-input-text-color: #{$theme-black};
   --search-button-text: #{$theme-white};
+  --search-button-bg: #{$theme-ultraviolet-base};
+  --search-button-bg-hover: #{$theme-ultraviolet-dark};
+  --search-input-border-color: #{$theme-ultraviolet-muted-dark};
+
+  // Weather
+  --weather-icons: #{$theme-ultraviolet-light};
 }
 
 /* ------------------------------------ */
@@ -232,12 +241,12 @@ $dark-gradient: linear-gradient(
 
 [data-color-theme='dark'] {
   // HTML Elements
-  --link-primary: #{$theme-aurora-dark};
-  --link-primary-hover: #{$theme-aurora-base};
+  --link-primary: #{$theme-ultraviolet-muted-lighter};
+  --link-primary-hover: #{$theme-ultraviolet-muted-lightest};
   --link-secondary: #{$theme-ultraviolet-darkest};
   --link-secondary-hover: #{$theme-ultraviolet-darker};
   --paragraph-text: #{$theme-white};
-  --element-focus: #{$theme-aurora-base};
+  --element-focus: #{$theme-ultraviolet-muted-light};
 
   // Layout
   --bg: #{$theme-spacebase-dark};
@@ -255,39 +264,33 @@ $dark-gradient: linear-gradient(
   --header-image: none;
 
   // Buttons
-  --btn-primary-bg: #{$theme-aurora-dark};
-  --btn-primary-bg-hover: #{$theme-aurora-base};
-  --btn-primary-bg-active: #{$theme-aurora-base};
-  --btn-outline-text: #{$theme-aurora-dark};
-  --btn-outline-hover: #{$theme-aurora-base};
-  --btn-outline-active: #{$theme-aurora-light};
+  --btn-primary-bg: #{$theme-ultraviolet-muted-lighter};
+  --btn-primary-bg-hover: #{$theme-ultraviolet-muted-lightest};
+  --btn-primary-bg-active: #{$theme-ultraviolet-muted-light};
+  --btn-outline-text: #{$theme-ultraviolet-muted-lighter};
+  --btn-outline-hover: #{$theme-ultraviolet-muted-lighter};
+  --btn-outline-active: #{$theme-ultraviolet-muted-lighter};
 
   --btn-secondary-text: #{$black};
   --btn-secondary-bg: #{$theme-mars-base};
   --btn-secondary-bg-hover: #{$theme-mars-darker};
   --btn-secondary-bg-active: #{$theme-mars-darkest};
 
-  --btn-unstyled-text: #{$theme-aurora-dark};
-  --btn-unstyled-text-hover: #{$theme-aurora-base};
-  --btn-unstyled-bg-hover: #{$theme-ultraviolet-base};
+  --btn-unstyled-text: #{$theme-ultraviolet-muted-lighter};
+  --btn-unstyled-text-hover: #{$theme-ultraviolet-muted-light};
+  --btn-unstyled-bg-hover: #{$theme-ultraviolet-darker};
 
   --btn-primary-text: #{$theme-black};
 
-  --btn-add-widget-border: #{$theme-spacebase-dark};
-  --btn-add-widget-bg: #{$theme-spacebase-darker};
-  --btn-add-widget: #{$theme-aurora-base};
-  --btn-add-widget-icon: #{$theme-white};
-  --btn-add-widget-icon-hover: #{$theme-spacebase-light};
-
-  --btn-logout-primary-bg: #{$theme-mars-base};
+  --btn-logout-primary-bg: #{$theme-ultraviolet-muted-lighter};
   --btn-logout-text: #{$black};
-  --btn-logout-hover: #{$theme-mars-dark};
+  --btn-logout-hover: #{$theme-ultraviolet-muted-lightest};
 
   --btn-add-widget-border: #{$theme-spacebase-dark};
   --btn-add-widget-bg: #{$theme-spacebase-darker};
-  --btn-add-widget: #{$theme-aurora-base};
+  --btn-add-widget: #{$theme-ultraviolet-muted-lighter};
   --btn-add-widget-icon: #{$theme-white};
-  --btn-add-widget-icon-hover: #{$theme-spacebase-light};
+  --btn-add-widget-icon-hover: #{$theme-spacebase-lightest};
 
   --btn-delete-text: #{$state-error-base};
   --btn-delete-text-hover: #{$state-error-dark};
@@ -296,17 +299,17 @@ $dark-gradient: linear-gradient(
   // Sites & Apps
   --toolbar-bg: rgba(0, 0, 0, 0.6);
   --toolbar-section-border: rgba(0, 0, 0, 0.6);
-  --btn-sort-border: #{$theme-aurora-dark};
-  --btn-sort-bg: #{$theme-aurora-dark};
+  --btn-sort-border: #{$theme-ultraviolet-muted-lighter};
+  --btn-sort-bg: #{$theme-ultraviolet-muted-lighter};
   --btn-sort-text: #{$theme-black};
-  --btn-sort-hover-bg: #{$theme-aurora-base};
+  --btn-sort-hover-bg: #{$theme-ultraviolet-muted-light};
   --btn-sort-hover-text: #{$theme-black};
   --btn-sort-disabled-bg: #b2b4ba;
   --btn-sort-disabled-border: #b2b4ba;
   --btn-sort-disabled-text: #{$theme-black};
 
-  --btn-select-collections-bg: #{$theme-mars-base};
-  --btn-select-collections-bg-hover: #{$theme-mars-light};
+  --btn-select-collections-bg: #{$theme-ultraviolet-muted-light};
+  --btn-select-collections-bg-hover: #{$theme-ultraviolet-muted-lighter};
 
   --widget-sites-apps-bg: rgba(0, 0, 0, 0.3);
   --bookmark-sites-apps-bg: rgba(0, 0, 0, 0.3);
@@ -317,21 +320,21 @@ $dark-gradient: linear-gradient(
   --bookmark-sites-apps-alpha-bg-odd: rgba(0, 0, 0, 0.3);
   --bookmark-sites-apps-alpha-bg-even: rgba(0, 0, 0, 0.6);
 
-  --btn-disabled-text: #{$theme-aurora-dark};
-  --btn-disabled-text-hover: #{$theme-aurora-base};
+  --btn-disabled-text: #{$theme-ultraviolet-muted-lighter};
+  --btn-disabled-text-hover: #{$theme-ultraviolet-muted-light};
   --btn-disabled-bg: transparent;
   --btn-disabled-bg-hover: transparent;
-  --btn-disabled-outline: #{$theme-aurora-dark};
-  --btn-disabled-outline-hover: #{$theme-aurora-base};
+  --btn-disabled-outline: #{$theme-ultraviolet-muted-lighter};
+  --btn-disabled-outline-hover: #{$theme-ultraviolet-muted-light};
 
-  --btn-theme-toggle-bg: #{$theme-aurora-dark};
+  --btn-theme-toggle-bg: #{$theme-ultraviolet-muted-lighter};
   --btn-theme-toggle-text: #{$black};
 
   // Bookmark
   --bookmark-bg: #{$theme-ultraviolet-darkest};
-  --bookmark-hover: #{$theme-ultraviolet-darker};
+  --bookmark-hover: #{$theme-spacebase-dark};
   --bookmark-border: #{$theme-spacebase-darkest};
-  --bookmark-border-hover: #{$theme-ultraviolet-darker};
+  --bookmark-border-hover: #{$theme-ultraviolet-muted-light};
 
   --icon: #{$theme-white};
   --icon-hover: #{$theme-spacebase-light};
@@ -347,13 +350,15 @@ $dark-gradient: linear-gradient(
   --widget-selected-border: #{$theme-spacebase-base};
 
   // News
-  --btn-box-bg: #{$theme-spacebase-light};
-  --btn-box-border: #{$neutral-gray-800};
+  --btn-box-bg: #{$theme-spacebase-darker};
+  --btn-box-border: #{$theme-spacebase-darker};
   --date-icon-bg: #{$theme-cosmiclatte-lightest};
 
   //Featured Shortcuts
-  --shortcut-hover-bg: #{$theme-ultraviolet-darkest};
-  --shortcut-border: #{$theme-aurora-base};
+  --shortcut-bg: #{$theme-ultraviolet-darkest};
+  --shortcut-bg-hover: #{$theme-spacebase-base};
+  --shortcut-border: #{$theme-spacebase-darkest};
+  --shortcut-border-hover: #{$theme-ultraviolet-muted-light};
 
   // Tags
   --tag-source-bg: #{$label-source-darktheme-bg};
@@ -373,7 +378,7 @@ $dark-gradient: linear-gradient(
   --category-internalnews-text: #{$black};
   --category-ussf-news-bg: #{$neutral-gray-200};
   --category-ussf-news-text: #{$black};
-  --category-application-bg: #{$theme-ultraviolet-lighter};
+  --category-application-bg: #{$theme-ultraviolet-muted-lighter};
   --category-application-text: #{$black};
   --category-announcement-bg: #{$theme-mars-lighter};
   --category-announcement-text: #{$black};
@@ -384,8 +389,8 @@ $dark-gradient: linear-gradient(
   --dropdown-menu-bg: #{$theme-spacebase-darkest};
   --dropdown-menu-bg-hover: #{$theme-spacebase-darker};
   --dropdown-menu-disabled-text: #a3ffb650;
-  --page-nav-link: #{$theme-aurora-dark};
-  --page-nav-link-after: #{$theme-aurora-dark};
+  --page-nav-link: #{$theme-ultraviolet-muted-lightest};
+  --page-nav-link-after: #{$theme-ultraviolet-muted-light};
 
   // Form Elements
   --form-combobox-bg: #{$theme-spacebase-darker};
@@ -412,7 +417,7 @@ $dark-gradient: linear-gradient(
   --pagination-page-number-active-border: #{$theme-cosmiclatte-base};
 
   // Articles
-  --article-link-text: #{$theme-aurora-base};
+  --article-link-text: #{$theme-ultraviolet-muted-light};
   --article-excerpt-text: #{$theme-white};
 
   // Alerts
@@ -432,18 +437,18 @@ $dark-gradient: linear-gradient(
     saturate(2653%) hue-rotate(178deg) brightness(118%) contrast(100%);
 
   // Breadcrumbs
-  --breadcrumbs-link: #{$theme-mars-light};
+  --breadcrumbs-link: #{$theme-ultraviolet-muted-lighter};
   --breadcrumbs-link-hover: #{$white};
-  --breadcrumbs-edit-display-name: #{$theme-mars-light};
+  --breadcrumbs-edit-display-name: #{$theme-ultraviolet-muted-lighter};
 
   // Dark bg links
-  --dark-bg-link: #{$theme-aurora-light};
+  --dark-bg-link: #{$theme-ultraviolet-muted-lighter};
   --dark-bg-link-hover: #{$white};
 
   // Footer
   --footer-bg: #{$black};
-  --footer-text: #{$theme-ultraviolet-lighter};
-  --footer-border: #{$theme-ultraviolet-light};
+  --footer-text: #{$theme-ultraviolet-muted-lighter};
+  --footer-border: #{$theme-ultraviolet-muted-light};
 
   // Accordion
   --accordion-title: #{$white};
@@ -455,6 +460,13 @@ $dark-gradient: linear-gradient(
   --accordion-minus-btn-img-path: #{$accordion-dark-minus-icon-path};
 
   // Search
-  --search-input-text-color: #{$theme-black};
-  --search-button-text: #{$theme-white};
+  --search-input-text-color: #{$theme-ultraviolet-muted-lightest};
+  --search-input-bg-color: rgba(100, 114, 180, 0.1);
+  --search-button-text: #{$theme-ultraviolet-darkest};
+  --search-button-bg: #{$theme-ultraviolet-muted-light};
+  --search-button-bg-hover: #{$theme-ultraviolet-muted-lighter};
+  --search-input-border-color: #{$theme-ultraviolet-muted-light};
+
+  // Weather
+  --weather-icons: #{$theme-ultraviolet-lighter};
 }

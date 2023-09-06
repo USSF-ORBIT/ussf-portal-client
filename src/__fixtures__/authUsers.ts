@@ -19,7 +19,7 @@ const mockFeaturedShortcuts: Widget = {
   type: 'FeaturedShortcuts',
 }
 
-export const testUser1: SessionUser = {
+export const testUser1Session = {
   userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
   issuer: 'http://localhost:8080/simplesaml/saml2/idp/metadata.php',
   nameID: '_9c9d48b40112e0d39413d937f9d3a940420d719fbb',
@@ -37,6 +37,28 @@ export const testUser1: SessionUser = {
     subject:
       '/C=US/O=U.S. Government/OU=DoD/OU=PKI/OU=CONTRACTOR/CN=CAMPBELL.BERNADETTE.5244446289',
   },
+}
+
+export const testUser1Personnel = {
+  personnelData: {
+    Grade: '1',
+    DUTYTITLE: 'ANALYST',
+    DOD_ID: '5244446289',
+    MAJCOM: 'UNITED STATES SPACE FORCE FORCES (6F)',
+    Country: 'CALIFORNIA',
+    BASE_LOC: 'VANDENBERG',
+    Org_type: 'SQUADRON',
+    EOPDate: '1682812800000',
+    Last_Name: 'CAMPBELL',
+    First_name: 'BERNADETTE',
+    userType: 'Enlisted',
+    lastModifiedAt: '2023-08-28T14:39:06.732-07:00',
+  },
+}
+
+export const testUser1: SessionUser = {
+  ...testUser1Session,
+  ...testUser1Personnel,
 }
 
 export const testPortalUser1: PortalUser = {

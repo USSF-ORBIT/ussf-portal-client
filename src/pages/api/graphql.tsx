@@ -12,6 +12,7 @@ import type { PageConfig } from 'next'
 import { typeDefs } from '../../schema'
 import WeatherAPI from './dataSources/weather'
 import KeystoneAPI from './dataSources/keystone'
+import PersonnelAPI from './dataSources/personnel'
 import resolvers from 'resolvers/index'
 import type { SessionUser, CollectionRecord } from 'types/index'
 import { client } from 'lib/keystoneClient'
@@ -19,7 +20,6 @@ import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
 import User from 'models/User'
 import { EXAMPLE_COLLECTION_ID } from 'constants/index'
-
 export const config: PageConfig = {
   api: { bodyParser: false },
 }
@@ -69,6 +69,7 @@ export const apolloServer = new ApolloServer({
     return {
       keystoneAPI: new KeystoneAPI(),
       weatherAPI: new WeatherAPI(),
+      personnelAPI: new PersonnelAPI(),
     }
   },
   cache: 'bounded',
@@ -83,9 +84,9 @@ export const apolloServer = new ApolloServer({
     try {
       const session = await getSession(req, res)
       const client = await clientConnection()
-
+      // Collect environment variables for connection urls
       const db = client.db(process.env.MONGODB_DB)
-      const keystoneUrl = process.env.KEYSTONE_URL
+
       const loggedInUser = session.passport.user as SessionUser
       const {
         userId,
@@ -105,12 +106,14 @@ export const apolloServer = new ApolloServer({
         } catch (e) {
           // TODO log error
           // console.error('error in creating new user', e)
-          throw new ApolloError('Error creating new user')
+
+          throw new ApolloError('Error creating new user', e as string)
         }
       }
 
       // Set db connection, keystone api, and user in context
-      return { db, keystoneUrl, user: loggedInUser }
+
+      return { db, user: loggedInUser }
     } catch (e) {
       console.error('Error creating GraphQL context', e)
 

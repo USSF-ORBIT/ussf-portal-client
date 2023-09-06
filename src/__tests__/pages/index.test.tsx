@@ -10,7 +10,10 @@ import {
   renderWithAuthAndApollo,
   renderWithMySpaceAndModalContext,
 } from '../../testHelpers'
-import { testUser1, portalUserMaxedOutCollection } from '../../__fixtures__/authUsers'
+import {
+  testUser1,
+  portalUserMaxedOutCollection,
+} from '../../__fixtures__/authUsers'
 
 import { cmsBookmarksMock as mockCmsBookmarks } from '../../__fixtures__/data/cmsBookmarks'
 import { cmsAnnouncementsMock as mockCmsAnnouncements } from '../../__fixtures__/data/cmsAnnouncments'
@@ -36,7 +39,7 @@ beforeEach(() => {
     return {
       user: testUser1,
       portalUser: portalUserMaxedOutCollection,
-      loading: false
+      loading: false,
     }
   })
 })
@@ -48,7 +51,7 @@ describe('Home page', () => {
         return {
           user: null,
           portalUser: null,
-          loading: true
+          loading: true,
         }
       })
 

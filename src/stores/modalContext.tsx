@@ -180,6 +180,14 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 
   const onDelete = () => {
     switch (modalId) {
+      case 'removeWeatherWidgetModal':
+        trackEvent('Section settings', 'Remove this section', 'Weather')
+        handleRemoveWidget({
+          variables: { _id: widgetState?._id },
+          refetchQueries: [`getUser`],
+        })
+        closeModal()
+        break
       case 'removeNewsWidgetModal':
         trackEvent('Section settings', 'Remove this section', 'News')
         handleRemoveWidget({

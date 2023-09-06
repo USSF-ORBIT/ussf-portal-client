@@ -9,7 +9,7 @@
   }
 
   .widgetContainer {
-    border: 1px solid $light-gray;
+    border: 1px solid var(--widget-border);
     background: var(--background-fill);
     border-radius: 8px;
     padding: units(3) units(3);

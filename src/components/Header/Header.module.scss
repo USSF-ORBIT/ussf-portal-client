@@ -56,8 +56,8 @@
       }
 
       &.usa-current {
-        background: $theme-aurora-lightest;
-        color: $theme-black;
+        background: $theme-ultraviolet-light;
+        color: $theme-white;
         border-radius: 6px;
 
         &:after {
@@ -96,6 +96,7 @@
   :global(.usa-nav__primary) > li > button.logoutButton {
     background: var(--btn-logout-primary-bg);
     color: var(--btn-logout-text);
+    font-weight: bold;
 
     &:hover {
       background: var(--btn-logout-hover);

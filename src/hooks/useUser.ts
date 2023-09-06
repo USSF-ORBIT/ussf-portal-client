@@ -16,5 +16,8 @@ export const useUser = () => {
     }
   }, [data])
 
-  return { user, portalUser: data, loading }
+  // loading is a combination of query loading, user session, and portal user data.
+  // All need to be present to consider things done loading. At least user should be
+  // used.
+  return { user, portalUser: data, loading: loading || !(user && data) }
 }

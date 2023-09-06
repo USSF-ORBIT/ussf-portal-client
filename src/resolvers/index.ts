@@ -6,7 +6,14 @@ import { BookmarkModel } from '../models/Bookmark'
 import UserModel from '../models/User'
 import { CollectionModel } from '../models/Collection'
 import { MySpaceModel } from 'models/MySpace'
-import { Widget, PortalUser, WidgetType, MongoBookmark } from 'types'
+import {
+  Widget,
+  SessionUser,
+  PersonnelData,
+  WidgetType,
+  MongoBookmark,
+  MySpaceWidget,
+} from 'types'
 import { WeatherModel } from 'models/Weather'
 
 export const ObjectIdScalar = new GraphQLScalarType({
@@ -41,8 +48,10 @@ export const ObjectIdScalar = new GraphQLScalarType({
 
 type PortalUserContext = {
   db: typeof MongoClient
-  user: PortalUser
-  keystoneUrl: string
+  user: SessionUser
+  attributes: {
+    edipi: string
+  }
   dataSources: {
     weatherAPI: {
       getGridData: ({
@@ -55,6 +64,9 @@ type PortalUserContext = {
     }
     keystoneAPI: {
       getLatLong: (zipcode: string) => Promise<any>
+    }
+    personnelAPI: {
+      getUserData: (dodId: string) => Promise<any>
     }
   }
 }
@@ -115,7 +127,7 @@ type EditThemeInput = {
 
 type EditMySpaceInput = {
   userId: string
-  mySpace: Widget[]
+  mySpace: MySpaceWidget[]
 }
 
 const resolvers = {
@@ -132,8 +144,50 @@ const resolvers = {
       return null // GraphQL Error
     },
   },
+
   // Root resolvers
   Query: {
+    personnelData: async (
+      _: undefined,
+      args: undefined,
+      { user, dataSources }: PortalUserContext
+    ) => {
+      const {
+        data: {
+          getUser: {
+            First_name,
+            Last_Name,
+            DOD_ID,
+            Grade,
+            MAJCOM,
+            DUTYTITLE,
+            Country,
+            BASE_LOC,
+            Org_type,
+            EOPDate,
+            userType,
+            lastModifiedAt,
+          },
+        },
+      } = await dataSources.personnelAPI.getUserData(user.attributes.edipi)
+
+      const personnelData: PersonnelData = {
+        First_name,
+        Last_Name,
+        DOD_ID,
+        Grade,
+        MAJCOM,
+        DUTYTITLE,
+        Country,
+        BASE_LOC,
+        Org_type,
+        EOPDate,
+        userType,
+        lastModifiedAt,
+      }
+
+      return personnelData
+    },
     mySpace: async (
       _: undefined,
       args: undefined,
@@ -238,7 +292,6 @@ const resolvers = {
         state: data.relativeLocation.properties.state,
         zipcode,
       }
-
       return WeatherModel.addOne({ coords, userId: user.userId }, { db })
     },
     removeWidget: async (
