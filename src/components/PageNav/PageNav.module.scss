@@ -17,7 +17,8 @@
     .usa-sidenav a {
       color: var(--page-nav-link);
 
-      &:hover {
+      &:hover,
+      &:focus {
         background-color: transparent;
       }
 
@@ -30,8 +31,9 @@
       color: var(--link-primary);
       text-decoration: underline;
 
-      &:hover {
-        text-decoration: none;
+      &:hover,
+      &:focus {
+        color: var(--link-primary-hover);
       }
     }
 

@@ -224,19 +224,21 @@
   }
 
   .usa-button--accent-cool {
-    background-color: $theme-aurora-base;
-    color: $theme-black;
+    background-color: $theme-ultraviolet-light;
+    color: $theme-white;
 
     &:hover,
-    &.usa-button--hover {
-      color: $theme-black;
-      background-color: $theme-aurora-dark;
+    &.usa-button--hove,
+    &:focus,
+    &.usa-button--focus {
+      color: $theme-white;
+      background-color: $theme-ultraviolet-base;
     }
 
     &:active,
     &.usa-button--active {
       color: $theme-white;
-      background-color: $theme-aurora-darkest;
+      background-color: $theme-ultraviolet-base;
     }
   }
 

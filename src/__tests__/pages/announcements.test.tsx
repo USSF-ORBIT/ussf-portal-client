@@ -24,13 +24,12 @@ jest.mock('../../lib/keystoneClient', () => ({
 }))
 
 describe('Announcements page', () => {
-
   beforeEach(() => {
     jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
       return {
         user: testUser1,
         portalUser: testPortalUser1,
-        loading: false
+        loading: false,
       }
     })
   })
@@ -41,7 +40,7 @@ describe('Announcements page', () => {
         return {
           user: null,
           portalUser: null,
-          loading: true
+          loading: true,
         }
       })
 
