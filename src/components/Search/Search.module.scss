@@ -21,20 +21,29 @@
     }
 
     .usa-input {
-      background-color: $theme-white;
+      background-color: var(--search-input-bg-color);
       color: var(--search-input-text-color);
       @include u-padding('205' 4);
+      border-right: 0px;
+      border-color: var(--search-input-border-color);
+      &::placeholder {
+        color: var(--search-input-text-color);
+        opacity: 0.6;
+      }
     }
 
     .usa-button {
       @include u-font-size('sans', 8);
       border-radius: 0px 6px 6px 0px;
-      background-color: $theme-ultraviolet-base;
+      background-color: var(--search-button-bg);
       color: var(--search-button-text);
       text-transform: unset;
       @include heading-book;
       font-weight: bold;
-
+      &:hover,
+      &:focus {
+        background-color: var(--search-button-bg-hover);
+      }
       &.usa-select {
         color: $theme-white;
         @include u-font-size('sans', 1);

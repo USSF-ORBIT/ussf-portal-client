@@ -2,7 +2,7 @@
 @use 'styles/sfds/index.scss' as *;
 .epubs {
   background: var(--background-fill);
-  border: 1px solid $light-gray;
+  border: 1px solid var(--widget-border);
   border-radius: 8px;
   padding: units(2);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
