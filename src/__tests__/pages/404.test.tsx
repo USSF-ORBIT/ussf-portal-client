@@ -13,7 +13,7 @@ beforeEach(() => {
     return {
       user: testUser1,
       portalUser: testPortalUser1,
-      loading: false
+      loading: false,
     }
   })
 })
@@ -25,7 +25,7 @@ describe('404 page', () => {
         return {
           user: null,
           portalUser: null,
-          loading: true
+          loading: true,
         }
       })
       renderWithAuth(<Custom404 />, {})
