@@ -234,7 +234,7 @@ describe('WeatherWidget', () => {
     // Since the mock widget that is being used has an invalid url, we expect the request to fail. Checking
     // that there is an error logged to the console is important because it means that, when the Retry
     // button was clicked, the request was made in the useWeather hook and failed.
-    expect(mockConsoleError).toHaveBeenCalled()
+    expect(mockConsoleError).toHaveBeenCalledWith('Network Error')
   })
 
   test('remove the WeatherWidget', async () => {
