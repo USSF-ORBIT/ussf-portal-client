@@ -26,7 +26,7 @@ const Search = ({
   results = [],
   labels,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { loading } = useUser()
+  const { user } = useUser()
   const { setSearchQuery } = useSearchContext()
   const flags = useFlags()
 
@@ -42,7 +42,7 @@ const Search = ({
       ? `There is 1 result`
       : `There are ${results.length} results`
 
-  return loading ? (
+  return !user ? (
     <Loader />
   ) : (
     <>

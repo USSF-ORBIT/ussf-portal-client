@@ -2,37 +2,45 @@
  * @jest-environment jsdom
  */
 import { screen, waitFor } from '@testing-library/react'
+import { useRouter } from 'next/router'
+import axios from 'axios'
 import { renderWithAuth } from '../../testHelpers'
 import * as analyticsHooks from 'stores/analyticsContext'
-import * as useUserHooks from 'hooks/useUser'
-import { testPortalUser1, testUser1 } from '__fixtures__/authUsers'
 import Custom404 from 'pages/404'
 
-beforeEach(() => {
-  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-    return {
-      user: testUser1,
-      portalUser: testPortalUser1,
-      loading: false,
-    }
-  })
+const mockReplace = jest.fn()
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}))
+
+const mockedUseRouter = useRouter as jest.Mock
+
+mockedUseRouter.mockReturnValue({
+  route: '',
+  pathname: '',
+  query: '',
+  asPath: '',
+  push: jest.fn(),
+  replace: mockReplace,
 })
+
+jest.mock('axios')
 
 describe('404 page', () => {
   describe('without a user', () => {
     beforeEach(() => {
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: null,
-          portalUser: null,
-          loading: true,
-        }
-      })
-      renderWithAuth(<Custom404 />, {})
+      renderWithAuth(<Custom404 />, { user: null })
     })
 
     test('renders the loader while fetching the user', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
+    })
+
+    test('redirects to the login page if not logged in', async () => {
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith('/login')
+      })
     })
   })
 
@@ -55,6 +63,10 @@ describe('404 page', () => {
       expect(
         screen.getByRole('link', { name: 'Take me home' })
       ).toHaveAttribute('href', '/')
+    })
+
+    test('makes the call to get user', () => {
+      expect(axios.get).toHaveBeenLastCalledWith('/api/auth/user')
     })
 
     test('renders feedback links', async () => {

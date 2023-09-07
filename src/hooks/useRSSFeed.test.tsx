@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { waitFor, renderHook } from '@testing-library/react'
+import { waitFor } from '@testing-library/react'
+import { renderHook } from '@testing-library/react-hooks'
 import axios from 'axios'
 
 import { useRSSFeed } from './useRSSFeed'
@@ -23,14 +24,14 @@ describe('useRSSFeed hook', () => {
     return Promise.resolve({ data: mockRssFeedTen })
   })
 
-  test('returns the item state and a method for fetching items', () => {
+  it('returns the item state and a method for fetching items', () => {
     const { result } = renderHook(() => useRSSFeed(MOCK_RSS_URL))
 
     expect(result.current.items).toEqual([])
     expect(result.current.fetchItems).toBeTruthy()
   })
 
-  test('fetching the items sets them in state', async () => {
+  it('fetching the items sets them in state', async () => {
     const { result } = renderHook(() => useRSSFeed(MOCK_RSS_URL))
 
     await waitFor(() => {
@@ -52,7 +53,7 @@ describe('useRSSFeed hook', () => {
   })
 
   describe('with an empty item', () => {
-    test('returns an empty article', async () => {
+    it('returns an empty article', async () => {
       mockedAxios.get.mockImplementation(() => {
         return Promise.resolve({ data: mockRssFeedOne })
       })

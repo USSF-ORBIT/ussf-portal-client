@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
+import axios from 'axios'
 import { useRouter } from 'next/router'
 import type { GetServerSidePropsContext } from 'next'
 
@@ -13,8 +14,7 @@ import { cmsOrbitBlogArticle as mockOrbitBlogArticle } from '../../__fixtures__/
 import { cmsInternalNewsArticle } from '../../__fixtures__/data/cmsInternalNewsArticle'
 
 import SingleArticlePage, { getServerSideProps } from 'pages/articles/[article]'
-import * as useUserHooks from 'hooks/useUser'
-import { testPortalUser1, testUser1, cmsUser } from '__fixtures__/authUsers'
+import { testUser1, cmsUser } from '__fixtures__/authUsers'
 import { getSession } from 'lib/session'
 
 jest.mock('../../lib/keystoneClient', () => ({
@@ -32,6 +32,14 @@ jest.mock('../../lib/keystoneClient', () => ({
 }))
 
 const mockedKeystoneClient = client as jest.Mocked<typeof client>
+
+jest.mock('axios')
+
+const mockedAxios = axios as jest.Mocked<typeof axios>
+
+mockedAxios.get.mockImplementationOnce(() => {
+  return Promise.reject()
+})
 
 const mockReplace = jest.fn()
 
@@ -58,16 +66,6 @@ const mockedGetSession = getSession as jest.Mock
 mockedGetSession.mockImplementationOnce(() =>
   Promise.resolve({ passport: { user: testUser1 } })
 )
-
-beforeEach(() => {
-  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-    return {
-      user: testUser1,
-      portalUser: testPortalUser1,
-      loading: false,
-    }
-  })
-})
 
 describe('Single article getServerSideProps', () => {
   const testContext = {
@@ -175,16 +173,20 @@ describe('Single article getServerSideProps', () => {
 
 describe('Single article page', () => {
   describe('without a user', () => {
-    test('renders the loader while fetching the user', () => {
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: null,
-          portalUser: null,
-          loading: true,
-        }
+    beforeEach(() => {
+      renderWithAuth(<SingleArticlePage article={mockOrbitBlogArticle} />, {
+        user: null,
       })
-      renderWithAuth(<SingleArticlePage article={mockOrbitBlogArticle} />, {})
+    })
+
+    test('renders the loader while fetching the user', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
+    })
+
+    test('redirects to the login page if not logged in', async () => {
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith('/login')
+      })
     })
   })
 

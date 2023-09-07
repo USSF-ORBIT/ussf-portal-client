@@ -2,17 +2,19 @@ import styles from 'styles/pages/settings.module.scss'
 import EditDisplayName from 'components/EditDisplayName/EditDisplayName'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import { useEditDisplayNameMutation } from 'operations/portal/mutations/editDisplayName.g'
+import { useAuthContext } from 'stores/authContext'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
 
 const Settings = () => {
-  const { loading, portalUser } = useUser()
+  const { user } = useUser()
+  const { portalUser } = useAuthContext()
 
   const [handleEditDisplayName] = useEditDisplayNameMutation()
 
   const userDisplayName = (portalUser?.displayName || '') as string
 
-  return loading ? (
+  return !user ? (
     <Loader />
   ) : (
     <div className={styles.settings}>

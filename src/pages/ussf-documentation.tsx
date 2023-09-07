@@ -15,9 +15,9 @@ import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
 const USSFDocumentation = ({
   documentsPage,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { loading } = useUser()
+  const { user } = useUser()
 
-  return loading ? (
+  return !user ? (
     <Loader />
   ) : (
     <div>

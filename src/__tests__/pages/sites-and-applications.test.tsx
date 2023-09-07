@@ -1,10 +1,11 @@
 /**
  * @jest-environment jsdom
  */
-import { screen, act } from '@testing-library/react'
+import { screen, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MockedProvider } from '@apollo/client/testing'
 import { useRouter } from 'next/router'
+import axios from 'axios'
 import { ObjectId } from 'mongodb'
 import { renderWithAuth, renderWithAuthAndApollo } from '../../testHelpers'
 
@@ -15,9 +16,7 @@ import {
   portalUserMaxedOutCollection,
   portalUserCollectionLimit,
   portalUserAlmostAtCollectionLimit,
-  testUser1,
 } from '__fixtures__/authUsers'
-import * as useUserHooks from 'hooks/useUser'
 
 import { AddCollectionDocument } from 'operations/portal/mutations/addCollection.g'
 import { AddCollectionsDocument } from 'operations/portal/mutations/addCollections.g'
@@ -26,16 +25,6 @@ import { AddBookmarkDocument } from 'operations/portal/mutations/addBookmark.g'
 import SitesAndApplications, {
   getServerSideProps,
 } from 'pages/sites-and-applications'
-
-beforeEach(() => {
-  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-    return {
-      user: testUser1,
-      portalUser: portalUserWithExampleCollection,
-      loading: false,
-    }
-  })
-})
 
 jest.mock('../../lib/keystoneClient', () => ({
   client: {
@@ -49,6 +38,13 @@ jest.mock('../../lib/keystoneClient', () => ({
     },
   },
 }))
+jest.mock('axios')
+
+const mockedAxios = axios as jest.Mocked<typeof axios>
+
+mockedAxios.get.mockImplementationOnce(() => {
+  return Promise.reject()
+})
 
 const mockPush = jest.fn()
 const mockReplace = jest.fn()
@@ -146,16 +142,8 @@ const sitesAndAppsMock = [
 ]
 describe('Sites and Applications page', () => {
   describe('without a user', () => {
-    test('renders the loader while fetching the user', () => {
+    beforeEach(() => {
       jest.useFakeTimers()
-
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: null,
-          portalUser: null,
-          loading: true,
-        }
-      })
 
       renderWithAuth(
         <MockedProvider mocks={sitesAndAppsMock}>
@@ -164,9 +152,19 @@ describe('Sites and Applications page', () => {
             bookmarks={mockCMSBookmarks}
             pageTitle={'Sites & Applications'}
           />
-        </MockedProvider>
+        </MockedProvider>,
+        { user: null }
       )
+    })
+
+    test('renders the loader while fetching the user', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
+    })
+
+    test('redirects to the login page if not logged in', async () => {
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith('/login')
+      })
     })
   })
 
@@ -187,7 +185,7 @@ describe('Sites and Applications page', () => {
             bookmarks={mockCMSBookmarks}
             pageTitle={'Sites & Applications'}
           />,
-          {},
+          { portalUser: portalUserWithExampleCollection },
           sitesAndAppsMock
         )
 
@@ -207,7 +205,7 @@ describe('Sites and Applications page', () => {
             bookmarks={mockCMSBookmarks}
             pageTitle={'Sites & Applications'}
           />,
-          {},
+          { portalUser: portalUserWithExampleCollection },
           sitesAndAppsMock
         )
 
@@ -230,7 +228,7 @@ describe('Sites and Applications page', () => {
             bookmarks={mockCMSBookmarks}
             pageTitle={'Sites & Applications'}
           />,
-          {},
+          { portalUser: portalUserWithExampleCollection },
           sitesAndAppsMock
         )
 
@@ -278,7 +276,7 @@ describe('Sites and Applications page', () => {
               bookmarks={mockCMSBookmarks}
               pageTitle={'Sites & Applications'}
             />,
-            {},
+            { portalUser: portalUserWithExampleCollection },
             sitesAndAppsMock
           )
 
@@ -324,7 +322,7 @@ describe('Sites and Applications page', () => {
               bookmarks={mockCMSBookmarks}
               pageTitle={'Sites & Applications'}
             />,
-            {},
+            { portalUser: portalUserWithExampleCollection },
             sitesAndAppsMock
           )
 
@@ -354,21 +352,13 @@ describe('Sites and Applications page', () => {
             advanceTimers: jest.advanceTimersByTime,
           })
 
-          jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-            return {
-              user: testUser1,
-              portalUser: portalUserAlmostAtCollectionLimit,
-              loading: false,
-            }
-          })
-
           renderWithAuthAndApollo(
             <SitesAndApplications
               collections={mockCMSCollections}
               bookmarks={mockCMSBookmarks}
               pageTitle={'Sites & Applications'}
             />,
-            {},
+            { portalUser: portalUserAlmostAtCollectionLimit },
             sitesAndAppsMock
           )
 
@@ -431,21 +421,13 @@ describe('Sites and Applications page', () => {
             advanceTimers: jest.advanceTimersByTime,
           })
 
-          jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-            return {
-              user: testUser1,
-              portalUser: portalUserCollectionLimit,
-              loading: false,
-            }
-          })
-
           renderWithAuthAndApollo(
             <SitesAndApplications
               collections={mockCMSCollections}
               bookmarks={mockCMSBookmarks}
               pageTitle={'Sites & Applications'}
             />,
-            {},
+            { portalUser: portalUserCollectionLimit },
             sitesAndAppsMock
           )
 
@@ -481,7 +463,7 @@ describe('Sites and Applications page', () => {
               bookmarks={mockCMSBookmarks}
               pageTitle={'Sites & Applications'}
             />,
-            {},
+            { portalUser: portalUserWithExampleCollection },
             sitesAndAppsMock
           )
 
@@ -568,7 +550,8 @@ describe('Sites and Applications page', () => {
               bookmarks={mockCMSBookmarks}
               pageTitle={'Sites & Applications'}
             />,
-            {},
+
+            { portalUser: portalUserWithExampleCollection },
             addBookmarkMock
           )
 
@@ -610,21 +593,13 @@ describe('Sites and Applications page', () => {
             advanceTimers: jest.advanceTimersByTime,
           })
 
-          jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-            return {
-              user: testUser1,
-              portalUser: portalUserMaxedOutCollection,
-              loading: false,
-            }
-          })
-
           renderWithAuthAndApollo(
             <SitesAndApplications
               collections={mockCMSCollections}
               bookmarks={mockCMSBookmarks}
               pageTitle={'Sites & Applications'}
             />,
-            {},
+            { portalUser: portalUserMaxedOutCollection },
             sitesAndAppsMock
           )
 
@@ -661,7 +636,7 @@ describe('Sites and Applications page', () => {
               bookmarks={mockCMSBookmarks}
               pageTitle={'Sites & Applications'}
             />,
-            {},
+            { portalUser: portalUserWithExampleCollection },
             sitesAndAppsMock
           )
           const toggleDropdown = screen.getByTestId('navDropDownButton')
@@ -728,20 +703,13 @@ describe('Sites and Applications page', () => {
     })
 
     test('prevents adding more collections if the user already has 25', async () => {
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: testUser1,
-          portalUser: portalUserCollectionLimit,
-          loading: false,
-        }
-      })
-
       renderWithAuthAndApollo(
         <SitesAndApplications
           collections={mockCMSCollections}
           bookmarks={mockCMSBookmarks}
           pageTitle={'Sites & Applications'}
-        />
+        />,
+        { portalUser: portalUserCollectionLimit }
       )
 
       const selectBtn = await screen.findByRole('button', {
@@ -753,20 +721,13 @@ describe('Sites and Applications page', () => {
     test('prevents adding a bookmark to a new collection if the user already has 25', async () => {
       const user = userEvent.setup()
 
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: testUser1,
-          portalUser: portalUserCollectionLimit,
-          loading: false,
-        }
-      })
-
       renderWithAuthAndApollo(
         <SitesAndApplications
           collections={mockCMSCollections}
           bookmarks={mockCMSBookmarks}
           pageTitle={'Sites & Applications'}
-        />
+        />,
+        { portalUser: portalUserCollectionLimit }
       )
 
       const toggleDropdown = screen.getByTestId('navDropDownButton')
@@ -794,7 +755,7 @@ describe('Sites and Applications page', () => {
 })
 
 describe('getServerSideProps', () => {
-  test('returns the correct props from getServerSideProps', async () => {
+  it('returns the correct props from getServerSideProps', async () => {
     const response = await getServerSideProps()
 
     expect(response).toEqual({

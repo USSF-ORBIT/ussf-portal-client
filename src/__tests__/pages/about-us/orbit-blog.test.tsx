@@ -1,17 +1,17 @@
 /**
  * @jest-environment jsdom
  */
-import { screen, act } from '@testing-library/react'
+import { screen, waitFor, act } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import { axe } from 'jest-axe'
+import axios from 'axios'
+import { useRouter } from 'next/router'
 import { GetServerSidePropsContext } from 'next'
 
 import { renderWithAuth } from '../../../testHelpers'
 import { cmsPortalNewsArticlesMock as mockOrbitBlogArticles } from '../../../__fixtures__/data/cmsPortalNewsArticles'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import OrbitBlog, { getServerSideProps } from 'pages/about-us/orbit-blog'
-import * as useUserHooks from 'hooks/useUser'
-import { testPortalUser1, testUser1 } from '__fixtures__/authUsers'
 
 jest.mock('../../../lib/keystoneClient', () => ({
   client: {
@@ -27,14 +27,29 @@ jest.mock('../../../lib/keystoneClient', () => ({
   },
 }))
 
-beforeEach(() => {
-  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-    return {
-      user: testUser1,
-      portalUser: testPortalUser1,
-      loading: false,
-    }
-  })
+jest.mock('axios')
+
+const mockedAxios = axios as jest.Mocked<typeof axios>
+
+mockedAxios.get.mockImplementationOnce(() => {
+  return Promise.reject()
+})
+
+const mockReplace = jest.fn()
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}))
+
+const mockedUseRouter = useRouter as jest.Mock
+
+mockedUseRouter.mockReturnValue({
+  route: '',
+  pathname: '',
+  query: '',
+  asPath: '',
+  push: jest.fn(),
+  replace: mockReplace,
 })
 
 describe('ORBIT Blog page', () => {
@@ -44,7 +59,7 @@ describe('ORBIT Blog page', () => {
     },
   } as unknown as GetServerSidePropsContext
 
-  test('returns correct page of articles based on query', async () => {
+  it('returns correct page of articles based on query', async () => {
     const response = await getServerSideProps(testContext)
 
     expect(response).toEqual({
@@ -57,7 +72,7 @@ describe('ORBIT Blog page', () => {
     })
   })
 
-  test('returns not found if query is incorrect', async () => {
+  it('returns not found if query is incorrect', async () => {
     const errorContext = {
       query: {
         page: 100,
@@ -68,7 +83,7 @@ describe('ORBIT Blog page', () => {
       notFound: true,
     })
   })
-  test('returns 1 if no query or an invalid param', async () => {
+  it('returns 1 if no query or an invalid param', async () => {
     const defaultContext = {
       query: {
         page: 'invalid',
@@ -87,18 +102,20 @@ describe('ORBIT Blog page', () => {
   })
 
   describe('without a user', () => {
-    test('renders the loader while fetching the user', () => {
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: null,
-          portalUser: null,
-          loading: true,
-        }
+    beforeEach(() => {
+      renderWithAuth(<OrbitBlog articles={mockOrbitBlogArticles} />, {
+        user: null,
       })
+    })
 
-      renderWithAuth(<OrbitBlog articles={mockOrbitBlogArticles} />, {})
-
+    it('renders the loader while fetching the user', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
+    })
+
+    it('redirects to the login page if not logged in', async () => {
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith('/login')
+      })
     })
   })
 
@@ -115,14 +132,14 @@ describe('ORBIT Blog page', () => {
       )
     })
 
-    test('renders the page title and list of articles', async () => {
+    it('renders the page title and list of articles', async () => {
       expect(
         await screen.findByRole('heading', { level: 2 })
       ).toHaveTextContent('Production team blog & announcements')
       expect(await screen.findAllByRole('article')).toHaveLength(4)
     })
 
-    test('has no a11y violations', async () => {
+    it('has no a11y violations', async () => {
       // Bug with NextJS Link + axe :(
       // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
       await act(async () => {
@@ -130,7 +147,7 @@ describe('ORBIT Blog page', () => {
       })
     })
 
-    test('withLayout returns correct title and navigation', async () => {
+    it('withLayout returns correct title and navigation', async () => {
       const result = OrbitBlog.getLayout('page')
 
       // this array is inexplicably throwing a lint error for missing keys

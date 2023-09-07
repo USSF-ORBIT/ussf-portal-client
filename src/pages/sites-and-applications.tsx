@@ -36,6 +36,7 @@ import styles from 'styles/pages/sitesAndApplications.module.scss'
 
 import { useAnalytics } from 'stores/analyticsContext'
 import { useUser } from 'hooks/useUser'
+import { useAuthContext } from 'stores/authContext'
 
 import { GET_KEYSTONE_BOOKMARKS } from 'operations/cms/queries/getKeystoneBookmarks'
 import { GET_KEYSTONE_COLLECTIONS } from 'operations/cms/queries/getKeystoneCollections'
@@ -55,7 +56,8 @@ const SitesAndApplications = ({
   bookmarks,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter()
-  const { loading, portalUser } = useUser()
+  const { user } = useUser()
+  const { portalUser } = useAuthContext()
   const { trackEvent } = useAnalytics()
 
   // Handling the menu views toggle
@@ -302,7 +304,7 @@ const SitesAndApplications = ({
     </div>
   )
 
-  return loading ? (
+  return !user ? (
     <Loader />
   ) : (
     <>

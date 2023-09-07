@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 
@@ -11,8 +11,6 @@ import { cmsAnnouncementsMock as mockAnnouncements } from '../../__fixtures__/da
 import { cmsPortalNewsArticlesMock as mockArticles } from '../../__fixtures__/data/cmsPortalNewsArticles'
 import { mockRssFeedTen } from '__mocks__/news-rss'
 import '../../__mocks__/mockMatchMedia'
-import * as useUserHooks from 'hooks/useUser'
-import { testPortalUser1, testUser1 } from '__fixtures__/authUsers'
 import NewsAnnouncements, { getServerSideProps } from 'pages/news-announcements'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 
@@ -57,26 +55,13 @@ mockedUseRouter.mockReturnValue({
   replace: mockReplace,
 })
 
-beforeEach(() => {
-  mockedAxios.get.mockClear()
-  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-    return {
-      user: testUser1,
-      portalUser: testPortalUser1,
-      loading: false,
-    }
-  })
-})
-
 describe('News page', () => {
   describe('without a user', () => {
     beforeEach(() => {
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: null,
-          portalUser: null,
-          loading: true,
-        }
+      jest.useFakeTimers()
+
+      mockedAxios.get.mockImplementationOnce(() => {
+        return Promise.reject()
       })
 
       renderWithAuth(
@@ -85,17 +70,28 @@ describe('News page', () => {
           articles={mockArticles}
           pageTitle="News & Announcements"
         />,
-        {}
+        { user: null }
       )
     })
 
-    test('renders the loader while fetching the user and does not fetch RSS items', () => {
+    it('renders the loader while fetching the user and does not fetch RSS items', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
+      expect(mockedAxios.get).toHaveBeenCalledTimes(1)
+    })
+
+    it('redirects to the login page if not logged in', async () => {
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith('/login')
+      })
     })
   })
 
   describe('when logged in', () => {
-    test('returns correct props from getServerSideProps', async () => {
+    beforeEach(() => {
+      mockedAxios.get.mockClear()
+    })
+
+    it('returns correct props from getServerSideProps', async () => {
       const response = await getServerSideProps()
 
       expect(response).toEqual({
@@ -106,8 +102,7 @@ describe('News page', () => {
         },
       })
     })
-
-    test('renders the page title and RSS items', async () => {
+    it('renders the page title and RSS items', async () => {
       mockedAxios.get.mockImplementation(() => {
         return Promise.resolve({ data: mockRssFeedTen })
       })
@@ -130,7 +125,7 @@ describe('News page', () => {
       expect(allArticles[0]).toContainHTML('article')
     })
 
-    test('withLayout returns correct title and navigation', async () => {
+    it('withLayout returns correct title and navigation', async () => {
       const result = NewsAnnouncements.getLayout('page')
 
       // this array is inexplicably throwing a lint error for missing keys

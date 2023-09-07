@@ -2,37 +2,53 @@
  * @jest-environment jsdom
  */
 
-import { screen, act } from '@testing-library/react'
+import { screen, waitFor, act } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
+import { MockedProvider } from '@apollo/client/testing'
+import { useRouter } from 'next/router'
 import { axe } from 'jest-axe'
-import { renderWithAuthAndApollo } from '../../testHelpers'
-import * as useUserHooks from 'hooks/useUser'
-import { testPortalUser1, testUser1 } from '__fixtures__/authUsers'
+import axios from 'axios'
+import { renderWithAuth } from '../../testHelpers'
 import Settings, { getStaticProps } from 'pages/settings'
 
-beforeEach(() => {
-  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-    return {
-      user: testUser1,
-      portalUser: testPortalUser1,
-      loading: false,
-    }
-  })
+const mockReplace = jest.fn()
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}))
+
+jest.mock('axios')
+
+const mockedUseRouter = useRouter as jest.Mock
+
+mockedUseRouter.mockReturnValue({
+  route: '',
+  pathname: '',
+  query: '',
+  asPath: '',
+  push: jest.fn(),
+  replace: mockReplace,
 })
 
 describe('Settings page', () => {
   describe('without a user', () => {
-    test('renders the loader while fetching the user', () => {
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: null,
-          portalUser: null,
-          loading: true,
-        }
-      })
-      renderWithAuthAndApollo(<Settings />)
+    beforeEach(() => {
+      renderWithAuth(
+        <MockedProvider>
+          <Settings />
+        </MockedProvider>,
+        { user: null }
+      )
+    })
 
+    it('renders the loader while fetching the user', () => {
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
+    })
+
+    it('redirects to the login page if not logged in', async () => {
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith('/login')
+      })
     })
   })
 
@@ -40,16 +56,20 @@ describe('Settings page', () => {
     let html: RenderResult
 
     beforeEach(() => {
-      html = renderWithAuthAndApollo(<Settings />)
+      html = renderWithAuth(
+        <MockedProvider>
+          <Settings />
+        </MockedProvider>
+      )
     })
 
-    test('renders the settings page', () => {
+    it('renders the settings page', () => {
       expect(screen.getAllByText('Settings')).toHaveLength(1)
 
       expect(screen.getAllByText('Update name and rank:')).toHaveLength(1)
     })
 
-    test('has no a11y violations', async () => {
+    it('has no a11y violations', async () => {
       // Bug with NextJS Link + axe :(
       // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
       await act(async () => {
@@ -57,7 +77,11 @@ describe('Settings page', () => {
       })
     })
 
-    test('returns the expected props in getServerSideProps', async () => {
+    it('makes the call to get user', () => {
+      expect(axios.get).toHaveBeenLastCalledWith('/api/auth/user')
+    })
+
+    it('returns the expected props in getServerSideProps', async () => {
       const response = await getStaticProps()
       expect(response).toEqual({
         props: {

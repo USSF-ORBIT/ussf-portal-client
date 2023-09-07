@@ -22,9 +22,9 @@ const PortalNews = ({
   currentPage,
   totalPages,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { loading } = useUser()
+  const { user } = useUser()
 
-  return loading ? (
+  return !user ? (
     <Loader />
   ) : (
     <div className={styles.listContainer}>
