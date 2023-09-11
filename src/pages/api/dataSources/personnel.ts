@@ -8,7 +8,7 @@ class PersonnelAPI extends RESTDataSource {
 
   async getUserData(dodId: string) {
     // This sends a GraphQL query to the external Personnel API
-    // if (!this.baseURL) throw new Error('No Personnel API URL found')
+    if (!this.baseURL) throw new Error('No Personnel API URL found')
 
     return this.post(this.baseURL + `/api/graphql`, {
       query: `query GetUser($getUserId: String!) {
