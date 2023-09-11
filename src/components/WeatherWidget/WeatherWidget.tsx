@@ -17,6 +17,7 @@ import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 import { useWeather } from 'hooks/useWeather'
 import { useModalContext } from 'stores/modalContext'
 import { useMySpaceContext } from 'stores/myspaceContext'
+import { useAnalytics } from 'stores/analyticsContext'
 import { WeatherWidget as WeatherWidgetType } from 'types'
 
 // widget needs to be optional because we are using WeatherWidget in TemporaryWidget,
@@ -34,6 +35,8 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     useWeather()
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
+
+  const { trackEvent } = useAnalytics()
 
   const {
     addNewWeatherWidget,
@@ -156,6 +159,11 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
 
   const handleRetryWeather = () => {
     if (widget.widget) {
+      trackEvent(
+        'Weather Widget',
+        'Retry fetching weather',
+        widget.widget.coords.zipcode
+      )
       getForecast(widget.widget.coords.hourlyForecastUrl)
       resetForecastError()
     }
@@ -344,7 +352,8 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                 <Button
                   type="button"
                   className={styles.retryButton}
-                  onClick={handleRetryWeather}>
+                  onClick={handleRetryWeather}
+                  aria-label="Retry fetching weather">
                   Retry
                 </Button>
               </div>

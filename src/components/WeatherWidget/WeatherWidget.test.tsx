@@ -25,6 +25,21 @@ const mockWeatherWidget: WeatherWidgetType = {
   },
 }
 
+const mockWeatherWidgetWithIncorrectZipcode: WeatherWidgetType = {
+  _id: ObjectId(),
+  type: 'Weather',
+  title: 'Weather',
+  coords: {
+    lat: 34.0901,
+    long: -118.4065,
+    forecastUrl: 'not_a_forecast_url',
+    hourlyForecastUrl: 'not_an_hourly_url',
+    city: 'Beverly Hills',
+    state: 'CA',
+    zipcode: '00000',
+  },
+}
+
 describe('WeatherWidget', () => {
   test('renders the WeatherWidget component', async () => {
     await act(async () => {
@@ -197,6 +212,29 @@ describe('WeatherWidget', () => {
 
     await user.type(screen.getByTestId('weatherWidget_input'), '!')
     expect(screen.getByTestId('weatherWidget_input')).toHaveValue('90210')
+  })
+
+  test('user can retry fetching the weather forecast', async () => {
+    const user = userEvent.setup()
+    const mockConsoleError = jest.fn()
+    jest.spyOn(console, 'error').mockImplementation(mockConsoleError)
+
+    renderWithMySpaceAndModalContext(
+      <WeatherWidget widget={mockWeatherWidgetWithIncorrectZipcode} />
+    )
+
+    // Click the retry button
+    await waitFor(() => {
+      expect(
+        screen.getByLabelText('Retry fetching weather')
+      ).toBeInTheDocument()
+    })
+    await user.click(screen.getByLabelText('Retry fetching weather'))
+
+    // Since the mock widget that is being used has an invalid url, we expect the request to fail. Checking
+    // that there is an error logged to the console is important because it means that, when the Retry
+    // button was clicked, the request was made in the useWeather hook and failed.
+    expect(mockConsoleError).toHaveBeenCalledWith('Network Error')
   })
 
   test('remove the WeatherWidget', async () => {
