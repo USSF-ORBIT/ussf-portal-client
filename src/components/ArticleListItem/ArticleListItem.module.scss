@@ -1,13 +1,17 @@
 @use 'uswds-core' as *;
 @use 'styles/sfds/index.scss' as *;
 .articleTitle {
-  margin-bottom: 0.5em;
   margin-top: 0;
+  margin-bottom: 0;
 
   a {
     color: var(--text);
     text-decoration: none;
   }
+}
+
+.listItemContent {
+  margin-top: units(1);
 }
 
 .categoryAndLabel {

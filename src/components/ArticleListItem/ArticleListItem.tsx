@@ -41,7 +41,7 @@ export const ArticleListItem = ({
               {title}
             </LinkTo>
           </h3>
-          <p>
+          <p className={styles.listItemContent}>
             <span className={styles.previewText}>{preview}</span>
           </p>
           <Grid row gap={4} className={styles.categoryAndLabel}>
