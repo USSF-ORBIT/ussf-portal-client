@@ -31,10 +31,6 @@ jest.mock('axios')
 
 const mockedAxios = axios as jest.Mocked<typeof axios>
 
-beforeEach(() => {
-  mockedAxios.get.mockClear()
-})
-
 const mockWeatherWidgetWithIncorrectZipcode: WeatherWidgetType = {
   _id: ObjectId(),
   type: 'Weather',
@@ -51,8 +47,11 @@ const mockWeatherWidgetWithIncorrectZipcode: WeatherWidgetType = {
 }
 
 describe('WeatherWidget', () => {
-  mockedAxios.get.mockImplementation(() => {
-    return Promise.resolve({ data: mockHourlyForecast })
+  beforeEach(() => {
+    mockedAxios.get.mockClear()
+    mockedAxios.get.mockImplementation(() => {
+      return Promise.resolve({ data: mockHourlyForecast })
+    })
   })
 
   test('renders the WeatherWidget component', async () => {
@@ -235,6 +234,10 @@ describe('WeatherWidget', () => {
     const user = userEvent.setup()
     const mockConsoleError = jest.fn()
     jest.spyOn(console, 'error').mockImplementation(mockConsoleError)
+
+    mockedAxios.get.mockImplementation(() => {
+      return Promise.reject(new Error('Network Error'))
+    })
 
     renderWithMySpaceAndModalContext(
       <WeatherWidget widget={mockWeatherWidgetWithIncorrectZipcode} />
