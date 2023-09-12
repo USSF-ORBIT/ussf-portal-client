@@ -149,9 +149,6 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     setZipCode(sanitizedInput)
   }
 
-  const now = DateTime.now()
-  const currentDate = `${now.weekdayShort}, ${now.monthShort} ${now.day}`
-
   // Toggle the dropdown menu
   const menuOnClick = () => {
     setIsDropdownOpen(!isDropdownOpen)
@@ -317,7 +314,11 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                   <div className={styles.shortForecast}>
                     <h4>{currentForecast[0].temperature}&deg;</h4>
                     <p>{currentForecast[0].shortForecast}</p>
-                    <p>{currentDate}</p>
+                    <p>
+                      {DateTime.fromISO(currentForecast[0].startTime).toFormat(
+                        'EEE, MMM d'
+                      )}
+                    </p>
                   </div>
                 </div>
 
