@@ -2,7 +2,6 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { useRouter } from 'next/router'
 import { useAnalytics } from './analyticsContext'
-import { GetPersonnelDataDocument } from 'operations/portal/queries/getPersonnelData.g'
 import { SessionUser, PortalUser } from 'types'
 
 export type AuthContextType = {
