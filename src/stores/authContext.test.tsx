@@ -136,17 +136,10 @@ describe('Auth context', () => {
         return Promise.resolve({ data: { user: testUser1Session } })
       })
 
-      // mockedAxios.post.mockImplementation(() => {
-      //   return Promise.resolve({ data: { data: testUser1Personnel } })
-      // })
-
       const response = renderHook(() => useAuthContext(), { wrapper })
 
       await waitFor(() => {
         expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
-        // expect(mockedAxios.post).toHaveBeenCalledWith('/api/graphql', {
-        //   query: print(GetPersonnelDataDocument),
-        // })
         expect(response.result.current.user).toEqual(testUser1Session)
       })
     })
