@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import { useRouter } from 'next/router'
+import { useAnalytics } from './analyticsContext'
 import { SessionUser, PortalUser } from 'types'
 
 export type AuthContextType = {
@@ -33,6 +34,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<SessionUser | null>(null)
   const [portalUser, setPortalUser] = useState<PortalUser | null>(null)
   const router = useRouter()
+  const { setUserIdFn, unsetUserIdFn } = useAnalytics()
 
   useEffect(() => {
     if (!user) {
@@ -53,6 +55,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [user])
 
+  useEffect(() => {
+    if (user) {
+      // Set user ID for analytics
+      setUserIdFn(user.attributes.edipi)
+    }
+  }, [user])
+
   const login = () => {
     // Initiate SAML flow
     // TODO - check if cookie exists already?
@@ -61,6 +70,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = async () => {
     try {
+      unsetUserIdFn()
       await axios.get('/api/auth/logout')
       setUser(null)
       window.location.href = '/login'

@@ -4,6 +4,7 @@
 import React from 'react'
 import { render, screen, waitFor, renderHook } from '@testing-library/react'
 import { useRouter } from 'next/router'
+import { useAnalytics } from './analyticsContext'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import { print } from 'graphql'
@@ -40,6 +41,19 @@ mockedUseRouter.mockReturnValue({
   push: jest.fn(),
   replace: mockReplace,
 })
+
+const mockedUseAnalytics = useAnalytics as jest.Mock
+const mockSetUserIdFn = jest.fn()
+const mockUnsetUserIdFn = jest.fn()
+
+mockedUseAnalytics.mockReturnValue({
+  setUserIdFn: mockSetUserIdFn,
+  unsetUserIdFn: mockUnsetUserIdFn,
+})
+
+jest.mock('./analyticsContext', () => ({
+  useAnalytics: jest.fn(),
+}))
 
 describe('Auth context', () => {
   const { location } = window
@@ -103,6 +117,8 @@ describe('Auth context', () => {
     const user = userEvent.setup()
     await user.click(screen.getByRole('button', { name: 'Set mock user data' }))
 
+    expect(mockSetUserIdFn).toHaveBeenCalled()
+
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
       'User: BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil'
     )
@@ -113,6 +129,7 @@ describe('Auth context', () => {
     await user.click(screen.getByRole('button', { name: 'Log out' }))
 
     expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/logout')
+    expect(mockUnsetUserIdFn).toHaveBeenCalled()
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
