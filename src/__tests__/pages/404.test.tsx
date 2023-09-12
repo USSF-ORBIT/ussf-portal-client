@@ -72,7 +72,12 @@ describe('404 page', () => {
     test('calls trackEvent with the correct arguments', async () => {
       const mockTrackEvents = jest.fn()
       jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
-        return { push: jest.fn(), trackEvent: mockTrackEvents }
+        return {
+          push: jest.fn(),
+          setUserIdFn: jest.fn(),
+          unsetUserIdFn: jest.fn(),
+          trackEvent: mockTrackEvents,
+        }
       })
       renderWithAuth(<Custom404 />)
       await waitFor(() => {

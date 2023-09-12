@@ -35,7 +35,12 @@ describe('Feedback Card component', () => {
 
       // mock out the return of useAnalytics since we just need to check that it's called not what it does
       jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
-        return { push: jest.fn(), trackEvent: mockTrackEvents }
+        return {
+          push: jest.fn(),
+          setUserIdFn: jest.fn(),
+          unsetUserIdFn: jest.fn(),
+          trackEvent: mockTrackEvents,
+        }
       })
 
       render(<FeedbackCard />)
