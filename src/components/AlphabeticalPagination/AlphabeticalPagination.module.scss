@@ -1,14 +1,9 @@
 @use 'uswds-core' as *;
 @use 'styles/sfds/index.scss' as *;
+@use 'styles/pagination' as *;
 
 .alphapag {
-  color: red;
-  :global(.usa-pagination__button) {
-    border-color: var(--pagination-page-number-border);
-    background: var(--pagination-page-number-bg);
-    &:active {
-      color: var(--pagination-page-number-active);
-      border-color: var(--pagination-page-number-active-border);
-    }
+  :global {
+    @include pagination;
   }
 }

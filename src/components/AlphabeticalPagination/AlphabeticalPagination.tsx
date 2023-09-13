@@ -26,8 +26,7 @@ const AlphabeticalPagination = () => (
             type="button"
             unstyled
             className="usa-pagination__link usa-pagination__previous-page"
-            aria-label="Previous page"
-            data-testid="pagination-previous">
+            aria-label="Previous page">
             <Icon.NavigateBefore />
             <span className="usa-pagination__link-text">Previous</span>
           </Button>
@@ -82,8 +81,7 @@ const AlphabeticalPagination = () => (
             type="button"
             unstyled
             className="usa-pagination__link usa-pagination__next-page"
-            aria-label="Next page"
-            data-testid="pagination-next">
+            aria-label="Next page">
             <span className="usa-pagination__link-text">Next</span>
             <Icon.NavigateNext />
           </Button>

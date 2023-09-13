@@ -5,7 +5,7 @@ import { Meta } from '@storybook/react'
 import AlphabeticalPagination from './AlphabeticalPagination'
 
 export default {
-  title: 'Components/AlphabeticalPagination',
+  title: 'Base/Pagination/Alphabetical',
   component: AlphabeticalPagination,
 } as Meta
 
