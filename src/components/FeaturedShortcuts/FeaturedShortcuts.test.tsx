@@ -84,6 +84,7 @@ describe('FeaturedShortcuts component', () => {
         setUserIdFn: jest.fn(),
         unsetUserIdFn: jest.fn(),
         trackEvent: mockTrackEvents,
+        trackBaseLocation: jest.fn(),
       }
     })
 
