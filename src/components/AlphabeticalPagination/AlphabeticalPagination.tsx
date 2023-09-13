@@ -33,17 +33,12 @@ const AlphabeticalPagination = () => (
         </li>
         <li className="usa-pagination__item usa-pagination__page-no">
           <Link href="#" className="usa-pagination__button" aria-label="Page 1">
-            1
+            A
           </Link>
-        </li>
-        <li
-          className="usa-pagination__item usa-pagination__overflow"
-          aria-label="ellipsis indicating non-visible pages">
-          <span>…</span>
         </li>
         <li className="usa-pagination__item usa-pagination__page-no">
           <Link href="#" className="usa-pagination__button" aria-label="Page 9">
-            9
+            B
           </Link>
         </li>
         <li className="usa-pagination__item usa-pagination__page-no">
@@ -52,7 +47,7 @@ const AlphabeticalPagination = () => (
             className="usa-pagination__button usa-current"
             aria-label="Page 10"
             aria-current="page">
-            10
+            C
           </Link>
         </li>
         <li className="usa-pagination__item usa-pagination__page-no">
@@ -60,20 +55,15 @@ const AlphabeticalPagination = () => (
             href="#"
             className="usa-pagination__button"
             aria-label="Page 11">
-            11
+            D
           </Link>
-        </li>
-        <li
-          className="usa-pagination__item usa-pagination__overflow"
-          aria-label="ellipsis indicating non-visible pages">
-          <span>…</span>
         </li>
         <li className="usa-pagination__item usa-pagination__page-no">
           <Link
             href="#"
             className="usa-pagination__button"
             aria-label="Last page, page 24">
-            24
+            E
           </Link>
         </li>
         <li className="usa-pagination__item usa-pagination__arrow">
