@@ -281,7 +281,7 @@ export type SessionUser = SAMLUser & {
 export type Rank = {
   Title: string
   Abbreviation: string
-  Grade?: string
+  Grade: string
   GradeId: string
 }
 
