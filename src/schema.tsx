@@ -85,14 +85,21 @@ export const typeDefs = gql`
     theme: String
   }
 
-  type PersonnelData {
+  type Rank {
+    Title: String
+    Abbreviation: String
     Grade: String
+    GradeId: String
+  }
+
+  type PersonnelData {
     DUTYTITLE: String
     DOD_ID: String
     MAJCOM: String
     Country: String
     BASE_LOC: String
     Org_type: String
+    Rank: Rank
     EOPDate: String
     Last_Name: String
     First_name: String

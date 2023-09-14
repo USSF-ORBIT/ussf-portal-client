@@ -278,16 +278,23 @@ export type SessionUser = SAMLUser & {
   personnelData: PersonnelData
 }
 
+export type Rank = {
+  Title: string
+  Abbreviation: string
+  Grade?: string
+  GradeId: string
+}
+
 export type PersonnelData = {
   First_name: string
   Last_Name: string
   DOD_ID: string
-  Grade: string
   MAJCOM: string
   DUTYTITLE: string
   Country: string
   BASE_LOC: string
   Org_type: string
+  Rank: Rank
   EOPDate: string
   userType: string
   lastModifiedAt: string

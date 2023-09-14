@@ -22,6 +22,12 @@ class PersonnelAPI extends RESTDataSource {
             Country
             BASE_LOC
             Org_type
+            Rank {
+              Title
+              Abbreviation
+              Grade
+              GradeId
+            }
             EOPDate
             userType
             lastModifiedAt
