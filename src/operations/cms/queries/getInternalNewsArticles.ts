@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from 'graphql-tag'
 
 export const GET_INTERNAL_NEWS_ARTICLES = gql`
   query GetInternalNewsArticles($publishedDate: DateTime) {

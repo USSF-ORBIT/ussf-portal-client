@@ -1,8 +1,6 @@
 import { MongoClient, Db, ObjectId } from 'mongodb'
-import { ApolloServer } from 'apollo-server-micro'
-import type { VariableValues } from 'apollo-server-types'
 import { typeDefs } from '../schema'
-
+import { ApolloServer } from '@apollo/server'
 import { newPortalUser } from '../__fixtures__/newPortalUser'
 
 import resolvers from './index'
@@ -31,8 +29,9 @@ import {
 import WeatherAPI from 'pages/api/dataSources/weather'
 import KeystoneAPI from 'pages/api/dataSources/keystone'
 import { EditWeatherWidgetDocument } from 'operations/portal/mutations/editWeatherWidget.g'
+import type { serverContext } from 'types'
 
-let server: ApolloServer
+let server: ApolloServer<serverContext>
 let connection: typeof MongoClient
 let db: typeof Db
 const testCollectionId = ObjectId()
@@ -83,13 +82,9 @@ describe('GraphQL resolvers', () => {
 
   describe('without being logged in', () => {
     beforeAll(async () => {
-      server = new ApolloServer({
+      server = new ApolloServer<serverContext>({
         typeDefs,
         resolvers,
-        context: () => ({
-          db,
-          user: undefined,
-        }),
       })
     })
 

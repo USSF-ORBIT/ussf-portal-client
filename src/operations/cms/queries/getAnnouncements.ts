@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from 'graphql-tag'
 
 export const GET_ANNOUNCEMENTS = gql`
   query GetAnnouncements($publishedDate: DateTime) {

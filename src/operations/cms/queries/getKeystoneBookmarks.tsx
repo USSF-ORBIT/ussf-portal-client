@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from 'graphql-tag'
 import type { Bookmark } from 'types'
 
 export interface BookmarksQueryResponse {

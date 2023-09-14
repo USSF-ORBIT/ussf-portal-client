@@ -1,5 +1,7 @@
 import type { ObjectId } from 'bson'
-
+import WeatherAPI from '../pages/api/dataSources/weather'
+import KeystoneAPI from '../pages/api/dataSources/keystone'
+import PersonnelAPI from '../pages/api/dataSources/personnel'
 /**
  * ***********************
  * Portal GraphQL Types
@@ -7,6 +9,15 @@ import type { ObjectId } from 'bson'
  * */
 export * from '../graphql.g'
 
+export interface serverContext {
+  db: any
+  user: SessionUser
+  dataSources: () => {
+    keystoneAPI: KeystoneAPI
+    weatherAPI: WeatherAPI
+    personnelAPI: PersonnelAPI
+  }
+}
 /**
  * *****************************
  * Types for Keystone Data (CMS)

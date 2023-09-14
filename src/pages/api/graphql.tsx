@@ -1,14 +1,8 @@
-import type { ServerResponse } from 'http'
-import type { MicroRequest } from 'apollo-server-micro/dist/types'
-import {
-  ApolloServer,
-  AuthenticationError,
-  ApolloError,
-  gql,
-} from 'apollo-server-micro'
-import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core'
-import type { PageConfig } from 'next'
-
+import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
+import { ApolloServer } from '@apollo/server'
+import { startServerAndCreateNextHandler } from '@as-integrations/next'
+import { gql } from 'graphql-tag'
+import { GraphQLError } from 'graphql'
 import { typeDefs } from '../../schema'
 import WeatherAPI from './dataSources/weather'
 import KeystoneAPI from './dataSources/keystone'
@@ -20,10 +14,7 @@ import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
 import User from 'models/User'
 import { EXAMPLE_COLLECTION_ID } from 'constants/index'
-export const config: PageConfig = {
-  api: { bodyParser: false },
-}
-
+import type { serverContext } from 'types/index'
 // To create a new user, we need the example collection from Keystone
 const getExampleCollection = async () => {
   // Request the example collection based on ID
@@ -62,36 +53,35 @@ const clientConnection = async () => {
   }
 }
 
-export const apolloServer = new ApolloServer({
+export const apolloServer = new ApolloServer<serverContext>({
   typeDefs,
   resolvers,
-  dataSources: () => {
-    return {
-      keystoneAPI: new KeystoneAPI(),
-      weatherAPI: new WeatherAPI(),
-      personnelAPI: new PersonnelAPI(),
-    }
-  },
+  status400ForVariableCoercionErrors: true,
   cache: 'bounded',
   plugins: [ApolloServerPluginLandingPageDisabled()],
-  context: async ({ req, res }) => {
+})
+
+export default startServerAndCreateNextHandler(apolloServer, {
+  context: async (req, res) => {
     const session = await getSession(req, res)
 
     if (!session || !session.passport || !session.passport.user) {
-      throw new AuthenticationError('No user in session')
+      throw new GraphQLError('No User in session', {
+        extensions: { code: 'UNAUTHENTICATED' },
+      })
     }
 
     try {
       const session = await getSession(req, res)
       const client = await clientConnection()
-      // Collect environment variables for connection urls
       const db = client.db(process.env.MONGODB_DB)
-
       const loggedInUser = session.passport.user as SessionUser
+
       const {
         userId,
         attributes: { givenname, surname },
       } = loggedInUser
+
       const displayName = `${givenname} ${surname}`
 
       // Check if user exists. If not, create new user
@@ -107,27 +97,30 @@ export const apolloServer = new ApolloServer({
           // TODO log error
           // console.error('error in creating new user', e)
 
-          throw new ApolloError('Error creating new user', e as string)
+          throw new GraphQLError('Error in creating user', {
+            extensions: { code: 'INTERNAL_SERVER_ERROR' },
+          })
         }
       }
 
-      // Set db connection, keystone api, and user in context
-
-      return { db, user: loggedInUser }
+      // Set db connection, keystone api, data sources, and user in context
+      return {
+        db,
+        user: loggedInUser,
+        dataSources: () => {
+          return {
+            keystoneAPI: new KeystoneAPI(),
+            weatherAPI: new WeatherAPI(),
+            personnelAPI: new PersonnelAPI(),
+          }
+        },
+      }
     } catch (e) {
       console.error('Error creating GraphQL context', e)
 
-      throw new ApolloError('Error creating GraphQL context', 'SERVER_ERROR')
+      throw new GraphQLError('Error creating GraphQL context', {
+        extensions: { code: 'INTERNAL_SERVER_ERROR' },
+      })
     }
   },
 })
-
-const startServer = apolloServer.start()
-
-export default async function handler(req: MicroRequest, res: ServerResponse) {
-  await startServer
-
-  await apolloServer.createHandler({
-    path: '/api/graphql',
-  })(req, res)
-}

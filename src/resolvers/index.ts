@@ -1,5 +1,6 @@
 import { GraphQLScalarType, Kind } from 'graphql'
-import { AuthenticationError } from 'apollo-server-micro'
+// import { AuthenticationError } from 'apollo-server-micro'
+import { GraphQLError } from 'graphql'
 import { ObjectId, ObjectID, MongoClient } from 'mongodb'
 import type { ObjectId as ObjectIdType } from 'bson'
 import { BookmarkModel } from '../models/Bookmark'
@@ -194,8 +195,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
       return MySpaceModel.get({ userId: user.userId }, { db })
@@ -206,8 +210,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
@@ -219,8 +226,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
@@ -232,8 +242,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
@@ -248,8 +261,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
@@ -264,8 +280,11 @@ const resolvers = {
       { db, user, dataSources }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
@@ -300,8 +319,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
@@ -313,8 +335,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
@@ -329,8 +354,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
@@ -345,8 +373,11 @@ const resolvers = {
       { db, user, dataSources }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
@@ -383,8 +414,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
       return CollectionModel.deleteOne({ _id, userId: user.userId }, { db })
@@ -395,8 +429,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
@@ -411,8 +448,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
       return BookmarkModel.addOne(
@@ -426,8 +466,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
@@ -449,8 +492,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
@@ -471,8 +517,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
@@ -484,8 +533,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
@@ -497,8 +549,11 @@ const resolvers = {
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
-        throw new AuthenticationError(
-          'You must be logged in to perform this operation'
+        throw new GraphQLError(
+          'You must be logged in to perform this operation',
+          {
+            extensions: { code: 'UNAUTHENTICATED' },
+          }
         )
       }
 
