@@ -18,6 +18,7 @@ export const useWeather = (): {
       setForecast(forecastHourly.data.properties.periods)
     } catch (error: any) {
       setError(error.message)
+      console.error(error.message)
     }
   }
 

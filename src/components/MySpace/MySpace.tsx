@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useFlags } from 'launchdarkly-react-client-sdk'
 import { Grid } from '@trussworks/react-uswds'
 import { useRouter } from 'next/router'
+import axios from 'axios'
+import { print } from 'graphql'
+
 import {
   closestCorners,
   DndContext,
@@ -21,6 +24,7 @@ import DraggableWidget from 'components/util/DraggableWidget/DraggableWidget'
 import Droppable from 'components/util/Droppable/Droppable'
 import TemporaryWidget from 'components/util/TemporaryWidget/TemporaryWidget'
 
+import { GetPersonnelDataDocument } from 'operations/portal/queries/getPersonnelData.g'
 import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
 import { useEditCollectionMutation } from 'operations/portal/mutations/editCollection.g'
 import { useRemoveBookmarkMutation } from 'operations/portal/mutations/removeBookmark.g'
@@ -40,10 +44,34 @@ import {
 import AddWidget from 'components/AddWidget/AddWidget'
 import { useAnalytics } from 'stores/analyticsContext'
 import { useMySpaceContext } from 'stores/myspaceContext'
+import { useAuthContext } from 'stores/authContext'
 import WeatherWidget from 'components/WeatherWidget/WeatherWidget'
 
 const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
   const router = useRouter()
+
+  const { user, setUser } = useAuthContext()
+
+  useEffect(() => {
+    async function fetchData() {
+      // Get personnel data
+      // #TODO Once we can fetch the user server-side, we can move this
+      axios
+        .post('/api/graphql', {
+          // The print fn from graphql converts the js representation
+          // of the graphql query to a string that can be sent via axios
+          query: print(GetPersonnelDataDocument),
+        })
+        .then((res) => {
+          setUser({
+            ...user,
+            ...res.data.data,
+          })
+        })
+    }
+    fetchData()
+  }, [])
+
   const { trackEvent } = useAnalytics()
   const {
     mySpace,

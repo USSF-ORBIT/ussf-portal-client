@@ -13,7 +13,7 @@ const Loader = () => (
       <div className={styles.back}>
         <div className={styles.earth}></div>
         <div className={styles.cosmos}>
-          <div className={styles.star}></div>
+          <div className={styles.star} data-happo-hide></div>
           <div className={styles.spinner}>
             <div className={styles.face}>
               <div className={styles.circle}></div>

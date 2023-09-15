@@ -4252,42 +4252,44 @@ export const mockHourlyForecast = {
   },
 }
 
-export const mockHourlyForecastFunc = (
+export const mockHourlyForecastFunc = /* istanbul ignore next */ (
   shortForcast: string,
   temperature: number,
   isDaytime: boolean,
   windSpeed: number
 ) => {
   const ids = [0, 1, 2, 3, 4]
-  const periods = ids.map((id) => {
-    return {
-      number: id,
-      name: '',
-      startTime: `2023-08-16T1${id}:00:00-05:00`,
-      endTime: `2023-08-16T1${id + 1}:00:00-05:00`,
-      isDaytime: isDaytime,
-      temperature: temperature + id,
-      temperatureUnit: 'F',
-      temperatureTrend: null,
-      probabilityOfPrecipitation: {
-        unitCode: 'wmoUnit:percent',
-        value: 0,
-      },
-      dewpoint: {
-        unitCode: 'wmoUnit:degC',
-        value: 15.555555555555555,
-      },
-      relativeHumidity: {
-        unitCode: 'wmoUnit:percent',
-        value: 61,
-      },
-      windSpeed: windSpeed,
-      windDirection: 'S',
-      icon: 'https://api.weather.gov/icons/land/day/skc,0?size=small',
-      shortForecast: shortForcast,
-      detailedForecast: '',
+  const periods = ids.map(
+    /* istanbul ignore next */ (id) => {
+      return {
+        number: id,
+        name: '',
+        startTime: `2023-08-16T1${id}:00:00-05:00`,
+        endTime: `2023-08-16T1${id + 1}:00:00-05:00`,
+        isDaytime: isDaytime,
+        temperature: temperature + id,
+        temperatureUnit: 'F',
+        temperatureTrend: null,
+        probabilityOfPrecipitation: {
+          unitCode: 'wmoUnit:percent',
+          value: 0,
+        },
+        dewpoint: {
+          unitCode: 'wmoUnit:degC',
+          value: 15.555555555555555,
+        },
+        relativeHumidity: {
+          unitCode: 'wmoUnit:percent',
+          value: 61,
+        },
+        windSpeed: windSpeed,
+        windDirection: 'S',
+        icon: 'https://api.weather.gov/icons/land/day/skc,0?size=small',
+        shortForecast: shortForcast,
+        detailedForecast: '',
+      }
     }
-  })
+  )
   return {
     '@context': [
       'https://geojson.org/geojson-ld/geojson-context.jsonld',
