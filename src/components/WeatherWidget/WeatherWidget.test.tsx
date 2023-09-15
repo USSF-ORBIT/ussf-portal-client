@@ -1,11 +1,13 @@
 /**
  * @jest-environment jsdom
  */
+import axios from 'axios'
 import { act, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { ObjectId } from 'mongodb'
 import { renderWithMySpaceAndModalContext } from '../../testHelpers'
+import { mockHourlyForecast } from '__fixtures__/data/hourlyForecast'
 import WeatherWidget from './WeatherWidget'
 import { WeatherWidget as WeatherWidgetType } from 'types'
 
@@ -25,6 +27,10 @@ const mockWeatherWidget: WeatherWidgetType = {
   },
 }
 
+jest.mock('axios')
+
+const mockedAxios = axios as jest.Mocked<typeof axios>
+
 const mockWeatherWidgetWithIncorrectZipcode: WeatherWidgetType = {
   _id: ObjectId(),
   type: 'Weather',
@@ -41,6 +47,13 @@ const mockWeatherWidgetWithIncorrectZipcode: WeatherWidgetType = {
 }
 
 describe('WeatherWidget', () => {
+  beforeEach(() => {
+    mockedAxios.get.mockClear()
+    mockedAxios.get.mockImplementation(() => {
+      return Promise.resolve({ data: mockHourlyForecast })
+    })
+  })
+
   test('renders the WeatherWidget component', async () => {
     await act(async () => {
       renderWithMySpaceAndModalContext(
@@ -52,6 +65,9 @@ describe('WeatherWidget', () => {
     await waitFor(() => {
       expect(screen.getByText('Weather')).toBeInTheDocument()
       expect(screen.getByText('Beverly Hills, CA')).toBeInTheDocument()
+      // this date is hardcoded in the fixture
+      expect(screen.getByText('Wed, Aug 16')).toBeInTheDocument()
+      expect(screen.getByText('74°')).toBeInTheDocument()
     })
   })
 
@@ -218,6 +234,10 @@ describe('WeatherWidget', () => {
     const user = userEvent.setup()
     const mockConsoleError = jest.fn()
     jest.spyOn(console, 'error').mockImplementation(mockConsoleError)
+
+    mockedAxios.get.mockImplementation(() => {
+      return Promise.reject(new Error('Network Error'))
+    })
 
     renderWithMySpaceAndModalContext(
       <WeatherWidget widget={mockWeatherWidgetWithIncorrectZipcode} />
