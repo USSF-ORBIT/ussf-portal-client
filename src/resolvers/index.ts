@@ -1,5 +1,4 @@
 import { GraphQLScalarType, Kind } from 'graphql'
-// import { AuthenticationError } from 'apollo-server-micro'
 import { GraphQLError } from 'graphql'
 import { ObjectId, ObjectID, MongoClient } from 'mongodb'
 import type { ObjectId as ObjectIdType } from 'bson'
