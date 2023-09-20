@@ -55,19 +55,20 @@ function setUpLogging() {
     }
   }
 
+  // TO DO: Find a replacement for this.
   // Monkey-patch Next.js logger.
   // See https://github.com/atkinchris/next-logger/blob/main/index.js
   // See https://github.com/vercel/next.js/blob/canary/packages/next/build/output/log.ts
-  const nextBuiltInLogger = require('next/dist/build/output/log')
-  for (const [property, value] of Object.entries(nextBuiltInLogger)) {
-    if (typeof value !== 'function') {
-      continue
-    }
+  // const nextBuiltInLogger = require('next/dist/build/output/log')
+  // for (const [property, value] of Object.entries(nextBuiltInLogger)) {
+  //   if (typeof value !== 'function') {
+  //     continue
+  //   }
 
-    // property is not a user provided value but code from nextjs
-    // eslint-disable-next-line security/detect-object-injection
-    nextBuiltInLogger[property] = getLoggingFunction(property)
-  }
+  //   // property is not a user provided value but code from nextjs
+  //   // eslint-disable-next-line security/detect-object-injection
+  //   nextBuiltInLogger[property] = getLoggingFunction(property)
+  // }
 
   /**
    * Monkey-patch global console.log logger. Yes. Sigh.
