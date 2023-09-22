@@ -1,10 +1,10 @@
 import React from 'react'
 import { Grid } from '@trussworks/react-uswds'
+import Link from 'next/link'
 import styles from './ArticleListItem.module.scss'
 import { Category, Label } from 'components/Tag/Tag'
 import type { ArticleListItemRecord } from 'types'
 import { ArticleDateIcon } from 'components/ArticleDateIcon/ArticleDateIcon'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import { CONTENT_CATEGORIES } from 'constants/index'
 
 export const ArticleListItem = ({
@@ -34,20 +34,20 @@ export const ArticleListItem = ({
 
         <Grid col="fill" gap="05">
           <h3 className={styles.articleTitle}>
-            <LinkTo
+            <Link
               href={sourceLink ? sourceLink : `/articles/${slug}`}
               target="_blank"
               rel="noreferrer noopener">
               {title}
-            </LinkTo>
+            </Link>
           </h3>
-          <LinkTo
+          <Link
             href={sourceLink ? sourceLink : `/articles/${slug}`}
             target="_blank"
             rel="noreferrer noopener"
             data-testid="article-slug">
             {sourceLink ? sourceLink : `/articles/${slug}`}
-          </LinkTo>
+          </Link>
           <p>
             <span className={styles.previewText}>{preview}</span>
           </p>

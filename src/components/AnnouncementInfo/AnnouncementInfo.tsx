@@ -5,7 +5,6 @@ import Link from 'next/link'
 import styles from './AnnouncementInfo.module.scss'
 import type { componentBlocks } from 'components/ComponentBlocks/callToAction'
 import { AnnouncementRecord } from 'types'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import AnnouncementDate from 'components/AnnouncementDate/AnnouncementDate'
 import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
 
@@ -29,7 +28,7 @@ const AnnouncementInfo = ({
       return (
         <>
           {props.link.discriminant === 'article' && (
-            <LinkTo
+            <Link
               href={
                 props.link.value.data?.slug
                   ? `/articles/${props.link.value.data.slug}`
@@ -39,17 +38,17 @@ const AnnouncementInfo = ({
               rel="noreferrer"
               className="usa-button">
               {props.ctaText}
-            </LinkTo>
+            </Link>
           )}
 
           {props.link.discriminant === 'url' && (
-            <LinkTo
+            <Link
               href={props.link.value}
               target="_blank"
               rel="noreferrer"
               className="usa-button">
               {props.ctaText}
-            </LinkTo>
+            </Link>
           )}
 
           {props.link.discriminant === 'document' && (
