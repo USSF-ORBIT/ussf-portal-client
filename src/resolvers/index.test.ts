@@ -1,10 +1,18 @@
 import { MongoClient, Db, ObjectId } from 'mongodb'
-import { typeDefs } from '../schema'
 import { ApolloServer } from '@apollo/server'
+import { VariableValues } from '@apollo/server/dist/esm/externalTypes/graphql'
+import { typeDefs } from '../schema'
 import { newPortalUser } from '../__fixtures__/newPortalUser'
-
 import resolvers from './index'
-
+import { testUser1 } from '__fixtures__/authUsers'
+import type {
+  Collection,
+  MySpaceWidget,
+  SingleGraphQLResponse,
+  User,
+  WeatherWidget,
+  ServerContext,
+} from 'types'
 import { GetMySpaceDocument } from 'operations/portal/queries/getMySpace.g'
 import { GetCollectionsDocument } from 'operations/portal/queries/getCollections.g'
 import { AddCollectionDocument } from 'operations/portal/mutations/addCollection.g'
@@ -29,43 +37,19 @@ import {
 import WeatherAPI from 'pages/api/dataSources/weather'
 import KeystoneAPI from 'pages/api/dataSources/keystone'
 import { EditWeatherWidgetDocument } from 'operations/portal/mutations/editWeatherWidget.g'
-import type { serverContext } from 'types'
+import PersonnelAPI from 'pages/api/dataSources/personnel'
 
-let server: ApolloServer<serverContext>
+let server: ApolloServer<ServerContext>
+let serverContext: ServerContext
 let connection: typeof MongoClient
 let db: typeof Db
 const testCollectionId = ObjectId()
 const testBookmarkId = ObjectId()
 const testWidgetId = ObjectId()
 
-// Mock the data sources that are passed into Apollo Server
-jest.mock('pages/api/dataSources/keystone', () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      getLatLong: jest.fn(() => {
-        return {
-          ...mockKeystoneAPIData,
-          loading: false,
-          errors: [],
-        }
-      }),
-    }
-  })
-})
-
-jest.mock('pages/api/dataSources/weather', () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      getGridData: jest.fn(() => {
-        return {
-          ...mockWeatherAPIData,
-          loading: false,
-          errors: [],
-        }
-      }),
-    }
-  })
-})
+let keystoneAPI: KeystoneAPI
+let weatherAPI: WeatherAPI
+let personnelAPI: PersonnelAPI
 
 describe('GraphQL resolvers', () => {
   beforeAll(async () => {
@@ -82,13 +66,13 @@ describe('GraphQL resolvers', () => {
 
   describe('without being logged in', () => {
     beforeAll(async () => {
-      server = new ApolloServer<serverContext>({
+      server = new ApolloServer<ServerContext>({
         typeDefs,
         resolvers,
       })
     })
 
-    it.each([
+    test.each([
       ['getMySpace', GetMySpaceDocument],
       ['getCollections', GetCollectionsDocument],
       [
@@ -178,41 +162,66 @@ describe('GraphQL resolvers', () => {
         },
       ],
     ])(
-      'the %s operation returns an authentication error',
+      'the %s operation returns an authentication errors',
       async (_name, op, variables: VariableValues = {}) => {
-        const result = await server.executeOperation({
+        const {
+          body: {
+            singleResult: { errors },
+          },
+        } = (await server.executeOperation({
           query: op,
           variables,
-        })
+        })) as SingleGraphQLResponse<any>
 
-        expect(result.errors).toHaveLength(1)
-
-        if (result.errors?.length) {
-          expect(result.errors[0].extensions?.code).toEqual('UNAUTHENTICATED')
-          expect(result.errors[0].message).toEqual(
-            'You must be logged in to perform this operation'
-          )
-        }
+        expect(errors).toHaveLength(1)
+        expect(errors?.[0].extensions?.code).toEqual('UNAUTHENTICATED')
+        expect(errors?.[0].message).toEqual(
+          'You must be logged in to perform this operation'
+        )
       }
     )
   })
 
   describe('while logged in', () => {
     beforeAll(async () => {
-      server = new ApolloServer({
+      // Create a new server instance
+      server = new ApolloServer<ServerContext>({
         typeDefs,
         resolvers,
-        dataSources: () => ({
-          keystoneAPI: new KeystoneAPI(),
-          weatherAPI: new WeatherAPI(),
-        }),
-        context: () => ({
-          db,
-          user: {
-            userId: newPortalUser.userId,
-          },
-        }),
       })
+
+      // Set up dataSources and mock their methods
+      keystoneAPI = new KeystoneAPI()
+      weatherAPI = new WeatherAPI()
+      personnelAPI = new PersonnelAPI()
+
+      keystoneAPI.getLatLong = jest.fn(async () => {
+        return {
+          ...mockKeystoneAPIData,
+          loading: false,
+          errors: [],
+        }
+      })
+
+      weatherAPI.getGridData = jest.fn(async () => {
+        return {
+          ...mockWeatherAPIData,
+          loading: false,
+          errors: [],
+        }
+      })
+
+      // Define the server context
+      // We need to pass this context into each server operation
+      serverContext = {
+        db,
+        user: testUser1,
+        dataSources: {
+          keystoneAPI: keystoneAPI,
+          weatherAPI: weatherAPI,
+          personnelAPI: personnelAPI,
+        },
+      }
     })
 
     beforeEach(async () => {
@@ -222,48 +231,77 @@ describe('GraphQL resolvers', () => {
     })
 
     describe('getMySpace', () => {
-      it('returns all widgets for the logged in user', async () => {
-        const result = await server.executeOperation({
-          query: GetMySpaceDocument,
-        })
+      type ResponseData = {
+        mySpace: MySpaceWidget[]
+      }
+
+      test('returns all widgets for the logged in user', async () => {
+        const {
+          body: {
+            singleResult: { data, errors },
+          },
+        } = (await server.executeOperation<ResponseData>(
+          { query: GetMySpaceDocument },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
         const expectedData = { ...newPortalUser }
 
-        expect(result.errors).toBeUndefined()
-
-        expect(JSON.stringify(result.data)).toEqual(
+        expect(errors).toBeUndefined()
+        expect(JSON.stringify(data)).toEqual(
           JSON.stringify({ mySpace: expectedData.mySpace })
         )
       })
     })
 
     describe('getCollections', () => {
-      it('returns all collections for the logged in user', async () => {
-        const result = await server.executeOperation({
-          query: GetCollectionsDocument,
-        })
+      type ResponseData = {
+        collections: Collection[]
+      }
 
+      test('returns all collections for the logged in user', async () => {
+        const {
+          body: {
+            singleResult: { data, errors },
+          },
+        } = (await server.executeOperation(
+          { query: GetCollectionsDocument },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
+
+        expect(errors).toBeUndefined()
         const expectedData = newPortalUser.mySpace.filter(
           (w) => w.type === 'Collection'
         )
 
-        expect(result.errors).toBeUndefined()
-
-        expect(JSON.stringify(result.data?.collections)).toEqual(
+        expect(JSON.stringify(data?.collections)).toEqual(
           JSON.stringify(expectedData)
         )
       })
     })
 
     describe('addWidget', () => {
-      it('adds a new News widget to the user’s My Space', async () => {
-        const result = await server.executeOperation({
-          query: AddWidgetDocument,
-          variables: {
-            title: 'Recent news',
-            type: 'News',
+      type ResponseData = {
+        addWidget: MySpaceWidget
+      }
+
+      test('adds a new News widget to the user’s My Space', async () => {
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: AddWidgetDocument,
+            variables: {
+              title: 'Recent news',
+              type: 'News',
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
+
+        expect(errors).toBeUndefined()
 
         const expectedData = {
           _id: expect.any(String),
@@ -271,18 +309,24 @@ describe('GraphQL resolvers', () => {
           type: 'News',
         }
 
-        expect(result.errors).toBeUndefined()
-        expect(result.data).toMatchObject({ addWidget: expectedData })
+        expect(data).toMatchObject({ addWidget: expectedData })
       })
 
-      it('adds a new FeaturedShortcuts widget to the user’s My Space', async () => {
-        const result = await server.executeOperation({
-          query: AddWidgetDocument,
-          variables: {
-            title: 'Featured Shortcuts',
-            type: 'FeaturedShortcuts',
+      test('adds a new FeaturedShortcuts widget to the user’s My Space', async () => {
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: AddWidgetDocument,
+            variables: {
+              title: 'Featured Shortcuts',
+              type: 'FeaturedShortcuts',
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
         const expectedData = {
           _id: expect.any(String),
@@ -290,18 +334,27 @@ describe('GraphQL resolvers', () => {
           type: 'FeaturedShortcuts',
         }
 
-        expect(result.errors).toBeUndefined()
-        expect(result.data).toMatchObject({ addWidget: expectedData })
+        expect(errors).toBeUndefined()
+        expect(data).toMatchObject({ addWidget: expectedData })
       })
 
-      it('adds a new GuardianIdeal widget to the user’s My Space', async () => {
-        const result = await server.executeOperation({
-          query: AddWidgetDocument,
-          variables: {
-            title: 'Guardian Ideal',
-            type: 'GuardianIdeal',
+      test('adds a new GuardianIdeal widget to the user’s My Space', async () => {
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: AddWidgetDocument,
+            variables: {
+              title: 'Guardian Ideal',
+              type: 'GuardianIdeal',
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
+
+        expect(errors).toBeUndefined()
 
         const expectedData = {
           _id: expect.any(String),
@@ -309,55 +362,84 @@ describe('GraphQL resolvers', () => {
           type: 'GuardianIdeal',
         }
 
-        expect(result.errors).toBeUndefined()
-        expect(result.data).toMatchObject({ addWidget: expectedData })
+        expect(data).toMatchObject({ addWidget: expectedData })
       })
     })
 
     describe('removeWidget', () => {
-      it('returns an error if a non-string id is passed', async () => {
+      type ResponseData = {
+        removeWidget: MySpaceWidget
+      }
+      test('returns an errors if a non-string id is passed', async () => {
         const testWidgetId = ObjectId()
 
-        const result = await server.executeOperation({
-          query: RemoveWidgetDocument,
-          variables: {
-            _id: testWidgetId,
+        const {
+          body: {
+            singleResult: { errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: RemoveWidgetDocument,
+            variables: {
+              _id: testWidgetId,
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
-        expect(result.errors).toHaveLength(1)
-        expect(result?.errors?.[0].message).toContain(
+        expect(errors).toHaveLength(1)
+        expect(errors?.[0].message).toContain(
           'ObjectIdScalar can only parse string values'
         )
       })
-      it('removes an existing widget from the user’s My Space', async () => {
+      test('removes an existing widget from the user’s My Space', async () => {
         const testWidgetId = ObjectId()
 
-        const result = await server.executeOperation({
-          query: RemoveWidgetDocument,
-          variables: {
-            _id: `${testWidgetId}`,
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: RemoveWidgetDocument,
+            variables: {
+              _id: `${testWidgetId}`,
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
+
+        expect(errors).toBeUndefined()
 
         const expectedData = {
           _id: `${testWidgetId}`,
         }
 
-        expect(result.errors).toBeUndefined()
-        expect(result.data).toMatchObject({ removeWidget: expectedData })
+        expect(data).toMatchObject({ removeWidget: expectedData })
       })
     })
 
     describe('addCollection', () => {
-      it('adds a new collection to the user’s My Space', async () => {
-        const result = await server.executeOperation({
-          query: AddCollectionDocument,
-          variables: {
-            title: '',
-            bookmarks: [],
+      type ResponseData = {
+        addCollection: Collection
+      }
+      test('adds a new collection to the user’s My Space', async () => {
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: AddCollectionDocument,
+            variables: {
+              title: '',
+              bookmarks: [],
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
+
+        expect(errors).toBeUndefined()
 
         const expectedData = {
           _id: expect.any(String),
@@ -365,35 +447,45 @@ describe('GraphQL resolvers', () => {
           bookmarks: [],
         }
 
-        expect(result.errors).toBeUndefined()
-        expect(result.data).toMatchObject({ addCollection: expectedData })
+        expect(data).toMatchObject({ addCollection: expectedData })
       })
     })
 
     describe('editCollection', () => {
-      it('edits an existing collection title', async () => {
+      type ResponseData = {
+        editCollection: Collection
+      }
+      test('edits an existing collection title', async () => {
         const editCollection = newPortalUser.mySpace.find(
           (w) => w.type === 'Collection'
         )
 
-        const result = await server.executeOperation({
-          query: EditCollectionDocument,
-          variables: {
-            _id: `${editCollection?._id}`,
-            title: 'Edited Collection Title',
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: EditCollectionDocument,
+            variables: {
+              _id: `${editCollection?._id}`,
+              title: 'Edited Collection Title',
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
+
+        expect(errors).toBeUndefined()
 
         const expectedData = {
           _id: `${editCollection?._id}`,
           title: 'Edited Collection Title',
         }
 
-        expect(result.errors).toBeUndefined()
-        expect(result.data).toMatchObject({ editCollection: expectedData })
+        expect(data).toMatchObject({ editCollection: expectedData })
       })
 
-      it('edits the order of bookmarks in a collection', async () => {
+      test('edits the order of bookmarks in a collection', async () => {
         const editCollection = newPortalUser.mySpace.find(
           (w) => w.type === 'Collection'
         )
@@ -401,57 +493,64 @@ describe('GraphQL resolvers', () => {
         expect(editCollection?.bookmarks?.[0].label).toEqual('Webmail')
 
         // Reorder bookmarks in collection
-        const firstResult = await server.executeOperation({
-          query: EditCollectionDocument,
-          variables: {
-            _id: `${editCollection?._id}`,
-            title: 'Example Collection',
-            bookmarks: [
-              {
-                _id: `${editCollection?.bookmarks?.[1]._id.toString()}`,
-                url: 'https://mypay.dfas.mil/#/',
-                label: 'MyPay',
-                cmsId: 'cmsId2',
-                isRemoved: null,
-              },
-              {
-                _id: `${editCollection?.bookmarks?.[0]._id.toString()}`,
-                url: 'https://google.com',
-                label: 'Webmail',
-                cmsId: 'cmsId1',
-                isRemoved: null,
-              },
-              {
-                _id: `${editCollection?.bookmarks?.[2]._id.toString()}`,
-                url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-                label: 'vMPF',
-                cmsId: 'cmsId3',
-                isRemoved: null,
-              },
-              {
-                _id: `${editCollection?.bookmarks?.[3]._id.toString()}`,
-                url: 'https://leave.af.mil/profile',
-                label: 'LeaveWeb',
-                cmsId: 'cmsId4',
-                isRemoved: null,
-              },
-              {
-                _id: `${editCollection?.bookmarks?.[4]._id.toString()}`,
-                url: 'https://www.e-publishing.af.mil/',
-                label: 'e-Publications',
-                cmsId: 'cmsId5',
-                isRemoved: null,
-              },
-              {
-                _id: `${editCollection?.bookmarks?.[5]._id.toString()}`,
-                url: 'https://example.com',
-                label: 'Custom Bookmark',
-                cmsId: null,
-                isRemoved: null,
-              },
-            ],
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: EditCollectionDocument,
+            variables: {
+              _id: `${editCollection?._id}`,
+              title: 'Example Collection',
+              bookmarks: [
+                {
+                  _id: `${editCollection?.bookmarks?.[1]._id.toString()}`,
+                  url: 'https://mypay.dfas.mil/#/',
+                  label: 'MyPay',
+                  cmsId: 'cmsId2',
+                  isRemoved: null,
+                },
+                {
+                  _id: `${editCollection?.bookmarks?.[0]._id.toString()}`,
+                  url: 'https://google.com',
+                  label: 'Webmail',
+                  cmsId: 'cmsId1',
+                  isRemoved: null,
+                },
+                {
+                  _id: `${editCollection?.bookmarks?.[2]._id.toString()}`,
+                  url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+                  label: 'vMPF',
+                  cmsId: 'cmsId3',
+                  isRemoved: null,
+                },
+                {
+                  _id: `${editCollection?.bookmarks?.[3]._id.toString()}`,
+                  url: 'https://leave.af.mil/profile',
+                  label: 'LeaveWeb',
+                  cmsId: 'cmsId4',
+                  isRemoved: null,
+                },
+                {
+                  _id: `${editCollection?.bookmarks?.[4]._id.toString()}`,
+                  url: 'https://www.e-publishing.af.mil/',
+                  label: 'e-Publications',
+                  cmsId: 'cmsId5',
+                  isRemoved: null,
+                },
+                {
+                  _id: `${editCollection?.bookmarks?.[5]._id.toString()}`,
+                  url: 'https://example.com',
+                  label: 'Custom Bookmark',
+                  cmsId: null,
+                  isRemoved: null,
+                },
+              ],
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
         const expectedFirst = {
           _id: `${editCollection?._id}`,
@@ -501,26 +600,32 @@ describe('GraphQL resolvers', () => {
             },
           ],
         }
-
-        expect(firstResult.errors).toBeUndefined()
-        expect(firstResult.data).toMatchObject({
+        expect(errors).toBeUndefined()
+        expect(data).toMatchObject({
           editCollection: expectedFirst,
         })
 
         // Reorder bookmarks in collection to match original order
-        const secondResult = await server.executeOperation({
-          query: EditCollectionDocument,
-          variables: {
-            _id: `${editCollection?._id}`,
-            title: 'Example Collection',
-            bookmarks: editCollection?.bookmarks?.map((b) => {
-              return {
-                ...b,
-                _id: `${b._id.toString()}`,
-              }
-            }),
+        const {
+          body: {
+            singleResult: { data: secondData, errors: secondErrors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: EditCollectionDocument,
+            variables: {
+              _id: `${editCollection?._id}`,
+              title: 'Example Collection',
+              bookmarks: editCollection?.bookmarks?.map((b) => {
+                return {
+                  ...b,
+                  _id: `${b._id.toString()}`,
+                }
+              }),
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
         const expectedSecond = {
           _id: `${editCollection?._id}`,
@@ -533,86 +638,108 @@ describe('GraphQL resolvers', () => {
           }),
         }
 
-        expect(secondResult.errors).toBeUndefined()
-        expect(secondResult.data).toMatchObject({
+        expect(secondErrors).toBeUndefined()
+        expect(secondData).toMatchObject({
           editCollection: expectedSecond,
         })
       })
     })
 
     describe('removeCollection', () => {
-      it('deletes an existing collection', async () => {
+      type ResponseData = {
+        removeCollection: Collection
+      }
+      test('deletes an existing collection', async () => {
         const removeCollection = newPortalUser.mySpace.find(
           (w) => w.type === 'Collection'
         )
 
-        const result = await server.executeOperation({
-          query: RemoveCollectionDocument,
-          variables: {
-            _id: `${removeCollection?._id}`,
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: RemoveCollectionDocument,
+            variables: {
+              _id: `${removeCollection?._id}`,
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
         const expectedData = {
           _id: `${removeCollection?._id}`,
         }
-
-        expect(result.errors).toBeUndefined()
-        expect(result.data).toMatchObject({ removeCollection: expectedData })
+        expect(errors).toBeUndefined()
+        expect(data).toMatchObject({ removeCollection: expectedData })
       })
     })
 
     describe('addCollections', () => {
-      it('adds multiple new collections to the user’s My Space', async () => {
-        const result = await server.executeOperation({
-          query: AddCollectionsDocument,
-          variables: {
-            collections: [
-              {
-                id: 'cmsCollectionId1',
-                title: 'CMS Collection 1',
-                bookmarks: [
-                  {
-                    id: 'cmsBookmarkId1',
-                    url: 'https://google.com',
-                    label: 'Webmail',
-                  },
-                  {
-                    id: 'cmsBookmarkId2',
-                    url: 'https://mypay.dfas.mil/#/',
-                    label: 'MyPay',
-                  },
-                  {
-                    id: 'cmsBookmarkId3',
-                    url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
-                    label: 'vMPF',
-                  },
-                  {
-                    id: 'cmsBookmarkId4',
-                    url: 'https://leave.af.mil/profile',
-                    label: 'LeaveWeb',
-                  },
-                  {
-                    id: 'cmsBookmarkId5',
-                    url: 'https://www.e-publishing.af.mil/',
-                    label: 'e-Publications',
-                  },
-                ],
-              },
-              {
-                id: 'cmsCollectionId2',
-                title: 'CMS Collection 2',
-                bookmarks: [
-                  {
-                    id: 'cmsBookmarkId6',
-                    url: 'https://google.com',
-                    label: 'Search Engine',
-                  },
-                ],
-              },
-            ],
+      type ResponseData = {
+        addCollections: Collection[]
+      }
+
+      test('adds multiple new collections to the user’s My Space', async () => {
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: AddCollectionsDocument,
+            variables: {
+              collections: [
+                {
+                  id: 'cmsCollectionId1',
+                  title: 'CMS Collection 1',
+                  bookmarks: [
+                    {
+                      id: 'cmsBookmarkId1',
+                      url: 'https://google.com',
+                      label: 'Webmail',
+                    },
+                    {
+                      id: 'cmsBookmarkId2',
+                      url: 'https://mypay.dfas.mil/#/',
+                      label: 'MyPay',
+                    },
+                    {
+                      id: 'cmsBookmarkId3',
+                      url: 'https://afpcsecure.us.af.mil/PKI/MainMenu1.aspx',
+                      label: 'vMPF',
+                    },
+                    {
+                      id: 'cmsBookmarkId4',
+                      url: 'https://leave.af.mil/profile',
+                      label: 'LeaveWeb',
+                    },
+                    {
+                      id: 'cmsBookmarkId5',
+                      url: 'https://www.e-publishing.af.mil/',
+                      label: 'e-Publications',
+                    },
+                  ],
+                },
+                {
+                  id: 'cmsCollectionId2',
+                  title: 'CMS Collection 2',
+                  bookmarks: [
+                    {
+                      id: 'cmsBookmarkId6',
+                      url: 'https://google.com',
+                      label: 'Search Engine',
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+          {
+            contextValue: serverContext,
+          }
+        )) as SingleGraphQLResponse<ResponseData>
 
         const expectedData = [
           {
@@ -669,25 +796,37 @@ describe('GraphQL resolvers', () => {
           },
         ]
 
-        expect(result.errors).toBeUndefined()
-
-        expect(result.data).toMatchObject({ addCollections: expectedData })
+        expect(errors).toBeUndefined()
+        expect(data).toMatchObject({ addCollections: expectedData })
       })
     })
 
     describe('addBookmark', () => {
-      it('adds a bookmark to an existing collection', async () => {
+      type ResponseData = {
+        addBookmark: Collection
+      }
+
+      test('adds a bookmark to an existing collection', async () => {
         const collection = newPortalUser.mySpace[0]
 
-        const result = await server.executeOperation({
-          query: AddBookmarkDocument,
-          variables: {
-            collectionId: `${collection._id}`,
-            label: 'New Label',
-            url: 'http://www.example.com/new',
-            cmsId: 'testBookmarkCmsId',
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: AddBookmarkDocument,
+            variables: {
+              collectionId: `${collection._id}`,
+              label: 'New Label',
+              url: 'http://www.example.com/new',
+              cmsId: 'testBookmarkCmsId',
+            },
+          },
+          {
+            contextValue: serverContext,
+          }
+        )) as SingleGraphQLResponse<ResponseData>
 
         const expectedData = {
           _id: expect.any(String),
@@ -696,28 +835,38 @@ describe('GraphQL resolvers', () => {
           cmsId: 'testBookmarkCmsId',
         }
 
-        expect(result.errors).toBeUndefined()
-
-        expect(result.data).toMatchObject({ addBookmark: expectedData })
+        expect(errors).toBeUndefined()
+        expect(data).toMatchObject({ addBookmark: expectedData })
       })
     })
 
     describe('editBookmark', () => {
-      it('edits an existing bookmark', async () => {
+      type ResponseData = {
+        editBookmark: Collection
+      }
+
+      test('edits an existing bookmark', async () => {
         const collection = newPortalUser.mySpace[0]
         const editBookmark = collection.bookmarks?.filter(
           (b: any) => b.cmsId === null
         )[0]
 
-        const result = await server.executeOperation({
-          query: EditBookmarkDocument,
-          variables: {
-            _id: `${editBookmark?._id}`,
-            collectionId: `${newPortalUser.mySpace[0]._id}`,
-            label: 'New Label',
-            url: 'http://www.example.com/new',
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: EditBookmarkDocument,
+            variables: {
+              _id: `${editBookmark?._id}`,
+              collectionId: `${newPortalUser.mySpace[0]._id}`,
+              label: 'New Label',
+              url: 'http://www.example.com/new',
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
         const expectedData = {
           _id: `${editBookmark?._id}`,
@@ -725,147 +874,217 @@ describe('GraphQL resolvers', () => {
           url: 'http://www.example.com/new',
         }
 
-        expect(result.errors).toBeUndefined()
-
-        expect(JSON.stringify(result.data)).toEqual(
+        expect(errors).toBeUndefined()
+        expect(JSON.stringify(data)).toEqual(
           JSON.stringify({ editBookmark: expectedData })
         )
       })
     })
 
     describe('removeBookmark', () => {
-      it('deletes an existing custom bookmark', async () => {
+      type ResponseData = {
+        removeBookmark: Collection
+      }
+
+      test('deletes an existing custom bookmark', async () => {
         const collection = newPortalUser.mySpace[0]
         const bookmark = collection.bookmarks?.[0]
 
-        const result = await server.executeOperation({
-          query: RemoveBookmarkDocument,
-          variables: {
-            _id: `${bookmark?._id}`,
-            collectionId: `${collection?._id}`,
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: RemoveBookmarkDocument,
+            variables: {
+              _id: `${bookmark?._id}`,
+              collectionId: `${collection?._id}`,
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
         const expectedData = {
           _id: `${bookmark?._id}`,
         }
-
-        expect(result.errors).toBeUndefined()
-        expect(result.data).toMatchObject({ removeBookmark: expectedData })
+        expect(errors).toBeUndefined()
+        expect(data).toMatchObject({ removeBookmark: expectedData })
       })
 
-      it('hides an existing cms bookmark', async () => {
+      test('hides an existing cms bookmark', async () => {
+        type ResponseData = {
+          mySpace: MySpaceWidget[]
+        }
+
         const collection = newPortalUser.mySpace[0]
         const bookmark = collection.bookmarks?.[0]
 
-        await server.executeOperation({
-          query: RemoveBookmarkDocument,
-          variables: {
-            _id: `${bookmark?._id}`,
-            cmsId: `${bookmark?.cmsId}`,
-            collectionId: `${collection?._id}`,
+        ;(await server.executeOperation(
+          {
+            query: RemoveBookmarkDocument,
+            variables: {
+              _id: `${bookmark?._id}`,
+              cmsId: `${bookmark?.cmsId}`,
+              collectionId: `${collection?._id}`,
+            },
           },
-        })
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
-        const updated = await server.executeOperation({
-          query: GetMySpaceDocument,
-          variables: {
-            userId: newPortalUser.userId,
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: GetMySpaceDocument,
+            variables: {
+              userId: newPortalUser.userId,
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
-        expect(updated.data?.mySpace[0].bookmarks[0].cmsId).toBe(
-          bookmark?.cmsId
-        )
-        expect(updated.data?.mySpace[0].bookmarks[0].isRemoved).toBe(true)
+        expect(errors).toBeUndefined()
+        expect(data.mySpace[0].bookmarks?.[0].cmsId).toBe(bookmark?.cmsId)
+        expect(data.mySpace[0].bookmarks?.[0].isRemoved).toBe(true)
       })
     })
 
     describe('getDisplayName', () => {
-      it('returns displayName of the user', async () => {
-        const result = await server.executeOperation({
-          query: GetDisplayNameDocument,
-        })
+      type ResponseData = {
+        displayName: string
+      }
+      test('returns displayName of the user', async () => {
+        const {
+          body: {
+            singleResult: { data, errors },
+          },
+        } = (await server.executeOperation(
+          {
+            query: GetDisplayNameDocument,
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
         const expectedData = { ...newPortalUser }
 
-        expect(result.errors).toBeUndefined()
-
-        expect(result.data?.displayName).toEqual(expectedData.displayName)
+        expect(errors).toBeUndefined()
+        expect(data?.displayName).toEqual(expectedData.displayName)
       })
     })
 
     describe('editDisplayName', () => {
-      it('edits an existing display name', async () => {
+      type ResponseData = {
+        editDisplayName: User
+      }
+
+      test('edits an existing display name', async () => {
         const editDisplayName = newPortalUser
 
-        const result = await server.executeOperation({
-          query: EditDisplayNameDocument,
-          variables: {
-            userId: `${editDisplayName.userId}`,
-            displayName: 'New Name',
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: EditDisplayNameDocument,
+            variables: {
+              userId: `${editDisplayName.userId}`,
+              displayName: 'New Name',
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
         const expectedData = {
           userId: `${newPortalUser.userId}`,
           displayName: 'New Name',
         }
 
-        expect(result.errors).toBeUndefined()
-        expect(result.data).toMatchObject({ editDisplayName: expectedData })
+        expect(errors).toBeUndefined()
+        expect(data).toMatchObject({ editDisplayName: expectedData })
       })
     })
 
     describe('getTheme', () => {
-      it('returns theme of the user', async () => {
-        const result = await server.executeOperation({
-          query: GetThemeDocument,
-        })
+      type ResponseData = {
+        theme: string
+      }
+      test('returns theme of the user', async () => {
+        const {
+          body: {
+            singleResult: { data, errors },
+          },
+        } = (await server.executeOperation(
+          {
+            query: GetThemeDocument,
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
         const expectedData = { ...newPortalUser }
 
-        expect(result.errors).toBeUndefined()
-
-        expect(result.data?.theme).toEqual(expectedData.theme)
+        expect(errors).toBeUndefined()
+        expect(data?.theme).toEqual(expectedData.theme)
       })
     })
 
     describe('editTheme', () => {
-      it('edits an existing user theme', async () => {
-        const result = await server.executeOperation({
-          query: EditThemeDocument,
-          variables: {
-            userId: `${newPortalUser.userId}`,
-            theme: 'light',
+      type ResponseData = {
+        editTheme: User
+      }
+      test('edits an existing user theme', async () => {
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: EditThemeDocument,
+            variables: {
+              userId: `${newPortalUser.userId}`,
+              theme: 'light',
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
         const expectedData = {
           userId: `${newPortalUser.userId}`,
           theme: 'light',
         }
 
-        expect(result.errors).toBeUndefined()
-        expect(result.data).toMatchObject({ editTheme: expectedData })
+        expect(errors).toBeUndefined()
+        expect(data).toMatchObject({ editTheme: expectedData })
       })
     })
 
     describe('addWeatherWidget', () => {
       // Start Data: MySpace contains exampleWeatherWidget2
       // End Data: MySpace contains exampleWeatherWidget1 and exampleWeatherWidget2
-
-      it('adds a weather widget', async () => {
+      type ResponseData = {
+        addWeatherWidget: WeatherWidget
+      }
+      test('adds a weather widget', async () => {
         // Add Weather Widget
-        const result = await server.executeOperation({
-          query: AddWeatherWidgetDocument,
-          variables: {
-            userId: `${newPortalUser.userId}`,
-            title: 'Weather',
-            type: 'Weather',
-            zipcode: exampleWeatherWidget1.coords.zipcode,
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: AddWeatherWidgetDocument,
+            variables: {
+              userId: `${newPortalUser.userId}`,
+              title: 'Weather',
+              type: 'Weather',
+              zipcode: exampleWeatherWidget1.coords.zipcode,
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
 
         const expectedData = {
           _id: expect.any(String),
@@ -875,39 +1094,62 @@ describe('GraphQL resolvers', () => {
             ...exampleWeatherWidget1.coords,
           },
         }
-
-        expect(result.errors).toBeUndefined()
-        expect(result.data).toMatchObject({ addWeatherWidget: expectedData })
+        expect(errors).toBeUndefined()
+        expect(data).toMatchObject({ addWeatherWidget: expectedData })
       })
     })
 
-    describe('editWeatherWidget', () => {
-      it('edits an existing weather widget', async () => {
+    describe('edtestWeatherWidget', () => {
+      type ResponseData = {
+        editWeatherWidget: WeatherWidget
+      }
+      test('edits an existing weather widget', async () => {
         // Start Data: MySpace contains exampleWeatherWidget1 and exampleWeatherWidget2
         // End Data: exampleWeatherWidget2 is updated to 90210 (exampleWeatherWidget1 data))
-        const mySpace = await server.executeOperation({
-          query: GetMySpaceDocument,
-          variables: {
-            userId: newPortalUser.userId,
+        type MySpaceResponseData = {
+          mySpace: MySpaceWidget[]
+        }
+        const {
+          body: {
+            singleResult: { data: mySpaceData, errors: mySpaceErrors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: GetMySpaceDocument,
+            variables: {
+              userId: newPortalUser.userId,
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<MySpaceResponseData>
 
-        const result = await server.executeOperation({
-          query: EditWeatherWidgetDocument,
-          variables: {
-            _id: mySpace.data?.mySpace[2]._id,
-            zipcode: exampleWeatherWidget1.coords.zipcode,
+        expect(mySpaceErrors).toBeUndefined()
+
+        const {
+          body: {
+            singleResult: { data, errors },
           },
-        })
+        } = (await server.executeOperation(
+          {
+            query: EditWeatherWidgetDocument,
+            variables: {
+              _id: mySpaceData.mySpace[2]._id,
+              zipcode: exampleWeatherWidget1.coords.zipcode,
+            },
+          },
+          { contextValue: serverContext }
+        )) as SingleGraphQLResponse<ResponseData>
+
         const expectedData = {
-          _id: mySpace.data?.mySpace[2]._id,
+          _id: mySpaceData.mySpace[2]._id,
           title: 'Weather',
           coords: {
             ...exampleWeatherWidget1.coords,
           },
         }
-        expect(result.errors).toBeUndefined()
-        expect(result.data).toMatchObject({ editWeatherWidget: expectedData })
+
+        expect(errors).toBeUndefined()
+        expect(data).toMatchObject({ editWeatherWidget: expectedData })
       })
     })
   })

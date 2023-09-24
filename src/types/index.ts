@@ -9,10 +9,10 @@ import PersonnelAPI from '../pages/api/dataSources/personnel'
  * */
 export * from '../graphql.g'
 
-export interface serverContext {
+export interface ServerContext {
   db: any
-  user: SessionUser
-  dataSources: () => {
+  user: SessionUser | null
+  dataSources: {
     keystoneAPI: KeystoneAPI
     weatherAPI: WeatherAPI
     personnelAPI: PersonnelAPI
@@ -254,6 +254,15 @@ export type featuredShortcutItem = {
 
 export type featuredShortcutItems = featuredShortcutItem[]
 
+export type SingleGraphQLResponse<ResponseData> = {
+  body: {
+    kind: 'single'
+    singleResult: {
+      data: ResponseData
+      errors?: any[]
+    }
+  }
+}
 /**
  * ***********************
  * Types for User / Auth

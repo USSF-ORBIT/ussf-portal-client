@@ -8,13 +8,13 @@ import WeatherAPI from './dataSources/weather'
 import KeystoneAPI from './dataSources/keystone'
 import PersonnelAPI from './dataSources/personnel'
 import resolvers from 'resolvers/index'
-import type { SessionUser, CollectionRecord } from 'types/index'
+import type { SessionUser, CollectionRecord, ServerContext } from 'types/index'
 import { client } from 'lib/keystoneClient'
 import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
 import User from 'models/User'
 import { EXAMPLE_COLLECTION_ID } from 'constants/index'
-import type { serverContext } from 'types/index'
+
 // To create a new user, we need the example collection from Keystone
 const getExampleCollection = async () => {
   // Request the example collection based on ID
@@ -53,7 +53,7 @@ const clientConnection = async () => {
   }
 }
 
-export const apolloServer = new ApolloServer<serverContext>({
+export const apolloServer = new ApolloServer<ServerContext>({
   typeDefs,
   resolvers,
   status400ForVariableCoercionErrors: true,
@@ -107,12 +107,10 @@ export default startServerAndCreateNextHandler(apolloServer, {
       return {
         db,
         user: loggedInUser,
-        dataSources: () => {
-          return {
-            keystoneAPI: new KeystoneAPI(),
-            weatherAPI: new WeatherAPI(),
-            personnelAPI: new PersonnelAPI(),
-          }
+        dataSources: {
+          keystoneAPI: new KeystoneAPI(),
+          weatherAPI: new WeatherAPI(),
+          personnelAPI: new PersonnelAPI(),
         },
       }
     } catch (e) {

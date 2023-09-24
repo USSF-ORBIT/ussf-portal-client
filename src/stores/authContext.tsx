@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { print } from 'graphql'
 import { useRouter } from 'next/router'
 import { GetPersonnelDataDocument } from 'operations/portal/queries/getPersonnelData.g'
-import { SessionUser, PortalUser, PersonnelData } from 'types'
+import { SessionUser, PortalUser } from 'types'
 
 export type AuthContextType = {
   user: SessionUser | null
