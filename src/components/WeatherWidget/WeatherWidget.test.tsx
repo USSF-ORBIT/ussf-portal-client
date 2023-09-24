@@ -1,11 +1,13 @@
 /**
  * @jest-environment jsdom
  */
+import axios from 'axios'
 import { act, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { ObjectId } from 'mongodb'
 import { renderWithMySpaceAndModalContext } from '../../testHelpers'
+import { mockHourlyForecast } from '__fixtures__/data/hourlyForecast'
 import WeatherWidget from './WeatherWidget'
 import { WeatherWidget as WeatherWidgetType } from 'types'
 
@@ -25,7 +27,33 @@ const mockWeatherWidget: WeatherWidgetType = {
   },
 }
 
+jest.mock('axios')
+
+const mockedAxios = axios as jest.Mocked<typeof axios>
+
+const mockWeatherWidgetWithIncorrectZipcode: WeatherWidgetType = {
+  _id: ObjectId(),
+  type: 'Weather',
+  title: 'Weather',
+  coords: {
+    lat: 34.0901,
+    long: -118.4065,
+    forecastUrl: 'not_a_forecast_url',
+    hourlyForecastUrl: 'not_an_hourly_url',
+    city: 'Beverly Hills',
+    state: 'CA',
+    zipcode: '00000',
+  },
+}
+
 describe('WeatherWidget', () => {
+  beforeEach(() => {
+    mockedAxios.get.mockClear()
+    mockedAxios.get.mockImplementation(() => {
+      return Promise.resolve({ data: mockHourlyForecast })
+    })
+  })
+
   test('renders the WeatherWidget component', async () => {
     await act(async () => {
       renderWithMySpaceAndModalContext(
@@ -37,6 +65,9 @@ describe('WeatherWidget', () => {
     await waitFor(() => {
       expect(screen.getByText('Weather')).toBeInTheDocument()
       expect(screen.getByText('Beverly Hills, CA')).toBeInTheDocument()
+      // this date is hardcoded in the fixture
+      expect(screen.getByText('Wed, Aug 16')).toBeInTheDocument()
+      expect(screen.getByText('74°')).toBeInTheDocument()
     })
   })
 
@@ -197,6 +228,33 @@ describe('WeatherWidget', () => {
 
     await user.type(screen.getByTestId('weatherWidget_input'), '!')
     expect(screen.getByTestId('weatherWidget_input')).toHaveValue('90210')
+  })
+
+  test('user can retry fetching the weather forecast', async () => {
+    const user = userEvent.setup()
+    const mockConsoleError = jest.fn()
+    jest.spyOn(console, 'error').mockImplementation(mockConsoleError)
+
+    mockedAxios.get.mockImplementation(() => {
+      return Promise.reject(new Error('Network Error'))
+    })
+
+    renderWithMySpaceAndModalContext(
+      <WeatherWidget widget={mockWeatherWidgetWithIncorrectZipcode} />
+    )
+
+    // Click the retry button
+    await waitFor(() => {
+      expect(
+        screen.getByLabelText('Retry fetching weather')
+      ).toBeInTheDocument()
+    })
+    await user.click(screen.getByLabelText('Retry fetching weather'))
+
+    // Since the mock widget that is being used has an invalid url, we expect the request to fail. Checking
+    // that there is an error logged to the console is important because it means that, when the Retry
+    // button was clicked, the request was made in the useWeather hook and failed.
+    expect(mockConsoleError).toHaveBeenCalledWith('Network Error')
   })
 
   test('remove the WeatherWidget', async () => {

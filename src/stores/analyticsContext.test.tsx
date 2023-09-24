@@ -47,6 +47,8 @@ const mockedFetch = fetch as jest.Mock
 jest.spyOn(console, 'debug').mockImplementation(jest.fn())
 const mockConsoleWarn = jest.fn()
 jest.spyOn(console, 'warn').mockImplementation(mockConsoleWarn)
+const mockConsoleDebug = jest.fn()
+jest.spyOn(console, 'debug').mockImplementation(mockConsoleDebug)
 
 describe('useAnalytics', () => {
   test('throws an error if AnalyticsContext is undefined', () => {
@@ -72,6 +74,7 @@ describe('Analytics context', () => {
   beforeEach(() => {
     mockedFetch.mockClear()
     mockConsoleWarn.mockClear()
+    mockConsoleDebug.mockClear()
   })
 
   test('warns in the console if missing the analytics URL', async () => {
@@ -207,6 +210,78 @@ describe('Analytics context', () => {
     await waitFor(() => {
       expect(windowWithAnalytics._paq).toBeDefined()
     })
+  })
+
+  test('calls setUserIdFn', async () => {
+    const windowWithAnalytics = window as unknown as WindowWithAnalytics
+
+    expect(windowWithAnalytics._paq).toBeDefined()
+
+    const TestComponent = () => {
+      const { push, setUserIdFn } = useAnalytics()
+      return (
+        <div>
+          <button type="button" onClick={() => setUserIdFn('testUserId')}>
+            Set user ID
+          </button>
+          <button
+            type="button"
+            onClick={() => push(['trackEvent', 'testEvent', 'push action'])}>
+            Test push
+          </button>
+        </div>
+      )
+    }
+
+    render(
+      <AnalyticsProvider debug>
+        <TestComponent />
+      </AnalyticsProvider>
+    )
+
+    const user = userEvent.setup()
+    await user.click(screen.getByRole('button', { name: 'Set user ID' }))
+    await user.click(screen.getByRole('button', { name: 'Test push' }))
+    expect(windowWithAnalytics._paq?.pop()).toEqual([
+      'trackEvent',
+      'testEvent',
+      'push action',
+    ])
+    expect(windowWithAnalytics._paq?.pop()).toEqual(['setUserId', 'testUserId'])
+
+    expect(mockConsoleDebug).toHaveBeenCalledWith(
+      'ANALYTICS(setUserId):',
+      'testUserId'
+    )
+  })
+
+  test('calls unsetUserIdFn', async () => {
+    const windowWithAnalytics = window as unknown as WindowWithAnalytics
+
+    expect(windowWithAnalytics._paq).toBeDefined()
+
+    const TestComponent = () => {
+      const { unsetUserIdFn } = useAnalytics()
+      return (
+        <div>
+          <button type="button" onClick={() => unsetUserIdFn()}>
+            Unset user ID
+          </button>
+        </div>
+      )
+    }
+
+    render(
+      <AnalyticsProvider debug>
+        <TestComponent />
+      </AnalyticsProvider>
+    )
+
+    const user = userEvent.setup()
+    await user.click(screen.getByRole('button', { name: 'Unset user ID' }))
+
+    expect(windowWithAnalytics._paq?.pop()).toEqual(['appendToTrackingUrl', ''])
+    expect(mockConsoleDebug).toHaveBeenCalledWith('ANALYTICS(unsetUserId)')
   })
 
   describe('with config defined', () => {

@@ -189,7 +189,8 @@ Services include:
 - Uses Dockerfile from our [analytics repo](https://github.com/USSF-ORBIT/analytics) which should be checked out in  `../analytics/`.
 - Depends on mariadb
 - Persists volume `matomo_data`
-- Access at `localhost:8443`
+- Access at `http://localhost:8081`
+- Do not use `https` locally as the Matomo image is not setup for that locally
 - Credentials are in the 1Password Vault
 
 

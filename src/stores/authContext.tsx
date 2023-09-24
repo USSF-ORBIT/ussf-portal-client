@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
-import { print } from 'graphql'
 import { useRouter } from 'next/router'
-import { GetPersonnelDataDocument } from 'operations/portal/queries/getPersonnelData.g'
+import { useAnalytics } from './analyticsContext'
 import { SessionUser, PortalUser } from 'types'
 
 export type AuthContextType = {
@@ -35,47 +34,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<SessionUser | null>(null)
   const [portalUser, setPortalUser] = useState<PortalUser | null>(null)
   const router = useRouter()
+  const { setUserIdFn, unsetUserIdFn } = useAnalytics()
 
   useEffect(() => {
     if (!user) {
       // Fetch user client-side if there is none
       const fetchUser = async () => {
-        let user: SessionUser
-
         try {
           const response: AxiosResponse<{ user: SessionUser }> =
             await axios.get('/api/auth/user')
-          user = {
-            ...response.data.user,
-          }
-          if (response.data.user) {
-            // Query the Portal API for personnel data
-            // If this request fails, it should not impact the user's
-            // ability to log in, so we catch the error and continue
-            try {
-              const data: AxiosResponse<any> = await axios.post(
-                '/api/graphql',
-                {
-                  // The print fn from graphql converts the js representation
-                  // of the graphql query to a string that can be sent via axios
-                  query: print(GetPersonnelDataDocument),
-                }
-              )
-
-              user = {
-                ...user,
-                ...data.data.data,
-              }
-            } catch (e) {
-              console.error('Error fetching personnel data', e)
-            }
-          } else {
-            // This (probably) means they aren't logged in
-            router.replace('/login')
-          }
-
-          // Store session user and personnel data in context
-          setUser(user)
+          // Store session in context
+          setUser(response.data.user)
         } catch (e) {
           // This (probably) means they aren't logged in
           router.replace('/login')
@@ -83,6 +52,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       fetchUser()
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (user) {
+      // Set user ID for analytics
+      setUserIdFn(user.attributes.edipi)
     }
   }, [user])
 
@@ -94,6 +70,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = async () => {
     try {
+      unsetUserIdFn()
       await axios.get('/api/auth/logout')
       setUser(null)
       window.location.href = '/login'

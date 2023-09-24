@@ -8,7 +8,6 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     'storybook-addon-mock',
-    'storybook-addon-launchdarkly',
   ],
   typescript: {
     check: false,
