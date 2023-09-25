@@ -13,9 +13,7 @@ name: release-please
 
 jobs:
   release-please:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: USSF-ORBIT/ussf-portal/.github/workflows/reusable-run-e2e-tests.yml@sc-2354/add-reusable-release-please
-        with:
-          release-type: node
-          package-name: ussf-portal-client
+    uses: USSF-ORBIT/ussf-portal/.github/workflows/reusable-run-e2e-tests.yml@sc-2354/add-reusable-release-please
+    with:
+      release-type: node
+      package-name: ussf-portal-client
