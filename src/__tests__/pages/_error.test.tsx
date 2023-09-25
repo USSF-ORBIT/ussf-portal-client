@@ -96,7 +96,12 @@ describe('custom error page', () => {
   test('calls trackEvent with the correct arguments', async () => {
     const mockTrackEvents = jest.fn()
     jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
-      return { push: jest.fn(), trackEvent: mockTrackEvents }
+      return {
+        push: jest.fn(),
+        setUserIdFn: jest.fn(),
+        unsetUserIdFn: jest.fn(),
+        trackEvent: mockTrackEvents,
+      }
     })
     render(<CustomError />)
     await waitFor(() => {
@@ -112,7 +117,12 @@ describe('custom error page', () => {
   test('calls trackEvent with the correct arguments', async () => {
     const mockTrackEvents = jest.fn()
     jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
-      return { push: jest.fn(), trackEvent: mockTrackEvents }
+      return {
+        push: jest.fn(),
+        setUserIdFn: jest.fn(),
+        unsetUserIdFn: jest.fn(),
+        trackEvent: mockTrackEvents,
+      }
     })
     render(<CustomError statusCode={404} />)
     await waitFor(() => {

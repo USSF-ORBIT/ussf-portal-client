@@ -1,6 +1,4 @@
-import { GraphQLScalarType, Kind } from 'graphql'
-// import { AuthenticationError } from 'apollo-server-micro'
-import { GraphQLError } from 'graphql'
+import { GraphQLScalarType, Kind, GraphQLError } from 'graphql'
 import { ObjectId, ObjectID, MongoClient } from 'mongodb'
 import type { ObjectId as ObjectIdType } from 'bson'
 import { BookmarkModel } from '../models/Bookmark'
@@ -311,6 +309,7 @@ const resolvers = {
         state: data.relativeLocation.properties.state,
         zipcode,
       }
+
       return WeatherModel.addOne({ coords, userId: user.userId }, { db })
     },
     removeWidget: async (

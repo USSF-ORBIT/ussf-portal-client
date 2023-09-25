@@ -40,6 +40,9 @@ jest.mock('axios', () => ({
   get: () => {
     return Promise.resolve({ data: mockRssFeedTen })
   },
+  post: () => {
+    return Promise.resolve({ data: {} })
+  },
 }))
 
 describe('My Space Component', () => {

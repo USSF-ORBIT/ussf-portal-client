@@ -79,7 +79,12 @@ describe('FeaturedShortcuts component', () => {
     const mockTrackEvents = jest.fn()
 
     jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
-      return { push: jest.fn(), trackEvent: mockTrackEvents }
+      return {
+        push: jest.fn(),
+        setUserIdFn: jest.fn(),
+        unsetUserIdFn: jest.fn(),
+        trackEvent: mockTrackEvents,
+      }
     })
 
     render(

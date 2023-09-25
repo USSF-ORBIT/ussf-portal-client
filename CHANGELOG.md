@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.23.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.22.1...4.23.0) (2023-09-11)
+
+
+### Features
+
+* Add resolvers and mutations for managing weather widget ([#1075](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1075)) ([a652766](https://github.com/USSF-ORBIT/ussf-portal-client/commit/a652766bdaba0269881517ee5925b9274e4522b5))
+* Add support for CTA to link a document ([#1082](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1082)) ([fa0a6bb](https://github.com/USSF-ORBIT/ussf-portal-client/commit/fa0a6bb3b364576923782f428fd35007ca83aff9))
+* Change h3 from book weight to bold weight ([#1076](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1076)) ([c92ae65](https://github.com/USSF-ORBIT/ussf-portal-client/commit/c92ae652d086046a16cb24de79798e9fd7a2988d))
+* Create weather widget ([#1079](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1079)) ([3e6b91d](https://github.com/USSF-ORBIT/ussf-portal-client/commit/3e6b91d95b804464eaa553f6cf7b697a28b7f90c))
+* Load user personnel data into portal ([#1088](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1088)) ([fe0a1d8](https://github.com/USSF-ORBIT/ussf-portal-client/commit/fe0a1d819617a6993cbb78c68eca1a9496d4f78e))
+* new loader animation ([#1085](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1085)) ([b099904](https://github.com/USSF-ORBIT/ussf-portal-client/commit/b09990447c52d16214984ab0d4dc627f461c7883))
+
+
+### Bug Fixes
+
+* **deps:** update dependencies ([#1059](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1059)) ([441a35c](https://github.com/USSF-ORBIT/ussf-portal-client/commit/441a35c7ea3055c2bbf968c94201b2bc422f8f33))
+* design: dark mode adjustments ([#1091](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1091)) ([9c67a4a](https://github.com/USSF-ORBIT/ussf-portal-client/commit/9c67a4a27ca1a6c5d700121168663fe9bfadd53c))
+* design: Footer styling refactor for accessibility and responsive design improvements ([#1081](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1081)) ([18dd17f](https://github.com/USSF-ORBIT/ussf-portal-client/commit/18dd17f40abf38be81ce750b20219feb2b2882ef))
+* local personnel-api service targets builder stage only ([#1084](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1084)) ([94950eb](https://github.com/USSF-ORBIT/ussf-portal-client/commit/94950eb8fc831dcf16ac5ef77046fe3ffadcb382))
+* storybook dark theme ([#1065](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1065)) ([c5deda3](https://github.com/USSF-ORBIT/ussf-portal-client/commit/c5deda38116f416ce99934afea5959641d68f65a))
+* storybook deploy ([#1072](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1072)) ([ee21044](https://github.com/USSF-ORBIT/ussf-portal-client/commit/ee210449dbce6cc1a67ee1f96bf59e69d67ef22e))
+
+
+### Security Improvements
+
+* **deps:** update auto-instrumentations-web and auto-instrumentations-node ([#1087](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1087)) ([71236b8](https://github.com/USSF-ORBIT/ussf-portal-client/commit/71236b857ad1170abb9a1a045615259dbb889327))
+
 ## [4.22.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/v4.22.0...4.22.1) (2023-07-17)
 
 

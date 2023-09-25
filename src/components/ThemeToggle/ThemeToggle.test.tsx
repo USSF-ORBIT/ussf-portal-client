@@ -78,7 +78,12 @@ describe('calling hook functions', () => {
     const user = userEvent.setup()
 
     jest.spyOn(analyticsHooks, 'useAnalytics').mockImplementation(() => {
-      return { push: jest.fn(), trackEvent: mockTrackEvents }
+      return {
+        push: jest.fn(),
+        setUserIdFn: jest.fn(),
+        unsetUserIdFn: jest.fn(),
+        trackEvent: mockTrackEvents,
+      }
     })
 
     renderWithAuthAndApollo(

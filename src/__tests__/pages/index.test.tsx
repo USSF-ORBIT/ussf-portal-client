@@ -34,6 +34,12 @@ jest.mock('../../lib/keystoneClient', () => ({
   },
 }))
 
+jest.mock('axios', () => ({
+  post: () => {
+    return Promise.resolve({ data: {} })
+  },
+}))
+
 beforeEach(() => {
   jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
     return {
