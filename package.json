@@ -47,7 +47,7 @@
     "@fortawesome/react-fontawesome": "0.2.0",
     "@keystone-6/document-renderer": "1.1.2",
     "@keystone-6/fields-document": "5.0.2",
-    "@next/bundle-analyzer": "12.3.4",
+    "@next/bundle-analyzer": "13.5.3",
     "@opentelemetry/api": "1.1.0",
     "@opentelemetry/auto-instrumentations-node": "0.39.1",
     "@opentelemetry/auto-instrumentations-web": "0.33.1",
