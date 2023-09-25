@@ -64,6 +64,7 @@ export const apolloServer = new ApolloServer<ServerContext>({
 export default startServerAndCreateNextHandler(apolloServer, {
   context: async (req, res) => {
     const session = await getSession(req, res)
+    const { cache } = apolloServer
 
     if (!session || !session.passport || !session.passport.user) {
       throw new GraphQLError('No User in session', {
@@ -108,9 +109,9 @@ export default startServerAndCreateNextHandler(apolloServer, {
         db,
         user: loggedInUser,
         dataSources: {
-          keystoneAPI: new KeystoneAPI(),
-          weatherAPI: new WeatherAPI(),
-          personnelAPI: new PersonnelAPI(),
+          keystoneAPI: new KeystoneAPI({ cache }),
+          weatherAPI: new WeatherAPI({ cache }),
+          personnelAPI: new PersonnelAPI({ cache }),
         },
       }
     } catch (e) {

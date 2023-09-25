@@ -189,11 +189,11 @@ describe('GraphQL resolvers', () => {
         typeDefs,
         resolvers,
       })
-
+      const { cache } = server
       // Set up dataSources and mock their methods
-      keystoneAPI = new KeystoneAPI()
-      weatherAPI = new WeatherAPI()
-      personnelAPI = new PersonnelAPI()
+      keystoneAPI = new KeystoneAPI({ cache })
+      weatherAPI = new WeatherAPI({ cache })
+      personnelAPI = new PersonnelAPI({ cache })
 
       keystoneAPI.getLatLong = jest.fn(async () => {
         return {

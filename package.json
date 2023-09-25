@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@apollo/client": "3.7.17",
+    "@apollo/datasource-rest": "6.2.0",
     "@apollo/server": "4.9.3",
     "@as-integrations/next": "2.0.2",
     "@dnd-kit/core": "6.0.8",
