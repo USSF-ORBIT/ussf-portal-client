@@ -41,7 +41,7 @@ describe('SearchResultItem component', () => {
       )
 
       expect(screen.queryByRole('img')).not.toBeInTheDocument()
-      expect(screen.queryAllByRole('link')).toHaveLength(2)
+      expect(screen.queryAllByRole('link')).toHaveLength(1)
       expect(screen.queryAllByRole('link')[0]).toHaveAttribute(
         'href',
         testApplicationResult.permalink
@@ -71,7 +71,7 @@ describe('SearchResultItem component', () => {
       expect(screen.queryByText('17')).toBeInTheDocument()
 
       expect(screen.queryByRole('img')).not.toBeInTheDocument()
-      expect(screen.queryAllByRole('link')).toHaveLength(2)
+      expect(screen.queryAllByRole('link')).toHaveLength(1)
       expect(screen.queryAllByRole('link')[0]).toHaveAttribute(
         'href',
         testArticleResult.permalink
