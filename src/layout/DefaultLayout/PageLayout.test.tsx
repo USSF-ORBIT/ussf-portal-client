@@ -12,15 +12,6 @@ import {
 
 import PageLayout, { withPageLayout } from './PageLayout'
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    route: '',
-    pathname: '',
-    query: '',
-    asPath: '',
-  }),
-}))
-
 describe('PageLayout component', () => {
   beforeEach(async () => {
     renderWithAuthAndApollo(

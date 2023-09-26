@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import { screen } from '@testing-library/react'
-import { useRouter } from 'next/router'
 import { mockFlags } from 'jest-launchdarkly-mock'
 import type { GetServerSidePropsContext } from 'next'
 
@@ -36,23 +35,6 @@ beforeEach(() => {
       loading: false,
     }
   })
-})
-
-const mockReplace = jest.fn()
-
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}))
-
-const mockedUseRouter = useRouter as jest.Mock
-
-mockedUseRouter.mockReturnValue({
-  route: '',
-  pathname: '',
-  query: '',
-  asPath: '',
-  push: jest.fn(),
-  replace: mockReplace,
 })
 
 describe('Search page getServerSideProps', () => {
