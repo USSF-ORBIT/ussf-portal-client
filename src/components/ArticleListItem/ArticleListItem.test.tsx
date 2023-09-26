@@ -39,10 +39,6 @@ describe('ArticleListItem component', () => {
     expect(screen.getByText('17')).toBeInTheDocument()
 
     expect(screen.getAllByText(cmsTestArticle.title)).toHaveLength(1)
-    expect(screen.getByTestId('article-slug')).toHaveAttribute(
-      'href',
-      `/articles/${cmsTestArticle.slug}`
-    )
     expect(screen.getByText(cmsTestArticle.preview)).toBeInTheDocument()
     expect(screen.getByText('CMS Test Label')).toBeInTheDocument()
   })

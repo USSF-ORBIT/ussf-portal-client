@@ -41,14 +41,7 @@ export const ArticleListItem = ({
               {title}
             </LinkTo>
           </h3>
-          <LinkTo
-            href={sourceLink ? sourceLink : `/articles/${slug}`}
-            target="_blank"
-            rel="noreferrer noopener"
-            data-testid="article-slug">
-            {sourceLink ? sourceLink : `/articles/${slug}`}
-          </LinkTo>
-          <p>
+          <p className={styles.listItemContent}>
             <span className={styles.previewText}>{preview}</span>
           </p>
           <Grid row gap={4} className={styles.categoryAndLabel}>
