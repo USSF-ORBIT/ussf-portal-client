@@ -22,7 +22,7 @@ const NavLink = ({
   const { href } = otherProps
   const { asPath } = useRouter()
 
-  const pathProp = otherProps.as || href
+  const pathProp = href
 
   const linkPath =
     typeof pathProp === 'string' ? pathProp : pathProp?.pathname || ''
