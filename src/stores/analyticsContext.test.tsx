@@ -38,7 +38,7 @@ jest.spyOn(console, 'debug').mockImplementation(mockConsoleDebug)
 
 describe('useAnalytics', () => {
   test('throws an error if AnalyticsContext is undefined', () => {
-    jest.spyOn(React, 'useContext').mockReturnValueOnce(undefined)
+    jest.spyOn(React, 'useContext').mockReturnValueOnce(undefined as never)
     expect(() => useAnalytics()).toThrowError()
   })
 
