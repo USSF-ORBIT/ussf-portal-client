@@ -269,10 +269,7 @@ describe('My Space Component', () => {
 
     let bookmarkRemoved = false
 
-    // Note: Leaving this as 'any' for now. MySpaceWidget is a union type between
-    // Widget and Collection, and since 'bookmarks' does not exist on Widget, it kept
-    // showing an error here.
-    const userMySpace: any = portalUserMaxedOutCollection.mySpace[0]
+    const userMySpace = portalUserMaxedOutCollection.mySpace[0]
     const bookmarkId = userMySpace.bookmarks?.[1]._id
 
     const collectionId = portalUserMaxedOutCollection.mySpace[0]._id
@@ -530,10 +527,7 @@ describe('My Space Component', () => {
     const mockUpdateWidget = jest.fn()
     const mockUpdateBookmark = jest.fn()
 
-    // Note: Leaving this as 'any' for now. MySpaceWidget is a union type between
-    // Widget and Collection, and since 'bookmarks' does not exist on Widget, it kept
-    // showing an error here.
-    const userMySpace: any = portalUserWithExampleCollection.mySpace[0]
+    const userMySpace = portalUserWithExampleCollection.mySpace[0]
     const customBookmarkId = userMySpace.bookmarks?.[3]._id
     const collectionId = portalUserWithExampleCollection.mySpace[0]._id
     const editBookmarkMock = [
