@@ -159,7 +159,7 @@
     "storybook-addon-apollo-client": "5.0.0",
     "storybook-addon-mock": "4.1.0",
     "style-loader": "3.3.3",
-    "typescript": "4.9.5",
+    "typescript": "5.2.2",
     "util": "0.12.5"
   },
   "resolutions": {
