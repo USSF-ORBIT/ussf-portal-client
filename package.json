@@ -59,7 +59,7 @@
     "@trussworks/react-uswds": "5.1.1",
     "@uswds/uswds": "3.5.0",
     "apollo-datasource-rest": "3.7.0",
-    "apollo-server-core": "3.12.0",
+    "apollo-server-core": "3.12.1",
     "apollo-server-micro": "3.12.0",
     "axios": "1.4.0",
     "classnames": "2.3.2",
