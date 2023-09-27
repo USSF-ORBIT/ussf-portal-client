@@ -146,7 +146,7 @@ export const AnalyticsProvider = ({
     push(['setCustomDimension', 2, rank])
     push(['trackPageView'])
   }
-
+  
   const handleRouteChange = (url: string) => {
     if (previousPath) push(['setReferrerUrl', previousPath])
 

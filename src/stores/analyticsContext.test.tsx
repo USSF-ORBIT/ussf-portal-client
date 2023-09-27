@@ -318,7 +318,7 @@ describe('Analytics context', () => {
       'testBaseLocation'
     )
   })
-
+  
   test('calls trackRank', async () => {
     const windowWithAnalytics = window as unknown as WindowWithAnalytics
 
