@@ -79,6 +79,7 @@ describe('500 page', () => {
         setUserIdFn: jest.fn(),
         unsetUserIdFn: jest.fn(),
         trackEvent: mockTrackEvents,
+        trackBaseLocation: jest.fn(),
       }
     })
     render(<Custom500 />)
