@@ -12,6 +12,11 @@ import { CONTENT_CATEGORIES } from 'constants/index'
 import colors from 'styles/sfds/colors.module.scss'
 import { isPublished, getYouTubeEmbedId } from 'helpers/index'
 
+type embedVideoProps = {
+  link: string
+  videoTitle: string
+}
+
 export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   const {
     title,
@@ -35,15 +40,15 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   const componentBlockRenderers: InferRenderersForComponentBlocks<
     typeof componentBlocks
   > = {
-    embedVideo: (props: any) => {
+    embedVideo: ({ link, videoTitle }: embedVideoProps) => {
       // We are receiving a YouTube link from the CMS, so we need to parse the embedId
-      const embedId = getYouTubeEmbedId(props.link)
+      const embedId = getYouTubeEmbedId(link)
       return (
         <>
-          {props.videoTitle && <h2>{props.videoTitle}</h2>}
-          {props.link && (
+          {videoTitle && <h2>{videoTitle}</h2>}
+          {link && (
             <iframe
-              title={props.videoTitle}
+              title={videoTitle}
               width="420"
               height="315"
               src={`https://youtube.com/embed/${embedId}`}></iframe>
