@@ -72,7 +72,12 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     fetchData()
   }, [])
 
-  const { trackEvent } = useAnalytics()
+  const { trackEvent, trackBaseLocation } = useAnalytics()
+
+  if (user?.personnelData) {
+    trackBaseLocation(user.personnelData.BASE_LOC)
+  }
+
   const {
     mySpace,
     isCollection,
