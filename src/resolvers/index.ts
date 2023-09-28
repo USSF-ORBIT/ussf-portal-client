@@ -12,6 +12,7 @@ import {
   WidgetType,
   MongoBookmark,
   MySpaceWidget,
+  CollectionRecords,
 } from 'types'
 import { WeatherModel } from 'models/Weather'
 
@@ -45,6 +46,45 @@ export const ObjectIdScalar = new GraphQLScalarType({
 
 // Resolver Types
 
+type GetGridDataPromise = {
+  forecast: string
+  forecastHourly: string
+  relativeLocation: {
+    properties: {
+      city: string
+      state: string
+    }
+  }
+}
+
+type GetLatLongPromise = {
+  data: {
+    zipcode: {
+      latitude: number
+      longitude: number
+    }
+  }
+}
+
+type GetPersonnelDataPromise = {
+  data: {
+    getUser: {
+      First_name: string
+      Last_Name: string
+      DOD_ID: string
+      Grade: string
+      MAJCOM: string
+      DUTYTITLE: string
+      Country: string
+      BASE_LOC: string
+      Org_type: string
+      EOPDate: string
+      userType: string
+      lastModifiedAt: string
+    }
+  }
+}
+
 type PortalUserContext = {
   db: typeof MongoClient
   user: SessionUser
@@ -59,13 +99,13 @@ type PortalUserContext = {
       }: {
         lat: number
         long: number
-      }) => Promise<any>
+      }) => Promise<GetGridDataPromise>
     }
     keystoneAPI: {
-      getLatLong: (zipcode: string) => Promise<any>
+      getLatLong: (zipcode: string) => Promise<GetLatLongPromise>
     }
     personnelAPI: {
-      getUserData: (dodId: string) => Promise<any>
+      getUserData: (dodId: string) => Promise<GetPersonnelDataPromise>
     }
   }
 }
@@ -127,6 +167,10 @@ type EditThemeInput = {
 type EditMySpaceInput = {
   userId: string
   mySpace: MySpaceWidget[]
+}
+
+type AddCollectionsArgs = {
+  collections: CollectionRecords
 }
 
 const resolvers = {
@@ -424,7 +468,7 @@ const resolvers = {
     },
     addCollections: async (
       _: undefined,
-      args: any, //#TODO fix type
+      args: AddCollectionsArgs,
       { db, user }: PortalUserContext
     ) => {
       if (!user) {
