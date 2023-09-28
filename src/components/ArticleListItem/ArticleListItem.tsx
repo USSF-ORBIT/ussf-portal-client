@@ -48,7 +48,7 @@ export const ArticleListItem = ({
             data-testid="article-slug">
             {sourceLink ? sourceLink : `/articles/${slug}`}
           </Link>
-          <p>
+          <p className={styles.listItemContent}>
             <span className={styles.previewText}>{preview}</span>
           </p>
           <Grid row gap={4} className={styles.categoryAndLabel}>

@@ -270,6 +270,41 @@ describe('Analytics context', () => {
     expect(mockConsoleDebug).toHaveBeenCalledWith('ANALYTICS(unsetUserId)')
   })
 
+  test('calls trackBaseLocation', async () => {
+    const windowWithAnalytics = window as unknown as WindowWithAnalytics
+
+    expect(windowWithAnalytics._paq).toBeDefined()
+
+    const TestComponent = () => {
+      const { trackBaseLocation } = useAnalytics()
+      return (
+        <div>
+          <button
+            type="button"
+            onClick={() => trackBaseLocation('testBaseLocation')}>
+            Track base location
+          </button>
+        </div>
+      )
+    }
+
+    render(
+      <AnalyticsProvider debug>
+        <TestComponent />
+      </AnalyticsProvider>
+    )
+
+    const user = userEvent.setup()
+    await user.click(
+      screen.getByRole('button', { name: 'Track base location' })
+    )
+
+    expect(mockConsoleDebug).toHaveBeenCalledWith(
+      'ANALYTICS(trackBaseLocation):',
+      'testBaseLocation'
+    )
+  })
+
   describe('with config defined', () => {
     const windowWithAnalytics = window as unknown as typeof Window & {
       _paq: (number[] | string[] | number | string | boolean)[]

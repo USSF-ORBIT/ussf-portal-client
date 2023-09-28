@@ -21,6 +21,7 @@ export type AnalyticsContextType = {
   setUserIdFn: (userId: string) => void
   unsetUserIdFn: () => void
   trackEvent: TrackFn
+  trackBaseLocation: (baseLocation: string) => void
 }
 
 export const AnalyticsContext = createContext<AnalyticsContextType>({
@@ -34,6 +35,9 @@ export const AnalyticsContext = createContext<AnalyticsContextType>({
     return
   },
   trackEvent: /* istanbul ignore next */ () => {
+    return
+  },
+  trackBaseLocation: /* istanbul ignore next */ () => {
     return
   },
 })
@@ -111,6 +115,20 @@ export const AnalyticsProvider = ({
     push(pushParams)
   }
 
+  // Track base location
+  const trackBaseLocation = (baseLocation: string): void => {
+    if (debug === true) {
+      console.debug(`ANALYTICS(trackBaseLocation):`, baseLocation)
+    }
+
+    // Track base location of user:
+    // setCustomDimension is required
+    // the 1 here corresponds to the id of the created custom dimension in the Matomo dashboard
+    // baseLocation comes from the personnel data api
+    push(['setCustomDimension', 1, baseLocation])
+    push(['trackPageView'])
+  }
+
   const handleRouteChange = (url: string) => {
     if (previousPath) push(['setReferrerUrl', previousPath])
 
@@ -180,6 +198,7 @@ export const AnalyticsProvider = ({
     setUserIdFn,
     unsetUserIdFn,
     trackEvent,
+    trackBaseLocation,
   }
 
   return (
