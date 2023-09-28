@@ -41,13 +41,6 @@ export const ArticleListItem = ({
               {title}
             </Link>
           </h3>
-          <Link
-            href={sourceLink ? sourceLink : `/articles/${slug}`}
-            target="_blank"
-            rel="noreferrer noopener"
-            data-testid="article-slug">
-            {sourceLink ? sourceLink : `/articles/${slug}`}
-          </Link>
           <p className={styles.listItemContent}>
             <span className={styles.previewText}>{preview}</span>
           </p>
