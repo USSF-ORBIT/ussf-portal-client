@@ -16,13 +16,10 @@ import { Widget, MongoBookmark } from 'types/index'
 // into one state object, and as a result, each of their respective  handler functions could be combined into one as well.
 // 3. Refactor ModalContextType to match updates mentioned in the above point.
 
-// modalRef had to be given an 'any' type, else it would cause
-// a ton of tests to fail. The mocked ref that is causing the issue
-// is in testHelpers.tsx on line 11.
 export type ModalContextType = {
   modalId: string
   updateModalId: (modalId: string) => void
-  modalRef: React.RefObject<ModalRef> | null | any
+  modalRef: React.RefObject<ModalRef> | null
   modalHeadingText: string
   closeModal: () => void
   onDelete: () => void
