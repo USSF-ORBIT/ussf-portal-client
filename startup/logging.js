@@ -55,7 +55,6 @@ function setUpLogging() {
     }
   }
 
-  // TO DO: Find a replacement for this.
   // Monkey-patch Next.js logger.
   // See https://github.com/atkinchris/next-logger/blob/main/index.js
   // See https://github.com/vercel/next.js/blob/canary/packages/next/build/output/log.ts
@@ -65,7 +64,6 @@ function setUpLogging() {
   //     continue
   //   }
 
-  //   // property is not a user provided value but code from nextjs
   //   // eslint-disable-next-line security/detect-object-injection
   //   nextBuiltInLogger[property] = getLoggingFunction(property)
   // }
