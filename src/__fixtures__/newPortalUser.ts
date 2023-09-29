@@ -102,7 +102,7 @@ export const exampleCollection2: MySpaceWidget = {
 }
 
 export const newPortalUser = {
-  userId: 'CAMPBELL.BERNADETTE.5244446289',
+  userId: 'BERNADETTE.CAMPBELL.5244446289@testusers.cce.af.mil',
   mySpace: [
     exampleCollection1,
     exampleCollection2,
