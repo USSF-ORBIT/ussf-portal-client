@@ -156,6 +156,12 @@
   display: flex;
   align-items: center;
 
+  & :global {
+    .usa-accordion__button[aria-expanded='false']:hover {
+      background-image: none;
+    }
+  }
+
   > * + * {
     margin-left: 3.5rem;
   }
