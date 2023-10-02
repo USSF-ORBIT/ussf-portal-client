@@ -99,6 +99,7 @@ describe('GuardianIdealCarousel component', () => {
         unsetUserIdFn: jest.fn(),
         trackEvent: mockTrackEvents,
         trackBaseLocation: jest.fn(),
+        trackRank: jest.fn(),
       }
     })
 

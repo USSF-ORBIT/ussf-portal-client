@@ -3,12 +3,17 @@ query getPersonnelData {
     First_name
     Last_Name
     DOD_ID
-    Grade
     MAJCOM
     DUTYTITLE
     Country
     BASE_LOC
     Org_type
+    Rank {
+      Title
+      Abbreviation
+      Grade
+      GradeId
+    }
     EOPDate
     userType
     lastModifiedAt
