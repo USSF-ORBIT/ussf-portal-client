@@ -4,7 +4,7 @@
 
 import { screen, act } from '@testing-library/react'
 import { axe } from 'jest-axe'
-import { gql } from 'apollo-server-core'
+import { gql } from 'graphql-tag'
 import { renderWithAuthAndApollo } from '../../testHelpers'
 import * as useUserHooks from 'hooks/useUser'
 import { testPortalUser1, testUser1 } from '__fixtures__/authUsers'

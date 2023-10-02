@@ -36,11 +36,6 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
           </LinkTo>
         </h3>
 
-        <LinkTo href={permalink} target="_blank" rel="noreferrer noopener">
-          {permalink}
-          <span className="usa-sr-only">(opens in a new window)</span>
-        </LinkTo>
-
         <p>{preview}</p>
 
         <div className={styles.metadata}>
