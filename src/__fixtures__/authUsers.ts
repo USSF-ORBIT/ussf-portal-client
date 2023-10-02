@@ -48,6 +48,12 @@ export const testUser1Personnel = {
     Country: 'CALIFORNIA',
     BASE_LOC: 'VANDENBERG',
     Org_type: 'SQUADRON',
+    Rank: {
+      Title: 'Specialist One',
+      Abbreviation: 'Spc1',
+      Grade: 'E-1',
+      GradeId: '1',
+    },
     EOPDate: '1682812800000',
     Last_Name: 'CAMPBELL',
     First_name: 'BERNADETTE',

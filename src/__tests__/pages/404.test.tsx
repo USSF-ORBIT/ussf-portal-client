@@ -78,6 +78,7 @@ describe('404 page', () => {
           unsetUserIdFn: jest.fn(),
           trackEvent: mockTrackEvents,
           trackBaseLocation: jest.fn(),
+          trackRank: jest.fn(),
         }
       })
       renderWithAuth(<Custom404 />)
