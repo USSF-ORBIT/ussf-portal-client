@@ -187,10 +187,10 @@
 
 .selectCollectionsButton {
   &:global(.usa-button) {
-    background-color: var(--btn-select-collections-bg);
+    background-color: var(--btn-sort-bg);
     height: 42px;
     &:hover {
-      background-color: var(--btn-select-collections-bg-hover);
+      background-color: var(--btn-sort-hover-bg);
     }
   }
 }
