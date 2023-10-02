@@ -96,6 +96,7 @@ describe('calling hook functions', () => {
         unsetUserIdFn: jest.fn(),
         trackEvent: mockTrackEvents,
         trackBaseLocation: jest.fn(),
+        trackRank: jest.fn(),
       }
     })
 

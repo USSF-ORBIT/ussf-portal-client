@@ -102,6 +102,7 @@ describe('custom error page', () => {
         unsetUserIdFn: jest.fn(),
         trackEvent: mockTrackEvents,
         trackBaseLocation: jest.fn(),
+        trackRank: jest.fn(),
       }
     })
     render(<CustomError />)
@@ -124,6 +125,7 @@ describe('custom error page', () => {
         unsetUserIdFn: jest.fn(),
         trackEvent: mockTrackEvents,
         trackBaseLocation: jest.fn(),
+        trackRank: jest.fn(),
       }
     })
     render(<CustomError statusCode={404} />)

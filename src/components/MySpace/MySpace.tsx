@@ -72,10 +72,11 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     fetchData()
   }, [])
 
-  const { trackEvent, trackBaseLocation } = useAnalytics()
+  const { trackEvent, trackBaseLocation, trackRank } = useAnalytics()
 
   if (user?.personnelData) {
     trackBaseLocation(user.personnelData.BASE_LOC)
+    trackRank(user.personnelData.Rank.Title)
   }
 
   const {
