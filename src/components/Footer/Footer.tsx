@@ -29,11 +29,6 @@ const Footer = () => {
             </LinkTo>
             <br />
             <small>©2021 All rights reserved, ORBIT Space Force</small>
-            <br />
-            <br />
-            Made with ❤️&nbsp; and{' '}
-            <span className="font-body-lg">&lsaquo;&rsaquo;</span> by ORBIT{' '}
-            <span className="usa-sr-only">(opens in a new window)</span>
           </div>
 
           <div className="grid-col-fill" />
