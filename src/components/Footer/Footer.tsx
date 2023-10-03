@@ -19,16 +19,10 @@ const Footer = () => {
       secondary={
         <div className="grid-row grid-gap">
           <div className="grid-col-auto">
-            <LinkTo
-              href="https://ussf-orbit.github.io/ussf-portal/"
-              target="_blank"
-              rel="noreferrer noopener">
-              <USWDSFooterLogo
-                className="flex-justify-center"
-                image={<PortalLogo />}
-              />
-            </LinkTo>
-            <br />
+            <USWDSFooterLogo
+              className="flex-justify-center"
+              image={<PortalLogo />}
+            />
             <small>
               ©{new Date().getFullYear()} All rights reserved, USSF Portal
             </small>
