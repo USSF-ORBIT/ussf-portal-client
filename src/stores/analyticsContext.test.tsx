@@ -318,6 +318,37 @@ describe('Analytics context', () => {
       'testBaseLocation'
     )
   })
+  
+  test('calls trackRank', async () => {
+    const windowWithAnalytics = window as unknown as WindowWithAnalytics
+
+    expect(windowWithAnalytics._paq).toBeDefined()
+
+    const TestComponent = () => {
+      const { trackRank } = useAnalytics()
+      return (
+        <div>
+          <button type="button" onClick={() => trackRank('General')}>
+            Track rank
+          </button>
+        </div>
+      )
+    }
+
+    render(
+      <AnalyticsProvider debug>
+        <TestComponent />
+      </AnalyticsProvider>
+    )
+
+    const user = userEvent.setup()
+    await user.click(screen.getByRole('button', { name: 'Track rank' }))
+
+    expect(mockConsoleDebug).toHaveBeenCalledWith(
+      'ANALYTICS(trackRank):',
+      'General'
+    )
+  })
 
   describe('with config defined', () => {
     const windowWithAnalytics = window as unknown as typeof Window & {
