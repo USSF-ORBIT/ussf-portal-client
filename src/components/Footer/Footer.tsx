@@ -28,7 +28,9 @@ const Footer = () => {
               <USWDSFooterLogo image={<PortalLogo />} />
             </LinkTo>
             <br />
-            <small>©2021 All rights reserved, ORBIT Space Force</small>
+            <small>
+              ©{new Date().getFullYear()} All rights reserved, ORBIT Space Force
+            </small>
           </div>
 
           <div className="grid-col-fill" />
