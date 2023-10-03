@@ -187,7 +187,7 @@ $dark-gradient: linear-gradient(
   --category-ussf-documentation-text: #{$theme-cosmiclatte-lightest};
 
   // Footer
-  --footer-bg: #{$theme-spacebase-darker};
+  --footer-bg: #{$theme-spacebase-darkest};
   --footer-text: #{$theme-ultraviolet-lighter};
   --footer-border: #{$theme-ultraviolet-light};
 
@@ -443,7 +443,7 @@ $dark-gradient: linear-gradient(
   --dark-bg-link-hover: #{$white};
 
   // Footer
-  --footer-bg: #{$theme-spacebase-darker};
+  --footer-bg: #{$theme-spacebase-darkest};
   --footer-text: #{$theme-ultraviolet-muted-lighter};
   --footer-border: #{$theme-ultraviolet-muted-light};
 
