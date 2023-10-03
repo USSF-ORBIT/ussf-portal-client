@@ -19,21 +19,21 @@ const Footer = () => {
       secondary={
         <div className="grid-row grid-gap">
           <div className="grid-col-auto">
-            <USWDSFooterLogo image={<Logo />} />
-            <br />
-            <small>©2021 All rights reserved, ORBIT Space Force</small>
-            <br />
-            <br />
             <LinkTo
               href="https://ussf-orbit.github.io/ussf-portal/"
               target="_blank"
               rel="noreferrer noopener"
               id={styles.madeByLink}
               aria-label="Made with love and code by ORBIT">
-              Made with ❤️&nbsp; and{' '}
-              <span className="font-body-lg">&lsaquo;&rsaquo;</span> by ORBIT{' '}
-              <span className="usa-sr-only">(opens in a new window)</span>
+              <USWDSFooterLogo image={<Logo />} />
             </LinkTo>
+            <br />
+            <small>©2021 All rights reserved, ORBIT Space Force</small>
+            <br />
+            <br />
+            Made with ❤️&nbsp; and{' '}
+            <span className="font-body-lg">&lsaquo;&rsaquo;</span> by ORBIT{' '}
+            <span className="usa-sr-only">(opens in a new window)</span>
           </div>
 
           <div className="grid-col-fill" />
