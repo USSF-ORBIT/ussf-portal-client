@@ -3,13 +3,15 @@ import {
   Footer as USWDSFooter,
   Logo as USWDSFooterLogo,
 } from '@trussworks/react-uswds'
-
+import { useFlags } from 'launchdarkly-react-client-sdk'
 import styles from './Footer.module.scss'
 
 import Logo from 'components/Logo/Logo'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const Footer = () => {
+  const flags = useFlags()
+
   return (
     <USWDSFooter
       className={styles.footer}
@@ -21,17 +23,23 @@ const Footer = () => {
             <br />
             <small>©2021 All rights reserved, ORBIT Space Force</small>
             <br />
-            <br />
-            <LinkTo
-              href="https://ussf-orbit.github.io/ussf-portal/"
-              target="_blank"
-              rel="noreferrer noopener"
-              id={styles.madeByLink}
-              aria-label="Made with love and code by ORBIT">
-              Made with ❤️&nbsp; and{' '}
-              <span className="font-body-lg">&lsaquo;&rsaquo;</span> by ORBIT{' '}
-              <span className="usa-sr-only">(opens in a new window)</span>
-            </LinkTo>
+
+            {flags?.microsite && (
+              <>
+                <br />
+                <LinkTo
+                  href="https://ussf-orbit.github.io/ussf-portal/"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  id={styles.madeByLink}
+                  aria-label="Made with love and code by ORBIT">
+                  Made with ❤️&nbsp; and{' '}
+                  <span className="font-body-lg">&lsaquo;&rsaquo;</span> by
+                  ORBIT{' '}
+                  <span className="usa-sr-only">(opens in a new window)</span>
+                </LinkTo>
+              </>
+            )}
           </div>
 
           <div className="grid-col-fill" />

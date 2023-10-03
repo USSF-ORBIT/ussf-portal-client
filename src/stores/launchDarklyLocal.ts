@@ -9,4 +9,5 @@ export default {
   searchPageFilter: true,
   dragAndDropCollections: true,
   weatherWidget: true,
+  microsite: false,
 }
