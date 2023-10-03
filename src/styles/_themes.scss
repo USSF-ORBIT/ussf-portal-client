@@ -300,16 +300,13 @@ $dark-gradient: linear-gradient(
   --toolbar-bg: rgba(0, 0, 0, 0.6);
   --toolbar-section-border: rgba(0, 0, 0, 0.6);
   --btn-sort-border: #{$theme-ultraviolet-muted-lighter};
-  --btn-sort-bg: #{$theme-ultraviolet-muted-lighter};
+  --btn-sort-bg: #{$theme-ultraviolet-muted-light};
   --btn-sort-text: #{$theme-black};
-  --btn-sort-hover-bg: #{$theme-ultraviolet-muted-light};
+  --btn-sort-hover-bg: #{$theme-ultraviolet-muted-lighter};
   --btn-sort-hover-text: #{$theme-black};
   --btn-sort-disabled-bg: #b2b4ba;
   --btn-sort-disabled-border: #b2b4ba;
   --btn-sort-disabled-text: #{$theme-black};
-
-  --btn-select-collections-bg: #{$theme-ultraviolet-muted-light};
-  --btn-select-collections-bg-hover: #{$theme-ultraviolet-muted-lighter};
 
   --widget-sites-apps-bg: rgba(0, 0, 0, 0.3);
   --bookmark-sites-apps-bg: rgba(0, 0, 0, 0.3);

@@ -84,6 +84,11 @@
         background-color: var(--btn-sort-hover-bg);
       }
 
+      &:focus {
+        outline: 0.25rem solid var(--element-focus);
+        outline-offset: 0.25rem;
+      }
+
       &[disabled] {
         border-color: var(--btn-sort-disabled-border);
         color: var(--btn-sort-disabled-text);
