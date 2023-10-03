@@ -8,7 +8,7 @@ import styles from './Footer.module.scss'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const PortalLogo = () => {
-  return <img src="/img/ussf-portal.svg" alt="USSF Portal Logo" />
+  return <img src="/img/ussf-portal.svg" alt="USSF Portal" />
 }
 
 const Footer = () => {

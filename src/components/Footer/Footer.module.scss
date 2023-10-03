@@ -41,25 +41,6 @@
   }
 }
 
-#madeByLink {
-  display: inline-block;
-  text-transform: uppercase;
-  background-color: $theme-ultraviolet-dark;
-  padding: units('05') units(1);
-  font-size: size('body', '3xs');
-  border-radius: 4px;
-  color: $white;
-
-  span {
-    line-height: 1;
-  }
-
-  &:hover {
-    text-decoration: none;
-    background-color: $theme-ultraviolet-darker;
-  }
-}
-
 .footer {
   :global {
     @media (max-width: 1040px) {
