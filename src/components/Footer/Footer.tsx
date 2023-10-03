@@ -23,7 +23,6 @@ const Footer = () => {
               href="https://ussf-orbit.github.io/ussf-portal/"
               target="_blank"
               rel="noreferrer noopener"
-              id={styles.madeByLink}
               aria-label="Made with love and code by ORBIT">
               <USWDSFooterLogo image={<PortalLogo />} />
             </LinkTo>
