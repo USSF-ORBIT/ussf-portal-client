@@ -8,7 +8,7 @@
 
   :global {
     .usa-footer__logo img {
-      width: 250px;
+      width: 150px;
     }
 
     .grid-col-auto {
@@ -16,7 +16,7 @@
     }
 
     .usa-footer__secondary-section {
-      color: $white;
+      color: var(--footer-text);
       background-color: transparent;
 
       a {

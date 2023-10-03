@@ -22,13 +22,15 @@ const Footer = () => {
             <LinkTo
               href="https://ussf-orbit.github.io/ussf-portal/"
               target="_blank"
-              rel="noreferrer noopener"
-              aria-label="Made with love and code by ORBIT">
-              <USWDSFooterLogo image={<PortalLogo />} />
+              rel="noreferrer noopener">
+              <USWDSFooterLogo
+                className="flex-justify-center"
+                image={<PortalLogo />}
+              />
             </LinkTo>
             <br />
             <small>
-              ©{new Date().getFullYear()} All rights reserved, ORBIT Space Force
+              ©{new Date().getFullYear()} All rights reserved, USSF Portal
             </small>
           </div>
 
