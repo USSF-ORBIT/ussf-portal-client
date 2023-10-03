@@ -7,7 +7,7 @@ import {
 import styles from './Footer.module.scss'
 import LinkTo from 'components/util/LinkTo/LinkTo'
 
-const Logo = () => {
+const PortalLogo = () => {
   return <img src="/img/ussf-portal.svg" alt="USSF Portal Logo" />
 }
 
@@ -25,7 +25,7 @@ const Footer = () => {
               rel="noreferrer noopener"
               id={styles.madeByLink}
               aria-label="Made with love and code by ORBIT">
-              <USWDSFooterLogo image={<Logo />} />
+              <USWDSFooterLogo image={<PortalLogo />} />
             </LinkTo>
             <br />
             <small>©2021 All rights reserved, ORBIT Space Force</small>
