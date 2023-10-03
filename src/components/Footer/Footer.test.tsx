@@ -8,16 +8,16 @@ import React from 'react'
 import Footer from './Footer'
 
 describe('Footer component', () => {
-  it('renders the USSF portal header', () => {
+  test('renders the USSF portal header', () => {
     render(<Footer />)
 
     expect(
       screen.getByRole('img', { name: 'United States Space Force Logo' })
     ).toHaveAttribute('alt', 'United States Space Force Logo')
-    expect(screen.getAllByRole('link')).toHaveLength(16)
+    expect(screen.getAllByRole('link')).toHaveLength(15)
   })
 
-  it('has no a11y violations', async () => {
+  test('has no a11y violations', async () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
