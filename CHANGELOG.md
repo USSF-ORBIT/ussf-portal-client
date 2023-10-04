@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.23.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.23.0...4.23.1) (2023-10-04)
+
+
+### Bug Fixes
+
+* a11y: removes raw link output from search results ([#1098](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1098)) ([db18218](https://github.com/USSF-ORBIT/ussf-portal-client/commit/db182184e9ac56fc27dd7745ec236d2faed01bb4))
+* design: misc color adjustments in links & buttons ([#1110](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1110)) ([ae81000](https://github.com/USSF-ORBIT/ussf-portal-client/commit/ae81000d785fad195a12087ab919d45061eb3c50))
+* design: sites & application button interaction visual improvements ([#1109](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1109)) ([a788adf](https://github.com/USSF-ORBIT/ussf-portal-client/commit/a788adf65068030f1e23bd53893c52a1fda19a08))
+* use date from api for weather widget ([#1097](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1097)) ([77b6636](https://github.com/USSF-ORBIT/ussf-portal-client/commit/77b663654b9d7104342fa2b5567c9d3658ccdf73))
+
+
+### Documentation
+
+* Update Matomo port in development.md ([#1096](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1096)) ([44af616](https://github.com/USSF-ORBIT/ussf-portal-client/commit/44af6165f55290195ec2012b792863124d4fdd57))
+
 ## [4.23.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.22.1...4.23.0) (2023-09-11)
 
 
