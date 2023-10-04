@@ -78,6 +78,12 @@ type GetPersonnelDataPromise = {
       Country: string
       BASE_LOC: string
       Org_type: string
+      Rank: {
+        Title: string
+        Abbreviation: string
+        Grade: string
+        GradeId: string
+      }
       EOPDate: string
       userType: string
       lastModifiedAt: string
