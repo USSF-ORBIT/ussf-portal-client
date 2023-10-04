@@ -120,7 +120,7 @@ $dark-gradient: linear-gradient(
   --dropdown-menu-bg-hover: #{$grey};
   --dropdown-menu-disabled-text: #070f1d50;
   --page-nav-link: #{$theme-ultraviolet-base};
-  --page-nav-link-after: #{$light-blue};
+  --page-nav-link-after: #{$theme-ultraviolet-base};
 
   // Widgets
   --widget-bg: #{$white};
@@ -282,7 +282,7 @@ $dark-gradient: linear-gradient(
 
   --btn-primary-text: #{$theme-black};
 
-  --btn-logout-primary-bg: #{$theme-ultraviolet-muted-lighter};
+  --btn-logout-primary-bg: #{$theme-ultraviolet-lighter};
   --btn-logout-text: #{$black};
   --btn-logout-hover: #{$theme-ultraviolet-muted-lightest};
 
