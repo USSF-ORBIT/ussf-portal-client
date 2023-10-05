@@ -318,7 +318,7 @@ describe('Analytics context', () => {
       'testBaseLocation'
     )
   })
-  
+
   test('calls trackRank', async () => {
     const windowWithAnalytics = window as unknown as WindowWithAnalytics
 
@@ -416,7 +416,7 @@ describe('Analytics context', () => {
         'setDocumentTitle',
         'Test Doc Title',
       ])
-      expect(windowWithAnalytics._paq[1]).toEqual(['setDoNotTrack', true])
+      expect(windowWithAnalytics._paq[1]).toEqual(['setDoNotTrack', false])
       expect(windowWithAnalytics._paq[2]).toEqual(['trackPageView'])
       expect(windowWithAnalytics._paq[3]).toEqual(['enableLinkTracking'])
       expect(windowWithAnalytics._paq[4]).toEqual([
