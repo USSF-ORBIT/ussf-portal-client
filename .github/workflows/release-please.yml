@@ -14,5 +14,6 @@ name: release-please
 jobs:
   release-please:
     uses: USSF-ORBIT/ussf-portal/.github/workflows/reusable-release-please.yml@main
+    with:
       release-type: node
       package-name: ussf-portal-client
