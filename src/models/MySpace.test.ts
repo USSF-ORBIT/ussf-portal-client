@@ -226,4 +226,21 @@ describe('My Space model', () => {
       MySpaceModel.deleteWidget({ _id: ObjectId(), userId: 'cat' }, { db })
     ).rejects.toThrow()
   })
+
+  test('can update widget order', async () => {
+    const originalOrder = await MySpaceModel.get({ userId: testUserId }, { db })
+
+    // Clone the array
+    const newOrder = Array.from(originalOrder)
+    // Move last item to first position
+    newOrder.unshift(newOrder.pop() as Widget)
+
+    const updated = await MySpaceModel.updateWidgetOrder(
+      { userId: testUserId, items: newOrder },
+      { db }
+    )
+
+    expect(updated).toBe(newOrder)
+    expect(updated).not.toBe(originalOrder)
+  })
 })
