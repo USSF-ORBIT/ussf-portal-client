@@ -15,9 +15,8 @@
   }
 
   &:nth-child(1) > div:not(:global(.slick-slider)) {
-    // background: transparent;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     position: relative;
     z-index: 999;
     top: 30px;
