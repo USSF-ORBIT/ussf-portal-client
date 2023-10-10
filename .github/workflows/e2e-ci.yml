@@ -14,5 +14,5 @@ on:
 
 jobs:
   run-e2e-tests:
-    uses: USSF-ORBIT/ussf-portal/.github/workflows/reusable-run-e2e-tests.yml@main
+    uses: USSF-ORBIT/ussf-portal/.github/workflows/reusable-run-e2e-tests.yml@minh/test-disk-usage-sc-1539/nextjs-13
     secrets: inherit
