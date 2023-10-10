@@ -58,15 +58,16 @@ function setUpLogging() {
   // Monkey-patch Next.js logger.
   // See https://github.com/atkinchris/next-logger/blob/main/index.js
   // See https://github.com/vercel/next.js/blob/canary/packages/next/build/output/log.ts
-  // const nextBuiltInLogger = require('next/dist/build/output/log')
-  // for (const [property, value] of Object.entries(nextBuiltInLogger)) {
-  //   if (typeof value !== 'function') {
-  //     continue
-  //   }
+  const nextBuiltInLogger = require('next/dist/build/output/log')
+  for (const [property, value] of Object.entries(nextBuiltInLogger)) {
+    if (typeof value !== 'function') {
+      continue
+    }
 
-  //   // eslint-disable-next-line security/detect-object-injection
-  //   nextBuiltInLogger[property] = getLoggingFunction(property)
-  // }
+    // This line breaks the app as of Next 13.4.19
+    // eslint-disable-next-line security/detect-object-injection
+    nextBuiltInLogger[property] = getLoggingFunction(property)
+  }
 
   /**
    * Monkey-patch global console.log logger. Yes. Sigh.
