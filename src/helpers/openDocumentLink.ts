@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const isPdf = (url: string) => {
-  return url.toString().endsWith('.pdf')
+  return url.toString().includes('.pdf')
 }
 
 export const handleOpenPdfLink = async (pdfString: string) => {
