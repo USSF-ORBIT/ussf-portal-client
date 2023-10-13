@@ -5,9 +5,11 @@ import {
 } from '@trussworks/react-uswds'
 
 import styles from './Footer.module.scss'
-
-import Logo from 'components/Logo/Logo'
 import LinkTo from 'components/util/LinkTo/LinkTo'
+
+const PortalLogo = () => {
+  return <img src="/img/ussf-portal.svg" alt="USSF Portal" />
+}
 
 const Footer = () => {
   return (
@@ -17,21 +19,13 @@ const Footer = () => {
       secondary={
         <div className="grid-row grid-gap">
           <div className="grid-col-auto">
-            <USWDSFooterLogo image={<Logo darkBg />} />
-            <br />
-            <small>©2021 All rights reserved, ORBIT Space Force</small>
-            <br />
-            <br />
-            <LinkTo
-              href="https://ussf-orbit.github.io/ussf-portal/"
-              target="_blank"
-              rel="noreferrer noopener"
-              id={styles.madeByLink}
-              aria-label="Made with love and code by ORBIT">
-              Made with ❤️&nbsp; and{' '}
-              <span className="font-body-lg">&lsaquo;&rsaquo;</span> by ORBIT{' '}
-              <span className="usa-sr-only">(opens in a new window)</span>
-            </LinkTo>
+            <USWDSFooterLogo
+              className="flex-justify-center"
+              image={<PortalLogo />}
+            />
+            <small>
+              ©{new Date().getFullYear()} All rights reserved, USSF Portal
+            </small>
           </div>
 
           <div className="grid-col-fill" />
