@@ -8,7 +8,8 @@
 
   :global {
     .usa-footer__logo img {
-      width: 250px;
+      width: 200px;
+      max-height: 200px;
     }
 
     .grid-col-auto {
@@ -16,7 +17,7 @@
     }
 
     .usa-footer__secondary-section {
-      color: $white;
+      color: var(--footer-text);
       background-color: transparent;
 
       a {
@@ -38,25 +39,6 @@
         }
       }
     }
-  }
-}
-
-#madeByLink {
-  display: inline-block;
-  text-transform: uppercase;
-  background-color: $theme-ultraviolet-dark;
-  padding: units('05') units(1);
-  font-size: size('body', '3xs');
-  border-radius: 4px;
-  color: $white;
-
-  span {
-    line-height: 1;
-  }
-
-  &:hover {
-    text-decoration: none;
-    background-color: $theme-ultraviolet-darker;
   }
 }
 
