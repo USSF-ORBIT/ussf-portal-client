@@ -1,16 +1,19 @@
 import { useEffect } from 'react'
 import { useTheme } from 'next-themes'
 import { useAuthContext } from 'stores/authContext'
-import { useGetUserQuery } from 'operations/portal/queries/getUser.g'
+import {
+  useGetUserQuery,
+  GetUserQueryHookResult,
+} from 'operations/portal/queries/getUser.g'
 import { PortalUser } from 'types'
 
 export const useUser = () => {
   const { user, setPortalUser } = useAuthContext()
-  const { loading, data }: PortalUser | any = useGetUserQuery()
+  const { loading, data }: GetUserQueryHookResult = useGetUserQuery()
   const { setTheme } = useTheme()
 
   useEffect(() => {
-    setPortalUser(data)
+    setPortalUser(data as PortalUser)
     if (data) {
       setTheme(data.theme)
     }

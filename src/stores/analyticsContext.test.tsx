@@ -12,21 +12,7 @@ import {
   WindowWithAnalytics,
 } from './analyticsContext'
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}))
-
-const mockRouterOn = jest.fn()
-const mockRouterOff = jest.fn()
-
-const mockedUseRouter = useRouter as jest.Mock
-
-mockedUseRouter.mockReturnValue({
-  events: {
-    on: mockRouterOn,
-    off: mockRouterOff,
-  },
-})
+const mockRouter = useRouter()
 
 // Mock fetch
 window.fetch = jest.fn(() =>
@@ -52,7 +38,7 @@ jest.spyOn(console, 'debug').mockImplementation(mockConsoleDebug)
 
 describe('useAnalytics', () => {
   test('throws an error if AnalyticsContext is undefined', () => {
-    jest.spyOn(React, 'useContext').mockReturnValueOnce(undefined)
+    jest.spyOn(React, 'useContext').mockReturnValueOnce(undefined as never)
     expect(() => useAnalytics()).toThrowError()
   })
 
@@ -428,7 +414,7 @@ describe('Analytics context', () => {
         'TEST_MATOMO_SITE_ID',
       ])
 
-      expect(mockRouterOn).toHaveBeenCalledWith(
+      expect(mockRouter.events.on).toHaveBeenCalledWith(
         'routeChangeStart',
         expect.anything()
       )

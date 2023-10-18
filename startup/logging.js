@@ -64,7 +64,7 @@ function setUpLogging() {
       continue
     }
 
-    // property is not a user provided value but code from nextjs
+    // This line breaks the app as of Next 13.4.19
     // eslint-disable-next-line security/detect-object-injection
     nextBuiltInLogger[property] = getLoggingFunction(property)
   }

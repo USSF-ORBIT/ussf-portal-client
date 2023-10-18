@@ -38,8 +38,7 @@ describe('Modal context', () => {
     const user = userEvent.setup()
 
     const TestComponent = () => {
-      const { modalRef, updateModalId, updateModalText, updateWidget } =
-        useModalContext()
+      const { updateModalId, updateModalText, updateWidget } = useModalContext()
 
       const setupFunc = () => {
         updateModalId('removeWidgetModal')
@@ -106,7 +105,6 @@ describe('Modal context', () => {
 
     const TestComponent = () => {
       const {
-        modalRef,
         updateModalId,
         updateModalText,
         updateWidget,
@@ -178,13 +176,8 @@ describe('Modal context', () => {
     const user = userEvent.setup()
 
     const TestComponent = () => {
-      const {
-        modalRef,
-        updateModalId,
-        updateModalText,
-        updateWidget,
-        updateBookmark,
-      } = useModalContext()
+      const { updateModalId, updateModalText, updateWidget, updateBookmark } =
+        useModalContext()
 
       const setupFunc = () => {
         updateModalId('editCustomLinkModal')
@@ -250,13 +243,8 @@ describe('Modal context', () => {
     const user = userEvent.setup()
 
     const TestComponent = () => {
-      const {
-        modalRef,
-        updateModalId,
-        updateModalText,
-        updateWidget,
-        updateBookmark,
-      } = useModalContext()
+      const { updateModalId, updateModalText, updateWidget, updateBookmark } =
+        useModalContext()
 
       const setupFunc = () => {
         updateModalId('editCustomLinkModal')
@@ -320,8 +308,7 @@ describe('Modal context', () => {
     const user = userEvent.setup()
 
     const TestComponent = () => {
-      const { modalRef, updateModalId, updateModalText, updateWidget } =
-        useModalContext()
+      const { updateModalId, updateModalText, updateWidget } = useModalContext()
 
       const setupFunc = () => {
         updateModalId('removeCustomCollectionModal')

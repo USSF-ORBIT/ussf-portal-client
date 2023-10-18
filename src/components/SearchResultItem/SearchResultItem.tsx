@@ -1,11 +1,9 @@
 import React from 'react'
-
+import Link from 'next/link'
 import styles from './SearchResultItem.module.scss'
-
 import type { SearchResultRecord } from 'types/index'
 import { Category, Label } from 'components/Tag/Tag'
 import { CONTENT_CATEGORIES } from 'constants/index'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import { ArticleDateIcon } from 'components/ArticleDateIcon/ArticleDateIcon'
 
 export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
@@ -30,10 +28,10 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
       {itemIcon && <div className={styles.icon}>{itemIcon}</div>}
       <div className={styles.content}>
         <h3>
-          <LinkTo href={permalink} target="_blank" rel="noreferrer noopener">
+          <Link href={permalink} target="_blank" rel="noreferrer noopener">
             {title}
             <span className="usa-sr-only">(opens in a new window)</span>
-          </LinkTo>
+          </Link>
         </h3>
 
         <p>{preview}</p>

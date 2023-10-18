@@ -1,6 +1,6 @@
 import { Grid } from '@trussworks/react-uswds'
+import Link from 'next/link'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import styles from 'styles/pages/aboutUs.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { useUser } from 'hooks/useUser'
@@ -33,36 +33,36 @@ const AboutUs = () => {
               <h3 id="leadership">Leadership</h3>
               <ul>
                 <li>
-                  <LinkTo
+                  <Link
                     target="_blank"
                     rel="noreferrer noopener"
                     href="https://www.spaceforce.mil/About-Us/Leadership/">
                     Space Force Leadership
-                  </LinkTo>
+                  </Link>
                 </li>
                 <li>
-                  <LinkTo
+                  <Link
                     target="_blank"
                     rel="noreferrer noopener"
                     href="https://www.spoc.spaceforce.mil/About-Us/Leadership">
                     SpOC Leadership
-                  </LinkTo>
+                  </Link>
                 </li>
                 <li>
-                  <LinkTo
+                  <Link
                     target="_blank"
                     rel="noreferrer noopener"
                     href="https://www.losangeles.spaceforce.mil/About-Us/Biographies/">
                     SMC Center Leadership
-                  </LinkTo>
+                  </Link>
                 </li>
                 <li>
-                  <LinkTo
+                  <Link
                     target="_blank"
                     rel="noreferrer noopener"
                     href="https://www.peterson.spaceforce.mil/About-Us/Biographies/">
                     Space Training and Readiness (STAR) Delta Leadership
-                  </LinkTo>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -91,13 +91,13 @@ const AboutUs = () => {
             <h3>Social media</h3>
             <ul>
               <li>
-                <LinkTo
+                <Link
                   target="_blank"
                   rel="noreferrer noopener"
                   href="https://twitter.com/SpaceForceDoD?ref_src=twsrc%5Etfw"
                   data-height="500">
                   Tweets by SpaceForceDoD
-                </LinkTo>
+                </Link>
               </li>
             </ul>
 

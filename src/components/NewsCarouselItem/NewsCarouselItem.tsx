@@ -1,8 +1,8 @@
 import { Grid } from '@trussworks/react-uswds'
 import React from 'react'
+import Link from 'next/link'
 import styles from './NewsCarouselItem.module.scss'
 import { ArticleListItemRecord } from 'types'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const NewsCarouselItem = ({ article }: { article: ArticleListItemRecord }) => {
   return (
@@ -26,13 +26,13 @@ const NewsCarouselItem = ({ article }: { article: ArticleListItemRecord }) => {
         <Grid className={styles.textContainer}>
           <h1 className={styles.articleTitle}>{article.title}</h1>
           <div className={styles.articlePreview}>{article.preview}</div>
-          <LinkTo
+          <Link
             href={`/articles/${article.slug}`}
             target="_blank"
             rel="noreferrer"
             className="usa-button">
             View Article
-          </LinkTo>
+          </Link>
         </Grid>
       </Grid>
     </Grid>

@@ -17,7 +17,7 @@ mockedAxios.post.mockImplementation(() => {
   return Promise.resolve()
 })
 
-const apiHandler = handler as unknown as NextApiHandler<any>
+const apiHandler = handler as unknown as NextApiHandler
 
 const mockSession = {
   destroy: jest.fn(),

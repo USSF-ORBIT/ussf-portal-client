@@ -7,15 +7,6 @@ import { waitFor, screen } from '@testing-library/react'
 import { renderWithAuthAndApollo } from '../../testHelpers'
 import ErrorLayout, { withErrorLayout } from './ErrorLayout'
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    route: '',
-    pathname: '',
-    query: '',
-    asPath: '',
-  }),
-}))
-
 describe('ErrorLayout component', () => {
   describe('default props', () => {
     beforeEach(async () => {

@@ -4,18 +4,12 @@
 import React from 'react'
 import { render, screen, waitFor, renderHook } from '@testing-library/react'
 import { useRouter } from 'next/router'
-import { useAnalytics } from './analyticsContext'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
-import { print } from 'graphql'
+import { useAnalytics } from './analyticsContext'
 import { AuthProvider, useAuthContext } from './authContext'
-import { GetPersonnelDataDocument } from 'operations/portal/queries/getPersonnelData.g'
 
-import {
-  testUser1,
-  testUser1Personnel,
-  testUser1Session,
-} from '__fixtures__/authUsers'
+import { testUser1, testUser1Session } from '__fixtures__/authUsers'
 
 jest.mock('axios')
 
@@ -190,7 +184,7 @@ describe('Auth context', () => {
 
 describe('useAuthContext', () => {
   test('throws an error if AuthContext is undefined', () => {
-    jest.spyOn(React, 'useContext').mockReturnValueOnce(undefined)
+    jest.spyOn(React, 'useContext').mockReturnValueOnce(undefined as never)
     expect(() => useAuthContext()).toThrowError()
   })
 

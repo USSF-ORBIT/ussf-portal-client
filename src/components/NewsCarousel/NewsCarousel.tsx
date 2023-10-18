@@ -7,7 +7,11 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { ArticleListItemRecord } from 'types'
 
-const CustomEllipse = ({ onClick }: any) => {
+type CustomEllipseProps = {
+  onClick?: () => void
+}
+
+const CustomEllipse = ({ onClick }: CustomEllipseProps) => {
   return (
     <div className="news-carousel-container">
       <button

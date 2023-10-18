@@ -2,7 +2,6 @@ import React from 'react'
 import classnames from 'classnames'
 import styles from './Search.module.scss'
 import { useSearchContext } from 'stores/searchContext'
-// import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const Search = ({ disabled }: { disabled?: boolean }) => {
   const { searchQuery, setSearchQuery } = useSearchContext()
@@ -43,22 +42,6 @@ const Search = ({ disabled }: { disabled?: boolean }) => {
             const form = e.target as HTMLFormElement
             form.submit()
           }}>
-          {/*
-          <label className="usa-sr-only" htmlFor="options">
-            Search Options
-          </label>
-          <select
-            className="usa-select usa-button"
-            name="options"
-            id="options"
-            disabled={disabled}>
-            <option value="all">All</option>
-            <option value="value1">Option 1</option>
-            <option value="value2">Option 2</option>
-            <option value="value3">Option 3</option>
-          </select>
-      */}
-
           <label className="usa-sr-only" htmlFor="q">
             Search
           </label>
@@ -78,37 +61,6 @@ const Search = ({ disabled }: { disabled?: boolean }) => {
             <span className="usa-search__submit-text">Search</span>
           </button>
         </form>
-
-        {/*
-        <div className={styles.suggestedTerms}>
-          <h3>Are you looking for:</h3>
-          <ul>
-            <li>
-              <LinkTo href="/" tabIndex={-1}>
-                PT Tests
-              </LinkTo>
-              ,
-            </li>
-            <li>
-              <LinkTo href="/" tabIndex={-1}>
-                TRICARE
-              </LinkTo>
-              ,
-            </li>
-            <li>
-              <LinkTo href="/" tabIndex={-1}>
-                MyPay
-              </LinkTo>
-              ,
-            </li>
-            <li>
-              <LinkTo href="/" tabIndex={-1}>
-                Leaveweb
-              </LinkTo>
-            </li>
-          </ul>
-        </div>
-    */}
       </div>
     </div>
   )

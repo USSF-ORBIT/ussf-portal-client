@@ -10,7 +10,15 @@ import PersonnelAPI from '../pages/api/dataSources/personnel'
 export * from '../graphql.g'
 
 export interface ServerContext {
-  db: any
+  db: {
+    collection: (collectionName: string) => {
+      findOne: (query: { _id: ObjectId }) => Promise<PortalUser | null>
+      updateOne: (
+        query: { _id: ObjectId },
+        update: { $set: Partial<PortalUser> }
+      ) => Promise<void>
+    }
+  }
   user: SessionUser | null
   dataSources: {
     keystoneAPI: KeystoneAPI
@@ -259,7 +267,12 @@ export type SingleGraphQLResponse<ResponseData> = {
     kind: 'single'
     singleResult: {
       data: ResponseData
-      errors?: any[]
+      errors?: {
+        message: string
+        extensions: {
+          code: string
+        }
+      }[]
     }
   }
 }

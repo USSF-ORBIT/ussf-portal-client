@@ -9,7 +9,6 @@ import { SessionUser } from 'types'
 
 type WithAuthServerSidePropsResult = GetServerSidePropsResult<{
   user: SessionUser
-  [key: string]: any
 }>
 
 // Server-side only

@@ -26,7 +26,7 @@ describe('CustomBookmark component', () => {
     jest.clearAllMocks()
   })
 
-  it('renders a bookmark with an edit handler', async () => {
+  test('renders a bookmark with an edit handler', async () => {
     renderWithModalRoot(
       <CustomBookmark
         bookmark={testBookmark}
@@ -44,7 +44,7 @@ describe('CustomBookmark component', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the bookmark URL if there is no label', async () => {
+  test('renders the bookmark URL if there is no label', async () => {
     const testBookmarkNoLabel = {
       _id: ObjectId(),
       url: 'https://example.com',
@@ -62,13 +62,12 @@ describe('CustomBookmark component', () => {
     expect(screen.getByRole('link')).toHaveTextContent(testBookmarkNoLabel.url)
   })
 
-  it('calls each function associated with editing a bookmark', async () => {
+  test('calls each function associated with editing a bookmark', async () => {
     const user = userEvent.setup()
     const mockUpdateModalId = jest.fn()
     const mockUpdateModalText = jest.fn()
     const mockUpdateWidget = jest.fn()
     const mockUpdateBookmark = jest.fn()
-    const mockModalRef = jest.spyOn(React, 'useRef')
 
     renderWithModalRoot(
       <CustomBookmark
@@ -81,7 +80,6 @@ describe('CustomBookmark component', () => {
         updateModalText: mockUpdateModalText,
         updateWidget: mockUpdateWidget,
         updateBookmark: mockUpdateBookmark,
-        modalRef: mockModalRef,
       }
     )
 
@@ -101,7 +99,5 @@ describe('CustomBookmark component', () => {
       type: 'Collection',
     })
     expect(mockUpdateBookmark).toHaveBeenCalledWith(testBookmark)
-
-    expect(mockModalRef).toHaveBeenCalled()
   })
 })
