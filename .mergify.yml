@@ -32,5 +32,3 @@ queue_rules:
     queue_conditions:
       - "#approved-reviews-by >= 1"
     merge_method: squash
-    batch_size: 10
-    batch_max_wait_time: 5min
