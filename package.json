@@ -1,6 +1,6 @@
 {
   "name": "ussf-portal",
-  "version": "4.23.2",
+  "version": "4.23.3",
   "private": true,
   "engines": {
     "node": "^18.14.2"
