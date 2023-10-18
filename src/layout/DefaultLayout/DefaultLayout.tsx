@@ -28,6 +28,7 @@ const DefaultLayout = ({
   const [displayName, setDisplayName] = useState<string>('')
   const navItems = [
     { path: '/', label: 'My Space' },
+    { path: '/guardian-directory', label: 'Guardian Directory' },
     {
       path: '/sites-and-applications',
       label: <>All sites &amp; applications</>,

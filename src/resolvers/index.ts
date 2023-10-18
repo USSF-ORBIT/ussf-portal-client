@@ -12,8 +12,10 @@ import {
   WidgetType,
   MongoBookmark,
   MySpaceWidget,
+  GuardianDirectory,
 } from 'types'
 import { WeatherModel } from 'models/Weather'
+import { titleCase } from 'operations/helpers'
 
 export const ObjectIdScalar = new GraphQLScalarType({
   name: 'OID',
@@ -66,6 +68,7 @@ type PortalUserContext = {
     }
     personnelAPI: {
       getUserData: (dodId: string) => Promise<any>
+      getGuardianDirectory: () => Promise<any>
     }
   }
 }
@@ -146,6 +149,34 @@ const resolvers = {
 
   // Root resolvers
   Query: {
+    guardianDirectory: async (
+      _: undefined,
+      args: undefined,
+      { dataSources }: PortalUserContext
+    ) => {
+      const {
+        data: { getGuardianDirectory },
+      } = await dataSources.personnelAPI.getGuardianDirectory()
+
+      const guardianDirectory: GuardianDirectory[] = []
+      // Pull out and format relevant data to return for directory
+      getGuardianDirectory.map(
+        (person: PersonnelData, index: number) =>
+          // eslint-disable-next-line security/detect-object-injection
+          (guardianDirectory[index] = {
+            DOD_ID: person.DOD_ID,
+            FirstName: titleCase(person.FirstName),
+            LastName: titleCase(person.LastName),
+            Rank: titleCase(`${person.Rank.Abbreviation}/${person.Rank.Grade}`),
+            BaseLoc: titleCase(person.BaseLoc),
+            DutyTitle: titleCase(person.DutyTitle),
+            MajCom: titleCase(person.MajCom),
+            Email: person.Email ? person.Email : '',
+          })
+      )
+      return guardianDirectory
+    },
+
     personnelData: async (
       _: undefined,
       args: undefined,
@@ -154,31 +185,31 @@ const resolvers = {
       const {
         data: {
           getUser: {
-            First_name,
-            Last_Name,
+            FirstName,
+            LastName,
             DOD_ID,
-            MAJCOM,
-            DUTYTITLE,
+            MajCom,
+            DutyTitle,
             Country,
-            BASE_LOC,
-            Org_type,
+            BaseLoc,
+            OrgType,
             Rank,
             EOPDate,
-            userType,
+            UserType,
             lastModifiedAt,
           },
         },
       } = await dataSources.personnelAPI.getUserData(user.attributes.edipi)
 
       const personnelData: PersonnelData = {
-        First_name,
-        Last_Name,
+        FirstName,
+        LastName,
         DOD_ID,
-        MAJCOM,
-        DUTYTITLE,
+        MajCom,
+        DutyTitle,
         Country,
-        BASE_LOC,
-        Org_type,
+        BaseLoc,
+        OrgType,
         Rank: {
           Title: Rank.Title,
           Abbreviation: Rank.Abbreviation,
@@ -186,7 +217,7 @@ const resolvers = {
           GradeId: Rank.GradeId,
         },
         EOPDate,
-        userType,
+        UserType,
         lastModifiedAt,
       }
 

@@ -306,18 +306,19 @@ export type Rank = {
 }
 
 export type PersonnelData = {
-  First_name: string
-  Last_Name: string
+  FirstName: string
+  LastName: string
   DOD_ID: string
-  MAJCOM: string
-  DUTYTITLE: string
+  MajCom: string
+  DutyTitle: string
   Country: string
-  BASE_LOC: string
-  Org_type: string
+  BaseLoc: string
+  OrgType: string
   Rank: Rank
   EOPDate: string
-  userType: string
+  UserType: string
   lastModifiedAt: string
+  Email?: string
 }
 
 /**
@@ -360,4 +361,21 @@ export type AnnouncementRecord = {
   }
   status: string
   publishedDate: string
+}
+
+/**
+ * ***********************
+ * Types for Personnel Data
+ * ***********************
+ * */
+
+export type GuardianDirectory = {
+  DOD_ID: string
+  FirstName: string
+  LastName: string
+  Rank: string
+  BaseLoc: string
+  DutyTitle: string
+  MajCom: string
+  Email: string
 }

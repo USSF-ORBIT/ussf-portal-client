@@ -1,0 +1,44 @@
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
+@use 'styles/deps';
+
+.stripedTable {
+  overflow-x: scroll;
+
+  :global {
+    .usa-table--borderless {
+      border-radius: 0px 0px 8px 8px;
+    }
+    .usa-table--borderless thead {
+      background-color: $theme-ultraviolet-dark;
+      th {
+        color: $white;
+        padding: 14px 0px;
+        font-family: 'Sharp Sans';
+        text-align: right;
+        text-wrap: nowrap;
+        &:first-child {
+          border-top-left-radius: 8px;
+          padding-left: 14px;
+        }
+        &:last-of-type {
+          border-top-right-radius: 8px;
+          padding-right: 14px;
+        }
+      }
+    }
+    td {
+      text-wrap: nowrap;
+      text-align: right;
+      border: 1px solid #b3b3b399;
+    }
+    .usa-table--striped tbody tr:nth-child(odd) td,
+    .usa-table--striped tbody tr:nth-child(odd) th {
+      background: #00000008;
+    }
+    .usa-table--striped tbody tr:nth-child(even) td,
+    .usa-table--striped tbody tr:nth-child(even) th {
+      background: #ffffff0a;
+    }
+  }
+}

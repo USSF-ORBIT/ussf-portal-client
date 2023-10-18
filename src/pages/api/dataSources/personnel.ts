@@ -14,34 +14,69 @@ class PersonnelAPI extends RESTDataSource {
 
     return this.post(this.baseURL + `/api/graphql`, {
       body: {
-        query: `query GetUser($getUserId: String!) {
-        getUser(id: $getUserId) {
-            First_name
-            Last_Name
-            DOD_ID
-            Grade
-            MAJCOM
-            DUTYTITLE
-            Country
-            BASE_LOC
-            Org_type
-            Rank {
-              Title
-              Abbreviation
-              Grade
-              GradeId
-            }
-            EOPDate
-            userType
-            lastModifiedAt
-        }
-      }`,
+        query: getUserQuery,
         variables: {
           getUserId: dodId,
         },
       },
     })
   }
+
+  async getGuardianDirectory() {
+    if (!this.baseURL) throw new Error('No Personnel API URL found')
+
+    return this.post(this.baseURL + `/api/graphql`, {
+      body: {
+        query: getGuardianDirectoryQuery,
+      },
+    })
+  }
 }
+
+/* Queries for reference */
+const getUserQuery = `
+  query GetUser($getUserId: String!) {
+    getUser(id: $getUserId) {
+      FirstName
+      LastName
+      DOD_ID
+      Grade
+      MajCom
+      DutyTitle
+      Country
+      BaseLoc
+      OrgType
+      Rank {
+        Title
+        Abbreviation
+        Grade
+        GradeId
+      }
+      EOPDate
+      UserType
+      lastModifiedAt
+    }
+  }
+`
+
+const getGuardianDirectoryQuery = `
+query GetGuardianDirectory {
+  getGuardianDirectory {
+    DOD_ID
+    FirstName
+    LastName
+    DutyTitle
+    Rank {
+      Abbreviation
+      Grade
+      GradeId
+      Title  
+    }
+    Email
+    BaseLoc
+    MajCom
+  }
+}
+`
 
 export default PersonnelAPI
