@@ -7,27 +7,39 @@ import * as analyticsHooks from 'stores/analyticsContext'
 import * as useUserHooks from 'hooks/useUser'
 import { testPortalUser1, testUser1 } from '__fixtures__/authUsers'
 import Custom404 from 'pages/404'
+import { SessionUser } from 'types'
+import { GetUserQuery } from 'operations/portal/queries/getUser.g'
+
+type MockedImplementation = {
+  user: SessionUser | null
+  portalUser: GetUserQuery | undefined
+  loading: boolean
+}
 
 beforeEach(() => {
-  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-    return {
-      user: testUser1,
-      portalUser: testPortalUser1,
-      loading: false,
-    }
-  })
+  jest
+    .spyOn(useUserHooks, 'useUser')
+    .mockImplementation((): MockedImplementation => {
+      return {
+        user: testUser1,
+        portalUser: testPortalUser1 as GetUserQuery,
+        loading: false,
+      }
+    })
 })
 
 describe('404 page', () => {
   describe('without a user', () => {
     beforeEach(() => {
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: null,
-          portalUser: null,
-          loading: true,
-        }
-      })
+      jest
+        .spyOn(useUserHooks, 'useUser')
+        .mockImplementation((): MockedImplementation => {
+          return {
+            user: null,
+            portalUser: undefined,
+            loading: true,
+          }
+        })
       renderWithAuth(<Custom404 />, {})
     })
 

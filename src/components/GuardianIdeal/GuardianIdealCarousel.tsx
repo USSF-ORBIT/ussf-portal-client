@@ -11,7 +11,11 @@ import { IdealListItem, Widget } from 'types'
 import { useAnalytics } from 'stores/analyticsContext'
 import { useModalContext } from 'stores/modalContext'
 
-const CustomEllipse = ({ onClick }: any) => {
+type CustomEllipseProps = {
+  onClick?: () => void
+}
+
+const CustomEllipse = ({ onClick }: CustomEllipseProps) => {
   return (
     <div className="news-carousel-container">
       <button

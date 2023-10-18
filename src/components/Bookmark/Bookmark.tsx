@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
+import Link, { LinkProps } from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Tooltip } from '@trussworks/react-uswds'
 import classnames from 'classnames'
 import styles from './Bookmark.module.scss'
-import LinkTo, { PropTypes as LinkToProps } from 'components/util/LinkTo/LinkTo'
 
-type PropTypes = LinkToProps & {
+type PropTypes = LinkProps & {
+  children: React.ReactNode
+  className?: string
   onDelete?: (event: React.MouseEvent<HTMLButtonElement>) => void
   onEdit?: (event: React.MouseEvent<HTMLButtonElement>) => void
   label?: string
@@ -49,7 +51,7 @@ const Bookmark = ({
       {disabled ? (
         <span className={linkClasses}>{children}</span>
       ) : (
-        <LinkTo
+        <Link
           {...linkProps}
           href={href}
           className={linkClasses}
@@ -61,7 +63,7 @@ const Bookmark = ({
           }}>
           {children}
           <span className="usa-sr-only">(opens in a new window)</span>
-        </LinkTo>
+        </Link>
       )}
 
       {bookmarkDescription && isDescriptionDisplayed && (

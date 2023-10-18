@@ -1,10 +1,10 @@
 import React, { useRef } from 'react'
+import Link from 'next/link'
 import { Table, Button, Icon } from '@trussworks/react-uswds'
 import type { ObjectId } from 'bson'
 import styles from './ApplicationsTable.module.scss'
 
 import type { CMSBookmark, Collection } from 'types'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
 
@@ -51,14 +51,14 @@ const ApplicationsTableRow = ({
   return (
     <tr key={`bookmark_${id}`}>
       <th scope="row">
-        <LinkTo
+        <Link
           href={url}
           className="usa-link"
           target="_blank"
           rel="noreferrer noopener">
           {label}
           <span className="usa-sr-only">(opens in a new window)</span>
-        </LinkTo>
+        </Link>
       </th>
       <td>{description}</td>
       <td className={styles.bookmarkAction}>

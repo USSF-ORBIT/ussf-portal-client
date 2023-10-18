@@ -5,7 +5,7 @@ import {
 } from '@fortawesome/react-fontawesome'
 
 type HourlyPeriod = {
-  windSpeed: number
+  windSpeed: string
   isDaytime: boolean
   shortForecast: string
   temperature: number
@@ -26,7 +26,8 @@ const WeatherWidgetIcon = ({
     useState<FontAwesomeIconProps['icon']>('sun')
 
   useEffect(() => {
-    if (hourlyPeriod.windSpeed >= 15) {
+    // Convert wind speed from string to number. The NWS API returns windSpeed in the following format: "20 mph"
+    if (parseInt(hourlyPeriod.windSpeed.split(' ')[0]) >= 15) {
       setChosenIcon('wind')
       return
     }

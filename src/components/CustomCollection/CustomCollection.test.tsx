@@ -543,7 +543,7 @@ describe('CustomCollection component', () => {
     )
 
     expect(container.querySelector('a')?.getAttribute('href')).toEqual(
-      '/www.example.com/1'
+      'www.example.com/1'
     )
   })
 

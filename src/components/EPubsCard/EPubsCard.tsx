@@ -1,6 +1,6 @@
 import React from 'react'
+import Link from 'next/link'
 import styles from './EPubsCard.module.scss'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 
 type PropTypes = {
   query?: string
@@ -16,13 +16,13 @@ const EPubsCard = ({ query, title = 'Looking for a form?' }: PropTypes) => {
     <div className={styles.epubs}>
       <h3>{title}</h3>
       <p>Launch your query on ePubs!</p>
-      <LinkTo
+      <Link
         href={ePubsSearch}
         target="_blank"
         rel="noreferrer noopener"
         className="usa-button">
         Search ePubs
-      </LinkTo>
+      </Link>
     </div>
   )
 }

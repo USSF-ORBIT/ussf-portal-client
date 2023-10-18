@@ -8,15 +8,6 @@ import { useRouter } from 'next/router'
 
 import NavLink from './NavLink'
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    route: '',
-    pathname: '',
-    query: '',
-    asPath: '',
-  }),
-}))
-
 const mockedUseRouter = useRouter as jest.Mock
 
 describe('NavLink component', () => {
@@ -218,7 +209,7 @@ describe('NavLink component', () => {
         name: 'Home',
       })
 
-      expect(link).toHaveAttribute('href', '/')
+      expect(link).toHaveAttribute('href', '')
       expect(link).toHaveTextContent('Home')
       expect(link).toHaveClass('text-ink')
       expect(link).toBeInstanceOf(HTMLAnchorElement)

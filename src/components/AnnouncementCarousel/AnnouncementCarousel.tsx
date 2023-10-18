@@ -7,7 +7,15 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { AnnouncementRecord } from 'types'
 
-const CustomEllipse = ({ onClick }: any) => {
+type CustomEllipseProps = {
+  onClick?: () => void
+}
+
+type CustomArrowProps = {
+  onClick?: () => void
+}
+
+const CustomEllipse = ({ onClick }: CustomEllipseProps) => {
   return (
     <div className="announcement-carousel-container">
       <button
@@ -21,7 +29,7 @@ const CustomEllipse = ({ onClick }: any) => {
   )
 }
 
-const NextArrow = ({ onClick }: any) => {
+const NextArrow = ({ onClick }: CustomArrowProps) => {
   return (
     <div className={styles.carouselArrow}>
       <FontAwesomeIcon icon="angle-right" onClick={onClick} />
@@ -29,7 +37,7 @@ const NextArrow = ({ onClick }: any) => {
   )
 }
 
-const PrevArrow = ({ onClick }: any) => {
+const PrevArrow = ({ onClick }: CustomArrowProps) => {
   return (
     <div className={styles.carouselArrow}>
       <FontAwesomeIcon icon="angle-left" onClick={onClick} />

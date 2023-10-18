@@ -1,10 +1,9 @@
 import React from 'react'
 import classnames from 'classnames'
 import { Tag } from '@trussworks/react-uswds'
+import Link from 'next/link'
 import styles from './NewsItem.module.scss'
 import colors from 'styles/sfds/colors.module.scss'
-
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import type { NewsItemArticle } from 'types'
 
 const NewsItem = ({
@@ -21,7 +20,7 @@ const NewsItem = ({
       className={classnames(styles.NewsItem, {
         [styles.newsWidgetItem]: widget,
       })}>
-      <LinkTo
+      <Link
         href={sourceLink}
         className={classnames(styles.articleLink, 'usa-link--external')}
         target="_blank"
@@ -30,7 +29,7 @@ const NewsItem = ({
         <small>{publishDate} //</small>
         &nbsp;
         <h4>{title}</h4>
-      </LinkTo>
+      </Link>
 
       <p className={styles.articleExcerpt}>
         <span className={styles.articleExcerptTruncate}>

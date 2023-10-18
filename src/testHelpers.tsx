@@ -20,7 +20,7 @@ export const defaultMockAuthContext = {
 export const defaultMockModalContext = {
   modalId: '',
   updateModalId: jest.fn(),
-  modalRef: jest.spyOn(React, 'useRef'),
+  modalRef: null,
   modalHeadingText: '',
   closeModal: jest.fn(),
   onDelete: jest.fn(),
