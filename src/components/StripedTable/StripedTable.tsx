@@ -2,17 +2,15 @@ import React from 'react'
 import { Table } from '@trussworks/react-uswds'
 import styles from './StripedTable.module.scss'
 
-type StripedTable = {
+type StripedTableProps = {
   headers: string[]
   rows: Array<{ [key: string]: string }>
   keys: string[]
-  title: string
 }
 
-const StripedTable = ({ headers, rows, title, keys }: StripedTable) => {
+export const StripedTable = ({ headers, rows, keys }: StripedTableProps) => {
   return (
     <div className={styles.stripedTable}>
-      <h1>{title}</h1>
       <Table striped fullWidth>
         <thead>
           <tr>
@@ -37,5 +35,3 @@ const StripedTable = ({ headers, rows, title, keys }: StripedTable) => {
     </div>
   )
 }
-
-export default StripedTable

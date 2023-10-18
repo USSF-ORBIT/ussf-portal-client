@@ -8,9 +8,12 @@
   :global {
     .usa-table--borderless {
       border-radius: 0px 0px 8px 8px;
+      tbody {
+        background-color: var(--table-bg-color);
+      }
     }
     .usa-table--borderless thead {
-      background-color: $theme-ultraviolet-dark;
+      background-color: var(--table-header-bg);
       th {
         color: $white;
         padding: 14px 0px;
@@ -30,15 +33,18 @@
     td {
       text-wrap: nowrap;
       text-align: right;
-      border: 1px solid #b3b3b399;
+      border: 1px solid var(--table-border-color);
+      color: var(--table-text-color);
     }
     .usa-table--striped tbody tr:nth-child(odd) td,
     .usa-table--striped tbody tr:nth-child(odd) th {
-      background: #00000008;
+      background: var(--col-row-dark);
+      color: var(--table-text-color);
     }
     .usa-table--striped tbody tr:nth-child(even) td,
     .usa-table--striped tbody tr:nth-child(even) th {
-      background: #ffffff0a;
+      background: var(--col-row-light);
+      color: var(--table-text-color);
     }
   }
 }

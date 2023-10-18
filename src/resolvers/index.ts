@@ -1,6 +1,7 @@
 import { GraphQLScalarType, Kind, GraphQLError } from 'graphql'
 import { ObjectId, ObjectID, MongoClient } from 'mongodb'
 import type { ObjectId as ObjectIdType } from 'bson'
+import { titleCase } from '../helpers/index'
 import { BookmarkModel } from '../models/Bookmark'
 import UserModel from '../models/User'
 import { CollectionModel } from '../models/Collection'
@@ -15,7 +16,6 @@ import {
   GuardianDirectory,
 } from 'types'
 import { WeatherModel } from 'models/Weather'
-import { titleCase } from 'operations/helpers'
 
 export const ObjectIdScalar = new GraphQLScalarType({
   name: 'OID',
@@ -171,7 +171,7 @@ const resolvers = {
             BaseLoc: titleCase(person.BaseLoc),
             DutyTitle: titleCase(person.DutyTitle),
             MajCom: titleCase(person.MajCom),
-            Email: person.Email ? person.Email : '',
+            Email: person.Email ? person.Email.toLowerCase() : '',
           })
       )
       return guardianDirectory

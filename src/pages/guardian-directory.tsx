@@ -1,25 +1,28 @@
 import { useEffect, useState } from 'react'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
-import { GetGuardianDirectoryDocument } from 'operations/portal/queries/getGuardianDirectory.g'
 import styles from 'styles/pages/guardianDirectory.module.scss'
-import StripedTable from 'components/StripedTable/StripedTable'
-import { client } from 'apolloClient'
+import { StripedTable } from 'components/StripedTable/StripedTable'
+import { useGetGuardianDirectoryQuery } from 'operations/portal/queries/getGuardianDirectory.g'
+import { GuardianDirectory as GuardianDirectoryType } from 'types'
+import { useUser } from 'hooks/useUser'
+import Loader from 'components/Loader/Loader'
 
 const GuardianDirectory = () => {
-  const [directory, setDirectory] = useState([])
+  const { loading } = useUser()
+  const [directory, setDirectory] = useState(Array<GuardianDirectoryType>)
+  const { data } = useGetGuardianDirectoryQuery()
 
   useEffect(() => {
-    async function fetchData() {
-      const res = await client.query({
-        query: GetGuardianDirectoryDocument,
-      })
-      setDirectory(res.data.guardianDirectory)
+    if (data) {
+      setDirectory(data.guardianDirectory as GuardianDirectoryType[])
     }
-    fetchData()
-  }, [])
+  }, [data])
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div className={styles.guardianDirectory}>
+      <h1>Guardian Directory</h1>
       <StripedTable
         headers={[
           'First Name',
@@ -40,7 +43,6 @@ const GuardianDirectory = () => {
           'Email',
         ]}
         rows={directory}
-        title={'Guardian Directory'}
       />
     </div>
   )

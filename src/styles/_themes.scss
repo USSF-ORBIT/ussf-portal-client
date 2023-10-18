@@ -233,6 +233,13 @@ $dark-gradient: linear-gradient(
 
   // Weather
   --weather-icons: #{$theme-ultraviolet-light};
+
+  // Tables
+  --col-row-light: #ffffff0a;
+  --col-row-dark: #00000008;
+  --table-header-bg: #{$theme-ultraviolet-dark};
+  --table-bg-color: rgba(255, 255, 255, 0.4);
+  --table-border-color: #b3b3b399;
 }
 
 /* ------------------------------------ */
@@ -466,4 +473,12 @@ $dark-gradient: linear-gradient(
 
   // Weather
   --weather-icons: #{$theme-ultraviolet-lighter};
+
+  // Tables
+  --table-text-color: #{$white};
+  --col-row-light: #08122299;
+  --col-row-dark: #0000004d;
+  --table-header-bg: #{$theme-spacebase-darkest};
+  --table-bg-color: rbga(8, 18, 34, 0.4);
+  --table-border-color: rgba(179, 179, 179, 0.6);
 }
