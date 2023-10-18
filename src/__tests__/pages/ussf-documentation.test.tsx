@@ -8,17 +8,26 @@ import { gql } from 'graphql-tag'
 import { renderWithAuthAndApollo } from '../../testHelpers'
 import * as useUserHooks from 'hooks/useUser'
 import { testPortalUser1, testUser1 } from '__fixtures__/authUsers'
-import { DocumentPageType } from 'types'
+import { DocumentPageType, SessionUser } from 'types'
 import USSFDocumentation, { getServerSideProps } from 'pages/ussf-documentation'
+import { GetUserQuery } from 'operations/portal/queries/getUser.g'
+
+type MockedImplementation = {
+  user: SessionUser | null
+  portalUser: GetUserQuery | undefined
+  loading: boolean
+}
 
 beforeEach(() => {
-  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-    return {
-      user: testUser1,
-      portalUser: testPortalUser1,
-      loading: false,
-    }
-  })
+  jest
+    .spyOn(useUserHooks, 'useUser')
+    .mockImplementation((): MockedImplementation => {
+      return {
+        user: testUser1,
+        portalUser: testPortalUser1 as GetUserQuery,
+        loading: false,
+      }
+    })
 })
 
 const mockTestPage: DocumentPageType = {
@@ -107,13 +116,15 @@ const cmsDocumentationPageMock = [
 describe('USSF Documentation page', () => {
   describe('without a user', () => {
     test('renders the loader while fetching the user', () => {
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: null,
-          portalUser: null,
-          loading: true,
-        }
-      })
+      jest
+        .spyOn(useUserHooks, 'useUser')
+        .mockImplementation((): MockedImplementation => {
+          return {
+            user: null,
+            portalUser: undefined,
+            loading: true,
+          }
+        })
       renderWithAuthAndApollo(
         <USSFDocumentation
           documentsPage={mockTestPage}

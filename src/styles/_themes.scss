@@ -145,10 +145,12 @@ $dark-gradient: linear-gradient(
   --announcement-arrow-color: none;
 
   // Pagination
-  --pagination-page-number-bg: #{$theme-ultraviolet-dark};
-  --pagination-page-number-border: #{$neutral-gray-300};
+  --pagination-page-number: #{$theme-ultraviolet-base};
+  --pagination-page-ellipsis: #{$neutral-gray-800};
+  --pagination-page-number-border: #{$theme-spacebase-lightest};
   --pagination-page-number-active: #{$white};
-  --pagination-page-number-active-border: #{$neutral-gray-300};
+  --pagination-page-number-active-bg: #{$black};
+  --pagination-page-number-active-border: #{$black};
 
   // News
   --btn-box-bg: #{$theme-cosmiclatte-lighter};
@@ -408,10 +410,12 @@ $dark-gradient: linear-gradient(
     sepia(15%) saturate(902%) hue-rotate(78deg) brightness(89%) contrast(84%);
 
   // Pagination
-  --pagination-page-number-bg: #{$theme-cosmiclatte-base};
-  --pagination-page-number-border: #{$theme-spacebase-lighter};
-  --pagination-page-number-active: #{$neutral-gray-900};
-  --pagination-page-number-active-border: #{$theme-cosmiclatte-base};
+  --pagination-page-number: #{$theme-ultraviolet-muted-light};
+  --pagination-page-ellipsis: #{$light-blue-gray};
+  --pagination-page-number-border: #{$theme-spacebase-lightest};
+  --pagination-page-number-active: #{$white};
+  --pagination-page-number-active-bg: #{$theme-ultraviolet-muted-light};
+  --pagination-page-number-active-border: #{$theme-ultraviolet-muted-light};
 
   // Articles
   --article-link-text: #{$theme-ultraviolet-muted-light};

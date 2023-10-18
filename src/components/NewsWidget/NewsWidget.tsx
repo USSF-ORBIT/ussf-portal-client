@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react'
 import { Button } from '@trussworks/react-uswds'
-
+import Link from 'next/link'
 import styles from './NewsWidget.module.scss'
-
 import { WidgetWithSettings } from 'components/Widget/Widget'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import { useRSSFeed } from 'hooks/useRSSFeed'
 import NewsItem from 'components/NewsItem/NewsItem'
 import type { RSSNewsItem } from 'types'
@@ -76,11 +74,11 @@ const NewsWidget = (widget: NewsWidgetProps) => {
           ))}
 
         <div style={{ textAlign: 'right' }}>
-          <LinkTo
+          <Link
             href="/news-announcements"
             className="usa-button usa-button--outline">
             View all
-          </LinkTo>
+          </Link>
         </div>
       </WidgetWithSettings>
     </>

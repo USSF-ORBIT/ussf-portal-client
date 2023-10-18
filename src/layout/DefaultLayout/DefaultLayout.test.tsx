@@ -7,15 +7,6 @@ import { renderWithAuthAndApollo } from '../../testHelpers'
 import DefaultLayout, { withDefaultLayout } from './DefaultLayout'
 import { getUserMock } from '__fixtures__/operations/getUser'
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    route: '',
-    pathname: '',
-    query: '',
-    asPath: '',
-  }),
-}))
-
 describe('DefaultLayout component options', () => {
   beforeAll(async () => {
     const sidebar = (

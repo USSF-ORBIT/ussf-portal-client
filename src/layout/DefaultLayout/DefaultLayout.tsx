@@ -12,6 +12,7 @@ import Loader from 'components/Loader/Loader'
 import { useMySpaceContext } from 'stores/myspaceContext'
 import { useSearchContext } from 'stores/searchContext'
 import { useUser } from 'hooks/useUser'
+import { MySpace } from 'types'
 
 const DefaultLayout = ({
   displayFeedbackCard = true,
@@ -38,7 +39,7 @@ const DefaultLayout = ({
   useEffect(() => {
     if (portalUser) {
       setDisplayName(portalUser.displayName)
-      initializeMySpace(portalUser.mySpace)
+      initializeMySpace(portalUser.mySpace as MySpace)
     }
   }, [portalUser])
 

@@ -4282,7 +4282,7 @@ export const mockHourlyForecastFunc = /* istanbul ignore next */ (
           unitCode: 'wmoUnit:percent',
           value: 61,
         },
-        windSpeed: windSpeed,
+        windSpeed: `${windSpeed} mph`,
         windDirection: 'S',
         icon: 'https://api.weather.gov/icons/land/day/skc,0?size=small',
         shortForecast: shortForcast,

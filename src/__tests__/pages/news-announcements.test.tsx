@@ -15,6 +15,14 @@ import * as useUserHooks from 'hooks/useUser'
 import { testPortalUser1, testUser1 } from '__fixtures__/authUsers'
 import NewsAnnouncements, { getServerSideProps } from 'pages/news-announcements'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
+import { SessionUser } from 'types'
+import { GetUserQuery } from 'operations/portal/queries/getUser.g'
+
+type MockedImplementation = {
+  user: SessionUser | null
+  portalUser: GetUserQuery | undefined
+  loading: boolean
+}
 
 jest.mock('../../lib/keystoneClient', () => ({
   client: {
@@ -59,25 +67,29 @@ mockedUseRouter.mockReturnValue({
 
 beforeEach(() => {
   mockedAxios.get.mockClear()
-  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-    return {
-      user: testUser1,
-      portalUser: testPortalUser1,
-      loading: false,
-    }
-  })
+  jest
+    .spyOn(useUserHooks, 'useUser')
+    .mockImplementation((): MockedImplementation => {
+      return {
+        user: testUser1,
+        portalUser: testPortalUser1 as GetUserQuery,
+        loading: false,
+      }
+    })
 })
 
 describe('News page', () => {
   describe('without a user', () => {
     beforeEach(() => {
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: null,
-          portalUser: null,
-          loading: true,
-        }
-      })
+      jest
+        .spyOn(useUserHooks, 'useUser')
+        .mockImplementation((): MockedImplementation => {
+          return {
+            user: null,
+            portalUser: undefined,
+            loading: true,
+          }
+        })
 
       renderWithAuth(
         <NewsAnnouncements

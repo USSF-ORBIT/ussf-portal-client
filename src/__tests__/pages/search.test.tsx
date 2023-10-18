@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import { screen } from '@testing-library/react'
-import { useRouter } from 'next/router'
 import { mockFlags } from 'jest-launchdarkly-mock'
 import type { GetServerSidePropsContext } from 'next'
 
@@ -13,6 +12,8 @@ import * as useUserHooks from 'hooks/useUser'
 import { testPortalUser1, testUser1 } from '__fixtures__/authUsers'
 
 import SearchPage, { getServerSideProps } from 'pages/search'
+import { SessionUser } from 'types'
+import { GetUserQuery } from 'operations/portal/queries/getUser.g'
 
 jest.mock('../../lib/keystoneClient', () => ({
   client: {
@@ -28,31 +29,22 @@ jest.mock('../../lib/keystoneClient', () => ({
   },
 }))
 
+type MockedImplementation = {
+  user: SessionUser | null
+  portalUser: GetUserQuery | undefined
+  loading: boolean
+}
+
 beforeEach(() => {
-  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-    return {
-      user: testUser1,
-      portalUser: testPortalUser1,
-      loading: false,
-    }
-  })
-})
-
-const mockReplace = jest.fn()
-
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}))
-
-const mockedUseRouter = useRouter as jest.Mock
-
-mockedUseRouter.mockReturnValue({
-  route: '',
-  pathname: '',
-  query: '',
-  asPath: '',
-  push: jest.fn(),
-  replace: mockReplace,
+  jest
+    .spyOn(useUserHooks, 'useUser')
+    .mockImplementation((): MockedImplementation => {
+      return {
+        user: testUser1,
+        portalUser: testPortalUser1 as GetUserQuery,
+        loading: false,
+      }
+    })
 })
 
 describe('Search page getServerSideProps', () => {
@@ -95,13 +87,15 @@ describe('Search page getServerSideProps', () => {
 describe('Search page', () => {
   describe('without a user', () => {
     test('renders the loader while fetching the user', () => {
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: null,
-          portalUser: null,
-          loading: true,
-        }
-      })
+      jest
+        .spyOn(useUserHooks, 'useUser')
+        .mockImplementation((): MockedImplementation => {
+          return {
+            user: null,
+            portalUser: undefined,
+            loading: true,
+          }
+        })
       renderWithAuth(<SearchPage />, {})
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })

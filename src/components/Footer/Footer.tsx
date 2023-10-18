@@ -3,9 +3,8 @@ import {
   Footer as USWDSFooter,
   Logo as USWDSFooterLogo,
 } from '@trussworks/react-uswds'
-
+import Link from 'next/link'
 import styles from './Footer.module.scss'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 
 const PortalLogo = () => {
   return <img src="/img/ussf-portal.svg" alt="USSF Portal" />
@@ -36,42 +35,42 @@ const Footer = () => {
                 <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
                   <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="/" rel="noreferrer noopener">
+                      <Link href="/" rel="noreferrer noopener">
                         My Space
-                      </LinkTo>
+                      </Link>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo
+                      <Link
                         href="/sites-and-applications"
                         rel="noreferrer noopener">
                         Sites & Applications
-                      </LinkTo>
+                      </Link>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo
+                      <Link
                         href="/ussf-documentation"
                         rel="noreferrer noopener">
                         USSF Documentation
-                      </LinkTo>
+                      </Link>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo href="/about-us" rel="noreferrer noopener">
+                      <Link href="/about-us" rel="noreferrer noopener">
                         About the USSF
-                      </LinkTo>
+                      </Link>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo
+                      <Link
                         href="/about-us/orbit-blog"
                         rel="noreferrer noopener">
                         Orbit Blog
-                      </LinkTo>
+                      </Link>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo
+                      <Link
                         href="/news-announcements"
                         rel="noreferrer noopener">
                         News & Announcements
-                      </LinkTo>
+                      </Link>
                     </li>
                   </ul>
                 </section>
@@ -80,7 +79,7 @@ const Footer = () => {
                 <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
                   <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
-                      <LinkTo
+                      <Link
                         href="https://www.my.af.mil/afp/netstorage/faq/privacy_advisory.html"
                         target="_blank"
                         rel="noreferrer noopener">
@@ -88,10 +87,10 @@ const Footer = () => {
                         <span className="usa-sr-only">
                           (opens in a new window)
                         </span>
-                      </LinkTo>
+                      </Link>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo
+                      <Link
                         href="https://dodcio.defense.gov/DoDSection508/Std_Stmt/"
                         target="_blank"
                         rel="noreferrer noopener">
@@ -99,10 +98,10 @@ const Footer = () => {
                         <span className="usa-sr-only">
                           (opens in a new window)
                         </span>
-                      </LinkTo>
+                      </Link>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo
+                      <Link
                         href="https://comptroller.defense.gov/Budget-Materials/"
                         target="_blank"
                         rel="noreferrer noopener">
@@ -110,10 +109,10 @@ const Footer = () => {
                         <span className="usa-sr-only">
                           (opens in a new window)
                         </span>
-                      </LinkTo>
+                      </Link>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo
+                      <Link
                         href="http://www.esd.whs.mil/DD/index.html"
                         target="_blank"
                         rel="noreferrer noopener">
@@ -121,7 +120,7 @@ const Footer = () => {
                         <span className="usa-sr-only">
                           (opens in a new window)
                         </span>
-                      </LinkTo>
+                      </Link>
                     </li>
                   </ul>
                 </section>
@@ -130,7 +129,7 @@ const Footer = () => {
                 <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
                   <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
-                      <LinkTo
+                      <Link
                         href="https://www.dodig.mil/"
                         target="_blank"
                         rel="noreferrer noopener">
@@ -138,10 +137,10 @@ const Footer = () => {
                         <span className="usa-sr-only">
                           (opens in a new window)
                         </span>
-                      </LinkTo>
+                      </Link>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo
+                      <Link
                         href="https://www.foia.af.mil/"
                         target="_blank"
                         rel="noreferrer noopener">
@@ -149,10 +148,10 @@ const Footer = () => {
                         <span className="usa-sr-only">
                           (opens in a new window)
                         </span>
-                      </LinkTo>
+                      </Link>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo
+                      <Link
                         href="https://www.af.mil/Equal-Opportunity/"
                         target="_blank"
                         rel="noreferrer noopener">
@@ -160,10 +159,10 @@ const Footer = () => {
                         <span className="usa-sr-only">
                           (opens in a new window)
                         </span>
-                      </LinkTo>
+                      </Link>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo
+                      <Link
                         href="https://www.usa.gov/"
                         target="_blank"
                         rel="noreferrer noopener">
@@ -171,10 +170,10 @@ const Footer = () => {
                         <span className="usa-sr-only">
                           (opens in a new window)
                         </span>
-                      </LinkTo>
+                      </Link>
                     </li>
                     <li className="usa-footer__secondary-link">
-                      <LinkTo
+                      <Link
                         href="https://www.resilience.af.mil/SAPR/"
                         target="_blank"
                         rel="noreferrer noopener">
@@ -182,7 +181,7 @@ const Footer = () => {
                         <span className="usa-sr-only">
                           (opens in a new window)
                         </span>
-                      </LinkTo>
+                      </Link>
                     </li>
                   </ul>
                 </section>

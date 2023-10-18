@@ -16,6 +16,14 @@ import SingleArticlePage, { getServerSideProps } from 'pages/articles/[article]'
 import * as useUserHooks from 'hooks/useUser'
 import { testPortalUser1, testUser1, cmsUser } from '__fixtures__/authUsers'
 import { getSession } from 'lib/session'
+import { SessionUser } from 'types'
+import { GetUserQuery } from 'operations/portal/queries/getUser.g'
+
+type MockedImplementation = {
+  user: SessionUser | null
+  portalUser: GetUserQuery | undefined
+  loading: boolean
+}
 
 jest.mock('../../lib/keystoneClient', () => ({
   client: {
@@ -60,13 +68,15 @@ mockedGetSession.mockImplementationOnce(() =>
 )
 
 beforeEach(() => {
-  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-    return {
-      user: testUser1,
-      portalUser: testPortalUser1,
-      loading: false,
-    }
-  })
+  jest
+    .spyOn(useUserHooks, 'useUser')
+    .mockImplementation((): MockedImplementation => {
+      return {
+        user: testUser1,
+        portalUser: testPortalUser1 as GetUserQuery,
+        loading: false,
+      }
+    })
 })
 
 describe('Single article getServerSideProps', () => {
@@ -176,13 +186,15 @@ describe('Single article getServerSideProps', () => {
 describe('Single article page', () => {
   describe('without a user', () => {
     test('renders the loader while fetching the user', () => {
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: null,
-          portalUser: null,
-          loading: true,
-        }
-      })
+      jest
+        .spyOn(useUserHooks, 'useUser')
+        .mockImplementation((): MockedImplementation => {
+          return {
+            user: null,
+            portalUser: undefined,
+            loading: true,
+          }
+        })
       renderWithAuth(<SingleArticlePage article={mockOrbitBlogArticle} />, {})
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })

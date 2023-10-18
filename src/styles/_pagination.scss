@@ -16,11 +16,17 @@
     > li > a.usa-pagination__button {
       background: transparent;
       border: 1px solid var(--pagination-page-number-border);
+      color: var(--pagination-page-number);
     }
 
     > li > a.usa-pagination__button.usa-current {
-      background: var(--pagination-page-number-bg);
+      background: var(--pagination-page-number-active-bg);
+      border: var(--pagination-page-number-active-border);
       color: var(--pagination-page-number-active);
+    }
+
+    > li.usa-pagination__item.usa-pagination__overflow > span {
+      color: var(--pagination-page-ellipsis);
     }
   }
 }

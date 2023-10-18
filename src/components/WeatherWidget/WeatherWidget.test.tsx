@@ -7,8 +7,8 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { ObjectId } from 'mongodb'
 import { renderWithMySpaceAndModalContext } from '../../testHelpers'
-import { mockHourlyForecast } from '__fixtures__/data/hourlyForecast'
 import WeatherWidget from './WeatherWidget'
+import { mockHourlyForecast } from '__fixtures__/data/hourlyForecast'
 import { WeatherWidget as WeatherWidgetType } from 'types'
 
 const mockWeatherWidget: WeatherWidgetType = {
