@@ -5,7 +5,9 @@ export const GET_ARTICLE = gql`
     article(where: { slug: $slug }) {
       id
       slug
-      category
+      category {
+        name
+      }
       title
       hero {
         url
