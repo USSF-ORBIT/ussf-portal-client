@@ -10,7 +10,7 @@ export const GET_PORTAL_NEWS_ARTICLES = gql`
       where: {
         status: { equals: Published }
         publishedDate: { lte: $publishedDate }
-        category: { equals: ORBITBlog }
+        category: { name: { equals: "ORBITBlog" } }
       }
       orderBy: [{ publishedDate: desc }]
       skip: $skip
@@ -31,7 +31,7 @@ export const GET_ARTICLES_COUNT = gql`
       where: {
         status: { equals: Published }
         publishedDate: { lte: $publishedDate }
-        category: { equals: ORBITBlog }
+        category: { name: { equals: "ORBITBlog" } }
       }
     )
   }

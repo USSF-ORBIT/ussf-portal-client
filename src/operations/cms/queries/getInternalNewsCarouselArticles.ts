@@ -6,7 +6,7 @@ export const GET_INTERNAL_NEWS_CAROUSEL_ARTICLES = gql`
       where: {
         status: { equals: Published }
         publishedDate: { lte: $publishedDate }
-        category: { equals: InternalNews }
+        category: { name: { equals: "InternalNews" } }
       }
       orderBy: [{ publishedDate: desc }]
       take: 4
