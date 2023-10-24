@@ -10,6 +10,7 @@ import { GET_ARTICLE } from 'operations/cms/queries/getArticle'
 import { SingleArticle } from 'components/SingleArticle/SingleArticle'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { isCmsUser, isPublished } from 'helpers/index'
+// TODO add support for dynamic categories pulled in from CMS
 
 const ORBITBlogArticleHeader = () => (
   <PageHeader>
@@ -95,7 +96,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      article,
+      article: article,
       pageTitle: article.title,
     },
   }
