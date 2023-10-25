@@ -146,7 +146,7 @@ export const AnalyticsProvider = ({
     push(['setCustomDimension', 2, rank])
     push(['trackPageView'])
   }
-  
+
   const handleRouteChange = (url: string) => {
     if (previousPath) push(['setReferrerUrl', previousPath])
 
@@ -181,7 +181,7 @@ export const AnalyticsProvider = ({
       previousPath = location.href
 
       push(['setDocumentTitle', document.title])
-      push(['setDoNotTrack', true])
+      push(['setDoNotTrack', false])
       push(['trackPageView'])
       push(['enableLinkTracking'])
 

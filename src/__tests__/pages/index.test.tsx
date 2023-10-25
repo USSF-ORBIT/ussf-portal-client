@@ -20,6 +20,14 @@ import { cmsAnnouncementsMock as mockCmsAnnouncements } from '../../__fixtures__
 import '../../__mocks__/mockMatchMedia'
 import * as useUserHooks from 'hooks/useUser'
 import Home, { getServerSideProps } from 'pages/index'
+import { SessionUser } from 'types'
+import { GetUserQuery } from 'operations/portal/queries/getUser.g'
+
+type MockedImplementation = {
+  user: SessionUser | null
+  portalUser: GetUserQuery | undefined
+  loading: boolean
+}
 
 jest.mock('../../lib/keystoneClient', () => ({
   client: {
@@ -41,25 +49,29 @@ jest.mock('axios', () => ({
 }))
 
 beforeEach(() => {
-  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-    return {
-      user: testUser1,
-      portalUser: portalUserMaxedOutCollection,
-      loading: false,
-    }
-  })
+  jest
+    .spyOn(useUserHooks, 'useUser')
+    .mockImplementation((): MockedImplementation => {
+      return {
+        user: testUser1,
+        portalUser: portalUserMaxedOutCollection as GetUserQuery,
+        loading: false,
+      }
+    })
 })
 
 describe('Home page', () => {
   describe('without a user', () => {
     test('renders the loader while fetching the user', () => {
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: null,
-          portalUser: null,
-          loading: true,
-        }
-      })
+      jest
+        .spyOn(useUserHooks, 'useUser')
+        .mockImplementation((): MockedImplementation => {
+          return {
+            user: null,
+            portalUser: undefined,
+            loading: true,
+          }
+        })
 
       renderWithAuthAndApollo(
         <Home

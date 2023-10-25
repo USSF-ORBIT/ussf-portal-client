@@ -12,15 +12,6 @@ import {
 
 import ArticleLayout, { withArticleLayout } from './ArticleLayout'
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    route: '',
-    pathname: '',
-    query: '',
-    asPath: '',
-  }),
-}))
-
 describe('ArticleLayout component', () => {
   beforeEach(async () => {
     renderWithAuthAndApollo(

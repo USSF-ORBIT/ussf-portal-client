@@ -1,13 +1,27 @@
 import React from 'react'
 import { DocumentRenderer } from '@keystone-6/document-renderer'
-import { InferRenderersForComponentBlocks } from '@keystone-6/fields-document/component-blocks'
 import Link from 'next/link'
 import styles from './AnnouncementInfo.module.scss'
-import type { componentBlocks } from 'components/ComponentBlocks/callToAction'
 import { AnnouncementRecord } from 'types'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import AnnouncementDate from 'components/AnnouncementDate/AnnouncementDate'
 import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
+
+type valueObject = {
+  data: {
+    slug: string
+    file: {
+      url: string
+    }
+  }
+}
+
+type callToActionProps = {
+  link: {
+    value: valueObject | string
+    discriminant: string
+  }
+  ctaText: string
+}
 
 const AnnouncementInfo = ({
   announcement,
@@ -20,39 +34,38 @@ const AnnouncementInfo = ({
     body: { document },
   } = announcement
 
-  const componentBlockRenderers: InferRenderersForComponentBlocks<
-    typeof componentBlocks
-  > = {
-    callToAction: (props: any) => {
-      const fileUrl = props.link.value.data?.file?.url || ''
+  const componentBlockRenderers = {
+    callToAction: ({
+      link: { discriminant, value },
+      ctaText,
+    }: callToActionProps) => {
+      const fileUrl = typeof value === 'object' ? value.data?.file?.url : ''
+      const linkValue = typeof value === 'string' ? value : ''
+      const slug = typeof value === 'object' ? value.data?.slug : ''
 
       return (
         <>
-          {props.link.discriminant === 'article' && (
-            <LinkTo
-              href={
-                props.link.value.data?.slug
-                  ? `/articles/${props.link.value.data.slug}`
-                  : '/404'
-              }
+          {discriminant === 'article' && (
+            <Link
+              href={slug ? `/articles/${slug}` : '/404'}
               target="_blank"
               rel="noreferrer"
               className="usa-button">
-              {props.ctaText}
-            </LinkTo>
+              {ctaText}
+            </Link>
           )}
 
-          {props.link.discriminant === 'url' && (
-            <LinkTo
-              href={props.link.value}
+          {discriminant === 'url' && (
+            <Link
+              href={linkValue}
               target="_blank"
               rel="noreferrer"
               className="usa-button">
-              {props.ctaText}
-            </LinkTo>
+              {ctaText}
+            </Link>
           )}
 
-          {props.link.discriminant === 'document' && (
+          {discriminant === 'document' && (
             // We need to use the default Next Link component
             // with legacyBehavior=false, so we can pass in an onClick
             // that will open PDFs in the browser
@@ -68,7 +81,7 @@ const AnnouncementInfo = ({
               href={fileUrl}
               rel="noreferrer"
               className="usa-button">
-              {props.ctaText}
+              {ctaText}
             </Link>
           )}
         </>

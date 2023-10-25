@@ -37,7 +37,6 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
     useModalContext()
 
   const { trackEvent } = useAnalytics()
-
   const {
     addNewWeatherWidget,
     editWeatherWidget,

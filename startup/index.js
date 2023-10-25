@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 'use strict'
 
-const { initLogger } = require('./logging')
+// const { initLogger } = require('./logging')
 const { runMigrations } = require('./migrate')
 const { initTracing } = require('./tracing')
 require('dotenv').config()
@@ -21,7 +21,13 @@ const requireVars = [
 ]
 
 function startup() {
-  initLogger()
+  // #TODO: Loop back to this after some time has passed, and decide if we would like a more
+  // comprehensive logging solution.
+  //
+  // Disabling logging for now. Upgrading to Next 13 resulted in part of our
+  // logging functionality breaking, and we decided to disable our custom solution
+  // for now and use the default Next.js logging.
+  // initLogger()
 
   requireVars.forEach((v) => {
     if (process.env[`${v}`] === undefined) {

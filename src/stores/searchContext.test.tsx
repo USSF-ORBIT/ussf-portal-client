@@ -30,7 +30,7 @@ describe('useSearchContext', () => {
 
   test('throws an error if SearchContext is undefined', () => {
     // Test that correct error is thrown when SearchContext is undefined
-    jest.spyOn(React, 'useContext').mockReturnValueOnce(undefined)
+    jest.spyOn(React, 'useContext').mockReturnValueOnce(undefined as never)
     expect(() => useSearchContext()).toThrowError()
   })
 })

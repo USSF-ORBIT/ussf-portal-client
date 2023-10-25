@@ -1,6 +1,7 @@
 import { InferGetServerSidePropsType } from 'next'
 import React, { useEffect } from 'react'
 import { Grid } from '@trussworks/react-uswds'
+import Link from 'next/link'
 import { DateTime } from 'luxon'
 import { client } from '../lib/keystoneClient'
 import { withPageLayout } from 'layout/DefaultLayout/PageLayout'
@@ -9,7 +10,6 @@ import NewsCarousel from 'components/NewsCarousel/NewsCarousel'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import { useRSSFeed } from 'hooks/useRSSFeed'
 import styles from 'styles/pages/news.module.scss'
 import type { RSSNewsItem } from 'types'
@@ -58,11 +58,11 @@ const NewsAnnouncements = ({
       */}
       {articles.length > 0 && (
         <div className={styles.olderInternalNewsLink}>
-          <LinkTo href="/news" target="_blank" rel="noreferrer noopener">
+          <Link href="/news" target="_blank" rel="noreferrer noopener">
             <button type="button" className="usa-button">
               View older USSF news
             </button>
-          </LinkTo>
+          </Link>
         </div>
       )}
 
@@ -87,7 +87,7 @@ const NewsAnnouncements = ({
               )}
           />
           <div className={styles.olderInternalNewsLink}>
-            <LinkTo
+            <Link
               href="https://www.spaceforce.mil/News"
               target="_blank"
               rel="noreferrer noopener">
@@ -96,7 +96,7 @@ const NewsAnnouncements = ({
                 className="usa-button usa-button--accent-cool">
                 View older Spaceforce.mil articles
               </button>
-            </LinkTo>
+            </Link>
           </div>
         </>
       )}

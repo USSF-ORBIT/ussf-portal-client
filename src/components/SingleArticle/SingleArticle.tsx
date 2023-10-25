@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { DocumentRenderer } from '@keystone-6/document-renderer'
 import { InferRenderersForComponentBlocks } from '@keystone-6/fields-document/component-blocks'
 import { Tag } from '@trussworks/react-uswds'
@@ -10,7 +11,11 @@ import type { ArticleRecord } from 'types'
 import { CONTENT_CATEGORIES } from 'constants/index'
 import colors from 'styles/sfds/colors.module.scss'
 import { isPublished, getYouTubeEmbedId } from 'helpers/index'
-import LinkTo from 'components/util/LinkTo/LinkTo'
+
+type embedVideoProps = {
+  link: string
+  videoTitle: string
+}
 
 export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   const {
@@ -35,15 +40,15 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   const componentBlockRenderers: InferRenderersForComponentBlocks<
     typeof componentBlocks
   > = {
-    embedVideo: (props: any) => {
+    embedVideo: ({ link, videoTitle }: embedVideoProps) => {
       // We are receiving a YouTube link from the CMS, so we need to parse the embedId
-      const embedId = getYouTubeEmbedId(props.link)
+      const embedId = getYouTubeEmbedId(link)
       return (
         <>
-          {props.videoTitle && <h2>{props.videoTitle}</h2>}
-          {props.link && (
+          {videoTitle && <h2>{videoTitle}</h2>}
+          {link && (
             <iframe
-              title={props.videoTitle}
+              title={videoTitle}
               width="420"
               height="315"
               src={`https://youtube.com/embed/${embedId}`}></iframe>
@@ -76,19 +81,19 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
           {labels &&
             labels.map((label) => {
               return (
-                <LinkTo
+                <Link
                   href={`/search?q=label%3A` + label.name}
                   key={`${label.id}`}>
                   <Label type={label.type}>{label.name}</Label>
-                </LinkTo>
+                </Link>
               )
             })}
           {tags &&
             tags.map((tag) => {
               return (
-                <LinkTo href={`/search?q=tag%3A` + tag.name} key={`${tag.id}`}>
+                <Link href={`/search?q=tag%3A` + tag.name} key={`${tag.id}`}>
                   <Tag background={colors['theme-mars-darker']}>{tag.name}</Tag>
-                </LinkTo>
+                </Link>
               )
             })}
         </div>

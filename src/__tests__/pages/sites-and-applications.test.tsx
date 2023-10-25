@@ -26,15 +26,25 @@ import { AddBookmarkDocument } from 'operations/portal/mutations/addBookmark.g'
 import SitesAndApplications, {
   getServerSideProps,
 } from 'pages/sites-and-applications'
+import { SessionUser } from 'types'
+import { GetUserQuery } from 'operations/portal/queries/getUser.g'
+
+type MockedImplementation = {
+  user: SessionUser | null
+  portalUser: GetUserQuery | undefined
+  loading: boolean
+}
 
 beforeEach(() => {
-  jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-    return {
-      user: testUser1,
-      portalUser: portalUserWithExampleCollection,
-      loading: false,
-    }
-  })
+  jest
+    .spyOn(useUserHooks, 'useUser')
+    .mockImplementation((): MockedImplementation => {
+      return {
+        user: testUser1,
+        portalUser: portalUserWithExampleCollection as GetUserQuery,
+        loading: false,
+      }
+    })
 })
 
 jest.mock('../../lib/keystoneClient', () => ({
@@ -149,13 +159,15 @@ describe('Sites and Applications page', () => {
     test('renders the loader while fetching the user', () => {
       jest.useFakeTimers()
 
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: null,
-          portalUser: null,
-          loading: true,
-        }
-      })
+      jest
+        .spyOn(useUserHooks, 'useUser')
+        .mockImplementation((): MockedImplementation => {
+          return {
+            user: null,
+            portalUser: undefined,
+            loading: true,
+          }
+        })
 
       renderWithAuth(
         <MockedProvider mocks={sitesAndAppsMock}>
@@ -354,13 +366,15 @@ describe('Sites and Applications page', () => {
             advanceTimers: jest.advanceTimersByTime,
           })
 
-          jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-            return {
-              user: testUser1,
-              portalUser: portalUserAlmostAtCollectionLimit,
-              loading: false,
-            }
-          })
+          jest
+            .spyOn(useUserHooks, 'useUser')
+            .mockImplementation((): MockedImplementation => {
+              return {
+                user: testUser1,
+                portalUser: portalUserAlmostAtCollectionLimit as GetUserQuery,
+                loading: false,
+              }
+            })
 
           renderWithAuthAndApollo(
             <SitesAndApplications
@@ -431,13 +445,15 @@ describe('Sites and Applications page', () => {
             advanceTimers: jest.advanceTimersByTime,
           })
 
-          jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-            return {
-              user: testUser1,
-              portalUser: portalUserCollectionLimit,
-              loading: false,
-            }
-          })
+          jest
+            .spyOn(useUserHooks, 'useUser')
+            .mockImplementation((): MockedImplementation => {
+              return {
+                user: testUser1,
+                portalUser: portalUserCollectionLimit as GetUserQuery,
+                loading: false,
+              }
+            })
 
           renderWithAuthAndApollo(
             <SitesAndApplications
@@ -610,13 +626,15 @@ describe('Sites and Applications page', () => {
             advanceTimers: jest.advanceTimersByTime,
           })
 
-          jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-            return {
-              user: testUser1,
-              portalUser: portalUserMaxedOutCollection,
-              loading: false,
-            }
-          })
+          jest
+            .spyOn(useUserHooks, 'useUser')
+            .mockImplementation((): MockedImplementation => {
+              return {
+                user: testUser1,
+                portalUser: portalUserMaxedOutCollection as GetUserQuery,
+                loading: false,
+              }
+            })
 
           renderWithAuthAndApollo(
             <SitesAndApplications
@@ -728,13 +746,15 @@ describe('Sites and Applications page', () => {
     })
 
     test('prevents adding more collections if the user already has 25', async () => {
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: testUser1,
-          portalUser: portalUserCollectionLimit,
-          loading: false,
-        }
-      })
+      jest
+        .spyOn(useUserHooks, 'useUser')
+        .mockImplementation((): MockedImplementation => {
+          return {
+            user: testUser1,
+            portalUser: portalUserCollectionLimit as GetUserQuery,
+            loading: false,
+          }
+        })
 
       renderWithAuthAndApollo(
         <SitesAndApplications
@@ -753,13 +773,15 @@ describe('Sites and Applications page', () => {
     test('prevents adding a bookmark to a new collection if the user already has 25', async () => {
       const user = userEvent.setup()
 
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: testUser1,
-          portalUser: portalUserCollectionLimit,
-          loading: false,
-        }
-      })
+      jest
+        .spyOn(useUserHooks, 'useUser')
+        .mockImplementation((): MockedImplementation => {
+          return {
+            user: testUser1,
+            portalUser: portalUserCollectionLimit as GetUserQuery,
+            loading: false,
+          }
+        })
 
       renderWithAuthAndApollo(
         <SitesAndApplications

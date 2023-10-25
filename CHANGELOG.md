@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.23.3](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.23.2...4.23.3) (2023-10-18)
+
+
+### Bug Fixes
+
+* Update Matomo initialization ([#1114](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1114)) ([f6acf28](https://github.com/USSF-ORBIT/ussf-portal-client/commit/f6acf285690b2663426704096c6cb6f799903e92))
+
+## [4.23.2](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.23.1...4.23.2) (2023-10-17)
+
+
+### Bug Fixes
+
+* Open document in browser ([#1116](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1116)) ([b6e6696](https://github.com/USSF-ORBIT/ussf-portal-client/commit/b6e669620ec2912222665c5f454949f63fda0700))
+
 ## [4.23.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.23.0...4.23.1) (2023-10-04)
 
 

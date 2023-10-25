@@ -164,6 +164,10 @@ describe('GraphQL resolvers', () => {
     ])(
       'the %s operation returns an authentication errors',
       async (_name, op, variables: VariableValues = {}) => {
+        type ResponseData = {
+          mySpace: MySpaceWidget[]
+        }
+
         const {
           body: {
             singleResult: { errors },
@@ -171,7 +175,7 @@ describe('GraphQL resolvers', () => {
         } = (await server.executeOperation({
           query: op,
           variables,
-        })) as SingleGraphQLResponse<any>
+        })) as SingleGraphQLResponse<ResponseData>
 
         expect(errors).toHaveLength(1)
         expect(errors?.[0].extensions?.code).toEqual('UNAUTHENTICATED')
@@ -848,7 +852,7 @@ describe('GraphQL resolvers', () => {
       test('edits an existing bookmark', async () => {
         const collection = newPortalUser.mySpace[0]
         const editBookmark = collection.bookmarks?.filter(
-          (b: any) => b.cmsId === null
+          (b) => b.cmsId === null
         )[0]
 
         const {

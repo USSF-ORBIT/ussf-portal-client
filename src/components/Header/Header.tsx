@@ -8,12 +8,10 @@ import {
   Menu,
   NavDropDownButton,
 } from '@trussworks/react-uswds'
-
+import Link from 'next/link'
 import styles from './Header.module.scss'
-
 import Logo from 'components/Logo/Logo'
 import NavLink from 'components/util/NavLink/NavLink'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import { useAuthContext } from 'stores/authContext'
 import { useAnalytics } from 'stores/analyticsContext'
 import ThemeToggle from 'components/ThemeToggle/ThemeToggle'
@@ -106,9 +104,9 @@ const Header = () => {
         <div className="usa-nav-container">
           <div className="usa-navbar">
             <Title>
-              <LinkTo href="/" title="USSF Portal Home">
+              <Link href="/" title="USSF Portal Home">
                 <Logo darkBg />
-              </LinkTo>
+              </Link>
             </Title>
             <NavMenuButton onClick={handleNavButtonClick} label="Menu" />
           </div>

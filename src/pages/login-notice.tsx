@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { GridContainer } from '@trussworks/react-uswds'
+import Link from 'next/link'
 import styles from './login/login.module.scss'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import Layout from 'layout/LoginLayout/LoginLayout'
 
 const LoginNotice = () => {
@@ -77,11 +77,11 @@ const LoginNotice = () => {
                   <p className="usa-alert__text">
                     Last Modified: 14 OCTOBER 2019
                   </p>
-                  <LinkTo
+                  <Link
                     href="/login"
                     className="usa-button button-pill usa-button--big text-white text-no-underline">
                     I agree
-                  </LinkTo>
+                  </Link>
                 </div>
               </div>
             </div>

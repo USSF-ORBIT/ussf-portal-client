@@ -1,10 +1,8 @@
 import React from 'react'
 import { GridContainer } from '@trussworks/react-uswds'
-
+import Link from 'next/link'
 import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
 import Logo from 'components/Logo/Logo'
-import LinkTo from 'components/util/LinkTo/LinkTo'
-
 import styles from 'styles/pages/updateBrowser.module.scss'
 
 export default function UpdateBrowser() {
@@ -33,11 +31,11 @@ export default function UpdateBrowser() {
               alt="Microsoft Edge logo"
               width={150}
             />
-            <LinkTo
+            <Link
               href={MS_EDGE_DOWNLOAD}
               className="usa-button usa-button--accent-cool">
               Download MS Edge
-            </LinkTo>
+            </Link>
           </li>
           <li>
             <img
@@ -45,11 +43,11 @@ export default function UpdateBrowser() {
               alt="Google Chrome logo"
               width={150}
             />
-            <LinkTo
+            <Link
               href={GOOGLE_CHROME_DOWNLOAD}
               className="usa-button usa-button--accent-cool">
               Download Google Chrome
-            </LinkTo>
+            </Link>
           </li>
           <li>
             <img
@@ -57,11 +55,11 @@ export default function UpdateBrowser() {
               alt="Firefox logo"
               width={150}
             />
-            <LinkTo
+            <Link
               href={FIREFOX_DOWNLOAD}
               className="usa-button usa-button--accent-cool">
               Download Firefox
-            </LinkTo>
+            </Link>
           </li>
         </ul>
       </section>

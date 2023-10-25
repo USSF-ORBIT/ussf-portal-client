@@ -1,29 +1,57 @@
 import { useState } from 'react'
 import axios from 'axios'
 
+type WeatherObject = {
+  detailedForecast: string
+  dewpoint: {
+    unitCode: string
+    value: number
+  }
+  endTime: string
+  icon: string
+  isDaytime: boolean
+  name: string
+  number: number
+  probabilityOfPrecipitation: {
+    unitCode: string
+    value: number
+  }
+  relativeHumidity: {
+    unitCode: string
+    value: number
+  }
+  shortForecast: string
+  startTime: string
+  temperature: number
+  temperatureTrend: null
+  temperatureUnit: string
+  windDirection: string
+  windSpeed: string
+}
+
 export const useWeather = (): {
-  //#TODO Once we know what data we're getting back from the API
-  // for the front-end, we can type this
-  forecast: any[]
+  forecast: WeatherObject[]
   getForecast: (forecastUrl: string) => void
   forecastError: string | null
   resetForecastError: () => void
 } => {
-  const [forecast, setForecast] = useState<any[]>([])
-  const [forecastError, setError] = useState<any>(null)
+  const [forecast, setForecast] = useState([])
+  const [forecastError, setError] = useState('')
 
   const getForecast = async (forecastUrl: string) => {
     try {
       const forecastHourly = await axios.get(forecastUrl)
       setForecast(forecastHourly.data.properties.periods)
-    } catch (error: any) {
-      setError(error.message)
-      console.error(error.message)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message)
+        console.error(error.message)
+      }
     }
   }
 
   const resetForecastError = () => {
-    setError(null)
+    setError('')
   }
 
   return {

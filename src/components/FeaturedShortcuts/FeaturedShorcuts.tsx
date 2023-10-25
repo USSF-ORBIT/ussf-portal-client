@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button } from '@trussworks/react-uswds'
+import Link from 'next/link'
 import styles from './FeaturedShortcuts.module.scss'
 import type { Widget, featuredShortcutItems } from 'types'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import { WidgetWithSettings } from 'components/Widget/Widget'
 import { useModalContext } from 'stores/modalContext'
 import { useAnalytics } from 'stores/analyticsContext'
@@ -64,7 +64,7 @@ const FeaturedShortcuts = ({
             <li
               key={'widget_shortcut_' + a.title}
               className={styles.featuredShortcutsItem}>
-              <LinkTo
+              <Link
                 href={a.url}
                 target="_blank"
                 onClick={() => handleEventTracking(a.title)}
@@ -72,7 +72,7 @@ const FeaturedShortcuts = ({
                 <img src={a.icon} alt="" />
                 {a.title}
                 <span className="usa-sr-only">(opens in a new window)</span>
-              </LinkTo>
+              </Link>
             </li>
           )
         })}

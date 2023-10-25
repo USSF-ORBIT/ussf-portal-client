@@ -1,9 +1,9 @@
 import { GridContainer } from '@trussworks/react-uswds'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
 import { withErrorLayout } from 'layout/ErrorLayout/ErrorLayout'
-import LinkTo from 'components/util/LinkTo/LinkTo'
 import Logo from 'components/Logo/Logo'
 import { useAnalytics } from 'stores/analyticsContext'
 
@@ -37,9 +37,9 @@ export default function Custom404() {
             system.
           </h3>
           <div className="flex-align-center">
-            <LinkTo className="usa-button usa-button--secondary" href="/">
+            <Link className="usa-button usa-button--secondary" href="/">
               Take me home
-            </LinkTo>
+            </Link>
             <a
               href={`mailto:${FEEDBACK_EMAIL}?subject=${FEEDBACK_SUBJECT}`}
               target="_blank"
