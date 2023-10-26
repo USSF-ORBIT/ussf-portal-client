@@ -70,15 +70,15 @@ type GetLatLongPromise = {
 type GetPersonnelDataPromise = {
   data: {
     getUser: {
-      First_name: string
-      Last_Name: string
+      FirstName: string
+      LastName: string
       DOD_ID: string
       Grade: string
-      MAJCOM: string
-      DUTYTITLE: string
+      MajCom: string
+      DutyTitle: string
       Country: string
-      BASE_LOC: string
-      Org_type: string
+      BaseLoc: string
+      OrgType: string
       Rank: {
         Title: string
         Abbreviation: string
@@ -86,9 +86,36 @@ type GetPersonnelDataPromise = {
         GradeId: string
       }
       EOPDate: string
-      userType: string
+      UserType: string
       lastModifiedAt: string
     }
+  }
+}
+
+type GetGuardianDirectoryPromise = {
+  data: {
+    getGuardianDirectory: [
+      {
+        FirstName: string
+        LastName: string
+        DOD_ID: string
+        Grade: string
+        MajCom: string
+        DutyTitle: string
+        Country: string
+        BaseLoc: string
+        OrgType: string
+        Rank: {
+          Title: string
+          Abbreviation: string
+          Grade: string
+          GradeId: string
+        }
+        EOPDate: string
+        UserType: string
+        lastModifiedAt: string
+      }
+    ]
   }
 }
 
@@ -113,7 +140,7 @@ type PortalUserContext = {
     }
     personnelAPI: {
       getUserData: (dodId: string) => Promise<GetPersonnelDataPromise>
-      getGuardianDirectory: () => Promise<any>
+      getGuardianDirectory: () => Promise<GetGuardianDirectoryPromise>
     }
   }
 }

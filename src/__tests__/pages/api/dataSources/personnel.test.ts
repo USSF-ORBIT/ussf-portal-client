@@ -2,15 +2,15 @@ import type { KeyValueCache } from '@apollo/utils.keyvaluecache'
 import PersonnelAPI from '../../../../pages/api/dataSources/personnel'
 
 const mockData = {
-  First_name: 'John',
-  Last_Name: 'Doe',
+  FirstName: 'John',
+  LastName: 'Doe',
   DOD_ID: '1234567890',
   Grade: 'O-6',
-  MAJCOM: 'ACC',
-  DUTYTITLE: 'Commander',
+  MajCom: 'ACC',
+  DutyTitle: 'Commander',
   Country: 'USA',
-  BASE_LOC: 'Langley AFB',
-  Org_type: 'Squadron',
+  BaseLoc: 'Langley AFB',
+  OrgType: 'Squadron',
   Rank: {
     Title: 'Colonel',
     Abbreviation: 'Col',
@@ -18,7 +18,7 @@ const mockData = {
     GradeId: 'O6',
   },
   EOPDate: '2021-10-01',
-  userType: 'U',
+  UserType: 'Officer',
   lastModifiedAt: '2021-10-01',
 }
 

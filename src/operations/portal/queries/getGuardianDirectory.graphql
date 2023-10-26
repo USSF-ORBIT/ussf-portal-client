@@ -4,7 +4,11 @@ query getGuardianDirectory {
     FirstName
     LastName
     DutyTitle
-    Rank
+    Rank {
+      Abbreviation
+      Grade
+      Title
+    }
     Email
     BaseLoc
     MajCom
