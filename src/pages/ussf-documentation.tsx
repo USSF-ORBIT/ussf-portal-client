@@ -41,10 +41,6 @@ const USSFDocumentation = ({
                       <div className={styles.accordionContent}>
                         {s.document.map((d: DocumentType) => (
                           <Link
-                            // We need to use the default Next Link component
-                            // with legacyBehavior=false, so we can pass in an onClick
-                            // that will open PDFs in the browser
-                            legacyBehavior={false}
                             onClick={(e) => {
                               if (isPdf(d.file.url)) {
                                 e.preventDefault()
