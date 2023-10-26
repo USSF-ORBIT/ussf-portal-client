@@ -7,7 +7,6 @@ import {
   isPublished,
   isCmsUser,
   getYouTubeEmbedId,
-  titleCase,
 } from './index'
 
 import type { RSSNewsItem, PublishableItemType } from 'types'
@@ -164,12 +163,5 @@ describe('getYouTubeEmbedId', () => {
     urls.map((url) => {
       expect(getYouTubeEmbedId(url)).toBe(testId)
     })
-  })
-})
-
-describe('titleCase', () => {
-  it('returns a string in title case', () => {
-    const testString = 'this is a test string'
-    expect(titleCase(testString)).toBe('This Is A Test String')
   })
 })

@@ -1,7 +1,6 @@
 import { GraphQLScalarType, Kind, GraphQLError } from 'graphql'
 import { ObjectId, ObjectID, MongoClient } from 'mongodb'
 import type { ObjectId as ObjectIdType } from 'bson'
-import { titleCase } from '../helpers/index'
 import { BookmarkModel } from '../models/Bookmark'
 import UserModel from '../models/User'
 import { CollectionModel } from '../models/Collection'
@@ -215,13 +214,13 @@ const resolvers = {
           // eslint-disable-next-line security/detect-object-injection
           (guardianDirectory[index] = {
             DOD_ID: person.DOD_ID,
-            FirstName: titleCase(person.FirstName),
-            LastName: titleCase(person.LastName),
-            Rank: titleCase(`${person.Rank.Abbreviation}/${person.Rank.Grade}`),
-            BaseLoc: titleCase(person.BaseLoc),
-            DutyTitle: titleCase(person.DutyTitle),
-            MajCom: titleCase(person.MajCom),
-            Email: person.Email ? person.Email.toLowerCase() : '',
+            FirstName: person.FirstName,
+            LastName: person.LastName,
+            Rank: `${person.Rank.Abbreviation}/${person.Rank.Grade}`,
+            BaseLoc: person.BaseLoc,
+            DutyTitle: person.DutyTitle,
+            MajCom: person.MajCom,
+            Email: person.Email ? person.Email : '',
           })
       )
       return guardianDirectory
