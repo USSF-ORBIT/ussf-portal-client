@@ -17,7 +17,9 @@ pull_request_rules:
   - name: automatic merge from dependabot # rule for Auto-Queueing PRs to Dependabot Merge Queue
     conditions:
       - "#approved-reviews-by >= 1"
-      - author=dependabot[bot]
+      - or:
+        - author=dependabot[bot]
+        - author=renovate[bot]
     actions:
       queue:
         name: dependabot-merge-queue
