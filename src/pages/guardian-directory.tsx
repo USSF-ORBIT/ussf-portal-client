@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { useFlags } from 'launchdarkly-react-client-sdk'
+import { useRouter } from 'next/router'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/guardianDirectory.module.scss'
 import { GuardianDirectoryTable } from 'components/GuardianDirectoryTable/GuardianDirectoryTable'
@@ -8,6 +10,8 @@ import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
 
 const GuardianDirectory = () => {
+  const flags = useFlags()
+  const router = useRouter()
   const { loading } = useUser()
   const [directory, setDirectory] = useState(Array<GuardianDirectoryType>)
   const { data } = useGetGuardianDirectoryQuery()
@@ -17,6 +21,12 @@ const GuardianDirectory = () => {
       setDirectory(data.guardianDirectory as GuardianDirectoryType[])
     }
   }, [data])
+
+  // TODO: remove once released
+  // If guardian directory is off return 404
+  if (flags.guardianDirectory === false) {
+    router.replace('/404')
+  }
 
   return loading ? (
     <Loader />
