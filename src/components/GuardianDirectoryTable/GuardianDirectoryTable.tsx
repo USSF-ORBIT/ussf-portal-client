@@ -1,16 +1,16 @@
 import React from 'react'
 import { Table } from '@trussworks/react-uswds'
-import styles from './StripedTable.module.scss'
+import styles from './GuardianDirectoryTable.module.scss'
 
-type StripedTableProps = {
+type GuardianDirectoryTableProps = {
   headers: string[]
   rows: Array<{ [key: string]: string }>
   keys: string[]
 }
 
-export const StripedTable = ({ headers, rows, keys }: StripedTableProps) => {
+export const GuardianDirectoryTable = ({ headers, rows, keys }: GuardianDirectoryTableProps) => {
   return (
-    <div className={styles.stripedTable}>
+    <div className={styles.guardianDirectoryTable}>
       <Table striped fullWidth>
         <thead>
           <tr>
@@ -23,7 +23,7 @@ export const StripedTable = ({ headers, rows, keys }: StripedTableProps) => {
         </thead>
         <tbody>
           {rows.map((row, id) => (
-            <tr data-testid={id} key={row['DOD_ID']}>
+            <tr data-testid={id} key={id}>
               {keys.map((k) => {
                 // eslint-disable-next-line security/detect-object-injection
                 return <td data-testid={`${id}_${k}`} key={`td_${k}`}>{row[k]}</td>

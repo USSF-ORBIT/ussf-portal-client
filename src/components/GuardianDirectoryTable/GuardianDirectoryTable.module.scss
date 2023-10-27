@@ -2,7 +2,7 @@
 @use 'styles/sfds/index.scss' as *;
 @use 'styles/deps';
 
-.stripedTable {
+.guardianDirectoryTable {
   overflow-x: scroll;
 
   :global {

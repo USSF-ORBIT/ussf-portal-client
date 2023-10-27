@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/guardianDirectory.module.scss'
-import { StripedTable } from 'components/StripedTable/StripedTable'
+import { GuardianDirectoryTable } from 'components/GuardianDirectoryTable/GuardianDirectoryTable'
 import { useGetGuardianDirectoryQuery } from 'operations/portal/queries/getGuardianDirectory.g'
 import { GuardianDirectory as GuardianDirectoryType } from 'types'
 import { useUser } from 'hooks/useUser'
@@ -23,7 +23,7 @@ const GuardianDirectory = () => {
   ) : (
     <div className={styles.guardianDirectory}>
       <h1>Guardian Directory</h1>
-      <StripedTable
+      <GuardianDirectoryTable
         headers={[
           'First Name',
           'Last Name',

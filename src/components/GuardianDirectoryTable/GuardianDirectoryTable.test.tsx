@@ -4,12 +4,12 @@
 
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import { StripedTable } from './StripedTable'
+import { GuardianDirectoryTable } from './GuardianDirectoryTable'
 
-describe('StripedTable component', () => {
+describe('GuardianDirectoryTable component', () => {
   test('renders the table', () => {
     render(
-      <StripedTable
+      <GuardianDirectoryTable
         headers={['header1', 'header2']}
         rows={[{ header1: 'value1', header2: 'value2' }]}
         keys={['header1', 'header2']}
