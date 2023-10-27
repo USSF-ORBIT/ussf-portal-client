@@ -151,7 +151,7 @@
     "lint-staged": "13.2.2",
     "next-test-api-route-handler": "3.1.8",
     "passport-custom": "1.1.1",
-    "postcss": "8.4.26",
+    "postcss": "8.4.31",
     "prettier": "2.8.8",
     "sass": "1.63.6",
     "sass-loader": "13.3.2",
