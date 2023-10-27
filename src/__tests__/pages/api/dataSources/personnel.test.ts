@@ -23,28 +23,59 @@ const mockData = {
 }
 
 describe('Personnel API', () => {
-  test('call getUserData with an id', async () => {
-    const mockCache = {} as KeyValueCache
-    const personnelAPI = new PersonnelAPI({ cache: mockCache })
+  describe('getUserData', () => {
+    test('call getUserData with an id', async () => {
+      const mockCache = {} as KeyValueCache
+      const personnelAPI = new PersonnelAPI({ cache: mockCache })
 
-    personnelAPI.baseURL = 'https://example.com'
+      personnelAPI.baseURL = 'https://example.com'
 
-    const mockFunc = jest.fn().mockResolvedValue({ data: mockData })
-    personnelAPI.getUserData = mockFunc
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mockPost = jest.spyOn(PersonnelAPI.prototype as any, 'post');
+      mockPost.mockResolvedValue({ data: mockData })
 
-    const result = await personnelAPI.getUserData('1234567890')
+      const result = await personnelAPI.getUserData('1234567890')
 
-    expect(result).toEqual({ data: mockData })
+      expect(result).toEqual({ data: mockData })
+    })
+
+    test('throw an error when there is no baseURL', async () => {
+      const mockCache = {} as KeyValueCache
+      const personnelAPI = new PersonnelAPI({ cache: mockCache })
+
+      personnelAPI.baseURL = ''
+
+      await expect(personnelAPI.getUserData('1234567890')).rejects.toThrow(
+        'No Personnel API URL found'
+      )
+    })
   })
 
-  test('throw an error when there is no baseURL', async () => {
-    const mockCache = {} as KeyValueCache
-    const personnelAPI = new PersonnelAPI({ cache: mockCache })
+  describe('getGuardianDirectory', () => {
+    test('call getGuardianDirectory with an id', async () => {
+      const mockCache = {} as KeyValueCache
+      const personnelAPI = new PersonnelAPI({ cache: mockCache })
 
-    personnelAPI.baseURL = ''
+      personnelAPI.baseURL = 'https://example.com'
 
-    await expect(personnelAPI.getUserData('1234567890')).rejects.toThrow(
-      'No Personnel API URL found'
-    )
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mockPost = jest.spyOn(PersonnelAPI.prototype as any, 'post');
+      mockPost.mockResolvedValue({ data: mockData })
+
+      const result = await personnelAPI.getGuardianDirectory()
+
+      expect(result).toEqual({ data: mockData })
+    })
+
+    test('throw an error when there is no baseURL', async () => {
+      const mockCache = {} as KeyValueCache
+      const personnelAPI = new PersonnelAPI({ cache: mockCache })
+
+      personnelAPI.baseURL = ''
+
+      await expect(personnelAPI.getGuardianDirectory()).rejects.toThrow(
+        'No Personnel API URL found'
+      )
+    })
   })
 })

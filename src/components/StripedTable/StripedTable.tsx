@@ -22,11 +22,11 @@ export const StripedTable = ({ headers, rows, keys }: StripedTableProps) => {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
-            <tr key={row['DOD_ID']}>
+          {rows.map((row, id) => (
+            <tr data-testid={id} key={row['DOD_ID']}>
               {keys.map((k) => {
                 // eslint-disable-next-line security/detect-object-injection
-                return <td key={`td_${k}`}>{row[k]}</td>
+                return <td data-testid={`${id}_${k}`} key={`td_${k}`}>{row[k]}</td>
               })}
             </tr>
           ))}
