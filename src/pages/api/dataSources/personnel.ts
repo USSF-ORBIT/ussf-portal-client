@@ -70,7 +70,7 @@ query GetGuardianDirectory {
       Abbreviation
       Grade
       GradeId
-      Title  
+      Title
     }
     Email
     BaseLoc
