@@ -10,7 +10,7 @@ type GuardianDirectoryTableProps = {
 
 export const GuardianDirectoryTable = ({ headers, rows, keys }: GuardianDirectoryTableProps) => {
   return (
-    <div className={styles.guardianDirectoryTable}>
+    <div data-testid="guardian-directory-table" className={styles.guardianDirectoryTable}>
       <Table striped fullWidth>
         <thead>
           <tr>
