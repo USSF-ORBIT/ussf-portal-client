@@ -76,7 +76,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
 
   useEffect(() => {
     if (user?.personnelData) {
-      trackBaseLocation(user.personnelData.BASE_LOC)
+      trackBaseLocation(user.personnelData.BaseLoc)
       trackRank(user.personnelData.Rank.Title)
     }
   }, [user?.personnelData])

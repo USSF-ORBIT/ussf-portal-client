@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { GovBanner, GridContainer, Grid } from '@trussworks/react-uswds'
+import { useFlags } from 'launchdarkly-react-client-sdk'
 import styles from './DefaultLayout.module.scss'
 import Header from 'components/Header/Header'
 import PersonalData from 'components/PersonalData/PersonalData'
@@ -23,6 +24,7 @@ const DefaultLayout = ({
   rightSidebar?: JSX.Element
   children: React.ReactNode
 }) => {
+  const flags = useFlags()
   const { loading, portalUser } = useUser()
   const { initializeMySpace } = useMySpaceContext()
   const { searchQuery, setSearchQuery } = useSearchContext()
@@ -35,6 +37,13 @@ const DefaultLayout = ({
     },
     { path: '/ussf-documentation', label: 'USSF documentation' },
   ]
+  if (flags.guardianDirectory) {
+    // TODO: we can remove this if and put the navItem in the correct slot above once fully released
+    navItems.splice(1, 0, {
+      path: '/guardian-directory',
+      label: 'Guardian Directory',
+    })
+  }
 
   useEffect(() => {
     if (portalUser) {
