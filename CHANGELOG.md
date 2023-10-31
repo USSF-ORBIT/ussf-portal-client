@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.24.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.23.3...4.24.0) (2023-10-31)
+
+
+### Features
+
+* Add Guardian Directory page ([#1127](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1127)) ([99bd917](https://github.com/USSF-ORBIT/ussf-portal-client/commit/99bd91765ca4a9d1df9a5e0edb969c0bfd278acf))
+
+
+### Documentation
+
+* move docs to the ussf-portal repo ([#1129](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1129)) ([6d6a740](https://github.com/USSF-ORBIT/ussf-portal-client/commit/6d6a740adfdd847c8209f13e0b2841479f586187))
+
 ## [4.23.3](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.23.2...4.23.3) (2023-10-18)
 
 
