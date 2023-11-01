@@ -3,7 +3,6 @@ import { GovBanner, GridContainer, Grid } from '@trussworks/react-uswds'
 import styles from './LandingPageLayout.module.scss'
 import Header from 'components/Header/Header'
 import Footer from 'components/Footer/Footer'
-import CustomModal from 'components/CustomModal/CustomModal'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 
@@ -43,8 +42,6 @@ const LandingPageLayout = ({
           </GridContainer>
         </main>
         <Footer />
-
-        <CustomModal />
       </div>
     </>
   )
