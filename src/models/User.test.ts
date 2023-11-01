@@ -26,7 +26,7 @@ describe('User model', () => {
     await connection.close()
   })
 
-  it('can create and find a new user', async () => {
+  test('can create and find a new user', async () => {
     const expectedUser = {
       _id: expect.anything(),
       userId: 'testUserId',
@@ -58,7 +58,7 @@ describe('User model', () => {
     )
   })
 
-  it('returns null if finding a user that doesn’t exist', async () => {
+  test('returns null if finding a user that doesn’t exist', async () => {
     const testUserId = 'noSuchUser'
 
     const foundUser = await User.findOne(testUserId, { db })
@@ -66,7 +66,7 @@ describe('User model', () => {
   })
 
   describe('displayName', () => {
-    it('can edit the displayName of a user', async () => {
+    test('can edit the displayName of a user', async () => {
       const expectedUser = {
         _id: expect.anything(),
         userId: 'testUserId',
@@ -82,7 +82,7 @@ describe('User model', () => {
       expect(updatedUser.displayName).toEqual(displayName)
     })
 
-    it('throws an error if user is not found during SET', async () => {
+    test('throws an error if user is not found during SET', async () => {
       await expect(
         User.setDisplayName(
           { userId: 'thisuserdoesnotexist', displayName: 'any name' },
@@ -95,14 +95,14 @@ describe('User model', () => {
       )
     })
 
-    it('can get the displayName of a user', async () => {
+    test('can get the displayName of a user', async () => {
       const foundDisplayName = await User.getDisplayName('testUserId', {
         db,
       })
       expect(foundDisplayName).toEqual('Updated Name')
     })
 
-    it('throws an error if user is not found during GET', async () => {
+    test('throws an error if user is not found during GET', async () => {
       await expect(
         User.getDisplayName('thisuserdoesnotexist', {
           db,
@@ -114,7 +114,7 @@ describe('User model', () => {
   })
 
   describe('theme', () => {
-    it('can edit the theme of a user', async () => {
+    test('can edit the theme of a user', async () => {
       const expectedUser = {
         _id: expect.anything(),
         userId: 'testUserId',
@@ -130,7 +130,7 @@ describe('User model', () => {
       expect(updatedUser.theme).toEqual(theme)
     })
 
-    it('throws an error if theme is not found on SET', async () => {
+    test('throws an error if theme is not found on SET', async () => {
       await expect(
         User.setTheme(
           { userId: 'thisuserdoesnotexist', theme: 'dark' },
@@ -141,19 +141,68 @@ describe('User model', () => {
       ).rejects.toThrow('UserModel Error: error in setTheme no user found')
     })
 
-    it('can get the theme of a user', async () => {
+    test('can get the theme of a user', async () => {
       const foundTheme = await User.getTheme('testUserId', {
         db,
       })
       expect(foundTheme).toEqual('dark')
     })
 
-    it('throws an error if theme is not found on GET', async () => {
+    test('throws an error if theme is not found on GET', async () => {
       await expect(
         User.getTheme('thisuserdoesnotexist', {
           db,
         })
       ).rejects.toThrow('UserModel Error: error in getTheme no user found')
+    })
+  })
+
+  describe('MySpace', () => {
+    test('can get the myspace of a user', async () => {
+      const myspace = await User.getMySpace('testUserId', {
+        db,
+      })
+      expect(myspace.length).toEqual(3)
+      expect(myspace[0].title).toEqual(WIDGETS.FEATUREDSHORTCUTS.title)
+      expect(myspace[0].type).toEqual(WIDGETS.FEATUREDSHORTCUTS.type)
+      expect(myspace[1].title).toEqual(WIDGETS.GUARDIANIDEAL.title)
+      expect(myspace[1].type).toEqual(WIDGETS.GUARDIANIDEAL.type)
+      expect(myspace[2].title).toEqual(exampleCollection1.title)
+      expect(myspace[2].type).toEqual(exampleCollection1.type)
+    })
+
+    test('throws an error if user not found on GET', async () => {
+      await expect(
+        User.getMySpace('thisuserdoesnotexist', {
+          db,
+        })
+      ).rejects.toThrow('UserModel Error: error in getMySpace no user found')
+    })
+
+    test('can set the myspace of a user', async () => {
+      const myspace = await User.setMySpace(
+        {
+          userId: 'testUserId',
+          mySpace: [WIDGETS.FEATUREDSHORTCUTS, exampleCollection1],
+        },
+        { db }
+      )
+      expect(myspace.length).toEqual(2)
+      expect(myspace[0].title).toEqual(WIDGETS.FEATUREDSHORTCUTS.title)
+      expect(myspace[0].type).toEqual(WIDGETS.FEATUREDSHORTCUTS.type)
+      expect(myspace[1].title).toEqual(exampleCollection1.title)
+      expect(myspace[1].type).toEqual(exampleCollection1.type)
+    })
+
+    test('throws an error if user not found on SET', async () => {
+      await expect(
+        User.setMySpace(
+          { userId: 'thisuserdoesnotexist', mySpace: [] },
+          {
+            db,
+          }
+        )
+      ).rejects.toThrow('UserModel Error: error in setMySpace no user found')
     })
   })
 })
