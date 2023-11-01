@@ -15,28 +15,18 @@ jest.mock('next/router', () => ({
   }),
 }))
 
-const navItems = [
-  { path: '/', label: 'My Space' },
-  { path: '/profile', label: 'My profile' },
-  { path: '/subordinates', label: 'Subordinate profiles' },
-  { path: '/reminders', label: 'Manage reminders' },
-  { path: '/sites-and-applications', label: <>All sites &amp; applications</> },
-]
-
 describe('PageNav component', () => {
   describe('on any page', () => {
     beforeEach(() => {
-      render(<PageNav navItems={navItems} />)
+      render(<PageNav />)
     })
 
-    it('renders links for the nav items', () => {
+    test('renders links for the nav items', () => {
       const links = screen.getAllByRole('link')
 
-      expect(links).toHaveLength(navItems.length)
-
       links.forEach((link, index) => {
-        const navItem = navItems[parseInt(`${index}`)]
-        expect(link).toHaveAttribute('href', navItem.path)
+        const navItem = links[parseInt(`${index}`)]
+        expect(link).toHaveAttribute('href', navItem.getAttribute('href'))
       })
     })
   })

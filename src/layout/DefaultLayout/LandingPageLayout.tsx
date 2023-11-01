@@ -28,16 +28,6 @@ const LandingPageLayout = ({
     }
   }, [window.location.pathname])
 
-  const navItems = [
-    { path: '/', label: 'My Space' },
-    {
-      path: '/sites-and-applications',
-      label: <>Sites &amp; applications</>,
-    },
-    { path: '/ussf-documentation', label: 'USSF documentation' },
-    { path: '/landing', label: 'Landing Pages', current: true },
-  ]
-
   useEffect(() => {
     // If there is a search query, and the url does not contain /search, then empty the search query
     if (searchQuery && !window.location.pathname.includes('/search')) {
@@ -72,7 +62,7 @@ const LandingPageLayout = ({
             <Grid row gap>
               <Grid tablet={{ col: 2 }}>
                 {/* LEFT SIDEBAR */}
-                <PageNav navItems={navItems} />
+                <PageNav />
               </Grid>
               <Grid tablet={{ col: true }}>
                 {/* PAGE CONTENT */}

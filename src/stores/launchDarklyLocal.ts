@@ -10,4 +10,5 @@ export default {
   searchPageFilter: true,
   dragAndDropCollections: true,
   weatherWidget: true,
+  landingPageIndex: true,
 }
