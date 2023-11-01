@@ -1,4 +1,5 @@
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
+import { withLandingPageLayout } from 'layout/DefaultLayout/LandingPageLayout'
 import { client } from 'lib/keystoneClient'
 import { getSession } from 'lib/session'
 import { GET_LANDING_PAGE } from 'operations/cms/queries/getLandingPage'
@@ -6,10 +7,12 @@ import { GET_LANDING_PAGE } from 'operations/cms/queries/getLandingPage'
 const LandingPage = ({
   landingPage,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  return <div>{landingPage}</div>
+  return <div>{landingPage.pageTitle}</div>
 }
 
 export default LandingPage
+
+LandingPage.getLayout = (page: JSX.Element) => withLandingPageLayout(page)
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { landingPage: slug } = context.query

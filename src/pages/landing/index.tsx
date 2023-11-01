@@ -1,7 +1,7 @@
 import { InferGetServerSidePropsType } from 'next'
 import { Grid } from '@trussworks/react-uswds'
 import Link from 'next/link'
-import { withLandingPageLayout } from 'layout/DefaultLayout/LandingPageLayout'
+import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import { GET_LANDING_PAGES } from 'operations/cms/queries/getLandingPages'
 import { client } from 'lib/keystoneClient'
 
@@ -37,7 +37,7 @@ const Landing = ({
 
 export default Landing
 
-Landing.getLayout = (page: JSX.Element) => withLandingPageLayout(page)
+Landing.getLayout = (page: JSX.Element) => withDefaultLayout(page, false)
 
 export async function getServerSideProps() {
   const {
