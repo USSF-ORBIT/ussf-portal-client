@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {
   Grid,
   Checkbox,
-  Dropdown,
+  Select,
   Button,
   Label,
   Fieldset,
@@ -113,7 +113,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
         <Label htmlFor="label-dropdown">
           <h4 className={styles.subHeader}>Labels:</h4>
         </Label>
-        <Dropdown
+        <Select
           id="label-dropdown"
           name="label-dropdown"
           data-testid="label-dropdown"
@@ -166,7 +166,7 @@ const SearchFilter = ({ labels }: PropTypes) => {
               {name}
             </option>
           ))}
-        </Dropdown>
+        </Select>
       </Grid>
 
       <Grid row className={styles.buttonContainer}>
