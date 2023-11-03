@@ -7,20 +7,39 @@
   margin-top: 0;
 }
 
-// Does this need a width?
 .contentContainer {
   display: flex;
   flex-direction: column;
+
+  padding: 32px 48px 32px 48px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  gap: 48px;
+
+  background-color: rgba(255, 255, 255, 0.68);
+
+  margin-bottom: 2rem;
 }
 
 .collectionContainer {
   display: flex;
-  //   justify-content: start;
-  flex-wrap: wrap;
   width: 100%;
 }
 
 .collection {
   background-color: var(--widget-bg);
   border: 1px solid var(--widget-border);
+}
+
+// Dark mode styles?
+.sectionContainer {
+  background-color: rgba(255, 255, 255, 0.72);
+  padding: 32px;
+  border: 1px solid #929292;
+  border-radius: 8px;
+  gap: 24px;
+
+  > h2 {
+    margin-top: 0;
+  }
 }
