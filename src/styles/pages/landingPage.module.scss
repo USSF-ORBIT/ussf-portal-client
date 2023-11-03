@@ -1,0 +1,26 @@
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
+@use 'styles/deps';
+
+.pageTitle {
+  text-transform: uppercase;
+  margin-top: 0;
+}
+
+// Does this need a width?
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.collectionContainer {
+  display: flex;
+  //   justify-content: start;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.collection {
+  background-color: var(--widget-bg);
+  border: 1px solid var(--widget-border);
+}

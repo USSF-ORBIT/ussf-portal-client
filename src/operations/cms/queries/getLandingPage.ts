@@ -6,10 +6,6 @@ export const GET_LANDING_PAGE = gql`
       pageTitle
       pageDescription
       slug
-      articles {
-        title
-        slug
-      }
       documents {
         title
         document {
@@ -27,6 +23,12 @@ export const GET_LANDING_PAGE = gql`
           url
           label
         }
+      }
+      articles {
+        title
+        slug
+        preview
+        publishedDate
       }
     }
   }
