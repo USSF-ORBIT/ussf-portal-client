@@ -1,4 +1,4 @@
-name: Docker Build Cache Save Artifact
+name: Portal Client Docker Build Cache Save Artifact
 
 on:
   workflow_dispatch:
@@ -9,47 +9,46 @@ on:
     branches: [main]
 
 jobs:
-  build-and-push-dev-aws:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
-      - name: Get tag
-        run: echo "RELEASE_VERSION=${GITHUB_REF:10}" >> $GITHUB_ENV
+  build-and-cache-portal-client:
+      uses: USSF-ORBIT/ussf-portal/.github/workflows/build-and-cache-portal-client.yml@docker-ci/minhlai/re-usable-docker-cache-workflows
+      # - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+      # - name: Get tag
+      #   run: echo "RELEASE_VERSION=${GITHUB_REF:10}" >> $GITHUB_ENV
           
-      - name: Docker setup buildx
-        uses: docker/setup-buildx-action@885d1462b80bc1c1c7f0b00334ad271f09369c55 # v2
-        id: buildx
-        with:
-          install: true
+      # - name: Docker setup buildx
+      #   uses: docker/setup-buildx-action@885d1462b80bc1c1c7f0b00334ad271f09369c55 # v2
+      #   id: buildx
+      #   with:
+      #     install: true
 
-      - name: Build portal-client to e2e stage
-        uses: docker/build-push-action@0a97817b6ade9f46837855d676c4cca3a2471fc9 # v4
-        with:
-          context: .
-          tags: portal-client:e2e
-          cache-to: type=local,mode=max,dest=/tmp/portal-client,tag=e2e
-          target: e2e
+      # - name: Build portal-client to e2e stage
+      #   uses: docker/build-push-action@0a97817b6ade9f46837855d676c4cca3a2471fc9 # v4
+      #   with:
+      #     context: .
+      #     tags: portal-client:e2e
+      #     cache-to: type=local,mode=max,dest=/tmp/portal-client,tag=e2e
+      #     target: e2e
 
-      - name: Upload portal-client cache dir
-        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3
-        with:
-          name: portal-client
-          path: /tmp/portal-client
+      # - name: Upload portal-client cache dir
+      #   uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3
+      #   with:
+      #     name: portal-client
+      #     path: /tmp/portal-client
 
-      - name: Upload portal-client manifest
-        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3
-        with:
-          name: portal-client-index
-          path: /tmp/portal-client/index.json
+      # - name: Upload portal-client manifest
+      #   uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3
+      #   with:
+      #     name: portal-client-index
+      #     path: /tmp/portal-client/index.json
 
-      - name: Get docker image digest from manifest
-        id: manifest
-        run: |
-          digest=$(cat /tmp/portal-client/index.json | jq -r '.manifests[0].digest')
-          echo "docker_tag=${digest##sha256:}" >> $GITHUB_OUTPUT
+      # - name: Get docker image digest from manifest
+      #   id: manifest
+      #   run: |
+      #     digest=$(cat /tmp/portal-client/index.json | jq -r '.manifests[0].digest')
+      #     echo "docker_tag=${digest##sha256:}" >> $GITHUB_OUTPUT
 
-      - name: Save docker cache to GHA cache using image digest as key
-        uses: actions/cache/save@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
-        with:
-          path: /tmp/portal-client
-          key: ${{ runner.os }}-docker-portal-client-${{ steps.manifest.outputs.docker_tag }}
+      # - name: Save docker cache to GHA cache using image digest as key
+      #   uses: actions/cache/save@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
+      #   with:
+      #     path: /tmp/portal-client
+      #     key: ${{ runner.os }}-docker-portal-client-${{ steps.manifest.outputs.docker_tag }}
