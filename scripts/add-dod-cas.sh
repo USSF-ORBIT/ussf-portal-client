@@ -14,7 +14,7 @@
     unzip unclass-certificates_pkcs7_DoD.zip
 
     # check that Checksums verify
-    output=$(cd certificates_pkcs7_v5_12_dod; sha256sum -c --strict ../dod_ca_cert_bundle.sha256)
+    output=$(cd certificates_pkcs7_v5_*_dod; sha256sum -c --strict ../dod_ca_cert_bundle.sha256)
     echo $output
     if [[ "$output" == *"FAILED"* ]]; then
         echo "Checksum failed" >&2
@@ -22,7 +22,7 @@
     fi
 
     # Convert the PKCS#7 bundle into individual PEM files
-    openssl pkcs7 -print_certs -in certificates_pkcs7_v5_12_dod/*_pem.p7b |
+    openssl pkcs7 -print_certs -in certificates_pkcs7_v5_*_dod/*_pem.p7b |
 
         awk 'BEGIN {c=0} /subject=/ {c++} {print > "cert." c ".pem"}'
 
