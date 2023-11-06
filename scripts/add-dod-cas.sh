@@ -22,9 +22,10 @@
     fi
 
     # Convert the PKCS#7 bundle into individual PEM files
-    openssl pkcs7 -print_certs -in certificates_pkcs7_v5_*_dod/*_pem.p7b |
-
-        awk 'BEGIN {c=0} /subject=/ {c++} {print > "cert." c ".pem"}'
+    cd certificates_pkcs7_v5_*_dod
+    for i in *.p7b; do
+        openssl pkcs7 -in $i -inform der -print_certs -out $i.pem
+    done
 
     # Rename the files based on the CA name
     for i in *.pem; do
