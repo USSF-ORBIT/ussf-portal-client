@@ -38,4 +38,4 @@
     # update certificate stores
     update-ca-certificates
 
-    rm unclass-certificates_pkcs7_DoD.zip
+    rm /usr/local/share/ca-certificates/unclass-certificates_pkcs7_DoD.zip
