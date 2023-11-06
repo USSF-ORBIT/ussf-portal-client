@@ -17,7 +17,7 @@ jobs:
         run: echo "RELEASE_VERSION=${GITHUB_REF:10}" >> $GITHUB_ENV
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355 # v2
+        uses: aws-actions/configure-aws-credentials@010d0da01d0b5a38af31e9c3470dbfdabdecca3a # v4
         with:
           aws-access-key-id: ${{ secrets.GHA_ECR_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.GHA_ECR_AWS_SECRET_ACCESS_KEY }}
@@ -88,7 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355 # v2
+        uses: aws-actions/configure-aws-credentials@010d0da01d0b5a38af31e9c3470dbfdabdecca3a # v4
         with:
           aws-access-key-id: ${{ secrets.GHA_ECR_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.GHA_ECR_AWS_SECRET_ACCESS_KEY }}
