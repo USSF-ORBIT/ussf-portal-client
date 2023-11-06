@@ -32,68 +32,78 @@ const LandingPage = ({
       <p className={styles.pageDescription}>{pageDescription}</p>
 
       <div className={styles.contentContainer}>
-        <div className={styles.sectionContainer}>
-          <h2>Documents</h2>
-          {documents.map((section: DocumentsType, index: number) => {
-            return (
-              <Accordion
-                key={`${index}__${section}`}
-                bordered
-                items={[
-                  {
-                    title: section.title,
-                    expanded: false,
-                    id: `${section}__${index}`,
-                    headingLevel: 'h3',
-                    content: (
-                      <div className={styles.accordionContent}>
-                        {section.document.map((doc, index) => {
-                          return (
-                            <p key={`${doc.title}__${index}`}>
-                              <a href={doc.file.url}>{doc.title}</a>
-                            </p>
-                          )
-                        })}
-                      </div>
-                    ),
-                  },
-                ]}
-              />
-            )
-          })}
-        </div>
-        <div className={styles.sectionContainer}>
-          <h2>Collections</h2>
-          <div className={styles.collectionContainer}>
-            {collections.map((collection: CollectionRecord, index: number) => {
+        {documents.length >= 1 && (
+          <div className={styles.sectionContainer}>
+            <h2>Documents</h2>
+            {documents.map((section: DocumentsType, index: number) => {
               return (
-                <Grid
-                  key={`${index}__${collection}`}
-                  tablet={{ col: 6 }}
-                  desktop={{ col: 4 }}>
-                  <Collection title={collection.title}>
-                    {collection.bookmarks.map(
-                      (bookmark: CMSBookmark, index: number) => {
-                        return (
-                          <Bookmark
-                            key={`${index}__${bookmark.label}`}
-                            bookmarkDescription={bookmark.description}
-                            href={bookmark.url}>
-                            {bookmark.label}
-                          </Bookmark>
-                        )
-                      }
-                    )}
-                  </Collection>
-                </Grid>
+                <Accordion
+                  key={`${index}__${section}`}
+                  bordered
+                  items={[
+                    {
+                      title: section.title,
+                      expanded: false,
+                      id: `${section}__${index}`,
+                      headingLevel: 'h3',
+                      content: (
+                        <div className={styles.accordionContent}>
+                          {section.document.map((doc, index) => {
+                            return (
+                              <p key={`${doc.title}__${index}`}>
+                                <a href={doc.file.url}>{doc.title}</a>
+                              </p>
+                            )
+                          })}
+                        </div>
+                      ),
+                    },
+                  ]}
+                />
               )
             })}
           </div>
-        </div>
-        <div className={styles.sectionContainer}>
-          <h2>Articles</h2>
-          <ArticleList articles={articles} />
-        </div>
+        )}
+
+        {collections.length >= 1 && (
+          <div className={styles.sectionContainer}>
+            <h2>Collections</h2>
+            <div className={styles.collectionContainer}>
+              {collections.map(
+                (collection: CollectionRecord, index: number) => {
+                  return (
+                    <Grid
+                      key={`${index}__${collection}`}
+                      tablet={{ col: 6 }}
+                      desktop={{ col: 4 }}>
+                      <Collection title={collection.title}>
+                        {collection.bookmarks.map(
+                          (bookmark: CMSBookmark, index: number) => {
+                            return (
+                              <Bookmark
+                                key={`${index}__${bookmark.label}`}
+                                bookmarkDescription={bookmark.description}
+                                href={bookmark.url}>
+                                {bookmark.label}
+                              </Bookmark>
+                            )
+                          }
+                        )}
+                      </Collection>
+                    </Grid>
+                  )
+                }
+              )}
+            </div>
+          </div>
+        )}
+
+        {articles.length >= 1 && (
+          <div className={styles.sectionContainer}>
+            <h2>Articles</h2>
+            <ArticleList articles={articles} />
+          </div>
+        )}
       </div>
     </>
   )
