@@ -29,7 +29,7 @@ const LandingPage = ({
   return (
     <>
       <h1 className={styles.pageTitle}>{pageTitle}</h1>
-      <p>{pageDescription}</p>
+      <p className={styles.pageDescription}>{pageDescription}</p>
 
       <div className={styles.contentContainer}>
         <div className={styles.sectionContainer}>
