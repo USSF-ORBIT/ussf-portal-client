@@ -26,7 +26,8 @@ const LandingPage = ({
   const { pageTitle, pageDescription, documents, collections, articles } =
     landingPage
 
-  const pageContent = (): JSX.Element => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pageContent = (): any => {
     return (
       <>
         <h1 className={styles.pageTitle}>{pageTitle}</h1>
