@@ -17,6 +17,8 @@ jobs:
       steps:
         - name: call GH API to trigger workflow
           run: gh workflow run build-portal-client-docker-cache.yml -R USSF-ORBIT/ussf-portal-cms --ref docker-ci/minhlai/re-use-docker-cache-workflows
+          env:
+            GH_TOKEN: ${{ github.token }}
 
       # - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
       # - name: Get tag
