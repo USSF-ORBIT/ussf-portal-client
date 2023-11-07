@@ -2,6 +2,9 @@
 @use 'styles/sfds/index.scss' as *;
 
 @mixin pagination {
+  .usa-pagination {
+    background: transparent;
+  }
   .usa-pagination__list {
     > li.usa-pagination__item.usa-pagination__arrow > a {
       > span {

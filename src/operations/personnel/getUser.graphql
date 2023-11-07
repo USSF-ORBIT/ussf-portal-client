@@ -1,8 +1,9 @@
-query getPersonnelData {
-  personnelData {
+query GetUser($getUserId: String!) {
+  getUser(id: $getUserId) {
     FirstName
     LastName
     DOD_ID
+    Grade
     MajCom
     DutyTitle
     Country

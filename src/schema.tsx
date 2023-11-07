@@ -59,12 +59,24 @@ export const typeDefs = gql`
     type: WidgetType!
   }
 
+  type GuardianDirectory {
+    DOD_ID: String
+    FirstName: String
+    LastName: String
+    DutyTitle: String
+    Rank: String
+    Email: String
+    BaseLoc: String
+    MajCom: String
+  }
+
   type Query {
     collections: [Collection!]!
     mySpace: [Widget!]!
     displayName: String!
     theme: String!
     personnelData: PersonnelData
+    guardianDirectory: [GuardianDirectory]
   }
 
   type WeatherCoords {
@@ -93,17 +105,17 @@ export const typeDefs = gql`
   }
 
   type PersonnelData {
-    DUTYTITLE: String
+    DutyTitle: String
     DOD_ID: String
-    MAJCOM: String
+    MajCom: String
     Country: String
-    BASE_LOC: String
-    Org_type: String
+    BaseLoc: String
+    OrgType: String
     Rank: Rank
     EOPDate: String
-    Last_Name: String
-    First_name: String
-    userType: String
+    LastName: String
+    FirstName: String
+    UserType: String
     lastModifiedAt: String
   }
 

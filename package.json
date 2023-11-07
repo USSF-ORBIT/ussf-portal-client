@@ -1,6 +1,6 @@
 {
   "name": "ussf-portal",
-  "version": "4.23.3",
+  "version": "4.24.0",
   "private": true,
   "engines": {
     "node": "^18.14.2"
@@ -59,8 +59,8 @@
     "@opentelemetry/resources": "1.9.1",
     "@opentelemetry/sdk-trace-node": "1.9.1",
     "@opentelemetry/tracing": "0.24.0",
-    "@trussworks/react-uswds": "5.1.1",
-    "@uswds/uswds": "3.5.0",
+    "@trussworks/react-uswds": "6.0.0",
+    "@uswds/uswds": "3.6.1",
     "apollo-datasource-rest": "3.7.0",
     "axios": "1.4.0",
     "classnames": "2.3.2",
@@ -151,7 +151,7 @@
     "lint-staged": "13.2.2",
     "next-test-api-route-handler": "3.1.8",
     "passport-custom": "1.1.1",
-    "postcss": "8.4.26",
+    "postcss": "8.4.31",
     "prettier": "2.8.8",
     "sass": "1.63.6",
     "sass-loader": "13.3.2",
