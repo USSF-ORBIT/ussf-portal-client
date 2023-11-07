@@ -13,6 +13,7 @@ import {
   MongoBookmark,
   MySpaceWidget,
   CollectionRecords,
+  GuardianDirectory,
 } from 'types'
 import { WeatherModel } from 'models/Weather'
 
@@ -69,15 +70,15 @@ type GetLatLongPromise = {
 type GetPersonnelDataPromise = {
   data: {
     getUser: {
-      First_name: string
-      Last_Name: string
+      FirstName: string
+      LastName: string
       DOD_ID: string
       Grade: string
-      MAJCOM: string
-      DUTYTITLE: string
+      MajCom: string
+      DutyTitle: string
       Country: string
-      BASE_LOC: string
-      Org_type: string
+      BaseLoc: string
+      OrgType: string
       Rank: {
         Title: string
         Abbreviation: string
@@ -85,9 +86,36 @@ type GetPersonnelDataPromise = {
         GradeId: string
       }
       EOPDate: string
-      userType: string
+      UserType: string
       lastModifiedAt: string
     }
+  }
+}
+
+type GetGuardianDirectoryPromise = {
+  data: {
+    getGuardianDirectory: [
+      {
+        FirstName: string
+        LastName: string
+        DOD_ID: string
+        Grade: string
+        MajCom: string
+        DutyTitle: string
+        Country: string
+        BaseLoc: string
+        OrgType: string
+        Rank: {
+          Title: string
+          Abbreviation: string
+          Grade: string
+          GradeId: string
+        }
+        EOPDate: string
+        UserType: string
+        lastModifiedAt: string
+      }
+    ]
   }
 }
 
@@ -112,6 +140,7 @@ type PortalUserContext = {
     }
     personnelAPI: {
       getUserData: (dodId: string) => Promise<GetPersonnelDataPromise>
+      getGuardianDirectory: () => Promise<GetGuardianDirectoryPromise>
     }
   }
 }
@@ -196,6 +225,34 @@ const resolvers = {
 
   // Root resolvers
   Query: {
+    guardianDirectory: async (
+      _: undefined,
+      args: undefined,
+      { dataSources }: PortalUserContext
+    ) => {
+      const {
+        data: { getGuardianDirectory },
+      } = await dataSources.personnelAPI.getGuardianDirectory()
+
+      const guardianDirectory: GuardianDirectory[] = []
+      // Pull out and format relevant data to return for directory
+      getGuardianDirectory.map(
+        (person: PersonnelData, index: number) =>
+          // eslint-disable-next-line security/detect-object-injection
+          (guardianDirectory[index] = {
+            DOD_ID: person.DOD_ID,
+            FirstName: person.FirstName,
+            LastName: person.LastName,
+            Rank: `${person.Rank.Abbreviation}/${person.Rank.Grade}`,
+            BaseLoc: person.BaseLoc,
+            DutyTitle: person.DutyTitle,
+            MajCom: person.MajCom,
+            Email: person.Email ? person.Email : '',
+          })
+      )
+      return guardianDirectory
+    },
+
     personnelData: async (
       _: undefined,
       args: undefined,
@@ -204,31 +261,31 @@ const resolvers = {
       const {
         data: {
           getUser: {
-            First_name,
-            Last_Name,
+            FirstName,
+            LastName,
             DOD_ID,
-            MAJCOM,
-            DUTYTITLE,
+            MajCom,
+            DutyTitle,
             Country,
-            BASE_LOC,
-            Org_type,
+            BaseLoc,
+            OrgType,
             Rank,
             EOPDate,
-            userType,
+            UserType,
             lastModifiedAt,
           },
         },
       } = await dataSources.personnelAPI.getUserData(user.attributes.edipi)
 
       const personnelData: PersonnelData = {
-        First_name,
-        Last_Name,
+        FirstName,
+        LastName,
         DOD_ID,
-        MAJCOM,
-        DUTYTITLE,
+        MajCom,
+        DutyTitle,
         Country,
-        BASE_LOC,
-        Org_type,
+        BaseLoc,
+        OrgType,
         Rank: {
           Title: Rank.Title,
           Abbreviation: Rank.Abbreviation,
@@ -236,7 +293,7 @@ const resolvers = {
           GradeId: Rank.GradeId,
         },
         EOPDate,
-        userType,
+        UserType,
         lastModifiedAt,
       }
 

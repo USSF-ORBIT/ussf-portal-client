@@ -42,12 +42,12 @@ export const testUser1Session = {
 export const testUser1Personnel = {
   personnelData: {
     Grade: '1',
-    DUTYTITLE: 'ANALYST',
+    DutyTitle: 'ANALYST',
     DOD_ID: '5244446289',
-    MAJCOM: 'UNITED STATES SPACE FORCE FORCES (6F)',
+    MajCom: 'UNITED STATES SPACE FORCE FORCES (6F)',
     Country: 'CALIFORNIA',
-    BASE_LOC: 'VANDENBERG',
-    Org_type: 'SQUADRON',
+    BaseLoc: 'VANDENBERG',
+    OrgType: 'SQUADRON',
     Rank: {
       Title: 'Specialist One',
       Abbreviation: 'Spc1',
@@ -55,9 +55,9 @@ export const testUser1Personnel = {
       GradeId: '1',
     },
     EOPDate: '1682812800000',
-    Last_Name: 'CAMPBELL',
-    First_name: 'BERNADETTE',
-    userType: 'Enlisted',
+    LastName: 'CAMPBELL',
+    FirstName: 'BERNADETTE',
+    UserType: 'Enlisted',
     lastModifiedAt: '2023-08-28T14:39:06.732-07:00',
   },
 }

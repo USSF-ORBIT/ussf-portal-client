@@ -1,0 +1,12 @@
+query getGuardianDirectory {
+  guardianDirectory {
+    DOD_ID
+    FirstName
+    LastName
+    DutyTitle
+    Rank
+    Email
+    BaseLoc
+    MajCom
+  }
+}

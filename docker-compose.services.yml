@@ -39,6 +39,9 @@ services:
     restart: always
     ports:
       - '8888:8081'
+    environment:
+      - ME_CONFIG_BASICAUTH_USERNAME
+      - ME_CONFIG_BASICAUTH_PASSWORD
     depends_on:
       - mongo
 
