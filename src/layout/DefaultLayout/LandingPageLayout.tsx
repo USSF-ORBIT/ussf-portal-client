@@ -31,9 +31,6 @@ const LandingPageLayout = ({
 
           <GridContainer>
             <Grid row gap>
-              <Grid tablet={{ col: 2 }}>
-                <div>Sub nav will go here</div>
-              </Grid>
               <Grid tablet={{ col: true }}>
                 {/* PAGE CONTENT */}
                 {children}

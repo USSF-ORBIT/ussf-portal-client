@@ -32,9 +32,9 @@ const LandingPage = ({
       <p className={styles.pageDescription}>{pageDescription}</p>
 
       <div className={styles.contentContainer}>
+        {documents.length >= 1 && <h2 id="documents">Documents</h2>}
         {documents.length >= 1 && (
-          <div className={styles.sectionContainer}>
-            <h2>Documents</h2>
+          <div>
             {documents.map((section: DocumentsType, index: number) => {
               return (
                 <Accordion
@@ -65,45 +65,38 @@ const LandingPage = ({
           </div>
         )}
 
+        {collections.length >= 1 && <h2 id="collections">Collections</h2>}
+
         {collections.length >= 1 && (
-          <div className={styles.sectionContainer}>
-            <h2>Collections</h2>
-            <div className={styles.collectionContainer}>
-              {collections.map(
-                (collection: CollectionRecord, index: number) => {
-                  return (
-                    <Grid
-                      key={`${index}__${collection}`}
-                      tablet={{ col: 6 }}
-                      desktop={{ col: 4 }}>
-                      <Collection title={collection.title}>
-                        {collection.bookmarks.map(
-                          (bookmark: CMSBookmark, index: number) => {
-                            return (
-                              <Bookmark
-                                key={`${index}__${bookmark.label}`}
-                                bookmarkDescription={bookmark.description}
-                                href={bookmark.url}>
-                                {bookmark.label}
-                              </Bookmark>
-                            )
-                          }
-                        )}
-                      </Collection>
-                    </Grid>
-                  )
-                }
-              )}
-            </div>
+          <div className={styles.collectionContainer}>
+            {collections.map((collection: CollectionRecord, index: number) => {
+              return (
+                <Grid
+                  key={`${index}__${collection}`}
+                  tablet={{ col: 6 }}
+                  desktop={{ col: 4 }}>
+                  <Collection title={collection.title}>
+                    {collection.bookmarks.map(
+                      (bookmark: CMSBookmark, index: number) => {
+                        return (
+                          <Bookmark
+                            key={`${index}__${bookmark.label}`}
+                            bookmarkDescription={bookmark.description}
+                            href={bookmark.url}>
+                            {bookmark.label}
+                          </Bookmark>
+                        )
+                      }
+                    )}
+                  </Collection>
+                </Grid>
+              )
+            })}
           </div>
         )}
 
-        {articles.length >= 1 && (
-          <div className={styles.sectionContainer}>
-            <h2>Articles</h2>
-            <ArticleList articles={articles} />
-          </div>
-        )}
+        {articles.length >= 1 && <h2 id="articles">Articles</h2>}
+        {articles.length >= 1 && <ArticleList articles={articles} />}
       </div>
     </>
   )
