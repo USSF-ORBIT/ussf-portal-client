@@ -1,5 +1,5 @@
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
-import { Accordion, Grid } from '@trussworks/react-uswds'
+import { Accordion, Grid, InPageNavigation } from '@trussworks/react-uswds'
 import styles from '../../../styles/pages/landingPage.module.scss'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 import Collection from 'components/Collection/Collection'
@@ -26,12 +26,12 @@ const LandingPage = ({
   const { pageTitle, pageDescription, documents, collections, articles } =
     landingPage
 
-  return (
-    <>
-      <h1 className={styles.pageTitle}>{pageTitle}</h1>
-      <p className={styles.pageDescription}>{pageDescription}</p>
+  const pageContent = (): JSX.Element => {
+    return (
+      <>
+        <h1 className={styles.pageTitle}>{pageTitle}</h1>
+        <p className={styles.pageDescription}>{pageDescription}</p>
 
-      <div className={styles.contentContainer}>
         {documents.length >= 1 && <h2 id="documents">Documents</h2>}
         {documents.length >= 1 && (
           <div>
@@ -97,9 +97,11 @@ const LandingPage = ({
 
         {articles.length >= 1 && <h2 id="articles">Articles</h2>}
         {articles.length >= 1 && <ArticleList articles={articles} />}
-      </div>
-    </>
-  )
+      </>
+    )
+  }
+
+  return <InPageNavigation content={pageContent()} />
 }
 
 export default LandingPage

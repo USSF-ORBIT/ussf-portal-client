@@ -1,5 +1,5 @@
 import React from 'react'
-import { GovBanner, GridContainer, Grid } from '@trussworks/react-uswds'
+import { GovBanner, Grid } from '@trussworks/react-uswds'
 import styles from './LandingPageLayout.module.scss'
 import Header from 'components/Header/Header'
 import Footer from 'components/Footer/Footer'
@@ -7,10 +7,8 @@ import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 
 const LandingPageLayout = ({
-  pageTitle,
   children,
 }: {
-  pageTitle: string
   slug: string
   children: React.ReactNode
 }) => {
@@ -26,18 +24,12 @@ const LandingPageLayout = ({
       <div className={`${styles.siteContainer} sfds`}>
         <GovBanner tld=".mil" />
         <Header />
-        <main id="main-content">
-          <h1>{pageTitle}</h1>
-
-          <GridContainer>
-            <Grid row gap>
-              <Grid tablet={{ col: true }}>
-                {/* PAGE CONTENT */}
-                {children}
-              </Grid>
-            </Grid>
-          </GridContainer>
-        </main>
+        <div className={styles.pageContent}>
+          <Grid className={styles.inPageNav}>
+            {/* PAGE CONTENT */}
+            {children}
+          </Grid>
+        </div>
         <Footer />
       </div>
     </>
@@ -47,11 +39,7 @@ const LandingPageLayout = ({
 export default LandingPageLayout
 
 export const withLandingPageLayout = (page: JSX.Element) => {
-  const { pageTitle, slug } = page?.props || {}
+  const { slug } = page?.props || {}
 
-  return (
-    <LandingPageLayout pageTitle={pageTitle} slug={slug}>
-      {page}
-    </LandingPageLayout>
-  )
+  return <LandingPageLayout slug={slug}>{page}</LandingPageLayout>
 }
