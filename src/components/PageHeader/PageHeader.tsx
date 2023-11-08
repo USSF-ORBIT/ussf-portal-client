@@ -7,8 +7,9 @@ import Search from 'components/Search/Search'
 
 const PageHeader = ({
   children,
+  searchDisplay = true,
 }: {
-  searchQuery?: string
+  searchDisplay?: boolean
   children: React.ReactNode
 }) => {
   return (
@@ -19,9 +20,11 @@ const PageHeader = ({
             {children}
           </Grid>
 
-          <Grid col="auto" desktop={{ col: 6 }}>
-            <Search />
-          </Grid>
+          {searchDisplay && (
+            <Grid col="auto" desktop={{ col: 6 }}>
+              <Search />
+            </Grid>
+          )}
         </Grid>
       </GridContainer>
     </div>

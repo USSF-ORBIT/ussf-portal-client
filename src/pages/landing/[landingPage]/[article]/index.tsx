@@ -1,5 +1,8 @@
+import { useState } from 'react'
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import { GridContainer } from '@trussworks/react-uswds'
+import PageHeader from 'components/PageHeader/PageHeader'
+import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { withArticleLayout } from 'layout/DefaultLayout/ArticleLayout'
 import { client } from 'lib/keystoneClient'
 import { getSession } from 'lib/session'
@@ -10,10 +13,31 @@ import { SingleArticle } from 'components/SingleArticle/SingleArticle'
 const LandingPageArticle = ({
   article,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [breadcrumbNavItems] = useState(window.location.pathname.split('/'))
+
   return (
-    <GridContainer>
-      <SingleArticle article={article} />
-    </GridContainer>
+    <>
+      <PageHeader searchDisplay={false}>
+        <BreadcrumbNav
+          navItems={[
+            { path: '/', label: 'Service portal home' },
+            { path: '/landing', label: 'Landing pages' },
+            {
+              path: `/landing/${breadcrumbNavItems[2]}`,
+              label: `${breadcrumbNavItems[2].toUpperCase()}`,
+            },
+            {
+              path: `/landing/${breadcrumbNavItems[2]}/${breadcrumbNavItems[3]}`,
+              label: `${breadcrumbNavItems[3]}`,
+              current: true,
+            },
+          ]}
+        />
+      </PageHeader>
+      <GridContainer>
+        <SingleArticle article={article} />
+      </GridContainer>
+    </>
   )
 }
 
