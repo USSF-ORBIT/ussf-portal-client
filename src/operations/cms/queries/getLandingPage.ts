@@ -29,6 +29,10 @@ export const GET_LANDING_PAGE = gql`
         slug
         preview
         publishedDate
+        labels {
+          id
+          name
+        }
       }
     }
   }
