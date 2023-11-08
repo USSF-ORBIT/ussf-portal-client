@@ -188,4 +188,42 @@ describe('handleRedirectTo', () => {
     handleRedirectTo(mockReq, mockRes)
     expect(redirectFn).toHaveBeenCalledWith(302, expectedRedirectTo)
   })
+
+  test('redirect is to / if RelayState not relative path', () => {
+    const redirectFn = jest.fn()
+    const expectedRedirectTo = 'http://example.com/relay/state'
+    const mockReq = {
+      body: { RelayState: encodeURIComponent(expectedRedirectTo) },
+    } as PassportRequest
+    const mockRes = { redirect: redirectFn } as unknown as NextApiResponse
+    handleRedirectTo(mockReq, mockRes)
+    expect(redirectFn).toHaveBeenCalledWith(302, '/')
+  })
+
+  test('redirect is to portal home if KEYSTONE_PUBLIC_URL is unset', () => {
+    process.env.KEYSTONE_PUBLIC_URL = ''
+    const redirectFn = jest.fn()
+    const expectedRedirectTo = '/cms'
+    const mockReq = {
+      body: { RelayState: encodeURIComponent(expectedRedirectTo) },
+    } as PassportRequest
+    const mockRes = { redirect: redirectFn } as unknown as NextApiResponse
+    handleRedirectTo(mockReq, mockRes)
+    expect(redirectFn).toHaveBeenCalledWith(302, '/')
+  })
+
+  test('redirect is to CMS public url if RelayState /cms', () => {
+    process.env.KEYSTONE_PUBLIC_URL = 'https://cms.example.com/home'
+    const redirectFn = jest.fn()
+    const expectedRedirectTo = '/cms'
+    const mockReq = {
+      body: { RelayState: encodeURIComponent(expectedRedirectTo) },
+    } as PassportRequest
+    const mockRes = { redirect: redirectFn } as unknown as NextApiResponse
+    handleRedirectTo(mockReq, mockRes)
+    expect(redirectFn).toHaveBeenCalledWith(
+      302,
+      process.env.KEYSTONE_PUBLIC_URL
+    )
+  })
 })

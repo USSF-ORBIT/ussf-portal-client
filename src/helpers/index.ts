@@ -92,6 +92,9 @@ export const handleRedirectTo = (
   req: PassportRequest,
   res: NextApiResponse
 ) => {
+  // Login was successful, redirect back home
+  // or redirect to redirectTo if passed in via RelayState
+
   // RelayState is the parameter that SAML servers understand which will
   // be passed back to us when the auth process is complete. We are using
   // it to store the path to redirect to
@@ -99,10 +102,19 @@ export const handleRedirectTo = (
     req.body.RelayState && req.body.RelayState !== ''
       ? decodeURIComponent(req.body.RelayState)
       : '/'
-  // Login was successful, redirect back home
-  // or redirect to redirectTo if passed in via RelayState
-  // TODO: check the redirectTo param for validity
-  // 1. only allow relative paths `/news-announcements`
-  // 2. only allow url to cms `process.env.KEYSTONE_URL`
-  res.redirect(302, redirectTo)
+
+  // check for valid places to redirect
+  // 1. only allow relative paths e.g. `/news-announcements`
+  // 2. only allow url to cms `process.env.KEYSTONE_PUBLIC_URL`
+  if (
+    redirectTo === '/cms' &&
+    process.env.KEYSTONE_PUBLIC_URL &&
+    process.env.KEYSTONE_PUBLIC_URL !== ''
+  ) {
+    res.redirect(302, process.env.KEYSTONE_PUBLIC_URL)
+  } else if (redirectTo !== '/cms' && redirectTo.startsWith('/')) {
+    res.redirect(302, redirectTo)
+  } else {
+    res.redirect(302, '/')
+  }
 }
