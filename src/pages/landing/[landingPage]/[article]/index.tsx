@@ -18,6 +18,7 @@ const LandingPageArticle = ({
   return (
     <>
       <PageHeader searchDisplay={false}>
+        <h1>{breadcrumbNavItems[2].toUpperCase()}</h1>
         <BreadcrumbNav
           navItems={[
             { path: '/', label: 'Service portal home' },
