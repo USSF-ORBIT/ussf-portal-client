@@ -97,7 +97,9 @@ const LandingPage = ({
         )}
 
         {articles.length >= 1 && <h2 id="articles">Articles</h2>}
-        {articles.length >= 1 && <ArticleList articles={articles} />}
+        {articles.length >= 1 && (
+          <ArticleList articles={articles} landingPage={true} />
+        )}
       </>
     )
   }

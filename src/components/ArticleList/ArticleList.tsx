@@ -7,18 +7,23 @@ import { ArticleListItem } from 'components/ArticleListItem/ArticleListItem'
 
 type ArticleListProps = {
   articles: ArticleListItemRecord[]
+  landingPage?: boolean
   pagination?: {
     currentPage: number
     totalPages: number
   }
 }
-export const ArticleList = ({ articles, pagination }: ArticleListProps) => {
+export const ArticleList = ({
+  articles,
+  landingPage = false,
+  pagination,
+}: ArticleListProps) => {
   return articles.length > 0 ? (
     <>
       <ol className={styles.ArticleList}>
         {articles.map((article, i) => (
           <li key={`${article.id}_${i}`}>
-            <ArticleListItem article={article} />
+            <ArticleListItem article={article} landingPage={landingPage} />
           </li>
         ))}
       </ol>
