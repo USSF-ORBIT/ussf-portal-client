@@ -1,5 +1,5 @@
 import React from 'react'
-import { GovBanner, Grid } from '@trussworks/react-uswds'
+import { GovBanner } from '@trussworks/react-uswds'
 import styles from './LandingPageLayout.module.scss'
 import Header from 'components/Header/Header'
 import Footer from 'components/Footer/Footer'
@@ -25,10 +25,8 @@ const LandingPageLayout = ({
         <GovBanner tld=".mil" />
         <Header />
         <div className={styles.pageContent}>
-          <Grid className={styles.inPageNav}>
-            {/* PAGE CONTENT */}
-            {children}
-          </Grid>
+          {/* PAGE CONTENT */}
+          {children}
         </div>
         <Footer />
       </div>

@@ -26,19 +26,3 @@
     justify-content: space-evenly;
   }
 }
-
-.inPageNav {
-  :global(.usa-in-page-nav-container) {
-    justify-content: space-between;
-  }
-
-  :global(.usa-in-page-nav-container > .usa-in-page-nav) {
-    margin-left: 0;
-    margin-top: 0;
-    order: initial;
-
-    :global(.usa-in-page-nav__nav) {
-      background-color: transparent;
-    }
-  }
-}

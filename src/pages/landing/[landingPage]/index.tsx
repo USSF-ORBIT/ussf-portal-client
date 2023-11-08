@@ -104,7 +104,11 @@ const LandingPage = ({
     )
   }
 
-  return <InPageNavigation content={pageContent()} />
+  return (
+    <Grid className={styles.inPageNav}>
+      <InPageNavigation content={pageContent()} />
+    </Grid>
+  )
 }
 
 export default LandingPage
