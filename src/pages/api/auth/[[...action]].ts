@@ -5,6 +5,7 @@ import axios from 'axios'
 import passport from '../../../lib/passport'
 import session from '../../../lib/session'
 import { configSaml, PassportRequest } from '../../../lib/saml'
+import { handleRedirectTo } from '../../../helpers'
 
 /************************************/
 /*  /api/auth/[[...action]] handler */
@@ -49,10 +50,8 @@ handler.post(
     failureRedirect: '/login',
     failureMessage: true,
   }),
-  function (req, res) {
-    // Login was successful, redirect back home
-    res.redirect(302, '/')
-  }
+  // Login was successful, redirect the user
+  handleRedirectTo
 )
 
 //  GET /api/auth/logout - initiate a SLO (logout) request

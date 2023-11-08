@@ -1,5 +1,7 @@
 // Pure functions that can be executed anywhere (NodeJS, browser)
+import { PassportRequest } from 'lib/saml'
 import { DateTime } from 'luxon'
+import { NextApiResponse } from 'next'
 
 import type {
   RSSNewsItem,
@@ -84,4 +86,23 @@ export const getYouTubeEmbedId = (url: string) => {
     embedId = url
   }
   return embedId
+}
+
+export const handleRedirectTo = (
+  req: PassportRequest,
+  res: NextApiResponse
+) => {
+  // RelayState is the parameter that SAML servers understand which will
+  // be passed back to us when the auth process is complete. We are using
+  // it to store the path to redirect to
+  const redirectTo =
+    req.body.RelayState && req.body.RelayState !== ''
+      ? decodeURIComponent(req.body.RelayState)
+      : '/'
+  // Login was successful, redirect back home
+  // or redirect to redirectTo if passed in via RelayState
+  // TODO: check the redirectTo param for validity
+  // 1. only allow relative paths `/news-announcements`
+  // 2. only allow url to cms `process.env.KEYSTONE_URL`
+  res.redirect(302, redirectTo)
 }

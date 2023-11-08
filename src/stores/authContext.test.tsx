@@ -49,6 +49,8 @@ jest.mock('./analyticsContext', () => ({
   useAnalytics: jest.fn(),
 }))
 
+const expectedPathname = encodeURIComponent('/path/to/redirect')
+
 describe('Auth context', () => {
   const { location } = window
 
@@ -72,8 +74,11 @@ describe('Auth context', () => {
       return (
         <div>
           <h1>User: {user?.userId}</h1>
-          <button type="button" onClick={login}>
+          <button type="button" onClick={() => login(null)}>
             Log in
+          </button>
+          <button type="button" onClick={() => login('/path/to/redirect')}>
+            Log in with redirect
           </button>
           <button type="button" onClick={logout}>
             Log out
@@ -105,6 +110,17 @@ describe('Auth context', () => {
     await user.click(screen.getByRole('button', { name: 'Log in' }))
 
     expect(window.location.href).toEqual('/api/auth/login')
+  })
+
+  test('handles a log in action with redirectTo', async () => {
+    const user = userEvent.setup()
+    await user.click(
+      screen.getByRole('button', { name: 'Log in with redirect' })
+    )
+
+    expect(window.location.href).toEqual(
+      `/api/auth/login?RelayState=${expectedPathname}`
+    )
   })
 
   test('can set the user', async () => {
@@ -177,6 +193,35 @@ describe('Auth context', () => {
         expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
         expect(result.current.user).toEqual(null)
         expect(mockReplace).toHaveBeenCalledWith('/login')
+      })
+    })
+
+    test('passes pathname as RelayState if not on login page', async () => {
+      mockedUseRouter.mockReturnValue({
+        route: '',
+        pathname: expectedPathname,
+        query: '',
+        asPath: '',
+        push: jest.fn(),
+        replace: mockReplace,
+      })
+
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <AuthProvider>{children}</AuthProvider>
+      )
+
+      mockedAxios.get.mockImplementationOnce(() => {
+        return Promise.reject()
+      })
+
+      const { result } = renderHook(() => useAuthContext(), { wrapper })
+
+      await waitFor(() => {
+        expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
+        expect(result.current.user).toEqual(null)
+        expect(mockReplace).toHaveBeenCalledWith(
+          `/login?redirectTo=${expectedPathname}`
+        )
       })
     })
   })
