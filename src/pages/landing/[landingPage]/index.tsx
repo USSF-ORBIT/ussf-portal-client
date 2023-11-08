@@ -1,4 +1,5 @@
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
+import Link from 'next/link'
 import { Accordion, Grid, InPageNavigation } from '@trussworks/react-uswds'
 import styles from '../../../styles/pages/landingPage.module.scss'
 import { ArticleList } from 'components/ArticleList/ArticleList'
@@ -9,6 +10,7 @@ import { client } from 'lib/keystoneClient'
 import { getSession } from 'lib/session'
 import { GET_LANDING_PAGE } from 'operations/cms/queries/getLandingPage'
 import { CMSBookmark, CollectionRecord } from 'types'
+import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
 
 type DocumentsType = {
   title: string
@@ -51,9 +53,18 @@ const LandingPage = ({
                         <div className={styles.accordionContent}>
                           {section.document.map((doc, index) => {
                             return (
-                              <p key={`${doc.title}__${index}`}>
-                                <a href={doc.file.url}>{doc.title}</a>
-                              </p>
+                              <Link
+                                onClick={(e) => {
+                                  if (isPdf(doc.file.url)) {
+                                    e.preventDefault()
+                                    handleOpenPdfLink(doc.file.url)
+                                  } else return
+                                }}
+                                key={index}
+                                rel="noreferrer noopener"
+                                href={`${doc.file.url}`}>
+                                {doc.title}
+                              </Link>
                             )
                           })}
                         </div>
