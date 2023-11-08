@@ -61,6 +61,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@0a97817b6ade9f46837855d676c4cca3a2471fc9 # v4
         with:
+          provenance: false
           context: .
           push: true
           tags: ${{ steps.login-ecr.outputs.registry }}/portal-client:${{ github.sha }}
