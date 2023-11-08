@@ -1,4 +1,5 @@
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
+import { GridContainer } from '@trussworks/react-uswds'
 import { withArticleLayout } from 'layout/DefaultLayout/ArticleLayout'
 import { client } from 'lib/keystoneClient'
 import { getSession } from 'lib/session'
@@ -9,7 +10,11 @@ import { SingleArticle } from 'components/SingleArticle/SingleArticle'
 const LandingPageArticle = ({
   article,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  return <SingleArticle article={article} />
+  return (
+    <GridContainer>
+      <SingleArticle article={article} />
+    </GridContainer>
+  )
 }
 
 export default LandingPageArticle
