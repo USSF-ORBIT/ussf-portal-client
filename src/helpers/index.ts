@@ -107,11 +107,15 @@ export const handleRedirectTo = (
   // 1. only allow relative paths e.g. `/news-announcements`
   // 2. only allow url to cms `process.env.KEYSTONE_PUBLIC_URL`
   if (
-    redirectTo === '/cms' &&
+    redirectTo.startsWith('/cms') &&
     process.env.KEYSTONE_PUBLIC_URL &&
     process.env.KEYSTONE_PUBLIC_URL !== ''
   ) {
-    res.redirect(302, process.env.KEYSTONE_PUBLIC_URL)
+    const finalUrlToCMS = redirectTo.replace(
+      '/cms',
+      process.env.KEYSTONE_PUBLIC_URL
+    )
+    res.redirect(302, finalUrlToCMS)
   } else if (redirectTo !== '/cms' && redirectTo.startsWith('/')) {
     res.redirect(302, redirectTo)
   } else {

@@ -213,7 +213,7 @@ describe('handleRedirectTo', () => {
   })
 
   test('redirect is to CMS public url if RelayState /cms', () => {
-    process.env.KEYSTONE_PUBLIC_URL = 'https://cms.example.com/home'
+    process.env.KEYSTONE_PUBLIC_URL = 'https://cms.example.com'
     const redirectFn = jest.fn()
     const expectedRedirectTo = '/cms'
     const mockReq = {
@@ -224,6 +224,21 @@ describe('handleRedirectTo', () => {
     expect(redirectFn).toHaveBeenCalledWith(
       302,
       process.env.KEYSTONE_PUBLIC_URL
+    )
+  })
+
+  test('redirect maintains path for cms eg /cms/users', () => {
+    process.env.KEYSTONE_PUBLIC_URL = 'https://cms.example.com'
+    const redirectFn = jest.fn()
+    const expectedRedirectTo = '/cms/users'
+    const mockReq = {
+      body: { RelayState: encodeURIComponent(expectedRedirectTo) },
+    } as PassportRequest
+    const mockRes = { redirect: redirectFn } as unknown as NextApiResponse
+    handleRedirectTo(mockReq, mockRes)
+    expect(redirectFn).toHaveBeenCalledWith(
+      302,
+      `${process.env.KEYSTONE_PUBLIC_URL}/users`
     )
   })
 })
