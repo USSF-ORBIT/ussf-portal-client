@@ -196,6 +196,33 @@ describe('Auth context', () => {
       })
     })
 
+    test('does not add redirectTo for root pathname', async () => {
+      mockedUseRouter.mockReturnValue({
+        route: '',
+        pathname: '/',
+        query: '',
+        asPath: '',
+        push: jest.fn(),
+        replace: mockReplace,
+      })
+
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <AuthProvider>{children}</AuthProvider>
+      )
+
+      mockedAxios.get.mockImplementationOnce(() => {
+        return Promise.reject()
+      })
+
+      const { result } = renderHook(() => useAuthContext(), { wrapper })
+
+      await waitFor(() => {
+        expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
+        expect(result.current.user).toEqual(null)
+        expect(mockReplace).toHaveBeenCalledWith('/login')
+      })
+    })
+
     test('passes pathname as RelayState if not on login page', async () => {
       mockedUseRouter.mockReturnValue({
         route: '',

@@ -49,7 +49,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           // This (probably) means they aren't logged in
           // don't redirect if they are on the login page already
           // save the path in redirectTo param so we can bring them back
-          if (router.pathname && router.pathname !== '/login') {
+          if (
+            router.pathname &&
+            router.pathname !== '/login' &&
+            router.pathname !== '/'
+          ) {
             router.replace(`/login?redirectTo=${router.pathname}`)
           } else {
             router.replace(`/login`)
