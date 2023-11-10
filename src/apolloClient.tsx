@@ -16,7 +16,8 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       )
       switch (extensions.code) {
         case 'UNAUTHENTICATED':
-          window.location.href = '/login'
+          console.error('user not logged in')
+          //window.location.href = '/login'
           break
         case 'SERVER_ERROR':
           window.location.href = '/500'
