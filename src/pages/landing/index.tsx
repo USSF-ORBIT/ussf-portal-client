@@ -13,13 +13,17 @@ type LandingPage = {
 const Landing = ({
   landingPages,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const sortedLandingPages = landingPages.sort(
+    (a: LandingPage, b: LandingPage) => a.pageTitle.localeCompare(b.pageTitle)
+  )
+
   return (
     <div>
       <h1>Landing Pages</h1>
       <div>
         <Grid>
           <ul>
-            {landingPages.map((landingPage: LandingPage) => {
+            {sortedLandingPages.map((landingPage: LandingPage) => {
               return (
                 <li key={`landing_page_` + landingPage.slug}>
                   <Link href={`/landing/${landingPage.slug}`}>
