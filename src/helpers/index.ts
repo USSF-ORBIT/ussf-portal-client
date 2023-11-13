@@ -1,7 +1,7 @@
 // Pure functions that can be executed anywhere (NodeJS, browser)
-import { PassportRequest } from 'lib/saml'
 import { DateTime } from 'luxon'
 import { NextApiResponse } from 'next'
+import { PassportRequest } from 'lib/saml'
 
 import type {
   RSSNewsItem,
