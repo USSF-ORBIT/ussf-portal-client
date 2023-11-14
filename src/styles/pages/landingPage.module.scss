@@ -29,10 +29,11 @@
 }
 
 .collectionContainer {
-  display: flex;
-  flex-wrap: wrap;
   width: 100%;
-  gap: 16px;
+}
+
+.collectionGrid {
+  padding: 0;
 }
 
 .collection {
@@ -42,6 +43,7 @@
 
 .inPageNav {
   :global(.usa-in-page-nav-container) {
+    justify-content: center;
   }
 
   :global(.usa-in-page-nav-container > .usa-in-page-nav) {

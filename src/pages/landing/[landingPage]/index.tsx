@@ -1,6 +1,11 @@
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import Link from 'next/link'
-import { Accordion, Grid, InPageNavigation } from '@trussworks/react-uswds'
+import {
+  Accordion,
+  Grid,
+  GridContainer,
+  InPageNavigation,
+} from '@trussworks/react-uswds'
 import styles from '../../../styles/pages/landingPage.module.scss'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 import Collection from 'components/Collection/Collection'
@@ -81,29 +86,38 @@ const LandingPage = ({
 
         {collections.length >= 1 && (
           <div className={styles.collectionContainer}>
-            {collections.map((collection: CollectionRecord, index: number) => {
-              return (
-                <Grid
-                  key={`${index}__${collection}`}
-                  tablet={{ col: 6 }}
-                  desktop={{ col: 4 }}>
-                  <Collection title={collection.title}>
-                    {collection.bookmarks.map(
-                      (bookmark: CMSBookmark, index: number) => {
-                        return (
-                          <Bookmark
-                            key={`${index}__${bookmark.label}`}
-                            bookmarkDescription={bookmark.description}
-                            href={bookmark.url}>
-                            {bookmark.label}
-                          </Bookmark>
-                        )
-                      }
-                    )}
-                  </Collection>
-                </Grid>
-              )
-            })}
+            <GridContainer>
+              <Grid className={styles.collectionGrid} row gap>
+                {collections.map(
+                  (collection: CollectionRecord, index: number) => {
+                    return (
+                      <Grid
+                        className={styles.collectionWrapper}
+                        key={`${index}__${collection}`}
+                        mobile={{ col: 12 }}
+                        tablet={{ col: 6 }}
+                        desktop={{ col: 6 }}
+                        desktopLg={{ col: 3 }}>
+                        <Collection title={collection.title}>
+                          {collection.bookmarks.map(
+                            (bookmark: CMSBookmark, index: number) => {
+                              return (
+                                <Bookmark
+                                  key={`${index}__${bookmark.label}`}
+                                  bookmarkDescription={bookmark.description}
+                                  href={bookmark.url}>
+                                  {bookmark.label}
+                                </Bookmark>
+                              )
+                            }
+                          )}
+                        </Collection>
+                      </Grid>
+                    )
+                  }
+                )}
+              </Grid>
+            </GridContainer>
           </div>
         )}
 

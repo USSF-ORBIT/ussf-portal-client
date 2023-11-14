@@ -23,6 +23,9 @@
     background-position: center;
     color: var(--text);
     min-height: calc(100vh - 392px);
-    padding: 88px;
+    padding: 40px;
+    @media (min-width: 1024px) {
+      padding: 88px;
+    }
   }
 }
