@@ -1,0 +1,27 @@
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
+@use 'styles/govBanner' as *;
+@use 'styles/pagination' as *;
+
+.siteContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  :global {
+    // Dark theme gov banner
+    @include gov-banner;
+    // USSF themed pagination
+    @include pagination;
+  }
+
+  main {
+    background: var(--body-img), var(--body-gradient);
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: var(--text);
+    flex: 1;
+  }
+}

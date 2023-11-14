@@ -1,40 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { GovBanner, GridContainer, Grid } from '@trussworks/react-uswds'
-import styles from './DefaultLayout.module.scss'
+import styles from './LandingPageLayout.module.scss'
+import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import Header from 'components/Header/Header'
-import PersonalData from 'components/PersonalData/PersonalData'
 import PageHeader from 'components/PageHeader/PageHeader'
 import PageNav from 'components/PageNav/PageNav'
-import FeedbackCard from 'components/FeedbackCard/FeedbackCard'
 import Footer from 'components/Footer/Footer'
 import CustomModal from 'components/CustomModal/CustomModal'
 import Loader from 'components/Loader/Loader'
-import { useMySpaceContext } from 'stores/myspaceContext'
 import { useSearchContext } from 'stores/searchContext'
 import { useUser } from 'hooks/useUser'
-import { MySpace } from 'types'
 
-const DefaultLayout = ({
-  displayFeedbackCard = true,
-  rightSidebar = undefined,
+const LandingPageLayout = ({
+  pageTitle,
   children,
 }: {
-  displayFeedbackCard?: boolean
-  rightSidebar?: JSX.Element
+  pageTitle: string
+  slug: string
   children: React.ReactNode
 }) => {
-  const { loading, portalUser } = useUser()
-  const { initializeMySpace } = useMySpaceContext()
+  const { loading } = useUser()
   const { searchQuery, setSearchQuery } = useSearchContext()
-  const [displayName, setDisplayName] = useState<string>('')
-
-  useEffect(() => {
-    if (portalUser) {
-      setDisplayName(portalUser.displayName)
-      initializeMySpace(portalUser.mySpace as MySpace)
-    }
-  }, [portalUser])
-
   useEffect(() => {
     // If there is a search query, and the url does not contain /search, then empty the search query
     if (searchQuery && !window.location.pathname.includes('/search')) {
@@ -54,22 +40,27 @@ const DefaultLayout = ({
         <Header />
         <main id="main-content">
           <PageHeader>
-            <PersonalData userDisplayName={displayName} />
+            <div>
+              <h1>{pageTitle}</h1>
+              <BreadcrumbNav
+                navItems={[
+                  { path: '/', label: 'Service portal home' },
+                  { path: '/landing', label: 'Landing Pages', current: true },
+                ]}
+              />
+            </div>
           </PageHeader>
 
           <GridContainer>
             <Grid row gap>
-              {/* LEFT SIDEBAR */}
-              <Grid tablet={{ col: displayFeedbackCard ? 3 : 2 }}>
+              <Grid tablet={{ col: 2 }}>
+                {/* LEFT SIDEBAR */}
                 <PageNav />
-                {displayFeedbackCard && <FeedbackCard />}
               </Grid>
               <Grid tablet={{ col: true }}>
                 {/* PAGE CONTENT */}
                 {children}
               </Grid>
-              {/* RIGHT SIDEBAR */}
-              {rightSidebar && <Grid tablet={{ col: 4 }}>{rightSidebar}</Grid>}
             </Grid>
           </GridContainer>
         </main>
@@ -81,18 +72,14 @@ const DefaultLayout = ({
   )
 }
 
-export default DefaultLayout
+export default LandingPageLayout
 
-export const withDefaultLayout = (
-  page: React.ReactNode,
-  displayFeedbackCard?: boolean,
-  rightSidebar?: JSX.Element
-) => {
+export const withLandingPageLayout = (page: JSX.Element) => {
+  const { pageTitle, slug } = page?.props || {}
+
   return (
-    <DefaultLayout
-      displayFeedbackCard={displayFeedbackCard}
-      rightSidebar={rightSidebar}>
+    <LandingPageLayout pageTitle={pageTitle} slug={slug}>
       {page}
-    </DefaultLayout>
+    </LandingPageLayout>
   )
 }

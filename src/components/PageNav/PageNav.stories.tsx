@@ -7,15 +7,7 @@ export default {
   component: PageNav,
 } as Meta
 
-const navItems = [
-  { path: '/', label: 'My Space' },
-  { path: '/profile', label: 'My profile' },
-  { path: '/subordinates', label: 'Subordinate profiles' },
-  { path: '/reminders', label: 'Manage reminders' },
-  { path: '/sites-and-applications', label: <>All sites &amp; applications</> },
-]
-
-export const PageNavigation = () => <PageNav navItems={navItems} />
+export const PageNavigation = () => <PageNav />
 
 PageNavigation.story = {
   parameters: {
@@ -26,7 +18,7 @@ PageNavigation.story = {
   },
 }
 
-export const OnSitesAndApplicationsPage = () => <PageNav navItems={navItems} />
+export const OnSitesAndApplicationsPage = () => <PageNav />
 
 OnSitesAndApplicationsPage.story = {
   parameters: {
