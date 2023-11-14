@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-
+import { NextApiResponse } from 'next'
 import {
   validateNewsItems,
   formatRssToArticle,
@@ -7,13 +7,15 @@ import {
   isPublished,
   isCmsUser,
   getYouTubeEmbedId,
+  handleRedirectTo,
 } from './index'
 
 import type { RSSNewsItem, PublishableItemType } from 'types'
+import { PassportRequest } from 'lib/saml'
 import { testUser1, cmsAdmin, cmsUser } from '__fixtures__/authUsers'
 
 describe('validateNewsItems', () => {
-  it('returns true if the object has all required properties', () => {
+  test('returns true if the object has all required properties', () => {
     const testItem = {
       id: 'testItemId',
       desc: 'Test item description',
@@ -25,7 +27,7 @@ describe('validateNewsItems', () => {
     expect(validateNewsItems(testItem)).toEqual(true)
   })
 
-  it('returns false if the object is missing any of the required properties', () => {
+  test('returns false if the object is missing any of the required properties', () => {
     const testItem = {
       id: 'testItemId',
       desc: 'Test item description',
@@ -43,7 +45,7 @@ describe('validateNewsItems', () => {
 })
 
 describe('formatRssToArticle', () => {
-  it('maps a valid RSS item to a News List item', () => {
+  test('maps a valid RSS item to a News List item', () => {
     const rssItem: Required<RSSNewsItem> = {
       id: 'testItemId',
       desc: 'Test item description',
@@ -69,7 +71,7 @@ describe('formatRssToArticle', () => {
 })
 
 describe('formatToArticleListItem', () => {
-  it('maps a valid RSS item to an ArticleList item', () => {
+  test('maps a valid RSS item to an ArticleList item', () => {
     const rssItem: Required<RSSNewsItem> = {
       id: 'testItemId',
       desc: 'Test item description',
@@ -151,7 +153,7 @@ describe('isCmsUser', () => {
 })
 
 describe('getYouTubeEmbedId', () => {
-  it('returns embed ID from url string', () => {
+  test('returns embed ID from url string', () => {
     // Randomly generated alpha-num id
     const testId = 'EdmbibomN4y'
     const urls = [
@@ -163,5 +165,80 @@ describe('getYouTubeEmbedId', () => {
     urls.map((url) => {
       expect(getYouTubeEmbedId(url)).toBe(testId)
     })
+  })
+})
+
+describe('handleRedirectTo', () => {
+  test('returns 302 for "/" with RelayState', () => {
+    const redirectFn = jest.fn()
+    const expectedRedirectTo = '/relay/state'
+    const mockReq = {
+      body: { RelayState: encodeURIComponent(expectedRedirectTo) },
+    } as PassportRequest
+    const mockRes = { redirect: redirectFn } as unknown as NextApiResponse
+    handleRedirectTo(mockReq, mockRes)
+    expect(redirectFn).toHaveBeenCalledWith(302, expectedRedirectTo)
+  })
+
+  test('returns 302 for "/" without RelayState', () => {
+    const redirectFn = jest.fn()
+    const expectedRedirectTo = '/'
+    const mockReq = { body: { RelayState: null } } as PassportRequest
+    const mockRes = { redirect: redirectFn } as unknown as NextApiResponse
+    handleRedirectTo(mockReq, mockRes)
+    expect(redirectFn).toHaveBeenCalledWith(302, expectedRedirectTo)
+  })
+
+  test('redirect is to / if RelayState not relative path', () => {
+    const redirectFn = jest.fn()
+    const expectedRedirectTo = 'http://example.com/relay/state'
+    const mockReq = {
+      body: { RelayState: encodeURIComponent(expectedRedirectTo) },
+    } as PassportRequest
+    const mockRes = { redirect: redirectFn } as unknown as NextApiResponse
+    handleRedirectTo(mockReq, mockRes)
+    expect(redirectFn).toHaveBeenCalledWith(302, '/')
+  })
+
+  test('redirect is to portal home if KEYSTONE_PUBLIC_URL is unset', () => {
+    process.env.KEYSTONE_PUBLIC_URL = ''
+    const redirectFn = jest.fn()
+    const expectedRedirectTo = '/cms'
+    const mockReq = {
+      body: { RelayState: encodeURIComponent(expectedRedirectTo) },
+    } as PassportRequest
+    const mockRes = { redirect: redirectFn } as unknown as NextApiResponse
+    handleRedirectTo(mockReq, mockRes)
+    expect(redirectFn).toHaveBeenCalledWith(302, '/')
+  })
+
+  test('redirect is to CMS public url if RelayState /cms', () => {
+    process.env.KEYSTONE_PUBLIC_URL = 'https://cms.example.com'
+    const redirectFn = jest.fn()
+    const expectedRedirectTo = '/cms'
+    const mockReq = {
+      body: { RelayState: encodeURIComponent(expectedRedirectTo) },
+    } as PassportRequest
+    const mockRes = { redirect: redirectFn } as unknown as NextApiResponse
+    handleRedirectTo(mockReq, mockRes)
+    expect(redirectFn).toHaveBeenCalledWith(
+      302,
+      process.env.KEYSTONE_PUBLIC_URL
+    )
+  })
+
+  test('redirect maintains path for cms eg /cms/users', () => {
+    process.env.KEYSTONE_PUBLIC_URL = 'https://cms.example.com'
+    const redirectFn = jest.fn()
+    const expectedRedirectTo = '/cms/users'
+    const mockReq = {
+      body: { RelayState: encodeURIComponent(expectedRedirectTo) },
+    } as PassportRequest
+    const mockRes = { redirect: redirectFn } as unknown as NextApiResponse
+    handleRedirectTo(mockReq, mockRes)
+    expect(redirectFn).toHaveBeenCalledWith(
+      302,
+      `${process.env.KEYSTONE_PUBLIC_URL}/users`
+    )
   })
 })
