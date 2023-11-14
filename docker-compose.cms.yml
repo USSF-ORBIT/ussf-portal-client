@@ -2,6 +2,8 @@ services:
   cms:
     container_name: keystone-cms
     build:
+      # Uncomment the below line to work with local check out
+      # context: ../ussf-portal-cms/
       context: https://github.com/USSF-ORBIT/ussf-portal-cms.git#main
       dockerfile: Dockerfile
       target: e2e-local

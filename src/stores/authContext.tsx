@@ -10,7 +10,7 @@ export type AuthContextType = {
   setUser: React.Dispatch<React.SetStateAction<SessionUser | null>>
   setPortalUser: (userData: PortalUser) => void
   logout: () => void
-  login: () => void
+  login: (redirect: string | null) => void
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -47,7 +47,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           setUser(response.data.user)
         } catch (e) {
           // This (probably) means they aren't logged in
-          router.replace('/login')
+          // don't redirect if they are on the login page already
+          // save the path in redirectTo param so we can bring them back
+          if (
+            router.pathname &&
+            router.pathname !== '/login' &&
+            router.pathname !== '/'
+          ) {
+            router.replace(`/login?redirectTo=${router.pathname}`)
+          } else {
+            router.replace(`/login`)
+          }
         }
       }
 
@@ -62,10 +72,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [user])
 
-  const login = () => {
+  const login = (redirectTo: string | null) => {
     // Initiate SAML flow
     // TODO - check if cookie exists already?
-    window.location.href = '/api/auth/login'
+    if (redirectTo) {
+      // pass redirectTo on to saml flow if present
+      // RelayState is the parameter that SAML servers understand which will
+      // be passed back to us when the auth process is complete
+      window.location.href = `/api/auth/login?RelayState=${encodeURIComponent(
+        redirectTo
+      )}`
+    } else {
+      window.location.href = '/api/auth/login'
+    }
+    return
   }
 
   const logout = async () => {

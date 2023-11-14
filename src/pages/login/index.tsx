@@ -1,10 +1,11 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import {
   GridContainer,
   Accordion,
   Button,
   HeadingLevel,
 } from '@trussworks/react-uswds'
+import { useRouter } from 'next/router'
 import { AccordionItemProps } from '@trussworks/react-uswds/lib/components/Accordion/Accordion'
 import styles from './login.module.scss'
 import Layout from 'layout/LoginLayout/LoginLayout'
@@ -12,6 +13,15 @@ import { useAuthContext } from 'stores/authContext'
 
 const Login = () => {
   const { login } = useAuthContext()
+  const [redirectTo, setRedirectTo] = useState<string | null>(null)
+  const router = useRouter()
+
+  // grab the redirectTo parameter if set
+  useEffect(() => {
+    if (router.query.redirectTo) {
+      setRedirectTo(decodeURIComponent(`${router.query.redirectTo}`))
+    }
+  }, [])
 
   const contactAccordion: AccordionItemProps[] = [
     {
@@ -60,7 +70,7 @@ const Login = () => {
                 <Button
                   type="button"
                   className="usa-button button-pill usa-button--big text-white text-no-underline"
-                  onClick={login}>
+                  onClick={() => login(redirectTo)}>
                   Log In
                 </Button>
                 <p className="font-body-2xs">

@@ -4,5 +4,5 @@ This is the client application for the new USSF portal website. It is a React ap
 
 ## Documentation
 
-- [Development](./docs/development.md)
-- [Content Management](./docs/cms.md)
+- [Development](https://github.com/USSF-ORBIT/ussf-portal/blob/main/docs/development.md)
+- [Project ReadMe](https://github.com/USSF-ORBIT/ussf-portal/blob/main/docs/README.md)
