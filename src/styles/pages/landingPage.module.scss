@@ -30,7 +30,9 @@
 
 .collectionContainer {
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
+  gap: 16px;
 }
 
 .collection {
@@ -40,7 +42,6 @@
 
 .inPageNav {
   :global(.usa-in-page-nav-container) {
-    justify-content: space-between;
   }
 
   :global(.usa-in-page-nav-container > .usa-in-page-nav) {
