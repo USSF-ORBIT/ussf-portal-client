@@ -35,7 +35,7 @@ const LandingPage = ({
         <h1 className={styles.pageTitle}>{pageTitle}</h1>
         <p className={styles.pageDescription}>{pageDescription}</p>
 
-        {documents.length >= 1 && <h2 id="documents">Documents</h2>}
+        {documents.length >= 1 && <h2 id="documentation">Documentation</h2>}
         {documents.length >= 1 && (
           <div>
             {documents.map((section: DocumentsType, index: number) => {
