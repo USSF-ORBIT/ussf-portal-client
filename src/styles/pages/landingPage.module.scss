@@ -1,6 +1,7 @@
 @use 'uswds-core' as *;
 @use 'styles/sfds/index.scss' as *;
 @use 'styles/deps';
+@use 'styles/inpagenav' as *;
 
 .pageTitle {
   text-transform: uppercase;
@@ -35,18 +36,7 @@
 }
 
 .inPageNav {
-  :global(.usa-in-page-nav-container) {
-    justify-content: center;
-  }
-
-  :global(.usa-in-page-nav-container > .usa-in-page-nav) {
-    order: initial;
-    top: 9rem;
-
-    :global(.usa-in-page-nav__nav) {
-      background-color: transparent;
-      padding-top: 0;
-      padding-right: 44px;
-    }
+  :global {
+    @include inpagenav;
   }
 }
