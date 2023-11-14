@@ -3,10 +3,19 @@
 @use 'styles/govBanner' as *;
 @use 'styles/pagination' as *;
 
+$header-height: 122px;
+$mobile-header-height: 78px;
+
 .siteContainer {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
+  .stickyHeader {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+  }
 
   :global {
     // Dark theme gov banner
@@ -24,8 +33,10 @@
     color: var(--text);
     min-height: calc(100vh - 392px);
     padding: 40px;
-    @media (min-width: 1024px) {
+    margin-top: $mobile-header-height;
+    @include sfds-at-media('tablet-lg') {
       padding: 88px;
+      margin-top: $header-height;
     }
   }
 }

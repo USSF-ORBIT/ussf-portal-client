@@ -22,8 +22,10 @@ const LandingPageLayout = ({
         Skip to main content
       </a>
       <div className={`${styles.siteContainer} sfds`}>
-        <GovBanner tld=".mil" />
-        <Header />
+        <div className={styles.stickyHeader}>
+          <GovBanner tld=".mil" />
+          <Header />
+        </div>
         <div className={styles.pageContent}>
           {/* PAGE CONTENT */}
           {children}
