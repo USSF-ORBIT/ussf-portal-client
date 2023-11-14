@@ -37,7 +37,7 @@ const LandingPage = ({
 
         {documents.length >= 1 && <h2 id="documentation">Documentation</h2>}
         {documents.length >= 1 && (
-          <div>
+          <div className={styles.accordionContent}>
             {documents.map((section: DocumentsType, index: number) => {
               return (
                 <Accordion
