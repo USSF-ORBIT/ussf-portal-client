@@ -28,13 +28,6 @@ const LandingPageLayout = ({
     }
   }, [window.location.pathname])
 
-  useEffect(() => {
-    // If there is a search query, and the url does not contain /search, then empty the search query
-    if (searchQuery && !window.location.pathname.includes('/search')) {
-      setSearchQuery('')
-    }
-  }, [window.location.pathname])
-
   return loading ? (
     <Loader />
   ) : (
