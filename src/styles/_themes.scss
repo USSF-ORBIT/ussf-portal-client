@@ -242,6 +242,9 @@ $dark-gradient: linear-gradient(
   --table-header-bg: #{$theme-ultraviolet-dark};
   --table-bg-color: rgba(255, 255, 255, 0.4);
   --table-border-color: #b3b3b399;
+
+  // In Page Navigation
+  --side-border: rgba(27, 27, 27, 0.25);
 }
 
 /* ------------------------------------ */
@@ -485,4 +488,7 @@ $dark-gradient: linear-gradient(
   --table-header-bg: #{$theme-spacebase-darkest};
   --table-bg-color: rbga(8, 18, 34, 0.4);
   --table-border-color: rgba(179, 179, 179, 0.6);
+
+  // In Page Navigation
+  --side-border: rgba(255, 255, 255, 0.25);
 }
