@@ -7,6 +7,7 @@ import {
   InPageNavigation,
 } from '@trussworks/react-uswds'
 import styles from '../../../styles/pages/landingPage.module.scss'
+import docStyles from '../../../styles/pages/ussf-documentation.module.scss'
 import { ArticleList } from 'components/ArticleList/ArticleList'
 import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
@@ -42,12 +43,13 @@ const LandingPage = ({
 
         {documents.length >= 1 && <h2 id="documentation">Documentation</h2>}
         {documents.length >= 1 && (
-          <div className={styles.accordionContent}>
+          <div className={docStyles.accordionGrid}>
             {documents.map((section: DocumentsType, index: number) => {
               return (
                 <Accordion
                   key={`${index}__${section}`}
                   bordered
+                  className={docStyles.accordion}
                   items={[
                     {
                       title: section.title,
