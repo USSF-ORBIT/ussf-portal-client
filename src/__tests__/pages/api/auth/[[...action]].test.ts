@@ -37,7 +37,7 @@ describe('API / Auth handlers', () => {
   })
 
   describe('GET /api/auth/user', () => {
-    it('returns a status 401 if not logged in', async () => {
+    test('returns a status 401 if not logged in', async () => {
       await testApiHandler({
         handler: apiHandler,
         url: '/api/auth/user',
@@ -49,7 +49,7 @@ describe('API / Auth handlers', () => {
       })
     })
 
-    it('returns the user if logged in', async () => {
+    test('returns the user if logged in', async () => {
       await testApiHandler({
         handler: apiHandler,
         url: '/api/auth/user',
@@ -67,7 +67,7 @@ describe('API / Auth handlers', () => {
   })
 
   describe('GET /api/auth/login', () => {
-    it('initiates SAML authentication', async () => {
+    test('initiates SAML authentication', async () => {
       await testApiHandler({
         handler: apiHandler,
         url: '/api/auth/login',
@@ -82,7 +82,7 @@ describe('API / Auth handlers', () => {
 
   describe('POST /api/auth/login', () => {
     // TODO - test if there is no user/login fails
-    it('handles completion of SAML authentication', async () => {
+    test('handles completion of SAML authentication', async () => {
       await testApiHandler({
         handler: apiHandler,
         url: '/api/auth/login',
@@ -98,7 +98,7 @@ describe('API / Auth handlers', () => {
   })
 
   describe('GET /api/auth/logout', () => {
-    it('logs out after logging in', async () => {
+    test('logs out after logging in', async () => {
       await testApiHandler({
         handler: apiHandler,
         requestPatcher: (req: RequestWithSession) => {
@@ -128,7 +128,7 @@ describe('API / Auth handlers', () => {
       })
     })
 
-    it('logs out even if there is no user', async () => {
+    test('logs out even if there is no user', async () => {
       await testApiHandler({
         handler: apiHandler,
         requestPatcher: (req: RequestWithSession) => {
@@ -146,7 +146,7 @@ describe('API / Auth handlers', () => {
   })
 
   describe('GET /api/auth/logout/callback', () => {
-    it('handles completion of SAML logout', async () => {
+    test('handles completion of SAML logout', async () => {
       await testApiHandler({
         handler: apiHandler,
         url: '/api/auth/logout/callback',
