@@ -3,6 +3,8 @@
 $sfds-grid-breakpoints: (
   'tablet': spacing-multiple(96),
   // 768px
+  'tablet-lg': spacing-multiple(128),
+  // 1024px
   'laptop': spacing-multiple(150),
   // 1200px
   'desktop': spacing-multiple(180),
