@@ -6,12 +6,7 @@ import Footer from 'components/Footer/Footer'
 import Loader from 'components/Loader/Loader'
 import { useUser } from 'hooks/useUser'
 
-const LandingPageLayout = ({
-  children,
-}: {
-  slug: string
-  children: React.ReactNode
-}) => {
+const LandingPageLayout = ({ children }: { children: React.ReactNode }) => {
   const { loading } = useUser()
 
   return loading ? (
@@ -39,7 +34,5 @@ const LandingPageLayout = ({
 export default LandingPageLayout
 
 export const withLandingPageLayout = (page: JSX.Element) => {
-  const { slug } = page?.props || {}
-
-  return <LandingPageLayout slug={slug}>{page}</LandingPageLayout>
+  return <LandingPageLayout>{page}</LandingPageLayout>
 }
