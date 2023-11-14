@@ -35,6 +35,10 @@
         }
       }
     }
+    &.grid-container--fill {
+      max-width: none;
+      padding: 0;
+    }
   }
 }
 

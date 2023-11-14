@@ -86,8 +86,8 @@ const LandingPage = ({
 
         {collections.length >= 1 && (
           <div className={styles.collectionContainer}>
-            <GridContainer>
-              <Grid className={styles.collectionGrid} row gap>
+            <GridContainer className="grid-container--fill">
+              <Grid row gap>
                 {collections.map(
                   (collection: CollectionRecord, index: number) => {
                     return (
