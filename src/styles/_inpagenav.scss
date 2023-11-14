@@ -5,15 +5,7 @@
   .usa-in-page-nav-container {
     justify-content: center;
   }
-
-  .usa-in-page-nav-container > .usa-in-page-nav {
-    order: initial;
-    top: 9rem;
-
-    .usa-in-page-nav__nav {
-      background-color: transparent;
-      padding-top: 0;
-      padding-right: 44px;
-    }
+  .usa-in-page-nav__nav {
+    background-color: transparent;
   }
 }

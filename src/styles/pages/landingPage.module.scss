@@ -38,5 +38,13 @@
 .inPageNav {
   :global {
     @include inpagenav;
+    .usa-in-page-nav-container > .usa-in-page-nav {
+      order: initial;
+      top: 9rem;
+    }
+    .usa-in-page-nav__nav {
+      padding-top: 0;
+      padding-right: 44px;
+    }
   }
 }
