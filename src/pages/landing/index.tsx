@@ -13,6 +13,7 @@ type LandingPage = {
 const Landing = ({
   landingPages,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+
   const sortedLandingPages = landingPages.sort(
     (a: LandingPage, b: LandingPage) => a.pageTitle.localeCompare(b.pageTitle)
   )
