@@ -8,7 +8,6 @@ import { useUser } from 'hooks/useUser'
 
 const LandingPageLayout = ({ children }: { children: React.ReactNode }) => {
   const { loading } = useUser()
-
   return loading ? (
     <Loader />
   ) : (
