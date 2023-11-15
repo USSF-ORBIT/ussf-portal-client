@@ -70,7 +70,7 @@ describe('LandingPageLayout', () => {
     test('renders children inside of the landing page layout', async () => {
       const TestPage = () => <div>My page</div>
       renderWithAuthAndApollo(
-        withLandingPageLayout(<TestPage />),
+        withLandingPageLayout(<TestPage />, 'Test Page'),
         {},
         getUserMock
       )
