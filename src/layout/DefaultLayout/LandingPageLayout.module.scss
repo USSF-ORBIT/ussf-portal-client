@@ -21,18 +21,6 @@ $mobile-header-height: 78px;
     position: relative;
   }
 
-  .box {
-    position: absolute;
-    width: 100%;
-    background: var(--background-fill);
-    border: 1px solid var(--widget-border);
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-    bottom: 0;
-    z-index: 5;
-  }
-
   :global {
     // Dark theme gov banner
     @include gov-banner;
