@@ -7,8 +7,8 @@ export default {
   title: 'Navigation/InPageNavigation',
 } as Meta
 
-// eslint-disable-next-line
-const pageContent = () => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const pageContent = (): any => {
   return (
     <>
       <h1>Sample in-page navigation page</h1>
