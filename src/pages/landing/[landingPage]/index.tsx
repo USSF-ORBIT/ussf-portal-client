@@ -164,7 +164,8 @@ const LandingPage = ({
 
 export default LandingPage
 
-LandingPage.getLayout = (page: JSX.Element) => withLandingPageLayout(page)
+LandingPage.getLayout = (page: JSX.Element) =>
+  withLandingPageLayout(page, page.props.landingPage.pageTitle)
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { landingPage: slug } = context.query
