@@ -38,14 +38,26 @@ const LandingPage = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pageContent = (): any => {
     const [boxHeight, setBoxHeight] = useState<number>(100)
-    const topWrapper = useRef(null)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const topWrapper = useRef<any>(null)
 
     useEffect(() => {
-      setBoxHeight(
-        topWrapper?.current.parentElement.offsetHeight -
-          topWrapper?.current.offsetHeight
-      )
+      const handleResize = () => {
+        if (topWrapper?.current) {
+          setBoxHeight(
+            topWrapper?.current.parentElement.offsetHeight -
+              topWrapper?.current.offsetHeight
+          )
+        }
+      }
+
+      window.addEventListener('resize', handleResize)
+      window.setTimeout(handleResize, 10)
+      return () => {
+        window.removeEventListener('resize', handleResize)
+      }
     }, [])
+
     return (
       <>
         <div className={styles.pageMeta} ref={topWrapper}>
@@ -145,7 +157,7 @@ const LandingPage = ({
 
   return (
     <Grid className={styles.inPageNav}>
-      <InPageNavigation content={pageContent()} />
+      <InPageNavigation scrollOffset="150px" content={pageContent()} />
     </Grid>
   )
 }
