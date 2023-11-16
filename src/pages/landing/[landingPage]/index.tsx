@@ -1,4 +1,3 @@
-import { useState, useRef, useEffect } from 'react'
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import Link from 'next/link'
 import {
@@ -37,36 +36,10 @@ const LandingPage = ({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pageContent = (): any => {
-    const [boxHeight, setBoxHeight] = useState<number>(100)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const topWrapper = useRef<any>(null)
-
-    useEffect(() => {
-      const handleResize = () => {
-        if (topWrapper?.current) {
-          setBoxHeight(
-            topWrapper?.current.parentElement.offsetHeight -
-              topWrapper?.current.offsetHeight
-          )
-        }
-      }
-
-      window.addEventListener('resize', handleResize)
-      window.addEventListener('click', handleResize)
-      handleResize()
-      return () => {
-        window.removeEventListener('click', handleResize)
-        window.removeEventListener('resize', handleResize)
-      }
-    }, [])
-
     return (
       <>
-        <div className={styles.pageMeta} ref={topWrapper}>
-          <h1 className={styles.pageTitle}>{pageTitle}</h1>
-          <p className={styles.pageDescription}>{pageDescription}</p>
-        </div>
-        <div className={styles.box} style={{ height: `${boxHeight}px` }}></div>
+        <h1 className={styles.pageTitle}>{pageTitle}</h1>
+        <p className={styles.pageDescription}>{pageDescription}</p>
         {documents.length >= 1 && <h2 id="documentation">Documentation</h2>}
         {documents.length >= 1 && (
           <div className={docStyles.accordionGrid}>
