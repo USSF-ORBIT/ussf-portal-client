@@ -109,9 +109,9 @@ const LandingPage = ({
                         className={styles.collectionWrapper}
                         key={`${index}__${collection}`}
                         mobile={{ col: 12 }}
-                        tablet={{ col: 6 }}
+                        tablet={{ col: 12 }}
                         desktop={{ col: 6 }}
-                        desktopLg={{ col: 3 }}>
+                        desktopLg={{ col: 4 }}>
                         <Collection title={collection.title}>
                           {collection.bookmarks.map(
                             (bookmark: CMSBookmark, index: number) => {
