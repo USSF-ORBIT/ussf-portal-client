@@ -48,7 +48,7 @@ const LandingPage = ({
     }, [])
     return (
       <>
-        <div ref={topWrapper}>
+        <div className={styles.pageMeta} ref={topWrapper}>
           <h1 className={styles.pageTitle}>{pageTitle}</h1>
           <p className={styles.pageDescription}>{pageDescription}</p>
         </div>

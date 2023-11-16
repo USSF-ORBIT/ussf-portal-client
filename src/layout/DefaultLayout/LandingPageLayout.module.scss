@@ -21,6 +21,29 @@ $mobile-header-height: 78px;
     position: relative;
   }
 
+  :global(.main-content) > * {
+    &:not(:nth-child(2)):not(:first-child) {
+      padding: 0 3rem;
+    }
+    &:nth-child(3) {
+      margin-top: 4rem;
+    }
+    @include sfds-at-media('tablet') {
+      &:not(:nth-child(2)):not(:first-child) {
+        padding: 0 6rem;
+      }
+      &:nth-child(3) {
+        margin-top: 8rem;
+      }
+    }
+  }
+
+  :global(.usa-in-page-nav-container main) {
+    max-width: 258rem;
+    position: relative;
+    z-index: 0;
+  }
+
   :global {
     // Dark theme gov banner
     @include gov-banner;
