@@ -53,7 +53,7 @@ const LandingPage = ({
 
       window.addEventListener('resize', handleResize)
       window.addEventListener('click', handleResize)
-      window.setTimeout(handleResize, 10)
+      handleResize()
       return () => {
         window.removeEventListener('click', handleResize)
         window.removeEventListener('resize', handleResize)
