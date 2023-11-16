@@ -10,7 +10,7 @@
   }
 
   .usa-in-page-nav__list a:not(.usa-button).usa-current::after {
-    background: var(--link-primary);
+    background: none;
   }
 
   .usa-in-page-nav__list {
@@ -27,7 +27,7 @@
 
   .usa-in-page-nav__list a:not(.usa-button).usa-current {
     color: var(--link-primary);
-    font-weight: bold;
+    font-weight: normal;
   }
 
   .usa-in-page-nav__list a:not(.usa-button):hover {
