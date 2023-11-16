@@ -28,8 +28,11 @@ $mobile-header-height: 78px;
     background: var(--background-fill);
     border: 1px solid var(--widget-border);
     border-radius: 8px;
-    padding: 3rem;
+    padding: 2rem 1rem;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    @include sfds-at-media('tablet-lg') {
+      padding: 3rem;
+    }
   }
 
   > div.pageContent {
@@ -40,10 +43,10 @@ $mobile-header-height: 78px;
     background-position: center;
     color: var(--text);
     min-height: calc(100vh - 392px);
-    padding: 40px;
+    padding: 2rem 1rem;
     margin-top: $mobile-header-height;
     @include sfds-at-media('tablet-lg') {
-      padding: 88px;
+      padding: 5.5rem;
       margin-top: $header-height;
     }
   }
