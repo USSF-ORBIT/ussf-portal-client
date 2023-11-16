@@ -133,7 +133,7 @@ const LandingPage = ({
 
   return (
     <Grid className={styles.inPageNav}>
-      <InPageNavigation content={pageContent()} />
+      <InPageNavigation scrollOffset="140px" content={pageContent()} />
     </Grid>
   )
 }

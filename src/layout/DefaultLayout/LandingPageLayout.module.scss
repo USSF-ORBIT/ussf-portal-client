@@ -24,6 +24,14 @@ $mobile-header-height: 78px;
     @include pagination;
   }
 
+  :global(.main-content) {
+    background: var(--background-fill);
+    border: 1px solid var(--widget-border);
+    border-radius: 8px;
+    padding: 3rem;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  }
+
   > div.pageContent {
     background: var(--body-img), var(--body-gradient);
     background-attachment: fixed;
