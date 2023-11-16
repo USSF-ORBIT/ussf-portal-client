@@ -15,7 +15,6 @@ const LandingPageLayout = ({
   children: React.ReactNode
 }) => {
   const { loading } = useUser()
-
   return loading ? (
     <Loader />
   ) : (
