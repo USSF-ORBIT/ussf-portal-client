@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.25.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.24.0...4.25.0) (2023-11-17)
+
+
+### Features
+
+* Dynamic landing pages ([#1143](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1143)) ([6bd7236](https://github.com/USSF-ORBIT/ussf-portal-client/commit/6bd72365ac706123cac4ad616a375beefefd6544))
+* Landing page index ([#1140](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1140)) ([9bc86a3](https://github.com/USSF-ORBIT/ussf-portal-client/commit/9bc86a398527df94562a556f7c8686f7295a1bf2))
+* redirectTo support ([#1144](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1144)) ([d905633](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d905633c8d55a984ff725aa3f4d7edfd61ac9bbc))
+* upgraded to react-uswds 6.0.0 ([#1141](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1141)) ([5bfe750](https://github.com/USSF-ORBIT/ussf-portal-client/commit/5bfe750901e2218c2debc92d9a75ac89a098e7eb))
+
+
+### Bug Fixes
+
+* **deps:** update dependencies ([#1136](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1136)) ([a3b1469](https://github.com/USSF-ORBIT/ussf-portal-client/commit/a3b1469854eda2ca318eda24819bdb5984fa7bf7))
+
 ## [4.24.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.23.3...4.24.0) (2023-10-31)
 
 
