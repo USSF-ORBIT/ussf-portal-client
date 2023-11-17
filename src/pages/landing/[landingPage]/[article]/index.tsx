@@ -15,11 +15,8 @@ const LandingPageArticle = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [breadcrumbNavItems] = useState(window.location.pathname.split('/'))
 
-  // Use breadcrumbNavItems[2] to get the landing page name, replace hyphens with spaces
-  // and convert to title case
-  const landingPageName = breadcrumbNavItems[2]
-    .replace(/-/g, ' ')
-    .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))
+  // Use breadcrumbNavItems[2] to get the landing page name and replace hyphens with spaces
+  const landingPageName = breadcrumbNavItems[2].replace(/-/g, ' ')
 
   return (
     <>
