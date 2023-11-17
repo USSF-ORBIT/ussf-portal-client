@@ -17,9 +17,17 @@ const LandingPageArticle = ({
 
   // Use breadcrumbNavItems[2] to get the landing page name, replace hyphens with spaces
   // and convert to title case
-  const landingPageName = breadcrumbNavItems[2]
-    .replace(/-/g, ' ')
-    .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))
+  let landingPageName = breadcrumbNavItems[2].replace(/-/g, ' ')
+
+  // If landingPageName has no spaces, it is probably an acronym, so convert to uppercase
+  if (!landingPageName.includes(' ')) {
+    landingPageName = landingPageName.toUpperCase()
+  } else {
+    landingPageName = landingPageName
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ')
+  }
 
   return (
     <>
