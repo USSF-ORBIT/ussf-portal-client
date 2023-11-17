@@ -37,7 +37,7 @@ $dark-gradient: linear-gradient(
   --body-gradient: #{$light-gradient};
   --body-img: #{$light-bg-img};
   --bg: #{$white};
-  --background-fill: rgba(254, 252, 245, 0.4);
+  --background-fill: rgba(255, 255, 255, 0.5);
   --background-fill-alert: rgb(255, 248, 231, 0.6);
   --text: #{$theme-black};
 
@@ -218,10 +218,10 @@ $dark-gradient: linear-gradient(
 
   // Accordion
   --accordion-title: #1b1b1b;
-  --accordion-btn-bg: #{$grey};
+  --accordion-btn-bg: #f4f7f9;
   --accordion-btn-bg-hover: #dfe1e2;
   --accordion-content-bg: #{$white};
-  --accordion-content-border: #{$grey};
+  --accordion-content-border: #f4f7f9;
   --accordion-plus-btn-img-path: #{$accordion-light-plus-icon-path};
   --accordion-minus-btn-img-path: #{$accordion-light-minus-icon-path};
 
@@ -242,6 +242,9 @@ $dark-gradient: linear-gradient(
   --table-header-bg: #{$theme-ultraviolet-dark};
   --table-bg-color: rgba(255, 255, 255, 0.4);
   --table-border-color: #b3b3b399;
+
+  // In Page Navigation
+  --side-border: rgba(27, 27, 27, 0.25);
 }
 
 /* ------------------------------------ */
@@ -485,4 +488,7 @@ $dark-gradient: linear-gradient(
   --table-header-bg: #{$theme-spacebase-darkest};
   --table-bg-color: rbga(8, 18, 34, 0.4);
   --table-border-color: rgba(179, 179, 179, 0.6);
+
+  // In Page Navigation
+  --side-border: rgba(255, 255, 255, 0.25);
 }
