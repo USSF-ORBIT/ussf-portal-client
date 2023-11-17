@@ -1,6 +1,6 @@
-export const landingPage = {
+export const mockLandingPage = {
   __typename: 'LandingPage',
-  pageTitle: 'A Page Title',
+  pageTitle: 'Test Landing Page',
   pageDescription:
     'em ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac odio ultrices, varius diam at, iaculis sapien. Integer risus quam, congue quis nibh in, iaculis ultrices justo. Sed viverra, massa in finibus vehicula, odio dui fringilla tellus, nec consequat arcu nulla eu augue. Maecenas at ornare orci. Aenean mattis et sapien at vulputate. Sed vel arcu at lorem consequat pulvinar quis ac ante. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent commodo eros eget gravida hendrerit. Suspendisse facilisis odio vel lacus mollis condimentum. Proin in lectus et erat congue luctus non et ligula. Aenean elementum, risus quis tristique cursus, metus leo ornare sem, ut convallis dui velit sit amet mauris.',
   slug: 'a-page',
