@@ -9,8 +9,10 @@ import { CONTENT_CATEGORIES } from 'constants/index'
 
 export const ArticleListItem = ({
   article,
+  landingPage = false,
 }: {
   article: ArticleListItemRecord
+  landingPage?: boolean
 }) => {
   const {
     title,
@@ -23,6 +25,18 @@ export const ArticleListItem = ({
     labels,
   } = article
 
+  const slugPath = () => {
+    if (sourceLink) {
+      return sourceLink
+    } else if (landingPage) {
+      // If we're on a landing page, we need to add the current path to the slug
+      const currentPath = window.location.pathname
+      return `${currentPath}/${slug}`
+    } else {
+      return `/articles/${slug}`
+    }
+  }
+
   const publishedDateObj = new Date(publishedDate)
 
   return (
@@ -34,10 +48,7 @@ export const ArticleListItem = ({
 
         <Grid col="fill" gap="05">
           <h3 className={styles.articleTitle}>
-            <Link
-              href={sourceLink ? sourceLink : `/articles/${slug}`}
-              target="_blank"
-              rel="noreferrer noopener">
+            <Link href={slugPath()} target="_blank" rel="noreferrer noopener">
               {title}
             </Link>
           </h3>

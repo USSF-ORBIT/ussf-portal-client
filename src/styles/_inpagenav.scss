@@ -1,0 +1,36 @@
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
+
+@mixin inpagenav {
+  .usa-in-page-nav-container {
+    justify-content: center;
+  }
+  .usa-in-page-nav__nav {
+    background-color: transparent;
+  }
+
+  .usa-in-page-nav__list a:not(.usa-button).usa-current::after {
+    background: none;
+  }
+
+  .usa-in-page-nav__list {
+    border-left: 1px solid var(--side-border);
+  }
+
+  h4 {
+    color: var(--text);
+  }
+  .usa-in-page-nav__list a:not(.usa-button):not(.usa-current) {
+    color: var(--link-primary);
+    font-weight: normal;
+  }
+
+  .usa-in-page-nav__list a:not(.usa-button).usa-current {
+    color: var(--link-primary);
+    font-weight: normal;
+  }
+
+  .usa-in-page-nav__list a:not(.usa-button):hover {
+    background: var(--bookmark-hover);
+  }
+}

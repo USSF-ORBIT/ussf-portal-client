@@ -75,9 +75,9 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
         <div className={styles.tagAndLabelContainer}>
           {category === 'InternalNews' ? (
             <Category category={CONTENT_CATEGORIES.NEWS} />
-          ) : (
+          ) : category !== 'LandingPage' ? (
             <Tag className={`${tagStyles.Category}`}>{category}</Tag>
-          )}
+          ) : null}
           {labels &&
             labels.map((label) => {
               return (

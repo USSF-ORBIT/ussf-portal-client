@@ -8,6 +8,10 @@
 
     background-color: color($site-banner-bg);
 
+    &__inner {
+      justify-content: center;
+    }
+
     .usa-banner__header,
     .usa-banner__content {
       @include set-text-from-bg($site-banner-bg);
