@@ -5,6 +5,7 @@ import { screen } from '@testing-library/react'
 import type { GetServerSidePropsContext } from 'next'
 import { renderWithAuth } from '../../../../testHelpers'
 import { mockLandingPage } from '../../../../__fixtures__/data/landingPage'
+import { client } from '../../../../lib/keystoneClient'
 import LandingPage, { getServerSideProps } from 'pages/landing/[landingPage]'
 import * as useUserHooks from 'hooks/useUser'
 import { testPortalUser1, testUser1 } from '__fixtures__/authUsers'
@@ -31,6 +32,8 @@ jest.mock('../../../../lib/keystoneClient', () => ({
     }),
   },
 }))
+
+const mockedKeystoneClient = client as jest.Mocked<typeof client>
 
 jest.mock('lib/session', () => ({
   getSession: jest.fn(),
@@ -87,5 +90,21 @@ describe('Landing Page', () => {
       </>
     )
     expect(screen.getByText('Test Landing Page')).toBeInTheDocument()
+  })
+
+  test('getServerSideProps returns a not found if the query returns no landing page', async () => {
+    mockedKeystoneClient.query.mockResolvedValueOnce({
+      data: {
+        landingPage: null,
+      },
+      loading: false,
+      errors: [],
+      networkStatus: 7,
+    })
+
+    const response = await getServerSideProps(testContext)
+    expect(response).toEqual({
+      notFound: true,
+    })
   })
 })
