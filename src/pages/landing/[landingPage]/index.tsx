@@ -13,7 +13,6 @@ import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 import { withLandingPageLayout } from 'layout/DefaultLayout/LandingPageLayout'
 import { client } from 'lib/keystoneClient'
-import { getSession } from 'lib/session'
 import { GET_LANDING_PAGE } from 'operations/cms/queries/getLandingPage'
 import { CMSBookmark, CollectionRecord } from 'types'
 import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
@@ -144,18 +143,6 @@ LandingPage.getLayout = (page: JSX.Element) =>
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { landingPage: slug } = context.query
-
-  const session = await getSession(context.req, context.res)
-  const user = session?.passport?.user
-
-  if (!user) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    }
-  }
 
   const {
     data: { landingPage },
