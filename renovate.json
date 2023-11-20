@@ -65,6 +65,14 @@
       "matchUpdateTypes": ["minor", "patch"],
       "matchPackagePrefixes": ["@opentelemetry"],
       "labels": ["otel"]
+    },
+    {
+      "description": "Group updates for Storybook into a single PR",
+      "extends": "monorepo:storybook",
+      "groupName": "storybook",
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackagePrefixes": ["@storybook"],
+      "labels": ["storybook"]
     }
   ],
   "ignorePresets": [":prHourlyLimit2"]
