@@ -23,13 +23,15 @@
       "matchUpdateTypes": ["patch", "minor", "pin", "digest"]
     },
     {
-      "description": "Group minor and patch updates into a single PR",
+      "description": ["Group minor and patch updates into a single PR"],
       "groupName": "dependencies",
       "managers": ["npm"],
       "matchUpdateTypes": ["minor", "patch"]
     },
     {
-      "description": "Group minor and patch updates for devDependencies into a single PR",
+      "description": [
+        "Group minor and patch updates for devDependencies into a single PR"
+      ],
       "groupName": "devDependencies",
       "managers": ["npm"],
       "matchDepTypes": ["devDependencies"],
@@ -37,14 +39,18 @@
       "labels": ["devDependencies"]
     },
     {
-      "description": "Group minor and patch updates for github-actions into a single PR",
+      "description": [
+        "Group minor and patch updates for github-actions into a single PR"
+      ],
       "groupName": "github-actions",
       "managers": ["github-actions"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "labels": ["github-actions"]
     },
     {
-      "description": "Group minor and patch updates for docker-compose files into a single PR",
+      "description": [
+        "Group minor and patch updates for docker-compose files into a single PR"
+      ],
       "groupName": "docker-compose",
       "managers": ["docker-compose"],
       "matchUpdateTypes": ["minor", "patch"],
@@ -60,14 +66,14 @@
       "enabled": false
     },
     {
-      "description": "Group updates for OTEL into a single PR",
+      "description": ["Group updates for OTEL into a single PR"],
       "groupName": "otel",
       "matchUpdateTypes": ["minor", "patch"],
       "matchPackagePrefixes": ["@opentelemetry"],
       "labels": ["otel"]
     },
     {
-      "description": "Group updates for Storybook into a single PR",
+      "description": ["Group updates for Storybook into a single PR"],
       "groupName": "storybook",
       "matchUpdateTypes": ["minor", "patch"],
       "matchPackagePrefixes": ["@storybook"],
