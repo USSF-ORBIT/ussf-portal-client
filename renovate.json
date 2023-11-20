@@ -25,7 +25,7 @@
     {
       "description": ["Group minor and patch updates into a single PR"],
       "groupName": "dependencies",
-      "managers": ["npm"],
+      "matchManagers": ["npm"],
       "matchUpdateTypes": ["minor", "patch"]
     },
     {
@@ -33,7 +33,7 @@
         "Group minor and patch updates for devDependencies into a single PR"
       ],
       "groupName": "devDependencies",
-      "managers": ["npm"],
+      "matchManagers": ["npm"],
       "matchDepTypes": ["devDependencies"],
       "matchUpdateTypes": ["minor", "patch"],
       "labels": ["devDependencies"]
@@ -43,7 +43,7 @@
         "Group minor and patch updates for github-actions into a single PR"
       ],
       "groupName": "github-actions",
-      "managers": ["github-actions"],
+      "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "labels": ["github-actions"]
     },
@@ -52,7 +52,7 @@
         "Group minor and patch updates for docker-compose files into a single PR"
       ],
       "groupName": "docker-compose",
-      "managers": ["docker-compose"],
+      "matchManagers": ["docker-compose"],
       "matchUpdateTypes": ["minor", "patch"],
       "labels": ["docker-compose"]
     },
@@ -61,7 +61,7 @@
       "enabled": false
     },
     {
-      "managers": ["dockerfile"],
+      "matchManagers": ["dockerfile"],
       "matchUpdateTypes": ["major"],
       "enabled": false
     },
