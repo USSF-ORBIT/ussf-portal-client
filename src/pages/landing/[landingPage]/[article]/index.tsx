@@ -15,17 +15,31 @@ const LandingPageArticle = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [breadcrumbNavItems] = useState(window.location.pathname.split('/'))
 
+  // Use breadcrumbNavItems[2] to get the landing page name, replace hyphens with spaces
+  // and convert to title case
+  let landingPageName = breadcrumbNavItems[2].replace(/-/g, ' ')
+
+  // If landingPageName has no spaces, it is probably an acronym, so convert to uppercase
+  if (!landingPageName.includes(' ')) {
+    landingPageName = landingPageName.toUpperCase()
+  } else {
+    landingPageName = landingPageName
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ')
+  }
+
   return (
     <>
       <PageHeader searchDisplay={false}>
-        <h1>{breadcrumbNavItems[2].toUpperCase()}</h1>
+        <h1>{landingPageName}</h1>
         <BreadcrumbNav
           navItems={[
             { path: '/', label: 'Service portal home' },
             { path: '/landing', label: 'Landing pages' },
             {
               path: `/landing/${breadcrumbNavItems[2]}`,
-              label: `${breadcrumbNavItems[2].toUpperCase()}`,
+              label: `${landingPageName}`,
             },
             {
               path: `/landing/${breadcrumbNavItems[2]}/${breadcrumbNavItems[3]}`,
