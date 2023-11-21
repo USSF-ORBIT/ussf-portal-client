@@ -6,7 +6,7 @@ export const Redirect = ({ redirectTo }: { redirectTo: string }) => {
     <div>
       <h2>Redirect</h2>
       Please wait 5 seconds, while we redirect you to{' '}
-      <Link href={redirectTo}>{redirectTo}</Link>. If you are not redirected
+      <Link href={redirectTo}>{redirectTo}</Link>. If you are not redirected{' '}
       please click the link.
     </div>
   )
