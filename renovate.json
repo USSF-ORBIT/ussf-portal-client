@@ -74,10 +74,9 @@
     },
     {
       "description": ["Group updates for Storybook into a single PR"],
-      "extends": ["monorepo:storybook"],
       "groupName": "storybook",
       "matchUpdateTypes": ["minor", "patch"],
-      "matchPackagePrefixes": ["@storybook", "storybook"],
+      "matchPackagePatterns": ["^@storybook", "^storybook", "storybook$"],
       "labels": ["storybook"]
     }
   ],
