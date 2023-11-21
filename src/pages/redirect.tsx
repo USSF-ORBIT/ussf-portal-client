@@ -1,10 +1,9 @@
-import Link from 'next/link'
-import styles from 'styles/pages/settings.module.scss'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
 import { withArticleLayout } from 'layout/DefaultLayout/ArticleLayout'
+import { Redirect } from 'components/Redirect/Redirect'
 
-const Redirect = ({ redirectTo }: { redirectTo: string }) => {
+const RedirectPage = ({ redirectTo }: { redirectTo: string }) => {
   const { loading } = useUser()
 
   // we only want to redirect folks who are signed in
@@ -13,21 +12,14 @@ const Redirect = ({ redirectTo }: { redirectTo: string }) => {
   ) : (
     <>
       <meta httpEquiv="refresh" content={`5;URL='${redirectTo}'`} />
-      <div className={styles.settings}>
-        <div className={styles.widgetContainer}>
-          <h2 className={styles.pageTitle}>Redirect</h2>
-          Please wait 5 seconds, while we redirect you to{' '}
-          <Link href={redirectTo}>{redirectTo}</Link>. If you are not redirected
-          please click the link.
-        </div>
-      </div>
+      <Redirect redirectTo={redirectTo} />
     </>
   )
 }
 
-export default Redirect
+export default RedirectPage
 
-Redirect.getLayout = withArticleLayout
+RedirectPage.getLayout = withArticleLayout
 
 export async function getServerSideProps(context: {
   query: { redirectPath: string }
@@ -40,7 +32,7 @@ export async function getServerSideProps(context: {
   // Only allow url to cms `process.env.KEYSTONE_PUBLIC_URL`
   if (process.env.KEYSTONE_PUBLIC_URL !== '') {
     // check if we have a redirectPath and it's a relative path
-    if (redirectPath !== '' && redirectPath.startsWith('/')) {
+    if (redirectPath && redirectPath !== '' && redirectPath.startsWith('/')) {
       // create absolute path to keystone with redirectPath
       const finalUrlTo = `${process.env.KEYSTONE_PUBLIC_URL}${redirectPath}`
       return {
