@@ -88,7 +88,7 @@ describe('API / Auth handlers', () => {
         url: '/api/auth/login',
         test: async ({ fetch }) => {
           const res = await fetch({ method: 'POST', redirect: 'manual' })
-          expect(res.status).toBe(302)
+          expect(res.status).toBe(307)
           expect(res.cookies).toStrictEqual([
             expect.objectContaining({ sid: expect.any(String) }),
           ])
