@@ -77,7 +77,7 @@
       "extends": ["monorepo:storybook"],
       "groupName": "storybook",
       "matchUpdateTypes": ["minor", "patch"],
-      "matchPackagePrefixes": ["@storybook"],
+      "matchPackagePrefixes": ["@storybook", "storybook"],
       "labels": ["storybook"]
     }
   ],
