@@ -1,8 +1,8 @@
 import { RESTDataSource } from '@apollo/datasource-rest'
 import type { KeyValueCache } from '@apollo/utils.keyvaluecache'
 import { DateTime } from 'luxon'
-import { GET_INTERNAL_NEWS_ARTICLES } from 'operations/cms/queries/getInternalNewsArticles'
 import { print } from 'graphql'
+import { GET_INTERNAL_NEWS_ARTICLES } from 'operations/cms/queries/getInternalNewsArticles'
 
 class KeystoneAPI extends RESTDataSource {
   override baseURL = process.env.KEYSTONE_URL
