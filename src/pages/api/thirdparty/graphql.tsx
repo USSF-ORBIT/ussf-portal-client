@@ -1,7 +1,7 @@
 import { ApolloServer } from '@apollo/server'
 import { DateTime } from 'luxon'
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
-import GraphQLJSON from 'graphql-type-json'
+import { GraphQLJSON } from 'graphql-type-json'
 import { GraphQLError } from 'graphql'
 import KeystoneAPI from '../dataSources/keystone'
 
