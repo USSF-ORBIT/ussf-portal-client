@@ -244,9 +244,10 @@ $dark-gradient: linear-gradient(
   --table-border-color: #b3b3b399;
 
   // Landing Page Index Table
-  --lp-dark-row: #{$grey};
-  --lp-light-row: #{$white};
+  --lp-even-row: #{$white};
+  --lp-odd-row: #{$grey};
   --lp-table-border-color: #192766;
+  --lp-td-border-color: #{$black};
 
   // In Page Navigation
   --side-border: rgba(27, 27, 27, 0.25);
@@ -495,9 +496,10 @@ $dark-gradient: linear-gradient(
   --table-border-color: rgba(179, 179, 179, 0.6);
 
   // Landing Page Index Table
-  --lp-dark-row: #0a1529;
-  --lp-light-row: #{$theme-spacebase-base};
+  --lp-even-row: #060c17;
+  --lp-odd-row: #0a1529;
   --lp-table-border-color: #{$black};
+  --lp-td-border-color: #{$blue-gray};
 
   // In Page Navigation
   --side-border: rgba(255, 255, 255, 0.25);
