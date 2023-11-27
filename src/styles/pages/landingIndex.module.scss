@@ -1,0 +1,10 @@
+@use 'uswds-core' as *;
+@use 'styles/sfds/index.scss' as *;
+@use 'styles/deps';
+
+.table {
+  border: 4px solid #192766;
+  border-radius: 4px 4px 0 0;
+  border-collapse: initial;
+  width: 100%;
+}
