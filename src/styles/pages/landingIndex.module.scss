@@ -3,8 +3,16 @@
 @use 'styles/deps';
 
 .table {
-  border: 4px solid #192766;
+  border: 4px solid var(--lp-table-border-color);
   border-radius: 4px 4px 0 0;
   border-collapse: initial;
   width: 100%;
+
+  > tbody > tr:nth-child(odd) > td {
+    background-color: var(--lp-dark-row);
+  }
+
+  > tbody > tr:nth-child(even) > td {
+    background-color: var(--lp-light-row);
+  }
 }
