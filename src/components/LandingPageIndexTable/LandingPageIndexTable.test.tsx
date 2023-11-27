@@ -23,5 +23,13 @@ const testLandingPages = [
 describe('LandingPageIndexTable', () => {
   test('renders without error', () => {
     render(<LandingPageIndexTable landingPages={testLandingPages} />)
+
+    const table = document.querySelector('table')
+    expect(table).toBeInTheDocument()
+
+    expect(table).toHaveClass('usa-table--borderless')
+
+    const rows = document.querySelectorAll('tr')
+    expect(rows.length).toEqual(3)
   })
 })
