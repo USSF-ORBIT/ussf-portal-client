@@ -158,3 +158,31 @@ export const cmsInternalNewsArticle: ArticleRecord = {
   },
   publishedDate: '2022-05-18T17:18:40.802Z',
 }
+
+export const cmsInternalNewsArticleTaggedCNote: ArticleRecord = {
+  id: 'cloyw4wk20892ryzvsu2n23hb',
+  title: 'Test Article',
+  status: 'Published',
+  category: 'InternalNews',
+  slug: 'test-c-note',
+
+  publishedDate: '2023-11-14T22:14:14.283Z',
+  tags: [
+    {
+      id: 'cku0q2q6o0000g1tq6q6q6q6q',
+      name: 'C-Note',
+    },
+  ],
+  body: {
+    document: [
+      {
+        type: 'paragraph',
+        children: [
+          {
+            text: 'Lorem ipsum body text',
+          },
+        ],
+      },
+    ],
+  },
+}
