@@ -21,24 +21,26 @@ const Landing = ({
   return (
     <div>
       <h1>Landing Pages</h1>
-      <Table
-        bordered
-        striped
-        className={`usa-table--borderless ${styles.table}`}>
-        <tbody>
-          {sortedLandingPages.map((landingPage: LandingPage) => {
-            return (
-              <tr key={`landing_page_` + landingPage.slug}>
-                <td>
-                  <Link href={`/landing/${landingPage.slug}`}>
-                    {landingPage.pageTitle}
-                  </Link>
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </Table>
+      {sortedLandingPages.length > 0 && (
+        <Table
+          bordered
+          striped
+          className={`usa-table--borderless ${styles.table}`}>
+          <tbody>
+            {sortedLandingPages.map((landingPage: LandingPage) => {
+              return (
+                <tr key={`landing_page_` + landingPage.slug}>
+                  <td>
+                    <Link href={`/landing/${landingPage.slug}`}>
+                      {landingPage.pageTitle}
+                    </Link>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </Table>
+      )}
     </div>
   )
 }
