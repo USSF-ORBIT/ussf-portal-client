@@ -1,6 +1,5 @@
 import { InferGetServerSidePropsType } from 'next'
-import { Grid } from '@trussworks/react-uswds'
-import Link from 'next/link'
+import LandingPageIndexTable from 'components/LandingPageIndexTable/LandingPageIndexTable'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import { GET_LANDING_PAGES } from 'operations/cms/queries/getLandingPages'
 import { client } from 'lib/keystoneClient'
@@ -13,7 +12,6 @@ type LandingPage = {
 const Landing = ({
   landingPages,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-
   const sortedLandingPages = landingPages.sort(
     (a: LandingPage, b: LandingPage) => a.pageTitle.localeCompare(b.pageTitle)
   )
@@ -21,21 +19,7 @@ const Landing = ({
   return (
     <div>
       <h1>Landing Pages</h1>
-      <div>
-        <Grid>
-          <ul>
-            {sortedLandingPages.map((landingPage: LandingPage) => {
-              return (
-                <li key={`landing_page_` + landingPage.slug}>
-                  <Link href={`/landing/${landingPage.slug}`}>
-                    {landingPage.pageTitle}
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </Grid>
-      </div>
+      <LandingPageIndexTable landingPages={sortedLandingPages} />
     </div>
   )
 }
