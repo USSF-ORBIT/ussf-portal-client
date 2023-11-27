@@ -76,7 +76,7 @@
       "description": ["Group updates for Storybook into a single PR"],
       "groupName": "storybook",
       "matchUpdateTypes": ["minor", "patch"],
-      "matchPackagePrefixes": ["@storybook"],
+      "matchPackagePatterns": ["^@storybook", "^storybook", "storybook$"],
       "labels": ["storybook"]
     }
   ],
