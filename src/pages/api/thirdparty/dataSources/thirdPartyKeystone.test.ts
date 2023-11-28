@@ -1,7 +1,7 @@
 import type { KeyValueCache } from '@apollo/utils.keyvaluecache'
 import { DateTime } from 'luxon'
-import { cmsInternalNewsArticleTaggedCNote as cNote } from '__fixtures__/data/cmsInternalNewsArticle'
 import ThirdPartyKeystoneAPI from './thirdPartyKeystone'
+import { cmsInternalNewsArticleTaggedCNote as cNote } from '__fixtures__/data/cmsInternalNewsArticle'
 
 describe('KeystoneAPI', () => {
   test('call getArticles with publishedDate and tag', async () => {
