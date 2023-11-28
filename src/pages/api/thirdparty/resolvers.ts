@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { GraphQLJSON } from 'graphql-type-json'
-import KeystoneAPI from '../dataSources/keystone'
+import ThirdPartyKeystoneAPI from './dataSources/thirdPartyKeystone'
 
 /* Resolver Types */
 type ArticleInput = {
@@ -10,7 +10,7 @@ type ArticleInput = {
 
 export type ThirdPartyContext = {
   dataSources: {
-    keystoneAPI: KeystoneAPI
+    keystoneAPI: ThirdPartyKeystoneAPI
   }
 }
 
@@ -26,7 +26,7 @@ export const resolvers = {
     ) => {
       const {
         data: { articles },
-      } = await keystoneAPI.getArticles(DateTime.now(), tag)
+      } = await keystoneAPI.getPublicArticles(DateTime.now(), tag)
       return articles
     },
   },

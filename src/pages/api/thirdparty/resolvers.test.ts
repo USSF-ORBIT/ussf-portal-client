@@ -1,6 +1,6 @@
 import { ApolloServer } from '@apollo/server'
 import { gql } from 'graphql-tag'
-import KeystoneAPI from '../dataSources/keystone'
+import KeystoneAPI from './dataSources/thirdPartyKeystone'
 import { resolvers, ThirdPartyContext } from './resolvers'
 import { typeDefs } from './schema'
 import type { SingleGraphQLResponse } from 'types'
@@ -19,7 +19,7 @@ describe('GraphQL resolvers', () => {
     const { cache } = server
     keystoneAPI = new KeystoneAPI({ cache })
 
-    keystoneAPI.getArticles = jest.fn(async () => {
+    keystoneAPI.getPublicArticles = jest.fn(async () => {
       return testCNote
     })
 
@@ -52,7 +52,7 @@ describe('GraphQL resolvers', () => {
           singleResult: { data, errors },
         },
       } = (await server.executeOperation<ResponseData>(
-        { query: articlesQuery, variables: { tag: 'C-Note' } },
+        { query: articlesQuery, variables: { tag: 'CNOTE' } },
         { contextValue: serverContext }
       )) as SingleGraphQLResponse<ResponseData>
 
@@ -64,7 +64,7 @@ describe('GraphQL resolvers', () => {
 })
 
 const articlesQuery = gql`
-  query GetCNotes($tag: String) {
+  query GetCNotes($tag: ArticleTag) {
     articles(tag: $tag) {
       id
       title

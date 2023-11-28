@@ -4,11 +4,15 @@ import { gql } from 'graphql-tag'
 export const typeDefs = gql`
   scalar JSON
 
+  enum ArticleTag {
+    CNOTE
+  }
+
   type Article {
     id: ID!
     title: String!
     publishedDate: String!
-    tag: String!
+    tag: ArticleTag!
     body: Article_body_Document
   }
 
@@ -17,6 +21,6 @@ export const typeDefs = gql`
   }
 
   type Query {
-    articles(tag: String): [Article]
+    articles(tag: ArticleTag): [Article]
   }
 `

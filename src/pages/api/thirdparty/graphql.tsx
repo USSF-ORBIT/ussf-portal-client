@@ -1,7 +1,7 @@
 import { ApolloServer } from '@apollo/server'
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { GraphQLError } from 'graphql'
-import KeystoneAPI from '../dataSources/keystone'
+import ThirdPartyKeystoneAPI from './dataSources/thirdPartyKeystone'
 import { resolvers } from './resolvers'
 import { typeDefs } from './schema'
 
@@ -20,7 +20,7 @@ export default startServerAndCreateNextHandler(server, {
         // This server utilizes dataSources to access external APIs, similar to the portal
         // GraphQL server. We're using existing Keystone API data source to avoid duplication.
         dataSources: {
-          keystoneAPI: new KeystoneAPI({ cache }),
+          keystoneAPI: new ThirdPartyKeystoneAPI({ cache }),
         },
       }
     } catch (e) {
