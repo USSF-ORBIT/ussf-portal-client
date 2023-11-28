@@ -111,6 +111,19 @@ services:
       - POSTGRES_USER=keystone
       - POSTGRES_DB=keystone
 
+  wiremock:
+    container_name: wiremock
+    image: 'wiremock/wiremock:latest'
+    ports:
+      - '8181:8181'
+    entrypoint:
+      [
+        '/docker-entrypoint.sh',
+        '--global-response-templating',
+        '--disable-gzip',
+        '--verbose',
+      ]
+
 volumes:
   portal_data:
   cms_data:
