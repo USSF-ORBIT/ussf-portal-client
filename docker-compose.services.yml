@@ -115,7 +115,7 @@ services:
     container_name: wiremock
     image: 'wiremock/wiremock:latest'
     ports:
-      - '8181:8181'
+      - '8181:8080'
     entrypoint:
       [
         '/docker-entrypoint.sh',
