@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.26.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.25.0...4.26.0) (2023-11-28)
+
+
+### Features
+
+* Update breadcrumb display for articles ([#1154](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1154)) ([1801004](https://github.com/USSF-ORBIT/ussf-portal-client/commit/1801004349efe6a0e96b77b3804cb8ba0463eb03))
+* Update landing page index styles ([#1170](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1170)) ([d762d92](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d762d92c764b80bcd191fc1d2569caec73a68750))
+
+
+### Bug Fixes
+
+* **deps:** update dependency axios to v1.6.0 [security] ([039390a](https://github.com/USSF-ORBIT/ussf-portal-client/commit/039390acca6ce55bd60965e3313d6d2524fb9821))
+* redirect to cms on login ([#1152](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1152)) ([79e8f76](https://github.com/USSF-ORBIT/ussf-portal-client/commit/79e8f76774f086041981e8149e7f525c7988956a))
+
+
+### Security Improvements
+
+* **deps:** update dependency axios to v1.6.0 [security] ([#1148](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1148)) ([039390a](https://github.com/USSF-ORBIT/ussf-portal-client/commit/039390acca6ce55bd60965e3313d6d2524fb9821))
+
 ## [4.25.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.24.0...4.25.0) (2023-11-17)
 
 
