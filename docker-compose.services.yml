@@ -123,6 +123,8 @@ services:
         '--disable-gzip',
         '--verbose',
       ]
+    volumes:
+      - './mappings:/home/wiremock/mappings'
 
 volumes:
   portal_data:
