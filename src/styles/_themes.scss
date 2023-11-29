@@ -236,12 +236,18 @@ $dark-gradient: linear-gradient(
   // Weather
   --weather-icons: #{$theme-ultraviolet-light};
 
-  // Tables
+  // Guardian Directory Table
   --col-row-light: #ffffff0a;
   --col-row-dark: #00000008;
   --table-header-bg: #{$theme-ultraviolet-dark};
   --table-bg-color: rgba(255, 255, 255, 0.4);
   --table-border-color: #b3b3b399;
+
+  // Landing Page Index Table
+  --lp-even-row: #{$white};
+  --lp-odd-row: #{$grey};
+  --lp-table-border-color: #192766;
+  --lp-td-border-color: #{$black};
 
   // In Page Navigation
   --side-border: rgba(27, 27, 27, 0.25);
@@ -481,13 +487,19 @@ $dark-gradient: linear-gradient(
   // Weather
   --weather-icons: #{$theme-ultraviolet-lighter};
 
-  // Tables
+  // Guardian Directory Table
   --table-text-color: #{$white};
   --col-row-light: #08122299;
   --col-row-dark: #0000004d;
   --table-header-bg: #{$theme-spacebase-darkest};
   --table-bg-color: rbga(8, 18, 34, 0.4);
   --table-border-color: rgba(179, 179, 179, 0.6);
+
+  // Landing Page Index Table
+  --lp-even-row: #060c17;
+  --lp-odd-row: #0a1529;
+  --lp-table-border-color: #{$black};
+  --lp-td-border-color: #{$blue-gray};
 
   // In Page Navigation
   --side-border: rgba(255, 255, 255, 0.25);
