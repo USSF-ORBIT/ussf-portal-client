@@ -18,7 +18,7 @@ describe('KeystoneAPI', () => {
     mockPost.mockResolvedValue(mockData)
 
     const now = DateTime.now()
-    const result = await keystoneAPI.getPublicArticles(now, 'CNOTE')
+    const result = await keystoneAPI.getCNotes(now)
 
     expect(result).toEqual(mockData)
   })

@@ -3,11 +3,6 @@ import { GraphQLJSON } from 'graphql-type-json'
 import ThirdPartyKeystoneAPI from './dataSources/thirdPartyKeystone'
 
 /* Resolver Types */
-type ArticleInput = {
-  publishedDate: string
-  tag: string
-}
-
 export type ThirdPartyContext = {
   dataSources: {
     keystoneAPI: ThirdPartyKeystoneAPI
@@ -19,14 +14,18 @@ export const resolvers = {
   // This is a custom scalar type that allows us to return JSON data from our API.
   JSON: GraphQLJSON,
   Query: {
-    articles: async (
+    cNotes: async (
       _: undefined,
-      { tag }: ArticleInput,
+      __: undefined,
       { dataSources: { keystoneAPI } }: ThirdPartyContext
     ) => {
+      // This data is returned from
+      // the keystone API, which is why it's called
+      // articles instead of cNotes.
       const {
         data: { articles },
-      } = await keystoneAPI.getPublicArticles(DateTime.now(), tag)
+      } = await keystoneAPI.getCNotes(DateTime.now())
+
       return articles
     },
   },

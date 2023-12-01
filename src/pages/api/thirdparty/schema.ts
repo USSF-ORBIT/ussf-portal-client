@@ -4,23 +4,18 @@ import { gql } from 'graphql-tag'
 export const typeDefs = gql`
   scalar JSON
 
-  enum ArticleTag {
-    CNOTE
-  }
-
-  type Article {
+  type CNote {
     id: ID!
     title: String!
     publishedDate: String!
-    tag: ArticleTag!
-    body: Article_body_Document
+    body: CNote_body_Document
   }
 
-  type Article_body_Document {
+  type CNote_body_Document {
     document(hydrateRelationships: Boolean! = false): JSON!
   }
 
   type Query {
-    articles(tag: ArticleTag): [Article]
+    cNotes: [CNote!]
   }
 `

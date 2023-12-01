@@ -1,13 +1,13 @@
 import { ApolloServer } from '@apollo/server'
 import { gql } from 'graphql-tag'
-import KeystoneAPI from './dataSources/thirdPartyKeystone'
+import ThirdPartyKeystoneAPI from './dataSources/thirdPartyKeystone'
 import { resolvers, ThirdPartyContext } from './resolvers'
 import { typeDefs } from './schema'
 import type { SingleGraphQLResponse } from 'types'
 
 let server: ApolloServer<ThirdPartyContext>
 let serverContext: ThirdPartyContext
-let keystoneAPI: KeystoneAPI
+let keystoneAPI: ThirdPartyKeystoneAPI
 
 describe('GraphQL resolvers', () => {
   beforeEach(() => {
@@ -17,9 +17,9 @@ describe('GraphQL resolvers', () => {
     })
 
     const { cache } = server
-    keystoneAPI = new KeystoneAPI({ cache })
+    keystoneAPI = new ThirdPartyKeystoneAPI({ cache })
 
-    keystoneAPI.getPublicArticles = jest.fn(async () => {
+    keystoneAPI.getCNotes = jest.fn(async () => {
       return testCNote
     })
 
@@ -29,9 +29,9 @@ describe('GraphQL resolvers', () => {
       },
     }
   })
-  describe('Query.articles', () => {
+  describe('Query.cNotes', () => {
     type ResponseData = {
-      articles: {
+      cNotes: {
         id: string
         title: string
         publishedDate: string
@@ -52,20 +52,22 @@ describe('GraphQL resolvers', () => {
           singleResult: { data, errors },
         },
       } = (await server.executeOperation<ResponseData>(
-        { query: articlesQuery, variables: { tag: 'CNOTE' } },
+        { query: cNotesQuery },
         { contextValue: serverContext }
       )) as SingleGraphQLResponse<ResponseData>
 
       expect(errors).toBeUndefined()
-      expect(data.articles).toHaveLength(1)
-      expect(data.articles[0].title).toEqual('Test Article')
+      expect(data.cNotes).toHaveLength(1)
+      expect(data.cNotes[0].title).toEqual('Test Article')
     })
   })
 })
 
-const articlesQuery = gql`
-  query GetCNotes($tag: ArticleTag) {
-    articles(tag: $tag) {
+// This query is what the third-party calls,
+// which is why it's querying for cNotes
+const cNotesQuery = gql`
+  query GetCNotes {
+    cNotes {
       id
       title
       publishedDate
@@ -76,6 +78,9 @@ const articlesQuery = gql`
   }
 `
 
+// This data represents what is returned from
+// the keystone API, which is why it's called
+// articles instead of cNotes.
 const testCNote = {
   data: {
     articles: [

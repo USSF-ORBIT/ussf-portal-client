@@ -1,13 +1,13 @@
 import { gql } from 'graphql-tag'
 
-export const GET_PUBLIC_ARTICLES = gql`
-  query GetPublicArticles($publishedDate: DateTime, $tag: String) {
+export const GET_CNOTES = gql`
+  query GetCNotes($publishedDate: DateTime) {
     articles(
       where: {
         status: { equals: Published }
         publishedDate: { lte: $publishedDate }
         category: { equals: InternalNews }
-        tags: { some: { name: { equals: $tag } } }
+        tags: { some: { name: { equals: "C-Note" } } }
       }
       orderBy: [{ publishedDate: desc }]
     ) {
