@@ -1,16 +1,12 @@
 ##--------- Stage: builder ---------##
 # Node image variant name explanations: "bookworm" is the codeword for Debian 12, and "slim" only contains the minimal packages needed to run Node
-FROM node:18.17.0-bookworm-slim AS builder
-
-RUN apt-get update \
-  && apt-get dist-upgrade -y \
-  && apt-get -y --no-install-recommends install openssl libc6 zlib1g
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS builder
 
 WORKDIR /app
 
 COPY ["package*.json", "yarn.lock", "./"]
 
-COPY ./scripts/ /app/scripts/
+COPY ./scripts/copy_uswds_assets.sh /app/scripts/
 
 RUN yarn install --frozen-lockfile
 
@@ -36,7 +32,7 @@ COPY . .
 ##--------- Stage: e2e ---------##
 
 # E2E image for running tests (same as prod but without certs)
-FROM gcr.io/distroless/nodejs18-debian12 AS e2e
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS e2e
 # The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
 # FROM gcr.io/distroless/nodejs:16-debug-arm64 AS e2e
 
@@ -62,10 +58,13 @@ EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
 CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
 
+##--------- Stage: build-openssl ---------##
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18 AS build-openssl
+
 ##--------- Stage: build-env ---------##
 
 # Production image, copy all the files and run next
-FROM node:18.17.0-bookworm-slim AS build-env
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS build-env
 
 WORKDIR /app
 
@@ -73,17 +72,17 @@ COPY --from=builder /app/scripts/add-rds-cas.sh .
 COPY --from=builder /app/scripts/add-dod-cas.sh .
 COPY --from=builder /app/scripts/dod_ca_cert_bundle.sha256 ./scripts/dod_ca_cert_bundle.sha256
 
-RUN apt-get update \
-  && apt-get dist-upgrade -y \
-  && apt-get -y --no-install-recommends install ca-certificates libc6 openssl unzip wget zlib1g
+COPY --from=build-openssl /bin/openssl /bin/openssl
+COPY --from=build-openssl /lib64/ /lib64/
 
-RUN chmod +x add-rds-cas.sh && bash add-rds-cas.sh
-RUN chmod +x add-dod-cas.sh && bash add-dod-cas.sh
+USER root
+RUN chmod +x add-rds-cas.sh && sh add-rds-cas.sh
+RUN chmod +x add-dod-cas.sh && sh add-dod-cas.sh
 RUN cat /usr/local/share/ca-certificates/DoD_Root_CA_3.crt > /usr/local/share/ca-certificates/GCDS.pem
 
 ##--------- Stage: runner ---------##
 
-FROM gcr.io/distroless/nodejs18-debian12 AS runner
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS runner
 # The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
 # FROM gcr.io/distroless/nodejs:16-debug-arm64 AS runner
 
@@ -97,6 +96,9 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+
+COPY --from=build-openssl /bin/openssl /bin/openssl
+COPY --from=build-openssl /lib64/ /lib64/
 
 COPY --from=build-env  ["/app/rds-combined-ca-bundle.pem", "/app/rds-combined-ca-us-gov-bundle.pem", "/app/us-gov-west-1-bundle.pem", "./"]
 COPY --from=build-env /usr/local/share/ca-certificates /usr/local/share/ca-certificates

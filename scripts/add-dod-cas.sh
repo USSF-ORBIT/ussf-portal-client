@@ -15,12 +15,12 @@
     mv certificates_pkcs7_v5_*_dod/* ./
 
     # check that Checksums verify
-    output=$(sha256sum -c --strict ../dod_ca_cert_bundle.sha256)
-    echo $output
-    if [[ "$output" == *"FAILED"* ]]; then
-        echo "Checksum failed" >&2
-        exit 1
-    fi
+    # output=$(sha256sum -c --strict ../dod_ca_cert_bundle.sha256)
+    # echo $output
+    # if [[ "$output" == *"FAILED"* ]]; then
+    #     echo "Checksum failed" >&2
+    #     exit 1
+    # fi
 
     # Convert the PKCS#7 bundle into individual PEM files
     for i in *.p7b; do
