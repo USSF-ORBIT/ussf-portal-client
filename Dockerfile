@@ -1,7 +1,11 @@
+ARG BASE_REGISTRY=registry1.dso.mil
+ARG BASE_IMAGE=ironbank/opensource/nodejs/nodejs18
+ARG BASE_TAG=18.18.2-slim
+ARG OPENSSL_TAG=18:18
+
 ##--------- Stage: builder ---------##
-# Node image variant name explanations: "bookworm" is the codeword for Debian 12, and "slim" only contains the minimal packages needed to run Node
-FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS builder
-# FROM node:18.17.0-bookworm-slim AS builder
+# Node image variant name explanations: "slim" only contains the minimal packages needed to run Node
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS builder
 
 WORKDIR /app
 
@@ -35,9 +39,7 @@ COPY . .
 ##--------- Stage: e2e ---------##
 
 # E2E image for running tests (same as prod but without certs)
-FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS e2e
-# The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
-# FROM gcr.io/distroless/nodejs:16-debug-arm64 AS e2e
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS e2e
 
 WORKDIR /app
 
@@ -62,12 +64,13 @@ ENV NEXT_TELEMETRY_DISABLED 1
 CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
 
 ##--------- Stage: build-openssl ---------##
-FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18 AS build-openssl
+# This image has OpenSSL 3 builtin so we can copy it from here
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${OPENSSL_TAG} AS build-openssl
 
 ##--------- Stage: build-env ---------##
 
 # Production image, copy all the files and run next
-FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS build-env
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS build-env
 
 WORKDIR /app
 
@@ -83,7 +86,7 @@ RUN cat /usr/local/share/ca-certificates/DoD_Root_CA_3.crt > /usr/local/share/ca
 
 ##--------- Stage: runner ---------##
 
-FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS runner
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS runner
 # The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
 # FROM gcr.io/distroless/nodejs:16-debug-arm64 AS runner
 
