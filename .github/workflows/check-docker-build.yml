@@ -36,7 +36,7 @@ jobs:
 
       - name: fetch manifest resources
         run: |
-          docker compose build fetch-manifest-resources
+          docker compose build fetch-manifest-resources -f docker-compose.services.yml
        
         # docker run --rm -v ${GITHUB_WORKSPACE}:/work -it ussf-portal-client-fetch-manifest-resources:latest
 
