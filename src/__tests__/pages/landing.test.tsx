@@ -11,23 +11,33 @@ jest.mock('../../lib/keystoneClient', () => ({
   client: {
     query: () => {
       return {
-        data: {
-          landingPages: mockLandingPages,
-        },
+        data: { landingPages: mockLandingPages },
       }
     },
   },
 }))
 
+type LandingPage = {
+  pageTitle: string
+  slug: string
+}
+
 describe('Landing page index', () => {
   describe('when logged in', () => {
-    test('returns correct props from getServerSideProps', async () => {
-      const response = await getServerSideProps()
+    describe('geServerSideProps', () => {
+      test('returns published pages only', async () => {
+        const response = await getServerSideProps()
+        const published = mockLandingPages
+          .filter((lp) => lp.status === 'Published')
+          .sort((a: LandingPage, b: LandingPage) =>
+            a.pageTitle.localeCompare(b.pageTitle)
+          )
 
-      expect(response).toEqual({
-        props: {
-          landingPages: [...mockLandingPages],
-        },
+        expect(response).toEqual({
+          props: {
+            landingPages: published,
+          },
+        })
       })
     })
 
