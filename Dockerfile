@@ -68,8 +68,7 @@ CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${OPENSSL_TAG} AS build-openssl
 
 ##--------- Stage: build-env ---------##
-
-# Production image, copy all the files and run next
+# Pre-Production image, run scripts and copy outputs to final image
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS build-env
 
 WORKDIR /app
@@ -85,13 +84,12 @@ RUN chmod +x add-dod-cas.sh && sh add-dod-cas.sh
 RUN cat /usr/local/share/ca-certificates/DoD_Root_CA_3.crt > /usr/local/share/ca-certificates/GCDS.pem
 
 ##--------- Stage: runner ---------##
-
+# Final Production image
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS runner
-# The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
-# FROM gcr.io/distroless/nodejs:16-debug-arm64 AS runner
 
 WORKDIR /app
 
+# copy application build artifacts
 COPY ./startup ./startup
 COPY ./migrations ./migrations
 COPY ./utils ./utils
@@ -101,9 +99,11 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
+# copy OpenSSL binary and libraries
 COPY --from=build-openssl /bin/openssl /bin/openssl
 COPY --from=build-openssl /lib64/ /lib64/
 
+# copy resources like dod pki certs and rds certs
 COPY --from=build-env  /app/fetch-manifest-resources/ ./
 COPY --from=build-env /usr/local/share/ca-certificates /usr/local/share/ca-certificates
 COPY --from=build-env /usr/share/ca-certificates /usr/share/ca-certificates
