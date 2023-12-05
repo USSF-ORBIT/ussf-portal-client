@@ -27,11 +27,12 @@ jobs:
         with:
           install: true
 
-      - name: Add DoD Certificate Bundle
-        env:
-          CERT_BUNDLE_SHA256: ${{ secrets.DOD_CA_CERT_BUNDLE_SHA256 }}
-        run: |
-          echo "$CERT_BUNDLE_SHA256" > scripts/dod_ca_cert_bundle.sha256
+      - name: Login to Dev Artifactory Container Registry
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3
+        with:
+          registry: "registry1.dso.mil"
+          username: "Minh_Lai"
+          password: "cyk9dwy9mxy7jbx@NAY"
 
       - name: Build
         uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5
