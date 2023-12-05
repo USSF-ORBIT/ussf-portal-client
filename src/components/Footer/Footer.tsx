@@ -6,6 +6,9 @@ import {
 import Link from 'next/link'
 import styles from './Footer.module.scss'
 
+const FEEDBACK_EMAIL = 'feedback@ussforbit.us'
+const FEEDBACK_SUBJECT = 'USSF portal feedback'
+
 const PortalLogo = () => {
   return <img src="/img/ussf-portal.svg" alt="USSF Portal" />
 }
@@ -22,17 +25,12 @@ const Footer = () => {
               className="flex-justify-center"
               image={<PortalLogo />}
             />
-            <small>
-              ©{new Date().getFullYear()} All rights reserved, USSF Portal
-            </small>
           </div>
-
-          <div className="grid-col-fill" />
-
           <nav className="grid-col-auto usa-footer__nav">
             <div className="grid-row grid-gap">
               <div className="grid-col">
                 <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
+                  <h3>Space Force Portal</h3>
                   <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
                       <Link href="/" rel="noreferrer noopener">
@@ -77,6 +75,7 @@ const Footer = () => {
               </div>
               <div className="grid-col">
                 <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
+                  <h3>Quick Links</h3>
                   <ul className="usa-list usa-list--unstyled">
                     <li className="usa-footer__secondary-link">
                       <Link
@@ -188,6 +187,22 @@ const Footer = () => {
               </div>
             </div>
           </nav>
+          <div className="grid-col-auto">
+            <h3>Got Feedback?</h3>
+            <p>
+              We’d love to hear it! Contact us at{' '}
+              <a
+                href={`mailto:${FEEDBACK_EMAIL}?subject=${FEEDBACK_SUBJECT}`}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="usa-link"
+                onClick={() => trackEvent('Feedback', FEEDBACK_EMAIL)}>
+                {FEEDBACK_EMAIL}
+              </a>{' '}
+              to send us your thoughts or schedule an interview.
+            </p>
+            <p> ©{new Date().getFullYear()} All rights reserved, USSF Portal</p>
+          </div>
         </div>
       }
     />
