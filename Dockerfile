@@ -1,6 +1,6 @@
 ##--------- Stage: builder ---------##
 # Node image variant name explanations: "bookworm" is the codeword for Debian 12, and "slim" only contains the minimal packages needed to run Node
-FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18 AS builder
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS builder
 # FROM node:18.17.0-bookworm-slim AS builder
 
 WORKDIR /app
@@ -14,6 +14,8 @@ RUN yarn install --frozen-lockfile
 COPY ["codegen.yml", "next.config.js", "tsconfig.json", "./"]
 
 COPY ./src/ /app/src/
+
+USER root
 
 RUN yarn prebuild
 
