@@ -69,7 +69,6 @@ FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS build
 
 WORKDIR /app
 
-COPY --from=builder /app/scripts/add-rds-cas.sh .
 COPY --from=builder /app/scripts/add-dod-cas.sh .
 
 COPY --from=build-openssl /bin/openssl /bin/openssl
