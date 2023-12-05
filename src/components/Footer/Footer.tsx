@@ -31,46 +31,52 @@ const Footer = () => {
               <div className="grid-col">
                 <section className="usa-footer__primary-content usa-footer__primary-content--collapsible">
                   <h3>Space Force Portal</h3>
-                  <ul className="usa-list usa-list--unstyled">
-                    <li className="usa-footer__secondary-link">
-                      <Link href="/" rel="noreferrer noopener">
-                        My Space
-                      </Link>
-                    </li>
-                    <li className="usa-footer__secondary-link">
-                      <Link
-                        href="/sites-and-applications"
-                        rel="noreferrer noopener">
-                        Sites & Applications
-                      </Link>
-                    </li>
-                    <li className="usa-footer__secondary-link">
-                      <Link
-                        href="/ussf-documentation"
-                        rel="noreferrer noopener">
-                        USSF Documentation
-                      </Link>
-                    </li>
-                    <li className="usa-footer__secondary-link">
-                      <Link href="/about-us" rel="noreferrer noopener">
-                        About the USSF
-                      </Link>
-                    </li>
-                    <li className="usa-footer__secondary-link">
-                      <Link
-                        href="/about-us/orbit-blog"
-                        rel="noreferrer noopener">
-                        Orbit Blog
-                      </Link>
-                    </li>
-                    <li className="usa-footer__secondary-link">
-                      <Link
-                        href="/news-announcements"
-                        rel="noreferrer noopener">
-                        News & Announcements
-                      </Link>
-                    </li>
-                  </ul>
+                  <div className={styles.flex}>
+                    <ul className="usa-list usa-list--unstyled grid-row grid-gap">
+                      <li className="usa-footer__secondary-link">
+                        <Link href="/" rel="noreferrer noopener">
+                          My Space
+                        </Link>
+                      </li>
+                      <li className="usa-footer__secondary-link">
+                        <Link
+                          href="/sites-and-applications"
+                          rel="noreferrer noopener">
+                          Sites & Applications
+                        </Link>
+                      </li>
+
+                      <li className="usa-footer__secondary-link">
+                        <Link
+                          href="/ussf-documentation"
+                          rel="noreferrer noopener">
+                          USSF Documentation
+                        </Link>
+                      </li>
+                    </ul>
+
+                    <ul className="usa-list usa-list--unstyled grid-row grid-gap">
+                      <li className="usa-footer__secondary-link">
+                        <Link href="/about-us" rel="noreferrer noopener">
+                          About the USSF
+                        </Link>
+                      </li>
+                      <li className="usa-footer__secondary-link">
+                        <Link
+                          href="/about-us/orbit-blog"
+                          rel="noreferrer noopener">
+                          Orbit Blog
+                        </Link>
+                      </li>
+                      <li className="usa-footer__secondary-link">
+                        <Link
+                          href="/news-announcements"
+                          rel="noreferrer noopener">
+                          News & Announcements
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
                 </section>
               </div>
               <div className="grid-col">

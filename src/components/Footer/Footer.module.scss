@@ -6,6 +6,17 @@
   color: var(--footer-text);
   @include u-font-size('body', '2xs');
 
+  h3 {
+    color: white;
+  }
+
+  .flex {
+    display: flex;
+    ul li {
+      min-width: 200px;
+    }
+  }
+
   :global {
     .usa-footer__logo img {
       width: 200px;
