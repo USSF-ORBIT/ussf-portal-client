@@ -12,7 +12,7 @@ describe('SingleArticle component', () => {
   test('renders the article', () => {
     render(<SingleArticle article={testArticle} />)
 
-    const banner = screen.queryByText('Unpublished Article Preview')
+    const banner = screen.queryByText('Draft Article Preview')
     expect(banner).toBeNull()
     expect(screen.getByText('May 18, 2022')).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
@@ -46,7 +46,7 @@ describe('SingleArticle component', () => {
     const unpublished: ArticleRecord = { ...testArticle, status: 'Draft' }
     render(<SingleArticle article={unpublished} />)
 
-    const banner = screen.getByText('Unpublished Article Preview')
+    const banner = screen.getByText('Draft Article Preview')
     expect(banner).toBeVisible()
     expect(banner).toHaveClass('previewBanner')
   })
