@@ -35,7 +35,9 @@ jobs:
           password: "cyk9dwy9mxy7jbx@NAY"
 
       - name: fetch manifest resources
-        run: yarn fetch
+        run: |
+          docker compose build fetch-manifest-resources
+          docker run --rm -v ${GITHUB_WORKSPACE}:/work -it ussf-portal-client-fetch-manifest-resources:latest
 
       - name: Build
         uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5
