@@ -70,13 +70,12 @@ WORKDIR /app
 
 COPY --from=builder /app/scripts/add-rds-cas.sh .
 COPY --from=builder /app/scripts/add-dod-cas.sh .
-COPY --from=builder /app/scripts/dod_ca_cert_bundle.sha256 ./scripts/dod_ca_cert_bundle.sha256
 
 COPY --from=build-openssl /bin/openssl /bin/openssl
 COPY --from=build-openssl /lib64/ /lib64/
 
 USER root
-RUN chmod +x add-rds-cas.sh && sh add-rds-cas.sh
+COPY --from=builder /app/fetch-manifest-resources/ /app/fetch-manifest-resources/
 RUN chmod +x add-dod-cas.sh && sh add-dod-cas.sh
 RUN cat /usr/local/share/ca-certificates/DoD_Root_CA_3.crt > /usr/local/share/ca-certificates/GCDS.pem
 
@@ -100,7 +99,7 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=build-openssl /bin/openssl /bin/openssl
 COPY --from=build-openssl /lib64/ /lib64/
 
-COPY --from=build-env  ["/app/rds-combined-ca-bundle.pem", "/app/rds-combined-ca-us-gov-bundle.pem", "/app/us-gov-west-1-bundle.pem", "./"]
+COPY --from=build-env  /app/fetch-manifest-resources/ ./
 COPY --from=build-env /usr/local/share/ca-certificates /usr/local/share/ca-certificates
 COPY --from=build-env /usr/share/ca-certificates /usr/share/ca-certificates
 COPY --from=build-env /etc/ssl/certs/ /etc/ssl/certs/

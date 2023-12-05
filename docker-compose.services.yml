@@ -110,6 +110,14 @@ services:
       - POSTGRES_PASSWORD=keystonecms
       - POSTGRES_USER=keystone
       - POSTGRES_DB=keystone
+  fetch-manifest-resources:
+    container_name: fetch
+    build:
+      # Uncomment the below line to work with local check out
+      # context: ../ussf-personnel-api/
+      context: https://repo1.dso.mil/dsop/container-hardening-tools/fetch-manifest-resources.git
+      dockerfile: Dockerfile
+    restart: always
 
 volumes:
   portal_data:
