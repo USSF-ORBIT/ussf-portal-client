@@ -1,7 +1,7 @@
 ARG BASE_REGISTRY=registry1.dso.mil
 ARG BASE_IMAGE=ironbank/opensource/nodejs/nodejs18
 ARG BASE_TAG=18.18.2-slim
-ARG OPENSSL_TAG=18:18
+ARG OPENSSL_TAG=18.18
 
 ##--------- Stage: builder ---------##
 # Node image variant name explanations: "slim" only contains the minimal packages needed to run Node
