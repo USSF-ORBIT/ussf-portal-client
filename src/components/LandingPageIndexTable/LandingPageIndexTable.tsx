@@ -2,11 +2,12 @@ import React from 'react'
 import { Table } from '@trussworks/react-uswds'
 import Link from 'next/link'
 import styles from './LandingPageIndexTable.module.scss'
+import { PublishableItemType } from 'types'
 
 type LandingPage = {
   pageTitle: string
   slug: string
-}
+} & PublishableItemType
 
 type LandingPageIndexTableProps = {
   landingPages: LandingPage[]

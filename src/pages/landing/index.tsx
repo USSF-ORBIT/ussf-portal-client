@@ -4,11 +4,12 @@ import LandingPageIndexTable from 'components/LandingPageIndexTable/LandingPageI
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import { GET_LANDING_PAGES } from 'operations/cms/queries/getLandingPages'
 import { client } from 'lib/keystoneClient'
+import { PublishableItemType } from 'types'
 
 type LandingPage = {
   pageTitle: string
   slug: string
-}
+} & PublishableItemType
 
 const Landing = ({
   landingPages,
