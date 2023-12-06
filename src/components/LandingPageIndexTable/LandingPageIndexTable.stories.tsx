@@ -16,6 +16,12 @@ const testLandingPages = [
     status: 'Published' as 'Draft' | 'Published' | 'Archived',
   },
   {
+    pageTitle: 'Test Landing Page 4',
+    slug: 'test-landing-page-4',
+    publishedDate: DateTime.now().toISO()!,
+    status: 'Archived' as 'Draft' | 'Published' | 'Archived',
+  },
+  {
     pageTitle: 'Test Landing Page 2',
     slug: 'test-landing-page-2',
     publishedDate: DateTime.now().toISO()!,
@@ -25,7 +31,7 @@ const testLandingPages = [
     pageTitle: 'Test Landing Page 3',
     slug: 'test-landing-page-3',
     publishedDate: DateTime.now().toISO()!,
-    status: 'Published' as 'Draft' | 'Published' | 'Archived',
+    status: 'Draft' as 'Draft' | 'Published' | 'Archived',
   },
 ]
 

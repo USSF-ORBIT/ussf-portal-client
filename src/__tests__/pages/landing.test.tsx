@@ -25,17 +25,16 @@ type LandingPage = {
 describe('Landing page index', () => {
   describe('when logged in', () => {
     describe('geServerSideProps', () => {
-      test('returns published pages only', async () => {
+      test('returns sorted landing pages', async () => {
         const response = await getServerSideProps()
-        const published = mockLandingPages
-          .filter((lp) => lp.status === 'Published')
-          .sort((a: LandingPage, b: LandingPage) =>
+        const expectedSortedPages = mockLandingPages.sort(
+          (a: LandingPage, b: LandingPage) =>
             a.pageTitle.localeCompare(b.pageTitle)
-          )
+        )
 
         expect(response).toEqual({
           props: {
-            landingPages: published,
+            landingPages: expectedSortedPages,
           },
         })
       })

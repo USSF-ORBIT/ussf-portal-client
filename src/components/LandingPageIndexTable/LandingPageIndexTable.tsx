@@ -1,7 +1,8 @@
 import React from 'react'
-import { Table } from '@trussworks/react-uswds'
+import { Table, Tag } from '@trussworks/react-uswds'
 import Link from 'next/link'
 import styles from './LandingPageIndexTable.module.scss'
+import { isPublished } from 'helpers/index'
 import { PublishableItemType } from 'types'
 
 type LandingPage = {
@@ -20,12 +21,16 @@ const LandingPageIndexTable = ({
     <Table bordered striped className={`usa-table--borderless ${styles.table}`}>
       <tbody>
         {landingPages.map((landingPage: LandingPage) => {
+          const rowId = `landing_page_${landingPage.slug}`
           return (
-            <tr key={`landing_page_` + landingPage.slug}>
+            <tr id={rowId} key={rowId}>
               <td>
                 <Link href={`/landing/${landingPage.slug}`}>
                   {landingPage.pageTitle}
                 </Link>
+                {isPublished(landingPage) ? null : (
+                  <Tag className={styles.status}>{landingPage.status}</Tag>
+                )}
               </td>
             </tr>
           )

@@ -1,5 +1,4 @@
 import { InferGetServerSidePropsType } from 'next'
-import { isPublished } from '../../helpers'
 import LandingPageIndexTable from 'components/LandingPageIndexTable/LandingPageIndexTable'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import { GET_LANDING_PAGES } from 'operations/cms/queries/getLandingPages'
@@ -33,16 +32,11 @@ export async function getServerSideProps() {
     query: GET_LANDING_PAGES,
   })
 
-  // Filter out draft landing pages
-  // TODO: Update this and the landing page table component to show
-  // a draft label or something so that CMS users can see the draft
-  // page in the list and know it's draft.
+  // Sort landing pages
   const sortableCopy = [...landingPages]
-  const sortedLandingPages = sortableCopy
-    .filter(isPublished)
-    .sort((a: LandingPage, b: LandingPage) =>
-      a.pageTitle.localeCompare(b.pageTitle)
-    )
+  const sortedLandingPages = sortableCopy.sort(
+    (a: LandingPage, b: LandingPage) => a.pageTitle.localeCompare(b.pageTitle)
+  )
   return {
     props: {
       landingPages: sortedLandingPages,
