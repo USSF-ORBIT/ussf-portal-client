@@ -159,11 +159,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     variables: { slug },
   })
 
-  if (!landingPage) {
-    return {
-      notFound: true,
-    }
-  }
   // if landing page is not published or not found return 404
   // unless the current user is a CMS user or admin
   // then allow them to see any article

@@ -1,9 +1,11 @@
-import { InferGetServerSidePropsType } from 'next'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import LandingPageIndexTable from 'components/LandingPageIndexTable/LandingPageIndexTable'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import { GET_LANDING_PAGES } from 'operations/cms/queries/getLandingPages'
 import { client } from 'lib/keystoneClient'
 import { PublishableItemType } from 'types'
+import { isCmsUser, isPublished } from 'helpers/index'
+import { getSession } from 'lib/session'
 
 type LandingPage = {
   pageTitle: string
@@ -25,7 +27,10 @@ export default Landing
 
 Landing.getLayout = (page: JSX.Element) => withDefaultLayout(page, false)
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await getSession(req, res)
+  const user = session?.passport?.user
+
   const {
     data: { landingPages },
   } = await client.query({
@@ -34,12 +39,26 @@ export async function getServerSideProps() {
 
   // Sort landing pages
   const sortableCopy = [...landingPages]
-  const sortedLandingPages = sortableCopy.sort(
-    (a: LandingPage, b: LandingPage) => a.pageTitle.localeCompare(b.pageTitle)
-  )
-  return {
-    props: {
-      landingPages: sortedLandingPages,
-    },
+  if (isCmsUser(user)) {
+    const sortedLandingPages = sortableCopy.sort(
+      (a: LandingPage, b: LandingPage) => a.pageTitle.localeCompare(b.pageTitle)
+    )
+    return {
+      props: {
+        landingPages: sortedLandingPages,
+      },
+    }
+  } else {
+    // non cms user filter out draft and archived pages
+    const sortedLandingPages = sortableCopy
+      .filter(isPublished)
+      .sort((a: LandingPage, b: LandingPage) =>
+        a.pageTitle.localeCompare(b.pageTitle)
+      )
+    return {
+      props: {
+        landingPages: sortedLandingPages,
+      },
+    }
   }
 }
