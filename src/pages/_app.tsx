@@ -31,14 +31,11 @@ type Page<P = Record<string, never>> = NextPage<P> & {
 
 type Props = AppProps & {
   Component: Page
-  hostname: {
-    origin: string
-  }
+  canonicalUrl: string
   pageProps: Record<string, never>
 }
 
-const USSFPortalApp = ({ Component, pageProps }: Props) => {
-  const canonicalUrl = process.env.NEXT_PUBLIC_PORTAL_URL
+const USSFPortalApp = ({ Component, pageProps, canonicalUrl }: Props) => {
   const { asPath } = useRouter()
 
   const pageTitle = pageProps.pageTitle
@@ -190,7 +187,8 @@ const USSFPortalApp = ({ Component, pageProps }: Props) => {
 
 USSFPortalApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext)
-  return { ...appProps }
+  const canonicalUrl = process.env.NEXT_PUBLIC_PORTAL_URL
+  return { ...appProps, canonicalUrl }
 }
 
 export default USSFPortalApp
