@@ -76,7 +76,7 @@ describe('Search page getServerSideProps', () => {
           ...r,
           permalink:
             r.type === 'Article'
-              ? `http://localhost/articles/${r.permalink}`
+              ? `http://example.com/articles/${r.permalink}`
               : r.permalink,
         })),
       },
@@ -102,6 +102,8 @@ describe('Search page', () => {
   })
 
   describe('when logged in', () => {
+    process.env.NEXT_PUBLIC_PORTAL_URL = 'http://example.com'
+
     test('renders an empty state if there is no query', async () => {
       renderWithAuth(
         <SearchPage
@@ -173,7 +175,7 @@ describe('Search page', () => {
         ...r,
         permalink:
           r.type === 'Article'
-            ? `http://localhost/articles/${r.permalink}`
+            ? `http://example.com/articles/${r.permalink}`
             : r.permalink,
       }))
       renderWithAuth(
@@ -198,7 +200,7 @@ describe('Search page', () => {
         ...r,
         permalink:
           r.type === 'Article'
-            ? `http://localhost/articles/${r.permalink}`
+            ? `http://example.com/articles/${r.permalink}`
             : r.permalink,
       }))
 
