@@ -20,7 +20,6 @@ import { MySpaceProvider } from 'stores/myspaceContext'
 import { SearchProvider } from 'stores/searchContext'
 import { ModalProvider } from 'stores/modalContext'
 import DefaultLayout from 'layout/DefaultLayout/DefaultLayout'
-
 import { LaunchDarkly } from 'stores/launchDarklyContext'
 
 config.autoAddCss = false
@@ -37,7 +36,6 @@ type Props = AppProps & {
 
 const USSFPortalApp = ({ Component, pageProps, canonicalUrl }: Props) => {
   const { asPath } = useRouter()
-
   const pageTitle = pageProps.pageTitle
     ? `${pageProps.pageTitle} - USSF Portal`
     : 'USSF Portal'
