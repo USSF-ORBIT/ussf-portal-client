@@ -20,7 +20,7 @@ import { MySpaceProvider } from 'stores/myspaceContext'
 import { SearchProvider } from 'stores/searchContext'
 import { ModalProvider } from 'stores/modalContext'
 import DefaultLayout from 'layout/DefaultLayout/DefaultLayout'
-import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
+
 import { LaunchDarkly } from 'stores/launchDarklyContext'
 
 config.autoAddCss = false
@@ -37,9 +37,10 @@ type Props = AppProps & {
   pageProps: Record<string, never>
 }
 
-const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
-  const canonicalUrl = hostname.origin
+const USSFPortalApp = ({ Component, pageProps }: Props) => {
+  const canonicalUrl = process.env.NEXT_PUBLIC_PORTAL_URL
   const { asPath } = useRouter()
+
   const pageTitle = pageProps.pageTitle
     ? `${pageProps.pageTitle} - USSF Portal`
     : 'USSF Portal'
@@ -189,9 +190,7 @@ const USSFPortalApp = ({ Component, pageProps, hostname }: Props) => {
 
 USSFPortalApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext)
-  const hostname = getAbsoluteUrl(appContext.ctx.req)
-
-  return { ...appProps, hostname }
+  return { ...appProps }
 }
 
 export default USSFPortalApp
