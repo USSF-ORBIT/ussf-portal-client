@@ -39,6 +39,13 @@ const testLandingPages = [
     publishedDate: DateTime.now().plus({ weeks: 2 }).toISO()!,
     status: 'Published' as 'Draft' | 'Published' | 'Archived',
   },
+  {
+    pageTitle:
+      'Test Landing Page 6 with a really long title to ensure that the table is responsive',
+    slug: 'test-landing-page-6',
+    publishedDate: DateTime.now().plus({ weeks: 3 }).toISO()!,
+    status: 'Published' as 'Draft' | 'Published' | 'Archived',
+  },
 ]
 
 export const ExampleLandingPageIndexTable = () => (
