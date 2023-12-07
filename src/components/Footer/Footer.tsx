@@ -1,5 +1,9 @@
 import React from 'react'
-import { Footer as USWDSFooter, Grid } from '@trussworks/react-uswds'
+import {
+  Footer as USWDSFooter,
+  Grid,
+  GridContainer,
+} from '@trussworks/react-uswds'
 import Link from 'next/link'
 import styles from './Footer.module.scss'
 
@@ -10,24 +14,49 @@ const PortalLogo = () => {
   return <img src="/img/ussf-portal.svg" alt="USSF Portal" />
 }
 
+const returnToTop = (
+  <GridContainer className="usa-footer__return-to-top">
+    <a href="#top">Return to top</a>
+  </GridContainer>
+)
+
 const Footer = () => {
   return (
     <USWDSFooter
+      returnToTop={returnToTop}
       className={styles.footer}
       primary={<></>}
       secondary={
-        <Grid row gap>
-          <Grid
-            row
-            col
-            desktop={{ col: 4 }}
-            tablet={{ col: 8 }}
-            mobileLg={{ col: 12 }}>
+        <Grid row gap className={`flex-justify` + ` ` + styles.footerWrap}>
+          <Grid row gap col="auto">
             <PortalLogo />
             <Grid col>
               <h3>Space Force Portal</h3>
-              <Grid row>
-                <Grid col>
+              <Grid row gap className={styles.miniRow}>
+                <Grid col className={styles.miniCol}>
+                  <ul className="usa-list usa-list--unstyled">
+                    <li className="usa-footer__secondary-link">
+                      <Link href="/about-us" rel="noreferrer noopener">
+                        About the USSF
+                      </Link>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <Link
+                        href="/about-us/orbit-blog"
+                        rel="noreferrer noopener">
+                        Orbit Blog
+                      </Link>
+                    </li>
+                    <li className="usa-footer__secondary-link">
+                      <Link
+                        href="/news-announcements"
+                        rel="noreferrer noopener">
+                        News & Announcements
+                      </Link>
+                    </li>
+                  </ul>
+                </Grid>
+                <Grid col className={styles.miniCol}>
                   <ul className="usa-list usa-list--unstyled ">
                     <li className="usa-footer__secondary-link">
                       <Link href="/" rel="noreferrer noopener">
@@ -51,40 +80,14 @@ const Footer = () => {
                     </li>
                   </ul>
                 </Grid>
-                <Grid col>
-                  <ul className="usa-list usa-list--unstyled">
-                    <li className="usa-footer__secondary-link">
-                      <Link href="/about-us" rel="noreferrer noopener">
-                        About the USSF
-                      </Link>
-                    </li>
-                    <li className="usa-footer__secondary-link">
-                      <Link
-                        href="/about-us/orbit-blog"
-                        rel="noreferrer noopener">
-                        Orbit Blog
-                      </Link>
-                    </li>
-                    <li className="usa-footer__secondary-link">
-                      <Link
-                        href="/news-announcements"
-                        rel="noreferrer noopener">
-                        News & Announcements
-                      </Link>
-                    </li>
-                  </ul>
-                </Grid>
               </Grid>
             </Grid>
           </Grid>
-          <Grid
-            col
-            desktop={{ col: 5 }}
-            tablet={{ col: 8 }}
-            mobileLg={{ col: 12 }}>
+          <Grid className={styles.border}></Grid>
+          <Grid col="auto">
             <h3>Quick Links</h3>
-            <Grid row col>
-              <Grid col>
+            <Grid row gap className={styles.miniRow}>
+              <Grid col className={styles.miniCol}>
                 <ul className="usa-list usa-list--unstyled">
                   <li className="usa-footer__secondary-link">
                     <Link
@@ -143,7 +146,7 @@ const Footer = () => {
                   </li>
                 </ul>
               </Grid>
-              <Grid col>
+              <Grid col className={styles.miniCol}>
                 <ul className="usa-list usa-list--unstyled">
                   <li className="usa-footer__secondary-link">
                     <Link
@@ -193,10 +196,11 @@ const Footer = () => {
               </Grid>
             </Grid>
           </Grid>
+          <Grid className={styles.border}></Grid>
           <Grid
             col
             desktop={{ col: 3 }}
-            tablet={{ col: 8 }}
+            tabletLg={{ col: 8 }}
             mobileLg={{ col: 12 }}>
             <h3>Got Feedback?</h3>
             <p>
