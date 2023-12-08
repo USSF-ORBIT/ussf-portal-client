@@ -12,7 +12,6 @@ import { GET_LABELS } from 'operations/cms/queries/getLabels'
 import { SearchBanner } from 'components/SearchBanner/SearchBanner'
 import { SearchResultItem } from 'components/SearchResultItem/SearchResultItem'
 import { SearchResultRecord } from 'types/index'
-import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
 import styles from 'styles/pages/search.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { useUser } from 'hooks/useUser'
@@ -133,8 +132,7 @@ Search.getLayout = (page: React.ReactNode) => withArticleLayout(page)
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // Need absolute URL
-  const { req } = context
-  const { origin } = getAbsoluteUrl(req)
+  const origin = process.env.NEXT_PUBLIC_PORTAL_URL
 
   // get search terms from URL params
   const { q } = context.query
