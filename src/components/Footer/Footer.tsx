@@ -83,7 +83,7 @@ const Footer = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid className={styles.border}></Grid>
+          <Grid col="auto" className={styles.border}></Grid>
           <Grid col="auto">
             <h3>Quick Links</h3>
             <Grid row gap className={styles.miniRow}>
@@ -196,12 +196,8 @@ const Footer = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid className={styles.border}></Grid>
-          <Grid
-            col
-            desktop={{ col: 3 }}
-            tabletLg={{ col: 8 }}
-            mobileLg={{ col: 12 }}>
+          <Grid col="auto" className={styles.border}></Grid>
+          <Grid col="auto">
             <h3>Got Feedback?</h3>
             <p>
               We’d love to hear it! Contact us at{' '}
