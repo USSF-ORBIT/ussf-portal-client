@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.27.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.26.0...4.27.0) (2023-12-07)
+
+
+### Features
+
+* Adds new graphql server for thirdparty api ([#1169](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1169)) ([646c44b](https://github.com/USSF-ORBIT/ussf-portal-client/commit/646c44b6979c6e69c997d13684cbeb5499157fbd))
+
+
+### Bug Fixes
+
+* Pass in correct hostname to search results page and _app.tsx ([#1177](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1177)) ([0dea0c9](https://github.com/USSF-ORBIT/ussf-portal-client/commit/0dea0c97e3ab50447064222db779a03e02c59c6d))
+* Redirect bug ([#1178](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1178)) ([28afe01](https://github.com/USSF-ORBIT/ussf-portal-client/commit/28afe018332224823cf2ed4011a1668ac9add8eb))
+
 ## [4.26.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.25.0...4.26.0) (2023-11-28)
 
 
