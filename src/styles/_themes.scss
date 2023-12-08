@@ -191,7 +191,7 @@ $dark-gradient: linear-gradient(
   // Footer
   --footer-bg: #{$theme-spacebase-darkest};
   --footer-text: #{$theme-ultraviolet-lighter};
-  --footer-border: #{$theme-ultraviolet-lightest};
+  --footer-border: #{$theme-ultraviolet-dark};
 
   // Articles
   --article-link-text: #{$theme-black};
@@ -465,7 +465,7 @@ $dark-gradient: linear-gradient(
   // Footer
   --footer-bg: #{$theme-spacebase-darkest};
   --footer-text: #{$theme-ultraviolet-muted-lighter};
-  --footer-border: #{$theme-ultraviolet-lightest};
+  --footer-border: #{$theme-ultraviolet-dark};
   // Accordion
   --accordion-title: #{$white};
   --accordion-btn-bg: #{$theme-spacebase-darkest};

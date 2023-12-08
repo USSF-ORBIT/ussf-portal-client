@@ -10,7 +10,7 @@
     border-bottom: 1px solid var(--footer-border);
     padding-right: 0;
     height: 1px;
-    margin: 2rem 0 2rem 1rem;
+    margin: 1rem 0 2rem 1rem;
     padding: 0 0;
   }
 
@@ -22,13 +22,7 @@
 
   p {
     color: white;
-    max-width: 300px;
-  }
-
-  a:hover,
-  a:focus {
-    text-decoration: underline;
-    color: white;
+    max-width: 281px;
   }
 
   ul li a,
@@ -52,6 +46,11 @@
   :global {
     .usa-footer__secondary-link {
       margin-left: 0;
+      a:hover,
+      a:focus {
+        text-decoration: underline;
+        color: white;
+      }
     }
     .usa-footer__return-to-top {
       background: #000;
@@ -72,6 +71,11 @@
         color: var(--footer-text);
         text-decoration: none;
         font-weight: 600;
+        &:hover,
+        &:focus {
+          text-decoration: underline;
+          color: white;
+        }
       }
     }
 

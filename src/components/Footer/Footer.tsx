@@ -205,7 +205,6 @@ const Footer = () => {
                 href={`mailto:${FEEDBACK_EMAIL}?subject=${FEEDBACK_SUBJECT}`}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="usa-link"
                 onClick={() => trackEvent('Feedback', FEEDBACK_EMAIL)}>
                 {FEEDBACK_EMAIL}
               </a>{' '}
