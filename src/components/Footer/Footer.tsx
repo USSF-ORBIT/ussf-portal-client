@@ -5,10 +5,8 @@ import {
   GridContainer,
 } from '@trussworks/react-uswds'
 import Link from 'next/link'
+import FeedbackCard from '../FeedbackCard/FeedbackCard'
 import styles from './Footer.module.scss'
-
-const FEEDBACK_EMAIL = 'feedback@ussforbit.us'
-const FEEDBACK_SUBJECT = 'USSF portal feedback'
 
 const PortalLogo = () => {
   return <img src="/img/ussf-portal.svg" alt="USSF Portal" />
@@ -198,19 +196,7 @@ const Footer = () => {
           </Grid>
           <Grid col="auto" className={styles.border}></Grid>
           <Grid col="auto">
-            <h3>Got Feedback?</h3>
-            <p>
-              We’d love to hear it! Contact us at{' '}
-              <a
-                href={`mailto:${FEEDBACK_EMAIL}?subject=${FEEDBACK_SUBJECT}`}
-                target="_blank"
-                rel="noreferrer noopener"
-                onClick={() => trackEvent('Feedback', FEEDBACK_EMAIL)}>
-                {FEEDBACK_EMAIL}
-              </a>{' '}
-              to send us your thoughts or schedule an interview.
-            </p>
-            <p> ©{new Date().getFullYear()} All rights reserved, USSF Portal</p>
+            <FeedbackCard />
           </Grid>
         </Grid>
       }

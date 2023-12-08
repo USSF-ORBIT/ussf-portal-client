@@ -15,7 +15,7 @@ import { useUser } from 'hooks/useUser'
 import { MySpace } from 'types'
 
 const DefaultLayout = ({
-  displayFeedbackCard = true,
+  displayFeedbackCard = false,
   rightSidebar = undefined,
   children,
 }: {
