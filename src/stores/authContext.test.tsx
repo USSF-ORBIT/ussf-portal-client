@@ -226,9 +226,9 @@ describe('Auth context', () => {
     test('passes pathname as RelayState if not on login page', async () => {
       mockedUseRouter.mockReturnValue({
         route: '',
-        pathname: expectedPathname,
+        pathname: '/path/to/redirect',
         query: '',
-        asPath: '',
+        asPath: '/path/to/redirect',
         push: jest.fn(),
         replace: mockReplace,
       })
@@ -247,7 +247,7 @@ describe('Auth context', () => {
         expect(mockedAxios.get).toHaveBeenCalledWith('/api/auth/user')
         expect(result.current.user).toEqual(null)
         expect(mockReplace).toHaveBeenCalledWith(
-          `/login?redirectTo=${expectedPathname}`
+          `/login?redirectTo=/path/to/redirect`
         )
       })
     })
