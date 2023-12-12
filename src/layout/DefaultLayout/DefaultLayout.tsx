@@ -59,7 +59,7 @@ const DefaultLayout = ({
           <GridContainer>
             <Grid row gap>
               {/* LEFT SIDEBAR */}
-              <Grid desktop={3}>
+              <Grid desktop={{ col: 3 }}>
                 <PageNav />
               </Grid>
               <Grid desktop={{ col: true }}>
