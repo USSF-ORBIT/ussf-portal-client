@@ -8,6 +8,12 @@
   flex-direction: column;
   min-height: 100vh;
 
+  .stickyHeader {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+  }
+
   :global {
     // Dark theme gov banner
     @include gov-banner;

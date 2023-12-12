@@ -50,8 +50,10 @@ const DefaultLayout = ({
         Skip to main content
       </a>
       <div className={`${styles.siteContainer} sfds`}>
-        <GovBanner tld=".mil" />
-        <Header />
+        <div className={styles.stickyHeader}>
+          <GovBanner tld=".mil" />
+          <Header />
+        </div>
         <main id="main-content">
           <PageHeader>
             <PersonalData userDisplayName={displayName} />
