@@ -30,5 +30,12 @@
     color: var(--text);
     flex: 1;
     padding-bottom: units(7);
+    padding-top: 80px;
+    @include sfds-at-media('tablet') {
+      padding-top: 100px;
+    }
+    @include sfds-at-media('tablet-lg') {
+      padding-top: 123px;
+    }
   }
 }
