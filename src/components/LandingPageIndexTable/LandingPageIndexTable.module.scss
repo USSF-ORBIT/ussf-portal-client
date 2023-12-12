@@ -22,12 +22,9 @@
 
   .status {
     color: $theme-spacebase-dark;
+    background: $theme-mars-light;
     position: relative;
     float: right;
-  }
-
-  :global(.usa-tag.Draft) {
-    background: $theme-mars-light;
   }
   :global(.usa-tag.Archived) {
     @include u-bg('blue-cool-20');
