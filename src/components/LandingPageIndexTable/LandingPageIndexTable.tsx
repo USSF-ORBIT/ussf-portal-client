@@ -3,7 +3,6 @@ import { Table, Tag } from '@trussworks/react-uswds'
 import Link from 'next/link'
 import { DateTime } from 'luxon'
 import styles from './LandingPageIndexTable.module.scss'
-import { isPublished } from 'helpers/index'
 import { PublishableItemType } from 'types'
 
 type LandingPage = {
@@ -38,9 +37,10 @@ const LandingPageIndexTable = ({
                 <Link href={`/landing/${landingPage.slug}`}>
                   {landingPage.pageTitle}
                 </Link>
-                {isPublished(landingPage) ? null : (
-                  <Tag className={styles.status}>{status}</Tag>
-                )}
+
+                <Tag className={`${styles.status} ${landingPage.status}`}>
+                  {status}
+                </Tag>
               </td>
             </tr>
           )
