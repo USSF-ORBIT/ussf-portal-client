@@ -82,7 +82,7 @@ describe('GuardianDirectory', () => {
         )
         expect(screen.getByTestId(`${idx}_Rank`)).toHaveTextContent(value.Rank)
         expect(screen.getByTestId(`${idx}_DutyTitle`)).toHaveTextContent(
-          value.DutyTitle.toUpperCase()
+          value.DutyTitle
         )
         expect(screen.getByTestId(`${idx}_BaseLoc`)).toHaveTextContent(
           value.BaseLoc
