@@ -34,14 +34,6 @@ export const GuardianDirectoryTable = ({
                 // eslint-disable-next-line security/detect-object-injection
                 const rowValue = row[k]
 
-                if (k === 'DutyTitle') {
-                  return (
-                    <td data-testid={`${id}_${k}`} key={`td_${k}`}>
-                      {rowValue.toUpperCase()}
-                    </td>
-                  )
-                }
-
                 return (
                   <td data-testid={`${id}_${k}`} key={`td_${k}`}>
                     {rowValue}
