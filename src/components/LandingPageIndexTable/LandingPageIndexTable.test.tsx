@@ -7,6 +7,7 @@ import { DateTime } from 'luxon'
 import LandingPageIndexTable from './LandingPageIndexTable'
 
 const expectedFutueDate = DateTime.now().plus({ weeks: 2 })
+const expectedPastDate = DateTime.now().minus({ weeks: 2 })
 const testLandingPages = [
   {
     pageTitle: 'Test Landing Page 1',
@@ -17,7 +18,7 @@ const testLandingPages = [
   {
     pageTitle: 'Test Landing Page 2',
     slug: 'test-landing-page-2',
-    publishedDate: DateTime.now().toISO()!,
+    publishedDate: expectedPastDate.toISO()!,
     status: 'Published' as 'Draft' | 'Published' | 'Archived',
   },
   {
@@ -63,18 +64,16 @@ describe('LandingPageIndexTable', () => {
     expect(draftTag).toHaveTextContent('Draft')
   })
 
-  test('renders no tag for page published in past', () => {
+  test('renders tag for page published in past', () => {
     render(<LandingPageIndexTable landingPages={testLandingPages} />)
 
     const rows = document.querySelectorAll('tr')
 
-    // expect published pages to not have a tag
-    const noTag = rows[1].querySelector('td')?.querySelector('span')
-    expect(noTag).toBeNull()
-
-    // expect archived page to have a tag
-    const archivedTag = rows[3].querySelector('td')?.querySelector('span')
-    expect(archivedTag).toHaveTextContent('Archived')
+    // expect published page to have a tag
+    const published = rows[1].querySelector('td')?.querySelector('span')
+    expect(published).toHaveTextContent(
+      `Published on: ${expectedPastDate.toFormat('dd MMM yyyy HH:mm')}`
+    )
   })
 
   test('renders published tag for page published in the future', () => {
@@ -82,11 +81,7 @@ describe('LandingPageIndexTable', () => {
 
     const rows = document.querySelectorAll('tr')
 
-    // expect published pages to not have a tag
-    const noTag = rows[1].querySelector('td')?.querySelector('span')
-    expect(noTag).toBeNull()
-
-    // expect archived page to have a tag
+    // expect published page to have a tag
     const published = rows[4].querySelector('td')?.querySelector('span')
     expect(published).toHaveTextContent(
       `Publishing on: ${expectedFutueDate.toFormat('dd MMM yyyy HH:mm')}`

@@ -22,12 +22,18 @@ const LandingPageIndexTable = ({
       <tbody>
         {landingPages.map((landingPage: LandingPage) => {
           const rowId = `landing_page_${landingPage.slug}`
+          // if the date is in the past we want to show past tense text
+          const publishText =
+            landingPage.publishedDate &&
+            DateTime.fromISO(landingPage.publishedDate) > DateTime.now()
+              ? 'Publishing'
+              : 'Published'
           // if a future publish date is set format the date for display
           // we don't need to check if the date is in the future as the
           // isPublished helper function will return false if the date is in the future
           const status =
             landingPage.status === 'Published'
-              ? `Publishing on: ${DateTime.fromISO(
+              ? `${publishText} on: ${DateTime.fromISO(
                   landingPage.publishedDate
                 ).toFormat('dd MMM yyyy HH:mm')}`
               : landingPage.status
