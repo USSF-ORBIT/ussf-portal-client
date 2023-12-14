@@ -35,8 +35,8 @@ const GuardianDirectory = () => {
       <h1>Guardian Directory</h1>
       <GuardianDirectoryTable
         headers={[
-          'First Name',
           'Last Name',
+          'First Name',
           'Rank',
           'Title',
           'Base',
@@ -44,8 +44,8 @@ const GuardianDirectory = () => {
           'Email',
         ]}
         keys={[
-          'FirstName',
           'LastName',
+          'FirstName',
           'Rank',
           'DutyTitle',
           'BaseLoc',
