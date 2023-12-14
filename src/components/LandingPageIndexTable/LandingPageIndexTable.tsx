@@ -12,10 +12,12 @@ type LandingPage = {
 
 type LandingPageIndexTableProps = {
   landingPages: LandingPage[]
+  showStatus: boolean
 }
 
 const LandingPageIndexTable = ({
   landingPages,
+  showStatus,
 }: LandingPageIndexTableProps) => {
   return (
     <Table bordered striped className={`usa-table--borderless ${styles.table}`}>
@@ -44,9 +46,11 @@ const LandingPageIndexTable = ({
                   {landingPage.pageTitle}
                 </Link>
 
-                <Tag className={`${styles.status} ${landingPage.status}`}>
-                  {status}
-                </Tag>
+                {showStatus ? (
+                  <Tag className={`${styles.status} ${landingPage.status}`}>
+                    {status}
+                  </Tag>
+                ) : null}
               </td>
             </tr>
           )

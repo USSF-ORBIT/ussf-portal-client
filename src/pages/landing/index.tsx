@@ -14,11 +14,15 @@ type LandingPage = {
 
 const Landing = ({
   landingPages,
+  showStatus,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <div>
       <h1>Landing Pages</h1>
-      <LandingPageIndexTable landingPages={landingPages} />
+      <LandingPageIndexTable
+        landingPages={landingPages}
+        showStatus={showStatus}
+      />
     </div>
   )
 }
@@ -46,6 +50,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     return {
       props: {
         landingPages: sortedLandingPages,
+        showStatus: true,
       },
     }
   } else {
@@ -58,6 +63,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     return {
       props: {
         landingPages: sortedLandingPages,
+        showStatus: false,
       },
     }
   }

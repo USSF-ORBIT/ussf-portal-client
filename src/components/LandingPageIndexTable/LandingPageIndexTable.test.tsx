@@ -43,7 +43,12 @@ const testLandingPages = [
 
 describe('LandingPageIndexTable', () => {
   test('renders without error', () => {
-    render(<LandingPageIndexTable landingPages={testLandingPages} />)
+    render(
+      <LandingPageIndexTable
+        landingPages={testLandingPages}
+        showStatus={true}
+      />
+    )
 
     const table = document.querySelector('table')
     expect(table).toBeInTheDocument()
@@ -55,7 +60,12 @@ describe('LandingPageIndexTable', () => {
   })
 
   test('renders draft tag for draft page', () => {
-    render(<LandingPageIndexTable landingPages={testLandingPages} />)
+    render(
+      <LandingPageIndexTable
+        landingPages={testLandingPages}
+        showStatus={true}
+      />
+    )
 
     const rows = document.querySelectorAll('tr')
 
@@ -65,7 +75,12 @@ describe('LandingPageIndexTable', () => {
   })
 
   test('renders tag for page published in past', () => {
-    render(<LandingPageIndexTable landingPages={testLandingPages} />)
+    render(
+      <LandingPageIndexTable
+        landingPages={testLandingPages}
+        showStatus={true}
+      />
+    )
 
     const rows = document.querySelectorAll('tr')
 
@@ -77,7 +92,12 @@ describe('LandingPageIndexTable', () => {
   })
 
   test('renders published tag for page published in the future', () => {
-    render(<LandingPageIndexTable landingPages={testLandingPages} />)
+    render(
+      <LandingPageIndexTable
+        landingPages={testLandingPages}
+        showStatus={true}
+      />
+    )
 
     const rows = document.querySelectorAll('tr')
 
@@ -89,12 +109,34 @@ describe('LandingPageIndexTable', () => {
   })
 
   test('renders archived tag for archived page', () => {
-    render(<LandingPageIndexTable landingPages={testLandingPages} />)
+    render(
+      <LandingPageIndexTable
+        landingPages={testLandingPages}
+        showStatus={true}
+      />
+    )
 
     const rows = document.querySelectorAll('tr')
 
     // expect archived page to have a tag
     const archivedTag = rows[3].querySelector('td')?.querySelector('span')
     expect(archivedTag).toHaveTextContent('Archived')
+  })
+
+  test('renders no status tags if showStatus false', () => {
+    render(
+      <LandingPageIndexTable
+        landingPages={testLandingPages}
+        showStatus={false}
+      />
+    )
+
+    const rows = document.querySelectorAll('tr')
+
+    // expect all pages to not have a tag
+    rows.forEach((row) => {
+      const noTag = row.querySelector('td')?.querySelector('span')
+      expect(noTag).toBeNull()
+    })
   })
 })

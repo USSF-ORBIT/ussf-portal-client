@@ -48,6 +48,10 @@ const testLandingPages = [
   },
 ]
 
-export const ExampleLandingPageIndexTable = () => (
-  <LandingPageIndexTable landingPages={testLandingPages} />
+export const ShowStatus = () => (
+  <LandingPageIndexTable landingPages={testLandingPages} showStatus={true} />
+)
+
+export const HideStatus = () => (
+  <LandingPageIndexTable landingPages={testLandingPages} showStatus={false} />
 )

@@ -51,6 +51,7 @@ describe('Landing page index', () => {
         expect(response).toEqual({
           props: {
             landingPages: expectedSortedPages,
+            showStatus: false,
           },
         })
       })
@@ -68,6 +69,7 @@ describe('Landing page index', () => {
         expect(response).toEqual({
           props: {
             landingPages: expectedSortedPages,
+            showStatus: true,
           },
         })
       })
