@@ -61,7 +61,7 @@ export const SingleArticle = ({ article }: { article: ArticleRecord }) => {
   return (
     <article className={styles.SingleArticle}>
       {!isPublished(article) && (
-        <h2 className={styles.previewBanner}>Unpublished Article Preview</h2>
+        <h2 className={styles.previewBanner}>Draft Article Preview</h2>
       )}
       <div>
         {hero && (

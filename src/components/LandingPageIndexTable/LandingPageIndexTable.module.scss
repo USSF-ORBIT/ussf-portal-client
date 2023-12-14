@@ -19,4 +19,17 @@
   > tbody > tr:nth-child(even) > td {
     background-color: var(--lp-even-row);
   }
+
+  .status {
+    color: $theme-spacebase-dark;
+    background: $theme-mars-light;
+    position: relative;
+    float: right;
+  }
+  :global(.usa-tag.Archived) {
+    @include u-bg('blue-cool-20');
+  }
+  :global(.usa-tag.Published) {
+    @include u-bg('green-cool-20');
+  }
 }
