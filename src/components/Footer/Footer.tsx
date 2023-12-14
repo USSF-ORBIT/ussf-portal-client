@@ -13,9 +13,11 @@ const PortalLogo = () => {
 }
 
 const returnToTop = (
-  <GridContainer className="usa-footer__return-to-top">
-    <a href="#main-content">Return to top</a>
-  </GridContainer>
+  <div className="usa-footer__return-to-top width-full margin-x-0 maxw-none">
+    <GridContainer>
+      <a href="#main-content">Return to top</a>
+    </GridContainer>
+  </div>
 )
 
 const Footer = () => {
