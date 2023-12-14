@@ -12,8 +12,8 @@ const directory = guardianDirectoryMock
 export const Default = () => (
   <GuardianDirectoryTable
     headers={[
-      'First Name',
       'Last Name',
+      'First Name',
       'Rank',
       'Title',
       'Base',
@@ -21,8 +21,8 @@ export const Default = () => (
       'Email',
     ]}
     keys={[
-      'FirstName',
       'LastName',
+      'FirstName',
       'Rank',
       'DutyTitle',
       'BaseLoc',
@@ -36,8 +36,8 @@ export const Default = () => (
 export const Empty = () => (
   <GuardianDirectoryTable
     headers={[
-      'First Name',
       'Last Name',
+      'First Name',
       'Rank',
       'Title',
       'Base',
@@ -45,8 +45,8 @@ export const Empty = () => (
       'Email',
     ]}
     keys={[
-      'FirstName',
       'LastName',
+      'FirstName',
       'Rank',
       'DutyTitle',
       'BaseLoc',
