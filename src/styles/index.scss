@@ -14,3 +14,9 @@ body,
   min-height: 100vh;
   background: var(--bg);
 }
+
+.usa-skipnav {
+  &:focus {
+    z-index: 7000;
+  }
+}
