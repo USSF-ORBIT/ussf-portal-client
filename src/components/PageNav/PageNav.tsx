@@ -40,7 +40,7 @@ const PageNav = () => {
   ))
 
   return (
-    <nav className={styles.PageNav} aria-label="Portal navigation">
+    <nav className={styles.PageNav} aria-label="Portal">
       <SideNav items={items} />
     </nav>
   )
