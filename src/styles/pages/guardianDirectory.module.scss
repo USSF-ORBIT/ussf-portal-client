@@ -3,3 +3,10 @@
 @use 'styles/deps';
 
 // Styling for filter + sort may go here
+
+.search {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  flex-direction: column;
+}
