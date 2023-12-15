@@ -30,8 +30,8 @@ const Footer = () => {
         <Grid row gap className={`flex-justify` + ` ` + styles.footerWrap}>
           <Grid row gap col="auto">
             <PortalLogo />
-            <Grid col>
-              <h3>Space Force Portal</h3>
+            <Grid col role="navigation" aria-labelledby="portal">
+              <h3 id="portal">Space Force Portal</h3>
               <Grid row gap className={styles.miniRow}>
                 <Grid col className={styles.miniCol}>
                   <ul className="usa-list usa-list--unstyled">
@@ -84,8 +84,8 @@ const Footer = () => {
             </Grid>
           </Grid>
           <Grid col="auto" className={styles.border}></Grid>
-          <Grid col="auto">
-            <h3>Quick Links</h3>
+          <Grid col="auto" role="navigation" aria-labelledby="ql">
+            <h3 id="ql">Quick Links</h3>
             <Grid row gap className={styles.miniRow}>
               <Grid col className={styles.miniCol}>
                 <ul className="usa-list usa-list--unstyled">

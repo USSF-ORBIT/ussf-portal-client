@@ -70,7 +70,7 @@ describe('DefaultLayout component', () => {
 
   it('renders a feedback link', () => {
     expect(
-      screen.getByRole('link', { name: 'Send us feedback' })
+      screen.getByRole('link', { name: 'feedback@ussforbit.us' })
     ).toHaveAttribute(
       'href',
       'mailto:feedback@ussforbit.us?subject=USSF portal feedback'
