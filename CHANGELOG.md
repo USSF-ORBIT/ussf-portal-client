@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.28.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.27.0...4.28.0) (2023-12-14)
+
+
+### Features
+
+* Support published status for landing pages and preview of draft pages ([#1175](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1175)) ([2129352](https://github.com/USSF-ORBIT/ussf-portal-client/commit/2129352311dc68409bd716cb1248ac9bda15f9df))
+
 ## [4.27.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.26.0...4.27.0) (2023-12-07)
 
 
