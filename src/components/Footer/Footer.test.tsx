@@ -15,7 +15,7 @@ describe('Footer component', () => {
       'alt',
       'USSF Portal'
     )
-    expect(screen.getAllByRole('link')).toHaveLength(15)
+    expect(screen.getAllByRole('link')).toHaveLength(17)
   })
 
   it('has no a11y violations', async () => {
