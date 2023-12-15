@@ -79,7 +79,7 @@ describe('DefaultLayout component', () => {
 
   it('renders common layout elements', () => {
     expect(screen.getAllByRole('banner')).toHaveLength(2) // Gov banner & site header
-    expect(screen.getAllByRole('navigation')).toHaveLength(3) // header, page nav
+    expect(screen.getAllByRole('navigation')).toHaveLength(5) // header, page nav, footer x2, breadcrumbs
   })
 })
 
