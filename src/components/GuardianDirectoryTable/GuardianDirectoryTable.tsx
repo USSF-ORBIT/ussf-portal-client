@@ -8,9 +8,15 @@ type GuardianDirectoryTableProps = {
   keys: string[]
 }
 
-export const GuardianDirectoryTable = ({ headers, rows, keys }: GuardianDirectoryTableProps) => {
+export const GuardianDirectoryTable = ({
+  headers,
+  rows,
+  keys,
+}: GuardianDirectoryTableProps) => {
   return (
-    <div data-testid="guardian-directory-table" className={styles.guardianDirectoryTable}>
+    <div
+      data-testid="guardian-directory-table"
+      className={styles.guardianDirectoryTable}>
       <Table striped fullWidth>
         <thead>
           <tr>
@@ -26,7 +32,13 @@ export const GuardianDirectoryTable = ({ headers, rows, keys }: GuardianDirector
             <tr data-testid={id} key={id}>
               {keys.map((k) => {
                 // eslint-disable-next-line security/detect-object-injection
-                return <td data-testid={`${id}_${k}`} key={`td_${k}`}>{row[k]}</td>
+                const rowValue = row[k]
+
+                return (
+                  <td data-testid={`${id}_${k}`} key={`td_${k}`}>
+                    {rowValue}
+                  </td>
+                )
               })}
             </tr>
           ))}

@@ -6,6 +6,8 @@ export const GET_LANDING_PAGE = gql`
       pageTitle
       pageDescription
       slug
+      status
+      publishedDate
       documents {
         title
         document {
