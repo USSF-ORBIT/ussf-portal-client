@@ -1,12 +1,15 @@
 import React from 'react'
 import { Meta } from '@storybook/react'
-import { DateTime } from 'luxon'
+import { DateTime, Settings } from 'luxon'
 import LandingPageIndexTable from './LandingPageIndexTable'
 
 export default {
   title: 'Components/LandingPageIndexTable',
   component: LandingPageIndexTable,
 } as Meta
+
+// for testing force the date to always be the same
+Settings.now = () => new Date(2284, 8, 2, 14, 16).valueOf()
 
 const testLandingPages = [
   {
