@@ -22,7 +22,6 @@ const FeedbackCard = () => {
         </a>{' '}
         to send us your thoughts or schedule an interview.
       </p>
-      <p> ©{new Date().getFullYear()} All rights reserved, USSF Portal</p>
     </div>
   )
 }

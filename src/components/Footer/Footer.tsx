@@ -199,6 +199,7 @@ const Footer = () => {
           <Grid col="auto" className={styles.border}></Grid>
           <Grid col="auto">
             <FeedbackCard />
+            <p> ©{new Date().getFullYear()} All rights reserved, USSF Portal</p>
           </Grid>
         </Grid>
       }
