@@ -2,11 +2,30 @@
 @use 'styles/sfds/index.scss' as *;
 @use 'styles/deps';
 
-// Styling for filter + sort may go here
-
-.search {
+.guardianDirectoryHeader {
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    margin: 0;
+  }
+
+  form {
+    & button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 !important;
+    }
+  }
+}
+
+.resetSearch {
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    padding: 0 !important;
+  }
 }

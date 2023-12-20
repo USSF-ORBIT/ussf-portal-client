@@ -65,19 +65,27 @@ const GuardianDirectory = () => {
     <Loader />
   ) : (
     <>
-      <div className={styles.search}>
-        <Search
-          onSubmit={searchDirectory}
-          placeholder="Search Guardian Directory"
-          aria-label="Search Guardian Directory"
-          className={styles.searchField}
-        />
-        <Button type="button" unstyled onClick={resetSearch}>
-          Reset search
-        </Button>
-      </div>
       <div className={styles.guardianDirectory}>
-        <h1>Guardian Directory</h1>
+        <div className={styles.guardianDirectoryHeader}>
+          <h1>Guardian Directory</h1>
+          <Search
+            onSubmit={searchDirectory}
+            placeholder="Search Guardian Directory"
+            aria-label="Search Guardian Directory"
+            size="small"
+          />
+        </div>
+        <div className={styles.resetSearch}>
+          <Button
+            type="button"
+            unstyled
+            onClick={resetSearch}
+            aria-label="Reset Search"
+            name="Reset Search Button">
+            Reset search
+          </Button>
+        </div>
+
         <GuardianDirectoryTable
           headers={[
             'Last Name',
