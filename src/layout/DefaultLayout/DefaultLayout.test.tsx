@@ -15,7 +15,7 @@ describe('DefaultLayout component options', () => {
       </div>
     )
     renderWithAuthAndApollo(
-      <DefaultLayout displayFeedbackCard={false} rightSidebar={sidebar}>
+      <DefaultLayout rightSidebar={sidebar}>
         <h1>Test Page</h1>
       </DefaultLayout>,
       {},
