@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { screen, render } from '@testing-library/react'
 import { useRouter } from 'next/router'
 import type { GetServerSidePropsContext } from 'next'
 
@@ -9,7 +10,9 @@ import { client } from '../../../../../lib/keystoneClient'
 
 import { cmsLandingPageArticle as mockLandingPageArticle } from '../../../../../__fixtures__/data/cmsLandingPageArticle'
 
-import { getServerSideProps } from 'pages/landing/[landingPage]/[article]'
+import LandingPageArticle, {
+  getServerSideProps,
+} from 'pages/landing/[landingPage]/[article]'
 import * as useUserHooks from 'hooks/useUser'
 import { testPortalUser1, testUser1, cmsUser } from '__fixtures__/authUsers'
 import { getSession } from 'lib/session'
@@ -129,6 +132,19 @@ describe('LandingPageArticle getServerSideProps', () => {
       expect(response).toEqual({
         notFound: true,
       })
+    })
+
+    test('renders the article', async () => {
+      Object.defineProperty(window, 'location', {
+        value: {
+          pathname: '/landing/test-landing-page/test-article',
+        },
+        writable: true,
+      })
+
+      render(<LandingPageArticle article={mockLandingPageArticle} />)
+
+      expect(screen.getByText(mockLandingPageArticle.title)).toBeInTheDocument()
     })
   })
 
