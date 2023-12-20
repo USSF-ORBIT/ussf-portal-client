@@ -14,6 +14,7 @@ import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
 import User from 'models/User'
 import { EXAMPLE_COLLECTION_ID } from 'constants/index'
+import { DateTime } from 'luxon'
 
 // To create a new user, we need the example collection from Keystone
 const getExampleCollection = async () => {
@@ -88,12 +89,22 @@ export default startServerAndCreateNextHandler(apolloServer, {
       // Check if user exists. If not, create new user
       const foundUser = await User.findOne(userId, { db })
 
-      if (!foundUser) {
+      const lastLoginAt = DateTime.now()
+      if (foundUser) {
+        await User.setLastLoginAt({ userId, lastLoginAt }, { db })
+      } else {
         try {
           const initCollection = await getExampleCollection()
-          await User.createOne(userId, [initCollection], displayName, 'light', {
-            db,
-          })
+          await User.createOne(
+            userId,
+            [initCollection],
+            displayName,
+            'light',
+            {
+              db,
+            },
+            lastLoginAt
+          )
         } catch (e) {
           // TODO log error
           // console.error('error in creating new user', e)
