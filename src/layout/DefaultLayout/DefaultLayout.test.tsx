@@ -86,7 +86,7 @@ describe('DefaultLayout component', () => {
 describe('withDefaultLayout HOC', () => {
   it('renders children inside of the default layout', async () => {
     const TestPage = () => <div>My page</div>
-    renderWithAuthAndApollo(withDefaultLayout(<TestPage />), getUserMock)
+    renderWithAuthAndApollo(withDefaultLayout(<TestPage />), {}, getUserMock)
     await waitFor(() => {
       expect(screen.getByText('My page')).toBeInTheDocument()
     })
