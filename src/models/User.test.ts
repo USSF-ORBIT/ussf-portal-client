@@ -1,4 +1,5 @@
 import { Db, MongoClient } from 'mongodb'
+import { DateTime, Settings } from 'luxon'
 
 import User from './User'
 import {
@@ -6,7 +7,6 @@ import {
   exampleCollection1,
 } from '__fixtures__/newPortalUser'
 import { WIDGETS } from 'constants/index'
-import { DateTime, Settings } from 'luxon'
 
 let connection: typeof MongoClient
 let db: typeof Db

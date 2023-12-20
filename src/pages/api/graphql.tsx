@@ -3,6 +3,7 @@ import { ApolloServer } from '@apollo/server'
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { gql } from 'graphql-tag'
 import { GraphQLError } from 'graphql'
+import { DateTime } from 'luxon'
 import { typeDefs } from '../../schema'
 import WeatherAPI from './dataSources/weather'
 import KeystoneAPI from './dataSources/keystone'
@@ -14,7 +15,6 @@ import clientPromise from 'lib/mongodb'
 import { getSession } from 'lib/session'
 import User from 'models/User'
 import { EXAMPLE_COLLECTION_ID } from 'constants/index'
-import { DateTime } from 'luxon'
 
 // To create a new user, we need the example collection from Keystone
 const getExampleCollection = async () => {

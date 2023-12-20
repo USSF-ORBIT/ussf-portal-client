@@ -1,4 +1,5 @@
 import { Context } from '@apollo/client'
+import { DateTime } from 'luxon'
 
 import { CollectionModel } from './Collection'
 import { MySpaceModel } from './MySpace'
@@ -8,7 +9,6 @@ import type {
   WidgetInputType,
 } from 'types/index'
 import { WIDGETS } from 'constants/index'
-import { DateTime } from 'luxon'
 
 type EditDisplayName = {
   userId: string
