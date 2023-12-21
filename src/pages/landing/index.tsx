@@ -29,7 +29,7 @@ const Landing = ({
 
 export default Landing
 
-Landing.getLayout = (page: JSX.Element) => withDefaultLayout(page, false)
+Landing.getLayout = (page: JSX.Element) => withDefaultLayout(page)
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await getSession(req, res)

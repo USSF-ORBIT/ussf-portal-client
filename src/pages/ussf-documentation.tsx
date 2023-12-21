@@ -72,7 +72,7 @@ const rightSidebar = (
 export default USSFDocumentation
 
 USSFDocumentation.getLayout = (page: React.ReactNode) =>
-  withDefaultLayout(page, false, rightSidebar)
+  withDefaultLayout(page, rightSidebar)
 
 export async function getServerSideProps() {
   let pageData = null
