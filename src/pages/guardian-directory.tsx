@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useFlags } from 'launchdarkly-react-client-sdk'
 import { useRouter } from 'next/router'
 import { Button, Search } from '@trussworks/react-uswds'
+import { useUser } from 'hooks/useUser'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/guardianDirectory.module.scss'
 import { GuardianDirectoryTable } from 'components/GuardianDirectoryTable/GuardianDirectoryTable'
@@ -9,9 +10,12 @@ import { useGetGuardianDirectoryQuery } from 'operations/portal/queries/getGuard
 import { useSearchGuardianDirectoryQuery } from 'operations/portal/queries/searchGuardianDirectory.g'
 import { GuardianDirectory as GuardianDirectoryType } from 'types'
 
+import Loader from 'components/Loader/Loader'
+
 const GuardianDirectory = () => {
   const flags = useFlags()
   const router = useRouter()
+  const { loading } = useUser()
   const [directory, setDirectory] = useState(Array<GuardianDirectoryType>)
   const { data } = useGetGuardianDirectoryQuery()
 
@@ -27,7 +31,7 @@ const GuardianDirectory = () => {
         searchData?.searchGuardianDirectory as GuardianDirectoryType[]
       )
     }
-  }, [searchQuery, searchData])
+  }, [searchQuery, loading, searchData])
 
   useEffect(() => {
     if (data) {
@@ -57,7 +61,9 @@ const GuardianDirectory = () => {
     router.replace('/404')
   }
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <>
       <div className={styles.guardianDirectory}>
         <div className={styles.guardianDirectoryHeader}>
