@@ -26,8 +26,10 @@ const ArticleLayout = ({ children }: { children: React.ReactNode }) => {
         Skip to main content
       </a>
       <div className={`${styles.siteContainer} sfds`}>
-        <GovBanner tld=".mil" />
-        <Header />
+        <div className={styles.stickyHeader}>
+          <GovBanner tld=".mil" />
+          <Header />
+        </div>
         <main id="main-content">
           {/* PAGE CONTENT */}
           {children}

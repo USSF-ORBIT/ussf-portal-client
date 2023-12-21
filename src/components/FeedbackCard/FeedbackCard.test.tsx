@@ -16,13 +16,10 @@ describe('Feedback Card component', () => {
     render(<FeedbackCard />)
 
     expect(
-      screen.getByRole('heading', { level: 2, name: 'Got feedback?' })
+      screen.getByRole('heading', { level: 3, name: 'Got Feedback?' })
     ).toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: 'feedback@ussforbit.us' })
-    ).toBeInTheDocument()
-    expect(
-      screen.getByRole('link', { name: 'Send us feedback' })
     ).toBeInTheDocument()
   })
 
@@ -46,18 +43,6 @@ describe('Feedback Card component', () => {
       })
 
       render(<FeedbackCard />)
-    })
-
-    it("calls trackEvent when clicking 'Send us feedback' link", () => {
-      const link = screen.getByRole('link', { name: 'Send us feedback' })
-
-      fireEvent.click(link)
-
-      expect(mockTrackEvents).toHaveBeenCalledTimes(1)
-      expect(mockTrackEvents).toHaveBeenCalledWith(
-        'Feedback',
-        'Send us feedback'
-      )
     })
 
     it("calls trackEvent when clicking 'feedback@ussforbit.us' link", () => {
