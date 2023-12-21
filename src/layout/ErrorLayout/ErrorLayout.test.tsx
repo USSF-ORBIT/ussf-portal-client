@@ -35,7 +35,7 @@ describe('ErrorLayout component', () => {
 
     it('renders common layout elements', () => {
       expect(screen.getAllByRole('banner')).toHaveLength(2) // Gov banner & site header
-      expect(screen.getAllByRole('navigation')).toHaveLength(2) // header, footer
+      expect(screen.getAllByRole('navigation')).toHaveLength(3) // header, footer
     })
   })
 
@@ -49,7 +49,7 @@ describe('ErrorLayout component', () => {
     })
 
     it('renders the header without navigation', () => {
-      expect(screen.getAllByRole('navigation')).toHaveLength(1) // footer
+      expect(screen.getAllByRole('navigation')).toHaveLength(2) // footer
     })
   })
 })
@@ -59,13 +59,13 @@ describe('withErrorLayout HOC', () => {
     const TestPage = () => <div>My page</div>
     renderWithAuthAndApollo(withErrorLayout(<TestPage />))
     expect(screen.getByText('My page')).toBeInTheDocument()
-    expect(screen.getAllByRole('navigation')).toHaveLength(2) // header, footer
+    expect(screen.getAllByRole('navigation')).toHaveLength(3) // header, footer
   })
 
   it('renders children inside of the error layout with no header nav', () => {
     const TestPage = () => <div>My page</div>
     renderWithAuthAndApollo(withErrorLayout(<TestPage />, true))
     expect(screen.getByText('My page')).toBeInTheDocument()
-    expect(screen.getAllByRole('navigation')).toHaveLength(1) // footer
+    expect(screen.getAllByRole('navigation')).toHaveLength(2) // footer
   })
 })
