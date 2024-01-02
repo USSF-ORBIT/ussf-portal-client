@@ -294,5 +294,20 @@ describe('User model', () => {
       const updatedUser = await User.findOne('testUserId', { db })
       expect(updatedUser.lastLoginAt).toEqual(expectedUser.lastLoginAt)
     })
+
+    test('throws an error if user not found', async () => {
+      await expect(
+        User.setLastLoginAt(
+          {
+            userId: 'thisuserdoesnotexist',
+          },
+          {
+            db,
+          }
+        )
+      ).rejects.toThrow(
+        'UserModel Error: error in setLastLoginAt no user found'
+      )
+    })
   })
 })
