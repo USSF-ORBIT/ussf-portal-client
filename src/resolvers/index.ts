@@ -119,6 +119,33 @@ type GetGuardianDirectoryPromise = {
   }
 }
 
+type SearchGuardianDirectoryPromise = {
+  data: {
+    searchGuardianDirectory: [
+      {
+        FirstName: string
+        LastName: string
+        DOD_ID: string
+        Grade: string
+        MajCom: string
+        DutyTitle: string
+        Country: string
+        BaseLoc: string
+        OrgType: string
+        Rank: {
+          Title: string
+          Abbreviation: string
+          Grade: string
+          GradeId: string
+        }
+        EOPDate: string
+        UserType: string
+        lastModifiedAt: string
+      }
+    ]
+  }
+}
+
 type PortalUserContext = {
   db: typeof MongoClient
   user: SessionUser
@@ -141,6 +168,9 @@ type PortalUserContext = {
     personnelAPI: {
       getUserData: (dodId: string) => Promise<GetPersonnelDataPromise>
       getGuardianDirectory: () => Promise<GetGuardianDirectoryPromise>
+      searchGuardianDirectory: (
+        query: string
+      ) => Promise<SearchGuardianDirectoryPromise>
     }
   }
 }
@@ -225,6 +255,33 @@ const resolvers = {
 
   // Root resolvers
   Query: {
+    searchGuardianDirectory: async (
+      _: undefined,
+      { search }: { search: string },
+      { dataSources }: PortalUserContext
+    ) => {
+      const { data: searchGuardianDirectory } =
+        await dataSources.personnelAPI.searchGuardianDirectory(search)
+
+      const guardianDirectory: GuardianDirectory[] = []
+      // Pull out and format relevant data to return for directory
+      searchGuardianDirectory.searchGuardianDirectory.map(
+        (person: PersonnelData, index: number) =>
+          // eslint-disable-next-line security/detect-object-injection
+          (guardianDirectory[index] = {
+            DOD_ID: person.DOD_ID,
+            FirstName: person.FirstName,
+            LastName: person.LastName,
+            Rank: `${person.Rank.Abbreviation}/${person.Rank.Grade}`,
+            BaseLoc: person.BaseLoc,
+            DutyTitle: person.DutyTitle,
+            MajCom: person.MajCom,
+            Email: person.Email ? person.Email : '',
+          })
+      )
+      return guardianDirectory
+    },
+
     guardianDirectory: async (
       _: undefined,
       args: undefined,

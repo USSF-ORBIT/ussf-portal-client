@@ -31,6 +31,19 @@ class PersonnelAPI extends RESTDataSource {
       },
     })
   }
+
+  async searchGuardianDirectory(query: string) {
+    if (!this.baseURL) throw new Error('No Personnel API URL found')
+
+    return this.post(this.baseURL + `/api/graphql`, {
+      body: {
+        query: searchGuardianDirectoryQuery,
+        variables: {
+          search: query,
+        },
+      },
+    })
+  }
 }
 
 /* Queries for reference */
@@ -62,6 +75,26 @@ const getUserQuery = `
 const getGuardianDirectoryQuery = `
 query GetGuardianDirectory {
   getGuardianDirectory {
+    DOD_ID
+    FirstName
+    LastName
+    DutyTitle
+    Rank {
+      Abbreviation
+      Grade
+      GradeId
+      Title
+    }
+    Email
+    BaseLoc
+    MajCom
+  }
+}
+`
+
+const searchGuardianDirectoryQuery = `
+query SearchGuardianDirectory($search: String!) {
+  searchGuardianDirectory(search: $search) {
     DOD_ID
     FirstName
     LastName
