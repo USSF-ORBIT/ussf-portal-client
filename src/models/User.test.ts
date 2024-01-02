@@ -68,7 +68,7 @@ describe('User model', () => {
   test('can create and find a new user without lastLoginAt', async () => {
     const expectedUser = {
       _id: expect.anything(),
-      userId: 'testUserId',
+      userId: 'testUserId2',
       mySpace: [
         WIDGETS.FEATUREDSHORTCUTS,
         WIDGETS.GUARDIANIDEAL,
@@ -88,7 +88,7 @@ describe('User model', () => {
       { db }
     )
 
-    const insertedUser = await User.findOne('testUserId', { db })
+    const insertedUser = await User.findOne('testUserId2', { db })
 
     expect(insertedUser.userId).toBe(expectedUser.userId)
     expect(insertedUser.displayName).toBe(expectedUser.displayName)
