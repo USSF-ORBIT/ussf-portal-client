@@ -1,4 +1,5 @@
 import { Db, MongoClient } from 'mongodb'
+import { DateTime, Settings } from 'luxon'
 
 import User from './User'
 import {
@@ -9,6 +10,9 @@ import { WIDGETS } from 'constants/index'
 
 let connection: typeof MongoClient
 let db: typeof Db
+
+// Set test time to specific time
+Settings.now = () => new Date('2024-01-01T10:11:03.000Z').valueOf()
 
 describe('User model', () => {
   beforeAll(async () => {
@@ -37,6 +41,7 @@ describe('User model', () => {
       ],
       displayName: 'Floyd King',
       theme: 'light',
+      lastLoginAt: DateTime.now().toISO(),
     }
 
     const displayName = 'Floyd King'
@@ -45,7 +50,8 @@ describe('User model', () => {
       [exampleCollection],
       displayName,
       'light',
-      { db }
+      { db },
+      DateTime.now()
     )
 
     const insertedUser = await User.findOne('testUserId', { db })
@@ -56,6 +62,41 @@ describe('User model', () => {
     expect(insertedUser.mySpace[0].title).toContain(
       expectedUser.mySpace[0].title
     )
+    expect(insertedUser.lastLoginAt).toBe(expectedUser.lastLoginAt)
+  })
+
+  test('can create and find a new user without lastLoginAt', async () => {
+    const expectedUser = {
+      _id: expect.anything(),
+      userId: 'testUserId2',
+      mySpace: [
+        WIDGETS.FEATUREDSHORTCUTS,
+        WIDGETS.GUARDIANIDEAL,
+        exampleCollection1,
+      ],
+      displayName: 'Floyd King',
+      theme: 'light',
+      lastLoginAt: DateTime.now().toISO(),
+    }
+
+    const displayName = 'Floyd King'
+    await User.createOne(
+      'testUserId2',
+      [exampleCollection],
+      displayName,
+      'light',
+      { db }
+    )
+
+    const insertedUser = await User.findOne('testUserId2', { db })
+
+    expect(insertedUser.userId).toBe(expectedUser.userId)
+    expect(insertedUser.displayName).toBe(expectedUser.displayName)
+    expect(insertedUser.theme).toBe(expectedUser.theme)
+    expect(insertedUser.mySpace[0].title).toContain(
+      expectedUser.mySpace[0].title
+    )
+    expect(insertedUser.lastLoginAt).toBe(expectedUser.lastLoginAt)
   })
 
   test('returns null if finding a user that doesn’t exist', async () => {
@@ -203,6 +244,70 @@ describe('User model', () => {
           }
         )
       ).rejects.toThrow('UserModel Error: error in setMySpace no user found')
+    })
+  })
+
+  describe('lastLoginAt', () => {
+    test('can update the lastLoginAt of a user if no time passed in', async () => {
+      const expectedUser = {
+        _id: expect.anything(),
+        userId: 'testUserId',
+        mySpace: [exampleCollection1],
+        theme: 'dark',
+        lastLoginAt: DateTime.now().toISO()!,
+      }
+
+      const { userId } = expectedUser
+      await User.setLastLoginAt(
+        {
+          userId,
+        },
+        {
+          db,
+        }
+      )
+
+      const updatedUser = await User.findOne('testUserId', { db })
+      expect(updatedUser.lastLoginAt).toEqual(expectedUser.lastLoginAt)
+    })
+
+    test('can update the lastLoginAt of a user', async () => {
+      const expectedUser = {
+        _id: expect.anything(),
+        userId: 'testUserId',
+        mySpace: [exampleCollection1],
+        theme: 'dark',
+        lastLoginAt: DateTime.now().toISO()!,
+      }
+
+      const { userId } = expectedUser
+      await User.setLastLoginAt(
+        {
+          userId,
+          lastLoginAt: DateTime.now(),
+        },
+        {
+          db,
+        }
+      )
+
+      const updatedUser = await User.findOne('testUserId', { db })
+      expect(updatedUser.lastLoginAt).toEqual(expectedUser.lastLoginAt)
+    })
+
+    test('throws an error if user not found', async () => {
+      await expect(
+        User.setLastLoginAt(
+          {
+            userId: 'thisuserdoesnotexist',
+          },
+          {
+            db,
+          }
+        )
+      ).rejects.toThrow(
+        'UserModel Error: error in setLastLoginAt no user found'
+      )
     })
   })
 })

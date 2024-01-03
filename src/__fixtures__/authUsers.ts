@@ -1,4 +1,5 @@
 import { ObjectId } from 'bson'
+import { DateTime } from 'luxon'
 import type { SessionUser, PortalUser, Collection, Widget } from 'types'
 
 const mockNews: Widget = {
@@ -111,6 +112,7 @@ export const testPortalUser1: PortalUser = {
   ],
   displayName: 'BERNADETTE CAMPBELL',
   theme: 'light',
+  lastLoginAt: DateTime.now().toISO()!,
 }
 
 export const portalUserMaxedOutCollection: PortalUser = {
@@ -156,6 +158,7 @@ export const portalUserMaxedOutCollection: PortalUser = {
   ],
   displayName: 'BERNADETTE CAMPBELL',
   theme: 'light',
+  lastLoginAt: DateTime.now().toISO()!,
 }
 
 export const portalUserWithExampleCollection: PortalUser = {
@@ -194,6 +197,7 @@ export const portalUserWithExampleCollection: PortalUser = {
   ],
   displayName: 'BERNADETTE CAMPBELL',
   theme: 'light',
+  lastLoginAt: DateTime.now().toISO()!,
 }
 
 const mockCollectionWithGuardianIdeal: Widget = {
@@ -207,6 +211,7 @@ export const portalUserGuardianIdeal: PortalUser = {
   mySpace: [mockCollectionWithGuardianIdeal],
   displayName: 'BERNADETTE CAMPBELL',
   theme: 'dark',
+  lastLoginAt: DateTime.now().toISO()!,
 }
 
 const mockCollectionWithFeaturedShortcuts: Widget = {
@@ -220,6 +225,7 @@ export const portalUserFeaturedShortcuts: PortalUser = {
   mySpace: [mockCollectionWithFeaturedShortcuts],
   displayName: 'BERNADETTE CAMPBELL',
   theme: 'dark',
+  lastLoginAt: DateTime.now().toISO()!,
 }
 
 const mockCollection: Collection = {
@@ -260,6 +266,7 @@ export const portalUserCollectionLimit: PortalUser = {
   mySpace: maxCollections,
   displayName: 'BERNADETTE CAMPBELL',
   theme: 'light',
+  lastLoginAt: DateTime.now().toISO()!,
 }
 
 export const portalUserAlmostAtCollectionLimit: PortalUser = {
@@ -267,6 +274,7 @@ export const portalUserAlmostAtCollectionLimit: PortalUser = {
   mySpace: almostMaxCollections,
   displayName: 'BERNADETTE CAMPBELL',
   theme: 'light',
+  lastLoginAt: DateTime.now().toISO()!,
 }
 
 export const portalUserCollectionLimitWithAllAdditionalWidgets: PortalUser = {
@@ -279,6 +287,7 @@ export const portalUserCollectionLimitWithAllAdditionalWidgets: PortalUser = {
   ],
   displayName: 'BERNADETTE CAMPBELL',
   theme: 'light',
+  lastLoginAt: DateTime.now().toISO()!,
 }
 
 export const portalUserNoCollections: PortalUser = {
