@@ -10,8 +10,6 @@ import { useGetGuardianDirectoryQuery } from 'operations/portal/queries/getGuard
 import { useSearchGuardianDirectoryQuery } from 'operations/portal/queries/searchGuardianDirectory.g'
 import { GuardianDirectory as GuardianDirectoryType } from 'types'
 
-import Loader from 'components/Loader/Loader'
-
 const GuardianDirectory = () => {
   const flags = useFlags()
   const router = useRouter()
@@ -61,9 +59,7 @@ const GuardianDirectory = () => {
     router.replace('/404')
   }
 
-  return loading ? (
-    <Loader />
-  ) : (
+  return (
     <>
       <div className={styles.guardianDirectory}>
         <div className={styles.guardianDirectoryHeader}>
