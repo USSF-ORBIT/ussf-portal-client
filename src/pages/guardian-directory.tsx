@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useFlags } from 'launchdarkly-react-client-sdk'
 import { useRouter } from 'next/router'
 import { Button, Search } from '@trussworks/react-uswds'
+import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import { useUser } from 'hooks/useUser'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/guardianDirectory.module.scss'
@@ -82,27 +83,31 @@ const GuardianDirectory = () => {
           </Button>
         </div>
 
-        <GuardianDirectoryTable
-          headers={[
-            'Last Name',
-            'First Name',
-            'Rank',
-            'Title',
-            'Base',
-            'Field Commands',
-            'Email',
-          ]}
-          keys={[
-            'LastName',
-            'FirstName',
-            'Rank',
-            'DutyTitle',
-            'BaseLoc',
-            'MajCom',
-            'Email',
-          ]}
-          rows={directory}
-        />
+        {!directory.length ? (
+          <LoadingWidget />
+        ) : (
+          <GuardianDirectoryTable
+            headers={[
+              'Last Name',
+              'First Name',
+              'Rank',
+              'Title',
+              'Base',
+              'Field Commands',
+              'Email',
+            ]}
+            keys={[
+              'LastName',
+              'FirstName',
+              'Rank',
+              'DutyTitle',
+              'BaseLoc',
+              'MajCom',
+              'Email',
+            ]}
+            rows={directory}
+          />
+        )}
       </div>
     </>
   )
