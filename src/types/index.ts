@@ -304,6 +304,7 @@ export type PortalUser = {
   mySpace: (Widget | Collection)[]
   displayName: string
   theme: string
+  lastLoginAt: string
 }
 
 export type SessionUser = SAMLUser & {

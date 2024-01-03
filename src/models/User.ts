@@ -1,4 +1,5 @@
 import { Context } from '@apollo/client'
+import { DateTime } from 'luxon'
 
 import { CollectionModel } from './Collection'
 import { MySpaceModel } from './MySpace'
@@ -24,6 +25,11 @@ type EditTheme = {
   theme: string
 }
 
+type EditLastLoginAt = {
+  userId: string
+  lastLoginAt?: DateTime
+}
+
 const UserModel = {
   async findOne(userId: string, { db }: Context) {
     const foundUser = await db.collection('users').findOne({ userId })
@@ -34,13 +40,15 @@ const UserModel = {
     initCollections: CollectionRecords,
     displayName: string,
     theme: 'light' | 'dark',
-    { db }: Context
+    { db }: Context,
+    lastLoginAt: DateTime = DateTime.now()
   ) {
     const newUser: PortalUser = {
       userId,
       mySpace: [],
       displayName,
       theme,
+      lastLoginAt: lastLoginAt.toISO()!,
     }
     // Default widgets when creating a new user
     const widgets: WidgetInputType[] = [
@@ -69,6 +77,32 @@ const UserModel = {
     )
 
     return true
+  },
+  async setLastLoginAt(
+    { userId, lastLoginAt = DateTime.now() }: EditLastLoginAt,
+    { db }: Context
+  ) {
+    const user = await UserModel.findOne(userId, { db })
+    if (!user) {
+      throw new Error('UserModel Error: error in setLastLoginAt no user found')
+    }
+
+    const query = {
+      userId: userId,
+    }
+
+    const updateDocument = {
+      $set: {
+        ...user,
+        lastLoginAt: lastLoginAt.toISO()!,
+      },
+    }
+
+    const result = await db
+      .collection('users')
+      .findOneAndUpdate(query, updateDocument, { returnDocument: 'after' })
+
+    return result.value
   },
   async setDisplayName(
     { userId, displayName }: EditDisplayName,
