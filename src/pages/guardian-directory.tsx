@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useFlags } from 'launchdarkly-react-client-sdk'
 import { useRouter } from 'next/router'
 import { Button, Search } from '@trussworks/react-uswds'
+import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import { useUser } from 'hooks/useUser'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/guardianDirectory.module.scss'
@@ -9,8 +10,6 @@ import { GuardianDirectoryTable } from 'components/GuardianDirectoryTable/Guardi
 import { useGetGuardianDirectoryQuery } from 'operations/portal/queries/getGuardianDirectory.g'
 import { useSearchGuardianDirectoryQuery } from 'operations/portal/queries/searchGuardianDirectory.g'
 import { GuardianDirectory as GuardianDirectoryType } from 'types'
-
-import Loader from 'components/Loader/Loader'
 
 const GuardianDirectory = () => {
   const flags = useFlags()
@@ -61,9 +60,7 @@ const GuardianDirectory = () => {
     router.replace('/404')
   }
 
-  return loading ? (
-    <Loader />
-  ) : (
+  return (
     <>
       <div className={styles.guardianDirectory}>
         <div className={styles.guardianDirectoryHeader}>
@@ -86,27 +83,31 @@ const GuardianDirectory = () => {
           </Button>
         </div>
 
-        <GuardianDirectoryTable
-          headers={[
-            'Last Name',
-            'First Name',
-            'Rank',
-            'Title',
-            'Base',
-            'Field Commands',
-            'Email',
-          ]}
-          keys={[
-            'LastName',
-            'FirstName',
-            'Rank',
-            'DutyTitle',
-            'BaseLoc',
-            'MajCom',
-            'Email',
-          ]}
-          rows={directory}
-        />
+        {!directory.length ? (
+          <LoadingWidget />
+        ) : (
+          <GuardianDirectoryTable
+            headers={[
+              'Last Name',
+              'First Name',
+              'Rank',
+              'Title',
+              'Base',
+              'Field Commands',
+              'Email',
+            ]}
+            keys={[
+              'LastName',
+              'FirstName',
+              'Rank',
+              'DutyTitle',
+              'BaseLoc',
+              'MajCom',
+              'Email',
+            ]}
+            rows={directory}
+          />
+        )}
       </div>
     </>
   )
