@@ -61,11 +61,13 @@ const LandingPage = ({
         </div>
 
         {heroImage && (
-          <img
-            src={hero.url}
-            alt="landing page hero graphic"
-            className={styles.hero}
-          />
+          <div className={styles.heroContainer}>
+            <img
+              src={hero.url}
+              alt="landing page hero graphic"
+              className={styles.hero}
+            />
+          </div>
         )}
         <p className={styles.pageDescription}>{pageDescription}</p>
         {documents.length >= 1 && <h2 id="documentation">Documentation</h2>}
