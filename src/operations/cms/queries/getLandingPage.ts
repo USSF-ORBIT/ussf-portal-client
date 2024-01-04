@@ -4,6 +4,9 @@ export const GET_LANDING_PAGE = gql`
   query GetLandingPage($slug: String) {
     landingPage(where: { slug: $slug }) {
       pageTitle
+      badge {
+        url
+      }
       hero {
         url
       }

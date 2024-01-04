@@ -6,6 +6,19 @@
 .pageTitle {
   text-transform: uppercase;
   margin-top: 0;
+  margin-bottom: 0;
+}
+
+.pageTitleContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.badge {
+  max-height: 50px;
+  max-width: 50px;
+  margin-right: 0.25rem;
 }
 
 .hero {

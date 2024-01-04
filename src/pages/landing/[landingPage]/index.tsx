@@ -32,16 +32,34 @@ type DocumentsType = {
 const LandingPage = ({
   landingPage,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { pageTitle, hero, pageDescription, documents, collections, articles } =
-    landingPage
+  const {
+    pageTitle,
+    badge,
+    hero,
+    pageDescription,
+    documents,
+    collections,
+    articles,
+  } = landingPage
 
+  const badgeImage = badge?.url.length ? badge.url : ''
   const heroImage = hero?.url.length ? hero.url : ''
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pageContent = (): any => {
     return (
       <>
-        <h1 className={styles.pageTitle}>{pageTitle}</h1>
+        <div className={styles.pageTitleContainer}>
+          {badgeImage && (
+            <img
+              src={badge.url}
+              alt="landing page badge"
+              className={styles.badge}
+            />
+          )}
+          <h1 className={styles.pageTitle}>{pageTitle}</h1>
+        </div>
+
         {heroImage && (
           <img
             src={hero.url}
