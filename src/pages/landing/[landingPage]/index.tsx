@@ -42,7 +42,7 @@ const LandingPage = ({
     articles,
   } = landingPage
 
-  const badgeImage = badge?.url.length ? badge.url : ''
+  const badgeImage = badge?.url.length ? badge.url : '/img/default_badge.png'
   const heroImage = hero?.url.length ? hero.url : ''
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -50,13 +50,12 @@ const LandingPage = ({
     return (
       <>
         <div className={styles.pageTitleContainer}>
-          {badgeImage && (
-            <img
-              src={badge.url}
-              alt="landing page badge"
-              className={styles.badge}
-            />
-          )}
+          <img
+            src={badgeImage}
+            alt="landing page badge"
+            className={styles.badge}
+          />
+
           <h1 className={styles.pageTitle}>{pageTitle}</h1>
         </div>
 
