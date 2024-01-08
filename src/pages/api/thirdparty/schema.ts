@@ -17,5 +17,6 @@ export const typeDefs = gql`
 
   type Query {
     cNotes: [CNote!]
+    displayName: String!
   }
 `
