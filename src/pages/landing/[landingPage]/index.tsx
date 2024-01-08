@@ -16,6 +16,8 @@ import { client } from 'lib/keystoneClient'
 import { GET_LANDING_PAGE } from 'operations/cms/queries/getLandingPage'
 import { CMSBookmark, CollectionRecord } from 'types'
 import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
+import { getSession } from 'lib/session'
+import { isCmsUser, isPublished } from 'helpers/index'
 
 type DocumentsType = {
   title: string
@@ -131,6 +133,9 @@ const LandingPage = ({
 
   return (
     <Grid className={styles.inPageNav}>
+      {!isPublished(landingPage) && (
+        <h2 className={styles.previewBanner}>Draft Landing Page Preview</h2>
+      )}
       <InPageNavigation scrollOffset="140px" content={pageContent()} />
     </Grid>
   )
@@ -144,6 +149,9 @@ LandingPage.getLayout = (page: JSX.Element) =>
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { landingPage: slug } = context.query
 
+  const session = await getSession(context.req, context.res)
+  const user = session?.passport?.user
+
   const {
     data: { landingPage },
   } = await client.query({
@@ -151,7 +159,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     variables: { slug },
   })
 
-  if (!landingPage) {
+  // if landing page is not published or not found return 404
+  // unless the current user is a CMS user or admin
+  // then allow them to see any article
+  if (!landingPage || (!isPublished(landingPage) && !isCmsUser(user))) {
     return {
       notFound: true,
     }

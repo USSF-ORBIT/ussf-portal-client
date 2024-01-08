@@ -8,6 +8,12 @@
   flex-direction: column;
   min-height: 100vh;
 
+  .stickyHeader {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+  }
+
   :global {
     // Dark theme gov banner
     @include gov-banner;
@@ -24,5 +30,12 @@
     color: var(--text);
     flex: 1;
     padding-bottom: units(7);
+    padding-top: 80px;
+    @include sfds-at-media('tablet') {
+      padding-top: 100px;
+    }
+    @include sfds-at-media('tablet-lg') {
+      padding-top: 123px;
+    }
   }
 }

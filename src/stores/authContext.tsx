@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             router.pathname !== '/login' &&
             router.pathname !== '/'
           ) {
-            router.replace(`/login?redirectTo=${router.pathname}`)
+            router.replace(`/login?redirectTo=${router.asPath}`)
           } else {
             router.replace(`/login`)
           }

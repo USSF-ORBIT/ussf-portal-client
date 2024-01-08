@@ -3,6 +3,7 @@ import { ApolloServer } from '@apollo/server'
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { gql } from 'graphql-tag'
 import { GraphQLError } from 'graphql'
+import { DateTime } from 'luxon'
 import { typeDefs } from '../../schema'
 import WeatherAPI from './dataSources/weather'
 import KeystoneAPI from './dataSources/keystone'
@@ -88,12 +89,22 @@ export default startServerAndCreateNextHandler(apolloServer, {
       // Check if user exists. If not, create new user
       const foundUser = await User.findOne(userId, { db })
 
-      if (!foundUser) {
+      const lastLoginAt = DateTime.now()
+      if (foundUser) {
+        await User.setLastLoginAt({ userId, lastLoginAt }, { db })
+      } else {
         try {
           const initCollection = await getExampleCollection()
-          await User.createOne(userId, [initCollection], displayName, 'light', {
-            db,
-          })
+          await User.createOne(
+            userId,
+            [initCollection],
+            displayName,
+            'light',
+            {
+              db,
+            },
+            lastLoginAt
+          )
         } catch (e) {
           // TODO log error
           // console.error('error in creating new user', e)

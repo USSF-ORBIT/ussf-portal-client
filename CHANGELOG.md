@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.29.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.28.0...4.29.0) (2024-01-03)
+
+
+### Features
+
+* add lastLoginAt to user ([#1185](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1185)) ([c54ad4a](https://github.com/USSF-ORBIT/ussf-portal-client/commit/c54ad4ad504d5a3e2f5772461c24256b25cdadd4))
+* Add LoadingWidget to Guardian Directory page ([#1188](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1188)) ([11611bf](https://github.com/USSF-ORBIT/ussf-portal-client/commit/11611bf7bf7cb2cab67bb65cdbd6f5fe21d7a6be))
+* Add search to guardian directory ([#1183](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1183)) ([265731b](https://github.com/USSF-ORBIT/ussf-portal-client/commit/265731b64e8438b45d2c2889eeeb8e269aea5cf0))
+
+
+### Bug Fixes
+
+* **design:** Footer Navigation + Layout enhancements ([#1180](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1180)) ([6e6a1bd](https://github.com/USSF-ORBIT/ussf-portal-client/commit/6e6a1bdf86ab56cb660b81fef8f5d9b2cf4e354e))
+
+## [4.28.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.27.0...4.28.0) (2023-12-14)
+
+
+### Features
+
+* Support published status for landing pages and preview of draft pages ([#1175](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1175)) ([2129352](https://github.com/USSF-ORBIT/ussf-portal-client/commit/2129352311dc68409bd716cb1248ac9bda15f9df))
+
+## [4.27.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.26.0...4.27.0) (2023-12-07)
+
+
+### Features
+
+* Adds new graphql server for thirdparty api ([#1169](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1169)) ([646c44b](https://github.com/USSF-ORBIT/ussf-portal-client/commit/646c44b6979c6e69c997d13684cbeb5499157fbd))
+
+
+### Bug Fixes
+
+* Pass in correct hostname to search results page and _app.tsx ([#1177](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1177)) ([0dea0c9](https://github.com/USSF-ORBIT/ussf-portal-client/commit/0dea0c97e3ab50447064222db779a03e02c59c6d))
+* Redirect bug ([#1178](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1178)) ([28afe01](https://github.com/USSF-ORBIT/ussf-portal-client/commit/28afe018332224823cf2ed4011a1668ac9add8eb))
+
 ## [4.26.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.25.0...4.26.0) (2023-11-28)
 
 
