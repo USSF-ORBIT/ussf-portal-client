@@ -10,7 +10,9 @@ export async function authMiddleware(req: NextApiRequest) {
   if (req.method === 'OPTIONS') {
     return NextResponse.json({})
   }
-  const token = req.headers.authorization
+  // Bearer tokens are sent in the Authorization header
+  // Strip out the word Bearer and just get the token
+  const token = req.headers.authorization?.split(' ')[1]
 
   if (token) {
     return await authenticateRequest(token)

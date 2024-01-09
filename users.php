@@ -5,6 +5,13 @@
  * Used to define the test SAML user accounts.
  */
 
+ /* get environment variables if testing auth locally */
+ $common_name = getenv('COMMON_NAME');
+    $edipi = getenv('EDIPI');
+    $givenname = getenv('GIVENNAME');
+    $surname = getenv('SURNAME');
+
+
 $config = [
     'admin' => [
         'core:AdminPassword',
@@ -30,6 +37,16 @@ $config = [
             'surname' => 'BOYD',
             'userprincipalname' => 'RONALD.BOYD.312969168@testusers.cce.af.mil',
             'userGroups' => ['AF_USERS']
+        ],
+        'localuser:localuserpass' => [
+            'subject' => "/C=US/O=U.S. Government/OU=DoD/OU=PKI/OU=CONTRACTOR/CN={$common_name}",
+            'edipi' => $edipi,
+            'common_name' => $common_name,
+            'fascn' => '312969168197002',
+            'givenname' => $givenname,
+            'surname' => $surname,
+            'userprincipalname' => $common_name,
+            'userGroups' => ['PORTAL_SuperAdmins','AF_USERS']
         ],
         'portaladmin:portaladminpass' => [
             'subject' => '/C=US/O=U.S. Government/OU=DoD/OU=PKI/OU=CONTRACTOR/CN=WILSON.LINDSEY.556070539',
