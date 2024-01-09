@@ -6,12 +6,11 @@
  */
 
  /* get environment variables if testing auth locally */
- $common_name = getenv('COMMON_NAME');
-    $edipi = getenv('EDIPI');
-    $givenname = getenv('GIVENNAME');
-    $surname = getenv('SURNAME');
-
-
+ $common_name = getenv('COMMON_NAME') !== false ? getenv('COMMON_NAME') : 'default_common_name';
+ $edipi = getenv('EDIPI') !== false ? getenv('EDIPI') : '0123456789';
+ $givenname = getenv('GIVENNAME') !== false ? getenv('GIVENNAME') : 'default_givenname';
+ $surname = getenv('SURNAME') !== false ? getenv('SURNAME') : 'default_surname';
+ 
 $config = [
     'admin' => [
         'core:AdminPassword',
