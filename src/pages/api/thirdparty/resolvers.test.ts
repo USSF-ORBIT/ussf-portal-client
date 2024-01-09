@@ -1,5 +1,6 @@
 import { ApolloServer } from '@apollo/server'
 import { gql } from 'graphql-tag'
+import { MongoClient, Db } from 'mongodb'
 import ThirdPartyKeystoneAPI from './dataSources/thirdPartyKeystone'
 import { resolvers, ThirdPartyContext } from './resolvers'
 import { typeDefs } from './schema'
@@ -8,8 +9,21 @@ import type { SingleGraphQLResponse } from 'types'
 let server: ApolloServer<ThirdPartyContext>
 let serverContext: ThirdPartyContext
 let keystoneAPI: ThirdPartyKeystoneAPI
+let connection: typeof MongoClient
+let db: typeof Db
 
 describe('GraphQL resolvers', () => {
+  beforeAll(async () => {
+    connection = await MongoClient.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    db = await connection.db()
+  })
+
+  afterAll(async () => {
+    await connection.close()
+  })
   beforeEach(() => {
     server = new ApolloServer({
       typeDefs,
@@ -26,6 +40,7 @@ describe('GraphQL resolvers', () => {
     serverContext = {
       dataSources: {
         keystoneAPI,
+        mongodb: db,
       },
     }
   })
