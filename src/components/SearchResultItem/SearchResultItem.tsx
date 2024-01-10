@@ -21,6 +21,9 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
       itemIcon = dateObj && <ArticleDateIcon date={dateObj} />
       break
     }
+    case 'Documentation':
+      itemCategory = CONTENT_CATEGORIES.DOCUMENTATION
+      break
   }
 
   return (

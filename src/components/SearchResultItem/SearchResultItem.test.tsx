@@ -30,58 +30,89 @@ const testArticleResult: SearchResultRecord = {
   date: '2022-05-17T13:44:39.796Z',
 }
 
+const testDocumentationResult: SearchResultRecord = {
+  id: 'testDocumentation123',
+  type: 'Documentation',
+  title: 'Some Documentation',
+  preview:
+    'Documentation posted about some important topic that you should read about.',
+  permalink: 'https://www.url.com/myfss',
+}
+
 describe('SearchResultItem component', () => {
-  it('renders an Application result with no a11y violations', async () => {
+  test('renders an Application result with no a11y violations', async () => {
+    const { container } = render(
+      <SearchResultItem item={testApplicationResult} />
+    )
+
+    expect(screen.queryByRole('img')).not.toBeInTheDocument()
+    expect(screen.queryAllByRole('link')).toHaveLength(1)
+    expect(screen.queryAllByRole('link')[0]).toHaveAttribute(
+      'href',
+      testApplicationResult.permalink
+    )
+    expect(screen.queryByRole('heading', { level: 3 })).toHaveTextContent(
+      testApplicationResult.title
+    )
+    expect(
+      screen.queryByText(testApplicationResult.preview)
+    ).toBeInTheDocument()
+    expect(screen.queryByText('Application')).toHaveClass('usa-tag')
+
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
-      const { container } = render(
-        <SearchResultItem item={testApplicationResult} />,
-        { legacyRoot: true }
-      )
-
-      expect(screen.queryByRole('img')).not.toBeInTheDocument()
-      expect(screen.queryAllByRole('link')).toHaveLength(1)
-      expect(screen.queryAllByRole('link')[0]).toHaveAttribute(
-        'href',
-        testApplicationResult.permalink
-      )
-      expect(screen.queryByRole('heading', { level: 3 })).toHaveTextContent(
-        testApplicationResult.title
-      )
-      expect(
-        screen.queryByText(testApplicationResult.preview)
-      ).toBeInTheDocument()
-      expect(screen.queryByText('Application')).toHaveClass('usa-tag')
-
       expect(await axe(container)).toHaveNoViolations()
     })
   })
 
-  it('renders an Article result with no a11y violations', async () => {
+  test('renders an Article result with no a11y violations', async () => {
+    const { container } = render(<SearchResultItem item={testArticleResult} />)
+
+    expect(screen.queryByText('May')).toBeInTheDocument()
+    expect(screen.queryByText('17')).toBeInTheDocument()
+
+    expect(screen.queryByRole('img')).not.toBeInTheDocument()
+    expect(screen.queryAllByRole('link')).toHaveLength(1)
+    expect(screen.queryAllByRole('link')[0]).toHaveAttribute(
+      'href',
+      testArticleResult.permalink
+    )
+    expect(screen.queryByRole('heading', { level: 3 })).toHaveTextContent(
+      testArticleResult.title
+    )
+    expect(screen.queryByText(testArticleResult.preview)).toBeInTheDocument()
+    expect(screen.queryByText('USSF News')).toHaveClass('usa-tag')
+
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
-      const { container } = render(
-        <SearchResultItem item={testArticleResult} />,
-        { legacyRoot: true }
-      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 
-      expect(screen.queryByText('May')).toBeInTheDocument()
-      expect(screen.queryByText('17')).toBeInTheDocument()
+  test('renders a Documentation result with no a11y violations', async () => {
+    const { container } = render(
+      <SearchResultItem item={testDocumentationResult} />
+    )
 
-      expect(screen.queryByRole('img')).not.toBeInTheDocument()
-      expect(screen.queryAllByRole('link')).toHaveLength(1)
-      expect(screen.queryAllByRole('link')[0]).toHaveAttribute(
-        'href',
-        testArticleResult.permalink
-      )
-      expect(screen.queryByRole('heading', { level: 3 })).toHaveTextContent(
-        testArticleResult.title
-      )
-      expect(screen.queryByText(testArticleResult.preview)).toBeInTheDocument()
-      expect(screen.queryByText('USSF News')).toHaveClass('usa-tag')
+    expect(screen.queryByRole('img')).not.toBeInTheDocument()
+    expect(screen.queryAllByRole('link')).toHaveLength(1)
+    expect(screen.queryAllByRole('link')[0]).toHaveAttribute(
+      'href',
+      testDocumentationResult.permalink
+    )
+    expect(screen.queryByRole('heading', { level: 3 })).toHaveTextContent(
+      testDocumentationResult.title
+    )
+    expect(
+      screen.queryByText(testDocumentationResult.preview)
+    ).toBeInTheDocument()
+    expect(screen.queryByText('USSF Documentation')).toHaveClass('usa-tag')
 
+    // Bug with NextJS Link + axe :(
+    // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
+    await act(async () => {
       expect(await axe(container)).toHaveNoViolations()
     })
   })
