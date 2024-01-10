@@ -7,37 +7,11 @@ import { axe } from 'jest-axe'
 import React from 'react'
 
 import { SearchResultItem } from './SearchResultItem'
-import type { SearchResultRecord } from 'types/index'
-
-const testApplicationResult: SearchResultRecord = {
-  id: 'testBookmark123',
-  type: 'Bookmark',
-  title: 'MyFSS',
-  preview:
-    'How is Air Force Information Management System abbreviated? AFIMS stands for Air Force Information Management System. For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective.',
-  permalink: 'https://www.url.com/myfss',
-}
-
-const testArticleResult: SearchResultRecord = {
-  id: 'testArticle123',
-  type: 'Article',
-  title:
-    'Physical training: Everything you need to know about the update in requirements',
-  preview:
-    'As a steward of almost 9 million acres encompassing forests, prairies, deserts, wetlands, and coastal habitats, the Department of the Air Force recognizes the importance of protecting and sustaining the natural environment.',
-  permalink:
-    'https://localhost:3000/articles/physical-training-everything-you-need-to-know',
-  date: '2022-05-17T13:44:39.796Z',
-}
-
-const testDocumentationResult: SearchResultRecord = {
-  id: 'testDocumentation123',
-  type: 'Documentation',
-  title: 'Some Documentation',
-  preview:
-    'Documentation posted about some important topic that you should read about.',
-  permalink: 'https://www.url.com/myfss',
-}
+import {
+  testApplicationResult,
+  testArticleResultNoLabels,
+  testDocumentationResult,
+} from '__fixtures__/data/searchResults'
 
 describe('SearchResultItem component', () => {
   test('renders an Application result with no a11y violations', async () => {
@@ -67,7 +41,9 @@ describe('SearchResultItem component', () => {
   })
 
   test('renders an Article result with no a11y violations', async () => {
-    const { container } = render(<SearchResultItem item={testArticleResult} />)
+    const { container } = render(
+      <SearchResultItem item={testArticleResultNoLabels} />
+    )
 
     expect(screen.queryByText('May')).toBeInTheDocument()
     expect(screen.queryByText('17')).toBeInTheDocument()
@@ -76,12 +52,14 @@ describe('SearchResultItem component', () => {
     expect(screen.queryAllByRole('link')).toHaveLength(1)
     expect(screen.queryAllByRole('link')[0]).toHaveAttribute(
       'href',
-      testArticleResult.permalink
+      testArticleResultNoLabels.permalink
     )
     expect(screen.queryByRole('heading', { level: 3 })).toHaveTextContent(
-      testArticleResult.title
+      testArticleResultNoLabels.title
     )
-    expect(screen.queryByText(testArticleResult.preview)).toBeInTheDocument()
+    expect(
+      screen.queryByText(testArticleResultNoLabels.preview)
+    ).toBeInTheDocument()
     expect(screen.queryByText('USSF News')).toHaveClass('usa-tag')
 
     // Bug with NextJS Link + axe :(
