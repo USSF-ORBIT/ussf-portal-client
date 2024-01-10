@@ -4,7 +4,7 @@ services:
   client:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-gh
       target: e2e
       args:
         BUILD: localbuild
