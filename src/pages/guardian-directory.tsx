@@ -9,6 +9,7 @@ import styles from 'styles/pages/guardianDirectory.module.scss'
 import { GuardianDirectoryTable } from 'components/GuardianDirectoryTable/GuardianDirectoryTable'
 import { useGetGuardianDirectoryQuery } from 'operations/portal/queries/getGuardianDirectory.g'
 import { useSearchGuardianDirectoryQuery } from 'operations/portal/queries/searchGuardianDirectory.g'
+// import { useGetLastModifiedAtQuery } from 'operations/portal/queries/getLastModifiedAt.g'
 import { GuardianDirectory as GuardianDirectoryType } from 'types'
 
 const GuardianDirectory = () => {
@@ -17,6 +18,7 @@ const GuardianDirectory = () => {
   const { loading } = useUser()
   const [directory, setDirectory] = useState(Array<GuardianDirectoryType>)
   const { data } = useGetGuardianDirectoryQuery()
+  // const { data: lastModifiedAt } = useGetLastModifiedAtQuery()
 
   const [searchQuery, setSearchQuery] = useState('')
   const { data: searchData, loading: loadingSearch } =

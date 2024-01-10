@@ -119,6 +119,14 @@ type GetGuardianDirectoryPromise = {
   }
 }
 
+type GetLastModifiedAtPromise = {
+  data: {
+    getLastModifiedAt: {
+      lastModifiedAt: string
+    }
+  }
+}
+
 type SearchGuardianDirectoryPromise = {
   data: {
     searchGuardianDirectory: [
@@ -168,6 +176,7 @@ type PortalUserContext = {
     personnelAPI: {
       getUserData: (dodId: string) => Promise<GetPersonnelDataPromise>
       getGuardianDirectory: () => Promise<GetGuardianDirectoryPromise>
+      getLastModifiedAt: () => Promise<GetLastModifiedAtPromise>
       searchGuardianDirectory: (
         query: string
       ) => Promise<SearchGuardianDirectoryPromise>
@@ -255,6 +264,17 @@ const resolvers = {
 
   // Root resolvers
   Query: {
+    getLastModifiedAt: async (
+      _: undefined,
+      args: undefined,
+      { dataSources }: PortalUserContext
+    ) => {
+      const {
+        data: { getLastModifiedAt },
+      } = await dataSources.personnelAPI.getLastModifiedAt()
+
+      return getLastModifiedAt
+    },
     searchGuardianDirectory: async (
       _: undefined,
       { search }: { search: string },
