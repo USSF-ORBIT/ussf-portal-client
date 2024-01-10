@@ -6,6 +6,7 @@ import {
   testApplicationResult,
   testArticleResult,
   testDocumentationResult,
+  testLandingPageResult,
 } from '__fixtures__/data/searchResults'
 
 export default {
@@ -29,6 +30,7 @@ export const SearchResults = () => {
       />
       <SearchResultItem item={testArticleResult} />
       <SearchResultItem item={testDocumentationResult} />
+      <SearchResultItem item={testLandingPageResult} />
     </>
   )
 }

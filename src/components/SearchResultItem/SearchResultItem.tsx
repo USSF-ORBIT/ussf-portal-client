@@ -24,6 +24,9 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
     case 'Documentation':
       itemCategory = CONTENT_CATEGORIES.DOCUMENTATION
       break
+    case 'LandingPage':
+      itemCategory = CONTENT_CATEGORIES.LANDING_PAGE
+      break
   }
 
   return (

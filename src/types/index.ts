@@ -128,7 +128,11 @@ export type LabelRecord = {
 }
 
 /* Search Results (from Keystone) */
-export type SearchResultType = 'Article' | 'Bookmark' | 'Documentation'
+export type SearchResultType =
+  | 'Article'
+  | 'Bookmark'
+  | 'Documentation'
+  | 'LandingPage'
 
 export type SearchResultRecord = {
   id: string

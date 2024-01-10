@@ -44,6 +44,10 @@ export const CONTENT_CATEGORIES = {
     value: 'Documentation',
     label: 'USSF Documentation',
   },
+  LANDING_PAGE: {
+    value: 'LandingPage',
+    label: 'Landing Page',
+  },
   APPLICATION: {
     value: 'Application',
     label: 'Application',

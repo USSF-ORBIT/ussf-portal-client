@@ -6,6 +6,7 @@ import {
   testArticleResult,
   testApplicationResult,
   testDocumentationResult,
+  testLandingPageResult,
 } from '__fixtures__/data/searchResults'
 
 export default {
@@ -33,4 +34,8 @@ export const ArticleResultLineClamp = () => (
 
 export const DocumentationResult = () => (
   <SearchResultItem item={testDocumentationResult} />
+)
+
+export const LandingPageResult = () => (
+  <SearchResultItem item={testLandingPageResult} />
 )

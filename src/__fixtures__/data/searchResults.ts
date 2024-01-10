@@ -18,6 +18,15 @@ export const testDocumentationResult: SearchResultRecord = {
   permalink: 'https://localhost:3000/path/to/documentation',
 }
 
+export const testLandingPageResult: SearchResultRecord = {
+  id: 'testLandingPage123',
+  type: 'LandingPage',
+  title: 'Some Landing Page',
+  preview:
+    'Our team landing page where you can find all the information you need to know about our team.',
+  permalink: 'https://localhost:3000/landing/team',
+}
+
 export const testArticleResultNoLabels: SearchResultRecord = {
   id: 'testArticle124',
   type: 'Article',
