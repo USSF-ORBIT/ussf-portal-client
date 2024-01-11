@@ -14,6 +14,7 @@ export const GET_LANDING_PAGE = gql`
       slug
       status
       publishedDate
+      updatedAt
       documents {
         title
         document {
