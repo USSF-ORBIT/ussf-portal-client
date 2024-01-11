@@ -40,7 +40,7 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
           </Link>
         </h3>
 
-        <p>{preview}</p>
+        <p data-testid="result-preview">{preview}</p>
 
         <div className={styles.metadata}>
           {itemCategory && <Category category={itemCategory} />}
