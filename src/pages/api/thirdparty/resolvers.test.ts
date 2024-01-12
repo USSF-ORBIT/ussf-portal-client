@@ -5,7 +5,7 @@ import ThirdPartyKeystoneAPI from './dataSources/thirdPartyKeystone'
 import { resolvers, ThirdPartyContext } from './resolvers'
 import { typeDefs } from './schema'
 import type { SingleGraphQLResponse } from 'types'
-
+import { newPortalUser } from '__fixtures__/newPortalUser'
 let server: ApolloServer<ThirdPartyContext>
 let serverContext: ThirdPartyContext
 let keystoneAPI: ThirdPartyKeystoneAPI
@@ -19,6 +19,8 @@ describe('GraphQL resolvers', () => {
       useUnifiedTopology: true,
     })
     db = await connection.db()
+
+    await db.collection('users').insertOne(newPortalUser)
   })
 
   afterAll(async () => {
@@ -76,6 +78,46 @@ describe('GraphQL resolvers', () => {
       expect(data.cNotes[0].title).toEqual('Test Article')
     })
   })
+
+  describe('Query.displayName', () => {
+    type ResponseData = {
+      displayName: string
+    }
+
+    test("does not return the user's display name if unauthenticated", async () => {
+      const {
+        body: {
+          singleResult: { errors },
+        },
+      } = (await server.executeOperation<ResponseData>(
+        { query: displayNameQuery },
+        { contextValue: serverContext }
+      )) as SingleGraphQLResponse<ResponseData>
+
+      expect(errors).toHaveLength(1)
+    })
+
+    test("returns the user's display name if authenticated", async () => {
+      const {
+        body: {
+          singleResult: { data, errors },
+        },
+      } = (await server.executeOperation<ResponseData>(
+        {
+          query: displayNameQuery,
+        },
+        {
+          contextValue: {
+            ...serverContext,
+            userId: newPortalUser.userId,
+          },
+        }
+      )) as SingleGraphQLResponse<ResponseData>
+
+      expect(errors).toBeUndefined()
+      expect(data.displayName).toEqual('BERNADETTE CAMPBELL')
+    })
+  })
 })
 
 // This query is what the third-party calls,
@@ -90,6 +132,12 @@ const cNotesQuery = gql`
         document
       }
     }
+  }
+`
+
+const displayNameQuery = gql`
+  query GetDisplayName {
+    displayName
   }
 `
 
