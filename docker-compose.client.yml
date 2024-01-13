@@ -35,6 +35,7 @@ services:
       - LAUNCHDARKLY_SDK_CLIENT_SIDE_ID
       - MATOMO_URL
       - MATOMO_SITE_ID
+      - NEXT_PUBLIC_PORTAL_URL
     stdin_open: true
     depends_on:
       - mongo
