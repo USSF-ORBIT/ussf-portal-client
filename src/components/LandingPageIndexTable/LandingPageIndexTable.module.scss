@@ -10,6 +10,12 @@
 
   > tbody > tr {
     border-bottom: 1px solid var(--lp-td-border-color);
+
+    > td {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
 
   > tbody > tr:nth-child(odd) > td {
@@ -32,4 +38,10 @@
   :global(.usa-tag.Published) {
     @include u-bg('green-cool-20');
   }
+}
+
+.badge {
+  max-height: 25px;
+  max-width: 25px;
+  margin-right: 0.25rem;
 }

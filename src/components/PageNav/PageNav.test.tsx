@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-
+import { mockFlags } from 'jest-launchdarkly-mock'
 import PageNav from './PageNav'
 
 jest.mock('next/router', () => ({
@@ -17,17 +17,30 @@ jest.mock('next/router', () => ({
 
 describe('PageNav component', () => {
   describe('on any page', () => {
-    beforeEach(() => {
-      render(<PageNav />)
-    })
-
     test('renders links for the nav items', () => {
+      render(<PageNav />)
+
       const links = screen.getAllByRole('link')
 
       links.forEach((link, index) => {
         const navItem = links[parseInt(`${index}`)]
         expect(link).toHaveAttribute('href', navItem.getAttribute('href'))
       })
+
+      expect(links).toHaveLength(3)
+    })
+
+    test('renders nav items behind LaunchDarkly flags', () => {
+      mockFlags({
+        landingPageIndex: true,
+        guardianDirectory: true,
+      })
+
+      render(<PageNav />)
+
+      const links = screen.getAllByRole('link')
+
+      expect(links).toHaveLength(5)
     })
   })
 })
