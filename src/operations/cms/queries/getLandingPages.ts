@@ -8,6 +8,9 @@ export const GET_LANDING_PAGES = gql`
       slug
       status
       publishedDate
+      badge {
+        url
+      }
     }
   }
 `
