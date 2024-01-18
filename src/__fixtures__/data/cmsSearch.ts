@@ -3,7 +3,7 @@ export const mockCmsSearchResults = [
     __typename: 'ArticleResult',
     type: 'Article',
     id: 'cl3buldda0247riyt6h85cpgc',
-    permalink: 'my-fitness-article',
+    permalink: 'http://example.com/article/my-fitness-article',
     title: 'My Fitness Article',
     preview: 'This is the preview text!',
     date: '2022-05-18T17:18:40.802Z',
