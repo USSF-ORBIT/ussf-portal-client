@@ -124,3 +124,11 @@ export const handleRedirectTo = (req: PassportRequest) => {
     return '/'
   }
 }
+
+export const formatDisplayDate = (date: Date) => {
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
+}

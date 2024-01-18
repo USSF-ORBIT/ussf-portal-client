@@ -21,6 +21,12 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
       itemIcon = dateObj && <ArticleDateIcon date={dateObj} />
       break
     }
+    case 'Documentation':
+      itemCategory = CONTENT_CATEGORIES.DOCUMENTATION
+      break
+    case 'LandingPage':
+      itemCategory = CONTENT_CATEGORIES.LANDING_PAGE
+      break
   }
 
   return (
@@ -34,7 +40,7 @@ export const SearchResultItem = ({ item }: { item: SearchResultRecord }) => {
           </Link>
         </h3>
 
-        <p>{preview}</p>
+        <p data-testid="result-preview">{preview}</p>
 
         <div className={styles.metadata}>
           {itemCategory && <Category category={itemCategory} />}

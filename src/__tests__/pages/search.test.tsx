@@ -72,13 +72,7 @@ describe('Search page getServerSideProps', () => {
       props: {
         query: 'fitness',
         pageTitle: 'fitness Search Results',
-        results: mockCmsSearchResults.map((r) => ({
-          ...r,
-          permalink:
-            r.type === 'Article'
-              ? `http://example.com/articles/${r.permalink}`
-              : r.permalink,
-        })),
+        results: mockCmsSearchResults,
       },
     })
   })
