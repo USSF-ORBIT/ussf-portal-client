@@ -17,30 +17,45 @@ const testLandingPages = [
     slug: 'test-landing-page-1',
     publishedDate: DateTime.now().toISO()!,
     status: 'Published' as 'Draft' | 'Published' | 'Archived',
+    badge: {
+      url: '/img/default_badge.png',
+    },
   },
   {
     pageTitle: 'Test Landing Page 4',
     slug: 'test-landing-page-4',
     publishedDate: DateTime.now().toISO()!,
     status: 'Archived' as 'Draft' | 'Published' | 'Archived',
+    badge: {
+      url: '/img/default_badge.png',
+    },
   },
   {
     pageTitle: 'Test Landing Page 2',
     slug: 'test-landing-page-2',
     publishedDate: DateTime.now().toISO()!,
     status: 'Published' as 'Draft' | 'Published' | 'Archived',
+    badge: {
+      url: '/img/default_badge.png',
+    },
   },
   {
     pageTitle: 'Test Landing Page 3',
     slug: 'test-landing-page-3',
     publishedDate: DateTime.now().toISO()!,
     status: 'Draft' as 'Draft' | 'Published' | 'Archived',
+    badge: {
+      url: '/img/default_badge.png',
+    },
   },
   {
     pageTitle: 'Test Landing Page 5',
     slug: 'test-landing-page-5',
     publishedDate: DateTime.now().plus({ weeks: 2 }).toISO()!,
     status: 'Published' as 'Draft' | 'Published' | 'Archived',
+    badge: {
+      url: '/img/default_badge.png',
+    },
   },
   {
     pageTitle:
@@ -48,6 +63,9 @@ const testLandingPages = [
     slug: 'test-landing-page-6',
     publishedDate: DateTime.now().plus({ weeks: 3 }).toISO()!,
     status: 'Published' as 'Draft' | 'Published' | 'Archived',
+    badge: {
+      url: '/img/default_badge.png',
+    },
   },
 ]
 

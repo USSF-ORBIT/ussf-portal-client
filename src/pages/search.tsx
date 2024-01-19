@@ -131,9 +131,6 @@ export default Search
 Search.getLayout = (page: React.ReactNode) => withArticleLayout(page)
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // Need absolute URL
-  const origin = process.env.NEXT_PUBLIC_PORTAL_URL
-
   // get search terms from URL params
   const { q } = context.query
 
@@ -163,22 +160,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     variables: { query: q },
   })) as unknown as { data: { search: SearchResultRecord[] } }
 
-  // Add full URL to articles (TODO do this on the CMS end by generating permalinks)
-  const results =
-    search?.map((i) => {
-      return {
-        ...i,
-        permalink:
-          i.type === 'Article'
-            ? `${origin}/articles/${i.permalink}`
-            : i.permalink,
-      }
-    }) || []
-
   return {
     props: {
       query: q,
-      results,
+      results: search ? search : [],
       pageTitle: `${q} Search Results`,
       labels,
     },

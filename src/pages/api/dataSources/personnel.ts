@@ -32,6 +32,16 @@ class PersonnelAPI extends RESTDataSource {
     })
   }
 
+  async getLastModifiedAt() {
+    if (!this.baseURL) throw new Error('No Personnel API URL found')
+
+    return this.post(this.baseURL + `/api/graphql`, {
+      body: {
+        query: getLastModifiedAtQuery,
+      },
+    })
+  }
+
   async searchGuardianDirectory(query: string) {
     if (!this.baseURL) throw new Error('No Personnel API URL found')
 
@@ -89,6 +99,12 @@ query GetGuardianDirectory {
     BaseLoc
     MajCom
   }
+}
+`
+
+const getLastModifiedAtQuery = `
+query GetLastModifiedAt {
+  getLastModifiedAt
 }
 `
 
