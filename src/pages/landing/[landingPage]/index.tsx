@@ -17,7 +17,7 @@ import { GET_LANDING_PAGE } from 'operations/cms/queries/getLandingPage'
 import { CMSBookmark, CollectionRecord } from 'types'
 import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
 import { getSession } from 'lib/session'
-import { isCmsUser, isPublished } from 'helpers/index'
+import { formatDisplayDate, isCmsUser, isPublished } from 'helpers/index'
 
 type DocumentsType = {
   title: string
@@ -154,6 +154,14 @@ const LandingPage = ({
         {articles.length >= 1 && <h2 id="articles">Articles</h2>}
         {articles.length >= 1 && (
           <ArticleList articles={articles} landingPage={true} />
+        )}
+        {isPublished(landingPage) && (
+          <p>
+            Last updated:{' '}
+            {landingPage.updatedAt >= landingPage.publishedDate
+              ? formatDisplayDate(landingPage.updatedAt)
+              : formatDisplayDate(landingPage.publishedDate)}
+          </p>
         )}
       </>
     )

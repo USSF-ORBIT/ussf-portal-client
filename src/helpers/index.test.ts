@@ -7,6 +7,7 @@ import {
   isCmsUser,
   getYouTubeEmbedId,
   handleRedirectTo,
+  formatDisplayDate,
 } from './index'
 
 import type { RSSNewsItem, PublishableItemType } from 'types'
@@ -215,5 +216,13 @@ describe('handleRedirectTo', () => {
       body: { RelayState: encodeURIComponent(expectedRedirectTo) },
     } as PassportRequest
     expect(handleRedirectTo(mockReq)).toEqual('/redirect?redirectPath=/users')
+  })
+})
+
+describe('formatDisplayDate', () => {
+  test('returns formatted date string', () => {
+    const testDate = new Date('2021-05-17T13:44:39.796Z')
+    const expectedDate = 'May 17, 2021'
+    expect(formatDisplayDate(testDate)).toEqual(expectedDate)
   })
 })
