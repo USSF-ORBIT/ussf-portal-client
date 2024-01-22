@@ -132,6 +132,7 @@ const UserModel = {
   },
   async getDisplayName(userId: string, { db }: Context) {
     const user = await db.collection('users').findOne({ userId })
+
     if (!user) {
       throw new Error('UserModel Error: error in getDisplayName no user found')
     }

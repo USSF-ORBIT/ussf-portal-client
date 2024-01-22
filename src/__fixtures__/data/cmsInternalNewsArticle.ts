@@ -186,3 +186,42 @@ export const cmsInternalNewsArticleTaggedCNote: ArticleRecord = {
     ],
   },
 }
+
+export const cmsInternalNewsArticleWithVideo: ArticleRecord = {
+  id: 'clray24gj0312r3zvp1clyb7u',
+  title: 'Test Article with Video',
+  slug: 'test-with-video',
+  status: 'Published',
+  category: 'InternalNews',
+  publishedDate: '2024-01-12T18:00:43.156Z',
+  body: {
+    document: [
+      {
+        type: 'component-block',
+        props: {
+          link: 'https://www.youtube.com/watch?v=EdK9RRpofI4',
+          videoTitle: 'Test Video',
+        },
+        children: [
+          {
+            type: 'component-inline-prop',
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+        ],
+        component: 'embedVideo',
+      },
+      {
+        type: 'paragraph',
+        children: [
+          {
+            text: '',
+          },
+        ],
+      },
+    ],
+  },
+}
