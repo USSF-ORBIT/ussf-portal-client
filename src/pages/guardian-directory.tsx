@@ -3,11 +3,9 @@ import { useFlags } from 'launchdarkly-react-client-sdk'
 import { useRouter } from 'next/router'
 import { Button, Search } from '@trussworks/react-uswds'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
-import { useUser } from 'hooks/useUser'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/guardianDirectory.module.scss'
 import { GuardianDirectoryTable } from 'components/GuardianDirectoryTable/GuardianDirectoryTable'
-import { useGetGuardianDirectoryQuery } from 'operations/portal/queries/getGuardianDirectory.g'
 import { useSearchGuardianDirectoryQuery } from 'operations/portal/queries/searchGuardianDirectory.g'
 import { useGetLastModifiedAtQuery } from 'operations/portal/queries/getLastModifiedAt.g'
 import { GuardianDirectory as GuardianDirectoryType } from 'types'
@@ -15,40 +13,20 @@ import { GuardianDirectory as GuardianDirectoryType } from 'types'
 const GuardianDirectory = () => {
   const flags = useFlags()
   const router = useRouter()
-  const { loading: loadingUser } = useUser()
   const [directory, setDirectory] = useState(Array<GuardianDirectoryType>)
-  const { data } = useGetGuardianDirectoryQuery()
   const { data: lastModifiedAt } = useGetLastModifiedAtQuery()
-
-  const [loading, setLoading] = useState(true)
-
   const [searchQuery, setSearchQuery] = useState('')
-  const { data: searchData, loading: loadingSearch } =
-    useSearchGuardianDirectoryQuery({
-      variables: { search: searchQuery },
-    })
+  const { data: searchData, loading } = useSearchGuardianDirectoryQuery({
+    variables: { search: searchQuery },
+  })
 
   useEffect(() => {
-    if (loadingUser || loadingSearch) {
-      setLoading(true)
-    } else {
-      setLoading(false)
-    }
-  }, [loadingUser, loadingSearch])
-
-  useEffect(() => {
-    if (searchQuery && !loadingSearch) {
+    if (searchData && !loading) {
       setDirectory(
-        searchData?.searchGuardianDirectory as GuardianDirectoryType[]
+        searchData.searchGuardianDirectory as GuardianDirectoryType[]
       )
     }
-  }, [searchQuery, loadingSearch, searchData])
-
-  useEffect(() => {
-    if (data) {
-      setDirectory(data.guardianDirectory as GuardianDirectoryType[])
-    }
-  }, [data])
+  }, [searchQuery, loading, searchData])
 
   const searchDirectory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
