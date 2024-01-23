@@ -15,10 +15,12 @@ import { GuardianDirectory as GuardianDirectoryType } from 'types'
 const GuardianDirectory = () => {
   const flags = useFlags()
   const router = useRouter()
-  const { loading } = useUser()
+  const { loading: loadingUser } = useUser()
   const [directory, setDirectory] = useState(Array<GuardianDirectoryType>)
-  const { data } = useGetGuardianDirectoryQuery()
+  const { data, lodaing: loadingGetQuery } = useGetGuardianDirectoryQuery()
   const { data: lastModifiedAt } = useGetLastModifiedAtQuery()
+
+  const [loading, setLoading] = useState(true)
 
   const [searchQuery, setSearchQuery] = useState('')
   const { data: searchData, loading: loadingSearch } =
@@ -27,18 +29,26 @@ const GuardianDirectory = () => {
     })
 
   useEffect(() => {
+    if (loadingUser || loadingGetQuery || loadingSearch) {
+      setLoading(true)
+    } else {
+      setLoading(false)
+    }
+  }, [loadingUser, loadingGetQuery, loadingSearch])
+
+  useEffect(() => {
     if (searchQuery && !loadingSearch) {
       setDirectory(
         searchData?.searchGuardianDirectory as GuardianDirectoryType[]
       )
     }
-  }, [searchQuery, loading, searchData])
+  }, [searchQuery, loadingSearch, searchData])
 
   useEffect(() => {
-    if (data) {
+    if (data && !loadingGetQuery) {
       setDirectory(data.guardianDirectory as GuardianDirectoryType[])
     }
-  }, [data])
+  }, [data, loadingGetQuery])
 
   const searchDirectory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -85,7 +95,7 @@ const GuardianDirectory = () => {
           </Button>
         </div>
 
-        {!directory.length ? (
+        {loading ? (
           <LoadingWidget />
         ) : (
           <GuardianDirectoryTable

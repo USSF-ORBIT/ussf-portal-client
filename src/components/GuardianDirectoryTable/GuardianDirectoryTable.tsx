@@ -1,6 +1,7 @@
 import React from 'react'
 import { Table } from '@trussworks/react-uswds'
 import styles from './GuardianDirectoryTable.module.scss'
+import { SearchBanner } from 'components/SearchBanner/SearchBanner'
 
 type GuardianDirectoryTableProps = {
   headers: string[]
@@ -13,6 +14,21 @@ export const GuardianDirectoryTable = ({
   rows,
   keys,
 }: GuardianDirectoryTableProps) => {
+  if (rows.length === 0) {
+    // no results
+    return (
+      <SearchBanner icon={<img src="/assets/images/moon-flag.svg" alt=" " />}>
+        <div>
+          <h3>There are no results that match that query.</h3>
+          <p>
+            It seems you didn’t find what you were looking for. Please search
+            again with different keywords.
+          </p>
+        </div>
+      </SearchBanner>
+    )
+  }
+
   return (
     <div
       data-testid="guardian-directory-table"
