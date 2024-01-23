@@ -17,7 +17,7 @@ const GuardianDirectory = () => {
   const router = useRouter()
   const { loading: loadingUser } = useUser()
   const [directory, setDirectory] = useState(Array<GuardianDirectoryType>)
-  const { data, lodaing: loadingGetQuery } = useGetGuardianDirectoryQuery()
+  const { data } = useGetGuardianDirectoryQuery()
   const { data: lastModifiedAt } = useGetLastModifiedAtQuery()
 
   const [loading, setLoading] = useState(true)
@@ -29,12 +29,12 @@ const GuardianDirectory = () => {
     })
 
   useEffect(() => {
-    if (loadingUser || loadingGetQuery || loadingSearch) {
+    if (loadingUser || loadingSearch) {
       setLoading(true)
     } else {
       setLoading(false)
     }
-  }, [loadingUser, loadingGetQuery, loadingSearch])
+  }, [loadingUser, loadingSearch])
 
   useEffect(() => {
     if (searchQuery && !loadingSearch) {
@@ -45,10 +45,10 @@ const GuardianDirectory = () => {
   }, [searchQuery, loadingSearch, searchData])
 
   useEffect(() => {
-    if (data && !loadingGetQuery) {
+    if (data) {
       setDirectory(data.guardianDirectory as GuardianDirectoryType[])
     }
-  }, [data, loadingGetQuery])
+  }, [data])
 
   const searchDirectory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
