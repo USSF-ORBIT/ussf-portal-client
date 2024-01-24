@@ -6,27 +6,45 @@ import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
 import styles from 'styles/pages/guardianDirectory.module.scss'
 import { GuardianDirectoryTable } from 'components/GuardianDirectoryTable/GuardianDirectoryTable'
-import { useSearchGuardianDirectoryQuery } from 'operations/portal/queries/searchGuardianDirectory.g'
+import { useSearchGuardianDirectoryLazyQuery } from 'operations/portal/queries/searchGuardianDirectory.g'
 import { useGetLastModifiedAtQuery } from 'operations/portal/queries/getLastModifiedAt.g'
 import { GuardianDirectory as GuardianDirectoryType } from 'types'
+import { useGetGuardianDirectoryQuery } from 'operations/portal/queries/getGuardianDirectory.g'
 
 const GuardianDirectory = () => {
   const flags = useFlags()
   const router = useRouter()
   const [directory, setDirectory] = useState(Array<GuardianDirectoryType>)
   const { data: lastModifiedAt } = useGetLastModifiedAtQuery()
+  const { data: guardianDirectoryData, loading: loadingGuardianData } =
+    useGetGuardianDirectoryQuery()
   const [searchQuery, setSearchQuery] = useState('')
-  const { data: searchData, loading } = useSearchGuardianDirectoryQuery({
-    variables: { search: searchQuery },
-  })
+  const [loadSearch, { data: searchData, loading: loadingSearchData }] =
+    useSearchGuardianDirectoryLazyQuery({
+      variables: { search: searchQuery },
+    })
 
   useEffect(() => {
-    if (searchData && !loading) {
+    if (guardianDirectoryData && !loadingGuardianData) {
+      setDirectory(
+        guardianDirectoryData.guardianDirectory as GuardianDirectoryType[]
+      )
+    }
+  }, [loadingGuardianData, guardianDirectoryData])
+
+  useEffect(() => {
+    if (searchQuery && searchData && !loadingSearchData) {
       setDirectory(
         searchData.searchGuardianDirectory as GuardianDirectoryType[]
       )
     }
-  }, [searchQuery, loading, searchData])
+  }, [loadingSearchData, searchData, searchQuery])
+
+  useEffect(() => {
+    if (searchQuery) {
+      loadSearch()
+    }
+  }, [searchQuery])
 
   const searchDirectory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -73,7 +91,7 @@ const GuardianDirectory = () => {
           </Button>
         </div>
 
-        {loading ? (
+        {!directory || loadingSearchData || loadingGuardianData ? (
           <LoadingWidget />
         ) : (
           <GuardianDirectoryTable
