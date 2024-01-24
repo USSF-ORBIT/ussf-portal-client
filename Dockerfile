@@ -73,14 +73,14 @@ FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS build-env
 
 WORKDIR /app
 
-COPY --from=builder /app/scripts/add-dod-cas.sh .
+COPY --from=builder /app/scripts/gravity-add-dod-cas.sh .
 
 COPY --from=build-openssl /bin/openssl /bin/openssl
 COPY --from=build-openssl /lib64/ /lib64/
 
 USER root
 COPY --from=builder /app/fetch-manifest-resources/ /app/fetch-manifest-resources/
-RUN chmod +x add-dod-cas.sh && sh add-dod-cas.sh
+RUN chmod +x gravity-add-dod-cas.sh && sh gravity-add-dod-cas.sh
 RUN cat /usr/local/share/ca-certificates/DoD_Root_CA_3.crt > /usr/local/share/ca-certificates/GCDS.pem
 
 ##--------- Stage: runner ---------##
