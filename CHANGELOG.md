@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.30.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.29.0...4.30.0) (2024-01-22)
+
+
+### Features
+
+* Add hero image support for landing page ([#1189](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1189)) ([141a348](https://github.com/USSF-ORBIT/ussf-portal-client/commit/141a348e2c2612e313ca3504f4769b43ddcf8376))
+* add landing pages to search results ([#1190](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1190)) ([9e83db2](https://github.com/USSF-ORBIT/ussf-portal-client/commit/9e83db245b6e5ccd90f6364545b2f9acc824ca57))
+* Add Last Updated to Guardian Directory ([#1194](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1194)) ([540edb5](https://github.com/USSF-ORBIT/ussf-portal-client/commit/540edb51fdbb2d131cbe2d7b5591edbf19605546))
+* Show user their portal userId on the settings page ([#1196](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1196)) ([534a51a](https://github.com/USSF-ORBIT/ussf-portal-client/commit/534a51a0b7732e07af2ad8de4ff1df8c4212c67a))
+
 ## [4.29.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.28.0...4.29.0) (2024-01-03)
 
 

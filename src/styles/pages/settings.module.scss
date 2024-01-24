@@ -19,4 +19,13 @@
   section {
     margin-top: units('205');
   }
+
+  .copyIcon {
+    margin-right: units(0.5);
+  }
+
+  .copyButton {
+    cursor: pointer;
+    margin-left: units(1);
+  }
 }
