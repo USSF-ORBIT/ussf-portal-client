@@ -45,6 +45,17 @@ services:
     depends_on:
       - mongo
 
+  test-jwt-issuer:
+    container_name: test-jwt-issuer
+    build:
+    # Uncomment the below line to work with local check out
+      context: ../ussf-portal/test-jwt-issuer/
+      dockerfile: Dockerfile
+      target: builder
+    restart: always
+    ports:
+      - '5001:5001'
+
   idp:
     container_name: test-saml-idp
     image: kristophjunge/test-saml-idp
@@ -63,7 +74,6 @@ services:
     platform: linux/amd64
     volumes:
       - ./users.php:/var/www/simplesamlphp/config/authsources.php
-
   mariadb:
     image: docker.io/bitnami/mariadb:10.11
     environment:

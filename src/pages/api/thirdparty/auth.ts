@@ -3,8 +3,11 @@ import * as jose from 'jose'
 import { NextApiRequest } from 'next'
 // Derived from values in the well-known OpenID configuration
 // https://federation.test.cce.af.mil/oidc/guardian-one/.well-known/openid-configuration
-const JWKS_URI = 'https://federation.test.cce.af.mil/oidc/guardian-one/keys'
-const ISSUER = 'https://federation.test.cce.af.mil/oidc/guardian-one'
+const JWKS_URI =
+  process.env.JWKS_URI ||
+  'https://federation.test.cce.af.mil/oidc/guardian-one/jwks'
+const ISSUER =
+  process.env.ISSUER || 'https://federation.test.cce.af.mil/oidc/guardian-one'
 
 export async function authMiddleware(req: NextApiRequest) {
   if (req.method === 'OPTIONS') {
