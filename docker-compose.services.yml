@@ -51,6 +51,11 @@ services:
     restart: always
     ports:
       - '8080:8080'
+    env_file:
+     # If testing locally with Mobile Connect, set the following
+     # environment variables in your .envrc.local file:
+     # EDIPI, COMMON_NAME, GIVENNAME, SURNAME
+     - .envrc.local
     environment:
       SIMPLESAMLPHP_SP_ENTITY_ID: ussf-portal-client
       SIMPLESAMLPHP_SP_ASSERTION_CONSUMER_SERVICE: http://localhost:3000/api/auth/login

@@ -1,12 +1,16 @@
 import { DateTime } from 'luxon'
 import { GraphQLJSON } from 'graphql-type-json'
+import type { MongoClient } from 'mongodb'
 import ThirdPartyKeystoneAPI from './dataSources/thirdPartyKeystone'
+import UserModel from 'models/User'
 
 /* Resolver Types */
 export type ThirdPartyContext = {
   dataSources: {
     keystoneAPI: ThirdPartyKeystoneAPI
+    mongodb: typeof MongoClient
   }
+  userId?: string
 }
 
 /* Resolvers */
@@ -27,6 +31,21 @@ export const resolvers = {
       } = await keystoneAPI.getCNotes(DateTime.now())
 
       return articles
+    },
+    displayName: async (
+      _: undefined,
+      __: undefined,
+      // We need to alias mongodb as db so we can
+      // use our existing User model
+      { dataSources: { mongodb: db }, userId }: ThirdPartyContext
+    ) => {
+      // Make sure we have a userId
+      if (!userId) {
+        throw new Error('User not authenticated')
+      }
+
+      // Look up user in MongoDB and get their display name
+      return UserModel.getDisplayName(userId, { db })
     },
   },
 }

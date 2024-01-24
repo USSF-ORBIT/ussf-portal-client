@@ -25,6 +25,8 @@ import {
   faSmog,
   faSnowflake,
   faBoltLightning,
+  faCopy,
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -52,5 +54,7 @@ library.add(
   faMoon,
   faSmog,
   faSnowflake,
-  faBoltLightning
+  faBoltLightning,
+  faCopy,
+  faCheck
 )
