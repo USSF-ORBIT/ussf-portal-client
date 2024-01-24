@@ -9,6 +9,7 @@ import GuardianDirectory from 'pages/guardian-directory'
 import { guardianDirectoryMock } from '__fixtures__/data/guardianDirectory'
 import { SearchGuardianDirectoryDocument } from 'operations/portal/queries/searchGuardianDirectory.g'
 import { GetLastModifiedAtDocument } from 'operations/portal/queries/getLastModifiedAt.g'
+import { GetGuardianDirectoryDocument } from 'operations/portal/queries/getGuardianDirectory.g'
 
 const mockDirectory = [
   {
@@ -29,6 +30,16 @@ const mockDirectory = [
     result: jest.fn(() => ({
       data: {
         searchGuardianDirectory: guardianDirectoryMock,
+      },
+    })),
+  },
+  {
+    request: {
+      query: GetGuardianDirectoryDocument,
+    },
+    result: jest.fn(() => ({
+      data: {
+        guardianDirectory: guardianDirectoryMock,
       },
     })),
   },
