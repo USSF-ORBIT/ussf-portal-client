@@ -34,3 +34,8 @@
         )
         mv $i ${name}.crt
     done
+    
+    # update certificate stores
+    update-ca-certificates
+
+    rm unclass-certificates_pkcs7_DoD.zip
