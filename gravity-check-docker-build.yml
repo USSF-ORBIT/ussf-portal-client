@@ -1,3 +1,4 @@
+# TODO: THIS FILE TO BE CONVERTED TO THE GITLAB PIPELINE
 name: Docker Build Test
 
 on:
