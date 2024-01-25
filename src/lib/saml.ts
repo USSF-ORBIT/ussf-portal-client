@@ -119,7 +119,7 @@ export const configSaml = async (passport: PassportWithLogout) => {
       } else {
         // DEVELOPMENT ONLY
         // The test IDP only supports nameIDFormat=transient, so we need to use a different attribute
-        userId = samlUser.attributes.userprincipalname
+        userId = samlUser.attributes.common_name
       }
 
       const sessionUser = {

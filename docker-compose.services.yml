@@ -49,7 +49,7 @@ services:
     container_name: test-jwt-issuer
     build:
     # Uncomment the below line to work with local check out
-      context: ../ussf-portal/test-jwt-issuer/
+      context: ../ussf-portal/test-jwt-service/
       dockerfile: Dockerfile
       target: builder
     restart: always

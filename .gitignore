@@ -45,6 +45,7 @@ saml.pem
 dev-saml.pem
 test-saml.pem
 prod-saml.pem
+scripts/dod_ca_cert_bundle.sha256
 
 tsconfig.tsbuildinfo
 
