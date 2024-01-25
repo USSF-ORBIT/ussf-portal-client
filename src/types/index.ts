@@ -128,7 +128,11 @@ export type LabelRecord = {
 }
 
 /* Search Results (from Keystone) */
-export type SearchResultType = 'Article' | 'Bookmark'
+export type SearchResultType =
+  | 'Article'
+  | 'Bookmark'
+  | 'Documentation'
+  | 'LandingPage'
 
 export type SearchResultRecord = {
   id: string
@@ -304,6 +308,7 @@ export type PortalUser = {
   mySpace: (Widget | Collection)[]
   displayName: string
   theme: string
+  lastLoginAt: string
 }
 
 export type SessionUser = SAMLUser & {

@@ -77,6 +77,8 @@ export const typeDefs = gql`
     theme: String!
     personnelData: PersonnelData
     guardianDirectory: [GuardianDirectory]
+    getLastModifiedAt: String
+    searchGuardianDirectory(search: String!): [GuardianDirectory]
   }
 
   type WeatherCoords {

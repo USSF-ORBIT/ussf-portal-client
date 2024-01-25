@@ -17,7 +17,7 @@ import { GET_LANDING_PAGE } from 'operations/cms/queries/getLandingPage'
 import { CMSBookmark, CollectionRecord } from 'types'
 import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
 import { getSession } from 'lib/session'
-import { isCmsUser, isPublished } from 'helpers/index'
+import { formatDisplayDate, isCmsUser, isPublished } from 'helpers/index'
 
 type DocumentsType = {
   title: string
@@ -32,14 +32,42 @@ type DocumentsType = {
 const LandingPage = ({
   landingPage,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { pageTitle, pageDescription, documents, collections, articles } =
-    landingPage
+  const {
+    pageTitle,
+    badge,
+    hero,
+    pageDescription,
+    documents,
+    collections,
+    articles,
+  } = landingPage
+
+  const badgeImage = badge?.url.length ? badge.url : '/img/default_badge.png'
+  const heroImage = hero?.url.length ? hero.url : ''
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pageContent = (): any => {
     return (
       <>
-        <h1 className={styles.pageTitle}>{pageTitle}</h1>
+        <div className={styles.pageTitleContainer}>
+          <img
+            src={badgeImage}
+            alt="landing page badge"
+            className={styles.badge}
+          />
+
+          <h1 className={styles.pageTitle}>{pageTitle}</h1>
+        </div>
+
+        {heroImage && (
+          <div className={styles.heroContainer}>
+            <img
+              src={hero.url}
+              alt="landing page hero graphic"
+              className={styles.hero}
+            />
+          </div>
+        )}
         <p className={styles.pageDescription}>{pageDescription}</p>
         {documents.length >= 1 && <h2 id="documentation">Documentation</h2>}
         {documents.length >= 1 && (
@@ -126,6 +154,14 @@ const LandingPage = ({
         {articles.length >= 1 && <h2 id="articles">Articles</h2>}
         {articles.length >= 1 && (
           <ArticleList articles={articles} landingPage={true} />
+        )}
+        {isPublished(landingPage) && (
+          <p>
+            Last updated:{' '}
+            {landingPage.updatedAt >= landingPage.publishedDate
+              ? formatDisplayDate(landingPage.updatedAt)
+              : formatDisplayDate(landingPage.publishedDate)}
+          </p>
         )}
       </>
     )

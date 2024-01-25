@@ -1,6 +1,6 @@
 {
   "name": "ussf-portal",
-  "version": "4.28.0",
+  "version": "4.30.0",
   "private": true,
   "engines": {
     "node": "^18.14.2"
@@ -71,6 +71,7 @@
     "graphql": "16.8.1",
     "graphql-tag": "2.12.6",
     "graphql-type-json": "0.3.2",
+    "jose": "5.2.0",
     "launchdarkly-js-client-sdk": "3.1.4",
     "launchdarkly-react-client-sdk": "3.0.9",
     "luxon": "3.4.3",

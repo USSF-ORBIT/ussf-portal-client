@@ -6,7 +6,10 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { SingleArticle } from './SingleArticle'
 import type { ArticleRecord, LabelRecord } from 'types'
-import { cmsInternalNewsArticle as testArticle } from '__fixtures__/data/cmsInternalNewsArticle'
+import {
+  cmsInternalNewsArticle as testArticle,
+  cmsInternalNewsArticleWithVideo as videoArticle,
+} from '__fixtures__/data/cmsInternalNewsArticle'
 
 describe('SingleArticle component', () => {
   test('renders the article', () => {
@@ -87,5 +90,15 @@ describe('SingleArticle component', () => {
     render(<SingleArticle article={labeledArticle} />)
 
     expect(screen.getByText('USSF HQ')).toBeVisible()
+  })
+  test('renders a video if the article has a video', () => {
+    render(<SingleArticle article={videoArticle} />)
+
+    const video = screen.getByTestId('embedVideo')
+    expect(video).toBeInTheDocument()
+    expect(video).toHaveAttribute('src')
+    expect(video.getAttribute('src')).toEqual(
+      'https://youtube.com/embed/EdK9RRpofI4'
+    )
   })
 })
