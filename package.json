@@ -32,8 +32,7 @@
     "migrate:create": "migrate create --template-file ./migration-template.js",
     "generate": "graphql-codegen --config codegen.yml",
     "happo": "happo",
-    "happo-ci-github-actions": "happo-ci-github-actions",
-    "fetch": "docker compose build fetch-manifest-resources && docker run --rm -v ${PWD}:/work -it ussf-portal-client-fetch-manifest-resources:latest"
+    "happo-ci-github-actions": "happo-ci-github-actions"
   },
   "dependencies": {
     "@apollo/client": "3.8.7",
