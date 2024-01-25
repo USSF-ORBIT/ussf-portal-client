@@ -13,10 +13,11 @@ import Collection from 'components/Collection/Collection'
 import Bookmark from 'components/Bookmark/Bookmark'
 import { withLandingPageLayout } from 'layout/DefaultLayout/LandingPageLayout'
 import { client } from 'lib/keystoneClient'
-import { getSession } from 'lib/session'
 import { GET_LANDING_PAGE } from 'operations/cms/queries/getLandingPage'
 import { CMSBookmark, CollectionRecord } from 'types'
 import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
+import { getSession } from 'lib/session'
+import { formatDisplayDate, isCmsUser, isPublished } from 'helpers/index'
 
 type DocumentsType = {
   title: string
@@ -31,14 +32,42 @@ type DocumentsType = {
 const LandingPage = ({
   landingPage,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { pageTitle, pageDescription, documents, collections, articles } =
-    landingPage
+  const {
+    pageTitle,
+    badge,
+    hero,
+    pageDescription,
+    documents,
+    collections,
+    articles,
+  } = landingPage
+
+  const badgeImage = badge?.url.length ? badge.url : '/img/default_badge.png'
+  const heroImage = hero?.url.length ? hero.url : ''
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pageContent = (): any => {
     return (
       <>
-        <h1 className={styles.pageTitle}>{pageTitle}</h1>
+        <div className={styles.pageTitleContainer}>
+          <img
+            src={badgeImage}
+            alt="landing page badge"
+            className={styles.badge}
+          />
+
+          <h1 className={styles.pageTitle}>{pageTitle}</h1>
+        </div>
+
+        {heroImage && (
+          <div className={styles.heroContainer}>
+            <img
+              src={hero.url}
+              alt="landing page hero graphic"
+              className={styles.hero}
+            />
+          </div>
+        )}
         <p className={styles.pageDescription}>{pageDescription}</p>
         {documents.length >= 1 && <h2 id="documentation">Documentation</h2>}
         {documents.length >= 1 && (
@@ -126,12 +155,23 @@ const LandingPage = ({
         {articles.length >= 1 && (
           <ArticleList articles={articles} landingPage={true} />
         )}
+        {isPublished(landingPage) && (
+          <p>
+            Last updated:{' '}
+            {landingPage.updatedAt >= landingPage.publishedDate
+              ? formatDisplayDate(landingPage.updatedAt)
+              : formatDisplayDate(landingPage.publishedDate)}
+          </p>
+        )}
       </>
     )
   }
 
   return (
     <Grid className={styles.inPageNav}>
+      {!isPublished(landingPage) && (
+        <h2 className={styles.previewBanner}>Draft Landing Page Preview</h2>
+      )}
       <InPageNavigation scrollOffset="140px" content={pageContent()} />
     </Grid>
   )
@@ -148,15 +188,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context.req, context.res)
   const user = session?.passport?.user
 
-  if (!user) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    }
-  }
-
   const {
     data: { landingPage },
   } = await client.query({
@@ -164,7 +195,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     variables: { slug },
   })
 
-  if (!landingPage) {
+  // if landing page is not published or not found return 404
+  // unless the current user is a CMS user or admin
+  // then allow them to see any article
+  if (!landingPage || (!isPublished(landingPage) && !isCmsUser(user))) {
     return {
       notFound: true,
     }

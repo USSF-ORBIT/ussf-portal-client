@@ -6,11 +6,36 @@
 .pageTitle {
   text-transform: uppercase;
   margin-top: 0;
+  margin-bottom: 0;
+}
+
+.pageTitleContainer {
+  display: flex;
+  align-items: center;
+}
+
+.badge {
+  max-height: 50px;
+  max-width: 50px;
+  margin-right: 0.25rem;
+}
+
+.heroContainer {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.hero {
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
 }
 
 .pageDescription {
   line-height: 26px;
   max-width: 700px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .pageMeta {
@@ -63,4 +88,12 @@
       padding-right: 44px;
     }
   }
+}
+
+h2.previewBanner {
+  position: sticky;
+  top: 0;
+  text-align: center;
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
 }

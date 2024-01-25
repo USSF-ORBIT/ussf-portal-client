@@ -110,6 +110,7 @@ export const configSaml = async (passport: PassportWithLogout) => {
       } = samlUser
 
       let userId: string
+
       if (
         samlUser.nameIDFormat ===
         'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'

@@ -44,15 +44,14 @@ handler.get('/api/auth/user', (req, res) => {
 handler.get('/api/auth/login', passport.authenticate('saml'))
 
 // POST /api/auth/login - callback URL for IdP SSO
-handler.post(
-  '/api/auth/login',
+handler.post('/api/auth/login', function (req, res, next) {
+  const redirectTo = handleRedirectTo(req)
   passport.authenticate('saml', {
     failureRedirect: '/login',
     failureMessage: true,
-  }),
-  // Login was successful, redirect the user
-  handleRedirectTo
-)
+    successRedirect: redirectTo,
+  })(req, res, next)
+})
 
 //  GET /api/auth/logout - initiate a SLO (logout) request
 handler.get('/api/auth/logout', async (req, res) => {

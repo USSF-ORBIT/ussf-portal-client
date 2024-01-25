@@ -12,7 +12,6 @@ import { GET_LABELS } from 'operations/cms/queries/getLabels'
 import { SearchBanner } from 'components/SearchBanner/SearchBanner'
 import { SearchResultItem } from 'components/SearchResultItem/SearchResultItem'
 import { SearchResultRecord } from 'types/index'
-import { getAbsoluteUrl } from 'lib/getAbsoluteUrl'
 import styles from 'styles/pages/search.module.scss'
 import BreadcrumbNav from 'components/BreadcrumbNav/BreadcrumbNav'
 import { useUser } from 'hooks/useUser'
@@ -132,10 +131,6 @@ export default Search
 Search.getLayout = (page: React.ReactNode) => withArticleLayout(page)
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // Need absolute URL
-  const { req } = context
-  const { origin } = getAbsoluteUrl(req)
-
   // get search terms from URL params
   const { q } = context.query
 
@@ -165,22 +160,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     variables: { query: q },
   })) as unknown as { data: { search: SearchResultRecord[] } }
 
-  // Add full URL to articles (TODO do this on the CMS end by generating permalinks)
-  const results =
-    search?.map((i) => {
-      return {
-        ...i,
-        permalink:
-          i.type === 'Article'
-            ? `${origin}/articles/${i.permalink}`
-            : i.permalink,
-      }
-    }) || []
-
   return {
     props: {
       query: q,
-      results,
+      results: search ? search : [],
       pageTitle: `${q} Search Results`,
       labels,
     },

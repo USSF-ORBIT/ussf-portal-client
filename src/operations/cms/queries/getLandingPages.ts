@@ -6,6 +6,11 @@ export const GET_LANDING_PAGES = gql`
       pageTitle
       pageDescription
       slug
+      status
+      publishedDate
+      badge {
+        url
+      }
     }
   }
 `
