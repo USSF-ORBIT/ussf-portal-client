@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.30.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.30.0...4.30.1) (2024-01-31)
+
+
+### Bug Fixes
+
+* **deps:** update dependencies ([#1156](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1156)) ([e08c1cd](https://github.com/USSF-ORBIT/ussf-portal-client/commit/e08c1cd81edea1fb06f07859b3703e9d32e0efc3))
+* show no results if none found ([#1199](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1199)) ([d3dff33](https://github.com/USSF-ORBIT/ussf-portal-client/commit/d3dff330b8812df13ee1accc1272ad7307980012))
+
 ## [4.30.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.29.0...4.30.0) (2024-01-22)
 
 
