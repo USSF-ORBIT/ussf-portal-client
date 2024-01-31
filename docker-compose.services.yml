@@ -48,14 +48,14 @@ services:
   test-jwt-issuer:
     container_name: test-jwt-issuer
     build:
-    # Uncomment the below line to work with local check out
       context: ../ussf-portal/test-jwt-service/
       dockerfile: Dockerfile
-      target: builder
+    environment:
+      ISSUER: http://test-jwt-issuer:5001/.well-known/issuer.json
+      JWT_DEV_CERT: ${JWT_DEV_CERT}
     restart: always
     ports:
       - '5001:5001'
-
   idp:
     container_name: test-saml-idp
     image: kristophjunge/test-saml-idp
