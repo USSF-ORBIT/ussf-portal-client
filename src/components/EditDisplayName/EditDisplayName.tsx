@@ -34,14 +34,12 @@ const EditDisplayName = ({
   return (
     <Grid row>
       <Grid col="fill">
-        <h3>Update name and rank:</h3>
-
         <div className={styles.updateNameAndRank}>
           <label htmlFor="something">Current welcome display title:</label>
           <h2>{greeting}</h2>
 
           <label htmlFor="displayName">
-            <strong>*</strong>Update name
+            Update display name <strong aria-hidden="true">*</strong>
           </label>
 
           <Grid row gap={4}>
@@ -49,12 +47,13 @@ const EditDisplayName = ({
               <input
                 className="usa-input"
                 type="text"
-                name="displayName"
+                id="displayName"
                 placeholder="Enter a display name"
                 value={currentDisplayName}
                 maxLength={1000}
                 onChange={(event) => setDisplayName(event.target.value)}
                 data-testid="nameInput"
+                required
               />
             </Grid>
             <Grid row tablet={{ col: true }} gap={5}>
@@ -82,7 +81,7 @@ const EditDisplayName = ({
                   className={styles.successMessage}
                   type="success"
                   headingLevel="h4">
-                  New title has been saved
+                  New display name has been saved
                 </Alert>
               </Grid>
             </Grid>
