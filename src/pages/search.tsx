@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { GridContainer, Grid } from '@trussworks/react-uswds'
-import { useFlags } from 'launchdarkly-react-client-sdk'
 import { client } from 'lib/keystoneClient'
 import { withArticleLayout } from 'layout/DefaultLayout/ArticleLayout'
 import PageHeader from 'components/PageHeader/PageHeader'
@@ -27,7 +26,6 @@ const Search = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { loading } = useUser()
   const { setSearchQuery } = useSearchContext()
-  const flags = useFlags()
 
   // If a query is passed in, set the searchQuery state to that value
   useEffect(() => {
@@ -78,7 +76,7 @@ const Search = ({
         <Grid row gap="lg">
           <Grid col="auto">
             <EPubsCard query={query} />
-            {flags?.searchPageFilter && <SearchFilter labels={labels} />}
+            <SearchFilter labels={labels} />
           </Grid>
 
           {results.length > 0 ? (

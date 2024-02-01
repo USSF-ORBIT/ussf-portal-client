@@ -7,5 +7,4 @@ export default {
   guardianIdealCarousel: true,
   sitesAppsSortView: false,
   featuredShortcuts: true,
-  searchPageFilter: true,
 }
