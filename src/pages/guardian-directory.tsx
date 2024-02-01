@@ -78,6 +78,7 @@ const GuardianDirectory = () => {
             placeholder="Search Guardian Directory"
             aria-label="Search Guardian Directory"
             size="small"
+            label="Search Guardian Directory"
           />
         </div>
         <div className={styles.resetSearch}>
