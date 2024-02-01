@@ -4,11 +4,18 @@
  * server to see changes.
  */
 export default {
+  // FIX: released
   guardianIdealCarousel: true,
+  // FIX: released
   guardianDirectory: true,
+  // FIX: released
   featuredShortcuts: true,
+  // FIX: released
   searchPageFilter: true,
+  // FIX: released
   dragAndDropCollections: true,
+  // FIX: released
   weatherWidget: true,
-  landingPageIndex: true,
+  // FIX: released
+  sitesAppsSortView: true,
 }

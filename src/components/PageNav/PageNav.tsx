@@ -15,6 +15,7 @@ const PageNav = () => {
       label: <>All sites &amp; applications</>,
     },
     { path: '/ussf-documentation', label: 'USSF documentation' },
+    { path: '/landing', label: 'Landing Pages' },
   ]
 
   if (flags.guardianDirectory) {
@@ -23,10 +24,6 @@ const PageNav = () => {
       path: '/guardian-directory',
       label: 'Guardian Directory',
     })
-  }
-
-  if (flags.landingPageIndex) {
-    navItems.push({ path: '/landing', label: 'Landing Pages' })
   }
 
   const items = navItems.map((i) => (

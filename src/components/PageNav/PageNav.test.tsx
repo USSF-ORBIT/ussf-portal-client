@@ -32,7 +32,6 @@ describe('PageNav component', () => {
 
     test('renders nav items behind LaunchDarkly flags', () => {
       mockFlags({
-        landingPageIndex: true,
         guardianDirectory: true,
       })
 
