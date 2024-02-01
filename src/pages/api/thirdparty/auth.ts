@@ -53,7 +53,7 @@ async function authenticateRequest(token: string) {
       }
     )
   } catch (error) {
-    console.debug('Error verifying token', error)
+    console.debug('Error verifying token:', error)
     // The token was not valid.
 
     return new NextResponse(
