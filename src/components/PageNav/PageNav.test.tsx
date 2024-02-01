@@ -26,14 +26,6 @@ describe('PageNav component', () => {
         expect(link).toHaveAttribute('href', navItem.getAttribute('href'))
       })
 
-      expect(links).toHaveLength(3)
-    })
-
-    test('renders nav items behind LaunchDarkly flags', () => {
-      render(<PageNav />)
-
-      const links = screen.getAllByRole('link')
-
       expect(links).toHaveLength(5)
     })
   })
