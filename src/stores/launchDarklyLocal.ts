@@ -7,8 +7,6 @@ export default {
   // FIX: released
   guardianIdealCarousel: true,
   // FIX: released
-  guardianDirectory: true,
-  // FIX: released
   featuredShortcuts: true,
   // FIX: released
   searchPageFilter: true,

@@ -3,7 +3,6 @@
  */
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { mockFlags } from 'jest-launchdarkly-mock'
 import PageNav from './PageNav'
 
 jest.mock('next/router', () => ({
@@ -31,10 +30,6 @@ describe('PageNav component', () => {
     })
 
     test('renders nav items behind LaunchDarkly flags', () => {
-      mockFlags({
-        guardianDirectory: true,
-      })
-
       render(<PageNav />)
 
       const links = screen.getAllByRole('link')
