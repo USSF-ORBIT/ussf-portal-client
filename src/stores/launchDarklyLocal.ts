@@ -9,5 +9,4 @@ export default {
   featuredShortcuts: true,
   searchPageFilter: true,
   dragAndDropCollections: true,
-  weatherWidget: true,
 }
