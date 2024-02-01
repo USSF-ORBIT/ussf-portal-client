@@ -144,7 +144,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
               strategy={rectSortingStrategy}>
               <Grid row gap={2}>
                 {mySpace.map((widget: Widget) => {
-                  if (isFeaturedShortcuts(widget) && flags?.featuredShortcuts) {
+                  if (isFeaturedShortcuts(widget)) {
                     return (
                       <Grid
                         key={`widget_${widget._id}`}

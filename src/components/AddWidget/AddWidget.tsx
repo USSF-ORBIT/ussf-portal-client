@@ -110,17 +110,15 @@ const AddWidget = ({
             Add Guardian Ideal widget
           </Button>
         )}
-        {flags?.featuredShortcuts && (
-          <Button
-            disabled={!canAddFeaturedShortcuts}
-            type="button"
-            onClick={() => {
-              addFeaturedShortcuts()
-              setIsDropdownOpen(false)
-            }}>
-            Add Featured Shortcuts widget
-          </Button>
-        )}
+        <Button
+          disabled={!canAddFeaturedShortcuts}
+          type="button"
+          onClick={() => {
+            addFeaturedShortcuts()
+            setIsDropdownOpen(false)
+          }}>
+          Add Featured Shortcuts widget
+        </Button>
       </DropdownMenu>
     </div>
   )
