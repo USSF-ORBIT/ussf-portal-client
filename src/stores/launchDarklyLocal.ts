@@ -8,5 +8,4 @@ export default {
   sitesAppsSortView: false,
   featuredShortcuts: true,
   searchPageFilter: true,
-  dragAndDropCollections: true,
 }
