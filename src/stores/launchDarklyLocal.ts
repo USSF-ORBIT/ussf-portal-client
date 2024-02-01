@@ -5,9 +5,9 @@
  */
 export default {
   guardianIdealCarousel: true,
+  sitesAppsSortView: false,
   featuredShortcuts: true,
   searchPageFilter: true,
   dragAndDropCollections: true,
   weatherWidget: true,
-  sitesAppsSortView: true,
 }
