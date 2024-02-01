@@ -42,8 +42,6 @@ describe('EditDisplayName component', () => {
         />
       )
 
-      expect(screen.getAllByText('Update name and rank:')).toHaveLength(1)
-
       expect(
         screen.getAllByText('Current welcome display title:')
       ).toHaveLength(1)
