@@ -15,8 +15,22 @@ export const typeDefs = gql`
     document(hydrateRelationships: Boolean! = false): JSON!
   }
 
+  type Document {
+    id: ID!
+    title: String!
+    description: String!
+    file: Document_file
+  }
+
+  type Document_file {
+    filename: String!
+    filesize: Int!
+    url: String!
+  }
+
   type Query {
     cNotes: [CNote!]
     displayName: String!
+    documents: [Document!]
   }
 `

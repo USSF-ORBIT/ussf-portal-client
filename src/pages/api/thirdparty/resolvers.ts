@@ -47,5 +47,20 @@ export const resolvers = {
       // Look up user in MongoDB and get their display name
       return UserModel.getDisplayName(userId, { db })
     },
+    documents: async (
+      _: undefined,
+      __: undefined,
+      { dataSources: { keystoneAPI }, userId }: ThirdPartyContext
+    ) => {
+      if (!userId) {
+        throw new Error('User not authenticated')
+      }
+
+      const {
+        data: { documents },
+      } = await keystoneAPI.getDocuments()
+
+      return documents
+    },
   },
 }
