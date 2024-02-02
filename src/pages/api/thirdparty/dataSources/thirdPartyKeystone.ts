@@ -26,7 +26,7 @@ class ThirdPartyKeystoneAPI extends RESTDataSource {
   async getDocuments() {
     return this.post(`/api/graphql`, {
       body: {
-        query: print(GET_DOCUMENTS),
+        query: GET_DOCUMENTS,
       },
     })
   }
