@@ -39,6 +39,77 @@ describe('GraphQL resolvers', () => {
       return testCNote
     })
 
+    keystoneAPI.getDocuments = jest.fn(async () => {
+      return {
+        data: {
+          documents: [
+            {
+              id: 'ckwz3u58s1835ql974leo1yll',
+              title: 'Test Document',
+              description: 'Test Document Description',
+              file: {
+                filename: 'test.pdf',
+                filesize: 123456,
+                url: 'https://example.com/test.pdf',
+              },
+            },
+          ],
+        },
+      }
+    })
+
+    keystoneAPI.getInternalNewsArticles = jest.fn(async () => {
+      return {
+        data: {
+          internalNewsArticles: [
+            {
+              id: 'ckwz3u58s1835ql974leo1yll',
+              title: 'Test Internal News Article',
+              publishedDate: '2023-11-14T22:14:14.283Z',
+              body: {
+                document: [
+                  {
+                    type: 'paragraph',
+                    children: [
+                      {
+                        text: 'Lorem ipsum body text',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      }
+    })
+
+    keystoneAPI.getLandingPageArticles = jest.fn(async () => {
+      return {
+        data: {
+          landingPageArticles: [
+            {
+              id: 'ckwz3u58s1835ql974leo1yll',
+              title: 'Test Landing Page Article',
+              publishedDate: '2023-11-14T22:14:14.283Z',
+              body: {
+                document: [
+                  {
+                    type: 'paragraph',
+                    children: [
+                      {
+                        text: 'Lorem ipsum body text',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      }
+    })
+
     serverContext = {
       dataSources: {
         keystoneAPI,
