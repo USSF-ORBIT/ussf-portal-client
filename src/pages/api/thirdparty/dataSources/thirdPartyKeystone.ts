@@ -5,6 +5,7 @@ import { print } from 'graphql'
 import { GET_CNOTES } from '../operations/getPublicArticles'
 import { GET_DOCUMENTS } from '../operations/getDocuments'
 import { GET_INTERNAL_NEWS_ARTICLES } from '../operations/getInternalNewsArticles'
+import { GET_LANDING_PAGE_ARTICLES } from '../operations/getLandingPageArticles'
 
 class ThirdPartyKeystoneAPI extends RESTDataSource {
   override baseURL = process.env.KEYSTONE_URL
@@ -36,6 +37,17 @@ class ThirdPartyKeystoneAPI extends RESTDataSource {
     return this.post(`/api/graphql`, {
       body: {
         query: print(GET_INTERNAL_NEWS_ARTICLES),
+        variables: {
+          publishedDate,
+        },
+      },
+    })
+  }
+
+  async getLandingPageArticles(publishedDate: DateTime) {
+    return this.post(`/api/graphql`, {
+      body: {
+        query: print(GET_LANDING_PAGE_ARTICLES),
         variables: {
           publishedDate,
         },

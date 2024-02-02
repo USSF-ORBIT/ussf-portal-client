@@ -78,5 +78,21 @@ export const resolvers = {
 
       return articles
     },
+
+    landingPageArticles: async (
+      _: undefined,
+      __: undefined,
+      { dataSources: { keystoneAPI }, userId }: ThirdPartyContext
+    ) => {
+      if (!userId) {
+        throw new Error('User not authenticated')
+      }
+
+      const {
+        data: { articles },
+      } = await keystoneAPI.getLandingPageArticles(DateTime.now())
+
+      return articles
+    },
   },
 }

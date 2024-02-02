@@ -52,10 +52,35 @@ export const typeDefs = gql`
     name: String!
   }
 
+  type LandingPageArticle {
+    id: ID!
+    title: String!
+    preview: String!
+    publishedDate: String!
+    labels: [LandingPageArticleLabel!]
+    body: LandingPageArticle_body_Document
+    tags: [LandingPageArticleTag!]
+  }
+
+  type LandingPageArticleLabel {
+    id: ID!
+    name: String!
+    type: String!
+  }
+
+  type LandingPageArticle_body_Document {
+    document(hydrateRelationships: Boolean! = false): JSON!
+  }
+
+  type LandingPageArticleTag {
+    name: String!
+  }
+
   type Query {
     cNotes: [CNote!]
     displayName: String!
     documents: [Document!]
     internalNewsArticles: [InternalNewsArticle!]
+    landingPageArticles: [LandingPageArticle!]
   }
 `
