@@ -6,5 +6,4 @@
 export default {
   guardianIdealCarousel: true,
   sitesAppsSortView: false,
-  dragAndDropCollections: true,
 }

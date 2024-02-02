@@ -33,7 +33,7 @@ const DraggableWidget = ({ id, children }: DraggableWidgetProps) => {
 
   return (
     <div ref={setNodeRef} style={{ ...style }}>
-      {disableDragAndDrop || !dragAndDropCollections ? (
+      {disableDragAndDrop || true ? (
         <div>{children}</div>
       ) : (
         <div
