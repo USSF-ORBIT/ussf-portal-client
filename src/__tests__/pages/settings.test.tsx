@@ -57,8 +57,6 @@ describe('Settings page', () => {
 
     test('renders the settings page', () => {
       expect(screen.getAllByText('Settings')).toHaveLength(1)
-
-      expect(screen.getAllByText('Update name and rank:')).toHaveLength(1)
     })
 
     test('has no a11y violations', async () => {

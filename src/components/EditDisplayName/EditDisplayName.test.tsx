@@ -42,13 +42,11 @@ describe('EditDisplayName component', () => {
         />
       )
 
-      expect(screen.getAllByText('Update name and rank:')).toHaveLength(1)
-
       expect(
         screen.getAllByText('Current welcome display title:')
       ).toHaveLength(1)
 
-      expect(screen.getAllByText('Update name')).toHaveLength(1)
+      expect(screen.getAllByText('Update display name')).toHaveLength(1)
 
       const inputField = screen.getByTestId('nameInput')
       fireEvent.change(inputField, { target: { value: 'Test Name' } })
