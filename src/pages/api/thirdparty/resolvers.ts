@@ -62,5 +62,21 @@ export const resolvers = {
 
       return documents
     },
+
+    internalNewsArticles: async (
+      _: undefined,
+      __: undefined,
+      { dataSources: { keystoneAPI }, userId }: ThirdPartyContext
+    ) => {
+      if (!userId) {
+        throw new Error('User not authenticated')
+      }
+
+      const {
+        data: { articles },
+      } = await keystoneAPI.getInternalNewsArticles(DateTime.now())
+
+      return articles
+    },
   },
 }

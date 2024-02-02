@@ -28,9 +28,34 @@ export const typeDefs = gql`
     url: String!
   }
 
+  type InternalNewsArticle {
+    id: ID!
+    title: String!
+    preview: String!
+    publishedDate: String!
+    labels: [InternalNewsArticleLabel!]
+    body: InternalNewsArticle_body_Document
+    tags: [InternalNewsArticleTag!]
+  }
+
+  type InternalNewsArticleLabel {
+    id: ID!
+    name: String!
+    type: String!
+  }
+
+  type InternalNewsArticle_body_Document {
+    document(hydrateRelationships: Boolean! = false): JSON!
+  }
+
+  type InternalNewsArticleTag {
+    name: String!
+  }
+
   type Query {
     cNotes: [CNote!]
     displayName: String!
     documents: [Document!]
+    internalNewsArticles: [InternalNewsArticle!]
   }
 `
