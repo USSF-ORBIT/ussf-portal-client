@@ -1,0 +1,71 @@
+apiVersion: v1
+
+# The repository name in registry1, excluding /ironbank/
+name: "spaceforce-portal-whatever"
+
+    # List of tags to push for the repository in registry1
+    # The most specific version should be the first tag and will be shown
+    # on ironbank.dso.mil
+tags:
+- "1.6.15"
+- "latest"
+
+# Build args passed to Dockerfile ARGs
+args:
+  BASE_IMAGE: "registry1.dso.mil/ironbank/opensource/nodejs/nodejs18"
+  BASE_TAG: "18.18.2-slim"
+
+# Docker image labels
+labels:
+  org.opencontainers.image.title: "whatever"
+  # Human-readable description of the software packaged in the image
+  org.opencontainers.image.description: "Free & open source, high-performance, distributed memory object caching system,"
+  # License(s) under which contained software is distributed
+  org.opencontainers.image.licenses: "BSD"
+  # URL to find more information on the image
+  org.opencontainers.image.url: "https://memcached.org/"
+  # Name of the distributing entity, organization or individual
+  org.opencontainers.image.vendor: "Danga Interactive"
+  org.opencontainers.image.version: "1.6.15"
+  # Keywords to help with search (ex. "cicd,gitops,golang")
+  mil.dso.ironbank.image.keywords: "memory,cache,caching"
+  # This value can be "opensource" or "commercial"
+  mil.dso.ironbank.image.type: "opensource"
+  # Product the image belongs to for grouping multiple images
+  mil.dso.ironbank.product.name: "memcached"
+
+# List of resources to make available to the offline build context
+resources:
+- url: "https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem"
+  filename: "fetch-manifest-resources/rds-combined-ca-bundle.pem"
+  validation:
+    type: "sha256"
+    value: "6a8ba1c9f858386edba0ea82b7bf8168ef513d1eb0df3a08cc7cf4bb89f856d0"
+
+- url: "https://s3-us-gov-west-1.amazonaws.com/rds-downloads/rds-combined-ca-us-gov-bundle.pem"
+  filename: "fetch-manifest-resources/rds-combined-ca-us-gov-bundle.pem"
+  validation:
+    type: "sha256"
+    value: "6edf3ca4f9cc4e2f5ac1345db7bcfb8a14b82baa5024aa0e2e923fe8b033ed9c"
+
+- url: "https://truststore.pki.us-gov-west-1.rds.amazonaws.com/us-gov-west-1/us-gov-west-1-bundle.pem"
+  filename: "fetch-manifest-resources/us-gov-west-1-bundle.pem"
+  validation:
+    type: "sha256"
+    value: "cffb079b116f6bb731b10b1dc3e026287758b0c2fdc81144e218da0a58650454"
+
+- url: "https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/unclass-certificates_pkcs7_DoD.zip"
+  filename: "fetch-manifest-resources/unclass-certificates_pkcs7_DoD.zip"
+  validation:
+    type: "sha256"
+    value: "a6379d872dd573eea80f5326ebdbcdad46cc5ef92662d5e9e47e00bf02ee799b"
+
+# List of project maintainers
+maintainers:
+- email: "email@example.com"
+  # The name of the current container owner
+  name: "First Last"
+  # The gitlab username of the current container owner
+  username: "example.username"
+  cht_member: true
+  

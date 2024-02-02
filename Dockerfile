@@ -1,22 +1,25 @@
-##--------- Stage: builder ---------##
-# Node image variant name explanations: "bookworm" is the codeword for Debian 12, and "slim" only contains the minimal packages needed to run Node
-FROM node:18.19.0-bookworm-slim AS builder
+ARG BASE_REGISTRY=registry1.dso.mil
+ARG BASE_IMAGE=ironbank/opensource/nodejs/nodejs18
+ARG BASE_TAG=18.18.2-slim
+ARG OPENSSL_TAG=18.18
 
-RUN apt-get update \
-  && apt-get dist-upgrade -y \
-  && apt-get -y --no-install-recommends install openssl libc6 zlib1g
+##--------- Stage: builder ---------##
+# Node image variant name explanations: "slim" only contains the minimal packages needed to run Node
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS builder
 
 WORKDIR /app
 
 COPY ["package*.json", "yarn.lock", "./"]
 
-COPY ./scripts/ /app/scripts/
+COPY ./scripts/copy_uswds_assets.sh /app/scripts/
 
 RUN yarn install --frozen-lockfile
 
 COPY ["codegen.yml", "next.config.js", "tsconfig.json", "./"]
 
 COPY ./src/ /app/src/
+
+USER root
 
 RUN yarn prebuild
 
@@ -36,9 +39,7 @@ COPY . .
 ##--------- Stage: e2e ---------##
 
 # E2E image for running tests (same as prod but without certs)
-FROM gcr.io/distroless/nodejs18-debian12 AS e2e
-# The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
-# FROM gcr.io/distroless/nodejs:16-debug-arm64 AS e2e
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS e2e
 
 WORKDIR /app
 
@@ -62,33 +63,33 @@ EXPOSE 3000
 ENV NEXT_TELEMETRY_DISABLED 1
 CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
 
-##--------- Stage: build-env ---------##
+##--------- Stage: build-openssl ---------##
+# This image has OpenSSL 3 builtin so we can copy it from here
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${OPENSSL_TAG} AS build-openssl
 
-# Production image, copy all the files and run next
-FROM node:18.19.0-bookworm-slim AS build-env
+##--------- Stage: build-env ---------##
+# Pre-Production image, run scripts and copy outputs to final image
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS build-env
 
 WORKDIR /app
 
-COPY --from=builder /app/scripts/add-rds-cas.sh .
-COPY --from=builder /app/scripts/add-dod-cas.sh .
-COPY --from=builder /app/scripts/dod_ca_cert_bundle.sha256 ./scripts/dod_ca_cert_bundle.sha256
+COPY --from=builder /app/scripts/gravity-add-dod-cas.sh .
 
-RUN apt-get update \
-  && apt-get dist-upgrade -y \
-  && apt-get -y --no-install-recommends install ca-certificates libc6 openssl unzip wget zlib1g
+COPY --from=build-openssl /bin/openssl /bin/openssl
+COPY --from=build-openssl /lib64/ /lib64/
 
-RUN chmod +x add-rds-cas.sh && bash add-rds-cas.sh
-RUN chmod +x add-dod-cas.sh && bash add-dod-cas.sh
+USER root
+COPY --from=builder /app/fetch-manifest-resources/ /app/fetch-manifest-resources/
+RUN chmod +x gravity-add-dod-cas.sh && sh gravity-add-dod-cas.sh
 RUN cat /usr/local/share/ca-certificates/DoD_Root_CA_3.crt > /usr/local/share/ca-certificates/GCDS.pem
 
 ##--------- Stage: runner ---------##
-
-FROM gcr.io/distroless/nodejs18-debian12 AS runner
-# The below image is an arm64 debug image that has helpful binaries for debugging, such as a shell, for local debugging
-# FROM gcr.io/distroless/nodejs:16-debug-arm64 AS runner
+# Final Production image
+FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS runner
 
 WORKDIR /app
 
+# copy application build artifacts
 COPY ./startup ./startup
 COPY ./migrations ./migrations
 COPY ./utils ./utils
@@ -98,7 +99,12 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
-COPY --from=build-env  ["/app/rds-combined-ca-bundle.pem", "/app/rds-combined-ca-us-gov-bundle.pem", "/app/us-gov-west-1-bundle.pem", "./"]
+# copy OpenSSL binary and libraries
+COPY --from=build-openssl /bin/openssl /bin/openssl
+COPY --from=build-openssl /lib64/ /lib64/
+
+# copy resources like dod pki certs and rds certs
+COPY --from=build-env  /app/fetch-manifest-resources/ ./
 COPY --from=build-env /usr/local/share/ca-certificates /usr/local/share/ca-certificates
 COPY --from=build-env /usr/share/ca-certificates /usr/share/ca-certificates
 COPY --from=build-env /etc/ssl/certs/ /etc/ssl/certs/
