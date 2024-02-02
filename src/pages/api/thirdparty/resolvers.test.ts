@@ -118,6 +118,181 @@ describe('GraphQL resolvers', () => {
       expect(data.displayName).toEqual('BERNADETTE CAMPBELL')
     })
   })
+
+  describe('Query.documents', () => {
+    type ResponseData = {
+      documents: {
+        id: string
+        title: string
+        description: string
+        file: {
+          filename: string
+          filesize: number
+          url: string
+        }
+      }[]
+    }
+
+    test('throws an error if unauthenticated', async () => {
+      const {
+        body: {
+          singleResult: { errors },
+        },
+      } = (await server.executeOperation(
+        {
+          query: documentsQuery,
+        },
+        {
+          contextValue: serverContext,
+        }
+      )) as SingleGraphQLResponse<ResponseData>
+
+      expect(errors).toHaveLength(1)
+    })
+
+    test('returns all documents if authenticated', async () => {
+      const {
+        body: {
+          singleResult: { errors },
+        },
+      } = (await server.executeOperation<ResponseData>(
+        {
+          query: gql`
+            query GetDocuments {
+              documents {
+                id
+                title
+                description
+                file {
+                  filename
+                  filesize
+                  url
+                }
+              }
+            }
+          `,
+        },
+        {
+          contextValue: {
+            ...serverContext,
+            userId: newPortalUser.userId,
+          },
+        }
+      )) as SingleGraphQLResponse<ResponseData>
+
+      expect(errors).toBeUndefined()
+    })
+  })
+
+  describe('Query.internalNewsArticles', () => {
+    type ResponseData = {
+      internalNewsArticles: {
+        id: string
+        title: string
+        publishedDate: string
+        body: {
+          document: {
+            type: string
+            children: {
+              text: string
+            }[]
+          }[]
+        }
+      }[]
+    }
+
+    test('throws an error if unauthenticated', async () => {
+      const {
+        body: {
+          singleResult: { errors },
+        },
+      } = (await server.executeOperation(
+        {
+          query: internalNewsArticlesQuery,
+        },
+        {
+          contextValue: serverContext,
+        }
+      )) as SingleGraphQLResponse<ResponseData>
+
+      expect(errors).toHaveLength(1)
+    })
+
+    test('returns all internal news articles if authenticated', async () => {
+      const {
+        body: {
+          singleResult: { errors },
+        },
+      } = (await server.executeOperation<ResponseData>(
+        {
+          query: internalNewsArticlesQuery,
+        },
+        {
+          contextValue: {
+            ...serverContext,
+            userId: newPortalUser.userId,
+          },
+        }
+      )) as SingleGraphQLResponse<ResponseData>
+
+      expect(errors).toBeUndefined()
+    })
+  })
+
+  describe('Query.landingPageArticles', () => {
+    type ResponseData = {
+      landingPageArticles: {
+        id: string
+        title: string
+        publishedDate: string
+        body: {
+          document: {
+            type: string
+            children: {
+              text: string
+            }[]
+          }[]
+        }
+      }[]
+    }
+
+    test('throws an error if unauthenticated', async () => {
+      const {
+        body: {
+          singleResult: { errors },
+        },
+      } = (await server.executeOperation(
+        {
+          query: landingPageArticlesQuery,
+        },
+        {
+          contextValue: serverContext,
+        }
+      )) as SingleGraphQLResponse<ResponseData>
+
+      expect(errors).toHaveLength(1)
+    })
+
+    test('returns all landing page articles if authenticated', async () => {
+      const {
+        body: {
+          singleResult: { errors },
+        },
+      } = (await server.executeOperation<ResponseData>(
+        {
+          query: landingPageArticlesQuery,
+        },
+        {
+          contextValue: {
+            ...serverContext,
+            userId: newPortalUser.userId,
+          },
+        }
+      )) as SingleGraphQLResponse<ResponseData>
+
+      expect(errors).toBeUndefined()
+    })
+  })
 })
 
 // This query is what the third-party calls,
@@ -138,6 +313,65 @@ const cNotesQuery = gql`
 const displayNameQuery = gql`
   query GetDisplayName {
     displayName
+  }
+`
+
+const documentsQuery = gql`
+  query GetDocuments {
+    documents {
+      id
+      title
+      description
+      file {
+        filename
+        filesize
+        url
+      }
+    }
+  }
+`
+
+const internalNewsArticlesQuery = gql`
+  query GetInternalNewsArticles {
+    internalNewsArticles {
+      id
+      title
+      preview
+      publishedDate
+      labels {
+        id
+        name
+        type
+      }
+      body {
+        document
+      }
+      tags {
+        name
+      }
+    }
+  }
+`
+
+const landingPageArticlesQuery = gql`
+  query GetLandingPageArticles {
+    landingPageArticles {
+      id
+      title
+      preview
+      publishedDate
+      labels {
+        id
+        name
+        type
+      }
+      body {
+        document
+      }
+      tags {
+        name
+      }
+    }
   }
 `
 
