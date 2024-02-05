@@ -20,7 +20,7 @@ $config = [
         'user1:user1pass' => [
             'subject' => '/C=US/O=U.S. Government/OU=DoD/OU=PKI/OU=CONTRACTOR/CN=CAMPBELL.BERNADETTE.5244446289',
             'edipi' => '5244446289',
-            'common_name' => 'CAMPBELL.BERNADETTE.5244446289@testusers.cce.af.mil',
+            'common_name' => 'CAMPBELL.BERNADETTE.5244446289',
             'fascn' => '5244446289197004',
             'givenname' => 'BERNADETTE',
             'surname' => 'CAMPBELL',
