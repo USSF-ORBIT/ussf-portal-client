@@ -3,7 +3,6 @@ import { GraphQLJSON } from 'graphql-type-json'
 import type { MongoClient } from 'mongodb'
 import ThirdPartyKeystoneAPI from './dataSources/thirdPartyKeystone'
 import UserModel from 'models/User'
-
 /* Resolver Types */
 export type ThirdPartyContext = {
   dataSources: {
