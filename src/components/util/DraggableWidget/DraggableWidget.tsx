@@ -9,14 +9,8 @@ type DraggableWidgetProps = {
 }
 
 const DraggableWidget = ({ id, children }: DraggableWidgetProps) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: id })
+  const { listeners, setNodeRef, transform, transition, isDragging } =
+    useSortable({ id: id })
 
   const style = {
     transform: CSS.Translate.toString(transform),
@@ -35,7 +29,6 @@ const DraggableWidget = ({ id, children }: DraggableWidgetProps) => {
       ) : (
         <div
           {...listeners}
-          {...attributes}
           style={{
             cursor: isDragging ? 'grabbing' : 'grab',
           }}>
