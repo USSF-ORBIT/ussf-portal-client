@@ -4,7 +4,7 @@ import { DateTime } from 'luxon'
 import { print } from 'graphql'
 import { GET_CNOTES } from '../operations/getPublicArticles'
 import { GET_DOCUMENTS } from '../operations/getDocuments'
-import { GET_INTERNAL_NEWS_ARTICLES } from '../operations/getInternalNewsArticles'
+import { GET_NEWS_ARTICLES } from '../operations/getNewsArticles'
 import { GET_LANDING_PAGE_ARTICLES } from '../operations/getLandingPageArticles'
 
 class ThirdPartyKeystoneAPI extends RESTDataSource {
@@ -33,10 +33,10 @@ class ThirdPartyKeystoneAPI extends RESTDataSource {
     })
   }
 
-  async getInternalNewsArticles(publishedDate: DateTime) {
+  async getNewsArticles(publishedDate: DateTime) {
     return this.post(`/api/graphql`, {
       body: {
-        query: print(GET_INTERNAL_NEWS_ARTICLES),
+        query: print(GET_NEWS_ARTICLES),
         variables: {
           publishedDate,
         },

@@ -62,7 +62,7 @@ export const resolvers = {
       return documents
     },
 
-    internalNewsArticles: async (
+    newsArticles: async (
       _: undefined,
       __: undefined,
       { dataSources: { keystoneAPI }, userId }: ThirdPartyContext
@@ -73,7 +73,7 @@ export const resolvers = {
 
       const {
         data: { articles },
-      } = await keystoneAPI.getInternalNewsArticles(DateTime.now())
+      } = await keystoneAPI.getNewsArticles(DateTime.now())
 
       return articles
     },

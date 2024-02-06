@@ -1,7 +1,7 @@
 import { gql } from 'graphql-tag'
 
-export const GET_INTERNAL_NEWS_ARTICLES = gql`
-  query GetInternalNewsArticles($publishedDate: DateTime) {
+export const GET_NEWS_ARTICLES = gql`
+  query GetNewsArticles($publishedDate: DateTime) {
     articles(
       where: {
         status: { equals: Published }
