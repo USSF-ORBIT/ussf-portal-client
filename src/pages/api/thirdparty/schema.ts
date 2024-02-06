@@ -28,27 +28,27 @@ export const typeDefs = gql`
     url: String!
   }
 
-  type InternalNewsArticle {
+  type NewsArticle {
     id: ID!
     title: String!
     preview: String!
     publishedDate: String!
-    labels: [InternalNewsArticleLabel!]
-    body: InternalNewsArticle_body_Document
-    tags: [InternalNewsArticleTag!]
+    labels: [NewsArticleLabel!]
+    body: NewsArticle_body_Document
+    tags: [NewsArticleTag!]
   }
 
-  type InternalNewsArticleLabel {
+  type NewsArticleLabel {
     id: ID!
     name: String!
     type: String!
   }
 
-  type InternalNewsArticle_body_Document {
+  type NewsArticle_body_Document {
     document(hydrateRelationships: Boolean! = false): JSON!
   }
 
-  type InternalNewsArticleTag {
+  type NewsArticleTag {
     name: String!
   }
 
@@ -80,7 +80,7 @@ export const typeDefs = gql`
     cNotes: [CNote!]
     displayName: String!
     documents: [Document!]
-    internalNewsArticles: [InternalNewsArticle!]
+    newsArticles: [NewsArticle!]
     landingPageArticles: [LandingPageArticle!]
   }
 `

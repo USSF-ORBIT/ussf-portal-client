@@ -58,7 +58,7 @@ describe('GraphQL resolvers', () => {
       }
     })
 
-    keystoneAPI.getInternalNewsArticles = jest.fn(async () => {
+    keystoneAPI.getNewsArticles = jest.fn(async () => {
       return {
         data: {
           internalNewsArticles: [
@@ -255,9 +255,9 @@ describe('GraphQL resolvers', () => {
     })
   })
 
-  describe('Query.internalNewsArticles', () => {
+  describe('Query.newsArticles', () => {
     type ResponseData = {
-      internalNewsArticles: {
+      newsArticles: {
         id: string
         title: string
         publishedDate: string
@@ -279,7 +279,7 @@ describe('GraphQL resolvers', () => {
         },
       } = (await server.executeOperation(
         {
-          query: internalNewsArticlesQuery,
+          query: newsArticlesQuery,
         },
         {
           contextValue: serverContext,
@@ -296,7 +296,7 @@ describe('GraphQL resolvers', () => {
         },
       } = (await server.executeOperation<ResponseData>(
         {
-          query: internalNewsArticlesQuery,
+          query: newsArticlesQuery,
         },
         {
           contextValue: {
@@ -402,9 +402,9 @@ const documentsQuery = gql`
   }
 `
 
-const internalNewsArticlesQuery = gql`
-  query GetInternalNewsArticles {
-    internalNewsArticles {
+const newsArticlesQuery = gql`
+  query GetNewsArticles {
+    newsArticles {
       id
       title
       preview
