@@ -89,7 +89,7 @@ RUN cat /usr/local/share/ca-certificates/DoD_Root_CA_3.crt > /usr/local/share/ca
 
 ##--------- Stage: runner ---------##
 # Final Production image
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS runner
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS runner
 
 WORKDIR /app
 
