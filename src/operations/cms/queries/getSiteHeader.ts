@@ -10,6 +10,10 @@ export const GET_SITE_HEADER = gql`
       dropdownItem1Source
       dropdownItem2Label
       dropdownItem2Source
+      dropdownItem3Label
+      dropdownItem3Source
+      dropdownItem4Label
+      dropdownItem4Source
     }
   }
 `
