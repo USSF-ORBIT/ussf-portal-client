@@ -5,7 +5,8 @@ ARG OPENSSL_TAG=18.18
 
 ##--------- Stage: builder ---------##
 # Node image variant name explanations: "slim" only contains the minimal packages needed to run Node
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS builder
+#FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS builder
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS builder
 
 WORKDIR /app
 
@@ -39,7 +40,8 @@ COPY . .
 ##--------- Stage: e2e ---------##
 
 # E2E image for running tests (same as prod but without certs)
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS e2e
+#FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS e2e
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS e2e
 
 WORKDIR /app
 
@@ -65,11 +67,13 @@ CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
 
 ##--------- Stage: build-openssl ---------##
 # This image has OpenSSL 3 builtin so we can copy it from here
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${OPENSSL_TAG} AS build-openssl
+#FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${OPENSSL_TAG} AS build-openssl
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS build-openssl
 
 ##--------- Stage: build-env ---------##
 # Pre-Production image, run scripts and copy outputs to final image
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS build-env
+#FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS build-env
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS build-env
 
 WORKDIR /app
 
