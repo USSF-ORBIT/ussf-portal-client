@@ -118,6 +118,17 @@ const Header = () => {
     </Button>,
   ]
 
+  const logoutButton = [
+    <Button
+      secondary
+      className={styles.logoutButton}
+      type="button"
+      onClick={handleLogout}
+      key="nav_logout">
+      <span>Log out</span>
+    </Button>,
+  ]
+
   // The wrapper div is needed for mobile nav to work, so the header/overlay are not flex children */
   return (
     <div>
@@ -138,7 +149,7 @@ const Header = () => {
             <NavMenuButton onClick={handleNavButtonClick} label="Menu" />
           </div>
           <PrimaryNav
-            items={navItems}
+            items={getSiteHeader ? navItems : logoutButton}
             mobileExpanded={expanded}
             onToggleMobileNav={handleNavButtonClick}
           />
