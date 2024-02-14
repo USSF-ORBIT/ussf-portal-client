@@ -1,0 +1,15 @@
+query getSiteHeader {
+  getSiteHeader {
+    buttonLabel
+    buttonSource
+    dropdownLabel
+    dropdownItem1Label
+    dropdownItem1Source
+    dropdownItem2Label
+    dropdownItem2Source
+    dropdownItem3Label
+    dropdownItem3Source
+    dropdownItem4Label
+    dropdownItem4Source
+  }
+}

@@ -70,6 +70,20 @@ export const typeDefs = gql`
     MajCom: String
   }
 
+  type SiteHeader {
+    buttonLabel: String
+    buttonSource: String
+    dropdownLabel: String
+    dropdownItem1Label: String
+    dropdownItem1Source: String
+    dropdownItem2Label: String
+    dropdownItem2Source: String
+    dropdownItem3Label: String
+    dropdownItem3Source: String
+    dropdownItem4Label: String
+    dropdownItem4Source: String
+  }
+
   type Query {
     collections: [Collection!]!
     mySpace: [Widget!]!
@@ -77,6 +91,7 @@ export const typeDefs = gql`
     theme: String!
     personnelData: PersonnelData
     guardianDirectory: [GuardianDirectory]
+    getSiteHeader: SiteHeader
     getLastModifiedAt: String
     searchGuardianDirectory(search: String!): [GuardianDirectory]
   }

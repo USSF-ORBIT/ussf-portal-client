@@ -67,6 +67,24 @@ type GetLatLongPromise = {
   }
 }
 
+type GetSiteHeaderPromise = {
+  data: {
+    siteHeader: {
+      buttonLabel: string
+      buttonSource: string
+      dropdownLabel: string
+      dropdownItem1Label: string
+      dropdownItem1Source: string
+      dropdownItem2Label: string
+      dropdownItem2Source: string
+      dropdownItem3Label: string
+      dropdownItem3Source: string
+      dropdownItem4Label: string
+      dropdownItem4Source: string
+    }
+  }
+}
+
 type GetPersonnelDataPromise = {
   data: {
     getUser: {
@@ -172,6 +190,7 @@ type PortalUserContext = {
     }
     keystoneAPI: {
       getLatLong: (zipcode: string) => Promise<GetLatLongPromise>
+      getSiteHeader: () => Promise<GetSiteHeaderPromise>
     }
     personnelAPI: {
       getUserData: (dodId: string) => Promise<GetPersonnelDataPromise>
@@ -264,6 +283,17 @@ const resolvers = {
 
   // Root resolvers
   Query: {
+    getSiteHeader: async (
+      _: undefined,
+      args: undefined,
+      { dataSources }: PortalUserContext
+    ) => {
+      const {
+        data: { siteHeader },
+      } = await dataSources.keystoneAPI.getSiteHeader()
+
+      return siteHeader
+    },
     getLastModifiedAt: async (
       _: undefined,
       args: undefined,

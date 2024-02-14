@@ -9,6 +9,7 @@ import {
   NavDropDownButton,
 } from '@trussworks/react-uswds'
 import Link from 'next/link'
+// import { useGetSiteHeaderQuery } from '../../operations/portal/queries/getSiteHeader.g'
 import styles from './Header.module.scss'
 import Logo from 'components/Logo/Logo'
 import NavLink from 'components/util/NavLink/NavLink'
@@ -21,6 +22,8 @@ const Header = () => {
   const { trackEvent } = useAnalytics()
   const [expanded, setExpanded] = useState(false)
   const [isOpen, setIsOpen] = useState([false, false])
+  // const { data } = useGetSiteHeaderQuery()
+
   const handleNavButtonClick = (): void =>
     setExpanded((prevExpanded) => !prevExpanded)
 
