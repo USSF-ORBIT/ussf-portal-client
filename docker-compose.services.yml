@@ -50,9 +50,9 @@ services:
     build:
       context: ../ussf-portal/test-jwt-service/
       dockerfile: Dockerfile
+    env_file: ../ussf-portal/e2e/.envrc.local
     environment:
-      ISSUER: http://test-jwt-issuer:5001/.well-known/issuer.json
-      JWT_DEV_CERT: ${JWT_DEV_CERT}
+      ISSUER: http://localhost:5001/.well-known/issuer.json
     restart: always
     ports:
       - '5001:5001'

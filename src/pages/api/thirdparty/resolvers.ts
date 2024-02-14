@@ -46,5 +46,52 @@ export const resolvers = {
       // Look up user in MongoDB and get their display name
       return UserModel.getDisplayName(userId, { db })
     },
+    documents: async (
+      _: undefined,
+      __: undefined,
+      { dataSources: { keystoneAPI }, userId }: ThirdPartyContext
+    ) => {
+      if (!userId) {
+        throw new Error('User not authenticated')
+      }
+
+      const {
+        data: { documents },
+      } = await keystoneAPI.getDocuments()
+
+      return documents
+    },
+
+    newsArticles: async (
+      _: undefined,
+      __: undefined,
+      { dataSources: { keystoneAPI }, userId }: ThirdPartyContext
+    ) => {
+      if (!userId) {
+        throw new Error('User not authenticated')
+      }
+
+      const {
+        data: { articles },
+      } = await keystoneAPI.getNewsArticles(DateTime.now())
+
+      return articles
+    },
+
+    landingPageArticles: async (
+      _: undefined,
+      __: undefined,
+      { dataSources: { keystoneAPI }, userId }: ThirdPartyContext
+    ) => {
+      if (!userId) {
+        throw new Error('User not authenticated')
+      }
+
+      const {
+        data: { articles },
+      } = await keystoneAPI.getLandingPageArticles(DateTime.now())
+
+      return articles
+    },
   },
 }
