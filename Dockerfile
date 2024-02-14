@@ -31,7 +31,7 @@ COPY ./public/ /app/public/
 RUN yarn build
 
 # Install only production deps this time
-RUN yarn install --production --ignore-scripts --prefer-offline --frozen-lockfile
+RUN yarn install --frozen-lockfile --production --ignore-scripts --prefer-offline
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
