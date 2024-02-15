@@ -22,12 +22,8 @@ const Header = () => {
   const { trackEvent } = useAnalytics()
   const [expanded, setExpanded] = useState(false)
   const [isOpen, setIsOpen] = useState([false, false])
-  const { data, loading } = useGetSiteHeaderQuery()
+  const { data } = useGetSiteHeaderQuery()
   const { getSiteHeader } = data || {}
-
-  if (loading) {
-    return null
-  }
 
   const dropdownItems = []
   // Walk through the getSiteHeader object and pull out the dropdown items. Create an object for each
@@ -109,6 +105,7 @@ const Header = () => {
       {getSiteHeader?.buttonLabel}
     </NavLink>,
     <Button
+      data-testid="nav_logout"
       secondary
       className={styles.logoutButton}
       type="button"
@@ -120,6 +117,7 @@ const Header = () => {
 
   const logoutButton = [
     <Button
+      data-testid="nav_logout"
       secondary
       className={styles.logoutButton}
       type="button"
