@@ -49,9 +49,16 @@ export const getExampleCollection = async () => {
 export default startServerAndCreateNextHandler(server, {
   context: async (req) => {
     const { cache } = server
-    // Check for JWT
+    // Check for valid JWT
+
     const res = await authMiddleware(req)
-    // If JWT exists, decode it and get the user ID
+    if (res.status !== 200) {
+      throw new GraphQLError('Authentication failed', {
+        extensions: { code: 'UNAUTHENTICATED' },
+      })
+    }
+
+    // If JWT is valid, decode it and get the user ID
     const user = res.headers.get('Authorization')
     let userId = ''
     if (user) {
