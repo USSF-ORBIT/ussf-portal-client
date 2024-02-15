@@ -4,7 +4,7 @@ import Link from 'next/link'
 import styles from './AnnouncementInfo.module.scss'
 import { AnnouncementRecord } from 'types'
 import AnnouncementDate from 'components/AnnouncementDate/AnnouncementDate'
-import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
+import { openFileInNewTab } from 'helpers/openDocumentLink'
 
 type valueObject = {
   data: {
@@ -73,10 +73,8 @@ const AnnouncementInfo = ({
             <Link
               legacyBehavior={false}
               onClick={(e) => {
-                if (isPdf(fileUrl)) {
-                  e.preventDefault()
-                  handleOpenPdfLink(fileUrl)
-                } else return
+                e.preventDefault()
+                openFileInNewTab(fileUrl)
               }}
               href={fileUrl}
               rel="noreferrer"
