@@ -43,7 +43,7 @@ const getExampleCollection = async () => {
   return res.data.collection as CollectionRecord
 }
 
-const clientConnection = async () => {
+export const clientConnection = async () => {
   try {
     const client = await clientPromise
     return client
