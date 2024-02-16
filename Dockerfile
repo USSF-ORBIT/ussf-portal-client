@@ -5,7 +5,8 @@ ARG OPENSSL_TAG=18.18
 
 ##--------- Stage: builder ---------##
 # Node image variant name explanations: "slim" only contains the minimal packages needed to run Node
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS builder
+#FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS builder
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS builder
 
 WORKDIR /app
 
@@ -19,7 +20,7 @@ COPY ["codegen.yml", "next.config.js", "tsconfig.json", "./"]
 
 COPY ./src/ /app/src/
 
-USER root
+USER 1001
 
 RUN yarn prebuild
 
@@ -30,7 +31,7 @@ COPY ./public/ /app/public/
 RUN yarn build
 
 # Install only production deps this time
-RUN yarn install --production --ignore-scripts --prefer-offline
+RUN yarn install --frozen-lockfile --production --ignore-scripts --prefer-offline
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
@@ -39,7 +40,8 @@ COPY . .
 ##--------- Stage: e2e ---------##
 
 # E2E image for running tests (same as prod but without certs)
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS e2e
+#FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS e2e
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS e2e
 
 WORKDIR /app
 
@@ -65,11 +67,13 @@ CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
 
 ##--------- Stage: build-openssl ---------##
 # This image has OpenSSL 3 builtin so we can copy it from here
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${OPENSSL_TAG} AS build-openssl
+#FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${OPENSSL_TAG} AS build-openssl
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS build-openssl
 
 ##--------- Stage: build-env ---------##
 # Pre-Production image, run scripts and copy outputs to final image
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS build-env
+#FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS build-env
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS build-env
 
 WORKDIR /app
 
@@ -78,14 +82,14 @@ COPY --from=builder /app/scripts/gravity-add-dod-cas.sh .
 COPY --from=build-openssl /bin/openssl /bin/openssl
 COPY --from=build-openssl /lib64/ /lib64/
 
-USER root
+USER 1001
 COPY --from=builder /app/fetch-manifest-resources/ /app/fetch-manifest-resources/
 RUN chmod +x gravity-add-dod-cas.sh && sh gravity-add-dod-cas.sh
 RUN cat /usr/local/share/ca-certificates/DoD_Root_CA_3.crt > /usr/local/share/ca-certificates/GCDS.pem
 
 ##--------- Stage: runner ---------##
 # Final Production image
-FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} AS runner
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs18:18.18.2-slim AS runner
 
 WORKDIR /app
 
