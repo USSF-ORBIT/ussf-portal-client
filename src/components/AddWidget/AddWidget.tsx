@@ -89,18 +89,16 @@ const AddWidget = ({
           }}>
           Add news widget
         </Button>
-        {flags?.weatherWidget && (
-          <Button
-            disabled={!canAddWeather}
-            type="button"
-            onClick={() => {
-              setTemporaryWidget('Weather')
-              setIsAddingWidget(true)
-              setIsDropdownOpen(false)
-            }}>
-            Add weather widget
-          </Button>
-        )}
+        <Button
+          disabled={!canAddWeather}
+          type="button"
+          onClick={() => {
+            setTemporaryWidget('Weather')
+            setIsAddingWidget(true)
+            setIsDropdownOpen(false)
+          }}>
+          Add weather widget
+        </Button>
         {flags?.guardianIdealCarousel && (
           <Button
             disabled={!canAddGuardianIdeal}
@@ -112,17 +110,15 @@ const AddWidget = ({
             Add Guardian Ideal widget
           </Button>
         )}
-        {flags?.featuredShortcuts && (
-          <Button
-            disabled={!canAddFeaturedShortcuts}
-            type="button"
-            onClick={() => {
-              addFeaturedShortcuts()
-              setIsDropdownOpen(false)
-            }}>
-            Add Featured Shortcuts widget
-          </Button>
-        )}
+        <Button
+          disabled={!canAddFeaturedShortcuts}
+          type="button"
+          onClick={() => {
+            addFeaturedShortcuts()
+            setIsDropdownOpen(false)
+          }}>
+          Add Featured Shortcuts widget
+        </Button>
       </DropdownMenu>
     </div>
   )
