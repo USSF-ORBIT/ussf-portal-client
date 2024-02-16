@@ -18,6 +18,12 @@ const server = new ApolloServer({
   resolvers,
 })
 
+export type ThirdPartyUser = {
+  userId?: string
+  // We can add more user properties here in the future, if
+  // resolvers need access to more information about the user.
+}
+
 // To create a new user, we need the example collection from Keystone
 export const getExampleCollection = async () => {
   // Request the example collection based on ID
@@ -49,55 +55,65 @@ export const getExampleCollection = async () => {
 export default startServerAndCreateNextHandler(server, {
   context: async (req) => {
     const { cache } = server
-    // Check for valid JWT
+    let user: ThirdPartyUser = {}
+    // There are two scenarios when using the API:
+    // 1. A logged in user is accessing protected information
+    // 2. A user is accessing public information
 
+    // If the user is logged in, we want to pass their infomation
+    // to the context to be used in the resolvers.
+
+    // If the user is not logged in, we want to pass an empty object
+    // to the context to be used in the resolvers.
+
+    // We can use the authMiddleware to check for the JWT
     const res = await authMiddleware(req)
-    if (res.status !== 200) {
-      throw new GraphQLError('Authentication failed', {
-        extensions: { code: 'UNAUTHENTICATED' },
-      })
-    }
 
     // If JWT is valid, decode it and get the user ID
-    const user = res.headers.get('Authorization')
-    let userId = ''
-    if (user) {
-      userId = jose.decodeJwt(user)['CN'] as string
+    if (res.status === 200) {
+      const token = res.headers.get('Authorization')
+
+      if (token) {
+        user = { userId: jose.decodeJwt(token)['CN'] as string }
+      }
     }
+
+    // At this point, we either have an empty user object, or
+    // a user object with a userId property.
 
     try {
       const client = await clientConnection()
       const mongodb = client.db(process.env.MONGODB_DB)
 
-      const foundUser = await User.findOne(userId, { db: mongodb })
+      // If we have a user object with a userId, we want to check if the
+      // user exists in the portal db. If not, we want to create a new user.
+      if (user.userId) {
+        const foundUser = await User.findOne(user.userId, { db: mongodb })
+        if (!foundUser) {
+          // Authenticated user not found in portal db
+          // Create new record for them
+          try {
+            // Create new user in portal db
+            const initCollection = await getExampleCollection()
 
-      if (!foundUser) {
-        // Authenticated user not found in portal db
-        // Create new record for them
-        try {
-          // Create new user in portal db
-          const initCollection = await getExampleCollection()
-
-          await User.createOne(
-            userId,
-            [initCollection],
-            // Default display name is the user's CN since we do not
-            // have their first and last name on the token.
-            // If/when they log in to the portal, they can update
-            userId,
-            'light',
-            {
-              db: mongodb,
-            }
-            // Q: Should we include last login? They are technically
-            // not logging in to the portal. Do we want to use it to track
-            // API access as well?
-          )
-        } catch (e) {
-          console.error('Error creating user', e)
-          throw new GraphQLError('Error creating user', {
-            extensions: { code: 'INTERNAL_SERVER_ERROR' },
-          })
+            await User.createOne(
+              user.userId,
+              [initCollection],
+              // Default display name is the user's CN since we do not
+              // have their first and last name on the token.
+              // If/when they log in to the portal, they can update
+              user.userId,
+              'light',
+              {
+                db: mongodb,
+              }
+            )
+          } catch (e) {
+            console.error('Error creating user', e)
+            throw new GraphQLError('Error creating user', {
+              extensions: { code: 'INTERNAL_SERVER_ERROR' },
+            })
+          }
         }
       }
 
@@ -108,7 +124,7 @@ export default startServerAndCreateNextHandler(server, {
           keystoneAPI: new ThirdPartyKeystoneAPI({ cache }),
           mongodb,
         },
-        userId,
+        user,
       }
     } catch (e) {
       console.error('Error creating GraphQL context', e)
