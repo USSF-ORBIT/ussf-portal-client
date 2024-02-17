@@ -5,7 +5,7 @@
 import { screen, act, waitFor } from '@testing-library/react'
 import { axe } from 'jest-axe'
 import { renderWithAuthAndApollo } from '../../testHelpers'
-import GuardianDirectory from 'pages/guardian-directory'
+import GuardianDirectory, { getServerSideProps } from 'pages/guardian-directory'
 import { guardianDirectoryMock } from '__fixtures__/data/guardianDirectory'
 import { SearchGuardianDirectoryDocument } from 'operations/portal/queries/searchGuardianDirectory.g'
 import { GetLastModifiedAtDocument } from 'operations/portal/queries/getLastModifiedAt.g'
@@ -54,6 +54,15 @@ describe('GuardianDirectory', () => {
   })
 
   describe('when logged in', () => {
+    test('returns the page title', async () => {
+      const response = await getServerSideProps()
+      expect(response).toEqual({
+        props: {
+          pageTitle: 'Guardian Directory',
+        },
+      })
+    })
+
     test('renders the documentation page from the cms', async () => {
       renderWithAuthAndApollo(<GuardianDirectory />, {}, mockDirectory)
 

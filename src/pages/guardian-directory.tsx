@@ -124,3 +124,11 @@ const GuardianDirectory = () => {
 export default GuardianDirectory
 
 GuardianDirectory.getLayout = withDefaultLayout
+
+export async function getServerSideProps() {
+  return {
+    props: {
+      pageTitle: 'Guardian Directory',
+    },
+  }
+}
