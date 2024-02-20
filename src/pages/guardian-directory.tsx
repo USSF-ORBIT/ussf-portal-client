@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useFlags } from 'launchdarkly-react-client-sdk'
-import { useRouter } from 'next/router'
 import { Button, Search } from '@trussworks/react-uswds'
 import LoadingWidget from 'components/LoadingWidget/LoadingWidget'
 import { withDefaultLayout } from 'layout/DefaultLayout/DefaultLayout'
@@ -12,8 +10,6 @@ import { GuardianDirectory as GuardianDirectoryType } from 'types'
 import { useGetGuardianDirectoryQuery } from 'operations/portal/queries/getGuardianDirectory.g'
 
 const GuardianDirectory = () => {
-  const flags = useFlags()
-  const router = useRouter()
   const [directory, setDirectory] = useState(Array<GuardianDirectoryType>)
   const { data: lastModifiedAt } = useGetLastModifiedAtQuery()
   const { data: guardianDirectoryData, loading: loadingGuardianData } =
@@ -60,12 +56,6 @@ const GuardianDirectory = () => {
     searchInput.value = ''
     // reset the search query
     setSearchQuery(' ')
-  }
-
-  // TODO: remove once released
-  // If guardian directory is off return 404
-  if (flags.guardianDirectory === false) {
-    router.replace('/404')
   }
 
   return (
@@ -134,3 +124,11 @@ const GuardianDirectory = () => {
 export default GuardianDirectory
 
 GuardianDirectory.getLayout = withDefaultLayout
+
+export async function getServerSideProps() {
+  return {
+    props: {
+      pageTitle: 'Guardian Directory',
+    },
+  }
+}
