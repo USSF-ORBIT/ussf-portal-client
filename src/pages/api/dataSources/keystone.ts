@@ -29,9 +29,9 @@ class KeystoneAPI extends RESTDataSource {
       body: {
         query: `query getSiteHeader {
           siteHeader {
-            buttonLabel
-            buttonSource
-            dropdownLabel
+            headerButtonLabel
+            headerButtonSource
+            headerDropdownLabel
             dropdownItem1Label
             dropdownItem1Source
             dropdownItem2Label

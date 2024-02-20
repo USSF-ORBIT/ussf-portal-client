@@ -88,7 +88,7 @@ const Header = () => {
         }}
         onMouseLeave={() => setIsOpen([false])}
         isOpen={isOpen[0]}
-        label={getSiteHeader?.dropdownLabel || ''}
+        label={getSiteHeader?.headerDropdownLabel || ''}
         isCurrent={true}
       />
       <Menu
@@ -98,11 +98,13 @@ const Header = () => {
         onMouseLeave={() => setIsOpen([false])}
         isOpen={isOpen[0]}
         id="headerDropdown">
-        {getSiteHeader?.dropdownLabel}
+        {getSiteHeader?.headerDropdownLabel}
       </Menu>
     </>,
-    <NavLink key="nav_header_button" href={getSiteHeader?.buttonSource || '/'}>
-      {getSiteHeader?.buttonLabel}
+    <NavLink
+      key="nav_header_button"
+      href={getSiteHeader?.headerButtonSource || '/'}>
+      {getSiteHeader?.headerButtonLabel}
     </NavLink>,
     <Button
       data-testid="nav_logout"

@@ -71,9 +71,9 @@ export const typeDefs = gql`
   }
 
   type SiteHeader {
-    buttonLabel: String
-    buttonSource: String
-    dropdownLabel: String
+    headerButtonLabel: String
+    headerButtonSource: String
+    headerDropdownLabel: String
     dropdownItem1Label: String
     dropdownItem1Source: String
     dropdownItem2Label: String

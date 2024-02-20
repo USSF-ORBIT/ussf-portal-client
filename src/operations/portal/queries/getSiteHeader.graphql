@@ -1,8 +1,8 @@
 query getSiteHeader {
   getSiteHeader {
-    buttonLabel
-    buttonSource
-    dropdownLabel
+    headerButtonLabel
+    headerButtonSource
+    headerDropdownLabel
     dropdownItem1Label
     dropdownItem1Source
     dropdownItem2Label

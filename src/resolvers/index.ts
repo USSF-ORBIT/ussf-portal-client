@@ -70,9 +70,9 @@ type GetLatLongPromise = {
 type GetSiteHeaderPromise = {
   data: {
     siteHeader: {
-      buttonLabel: string
-      buttonSource: string
-      dropdownLabel: string
+      headerButtonLabel: string
+      headerButtonSource: string
+      headerDropdownLabel: string
       dropdownItem1Label: string
       dropdownItem1Source: string
       dropdownItem2Label: string
