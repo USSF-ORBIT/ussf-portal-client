@@ -115,6 +115,7 @@ describe('GraphQL resolvers', () => {
         keystoneAPI,
         mongodb: db,
       },
+      user: {},
     }
   })
   describe('Query.cNotes', () => {
@@ -180,7 +181,9 @@ describe('GraphQL resolvers', () => {
         {
           contextValue: {
             ...serverContext,
-            userId: newPortalUser.userId,
+            user: {
+              userId: newPortalUser.userId,
+            },
           },
         }
       )) as SingleGraphQLResponse<ResponseData>
@@ -246,7 +249,9 @@ describe('GraphQL resolvers', () => {
         {
           contextValue: {
             ...serverContext,
-            userId: newPortalUser.userId,
+            user: {
+              userId: newPortalUser.userId,
+            },
           },
         }
       )) as SingleGraphQLResponse<ResponseData>
@@ -301,7 +306,9 @@ describe('GraphQL resolvers', () => {
         {
           contextValue: {
             ...serverContext,
-            userId: newPortalUser.userId,
+            user: {
+              userId: newPortalUser.userId,
+            },
           },
         }
       )) as SingleGraphQLResponse<ResponseData>
@@ -356,7 +363,9 @@ describe('GraphQL resolvers', () => {
         {
           contextValue: {
             ...serverContext,
-            userId: newPortalUser.userId,
+            user: {
+              userId: newPortalUser.userId,
+            },
           },
         }
       )) as SingleGraphQLResponse<ResponseData>
