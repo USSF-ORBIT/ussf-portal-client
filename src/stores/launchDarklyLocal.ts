@@ -5,10 +5,5 @@
  */
 export default {
   guardianIdealCarousel: true,
-  guardianDirectory: true,
-  featuredShortcuts: true,
-  searchPageFilter: true,
-  dragAndDropCollections: true,
-  weatherWidget: true,
-  landingPageIndex: true,
+  sitesAppsSortView: false,
 }
