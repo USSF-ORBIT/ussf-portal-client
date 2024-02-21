@@ -15,7 +15,7 @@ import { withLandingPageLayout } from 'layout/DefaultLayout/LandingPageLayout'
 import { client } from 'lib/keystoneClient'
 import { GET_LANDING_PAGE } from 'operations/cms/queries/getLandingPage'
 import { CMSBookmark, CollectionRecord } from 'types'
-import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
+import { openFileInNewTab } from 'helpers/openDocumentLink'
 import { getSession } from 'lib/session'
 import { formatDisplayDate, isCmsUser, isPublished } from 'helpers/index'
 
@@ -90,10 +90,8 @@ const LandingPage = ({
                             return (
                               <Link
                                 onClick={(e) => {
-                                  if (isPdf(doc.file.url)) {
-                                    e.preventDefault()
-                                    handleOpenPdfLink(doc.file.url)
-                                  } else return
+                                  e.preventDefault()
+                                  openFileInNewTab(doc.file.url)
                                 }}
                                 key={index}
                                 rel="noreferrer noopener"
