@@ -38,14 +38,15 @@ describe('DefaultLayout component options', () => {
 })
 
 describe('DefaultLayout component', () => {
+  let container: HTMLElement
   beforeEach(async () => {
-    renderWithAuthAndApollo(
+    ;({ container } = renderWithAuthAndApollo(
       <DefaultLayout>
         <h1>Test Page</h1>
       </DefaultLayout>,
       {},
       getUserMock
-    )
+    ))
     // need to wait for the query to finish so waiting for banner to display
     await waitFor(() =>
       expect(screen.getByTestId('govBanner')).toBeInTheDocument()
@@ -65,7 +66,7 @@ describe('DefaultLayout component', () => {
       screen.getByRole('link', { name: 'Skip to main content' })
     ).toHaveAttribute('href', '#main-content')
 
-    expect(screen.getByRole('main')).toHaveAttribute('id', 'main-content')
+    expect(container.querySelector('div#main-content')).toBeInTheDocument()
   })
 
   it('renders a feedback link', () => {
