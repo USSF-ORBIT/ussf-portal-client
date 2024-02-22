@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.31.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.30.1...4.31.0) (2024-02-22)
+
+
+### Features
+
+* Add additional content to third-party API ([#1206](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1206)) ([053cd1d](https://github.com/USSF-ORBIT/ussf-portal-client/commit/053cd1d4d6a28fea5da43da796efd8455660b3a2))
+* Add Site Header ([#1210](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1210)) ([4f34bc4](https://github.com/USSF-ORBIT/ussf-portal-client/commit/4f34bc4a5eb9337b6329cb52d72f69d08e4078c7))
+* Create new portal user from JWT request if one doesn't exist ([#1209](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1209)) ([7e0102c](https://github.com/USSF-ORBIT/ussf-portal-client/commit/7e0102cce5b5056574740aeec3d68670e441c8eb))
+* Support additional file types for opening docs in browser ([#1214](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1214)) ([0c67389](https://github.com/USSF-ORBIT/ussf-portal-client/commit/0c67389f6b2de2a89f21928842d3b81f314fea30))
+
+
+### Bug Fixes
+
+* a11y:  Guardian Directory field labeling ([#1205](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1205)) ([db3df68](https://github.com/USSF-ORBIT/ussf-portal-client/commit/db3df6849b86b8b56ae502401e443c8ae5ea3f32))
+* a11y: edit display name component syntax  ([#1204](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1204)) ([c6408cf](https://github.com/USSF-ORBIT/ussf-portal-client/commit/c6408cf74ba1ce6034eebbcaeb9e04fe61d87218))
+* a11y: move skip link anchor entry point to unique page content in default layout ([#1212](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1212)) ([c2e8e8e](https://github.com/USSF-ORBIT/ussf-portal-client/commit/c2e8e8e60d3600a396774d793945ac55e7030d24))
+* adds page title to Guardian Directory page ([#1211](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1211)) ([8f0b0cb](https://github.com/USSF-ORBIT/ussf-portal-client/commit/8f0b0cb86dd9f7b081bf7411c1171b30d10efa9a))
+
 ## [4.30.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.30.0...4.30.1) (2024-01-31)
 
 
