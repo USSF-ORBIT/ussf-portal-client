@@ -1,6 +1,6 @@
 {
   "name": "ussf-portal",
-  "version": "4.30.0",
+  "version": "4.31.0",
   "private": true,
   "engines": {
     "node": "^18.14.2"
@@ -11,7 +11,7 @@
   },
   "scripts": {
     "services:removeall": "docker ps --quiet --all | xargs docker rm --force",
-    "services:up": "docker compose up -d matomo redis mongo-express idp keystone-db personnel-api wiremock",
+    "services:up": "docker compose up -d matomo redis mongo-express idp keystone-db personnel-api wiremock test-jwt-issuer",
     "services:down": "docker compose down",
     "cms:up": "docker compose up -d cms matomo mongo-express idp",
     "portal:up": "docker compose up --build -d cms client matomo mongo-express",

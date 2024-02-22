@@ -5,20 +5,34 @@
 import { screen, act, waitFor } from '@testing-library/react'
 import { axe } from 'jest-axe'
 import { renderWithAuthAndApollo } from '../../testHelpers'
-import * as useUserHooks from 'hooks/useUser'
-import GuardianDirectory from 'pages/guardian-directory'
-import { GetGuardianDirectoryDocument } from 'operations/portal/queries/getGuardianDirectory.g'
-import { SessionUser } from 'types'
-import { GetUserQuery } from 'operations/portal/queries/getUser.g'
+import GuardianDirectory, { getServerSideProps } from 'pages/guardian-directory'
 import { guardianDirectoryMock } from '__fixtures__/data/guardianDirectory'
-
-type MockedImplementation = {
-  user: SessionUser | null
-  portalUser: GetUserQuery | undefined
-  loading: boolean
-}
+import { SearchGuardianDirectoryDocument } from 'operations/portal/queries/searchGuardianDirectory.g'
+import { GetLastModifiedAtDocument } from 'operations/portal/queries/getLastModifiedAt.g'
+import { GetGuardianDirectoryDocument } from 'operations/portal/queries/getGuardianDirectory.g'
 
 const mockDirectory = [
+  {
+    request: {
+      query: GetLastModifiedAtDocument,
+    },
+    result: jest.fn(() => ({
+      data: {
+        getLastModifiedAt: new Date(),
+      },
+    })),
+  },
+  {
+    request: {
+      query: SearchGuardianDirectoryDocument,
+      variables: { search: '' },
+    },
+    result: jest.fn(() => ({
+      data: {
+        searchGuardianDirectory: guardianDirectoryMock,
+      },
+    })),
+  },
   {
     request: {
       query: GetGuardianDirectoryDocument,
@@ -31,34 +45,24 @@ const mockDirectory = [
   },
 ]
 
-beforeEach(() => {
-  jest
-    .spyOn(useUserHooks, 'useUser')
-    .mockImplementation((): MockedImplementation => {
-      return {
-        user: null,
-        portalUser: undefined,
-        loading: false,
-      }
-    })
-})
-
 describe('GuardianDirectory', () => {
   describe('without a user', () => {
     test('renders the loader while fetching the user', () => {
-      jest.spyOn(useUserHooks, 'useUser').mockImplementation(() => {
-        return {
-          user: null,
-          portalUser: undefined,
-          loading: true,
-        }
-      })
-      renderWithAuthAndApollo(<GuardianDirectory />, {})
+      renderWithAuthAndApollo(<GuardianDirectory />, {}, mockDirectory)
       expect(screen.getByText('Content is loading...')).toBeInTheDocument()
     })
   })
 
   describe('when logged in', () => {
+    test('returns the page title', async () => {
+      const response = await getServerSideProps()
+      expect(response).toEqual({
+        props: {
+          pageTitle: 'Guardian Directory',
+        },
+      })
+    })
+
     test('renders the documentation page from the cms', async () => {
       renderWithAuthAndApollo(<GuardianDirectory />, {}, mockDirectory)
 

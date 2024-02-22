@@ -397,3 +397,23 @@ export type GuardianDirectory = {
   MajCom: string
   Email: string
 }
+
+/**
+ * ***********************
+ * Types for Site Header
+ * ***********************
+ * */
+
+export type SiteHeader = {
+  buttonLabel: string
+  buttonSource: string
+  dropdownLabel: string
+  dropdownItem1Label: string
+  dropdownItem1Source: string
+  dropdownItem2Label: string
+  dropdownItem2Source: string
+  dropdownItem3Label: string
+  dropdownItem3Source: string
+  dropdownItem4Label: string
+  dropdownItem4Source: string
+}

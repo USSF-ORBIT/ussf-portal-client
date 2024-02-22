@@ -39,11 +39,83 @@ describe('GraphQL resolvers', () => {
       return testCNote
     })
 
+    keystoneAPI.getDocuments = jest.fn(async () => {
+      return {
+        data: {
+          documents: [
+            {
+              id: 'ckwz3u58s1835ql974leo1yll',
+              title: 'Test Document',
+              description: 'Test Document Description',
+              file: {
+                filename: 'test.pdf',
+                filesize: 123456,
+                url: 'https://example.com/test.pdf',
+              },
+            },
+          ],
+        },
+      }
+    })
+
+    keystoneAPI.getNewsArticles = jest.fn(async () => {
+      return {
+        data: {
+          internalNewsArticles: [
+            {
+              id: 'ckwz3u58s1835ql974leo1yll',
+              title: 'Test Internal News Article',
+              publishedDate: '2023-11-14T22:14:14.283Z',
+              body: {
+                document: [
+                  {
+                    type: 'paragraph',
+                    children: [
+                      {
+                        text: 'Lorem ipsum body text',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      }
+    })
+
+    keystoneAPI.getLandingPageArticles = jest.fn(async () => {
+      return {
+        data: {
+          landingPageArticles: [
+            {
+              id: 'ckwz3u58s1835ql974leo1yll',
+              title: 'Test Landing Page Article',
+              publishedDate: '2023-11-14T22:14:14.283Z',
+              body: {
+                document: [
+                  {
+                    type: 'paragraph',
+                    children: [
+                      {
+                        text: 'Lorem ipsum body text',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      }
+    })
+
     serverContext = {
       dataSources: {
         keystoneAPI,
         mongodb: db,
       },
+      user: {},
     }
   })
   describe('Query.cNotes', () => {
@@ -109,13 +181,196 @@ describe('GraphQL resolvers', () => {
         {
           contextValue: {
             ...serverContext,
-            userId: newPortalUser.userId,
+            user: {
+              userId: newPortalUser.userId,
+            },
           },
         }
       )) as SingleGraphQLResponse<ResponseData>
 
       expect(errors).toBeUndefined()
       expect(data.displayName).toEqual('BERNADETTE CAMPBELL')
+    })
+  })
+
+  describe('Query.documents', () => {
+    type ResponseData = {
+      documents: {
+        id: string
+        title: string
+        description: string
+        file: {
+          filename: string
+          filesize: number
+          url: string
+        }
+      }[]
+    }
+
+    test('throws an error if unauthenticated', async () => {
+      const {
+        body: {
+          singleResult: { errors },
+        },
+      } = (await server.executeOperation(
+        {
+          query: documentsQuery,
+        },
+        {
+          contextValue: serverContext,
+        }
+      )) as SingleGraphQLResponse<ResponseData>
+
+      expect(errors).toHaveLength(1)
+    })
+
+    test('returns all documents if authenticated', async () => {
+      const {
+        body: {
+          singleResult: { errors },
+        },
+      } = (await server.executeOperation<ResponseData>(
+        {
+          query: gql`
+            query GetDocuments {
+              documents {
+                id
+                title
+                description
+                file {
+                  filename
+                  filesize
+                  url
+                }
+              }
+            }
+          `,
+        },
+        {
+          contextValue: {
+            ...serverContext,
+            user: {
+              userId: newPortalUser.userId,
+            },
+          },
+        }
+      )) as SingleGraphQLResponse<ResponseData>
+
+      expect(errors).toBeUndefined()
+    })
+  })
+
+  describe('Query.newsArticles', () => {
+    type ResponseData = {
+      newsArticles: {
+        id: string
+        title: string
+        publishedDate: string
+        body: {
+          document: {
+            type: string
+            children: {
+              text: string
+            }[]
+          }[]
+        }
+      }[]
+    }
+
+    test('throws an error if unauthenticated', async () => {
+      const {
+        body: {
+          singleResult: { errors },
+        },
+      } = (await server.executeOperation(
+        {
+          query: newsArticlesQuery,
+        },
+        {
+          contextValue: serverContext,
+        }
+      )) as SingleGraphQLResponse<ResponseData>
+
+      expect(errors).toHaveLength(1)
+    })
+
+    test('returns all internal news articles if authenticated', async () => {
+      const {
+        body: {
+          singleResult: { errors },
+        },
+      } = (await server.executeOperation<ResponseData>(
+        {
+          query: newsArticlesQuery,
+        },
+        {
+          contextValue: {
+            ...serverContext,
+            user: {
+              userId: newPortalUser.userId,
+            },
+          },
+        }
+      )) as SingleGraphQLResponse<ResponseData>
+
+      expect(errors).toBeUndefined()
+    })
+  })
+
+  describe('Query.landingPageArticles', () => {
+    type ResponseData = {
+      landingPageArticles: {
+        id: string
+        title: string
+        publishedDate: string
+        body: {
+          document: {
+            type: string
+            children: {
+              text: string
+            }[]
+          }[]
+        }
+      }[]
+    }
+
+    test('throws an error if unauthenticated', async () => {
+      const {
+        body: {
+          singleResult: { errors },
+        },
+      } = (await server.executeOperation(
+        {
+          query: landingPageArticlesQuery,
+        },
+        {
+          contextValue: serverContext,
+        }
+      )) as SingleGraphQLResponse<ResponseData>
+
+      expect(errors).toHaveLength(1)
+    })
+
+    test('returns all landing page articles if authenticated', async () => {
+      const {
+        body: {
+          singleResult: { errors },
+        },
+      } = (await server.executeOperation<ResponseData>(
+        {
+          query: landingPageArticlesQuery,
+        },
+        {
+          contextValue: {
+            ...serverContext,
+            user: {
+              userId: newPortalUser.userId,
+            },
+          },
+        }
+      )) as SingleGraphQLResponse<ResponseData>
+
+      expect(errors).toBeUndefined()
     })
   })
 })
@@ -138,6 +393,65 @@ const cNotesQuery = gql`
 const displayNameQuery = gql`
   query GetDisplayName {
     displayName
+  }
+`
+
+const documentsQuery = gql`
+  query GetDocuments {
+    documents {
+      id
+      title
+      description
+      file {
+        filename
+        filesize
+        url
+      }
+    }
+  }
+`
+
+const newsArticlesQuery = gql`
+  query GetNewsArticles {
+    newsArticles {
+      id
+      title
+      preview
+      publishedDate
+      labels {
+        id
+        name
+        type
+      }
+      body {
+        document
+      }
+      tags {
+        name
+      }
+    }
+  }
+`
+
+const landingPageArticlesQuery = gql`
+  query GetLandingPageArticles {
+    landingPageArticles {
+      id
+      title
+      preview
+      publishedDate
+      labels {
+        id
+        name
+        type
+      }
+      body {
+        document
+      }
+      tags {
+        name
+      }
+    }
   }
 `
 

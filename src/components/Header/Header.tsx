@@ -9,6 +9,7 @@ import {
   NavDropDownButton,
 } from '@trussworks/react-uswds'
 import Link from 'next/link'
+import { useGetSiteHeaderQuery } from '../../operations/portal/queries/getSiteHeader.g'
 import styles from './Header.module.scss'
 import Logo from 'components/Logo/Logo'
 import NavLink from 'components/util/NavLink/NavLink'
@@ -21,6 +22,32 @@ const Header = () => {
   const { trackEvent } = useAnalytics()
   const [expanded, setExpanded] = useState(false)
   const [isOpen, setIsOpen] = useState([false, false])
+  const { data } = useGetSiteHeaderQuery()
+  const { getSiteHeader } = data || {}
+
+  const dropdownItems = []
+  // Walk through the getSiteHeader object and pull out the dropdown items. Create an object for each
+  // dropdown item that contains the label and corresponding source. If the label or the source is empty,
+  // don't include it.
+  for (const key in getSiteHeader) {
+    if (
+      key.startsWith('dropdownItem') &&
+      key.includes('Label') &&
+      getSiteHeader[key as keyof typeof getSiteHeader]!.length > 0 &&
+      getSiteHeader[
+        key.replace('Label', 'Source') as keyof typeof getSiteHeader
+      ]!.length > 0
+    ) {
+      dropdownItems.push({
+        label: getSiteHeader[key as keyof typeof getSiteHeader],
+        source:
+          getSiteHeader[
+            key.replace('Label', 'Source') as keyof typeof getSiteHeader
+          ],
+      })
+    }
+  }
+
   const handleNavButtonClick = (): void =>
     setExpanded((prevExpanded) => !prevExpanded)
 
@@ -39,49 +66,60 @@ const Header = () => {
     })
   }
 
-  const aboutUsDropdownItems = [
-    <NavLink
-      data-testid="nav-about-ussf"
-      href="/about-us"
-      key="one"
-      onClick={() => setIsOpen([false])}>
-      About the USSF
-    </NavLink>,
-    <NavLink
-      href="/about-us/orbit-blog"
-      key="two"
-      onClick={() => setIsOpen([false])}>
-      ORBIT blog
-    </NavLink>,
-  ]
+  const headerDropdownItems = dropdownItems.map((item, index) => {
+    return (
+      <NavLink
+        data-testid={`nav-dropdown-item-${index}`}
+        href={item.source!}
+        key={`dropdown-${index}`}
+        onClick={() => setIsOpen([false])}>
+        {item.label}
+      </NavLink>
+    )
+  })
 
   const navItems = [
     <>
       <NavDropDownButton
-        data-testid="nav-about-us-dropdown"
-        menuId="aboutUsDropdown"
+        data-testid="nav-header-dropdown"
+        menuId="headerDropdown"
         onToggle={(): void => {
           onToggle(0)
         }}
         onMouseLeave={() => setIsOpen([false])}
         isOpen={isOpen[0]}
-        label="About Us"
+        label={getSiteHeader?.headerDropdownLabel || ''}
         isCurrent={true}
       />
       <Menu
-        key="nav_about"
-        items={aboutUsDropdownItems}
+        key="nav_header_dropdown"
+        items={headerDropdownItems}
         onMouseEnter={() => setIsOpen([true])}
         onMouseLeave={() => setIsOpen([false])}
         isOpen={isOpen[0]}
-        id="aboutUsDropdown">
-        About us
+        id="headerDropdown">
+        {getSiteHeader?.headerDropdownLabel}
       </Menu>
     </>,
-    <NavLink key="nav_news" href="/news-announcements">
-      News
+    <NavLink
+      key="nav_header_button"
+      href={getSiteHeader?.headerButtonSource || '/'}>
+      {getSiteHeader?.headerButtonLabel}
     </NavLink>,
     <Button
+      data-testid="nav_logout"
+      secondary
+      className={styles.logoutButton}
+      type="button"
+      onClick={handleLogout}
+      key="nav_logout">
+      <span>Log out</span>
+    </Button>,
+  ]
+
+  const logoutButton = [
+    <Button
+      data-testid="nav_logout"
       secondary
       className={styles.logoutButton}
       type="button"
@@ -111,7 +149,7 @@ const Header = () => {
             <NavMenuButton onClick={handleNavButtonClick} label="Menu" />
           </div>
           <PrimaryNav
-            items={navItems}
+            items={getSiteHeader ? navItems : logoutButton}
             mobileExpanded={expanded}
             onToggleMobileNav={handleNavButtonClick}
           />

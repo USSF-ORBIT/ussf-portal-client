@@ -51,7 +51,7 @@ const DefaultLayout = ({
           <GovBanner tld=".mil" />
           <Header />
         </div>
-        <main id="main-content">
+        <main>
           <PageHeader>
             <PersonalData userDisplayName={displayName} />
           </PageHeader>
@@ -62,7 +62,7 @@ const DefaultLayout = ({
               <Grid desktop={{ col: 2 }} style={{ minWidth: '221px' }}>
                 <PageNav />
               </Grid>
-              <Grid desktop={{ col: true }}>
+              <Grid id="main-content" desktop={{ col: true }}>
                 {/* PAGE CONTENT */}
                 {children}
               </Grid>

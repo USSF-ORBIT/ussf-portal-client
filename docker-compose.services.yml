@@ -45,6 +45,17 @@ services:
     depends_on:
       - mongo
 
+  test-jwt-issuer:
+    container_name: test-jwt-issuer
+    build:
+      context: ../ussf-portal/test-jwt-service/
+      dockerfile: Dockerfile
+    env_file: ../ussf-portal/e2e/.envrc.local
+    environment:
+      ISSUER: http://localhost:5001/.well-known/issuer.json
+    restart: always
+    ports:
+      - '5001:5001'
   idp:
     container_name: test-saml-idp
     image: kristophjunge/test-saml-idp
@@ -63,7 +74,6 @@ services:
     platform: linux/amd64
     volumes:
       - ./users.php:/var/www/simplesamlphp/config/authsources.php
-
   mariadb:
     image: docker.io/bitnami/mariadb:10.11
     environment:
@@ -115,6 +125,16 @@ services:
       - POSTGRES_PASSWORD=keystonecms
       - POSTGRES_USER=keystone
       - POSTGRES_DB=keystone
+      
+  # TODO: Experimental, potentially used with Gitlab and Gravity migration
+  # fetch-manifest-resources:
+  #   container_name: fetch
+  #   build:
+  #     # Uncomment the below line to work with local check out
+  #     # context: ../ussf-personnel-api/
+  #     context: https://repo1.dso.mil/dsop/container-hardening-tools/fetch-manifest-resources.git
+  #     dockerfile: Dockerfile
+  #   restart: always
 
   wiremock:
     container_name: wiremock

@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { GraphQLJSON } from 'graphql-type-json'
 import type { MongoClient } from 'mongodb'
+import type { ThirdPartyUser } from './graphql'
 import ThirdPartyKeystoneAPI from './dataSources/thirdPartyKeystone'
 import UserModel from 'models/User'
 
@@ -10,7 +11,7 @@ export type ThirdPartyContext = {
     keystoneAPI: ThirdPartyKeystoneAPI
     mongodb: typeof MongoClient
   }
-  userId?: string
+  user: ThirdPartyUser
 }
 
 /* Resolvers */
@@ -37,15 +38,62 @@ export const resolvers = {
       __: undefined,
       // We need to alias mongodb as db so we can
       // use our existing User model
-      { dataSources: { mongodb: db }, userId }: ThirdPartyContext
+      { dataSources: { mongodb: db }, user }: ThirdPartyContext
     ) => {
       // Make sure we have a userId
-      if (!userId) {
+      if (!user.userId) {
         throw new Error('User not authenticated')
       }
 
       // Look up user in MongoDB and get their display name
-      return UserModel.getDisplayName(userId, { db })
+      return UserModel.getDisplayName(user.userId, { db })
+    },
+    documents: async (
+      _: undefined,
+      __: undefined,
+      { dataSources: { keystoneAPI }, user }: ThirdPartyContext
+    ) => {
+      if (!user.userId) {
+        throw new Error('User not authenticated')
+      }
+
+      const {
+        data: { documents },
+      } = await keystoneAPI.getDocuments()
+
+      return documents
+    },
+
+    newsArticles: async (
+      _: undefined,
+      __: undefined,
+      { dataSources: { keystoneAPI }, user }: ThirdPartyContext
+    ) => {
+      if (!user.userId) {
+        throw new Error('User not authenticated')
+      }
+
+      const {
+        data: { articles },
+      } = await keystoneAPI.getNewsArticles(DateTime.now())
+
+      return articles
+    },
+
+    landingPageArticles: async (
+      _: undefined,
+      __: undefined,
+      { dataSources: { keystoneAPI }, user }: ThirdPartyContext
+    ) => {
+      if (!user.userId) {
+        throw new Error('User not authenticated')
+      }
+
+      const {
+        data: { articles },
+      } = await keystoneAPI.getLandingPageArticles(DateTime.now())
+
+      return articles
     },
   },
 }

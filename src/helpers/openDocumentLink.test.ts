@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import axios from 'axios'
-import { isPdf, handleOpenPdfLink } from './openDocumentLink'
+import { mimeTypes, getMimeType, openFileInNewTab } from './openDocumentLink'
 
 jest.mock('axios', () => ({
   get: jest.fn(() => Promise.resolve({ data: { blob: () => 'test' } })),
@@ -19,19 +19,24 @@ const mockWindowOpen = jest.fn()
 window.open = mockWindowOpen
 
 describe('isPdf', () => {
-  test('returns true if url ends with .pdf', () => {
-    expect(isPdf('https://www.google.com/test.pdf')).toBe(true)
+  Object.entries(mimeTypes).forEach(([extension, type]) => {
+    test('returns correct type if url ends with extension', () => {
+      const fileName = `https://www.google.com/test.${extension}`
+      expect(getMimeType(fileName)).toBe(type)
+    })
   })
 
-  test('returns false if url does not end with .pdf', () => {
-    expect(isPdf('https://www.google.com/test')).toBe(false)
+  test('returns octet if url ends with extension not supported', () => {
+    expect(getMimeType('https://www.google.com/test')).toBe(
+      'application/octet-stream'
+    )
   })
 })
 
 describe('handleOpenPdfLink', () => {
   test('opens a new window if the url is a pdf', async () => {
     const pdfString = 'https://www.google.com/test.pdf'
-    await handleOpenPdfLink(pdfString)
+    await openFileInNewTab(pdfString)
     expect(axios.get).toHaveBeenCalled()
     expect(mockCreateObjectURL).toHaveBeenCalled()
     expect(mockWindowOpen).toHaveBeenCalled()

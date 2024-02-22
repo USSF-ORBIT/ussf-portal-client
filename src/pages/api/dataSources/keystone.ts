@@ -23,6 +23,28 @@ class KeystoneAPI extends RESTDataSource {
       },
     })
   }
+
+  async getSiteHeader() {
+    return this.post(`/api/graphql`, {
+      body: {
+        query: `query getSiteHeader {
+          siteHeader {
+            headerButtonLabel
+            headerButtonSource
+            headerDropdownLabel
+            dropdownItem1Label
+            dropdownItem1Source
+            dropdownItem2Label
+            dropdownItem2Source
+            dropdownItem3Label
+            dropdownItem3Source
+            dropdownItem4Label
+            dropdownItem4Source
+          }
+        }`,
+      },
+    })
+  }
 }
 
 export default KeystoneAPI

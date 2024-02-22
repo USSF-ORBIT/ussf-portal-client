@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import { screen } from '@testing-library/react'
-import { mockFlags } from 'jest-launchdarkly-mock'
 import type { GetServerSidePropsContext } from 'next'
 
 import { renderWithAuth } from '../../testHelpers'
@@ -133,10 +132,6 @@ describe('Search page', () => {
     })
 
     test('renders the SearchFilter component', () => {
-      mockFlags({
-        searchPageFilter: true,
-      })
-
       renderWithAuth(
         <SearchPage
           query="fitness"
@@ -146,22 +141,6 @@ describe('Search page', () => {
       )
 
       expect(screen.getByText('Filter Search')).toBeInTheDocument()
-    })
-
-    test('does not render the SearchFilter component if the flag is off', () => {
-      mockFlags({
-        searchPageFilter: false,
-      })
-
-      renderWithAuth(
-        <SearchPage
-          query="fitness"
-          results={[]}
-          labels={[{ name: 'label1' }, { name: 'label2' }, { name: 'label3' }]}
-        />
-      )
-
-      expect(screen.queryByText('Filter Search')).not.toBeInTheDocument()
     })
 
     test('renders the results if there were matches for the query', async () => {
