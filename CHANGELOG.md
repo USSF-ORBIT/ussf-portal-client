@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.31.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.31.0...4.31.1) (2024-02-23)
+
+
+### Bug Fixes
+
+* Update code to account for params on end of asset url in s3 ([#1217](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1217)) ([abb88ac](https://github.com/USSF-ORBIT/ussf-portal-client/commit/abb88ac1f6705271efbb4b416893b2d5fdb1741f))
+
 ## [4.31.0](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.30.1...4.31.0) (2024-02-22)
 
 
