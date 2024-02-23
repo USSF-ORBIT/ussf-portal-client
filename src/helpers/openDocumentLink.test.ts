@@ -18,10 +18,10 @@ URL.revokeObjectURL = mockRevokeObjectURL
 const mockWindowOpen = jest.fn()
 window.open = mockWindowOpen
 
-describe('isPdf', () => {
+describe('openDocumentLink', () => {
   Object.entries(mimeTypes).forEach(([extension, type]) => {
-    test('returns correct type if url ends with extension', () => {
-      const fileName = `https://www.google.com/test.${extension}`
+    test('returns correct type if url is hosted on s3', () => {
+      const fileName = `https://www.google.com/test.${extension}?queryparamsands3things`
       expect(getMimeType(fileName)).toBe(type)
     })
   })
@@ -31,11 +31,17 @@ describe('isPdf', () => {
       'application/octet-stream'
     )
   })
+
+  test('returns correct type if url ends with extension', () => {
+    expect(getMimeType('https://www.google.com/test.pdf')).toBe(
+      'application/pdf'
+    )
+  })
 })
 
 describe('handleOpenPdfLink', () => {
   test('opens a new window if the url is a pdf', async () => {
-    const pdfString = 'https://www.google.com/test.pdf'
+    const pdfString = 'https://www.google.com/test.pdf?queryparamsands3things'
     await openFileInNewTab(pdfString)
     expect(axios.get).toHaveBeenCalled()
     expect(mockCreateObjectURL).toHaveBeenCalled()
