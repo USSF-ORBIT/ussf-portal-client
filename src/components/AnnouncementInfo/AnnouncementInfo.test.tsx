@@ -16,8 +16,10 @@ import {
   testAnnouncementWithJpgDocument,
 } from '__fixtures__/data/cmsAnnouncments'
 
-// Spy on the function that opens PDFs in the browser
-jest.spyOn(openDocumentLink, 'openFileInNewTab').mockImplementation()
+// Spy on the functions that test files and opens PDFs in the browser
+// We are not mocking because we want to test isPdf
+jest.spyOn(openDocumentLink, 'handleOpenPdfLink').mockImplementation()
+jest.spyOn(openDocumentLink, 'isPdf')
 
 describe('AnnouncementInfo component', () => {
   test('renders an announcement with a url CTA', () => {
@@ -71,11 +73,13 @@ describe('AnnouncementInfo component', () => {
     expect(link).toHaveAttribute('href', pdfString)
 
     fireEvent.click(link)
-    expect(openDocumentLink.openFileInNewTab).toHaveBeenCalledTimes(1)
-    expect(openDocumentLink.openFileInNewTab).toHaveBeenCalledWith(pdfString)
+    expect(openDocumentLink.isPdf).toHaveBeenCalledTimes(1)
+    expect(openDocumentLink.isPdf).toHaveBeenCalledWith(pdfString)
+    expect(openDocumentLink.handleOpenPdfLink).toHaveBeenCalledTimes(1)
+    expect(openDocumentLink.handleOpenPdfLink).toHaveBeenCalledWith(pdfString)
   })
 
-  test('renders an announcement with a jpg document CTA', async () => {
+  test('renders an announcement with a non-pdf document CTA', async () => {
     jest.resetAllMocks()
 
     const jpgString =
@@ -93,6 +97,9 @@ describe('AnnouncementInfo component', () => {
     expect(link).toHaveAttribute('href', jpgString)
 
     fireEvent.click(link)
-    expect(openDocumentLink.openFileInNewTab).toHaveBeenCalledTimes(1)
+    expect(openDocumentLink.isPdf).toHaveBeenCalledTimes(1)
+    expect(openDocumentLink.isPdf).toHaveBeenCalledWith(jpgString)
+
+    expect(openDocumentLink.handleOpenPdfLink).toHaveBeenCalledTimes(0)
   })
 })

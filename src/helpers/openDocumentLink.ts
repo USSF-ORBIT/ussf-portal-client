@@ -1,43 +1,19 @@
 import axios from 'axios'
 
-// Helper function to determine MIME type from the Keystone file URL
-export const mimeTypes: Record<string, string> = {
-  pdf: 'application/pdf',
-  jpg: 'image/jpeg',
-  jpeg: 'image/jpeg',
-  png: 'image/png',
-  webp: 'image/webp',
-  gif: 'image/gif',
-  svg: 'image/svg+xml',
-  webm: 'video/webm',
-  mp4: 'video/mp4',
-  mov: 'video/quicktime',
-  mp3: 'audio/mpeg',
-  wav: 'audio/wav',
-  txt: 'text/plain',
-  csv: 'text/csv',
-  xls: 'application/vnd.ms-excel',
-  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  // Add more mappings as needed
+export const isPdf = (url: string) => {
+  return url.toString().includes('.pdf')
 }
-export const getMimeType = (url: string): string => {
-  const extension = url.split('.').pop()?.toLowerCase()
-  return mimeTypes[extension || ''] || 'application/octet-stream' // Default MIME type
-}
-// Function to open files in a new tab with TypeScript annotations
-export const openFileInNewTab = async (fileUrl: string): Promise<void> => {
-  try {
-    const response = await axios.get<Blob>(fileUrl, { responseType: 'blob' })
-    const mimeType = getMimeType(fileUrl)
 
-    const file = new Blob([response.data], { type: mimeType })
-    const fileURL = URL.createObjectURL(file)
+export const handleOpenPdfLink = async (pdfString: string) => {
+  // Fetch the file from Keystone / S3
+  const res = await axios.get(pdfString, { responseType: 'blob' })
 
-    // If the browser cannot open the file, it will download it automatically
-    window.open(fileURL, '_blank')
+  // Create a blob from the file and open it in a new tab
+  const blobData = await res.data
+  const file = new Blob([blobData], { type: 'application/pdf' })
+  const fileUrl = URL.createObjectURL(file)
 
-    URL.revokeObjectURL(fileURL)
-  } catch (error) {
-    console.error('Error opening file:', error)
-  }
+  window.open(fileUrl)
+  // Let the browser know not to keep the reference to the file any longer.
+  URL.revokeObjectURL(fileUrl)
 }

@@ -10,7 +10,7 @@ import { GET_DOCUMENTS_PAGE } from 'operations/cms/queries/getDocumentsPage'
 import { DocumentType, DocumentPageType, DocumentSectionType } from 'types'
 import { useUser } from 'hooks/useUser'
 import Loader from 'components/Loader/Loader'
-import { openFileInNewTab } from 'helpers/openDocumentLink'
+import { isPdf, handleOpenPdfLink } from 'helpers/openDocumentLink'
 
 const USSFDocumentation = ({
   documentsPage,
@@ -42,8 +42,10 @@ const USSFDocumentation = ({
                         {s.document.map((d: DocumentType) => (
                           <Link
                             onClick={(e) => {
-                              e.preventDefault()
-                              openFileInNewTab(d.file.url)
+                              if (isPdf(d.file.url)) {
+                                e.preventDefault()
+                                handleOpenPdfLink(d.file.url)
+                              } else return
                             }}
                             key={d.id}
                             rel="noreferrer noopener"
