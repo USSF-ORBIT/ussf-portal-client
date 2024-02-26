@@ -20,8 +20,22 @@ export const mimeTypes: Record<string, string> = {
   xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   // Add more mappings as needed
 }
+
+export const extractExtensionFromUrl = (url: string): string | null => {
+  // Remove query parameters if there are any
+  const baseUrl = url.split('?')[0].toLowerCase()
+  const extensions = Object.keys(mimeTypes)
+
+  for (const extension of extensions) {
+    if (baseUrl.endsWith(`.${extension}`)) {
+      return extension
+    }
+  }
+  return null
+}
+
 export const getMimeType = (url: string): string => {
-  const extension = url.split('.').pop()?.toLowerCase()
+  const extension = extractExtensionFromUrl(url)
   return mimeTypes[extension || ''] || 'application/octet-stream' // Default MIME type
 }
 // Function to open files in a new tab with TypeScript annotations
