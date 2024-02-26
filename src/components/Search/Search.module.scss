@@ -4,16 +4,6 @@
 .search {
   position: relative;
 
-  .disabled {
-    filter: blur(3px);
-    user-select: none;
-    pointer-events: none;
-  }
-
-  .comingSoon {
-    text-align: center;
-  }
-
   :global {
     .usa-select {
       background-image: url('/vendor/img/usa-icons-bg/expand_more--white.svg'),
