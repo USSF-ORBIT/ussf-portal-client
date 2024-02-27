@@ -9,13 +9,6 @@ import Search from './Search'
 import { SearchProvider } from 'stores/searchContext'
 
 describe('Search component', () => {
-  // beforeEach(() => {
-  //   render(
-  //     <SearchProvider>
-  //       <Search disabled={false} />
-  //     </SearchProvider>
-  //   )
-  // })
   afterEach(() => {
     cleanup()
   })
@@ -23,7 +16,7 @@ describe('Search component', () => {
   test('renders the search form ', () => {
     render(
       <SearchProvider>
-        <Search disabled={false} />
+        <Search />
       </SearchProvider>
     )
 
@@ -38,7 +31,7 @@ describe('Search component', () => {
   test('renders the searchbox', async () => {
     render(
       <SearchProvider>
-        <Search disabled={false} />
+        <Search />
       </SearchProvider>
     )
 
@@ -53,7 +46,7 @@ describe('Search component', () => {
   test('renders the search button', () => {
     render(
       <SearchProvider>
-        <Search disabled={false} />
+        <Search />
       </SearchProvider>
     )
 
@@ -66,7 +59,7 @@ describe('Search component', () => {
 
     render(
       <SearchProvider>
-        <Search disabled={false} />
+        <Search />
       </SearchProvider>
     )
 
@@ -93,7 +86,7 @@ describe('Search component', () => {
 
     render(
       <SearchProvider>
-        <Search disabled={false} />
+        <Search />
       </SearchProvider>
     )
 
@@ -125,17 +118,5 @@ describe('Search component', () => {
 
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(screen.getAllByRole('listitem')).toHaveLength(4)
-  })
-})
-
-describe('Search component disabled', () => {
-  test('renders the coming soon message', () => {
-    render(
-      <SearchProvider>
-        <Search disabled={true} />
-      </SearchProvider>
-    )
-
-    expect(screen.getByRole('heading')).toHaveTextContent('Search coming soon!')
   })
 })
