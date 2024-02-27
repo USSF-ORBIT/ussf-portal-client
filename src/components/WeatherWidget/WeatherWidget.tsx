@@ -170,7 +170,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
       <>
         {widget.widget ? (
           <>
-            <h3>Weather</h3>
+            <h2>Weather</h2>
             <DropdownMenu
               toggleEl={
                 <button
@@ -201,7 +201,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
           </>
         ) : (
           <>
-            <h3>Weather</h3>
+            <h2>Weather</h2>
             <DropdownMenu
               toggleEl={
                 <button

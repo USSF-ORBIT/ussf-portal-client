@@ -77,7 +77,7 @@ export const EditableCollectionTitle = ({
           </ButtonGroup>
         </Form>
       ) : (
-        <h3 className={styles.collectionTitle}>{text}</h3>
+        <h2 className={styles.collectionTitle}>{text}</h2>
       )}
     </div>
   )
