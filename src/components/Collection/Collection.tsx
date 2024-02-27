@@ -24,7 +24,7 @@ const Collection = ({
       className={className}
       header={
         <>
-          {title && <h3>{title}</h3>}
+          {title && <h2>{title}</h2>}
           {header}
         </>
       }>

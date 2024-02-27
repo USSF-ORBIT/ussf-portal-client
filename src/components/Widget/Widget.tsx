@@ -49,7 +49,7 @@ export const WidgetWithSettings = ({
     <Widget
       header={
         <>
-          <h3>{header}</h3>
+          <h2>{header}</h2>
           <DropdownMenu
             toggleEl={
               <button

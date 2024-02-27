@@ -35,7 +35,7 @@ const USSFDocumentation = ({
                     title: s.title,
                     expanded: i === 0 ? true : false,
                     id: `${s.id}`,
-                    headingLevel: 'h3',
+                    headingLevel: 'h2',
 
                     content: (
                       <div className={styles.accordionContent}>
