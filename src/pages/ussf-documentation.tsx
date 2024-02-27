@@ -21,7 +21,7 @@ const USSFDocumentation = ({
     <Loader />
   ) : (
     <div>
-      <h2>{documentsPage && documentsPage.pageTitle}</h2>
+      <h1>{documentsPage && documentsPage.pageTitle}</h1>
 
       <Grid row gap="lg">
         {documentsPage?.sections &&
