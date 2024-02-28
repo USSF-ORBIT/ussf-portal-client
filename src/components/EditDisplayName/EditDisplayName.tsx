@@ -36,7 +36,7 @@ const EditDisplayName = ({
       <Grid col="fill">
         <div className={styles.updateNameAndRank}>
           <label htmlFor="something">Current welcome display title:</label>
-          <h2>{greeting}</h2>
+          <p>{greeting}</p>
 
           <label htmlFor="displayName">
             Update display name <strong aria-hidden="true">*</strong>

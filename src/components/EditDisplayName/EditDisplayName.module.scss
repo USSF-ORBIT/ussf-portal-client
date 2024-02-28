@@ -1,8 +1,11 @@
 @use 'uswds-core' as *;
 @use 'styles/sfds/index.scss' as *;
 .updateNameAndRank {
-  h2 {
+  p {
     text-transform: uppercase;
+    font-family: $sfds-heading-font;
+    font-weight: bold;
+    font-size: 1.5rem;
   }
 
   label > strong {
