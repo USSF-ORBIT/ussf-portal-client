@@ -10,7 +10,7 @@ const FeedbackCard = () => {
 
   return (
     <div>
-      <h3>Got Feedback?</h3>
+      <h2>Got Feedback?</h2>
       <p>
         We’d love to hear it! Contact us at{' '}
         <a
