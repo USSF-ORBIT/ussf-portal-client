@@ -2,9 +2,11 @@
 @use 'styles/sfds/index.scss' as *;
 
 .personalData {
-  h2 {
+  p {
+    @include heading-bold;
     margin-bottom: 0;
     text-transform: uppercase;
+    font-size: 2rem;
   }
 
   h2 + div > nav {
