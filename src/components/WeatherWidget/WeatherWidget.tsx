@@ -320,8 +320,9 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                     </p>
                   </div>
                 </div>
-
-                <h4>Hourly Forecast</h4>
+                <div className={styles.section}>
+                  <h4 className={styles.h4}>Hourly Forecast</h4>
+                </div>
                 <div className={styles.hourlyForecast}>
                   {currentForecast.map((h, index) => {
                     if (index >= 1) {
