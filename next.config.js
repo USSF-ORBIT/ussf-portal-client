@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path')
+/* eslint-disable @typescript-eslint/no-var-requires */
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -17,13 +19,24 @@ module.exports = withBundleAnalyzer({
   sassOptions: {
     includePaths: ['./node_modules/@uswds/uswds/packages'],
   },
-  webpack: (config, { buildId }) => {
+  webpack: (config, { isServer, buildId }) => {
     config.plugins.push(
       new webpack.DefinePlugin({
         __VERSION__: JSON.stringify(process.env.npm_package_version),
         __NEXT_BUILD_ID__: JSON.stringify(buildId),
         __NODE_ENV__: JSON.stringify(process.env.NODE_ENV),
       })
+    )
+
+    if (isServer) {
+      config.externals = ['react', ...config.externals]
+    }
+
+    config.resolve.alias['react'] = path.resolve(
+      __dirname,
+      '.',
+      'node_modules',
+      'react'
     )
 
     return config

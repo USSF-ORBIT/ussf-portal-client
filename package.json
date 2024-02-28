@@ -59,7 +59,7 @@
     "@opentelemetry/resources": "1.9.1",
     "@opentelemetry/sdk-trace-node": "1.9.1",
     "@opentelemetry/tracing": "0.24.0",
-    "@trussworks/react-uswds": "7.0.0",
+    "@trussworks/react-uswds": "https://github.com/jpandersen87/react-uswds#vite",
     "@uswds/uswds": "3.7.1",
     "apollo-datasource-rest": "3.7.0",
     "axios": "1.6.5",
