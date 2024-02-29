@@ -398,6 +398,7 @@ const CustomCollection = ({
               onClick={menuOnClick}
               onFocus={() => setDisableDragAndDrop(true)}
               onBlur={() => setDisableDragAndDrop(false)}
+              data-testid={`collection-settings-${title}`}
               aria-label="Collection Settings">
               <FontAwesomeIcon icon="cog" />
             </button>
