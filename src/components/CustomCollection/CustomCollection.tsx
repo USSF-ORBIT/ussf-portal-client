@@ -312,6 +312,7 @@ const CustomCollection = ({
 
     modalRef?.current?.toggleModal(undefined, true)
     setIsDropdownOpen(false)
+    setDisableDragAndDrop(false)
   }
 
   /** Edit collection */
@@ -396,6 +397,8 @@ const CustomCollection = ({
               type="button"
               className={styles.dropdownMenuToggle}
               onClick={menuOnClick}
+              onFocus={() => setDisableDragAndDrop(true)}
+              onBlur={() => setDisableDragAndDrop(false)}
               aria-label="Collection Settings">
               <FontAwesomeIcon icon="cog" />
             </button>
@@ -406,13 +409,17 @@ const CustomCollection = ({
           <Button
             type="button"
             className={styles.collectionSettingsDropdown}
-            onClick={handleEditCollectionTitle}>
+            onClick={handleEditCollectionTitle}
+            onFocus={() => setDisableDragAndDrop(true)}
+            onBlur={() => setDisableDragAndDrop(false)}>
             Edit <span className="sr-only">{title}</span> collection title
           </Button>
           <Button
             type="button"
             className={styles.collectionSettingsDropdown}
-            onClick={handleConfirmDeleteCollection}>
+            onClick={handleConfirmDeleteCollection}
+            onFocus={() => setDisableDragAndDrop(true)}
+            onBlur={() => setDisableDragAndDrop(false)}>
             Delete <span className="sr-only">{title}</span> collection
           </Button>
         </DropdownMenu>
