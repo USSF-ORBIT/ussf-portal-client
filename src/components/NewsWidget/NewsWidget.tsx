@@ -48,8 +48,6 @@ const NewsWidget = (widget: NewsWidgetProps) => {
     updateWidget(widgetState)
 
     modalRef?.current?.toggleModal(undefined, true)
-
-    setDisableDragAndDrop(false)
   }
 
   return (

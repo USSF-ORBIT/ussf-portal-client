@@ -98,8 +98,6 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
 
       modalRef?.current?.toggleModal(undefined, true)
     }
-
-    setDisableDragAndDrop(false)
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -177,6 +175,8 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                   type="button"
                   className={styles.dropdownMenuToggle}
                   onClick={menuOnClick}
+                  onFocus={() => setDisableDragAndDrop(true)}
+                  onBlur={() => setDisableDragAndDrop(false)}
                   aria-label={`Weather settings for ${widget.widget.coords.city}, ${widget.widget.coords.state}`}>
                   <FontAwesomeIcon icon="cog" />
                 </button>
@@ -187,13 +187,17 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
               <Button
                 key="weatherWidgetSettingsMenu_edit"
                 type="button"
-                onClick={handleEdit}>
+                onClick={handleEdit}
+                onFocus={() => setDisableDragAndDrop(true)}
+                onBlur={() => setDisableDragAndDrop(false)}>
                 Edit zip code
               </Button>
               <Button
                 key="weatherWidgetSettingsMenu_remove"
                 type="button"
                 onClick={handleConfirmRemoveWidget}
+                onFocus={() => setDisableDragAndDrop(true)}
+                onBlur={() => setDisableDragAndDrop(false)}
                 aria-label={`Remove weather widget for ${widget.widget.coords.city}, ${widget.widget.coords.state}`}>
                 Remove weather widget
               </Button>
@@ -208,6 +212,8 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                   type="button"
                   className={styles.dropdownMenuToggle}
                   onClick={menuOnClick}
+                  onFocus={() => setDisableDragAndDrop(true)}
+                  onBlur={() => setDisableDragAndDrop(false)}
                   aria-label="Weather settings">
                   <FontAwesomeIcon icon="cog" />
                 </button>
@@ -219,6 +225,8 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                 key="weatherWidgetSettingsMenu_remove"
                 type="button"
                 onClick={handleConfirmRemoveWidget}
+                onFocus={() => setDisableDragAndDrop(true)}
+                onBlur={() => setDisableDragAndDrop(false)}
                 aria-label="Remove weather widget">
                 Remove weather widget
               </Button>

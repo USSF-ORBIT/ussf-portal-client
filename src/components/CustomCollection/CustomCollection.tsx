@@ -312,7 +312,6 @@ const CustomCollection = ({
 
     modalRef?.current?.toggleModal(undefined, true)
     setIsDropdownOpen(false)
-    setDisableDragAndDrop(false)
   }
 
   /** Edit collection */
