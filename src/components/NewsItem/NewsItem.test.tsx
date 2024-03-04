@@ -24,7 +24,7 @@ describe('NewsItem component', () => {
     })
 
     test('renders the article contents', () => {
-      expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent(
+      expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
         testArticle.title
       )
       expect(
