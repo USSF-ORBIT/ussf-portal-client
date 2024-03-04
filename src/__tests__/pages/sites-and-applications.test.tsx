@@ -223,7 +223,7 @@ describe('Sites and Applications page', () => {
           sitesAndAppsMock
         )
 
-        const collections = await screen.findAllByRole('heading', { level: 3 })
+        const collections = await screen.findAllByRole('heading', { level: 2 })
         expect(collections).toHaveLength(mockCMSCollections.length)
         collections.forEach((c, i) => {
           // eslint-disable-next-line security/detect-object-injection
