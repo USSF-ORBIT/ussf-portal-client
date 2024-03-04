@@ -271,7 +271,7 @@ describe('Sites and Applications page', () => {
         })
         await user.click(sortType)
 
-        expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(
+        expect(screen.queryAllByRole('heading', { level: 2 })).toHaveLength(
           mockCMSCollections.length
         )
         expect(screen.queryByRole('table')).not.toBeInTheDocument()
