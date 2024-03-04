@@ -10,7 +10,7 @@ export default {
 } as Meta
 
 export const ExampleWidget = () => (
-  <Widget header={<h3>Example Widget</h3>}>
+  <Widget header={<h2>Example Widget</h2>}>
     <p>Example widget contents</p>
   </Widget>
 )

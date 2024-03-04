@@ -9,7 +9,7 @@
     font-size: 2rem;
   }
 
-  h2 + div > nav {
+  p + div > nav {
     padding-top: 0 !important;
 
     :global(
