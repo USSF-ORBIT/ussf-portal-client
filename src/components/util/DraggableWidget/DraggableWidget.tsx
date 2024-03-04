@@ -29,6 +29,8 @@ const DraggableWidget = ({ id, children }: DraggableWidgetProps) => {
       ) : (
         <div
           {...listeners}
+          role="button"
+          tabIndex={0}
           style={{
             cursor: isDragging ? 'grabbing' : 'grab',
           }}>

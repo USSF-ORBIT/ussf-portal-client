@@ -95,8 +95,14 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
     canAddFeaturedShortcuts,
     handleOnDragEnd,
     isAddingWidget,
+    setDisableDragAndDrop,
   } = useMySpaceContext()
   const flags = useFlags()
+
+  // This ensures that when any widget is deleted, the drag and drop functionality is re-enabled
+  useEffect(() => {
+    setDisableDragAndDrop(false)
+  }, [mySpace])
 
   const [handleRemoveBookmark] = useRemoveBookmarkMutation()
   const [handleAddBookmark] = useAddBookmarkMutation()
@@ -104,7 +110,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
   const [handleEditCollection] = useEditCollectionMutation()
 
   // Distance tells the sensor how far the pointer must move (in pixels) before it is activated. This is
-  // needed so that other click events, like opening a collections's menu, can be triggered.
+  // needed so that other click events, like opening a collections' menu, can be triggered.
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {

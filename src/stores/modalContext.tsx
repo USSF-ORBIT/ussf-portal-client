@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useRef, useState } from 'react'
 import { ModalRef } from '@trussworks/react-uswds'
 import { useAnalytics } from 'stores/analyticsContext'
+import { useMySpaceContext } from 'stores/myspaceContext'
 import { useAddBookmarkMutation } from 'operations/portal/mutations/addBookmark.g'
 import { useRemoveCollectionMutation } from 'operations/portal/mutations/removeCollection.g'
 import { useRemoveWidgetMutation } from 'operations/portal/mutations/removeWidget.g'
@@ -94,6 +95,8 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const modalRef = useRef<ModalRef>(null)
   const { trackEvent } = useAnalytics()
 
+  const { setDisableDragAndDrop } = useMySpaceContext()
+
   const [handleAddBookmark] = useAddBookmarkMutation()
   const [handleRemoveCollection] = useRemoveCollectionMutation()
   const [handleRemoveWidget] = useRemoveWidgetMutation()
@@ -105,6 +108,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     setBookmark(null)
     setCustomLinkLabel('')
     setModalId('')
+    setDisableDragAndDrop(false)
     if (isAddingLinkContext) {
       setIsAddingLinkContext(false)
     }
