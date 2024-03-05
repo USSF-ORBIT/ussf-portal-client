@@ -11,7 +11,7 @@ import NavLink from './NavLink'
 const mockedUseRouter = useRouter as jest.Mock
 
 describe('NavLink component', () => {
-  it('renders the link and props', () => {
+  test('renders the link and props', () => {
     render(
       <NavLink href="/home" className="text-ink">
         Home
@@ -28,7 +28,7 @@ describe('NavLink component', () => {
     expect(link).toBeInstanceOf(HTMLAnchorElement)
   })
 
-  it('does not render the active class if the path is not active', () => {
+  test('does not render the active class if the path is not active', () => {
     mockedUseRouter.mockReturnValueOnce({
       route: '',
       pathname: '/about',
@@ -45,7 +45,7 @@ describe('NavLink component', () => {
     expect(link).not.toHaveClass('usa-current')
   })
 
-  it('renders the active class if the path is active', () => {
+  test('renders the active class if the path is active', () => {
     mockedUseRouter.mockReturnValueOnce({
       route: '',
       pathname: '/about',
@@ -62,7 +62,7 @@ describe('NavLink component', () => {
     expect(link).toHaveClass('usa-current')
   })
 
-  it('renders the active class if the parent path matches', () => {
+  test('renders the active class if the parent path matches', () => {
     mockedUseRouter.mockReturnValueOnce({
       route: '',
       pathname: '/about/subpage',
@@ -79,7 +79,7 @@ describe('NavLink component', () => {
     expect(link).toHaveClass('usa-current')
   })
 
-  it('does not render the active class if a subpage of the parent path', () => {
+  test('does not render the active class if a subpage of the parent path', () => {
     mockedUseRouter.mockReturnValueOnce({
       route: '',
       pathname: '/about',
@@ -97,7 +97,7 @@ describe('NavLink component', () => {
   })
 
   describe('if the exact prop is set', () => {
-    it('does not render the active class if the parent path matches', () => {
+    test('does not render the active class if the parent path matches', () => {
       mockedUseRouter.mockReturnValueOnce({
         route: '',
         pathname: '/about/subpage',
@@ -118,7 +118,7 @@ describe('NavLink component', () => {
       expect(link).not.toHaveClass('usa-current')
     })
 
-    it('renders the active class if the exact path matches', () => {
+    test('renders the active class if the exact path matches', () => {
       mockedUseRouter.mockReturnValueOnce({
         route: '',
         pathname: '/about/subpage',
@@ -140,7 +140,7 @@ describe('NavLink component', () => {
     })
   })
 
-  it('applies a custom active class', () => {
+  test('applies a custom active class', () => {
     mockedUseRouter.mockReturnValueOnce({
       route: '',
       pathname: '/about',
@@ -164,7 +164,7 @@ describe('NavLink component', () => {
 
   describe('if the URL is a URL Object', () => {
     // https://nextjs.org/docs/api-reference/next/link#with-url-object
-    it('does not render the active class if the path is not active', () => {
+    test('does not render the active class if the path is not active', () => {
       mockedUseRouter.mockReturnValueOnce({
         route: '',
         pathname: '/about',
@@ -181,7 +181,7 @@ describe('NavLink component', () => {
       expect(link).not.toHaveClass('usa-current')
     })
 
-    it('renders the active class if the path is active', () => {
+    test('renders the active class if the path is active', () => {
       mockedUseRouter.mockReturnValueOnce({
         route: '',
         pathname: '/about',
@@ -198,7 +198,7 @@ describe('NavLink component', () => {
       expect(link).toHaveClass('usa-current')
     })
 
-    it('does not break if there is no path', () => {
+    test('does not break if there is no path', () => {
       render(
         <NavLink href={{}} className="text-ink">
           Home

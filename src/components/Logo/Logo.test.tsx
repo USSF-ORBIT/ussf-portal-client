@@ -8,7 +8,7 @@ import React from 'react'
 import Logo from './Logo'
 
 describe('Logo component', () => {
-  it('renders the logo image', () => {
+  test('renders the logo image', () => {
     render(<Logo />)
 
     expect(screen.getByRole('img')).toBeInTheDocument()
@@ -16,7 +16,7 @@ describe('Logo component', () => {
     expect(screen.getByRole('img')).toHaveAttribute('alt', 'USSF Logo')
   })
 
-  it('renders the dark bg logo image', () => {
+  test('renders the dark bg logo image', () => {
     render(<Logo darkBg />)
 
     expect(screen.getByRole('img')).toBeInTheDocument()
@@ -30,7 +30,7 @@ describe('Logo component', () => {
     )
   })
 
-  it('renders the abbreviated logo image', () => {
+  test('renders the abbreviated logo image', () => {
     render(<Logo abbreviated />)
 
     expect(screen.getByRole('img')).toBeInTheDocument()
@@ -41,7 +41,7 @@ describe('Logo component', () => {
     expect(screen.getByRole('img')).toHaveAttribute('alt', 'USSF Logo')
   })
 
-  it('has no a11y violations', async () => {
+  test('has no a11y violations', async () => {
     const { container } = render(<Logo />)
     expect(await axe(container)).toHaveNoViolations()
   })

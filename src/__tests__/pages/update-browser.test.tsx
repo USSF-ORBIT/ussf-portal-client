@@ -15,7 +15,7 @@ describe('Update browser page', () => {
     render(<UpdateBrowser />)
   })
 
-  it('renders the update browser page,', () => {
+  test('renders the update browser page,', () => {
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
       'I’m sorry, Dave. I’m afraid you can’t use that outdated browser.'
     )
@@ -34,7 +34,7 @@ describe('Update browser page', () => {
     ).toHaveAttribute('href', FIREFOX_DOWNLOAD)
   })
 
-  it('has no a11y violations', async () => {
+  test('has no a11y violations', async () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
@@ -43,7 +43,7 @@ describe('Update browser page', () => {
     })
   })
 
-  it('returns the ErrorLayout in getLayout', () => {
+  test('returns the ErrorLayout in getLayout', () => {
     const page = 'page'
     expect(UpdateBrowser.getLayout(page)).toEqual(
       <ErrorLayout hideNav={true} ieCompat={true}>
@@ -52,7 +52,7 @@ describe('Update browser page', () => {
     )
   })
 
-  it('returns the expected props in getServerSideProps', async () => {
+  test('returns the expected props in getServerSideProps', async () => {
     const response = await getStaticProps()
     expect(response).toEqual({
       props: {

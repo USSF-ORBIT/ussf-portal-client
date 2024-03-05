@@ -29,18 +29,18 @@ describe('Collection component', () => {
       )
     })
 
-    it('renders a title', () => {
+    test('renders a title', () => {
       const title = screen.getByRole('heading', { level: 3 })
       expect(title).toHaveTextContent('Example collection')
     })
 
-    it('renders its children in a list', () => {
+    test('renders its children in a list', () => {
       expect(screen.getByRole('list')).toBeInTheDocument()
       expect(screen.getAllByRole('listitem')).toHaveLength(3)
       expect(screen.getAllByRole('link')).toHaveLength(3)
     })
 
-    it('has no a11y violations', async () => {
+    test('has no a11y violations', async () => {
       // Bug with NextJS Link + axe :(
       // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
       await act(async () => {
@@ -49,7 +49,7 @@ describe('Collection component', () => {
     })
   })
 
-  it('can render a single child', async () => {
+  test('can render a single child', async () => {
     html = render(
       <Collection title="Example collection">
         <Bookmark key="link1" href="#">
@@ -67,7 +67,7 @@ describe('Collection component', () => {
     })
   })
 
-  it('can render a footer node', async () => {
+  test('can render a footer node', async () => {
     const testFooter = <p>Collection footer</p>
 
     html = render(

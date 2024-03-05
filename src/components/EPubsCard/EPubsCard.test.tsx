@@ -9,7 +9,7 @@ import React from 'react'
 import EPubsCard from './EPubsCard'
 
 describe('EPubsCard component', () => {
-  it('renders the card', () => {
+  test('renders the card', () => {
     render(<EPubsCard query="test" />)
 
     expect(screen.getAllByText('Looking for a form?')).toHaveLength(1)

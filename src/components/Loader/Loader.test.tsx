@@ -8,7 +8,7 @@ import React from 'react'
 import Loader from './Loader'
 
 describe('Loader component', () => {
-  it('renders loading text', () => {
+  test('renders loading text', () => {
     render(<Loader />)
     expect(screen.getByText('Content is loading...')).toBeInTheDocument()
   })

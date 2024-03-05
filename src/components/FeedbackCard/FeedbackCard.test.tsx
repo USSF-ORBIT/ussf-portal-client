@@ -12,7 +12,7 @@ import FeedbackCard from './FeedbackCard'
 import * as analyticsHooks from 'stores/analyticsContext'
 
 describe('Feedback Card component', () => {
-  it('renders a feedback card', () => {
+  test('renders a feedback card', () => {
     render(<FeedbackCard />)
 
     expect(
@@ -45,7 +45,7 @@ describe('Feedback Card component', () => {
       render(<FeedbackCard />)
     })
 
-    it("calls trackEvent when clicking 'feedback@ussforbit.us' link", () => {
+    test("calls trackEvent when clicking 'feedback@ussforbit.us' link", () => {
       const link = screen.getByRole('link', { name: 'feedback@ussforbit.us' })
 
       fireEvent.click(link)

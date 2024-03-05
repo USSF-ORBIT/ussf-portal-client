@@ -11,7 +11,7 @@ import React from 'react'
 import Widget, { WidgetWithSettings } from './Widget'
 
 describe('Widget component', () => {
-  it('renders Widget', () => {
+  test('renders Widget', () => {
     render(
       <Widget header={<h3>Example widget</h3>}>Example widget contents</Widget>
     )

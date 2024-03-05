@@ -180,7 +180,7 @@ describe('CustomCollection component', () => {
     scrollSpy.mockReset()
   })
 
-  it('renders the collection with DndContext', async () => {
+  test('renders the collection with DndContext', async () => {
     render(
       <CustomCollection
         {...exampleCollection}
@@ -198,7 +198,7 @@ describe('CustomCollection component', () => {
     ).toBeInTheDocument()
   })
 
-  it('drags and drops a link with the keyboard', async () => {
+  test('drags and drops a link with the keyboard', async () => {
     // This test works because dnd-kit renders a hidden div with an id=DndLiveRegion that is used for screen readers to announce
     // which bookmark id is being dragged and where it is being dropped.
     const user = userEvent.setup()
@@ -236,7 +236,7 @@ describe('CustomCollection component', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the collection with delete or edit buttons', async () => {
+  test('renders the collection with delete or edit buttons', async () => {
     render(
       <CustomCollection
         {...exampleCollection}
@@ -268,7 +268,7 @@ describe('CustomCollection component', () => {
     ).toHaveLength(1)
   })
 
-  it('renders an Add Link toggleable form', async () => {
+  test('renders an Add Link toggleable form', async () => {
     const user = userEvent.setup()
 
     render(
@@ -295,7 +295,7 @@ describe('CustomCollection component', () => {
     expect(linkInput).toBeValid()
   })
 
-  it('cancels Add Link action and resets form', async () => {
+  test('cancels Add Link action and resets form', async () => {
     const user = userEvent.setup()
     render(
       <CustomCollection
@@ -321,7 +321,7 @@ describe('CustomCollection component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('can select Add Custom Link and open the Add Custom Link modal', async () => {
+  test('can select Add Custom Link and open the Add Custom Link modal', async () => {
     const user = userEvent.setup()
     const mockAddLink = jest.fn()
     const mockUpdateModalId = jest.fn()
@@ -371,7 +371,7 @@ describe('CustomCollection component', () => {
     expect(mockUpdateCustomLinkLabel).toHaveBeenCalled()
   })
 
-  it('can add an existing link', async () => {
+  test('can add an existing link', async () => {
     const user = userEvent.setup()
     const mockAddLink = jest.fn()
 
@@ -396,7 +396,7 @@ describe('CustomCollection component', () => {
     expect(mockAddLink).toHaveBeenCalledWith('www.example.com/2', 'SURF', '2')
   })
 
-  it('renders the settings dropdown menu', async () => {
+  test('renders the settings dropdown menu', async () => {
     const user = userEvent.setup()
     render(
       <CustomCollection
@@ -422,7 +422,7 @@ describe('CustomCollection component', () => {
     expect(editItem).toBeInTheDocument()
   })
 
-  it('clicking the delete collection button opens the delete modal', async () => {
+  test('clicking the delete collection button opens the delete modal', async () => {
     const user = userEvent.setup()
     const mockUpdateModalId = jest.fn()
     const mockUpdateModalText = jest.fn()
@@ -464,7 +464,7 @@ describe('CustomCollection component', () => {
     expect(mockUpdateWidget).toHaveBeenCalled()
   })
 
-  it('clicking outside the dropdown menu closes the menu', async () => {
+  test('clicking outside the dropdown menu closes the menu', async () => {
     const user = userEvent.setup()
     const mockRemoveCollection = jest.fn()
 
@@ -500,7 +500,7 @@ describe('CustomCollection component', () => {
     expect(deleteCollection).not.toBeInTheDocument()
   })
 
-  it('clicking the menu button toggles the menu', async () => {
+  test('clicking the menu button toggles the menu', async () => {
     const user = userEvent.setup()
     const mockRemoveCollection = jest.fn()
 
@@ -533,7 +533,7 @@ describe('CustomCollection component', () => {
     expect(deleteCollection).not.toBeInTheDocument()
   })
 
-  it('renders the collection with links from the CMS', () => {
+  test('renders the collection with links from the CMS', () => {
     const { container } = render(
       <CustomCollection
         {...exampleCollection}
@@ -549,13 +549,13 @@ describe('CustomCollection component', () => {
 
   describe('an empty collection', () => {
     const user = userEvent.setup()
-    it('renders a focused input for the title', () => {
+    test('renders a focused input for the title', () => {
       render(<CustomCollection _id={ObjectId()} {...mockHandlers} />)
 
       expect(screen.getByRole('textbox')).toHaveFocus()
     })
 
-    it('can enter a title', async () => {
+    test('can enter a title', async () => {
       const mockEditCollection = jest.fn()
 
       render(
@@ -571,7 +571,7 @@ describe('CustomCollection component', () => {
       expect(mockEditCollection).toHaveBeenCalledWith('My New Collection')
     })
 
-    it('not entering a title deletes the collection', async () => {
+    test('not entering a title deletes the collection', async () => {
       const mockDeleteCollection = jest.fn()
 
       render(
@@ -590,7 +590,7 @@ describe('CustomCollection component', () => {
   })
 
   describe('with 9 bookmarks', () => {
-    it('shows a warning when adding the tenth link', async () => {
+    test('shows a warning when adding the tenth link', async () => {
       const user = userEvent.setup()
       renderWithModalRoot(
         <CustomCollection
@@ -614,7 +614,7 @@ describe('CustomCollection component', () => {
   })
 
   describe('with 10 bookmarks', () => {
-    it('does not allow adding anymore links', async () => {
+    test('does not allow adding anymore links', async () => {
       render(
         <CustomCollection
           {...exampleCollectionWithTen}
