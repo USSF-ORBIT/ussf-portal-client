@@ -6,11 +6,11 @@
     @include heading-bold;
     margin-bottom: 0;
     text-transform: uppercase;
-    font-size: 2rem;
+    font-size: 1rem;
   }
 
   p + div > nav {
-    padding-top: 0 !important;
+    padding: 0 !important;
 
     :global(
         ol.usa-breadcrumb__list
@@ -19,6 +19,10 @@
       ) {
       color: var(--breadcrumbs-edit-display-name);
     }
+  }
+
+  :global(.usa-breadcrumb__list) {
+    padding-top: 0;
   }
 
   dt {
