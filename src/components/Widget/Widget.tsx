@@ -6,6 +6,7 @@ import styles from './Widget.module.scss'
 
 import DropdownMenu from 'components/DropdownMenu/DropdownMenu'
 import { useCloseWhenClickedOutside } from 'hooks/useCloseWhenClickedOutside'
+import { useMySpaceContext } from 'stores/myspaceContext'
 
 type WidgetProps = {
   header?: ReactNode
@@ -39,6 +40,7 @@ export const WidgetWithSettings = ({
     settingsDropdownEl,
     false
   )
+  const { setDisableDragAndDrop } = useMySpaceContext()
 
   // Toggle the dropdown menu
   const settingsMenuOnClick = () => {
@@ -56,6 +58,8 @@ export const WidgetWithSettings = ({
                 type="button"
                 className={styles.dropdownMenuToggle}
                 onClick={settingsMenuOnClick}
+                onFocus={() => setDisableDragAndDrop(true)}
+                onBlur={() => setDisableDragAndDrop(false)}
                 aria-label={settingsMenuLabel}>
                 <FontAwesomeIcon icon="cog" />
               </button>

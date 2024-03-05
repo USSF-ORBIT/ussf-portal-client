@@ -10,6 +10,7 @@ import { validateNewsItems, formatRssToArticle } from 'helpers/index'
 import { SPACEFORCE_NEWS_RSS_URL } from 'constants/index'
 import { useModalContext } from 'stores/modalContext'
 import { Widget } from 'types/index'
+import { useMySpaceContext } from 'stores/myspaceContext'
 
 // Load 2 items
 const RSS_URL = `${SPACEFORCE_NEWS_RSS_URL}&max=2`
@@ -22,6 +23,7 @@ const NewsWidget = (widget: NewsWidgetProps) => {
   const { updateModalId, updateModalText, modalRef, updateWidget } =
     useModalContext()
   const { items, fetchItems } = useRSSFeed(RSS_URL)
+  const { setDisableDragAndDrop } = useMySpaceContext()
 
   useEffect(() => {
     fetchItems()
@@ -58,7 +60,9 @@ const NewsWidget = (widget: NewsWidgetProps) => {
             key="newsWidgetSettingsMenu_remove"
             type="button"
             className={styles.collectionSettingsDropdown}
-            onClick={handleConfirmRemoveWidget}>
+            onClick={handleConfirmRemoveWidget}
+            onFocus={() => setDisableDragAndDrop(true)}
+            onBlur={() => setDisableDragAndDrop(false)}>
             Remove Recent News widget
           </Button>,
         ]}>
