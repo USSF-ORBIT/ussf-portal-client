@@ -55,7 +55,7 @@ jobs:
         run: yarn lint
 
       - name: Run Jest tests
-        run: yarn test --coverage --silent
+        run: yarn test:unit --coverage --silent
 
       - name: Build Storybook
         run: yarn storybook:build

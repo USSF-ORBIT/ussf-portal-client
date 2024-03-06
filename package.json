@@ -26,6 +26,7 @@
     "lint": "tsc --noEmit && eslint .",
     "prepare": "husky install",
     "pre-commit": "lint-staged",
+    "test:unit": "jest --runInBand --testTimeout=60000",
     "test": "jest --runInBand --testTimeout=60000",
     "test:watch": "jest --watch  --runInBand --testTimeout=60000",
     "postinstall": "sh ./scripts/copy_uswds_assets.sh",

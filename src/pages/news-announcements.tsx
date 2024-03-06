@@ -69,7 +69,7 @@ const NewsAnnouncements = ({
       <div className={styles.pageTitle}>
         <h2 id="skip-announcements-carousel">Latest external USSF news</h2>
         <p>
-          Publically released Space Force news released within the last 30 days.
+          Publicly released Space Force news released within the last 30 days.
         </p>
       </div>
 

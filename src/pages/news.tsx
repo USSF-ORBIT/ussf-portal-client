@@ -23,7 +23,7 @@ const InternalNews = ({
       <div className={styles.pageTitle}>
         <h2>All USSF news</h2>
         <p>
-          Publically and internally released Space Force news, published within
+          Publicly and internally released Space Force news, published within
           the last 30 days.
         </p>
       </div>
