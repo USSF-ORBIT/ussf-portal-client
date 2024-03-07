@@ -8,7 +8,7 @@ import React from 'react'
 import { SearchBanner } from './SearchBanner'
 
 describe('SearchBanner component', () => {
-  it('renders the icon and children with no a11y violations', async () => {
+  test('renders the icon and children with no a11y violations', async () => {
     const { container } = render(
       <SearchBanner icon={<img src="/assets/images/moon-flag.svg" alt=" " />}>
         <div>

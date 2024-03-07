@@ -7,7 +7,7 @@ import { render, screen } from '@testing-library/react'
 import PageHeader from './PageHeader'
 
 describe('PageHeader component', () => {
-  it('renders Search Component', () => {
+  test('renders Search Component', () => {
     render(<PageHeader>Children</PageHeader>)
     const search = screen.getByRole('searchbox', { name: 'Search' })
     expect(search).toBeInTheDocument()

@@ -9,7 +9,7 @@ import React from 'react'
 import AnnouncementDate from './AnnouncementDate'
 
 describe('AnnouncementDate component', () => {
-  it('renders the component', () => {
+  test('renders the component', () => {
     render(<AnnouncementDate date="2022-05-17T13:44:39.796Z" />)
 
     expect(screen.getByText('17 MAY')).toBeInTheDocument()

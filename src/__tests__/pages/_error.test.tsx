@@ -29,7 +29,7 @@ describe('custom error page', () => {
     render(<CustomError statusCode={1024} />)
   })
 
-  it('renders the custom error page,', () => {
+  test('renders the custom error page,', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('1024')
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
       'Houston, we have a problem'
@@ -39,7 +39,7 @@ describe('custom error page', () => {
     )
   })
 
-  it('renders a back button', async () => {
+  test('renders a back button', async () => {
     const user = userEvent.setup()
 
     const backButton = screen.getByRole('button', {
@@ -51,7 +51,7 @@ describe('custom error page', () => {
     expect(mockBack).toHaveBeenCalled()
   })
 
-  it('renders feedback links', async () => {
+  test('renders feedback links', async () => {
     const feedbackLink = screen.getByText('feedback@ussforbit.us')
     expect(feedbackLink).toBeVisible()
     expect(feedbackLink).toHaveAttribute('href')
@@ -71,7 +71,7 @@ describe('custom error page', () => {
     )
   })
 
-  it('tests getInitialProps', async () => {
+  test('tests getInitialProps', async () => {
     const getInitialProps = CustomError.getInitialProps
     expect(getInitialProps).toBeDefined()
     expect(getInitialProps).toBeInstanceOf(Function)
@@ -82,7 +82,7 @@ describe('custom error page', () => {
     expect(result).toEqual({ statusCode: 404 })
   })
 
-  it('tests getInitialProps with no statusCode', async () => {
+  test('tests getInitialProps with no statusCode', async () => {
     const getInitialProps = CustomError.getInitialProps
     expect(getInitialProps).toBeDefined()
     expect(getInitialProps).toBeInstanceOf(Function)
@@ -145,7 +145,7 @@ describe('custom error page without status code', () => {
     render(<CustomError />)
   })
 
-  it('renders the custom error page,', () => {
+  test('renders the custom error page,', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('500')
   })
 })

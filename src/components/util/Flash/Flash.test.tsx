@@ -10,11 +10,11 @@ import Flash from './Flash'
 describe('Flash component', () => {
   const testFlash = <p>Test flash message</p>
 
-  it('renders its children', () => {
+  test('renders its children', () => {
     render(<Flash handleClear={jest.fn()}>{testFlash}</Flash>)
   })
 
-  it('calls the clear function after a timeout', () => {
+  test('calls the clear function after a timeout', () => {
     jest.useFakeTimers()
 
     const mockHandleClear = jest.fn()
@@ -26,7 +26,7 @@ describe('Flash component', () => {
     expect(mockHandleClear).toHaveBeenCalled()
   })
 
-  it('resets the timeout if the children change', () => {
+  test('resets the timeout if the children change', () => {
     jest.useFakeTimers()
     const mockHandleClear = jest.fn()
 
@@ -45,7 +45,7 @@ describe('Flash component', () => {
     expect(mockHandleClear).toHaveBeenCalled()
   })
 
-  it('clears the timeout when unmounted', () => {
+  test('clears the timeout when unmounted', () => {
     jest.useFakeTimers()
     const mockHandleClear = jest.fn()
 

@@ -11,22 +11,22 @@ describe('LoginNotice page', () => {
     render(<LoginNotice />)
   })
 
-  it('renders the login notice', () => {
+  test('renders the login notice', () => {
     expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
       'Notice'
     )
   })
 
-  it('renders the agree button', () => {
+  test('renders the agree button', () => {
     expect(screen.getByRole('link')).toHaveTextContent('I agree')
   })
 
-  it('returns the LoginLayout in getLayout', () => {
+  test('returns the LoginLayout in getLayout', () => {
     const page = 'page'
     expect(LoginNotice.getLayout(page)).toEqual(<LoginLayout>page</LoginLayout>)
   })
 
-  it('returns the expected props in getServerSideProps', async () => {
+  test('returns the expected props in getServerSideProps', async () => {
     const response = await getStaticProps()
     expect(response).toEqual({
       props: {

@@ -8,7 +8,7 @@ import React from 'react'
 import Footer from './Footer'
 
 describe('Footer component', () => {
-  it('renders the USSF portal header', () => {
+  test('renders the USSF portal header', () => {
     render(<Footer />)
 
     expect(screen.getByRole('img', { name: 'USSF Portal' })).toHaveAttribute(
@@ -18,7 +18,7 @@ describe('Footer component', () => {
     expect(screen.getAllByRole('link')).toHaveLength(17)
   })
 
-  it('has no a11y violations', async () => {
+  test('has no a11y violations', async () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {

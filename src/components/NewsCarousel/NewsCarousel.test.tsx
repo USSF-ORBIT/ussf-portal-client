@@ -9,7 +9,7 @@ import '../../__mocks__/mockMatchMedia'
 import NewsCarousel from './NewsCarousel'
 
 describe('NewsCarousel component', () => {
-  it('renders the component with mock articles', () => {
+  test('renders the component with mock articles', () => {
     render(<NewsCarousel articles={cmsPortalNewsArticlesMock} />)
 
     const prevButton = screen.getByTestId('slick-prev')
