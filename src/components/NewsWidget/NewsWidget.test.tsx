@@ -35,7 +35,7 @@ describe('NewsWidget component', () => {
   test('renders a widget that displays RSS items and a link to the News page', async () => {
     render(<NewsWidget widget={mockNewsWidget} />)
 
-    expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
+    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
       'Recent News'
     )
     expect(await screen.findAllByRole('article')).toHaveLength(10)

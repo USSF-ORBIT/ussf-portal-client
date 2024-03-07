@@ -60,7 +60,7 @@ describe('WidgetWithSettings component', () => {
   })
 
   test('renders a heading', () => {
-    expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
+    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
       'Example widget'
     )
   })

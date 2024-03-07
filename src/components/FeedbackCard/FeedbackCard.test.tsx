@@ -16,7 +16,7 @@ describe('Feedback Card component', () => {
     render(<FeedbackCard />)
 
     expect(
-      screen.getByRole('heading', { level: 3, name: 'Got Feedback?' })
+      screen.getByRole('heading', { level: 2, name: 'Got Feedback?' })
     ).toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: 'feedback@ussforbit.us' })

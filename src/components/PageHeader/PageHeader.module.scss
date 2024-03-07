@@ -2,7 +2,7 @@
 
 .PageHeader {
   color: var(--text);
-  @include u-padding-bottom(4);
+  padding-top: units(1);
 
   h1 {
     text-transform: uppercase;

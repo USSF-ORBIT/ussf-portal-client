@@ -30,7 +30,7 @@ describe('Collection component', () => {
     })
 
     test('renders a title', () => {
-      const title = screen.getByRole('heading', { level: 3 })
+      const title = screen.getByRole('heading', { level: 2 })
       expect(title).toHaveTextContent('Example collection')
     })
 

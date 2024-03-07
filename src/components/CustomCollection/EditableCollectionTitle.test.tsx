@@ -22,7 +22,7 @@ describe('EditableCollectionTitle component', () => {
     )
 
     expect(
-      screen.getByRole('heading', { level: 3, name: 'Test Collection' })
+      screen.getByRole('heading', { level: 2, name: 'Test Collection' })
     ).toBeInTheDocument()
   })
 

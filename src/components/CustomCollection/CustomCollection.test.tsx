@@ -249,7 +249,7 @@ describe('CustomCollection component', () => {
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(
       screen.getByRole('heading', {
-        level: 3,
+        level: 2,
       })
     ).toHaveTextContent(exampleCollection.title)
 

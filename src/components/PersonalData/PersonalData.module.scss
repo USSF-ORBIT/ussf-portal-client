@@ -2,13 +2,15 @@
 @use 'styles/sfds/index.scss' as *;
 
 .personalData {
-  h2 {
+  p {
+    @include heading-bold;
     margin-bottom: 0;
     text-transform: uppercase;
+    font-size: 1rem;
   }
 
-  h2 + div > nav {
-    padding-top: 0 !important;
+  p + div > nav {
+    padding: 0 !important;
 
     :global(
         ol.usa-breadcrumb__list
@@ -17,6 +19,10 @@
       ) {
       color: var(--breadcrumbs-edit-display-name);
     }
+  }
+
+  :global(.usa-breadcrumb__list) {
+    padding-top: 0;
   }
 
   dt {

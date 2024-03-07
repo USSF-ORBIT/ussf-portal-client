@@ -15,7 +15,7 @@ const PersonalData = ({ userDisplayName }: { userDisplayName: string }) => {
 
   return (
     <div className={styles.personalData}>
-      <h2 data-testid={'personal-data'}>{greeting}</h2>
+      <p data-testid={'personal-data'}>{greeting}</p>
 
       {currentPage != '/settings' && (
         <div>

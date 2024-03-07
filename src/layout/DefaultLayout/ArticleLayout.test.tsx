@@ -28,7 +28,7 @@ describe('ArticleLayout component', () => {
   })
 
   it('renders the children', () => {
-    expect(screen.getByRole('heading', { level: 2 })).toBeInTheDocument()
+    expect(screen.getAllByText('Test Page'))
   })
 
   it('renders a skip nav link', () => {

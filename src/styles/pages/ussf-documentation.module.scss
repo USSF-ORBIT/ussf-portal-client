@@ -8,9 +8,10 @@
 
   .accordion {
     box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
-    > h3 > button {
+    > h2 > button {
       background-color: var(--accordion-btn-bg);
       color: var(--accordion-title);
+      font-size: 1.375rem;
 
       &:hover {
         background-color: var(--accordion-btn-bg-hover);

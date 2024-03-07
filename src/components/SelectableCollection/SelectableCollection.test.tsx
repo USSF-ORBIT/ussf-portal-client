@@ -47,7 +47,7 @@ describe('SelectableCollection component', () => {
     )
 
     expect(screen.getByRole('list')).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
+    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
       exampleCollection.title
     )
     expect(screen.getAllByRole('listitem')).toHaveLength(
