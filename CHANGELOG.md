@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.31.2](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.31.1...4.31.2) (2024-03-07)
+
+
+### Bug Fixes
+
+* a11y: heading elements usage and ordering  ([#1220](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1220)) ([254b456](https://github.com/USSF-ORBIT/ussf-portal-client/commit/254b4560954a63a58bfc72e1263523f679636c1c))
+* Settings menu on widgets can be accessed by keyboard ([#1222](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1222)) ([5cf1162](https://github.com/USSF-ORBIT/ussf-portal-client/commit/5cf116221b635571936247b7f89be3e265dd5056))
+* Typo on News page ([#1226](https://github.com/USSF-ORBIT/ussf-portal-client/issues/1226)) ([3880ea8](https://github.com/USSF-ORBIT/ussf-portal-client/commit/3880ea8dfd79d4d0a8a022314d4e249a3d6b254f))
+
 ## [4.31.1](https://github.com/USSF-ORBIT/ussf-portal-client/compare/4.31.0...4.31.1) (2024-02-23)
 
 
