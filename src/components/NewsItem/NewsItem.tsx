@@ -28,7 +28,7 @@ const NewsItem = ({
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <small>{publishDate} //</small>
         &nbsp;
-        <h4>{title}</h4>
+        <h3>{title}</h3>
       </Link>
 
       <p className={styles.articleExcerpt}>

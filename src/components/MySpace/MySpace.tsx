@@ -134,7 +134,7 @@ const MySpace = ({ bookmarks }: { bookmarks: CMSBookmark[] }) => {
   return (
     <div id="skip-announcements-carousel" className={styles.mySpace}>
       <div className={styles.widgetContainer}>
-        <h2 className={styles.pageTitle}>My Space</h2>
+        <h1 className={styles.pageTitle}>My Space</h1>
 
         <DndContext
           sensors={sensors}

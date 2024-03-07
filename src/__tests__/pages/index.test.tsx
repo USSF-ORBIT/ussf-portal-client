@@ -105,28 +105,28 @@ describe('Home page', () => {
 
       expect(
         await screen.findByRole('heading', {
-          level: 2,
+          level: 1,
           name: 'My Space',
         })
       ).toBeInTheDocument()
 
       expect(
         await screen.findByRole('heading', {
-          level: 3,
+          level: 2,
           name: 'Example Collection',
         })
       ).toBeInTheDocument()
 
       expect(
         await screen.findByRole('heading', {
-          level: 3,
+          level: 2,
           name: 'Maxed Out Collection',
         })
       ).toBeInTheDocument()
 
       expect(
         await screen.findByRole('heading', {
-          level: 3,
+          level: 2,
           name: 'Recent News',
         })
       ).toBeInTheDocument()

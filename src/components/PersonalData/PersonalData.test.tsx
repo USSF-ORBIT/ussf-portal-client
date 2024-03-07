@@ -27,7 +27,7 @@ describe('Personal Data component', () => {
     })
 
     test('renders the greeting with a name', () => {
-      const greeting = screen.getByRole('heading', { level: 2 })
+      const greeting = screen.getByTestId('personal-data')
       expect(greeting).toHaveTextContent('Welcome, BERNADETTE CAMPBELL')
     })
 

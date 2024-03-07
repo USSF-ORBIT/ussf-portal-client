@@ -21,7 +21,7 @@ const USSFDocumentation = ({
     <Loader />
   ) : (
     <div>
-      <h2>{documentsPage && documentsPage.pageTitle}</h2>
+      <h1>{documentsPage && documentsPage.pageTitle}</h1>
 
       <Grid row gap="lg">
         {documentsPage?.sections &&
@@ -35,7 +35,7 @@ const USSFDocumentation = ({
                     title: s.title,
                     expanded: i === 0 ? true : false,
                     id: `${s.id}`,
-                    headingLevel: 'h3',
+                    headingLevel: 'h2',
 
                     content: (
                       <div className={styles.accordionContent}>

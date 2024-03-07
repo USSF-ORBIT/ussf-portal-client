@@ -30,7 +30,7 @@ describe('PageLayout component', () => {
 
   it('renders the header and children', () => {
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 2 })).toBeInTheDocument()
+    expect(screen.getAllByText('Test Page'))
   })
 
   it('renders a skip nav link', () => {

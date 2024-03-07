@@ -72,21 +72,21 @@ describe('My Space Component', () => {
 
       expect(
         await screen.findByRole('heading', {
-          level: 3,
+          level: 2,
           name: 'Example Collection',
         })
       ).toBeInTheDocument()
 
       expect(
         await screen.findByRole('heading', {
-          level: 3,
+          level: 2,
           name: 'Maxed Out Collection',
         })
       ).toBeInTheDocument()
 
       expect(
         await screen.findByRole('heading', {
-          level: 3,
+          level: 2,
           name: 'Recent News',
         })
       ).toBeInTheDocument()

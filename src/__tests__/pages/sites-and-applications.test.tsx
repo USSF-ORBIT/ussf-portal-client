@@ -223,7 +223,7 @@ describe('Sites and Applications page', () => {
           sitesAndAppsMock
         )
 
-        const collections = await screen.findAllByRole('heading', { level: 3 })
+        const collections = await screen.findAllByRole('heading', { level: 2 })
         expect(collections).toHaveLength(mockCMSCollections.length)
         collections.forEach((c, i) => {
           // eslint-disable-next-line security/detect-object-injection
@@ -271,7 +271,7 @@ describe('Sites and Applications page', () => {
         })
         await user.click(sortType)
 
-        expect(screen.queryAllByRole('heading', { level: 3 })).toHaveLength(
+        expect(screen.queryAllByRole('heading', { level: 2 })).toHaveLength(
           mockCMSCollections.length
         )
         expect(screen.queryByRole('table')).not.toBeInTheDocument()

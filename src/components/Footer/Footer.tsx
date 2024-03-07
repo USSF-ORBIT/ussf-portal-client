@@ -31,7 +31,7 @@ const Footer = () => {
           <Grid row gap col="auto">
             <PortalLogo />
             <Grid col role="navigation" aria-labelledby="portal">
-              <h3 id="portal">Space Force Portal</h3>
+              <h2 id="portal">Space Force Portal</h2>
               <Grid row gap className={styles.miniRow}>
                 <Grid col className={styles.miniCol}>
                   <ul className="usa-list usa-list--unstyled">
@@ -85,7 +85,7 @@ const Footer = () => {
           </Grid>
           <Grid col="auto" className={styles.border}></Grid>
           <Grid col="auto" role="navigation" aria-labelledby="ql">
-            <h3 id="ql">Quick Links</h3>
+            <h2 id="ql">Quick Links</h2>
             <Grid row gap className={styles.miniRow}>
               <Grid col className={styles.miniCol}>
                 <ul className="usa-list usa-list--unstyled">

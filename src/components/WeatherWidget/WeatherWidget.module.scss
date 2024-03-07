@@ -25,6 +25,10 @@ $iconsize: 110px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  :global(.usa-button--unstyled) {
+    font-family: $sfds-heading-font;
+    font-weight: 500;
+  }
 }
 
 .alertPadding {
@@ -68,7 +72,7 @@ $iconsize: 110px;
       border-right: none;
     }
 
-    > h4 {
+    > h3 {
       font-size: 40px;
       line-height: normal;
       @include heading-bold;
@@ -103,17 +107,27 @@ $iconsize: 110px;
     width: 33%;
     padding: 0.5rem 0;
 
-    > h6 {
+    > h5 {
       padding-top: 0.5rem;
       padding-bottom: 0.25rem;
-      font-size: 22px;
+      font-size: 30px;
+      font-weight: bold;
       line-height: normal;
+      transform: translateX(5px);
+      @media (max-width: 400px) {
+        font-size: 20px;
+        transform: translateX(0px);
+      }
     }
 
     > * {
       margin: 0 !important;
     }
   }
+}
+
+.section .h4 {
+  font-size: 18px;
 }
 
 .errorContainer {

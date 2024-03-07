@@ -168,7 +168,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
       <>
         {widget.widget ? (
           <>
-            <h3>Weather</h3>
+            <h2>Weather</h2>
             <DropdownMenu
               toggleEl={
                 <button
@@ -205,7 +205,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
           </>
         ) : (
           <>
-            <h3>Weather</h3>
+            <h2>Weather</h2>
             <DropdownMenu
               toggleEl={
                 <button
@@ -319,7 +319,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                   </div>
 
                   <div className={styles.shortForecast}>
-                    <h4>{currentForecast[0].temperature}&deg;</h4>
+                    <h3>{currentForecast[0].temperature}&deg;</h3>
                     <p>{currentForecast[0].shortForecast}</p>
                     <p>
                       {DateTime.fromISO(currentForecast[0].startTime).toFormat(
@@ -328,8 +328,9 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                     </p>
                   </div>
                 </div>
-
-                <h5>Hourly Forecast</h5>
+                <div className={styles.section}>
+                  <h4 className={styles.h4}>Hourly Forecast</h4>
+                </div>
                 <div className={styles.hourlyForecast}>
                   {currentForecast.map((h, index) => {
                     if (index >= 1) {
@@ -337,7 +338,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                       return (
                         <div key={h.number} className={styles.nextFourHours}>
                           <WeatherWidgetIcon hourlyPeriod={h} iconSize="2xl" />
-                          <h6>{h.temperature}&deg;</h6>
+                          <h5>{h.temperature}&deg;</h5>
                           <div>{date.toFormat('T')}</div>
                         </div>
                       )
@@ -352,7 +353,7 @@ const WeatherWidget = (widget: WeatherWidgetProps) => {
                 <Alert
                   type="error"
                   role="alert"
-                  headingLevel="h4"
+                  headingLevel="h3"
                   noIcon
                   className={styles.alertPadding}>
                   Error retrieving weather. Please try again.

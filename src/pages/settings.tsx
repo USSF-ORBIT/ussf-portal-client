@@ -30,7 +30,7 @@ const Settings = () => {
   ) : (
     <div className={styles.settings}>
       <div className={styles.widgetContainer}>
-        <h2 className={styles.pageTitle}>Settings</h2>
+        <h1 className={styles.pageTitle}>Settings</h1>
         <section>
           <EditDisplayName
             userDisplayName={userDisplayName}
