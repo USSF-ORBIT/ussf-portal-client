@@ -9,7 +9,7 @@ import { Tag, Label, Category } from './Tag'
 import { CONTENT_CATEGORIES } from 'constants/index'
 
 describe('Tag component', () => {
-  it('renders the tag with no a11y violations', async () => {
+  test('renders the tag with no a11y violations', async () => {
     const { container } = render(<Tag>my tag</Tag>)
 
     expect(screen.queryByText('my tag')).toBeInTheDocument()
@@ -19,7 +19,7 @@ describe('Tag component', () => {
 })
 
 describe('Label component', () => {
-  it('renders the label', async () => {
+  test('renders the label', async () => {
     render(<Label type="Audience">All Guardians</Label>)
 
     expect(screen.queryByText('All Guardians')).toBeInTheDocument()
@@ -28,7 +28,7 @@ describe('Label component', () => {
 })
 
 describe('Category component', () => {
-  it('renders the category with no a11y violations', async () => {
+  test('renders the category with no a11y violations', async () => {
     const { container } = render(
       <Category category={CONTENT_CATEGORIES.ANNOUNCEMENT} />
     )

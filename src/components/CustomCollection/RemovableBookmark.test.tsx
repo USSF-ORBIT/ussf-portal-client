@@ -20,7 +20,7 @@ describe('RemovableBookmark component', () => {
     jest.useRealTimers()
   })
 
-  it('renders a bookmark with a delete handler', () => {
+  test('renders a bookmark with a delete handler', () => {
     render(
       <RemovableBookmark bookmark={testBookmark} handleRemove={jest.fn()} />
     )
@@ -31,7 +31,7 @@ describe('RemovableBookmark component', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the bookmark URL if there is no label', () => {
+  test('renders the bookmark URL if there is no label', () => {
     const testBookmarkNoLabel = {
       id: ObjectId(),
       url: 'https://example.com',
@@ -47,7 +47,7 @@ describe('RemovableBookmark component', () => {
     expect(screen.getByRole('link')).toHaveTextContent(testBookmarkNoLabel.url)
   })
 
-  it('allows the delete handler to be undone', async () => {
+  test('allows the delete handler to be undone', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime })
     jest.useFakeTimers()
 
@@ -85,7 +85,7 @@ describe('RemovableBookmark component', () => {
     expect(mockHandleRemove).not.toHaveBeenCalled()
   })
 
-  it('handles the delete button if not undone', async () => {
+  test('handles the delete button if not undone', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime })
     jest.useFakeTimers()
 

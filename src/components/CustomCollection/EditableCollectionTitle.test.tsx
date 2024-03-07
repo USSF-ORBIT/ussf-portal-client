@@ -10,7 +10,7 @@ import { ObjectId } from 'mongodb'
 import { EditableCollectionTitle } from './EditableCollectionTitle'
 
 describe('EditableCollectionTitle component', () => {
-  it('renders an editable collection title', () => {
+  test('renders an editable collection title', () => {
     render(
       <EditableCollectionTitle
         collectionId={ObjectId()}
@@ -26,7 +26,7 @@ describe('EditableCollectionTitle component', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders a form to edit title if isEditing is true', () => {
+  test('renders a form to edit title if isEditing is true', () => {
     render(
       <EditableCollectionTitle
         collectionId={ObjectId()}
@@ -48,7 +48,7 @@ describe('EditableCollectionTitle component', () => {
   })
 })
 
-it('saves the form', async () => {
+test('saves the form', async () => {
   const user = userEvent.setup()
   const mockHandleOnSave = jest.fn()
   render(
@@ -69,7 +69,7 @@ it('saves the form', async () => {
   expect(mockHandleOnSave).toBeCalledWith('New Title')
 })
 
-it('cancels the form', async () => {
+test('cancels the form', async () => {
   const user = userEvent.setup()
   const mockHandleOnCancel = jest.fn()
   render(

@@ -30,18 +30,18 @@ describe('Dropdown Menu ', () => {
     )
   })
 
-  it('renders the children of the menu', () => {
+  test('renders the children of the menu', () => {
     expect(screen.getAllByRole('listitem')).toHaveLength(3)
   })
 
-  it('renders the toggle button', async () => {
+  test('renders the toggle button', async () => {
     const user = userEvent.setup()
     expect(screen.getByRole('button')).toHaveTextContent('Toggle Dropdown')
     await user.click(screen.getByRole('button'))
     expect(mockOnClick).toHaveBeenCalled()
   })
 
-  it('has no a11y violations', async () => {
+  test('has no a11y violations', async () => {
     expect(await axe(html.container)).toHaveNoViolations()
   })
 })

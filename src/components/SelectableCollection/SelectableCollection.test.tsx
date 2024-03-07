@@ -35,7 +35,7 @@ const exampleCollection = {
 }
 
 describe('SelectableCollection component', () => {
-  it('renders the collection with disabled links and a select button', () => {
+  test('renders the collection with disabled links and a select button', () => {
     const mockOnSelect = jest.fn()
 
     render(
@@ -63,7 +63,7 @@ describe('SelectableCollection component', () => {
     ).toBeInTheDocument()
   })
 
-  it('clicking the button calls the select handler', async () => {
+  test('clicking the button calls the select handler', async () => {
     const user = userEvent.setup()
     const mockOnSelect = jest.fn()
 
@@ -83,7 +83,7 @@ describe('SelectableCollection component', () => {
     expect(mockOnSelect).toBeCalled()
   })
 
-  it('the select handler is keyboard accessible', async () => {
+  test('the select handler is keyboard accessible', async () => {
     const user = userEvent.setup()
     const mockOnSelect = jest.fn()
 
@@ -105,7 +105,7 @@ describe('SelectableCollection component', () => {
     expect(mockOnSelect).toBeCalled()
   })
 
-  it('has no a11y violations', async () => {
+  test('has no a11y violations', async () => {
     const { container } = render(
       <SelectableCollection
         {...exampleCollection}
@@ -118,7 +118,7 @@ describe('SelectableCollection component', () => {
   })
 
   describe('when selected', () => {
-    it('renders an unselect button that appears on focus', async () => {
+    test('renders an unselect button that appears on focus', async () => {
       const user = userEvent.setup()
       const mockOnSelect = jest.fn()
 
@@ -144,7 +144,7 @@ describe('SelectableCollection component', () => {
       expect(mockOnSelect).toBeCalled()
     })
 
-    it('has no a11y violations', async () => {
+    test('has no a11y violations', async () => {
       const { container } = render(
         <SelectableCollection
           {...exampleCollection}
@@ -158,7 +158,7 @@ describe('SelectableCollection component', () => {
   })
 
   describe('when disabled', () => {
-    it('does not render a button', () => {
+    test('does not render a button', () => {
       const mockOnSelect = jest.fn()
 
       render(
@@ -177,7 +177,7 @@ describe('SelectableCollection component', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('has no a11y violations', async () => {
+    test('has no a11y violations', async () => {
       const { container } = render(
         <SelectableCollection
           {...exampleCollection}

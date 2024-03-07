@@ -8,7 +8,7 @@ import React from 'react'
 import ModalPortal from './ModalPortal'
 
 describe('ModalPortal', () => {
-  it('renders nothing if there is no modal root', () => {
+  test('renders nothing if there is no modal root', () => {
     render(
       <ModalPortal>
         <div role="dialog">Test Modal</div>
@@ -18,7 +18,7 @@ describe('ModalPortal', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
-  it('renders children into the modal root once mounted', () => {
+  test('renders children into the modal root once mounted', () => {
     const modalContainer = document.createElement('div')
     modalContainer.setAttribute('id', 'modal-root')
 

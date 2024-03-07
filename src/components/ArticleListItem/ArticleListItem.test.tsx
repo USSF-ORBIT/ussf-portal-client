@@ -32,7 +32,7 @@ const rssTestArticle = {
 }
 
 describe('ArticleListItem component', () => {
-  it('renders the article preview of a cms article', () => {
+  test('renders the article preview of a cms article', () => {
     render(<ArticleListItem article={cmsTestArticle} />)
 
     expect(screen.getByText('May')).toBeInTheDocument()
@@ -43,7 +43,7 @@ describe('ArticleListItem component', () => {
     expect(screen.getByText('CMS Test Label')).toBeInTheDocument()
   })
 
-  it('cms article has no a11y violations', async () => {
+  test('cms article has no a11y violations', async () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
@@ -52,7 +52,7 @@ describe('ArticleListItem component', () => {
     })
   })
 
-  it('renders the article preview of an rss article', () => {
+  test('renders the article preview of an rss article', () => {
     render(<ArticleListItem article={rssTestArticle} />)
 
     expect(screen.getByText('Aug')).toBeInTheDocument()
@@ -63,7 +63,7 @@ describe('ArticleListItem component', () => {
     expect(screen.getByText(rssTestArticle.sourceName)).toBeInTheDocument()
   })
 
-  it('rss article has no a11y violations', async () => {
+  test('rss article has no a11y violations', async () => {
     // Bug with NextJS Link + axe :(
     // https://github.com/nickcolley/jest-axe/issues/95#issuecomment-758921334
     await act(async () => {
@@ -72,7 +72,7 @@ describe('ArticleListItem component', () => {
     })
   })
 
-  it('renders the article preview of an rss article', () => {
+  test('renders the article preview of an rss article', () => {
     render(<ArticleListItem article={rssTestArticle} />)
 
     expect(screen.getByText('Aug')).toBeInTheDocument()

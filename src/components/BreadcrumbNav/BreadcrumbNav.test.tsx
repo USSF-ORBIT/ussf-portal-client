@@ -25,7 +25,7 @@ describe('BreadcrumbNav component', () => {
     render(<BreadcrumbNav navItems={navItems} />)
   })
 
-  it('renders links for the non-current nav items', () => {
+  test('renders links for the non-current nav items', () => {
     const links = screen.getAllByRole('link')
 
     expect(links).toHaveLength(1)
@@ -33,7 +33,7 @@ describe('BreadcrumbNav component', () => {
     expect(links[0]).toHaveTextContent(navItems[0].label)
   })
 
-  it('renders the current item as static text', () => {
+  test('renders the current item as static text', () => {
     expect(screen.getByText('News & Announcements')).toBeInstanceOf(
       HTMLLIElement
     )
