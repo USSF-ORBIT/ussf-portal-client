@@ -1,6 +1,6 @@
 ##--------- Stage: builder ---------##
 # Node image variant name explanations: "bookworm" is the codeword for Debian 12, and "slim" only contains the minimal packages needed to run Node
-FROM node:18.19.0-bookworm-slim AS builder
+FROM node:20.11.1-bookworm-slim AS builder
 
 RUN apt-get update \
   && apt-get dist-upgrade -y \
@@ -65,7 +65,7 @@ CMD ["-r","./startup/index.js", "node_modules/.bin/next", "start"]
 ##--------- Stage: build-env ---------##
 
 # Production image, copy all the files and run next
-FROM node:18.19.0-bookworm-slim AS build-env
+FROM node:20.11.1-bookworm-slim AS build-env
 
 WORKDIR /app
 
