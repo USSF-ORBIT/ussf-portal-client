@@ -62,7 +62,7 @@
     "@opentelemetry/tracing": "0.24.0",
     "@trussworks/react-uswds": "7.0.0",
     "@uswds/uswds": "3.7.1",
-    "apollo-datasource-rest": "3.7.0",
+    "@apollo/datasource-rest": "4.0.0",
     "axios": "1.6.5",
     "classnames": "2.5.1",
     "connect-redis": "6.1.3",
