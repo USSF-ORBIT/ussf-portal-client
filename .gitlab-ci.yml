@@ -1,4 +1,28 @@
+variables:
+  NODE_VERSION: '20.11.1'
+
+before_script:
+  # Install NVM (Node Version Manager)
+  - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+  - source $HOME/.nvm/nvm.sh
+
+  # Install and use the specified Node.js version
+  - nvm install $NODE_VERSION
+  - nvm use $NODE_VERSION
+
 build-docker-test:
   stage: build
   script:
     - echo "Hello, $GITLAB_USER_LOGIN!"
+
+install-dependencies:
+  stage: prepare
+  script:
+    - node --version # Confirm the Node.js version
+    - npm install # Or yarn install?
+  # Define this job to run before the 'build' stage
+  needs: []
+
+cache:
+  paths:
+    - node_modules/ # Cache the node_modules folder to speed up future job runs
