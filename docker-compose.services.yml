@@ -24,7 +24,7 @@ services:
   # Portal-specific services
   mongo:
     container_name: mongo
-    image: mongo:4.4.20
+    image: mongo:4.4.29
     restart: always
     environment:
       MONGO_INITDB_DATABASE: dev
@@ -138,7 +138,7 @@ services:
 
   wiremock:
     container_name: wiremock
-    image: wiremock/wiremock:3.3.1-2
+    image: wiremock/wiremock:3.6.0-2
     ports:
       - '8181:8181'
     entrypoint:
