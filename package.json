@@ -84,7 +84,7 @@
     "next-session": "4.0.5",
     "next-themes": "0.2.1",
     "passport": "0.5.2",
-    "passport-saml": "3.2.4",
+    "@node-saml/passport-saml": "4.0.4",
     "passport-saml-metadata": "2.6.2",
     "path-to-regexp": "6.2.1",
     "pino": "8.17.2",
